@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Le courant électrique dans un métal · Physique-chimie en animations</title>
+<meta name="description" content="Animation : les électrons libres du cuivre, de l'agitation désordonnée au courant électrique.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.bubble{transform:scale(.15);opacity:0;transition:transform 1.1s cubic-bezier(.2,1.3,.4,1),opacity .6s}
+.show-bubble .bubble{transform:scale(1);opacity:1}
+.conn{stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1.2s ease .2s}
+.show-bubble .conn{stroke-dashoffset:0}
+.atom{position:absolute;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,#FBD3A6 0%,#F2A866 55%,#D9803F 100%);box-shadow:inset 0 0 0 1.5px rgba(150,80,30,.35);display:flex;align-items:center;justify-content:center}
+.atom::after{content:"";width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFFFFF,#C9CED8);box-shadow:0 0 0 1px rgba(90,90,110,.5)}
+.e-layer{position:absolute;left:-152px;top:0;width:600px;height:420px;opacity:0;transition:opacity .9s}
+.show-e .e-layer{opacity:1}
+.flow .e-layer{animation:drift 1.5s linear infinite}
+.e{position:absolute;width:12px;height:12px}
+.ej{width:12px;height:12px;position:relative}
+.dot{position:absolute;inset:0;border-radius:50%;background:#2FA8F0;box-shadow:0 0 0 2px #FFFFFF,0 0 10px rgba(47,168,240,.9)}
+.arr{position:absolute;left:6px;top:4.5px;width:18px;height:3px;border-radius:2px;background:#5CC8FF;transform-origin:0 50%;transition:transform 1.4s cubic-bezier(.65,0,.25,1)}
+.arr::after{content:"";position:absolute;right:-6px;top:-3.5px;border-left:7px solid #5CC8FF;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.plbl{position:absolute;height:32px;border-radius:16px;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateX(-12px);transition:opacity .6s,transform .6s}
+.show-labels .plbl{opacity:1;transform:none}
+.lbl-line{opacity:0;transition:opacity .6s .3s}
+.show-labels .lbl-line{opacity:1}
+.circuit{opacity:0;transition:opacity 1s}
+.show-circuit .circuit{opacity:1}
+.real,.sch{transition:opacity .6s}
+.sch{opacity:0}
+.schema .sch{opacity:1}
+.schema .real{opacity:0}
+.flowdots{opacity:0;transition:opacity .6s}
+.flow .flowdots{opacity:1;animation:dash .9s linear infinite}
+.glow{opacity:0;transition:opacity 1s .4s}
+.flow .glow{opacity:1;animation:pulse 2.4s ease-in-out infinite}
+.bulb{fill:#3A4560;transition:fill 1s .4s}
+.flow .bulb{fill:#FFE27A}
+.dir{opacity:0;transform:translateY(8px);transition:opacity .7s,transform .7s}
+.show-dir .dir{opacity:1;transform:none}
+.dir-conv{opacity:0;transition:opacity .7s .5s}
+.show-conv .dir-conv{opacity:1}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(152px)}}
+.view-btn{font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);background:transparent;border:1.5px solid var(--line);border-radius:22px;height:44px;padding:0 14px;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.view-btn:hover{border-color:var(--blue);color:var(--text)}
+.view-btn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#0E1626}
+text{font-family:'Atkinson Hyperlegible',sans-serif;font-weight:700}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="topbar" aria-label="Navigation">
+<a class="back" href="../">← <span class="lbl-t">Animations</span></a>
+<div class="crumb"><span class="num">1 / 4</span><span class="ttl">Le courant électrique dans un métal</span></div>
+<div class="grow"></div>
+<span class="keys">Espace : lecture · ← → : étapes · F : plein écran</span>
+<a class="tb-btn" aria-disabled="true" aria-label="Animation précédente">←</a>
+<a class="tb-btn" href="../solutions/" aria-label="Animation suivante"><span class="lbl">Suivante</span> →</a>
+<button class="tb-btn" data-fs aria-label="Plein écran"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button>
+</nav>
+<main class="viewport">
+<div class="stage">
+<header class="s-header">
+<div class="eyebrow"><span class="kicker">Physique-chimie · Le courant électrique</span><span class="badge" data-badge></span></div>
+<div class="cap"><h1 data-cap-title></h1><p data-cap-text></p></div>
+</header>
+
+<div class="scene">
+<svg width="1280" height="480" viewBox="0 0 1280 480" style="position:absolute;left:0;top:0" aria-hidden="true">
+<defs>
+<linearGradient id="plateTop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3D36B"/><stop offset=".5" stop-color="#E2B744"/><stop offset="1" stop-color="#C99A2E"/></linearGradient>
+<radialGradient id="lampGlow"><stop offset="0" stop-color="#FFE27A" stop-opacity=".9"/><stop offset="1" stop-color="#FFE27A" stop-opacity="0"/></radialGradient>
+<marker id="mBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#5CC8FF"/></marker>
+<marker id="mOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#FFB547"/></marker>
+</defs>
+<g class="circuit">
+<g class="real">
+<path d="M128 70 H60 V385 H140" fill="none" stroke="#8B97B0" stroke-width="9"/>
+<path d="M128 70 H60 V385 H140" fill="none" stroke="#111111" stroke-width="5"/>
+<path d="M540 385 H620 V70 H504" fill="none" stroke="#8B97B0" stroke-width="9"/>
+<path d="M540 385 H620 V70 H504" fill="none" stroke="#E0332B" stroke-width="5"/>
+<path d="M456 70 H272" fill="none" stroke="#8B97B0" stroke-width="9"/>
+<path d="M456 70 H272" fill="none" stroke="#E0332B" stroke-width="5"/>
+<path class="flowdots" d="M128 70 H60 V385 H140" fill="none" stroke="#5CC8FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18"/>
+<path class="flowdots" d="M540 385 H620 V70 H504" fill="none" stroke="#5CC8FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18"/>
+<path class="flowdots" d="M456 70 H272" fill="none" stroke="#5CC8FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18"/>
+<rect x="140" y="42" width="120" height="56" rx="8" fill="#232C40" stroke="#8B97B0" stroke-width="2"/>
+<rect x="128" y="62" width="12" height="16" rx="2" fill="#111111" stroke="#8B97B0" stroke-width="1.5"/>
+<rect x="260" y="62" width="12" height="16" rx="2" fill="#E0332B" stroke="#8B97B0" stroke-width="1.5"/>
+<text x="158" y="78" text-anchor="middle" font-size="24" fill="#EEF2F8">−</text>
+<text x="242" y="79" text-anchor="middle" font-size="24" fill="#EEF2F8">+</text>
+<text x="200" y="124" text-anchor="middle" font-size="16" fill="#C9D2E0">Générateur</text>
+<g style="transform-origin:480px 70px" class="glow"><circle cx="480" cy="70" r="70" fill="url(#lampGlow)"/></g>
+<circle class="bulb" cx="480" cy="70" r="24" stroke="#8B97B0" stroke-width="3"/>
+<path d="M463 53 L497 87 M497 53 L463 87" fill="none" stroke="#8B97B0" stroke-width="2.5"/>
+<text x="480" y="124" text-anchor="middle" font-size="16" fill="#C9D2E0">Lampe</text>
+</g>
+<g class="sch">
+<path d="M190 70 H60 V385 H140" fill="none" stroke="#EEF2F8" stroke-width="3"/>
+<path d="M540 385 H620 V70 H500" fill="none" stroke="#EEF2F8" stroke-width="3"/>
+<path d="M460 70 H210" fill="none" stroke="#EEF2F8" stroke-width="3"/>
+<path class="flowdots" d="M190 70 H60 V385 H140" fill="none" stroke="#5CC8FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18"/>
+<path class="flowdots" d="M540 385 H620 V70 H500" fill="none" stroke="#5CC8FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18"/>
+<path class="flowdots" d="M460 70 H210" fill="none" stroke="#5CC8FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18"/>
+<line x1="190" y1="54" x2="190" y2="86" stroke="#EEF2F8" stroke-width="8"/>
+<line x1="210" y1="40" x2="210" y2="100" stroke="#EEF2F8" stroke-width="3"/>
+<text x="176" y="44" text-anchor="middle" font-size="22" fill="#EEF2F8">−</text>
+<text x="226" y="36" text-anchor="middle" font-size="22" fill="#EEF2F8">+</text>
+<text x="200" y="124" text-anchor="middle" font-size="16" fill="#C9D2E0">Générateur</text>
+<g style="transform-origin:480px 70px" class="glow"><circle cx="480" cy="70" r="70" fill="url(#lampGlow)"/></g>
+<circle class="bulb" cx="480" cy="70" r="20" stroke="#EEF2F8" stroke-width="3"/>
+<path d="M466 56 L494 84 M494 56 L466 84" fill="none" stroke="#EEF2F8" stroke-width="3"/>
+<text x="480" y="124" text-anchor="middle" font-size="16" fill="#C9D2E0">Lampe</text>
+</g>
+</g>
+<g class="real">
+<polygon points="160,410 560,410 560,422 160,422" fill="#9C7520"/>
+<polygon points="120,360 520,360 560,410 160,410" fill="url(#plateTop)"/>
+<text x="300" y="350" text-anchor="middle" font-size="16" fill="#E2B744">Lame de cuivre</text>
+</g>
+<g class="sch">
+<rect x="140" y="376" width="400" height="18" fill="#E2B744" fill-opacity=".3" stroke="#E2B744" stroke-width="2.5"/>
+<text x="340" y="362" text-anchor="middle" font-size="16" fill="#E2B744">Lame de cuivre</text>
+</g>
+<circle cx="340" cy="385" r="18" fill="none" stroke="#EEF2F8" stroke-width="2.5"/>
+<line class="conn" x1="345" y1="368" x2="812" y2="82" stroke="#EEF2F8" stroke-opacity=".35" stroke-width="1.5"/>
+<line class="conn" x1="350" y1="401" x2="812" y2="378" stroke="#EEF2F8" stroke-opacity=".35" stroke-width="1.5"/>
+<g class="dir">
+<text x="160" y="442" font-size="15" fill="#5CC8FF">Déplacement des électrons libres : de − vers +</text>
+<line x1="170" y1="452" x2="530" y2="452" stroke="#5CC8FF" stroke-width="3.5" marker-end="url(#mBlue)"/>
+</g>
+<g class="dir-conv">
+<text x="160" y="472" font-size="15" fill="#FFB547">Sens conventionnel du courant : de + vers −</text>
+<line x1="530" y1="477" x2="170" y2="477" stroke="#FFB547" stroke-width="3.5" marker-end="url(#mOrange)"/>
+</g>
+</svg>
+
+<div class="bubble" id="bubble" style="position:absolute;left:750px;top:20px;width:420px;height:420px;border-radius:50%;overflow:hidden;background:#F6E3CC;box-shadow:0 0 0 4px #EEF2F8,0 24px 60px rgba(0,0,0,.45)">
+<div class="e-layer" id="eLayer"></div>
+</div>
+<div style="position:absolute;left:750px;top:448px;width:420px;text-align:center;font-size:14px;color:var(--muted)">Modèle à l'échelle des atomes (grossi environ 100 millions de fois)</div>
+
+<svg width="1280" height="480" viewBox="0 0 1280 480" style="position:absolute;left:0;top:0;pointer-events:none" aria-hidden="true">
+<g class="lbl-line" stroke="#FFFFFF" stroke-width="2" fill="#FFFFFF">
+<line x1="712" y1="90" x2="986" y2="90"/><circle cx="986" cy="90" r="4"/>
+<line x1="712" y1="172" x2="884" y2="172"/><circle cx="884" cy="172" r="4"/>
+<line x1="712" y1="282" x2="922" y2="282"/><circle cx="922" cy="282" r="4"/>
+</g>
+</svg>
+<div class="plbl" style="left:600px;top:74px;width:112px;background:#F2A866;color:#2A1606">Atome</div>
+<div class="plbl" style="left:600px;top:156px;width:112px;background:#EEF2F8;color:#0E1626;transition-delay:.15s">Noyau</div>
+<div class="plbl" style="left:584px;top:266px;width:128px;background:#5CC8FF;color:#0E1626;transition-delay:.3s">Électron libre</div>
+</div>
+
+<div class="footer"></div>
+</div>
+</main>
+</div>
+<script src="../assets/player.js"></script>
+<script>
+(function () {
+  var S = 76, DY = 65.82;
+  function rnd(i) { var x = Math.sin(i * 12.9898 + 4.1) * 43758.5453; return x - Math.floor(x); }
+  var bubble = document.getElementById('bubble'), layer = document.getElementById('eLayer');
+  var html = '';
+  for (var r = 0; r < 8; r++) for (var c = -1; c < 7; c++) {
+    var x = (r % 2 ? S / 2 : 0) - 10 + c * S, y = 20 + r * DY;
+    html += '<div class="atom" style="left:' + (x - 35) + 'px;top:' + (y - 35) + 'px"></div>';
+  }
+  bubble.insertAdjacentHTML('afterbegin', html);
+  var eh = '', angles = [];
+  for (var r2 = 0; r2 < 7; r2++) for (var c2 = -4; c2 < 7; c2++) {
+    var m = ((c2 % 2) + 2) % 2;
+    var xa = (r2 % 2 ? S / 2 : 0) - 10 + c2 * S, ya = 20 + r2 * DY;
+    var cand = [{ x: xa + S / 2, y: ya + DY / 3, k: r2 * 11 + m * 3 + 1, f: false }, { x: xa, y: ya + 2 * DY / 3, k: r2 * 13 + m * 5 + 7, f: r2 === 3 && m === 0 }];
+    cand.forEach(function (s) {
+      if (!s.f && rnd(s.k) < 0.42) return;
+      var v = 1 + Math.floor(rnd(s.k + 50) * 4), d = (1.1 + rnd(s.k + 90) * 0.9).toFixed(2), del = (rnd(s.k + 130) * 2).toFixed(2);
+      angles.push(Math.round(rnd(s.k + 170) * 360));
+      eh += '<div class="e" style="left:' + (s.x + 146).toFixed(1) + 'px;top:' + (s.y - 6).toFixed(1) + 'px"><div class="ej" style="animation:j' + v + ' ' + d + 's -' + del + 's ease-in-out infinite alternate"><div class="arr"></div><div class="dot"></div></div></div>';
+    });
+  }
+  layer.innerHTML = eh;
+  var arrows = layer.querySelectorAll('.arr');
+  function orient(flow) { arrows.forEach(function (a, i) { a.style.transform = 'rotate(' + (flow ? 0 : angles[i]) + 'deg)'; }); }
+
+  var viewBtn = document.createElement('button');
+  viewBtn.className = 'view-btn';
+  viewBtn.setAttribute('aria-pressed', 'false');
+  viewBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="14" height="12"/><line x1="7" y1="1" x2="7" y2="5"/><line x1="10" y1="0" x2="10" y2="6"/></svg><span>Voir le schéma</span>';
+
+  var D1 = 'Document 1 · lame seule', D2 = 'Document 2 · circuit fermé';
+  var player = Player({
+    stepSeconds: 6,
+    extraControl: viewBtn,
+    steps: [
+      { chip: 'La lame', badge: D1, badgeColor: '#F2A866', title: 'Une lame de cuivre', text: 'Un métal comme le cuivre paraît plein et immobile. Zoomons très fort sur la matière…' },
+      { chip: 'Le zoom', badge: D1, badgeColor: '#F2A866', title: 'Zoom sur la matière', text: 'À l’échelle microscopique, le cuivre est un empilement d’atomes très serrés.' },
+      { chip: 'Légende', badge: D1, badgeColor: '#F2A866', title: 'Atomes, noyaux et électrons libres', text: 'Chaque atome possède un noyau. Certains électrons ne sont attachés à aucun atome : ce sont les électrons libres.' },
+      { chip: 'Désordre', badge: D1, badgeColor: '#F2A866', title: 'Sans générateur : du désordre', text: 'Les électrons libres s’agitent dans toutes les directions. En moyenne, ils ne vont nulle part : il n’y a pas de courant.' },
+      { chip: 'Circuit fermé', badge: D2, badgeColor: '#5CC8FF', title: 'On ferme le circuit', text: 'Le générateur met tous les électrons libres en mouvement dans le même sens. La lampe s’allume !' },
+      { chip: 'Le courant', badge: D2, badgeColor: '#5CC8FF', title: 'Le courant électrique', text: 'Le courant électrique dans un métal est un déplacement d’ensemble des électrons libres, de la borne − vers la borne + à l’extérieur du générateur.' }
+    ],
+    flags: function (s) {
+      return [s >= 1 && 'show-bubble', s >= 2 && 'show-e', (s === 2 || s === 3) && 'show-labels', s >= 4 && 'show-circuit', s >= 4 && 'flow', s >= 5 && 'show-dir', s >= 5 && 'show-conv'].filter(Boolean).join(' ');
+    },
+    onStep: function (s) { orient(s >= 4); }
+  });
+  viewBtn.addEventListener('click', function () {
+    var on = viewBtn.getAttribute('aria-pressed') !== 'true';
+    viewBtn.setAttribute('aria-pressed', String(on));
+    viewBtn.querySelector('span').textContent = on ? 'Vue réaliste' : 'Voir le schéma';
+    player.setExtra('schema', on);
+  });
+})();
+</script>
+</body>
+</html>

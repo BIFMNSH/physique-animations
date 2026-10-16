@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Labo virtuel · Identifier des ions · Physique-chimie en animations</title>
+<meta name="description" content="Labo virtuel : tubes à essais, quantités libres, soude et nitrate d'argent, défis avec flacons inconnus et cahier de laboratoire imprimable.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.lab-stage{display:block}
+.lh{position:absolute;left:0;top:0;width:1280px;height:76px;padding:0 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.lh h1{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;white-space:nowrap}
+.seg{display:flex;background:var(--panel);border-radius:24px;padding:4px;gap:4px;margin-left:12px}
+.seg button{font:700 15px 'Atkinson Hyperlegible',sans-serif;border:none;background:transparent;color:var(--muted);border-radius:20px;height:40px;padding:0 16px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--blue);color:#0E1626}
+.tg{font:700 14px 'Atkinson Hyperlegible',sans-serif;display:flex;align-items:center;gap:7px;height:44px;padding:0 12px;border-radius:22px;border:1.5px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tg:hover{border-color:var(--blue);color:var(--text)}
+.tg[aria-pressed="true"]{background:#3DD68C;border-color:#3DD68C;color:#0E1626}
+.tg.lamp[aria-pressed="true"]{background:#FFE27A;border-color:#FFE27A}
+.tg.speed[aria-pressed="true"]{background:#C4B5FD;border-color:#C4B5FD}
+.epi{display:flex;gap:6px;align-items:center;margin-left:auto}
+.epi .k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.lb{position:absolute;left:0;top:76px;width:1280px;height:644px}
+.col{position:absolute;top:12px;bottom:8px}
+.shelf{left:24px;width:262px;display:flex;flex-direction:column;gap:6px;overflow:auto}
+.bench{left:302px;width:566px}
+.nb{left:884px;width:372px;display:flex;flex-direction:column;gap:10px}
+.sh-h{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:2px 0 0}
+.flask{font:700 14px 'Atkinson Hyperlegible',sans-serif;display:flex;align-items:center;gap:10px;min-height:40px;flex-shrink:0;padding:4px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer;text-align:left;width:100%}
+.flask:hover{border-color:var(--blue)}
+.flask[aria-pressed="true"]{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue) inset}
+.flask .fd{width:20px;height:26px;flex-shrink:0;border-radius:4px 4px 7px 7px;border:2px solid var(--soft);position:relative;overflow:hidden}
+.flask .fd i{position:absolute;left:0;right:0;bottom:0;height:62%}
+.flask .nm{flex:1;line-height:1.2}
+.flask .pic{width:18px;height:18px;flex-shrink:0}
+.flask.unk .nm b{font-size:15px}
+.backdrop{position:absolute;left:0;top:0;width:566px;height:432px;border-radius:16px;background:#0B1220;border:1px solid #1E2A44;transition:background .6s}
+.backdrop.lit{background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(255,226,122,.30),rgba(255,226,122,0) 70%),#0B1220}
+.backdrop .lit-l{position:absolute;right:14px;top:10px;font-size:12px;font-weight:700;color:#FFE27A;opacity:0;transition:opacity .4s}
+.backdrop.lit .lit-l{opacity:1}
+.backdrop .bd-l{position:absolute;left:14px;top:10px;font-size:12px;color:#8C98AE}
+.tubes{position:absolute;left:13px;top:52px;width:540px;height:380px}
+.tube-btn{position:absolute;top:0;width:100px;height:380px;padding:0;border:none;background:transparent;cursor:pointer;border-radius:14px}
+.tube-btn.act::before{content:"";position:absolute;inset:-4px -2px;border-radius:16px;box-shadow:0 0 0 2.5px #5CC8FF;pointer-events:none}
+.rack{position:absolute;left:8px;top:296px;width:550px;height:20px;border-radius:5px;background:#6B4F35;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25);pointer-events:none}
+.tlab{position:absolute;top:436px;width:100px;text-align:center;font-size:13px;line-height:1.3;color:var(--soft)}
+.tlab b{display:block;font-size:14px;color:var(--text)}
+.tlab.act b{color:var(--blue)}
+.fx{position:absolute;left:13px;top:0;width:540px;height:432px;pointer-events:none;overflow:visible}
+.ctrls{position:absolute;left:0;top:474px;width:566px;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:nowrap}
+.row .h{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.act-btn{font:700 15px 'Atkinson Hyperlegible',sans-serif;height:44px;padding:0 14px;border-radius:22px;border:1.5px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.act-btn:hover{border-color:var(--blue)}
+.act-btn.main{background:#FFB547;border-color:#FFB547;color:#2A1A00}
+.act-btn.main.on{background:#FFD08A}
+.act-btn:disabled{opacity:.4;cursor:default}
+.msg{min-height:40px;font-size:14px;line-height:1.35;color:var(--soft);display:flex;gap:8px;align-items:flex-start}
+.msg.warn{color:#FCA5A5}
+.msg.ok{color:#86EFAC}
+.tabs{display:flex;gap:6px}
+.tabs button{font:700 14px 'Atkinson Hyperlegible',sans-serif;flex:1;height:40px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--panel);color:var(--text);border-color:var(--blue)}
+.pane{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+.pane[hidden]{display:none}
+.who{display:flex;gap:8px}
+.who input,.concl{font:400 14px 'Atkinson Hyperlegible',sans-serif;background:var(--panel);color:var(--text);border:1.5px solid var(--line);border-radius:10px;padding:0 10px;height:38px;min-width:0}
+.who input{flex:1}
+.who input:focus,.concl:focus,.code-in:focus{outline:none;border-color:var(--blue)}
+.log{flex:1;min-height:0;overflow:auto;background:var(--panel);border-radius:12px;padding:6px 10px;display:flex;flex-direction:column;gap:2px}
+.log .e{padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.35}
+.log .e:last-child{border-bottom:none}
+.log .e .t{display:inline-block;min-width:26px;font-weight:700;color:var(--blue)}
+.log .e .o{display:block;color:var(--soft);padding-left:26px}
+.log .e.sys{color:var(--muted);font-style:italic}
+.log .empty{color:var(--muted);font-size:14px;padding:10px 0}
+.concl{height:64px;padding:8px 10px;resize:none}
+.print{align-self:stretch;justify-content:center}
+.card{background:var(--panel);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.card[hidden]{display:none}
+.card h3{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-size:19px}
+.card p{margin:0;font-size:14px;line-height:1.4;color:var(--soft)}
+.code{font:800 22px 'Bricolage Grotesque',sans-serif;letter-spacing:.06em;color:var(--blue)}
+.code-row{display:flex;gap:8px}
+.code-in{font:700 15px 'Atkinson Hyperlegible',sans-serif;flex:1;min-width:0;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--text);padding:0 12px;text-transform:uppercase}
+.new-row{display:flex;gap:6px;flex-wrap:wrap}
+.new-row .act-btn{height:40px;font-size:13px;padding:0 10px}
+.ans{display:flex;flex-direction:column;gap:8px;overflow:auto;flex:1;min-height:0}
+.fl-res{font-size:13px;font-weight:700}
+.fl-res.ok{color:#3DD68C}.fl-res.ko{color:#FCA5A5}
+.linkish{font:700 13px 'Atkinson Hyperlegible',sans-serif;background:none;border:none;color:var(--blue);cursor:pointer;padding:6px 0;text-decoration:underline}
+.ans .fl{display:flex;flex-direction:column;gap:6px}
+.ans .fl b{font-size:14px}
+.chips2{display:flex;gap:5px;flex-wrap:wrap}
+.chips2 button{font:700 13px 'Atkinson Hyperlegible',sans-serif;min-height:36px;min-width:44px;padding:0 9px;border-radius:18px;border:1.5px solid var(--line);background:transparent;color:var(--soft);cursor:pointer}
+.chips2 button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#0E1626}
+.chips2 button.ok{box-shadow:0 0 0 2px #3DD68C}
+.chips2 button.ko{box-shadow:0 0 0 2px #E5484D}
+.res{font-size:14px;font-weight:700}
+#report{display:none}
+@media print{
+  body{background:#fff}
+  .app,.quiz{display:none!important}
+  #report{display:block;color:#111;font:11pt/1.4 'Atkinson Hyperlegible',Arial,sans-serif;padding:0 4mm}
+  #report h1{font:800 20pt 'Bricolage Grotesque',sans-serif;margin:0 0 4mm}
+  #report h2{font:800 13pt 'Bricolage Grotesque',sans-serif;margin:6mm 0 2mm}
+  #report table{border-collapse:collapse;width:100%}
+  #report th,#report td{border:1px solid #999;padding:2mm;text-align:left;vertical-align:top}
+  #report th{background:#eee}
+  #report .meta{display:flex;gap:10mm;margin-bottom:3mm}
+  #report .box{border:1px solid #999;min-height:22mm;padding:2mm;white-space:pre-wrap}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="topbar" aria-label="Navigation">
+<a class="back" href="../">← <span class="lbl-t">Animations</span></a>
+<div class="crumb"><span class="num">6 / 6</span><span class="ttl">Labo virtuel</span></div>
+<div class="grow"></div>
+<a class="tb-btn" href="../tests/" aria-label="Animation précédente">←</a>
+<a class="tb-btn" aria-disabled="true" aria-label="Animation suivante"><span class="lbl">Suivante</span> →</a>
+<button class="tb-btn" data-fs aria-label="Plein écran"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button>
+</nav>
+<main class="viewport">
+<div class="stage lab-stage">
+
+<header class="lh">
+<h1>Labo virtuel</h1>
+<div class="seg" role="group" aria-label="Mode">
+<button id="mLibre" aria-pressed="true">Manipulation libre</button>
+<button id="mDefi" aria-pressed="false">Défi</button>
+</div>
+<div class="epi" role="group" aria-label="Équipement de protection">
+<span class="k">Sécurité</span>
+<button class="tg" data-epi="blouse" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M7 2 L10 6 L13 2 L17 5 L16 9 L14.5 8.5 V18 H5.5 V8.5 L4 9 L3 5 Z"/><path d="M10 6 V18"/></svg>Blouse</button>
+<button class="tg" data-epi="lunettes" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M2 8 H18 V12 Q18 14 15.5 14 H13 L10 11.5 L7 14 H4.5 Q2 14 2 12 Z"/></svg>Lunettes</button>
+<button class="tg" data-epi="gants" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 V9 L4 6.5 Q3.4 5.4 4.6 5 L7 7 V3.5 Q7 2.5 8 2.5 Q9 2.5 9 3.5 V8 V2.8 Q9 2 10 2 Q11 2 11 2.8 V8 V3.4 Q11 2.6 12 2.6 Q13 2.6 13 3.4 V8.5 V5 Q13 4.2 14 4.2 Q15 4.2 15 5 V12 Q15 18 11 18 Z"/></svg>Gants</button>
+</div>
+<button class="tg lamp" id="lamp" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 14 Q7 11.5 5.6 10 A5 5 0 1 1 14.4 10 Q13 11.5 13 14 Z"/><path d="M7.5 16.5 H12.5 M8.5 18.5 H11.5"/></svg>Lampe</button>
+<button class="tg speed" id="speed" aria-pressed="false" title="Accélérer le temps pour ne pas attendre"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="11" r="7"/><path d="M10 11 L13 8 M8 2 H12"/></svg><span>Temps ×1</span></button>
+</header>
+
+<div class="lb">
+<!-- Étagère -->
+<div class="col shelf" id="shelf" aria-label="Étagère des flacons"></div>
+
+<!-- Paillasse -->
+<div class="col bench">
+<div class="backdrop"><span class="bd-l">Fond sombre : les précipités blancs se voient mieux</span>
+<span class="lit-l">Lampe allumée</span>
+</div>
+<div class="rack"></div>
+<div class="tubes" id="tubes"></div>
+<svg class="fx" id="fx" viewBox="0 0 540 432" aria-hidden="true"></svg>
+<div id="tlabs"></div>
+<div class="ctrls">
+<div class="row" id="pourRow"></div>
+<div class="row">
+<span class="h">Tube</span>
+<button class="act-btn" id="bShake"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 6 Q6 3 9 6 T15 6 M3 12 Q6 9 9 12 T15 12"/></svg>Agiter</button>
+<button class="act-btn" id="bEmpty"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 3 V13 a4 4 0 0 0 8 0 V3 M3 3 H15"/></svg>Vider</button>
+<button class="act-btn" id="bRinse"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 2 C9 2 4.5 7.5 4.5 10.5 a4.5 4.5 0 0 0 9 0 C13.5 7.5 9 2 9 2 Z"/></svg>Rincer</button>
+<button class="act-btn" id="bRinseAll">Rincer tous les tubes</button>
+</div>
+<div class="msg" id="msg" role="status" aria-live="polite"></div>
+</div>
+</div>
+
+<!-- Cahier / défi -->
+<div class="col nb">
+<div class="tabs" role="tablist">
+<button role="tab" id="tCahier" aria-selected="true" aria-controls="pCahier">Cahier de labo</button>
+<button role="tab" id="tDefi" aria-selected="false" aria-controls="pDefi">Défi</button>
+</div>
+<div class="pane" id="pCahier" role="tabpanel">
+<div class="who"><input id="nom" placeholder="Nom, prénom" aria-label="Nom et prénom"><input id="classe" placeholder="Classe" aria-label="Classe" style="max-width:90px"></div>
+<div class="log" id="log" aria-live="polite"></div>
+<textarea class="concl" id="concl" placeholder="Ma conclusion…" aria-label="Ma conclusion"></textarea>
+<button class="act-btn print" id="bPrint"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 7 V2 H13 V7 M5 13 H3 V7 H15 V13 H13 M5 10 H13 V16 H5 Z"/></svg>Imprimer le compte rendu</button>
+</div>
+<div class="pane" id="pDefi" role="tabpanel" hidden>
+<div class="card" id="defiCard"></div>
+<div class="card" id="chooser">
+<p><b>Ton professeur t'a donné un code ?</b></p>
+<div class="code-row"><input class="code-in" id="codeIn" placeholder="ex. D1-472" aria-label="Code du défi" maxlength="8"><button class="act-btn" id="bLoad">Charger</button></div>
+<p style="margin-top:2px"><b>Nouveau défi :</b></p>
+<div class="new-row"><button class="act-btn" data-new="1">3 flacons inconnus</button><button class="act-btn" data-new="2">Ions chlorure ?</button><button class="act-btn" data-new="3">Le mélange</button></div>
+</div>
+<div class="card ans" id="ansCard" hidden></div>
+</div>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+<div id="report"></div>
+<script src="../assets/player.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var shell = Shell();
+
+  /* ================= Modèle chimique (niveau collège) =================
+     Unités arbitraires : 1 mL de solution apporte 1 unité d'ion métallique.
+     1 goutte de détecteur = 0,05 mL et apporte 0,5 unité (OH⁻ ou Ag⁺).
+     Cu²⁺, Fe²⁺, Zn²⁺ consomment 2 OH⁻ ; Fe³⁺ en consomme 3.
+     Excès de soude : Zn(OH)₂ se redissout (2 OH⁻ de plus par Zn).
+     Ag⁺ + Cl⁻ → AgCl blanc qui noircit à la lumière.
+     Ag⁺ restant + OH⁻ restant → oxyde d'argent brun (détecteurs mélangés). */
+  var SOLS = {
+    cu:   { name: 'Sulfate de cuivre (II)', ions: { cu: 1 } },
+    fe2:  { name: 'Sulfate de fer (II)', ions: { fe2: 1 } },
+    fe3:  { name: 'Chlorure de fer (III)', ions: { fe3: 1, cl: 3 } },
+    zn:   { name: 'Sulfate de zinc', ions: { zn: 1 } },
+    nacl: { name: 'Eau salée', ions: { cl: 1 } },
+    eau:  { name: 'Eau déminéralisée', ions: {} }
+  };
+  var DETS = {
+    soude:   { name: 'Soude', full: 'soude (hydroxyde de sodium)', ion: 'oh' },
+    nitrate: { name: 'Nitrate d’argent', full: 'nitrate d’argent', ion: 'ag' }
+  };
+  var TINT = { cu: '#3F95E6', fe2: '#9CC775', fe3: '#E0951F' };
+  var PPT = {
+    cu:   { color: '#2F8FE0', word: 'bleu' },
+    fe2:  { color: '#4F6B1C', word: 'vert' },
+    fe3:  { color: '#B5401A', word: 'rouille' },
+    zn:   { color: '#F4F6F8', word: 'blanc' },
+    agcl: { color: '#F4F6F8', word: 'blanc' },
+    ag2o: { color: '#4A2E14', word: 'brun-noir' }
+  };
+  var PPT_KEYS = ['cu', 'fe2', 'fe3', 'zn', 'agcl', 'ag2o'];
+  var ION_LABEL = { cu: 'Cu²⁺', fe2: 'Fe²⁺', fe3: 'Fe³⁺', zn: 'Zn²⁺', cl: 'Cl⁻' };
+  var DROP_ML = 0.05, PER_DROP = 0.5, CAP = 15;
+
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function hex(h) { return [parseInt(h.substr(1, 2), 16), parseInt(h.substr(3, 2), 16), parseInt(h.substr(5, 2), 16)]; }
+  function mix(a, b, t) { var A = hex(a), B = hex(b); return 'rgb(' + A.map(function (v, i) { return Math.round(v + (B[i] - v) * t); }).join(',') + ')'; }
+  function fmt(x) { return (Math.round(x * 10) / 10).toString().replace('.', ','); }
+
+  function totals(tb) {
+    var t = { cu: 0, fe2: 0, fe3: 0, zn: 0, cl: 0, oh: tb.drops.soude * PER_DROP, ag: tb.drops.nitrate * PER_DROP };
+    for (var s in tb.vol) { var ions = SOLS[s].ions; for (var k in ions) t[k] += tb.vol[s] * ions[k]; }
+    return t;
+  }
+  function equilibrium(tb) {
+    var t = totals(tb), oh = t.oh, ag = t.ag, p = {}, free = {};
+    ['fe3', 'cu', 'fe2', 'zn'].forEach(function (m) {
+      var need = m === 'fe3' ? 3 : 2, x = Math.min(t[m], oh / need);
+      p[m] = x; oh -= x * need; free[m] = t[m] - x;
+    });
+    var z = Math.min(p.zn, oh / 2); p.zn -= z; oh -= 2 * z;
+    var c = Math.min(t.cl, ag); p.agcl = c; ag -= c;
+    var o = Math.min(ag, oh); p.ag2o = o / 2;
+    return { p: p, free: free, zincate: z, t: t, exOH: oh - o, exAg: ag - o };
+  }
+  function volume(tb) {
+    var v = (tb.drops.soude + tb.drops.nitrate) * DROP_ML;
+    for (var s in tb.vol) v += tb.vol[s];
+    return v;
+  }
+
+  /* ================= État ================= */
+  var N = 5, tubes = [], active = 0, hand = null, mode = 'libre', lampOn = false, speed = 1;
+  var epi = { blouse: false, lunettes: false, gants: false };
+  var defi = null, answers = {}, log = [], chooserOpen = false;
+  function newTube() { return { vol: {}, drops: { soude: 0, nitrate: 0 }, shown: { cu: 0, fe2: 0, fe3: 0, zn: 0, agcl: 0, ag2o: 0 }, settle: 1, shaken: false, expo: 0, hadZn: 0 }; }
+  for (var i = 0; i < N; i++) tubes.push(newTube());
+
+  /* ================= Défis (codes partageables) ================= */
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function pickN(r, arr, n) { var a = arr.slice(), out = []; while (out.length < n) out.push(a.splice(Math.floor(r() * a.length), 1)[0]); return out; }
+  var DEFIS = {
+    1: { title: 'Trois flacons sans étiquette', text: 'Les étiquettes des flacons A, B et C se sont décollées. Réalise les tests nécessaires et indique les ions détectables dans chaque flacon.',
+      make: function (r) { var s = pickN(r, ['cu', 'fe2', 'fe3', 'zn', 'nacl', 'eau'], 3); return [{ id: 'A', comp: o1(s[0]) }, { id: 'B', comp: o1(s[1]) }, { id: 'C', comp: o1(s[2]) }]; } },
+    2: { title: 'Y a-t-il des ions chlorure ?', text: 'Le flacon X contient une eau inconnue. Contient-elle des ions chlorure ? Et d’autres ions que tu sais identifier ?',
+      make: function (r) { return [{ id: 'X', comp: o1(pickN(r, ['nacl', 'eau', 'zn', 'cu', 'fe3', 'fe2', 'nacl'], 1)[0]) }]; } },
+    3: { title: 'Le mélange', text: 'Le flacon M est un mélange de deux solutions. Retrouve tous les ions détectables qu’il contient. Attention : un test par tube !',
+      make: function (r) {
+        var m = pickN(r, ['cu', 'fe2', 'zn', 'cu', 'fe2'], 1)[0], other = r() < 0.75 ? 'nacl' : 'eau';
+        var comp = {}; comp[m] = 0.5; comp[other] = 0.5;
+        return [{ id: 'M', comp: comp }];
+      } }
+  };
+  function o1(k) { var c = {}; c[k] = 1; return c; }
+  function compIons(comp) { var s = {}; for (var k in comp) for (var i in SOLS[k].ions) s[i] = 1; return Object.keys(s); }
+  function compColor(comp) {
+    var v = { vol: {}, drops: { soude: 0, nitrate: 0 } };
+    for (var k in comp) v.vol[k] = comp[k];
+    return liquidTint(v);
+  }
+  function loadDefi(code) {
+    var m = /^D?([123])\s*-?\s*(\d{3})$/i.exec(String(code).trim());
+    if (!m) { say('Code inconnu. Un code ressemble à « D1-472 ».', 'warn'); return false; }
+    var type = +m[1], seed = +m[2];
+    defi = { type: type, code: 'D' + type + '-' + m[2], flasks: DEFIS[type].make(rng(type * 1000 + seed)), checked: false };
+    defi.flasks.forEach(function (f) { f.name = 'Flacon ' + f.id; f.ions = compIons(f.comp); });
+    answers = {}; chooserOpen = false;
+    tubes = []; for (var i = 0; i < N; i++) tubes.push(newTube());
+    log = []; addSys('Défi ' + defi.code + ' : ' + DEFIS[type].title);
+    hand = null; setMode('defi'); renderLabels(); renderLog(true);
+    say('Défi chargé. Prélève un petit échantillon de chaque flacon dans un tube propre, puis teste.', 'ok');
+    return true;
+  }
+  function newDefi(type) { loadDefi('D' + type + '-' + String(Math.floor(Math.random() * 900) + 100)); }
+
+  /* ================= Étagère ================= */
+  function flaskList() {
+    var L = [];
+    if (mode === 'defi' && defi) defi.flasks.forEach(function (f) { L.push({ key: 'u:' + f.id, name: f.name, unk: true, color: compColor(f.comp) }); });
+    Object.keys(SOLS).forEach(function (k) { L.push({ key: 's:' + k, name: SOLS[k].name, color: compColor(o1(k)) }); });
+    return L;
+  }
+  function renderShelf() {
+    var L = flaskList(), h = '';
+    if (mode === 'defi' && defi) h += '<p class="sh-h">Flacons inconnus</p>' + L.filter(function (f) { return f.unk; }).map(flaskBtn).join('') + '<p class="sh-h">Solutions témoins</p>';
+    else h += '<p class="sh-h">Solutions</p>';
+    h += L.filter(function (f) { return !f.unk; }).map(flaskBtn).join('');
+    h += '<p class="sh-h">Détecteurs</p>' + Object.keys(DETS).map(function (k) {
+      return '<button class="flask" data-k="d:' + k + '" aria-pressed="' + (hand === 'd:' + k) + '"><span class="fd" style="border-color:var(--soft)"><i style="background:rgba(221,232,240,.35)"></i></span><span class="nm">' + DETS[k].name + '</span>' +
+        '<svg class="pic" viewBox="0 0 20 20" aria-label="Corrosif"><path d="M10 1 L19 10 L10 19 L1 10 Z" fill="#fff" stroke="#E5484D" stroke-width="2"/><text x="10" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#E5484D">!</text></svg></button>';
+    }).join('');
+    $('shelf').innerHTML = h;
+  }
+  function flaskBtn(f) {
+    return '<button class="flask' + (f.unk ? ' unk' : '') + '" data-k="' + f.key + '" aria-pressed="' + (hand === f.key) + '"><span class="fd"><i style="background:' + f.color + '"></i></span><span class="nm">' + (f.unk ? '<b>' + f.name + '</b>' : f.name) + '</span></button>';
+  }
+  $('shelf').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-k]'); if (!b) return;
+    var k = b.getAttribute('data-k');
+    if (hand === k) { hand = null; renderShelf(); renderPour(); return; }
+    if (k.indexOf('d:') === 0 && !(epi.blouse && epi.lunettes && epi.gants)) {
+      say('Sécurité : mets ta blouse, tes lunettes et tes gants avant de manipuler un détecteur (corrosif).', 'warn');
+      return;
+    }
+    hand = k; renderShelf(); renderPour();
+    say(k.indexOf('d:') === 0 ? 'Pipette de ' + DETS[k.slice(2)].name.toLowerCase() + ' en main. Verse quelques gouttes dans le tube ' + (active + 1) + '.' : 'Pipette en main. Choisis la quantité à verser dans le tube ' + (active + 1) + '.');
+  });
+
+  /* ================= Tubes (SVG) ================= */
+  var TUBE_X = function (i) { return i * 108; };
+  var tubeEls = [];
+  function blobSet(i, k) {
+    var r = rng(i * 97 + PPT_KEYS.indexOf(k) * 13 + 5), h = '';
+    for (var j = 0; j < 12; j++) {
+      var fx = 0.12 + r() * 0.76, top = r() * 0.3, fin = 0.5 + r() * 0.5, uni = r(), rad = 6 + r() * 8;
+      h += '<circle data-fx="' + fx.toFixed(3) + '" data-top="' + top.toFixed(3) + '" data-fin="' + fin.toFixed(3) + '" data-uni="' + uni.toFixed(3) + '" r="' + rad.toFixed(1) + '" cx="50" cy="300"/>';
+    }
+    return h;
+  }
+  function buildTubes() {
+    var h = '', lab = '';
+    for (var i = 0; i < N; i++) {
+      h += '<button class="tube-btn" data-t="' + i + '" style="left:' + TUBE_X(i) + 'px">' +
+        '<svg width="100" height="380" viewBox="0 0 100 380" aria-hidden="true">' +
+        '<defs><clipPath id="cl' + i + '"><path d="M22 40 V330 a28 28 0 0 0 56 0 V40 Z"/></clipPath><filter id="bl' + i + '" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3.2"/></filter></defs>' +
+        '<g clip-path="url(#cl' + i + ')"><rect class="lq" x="0" y="380" width="100" height="380" fill="#CFE0EE" fill-opacity=".28"/><rect class="tn" x="0" y="380" width="100" height="380" fill="#3F95E6" fill-opacity="0"/>' +
+        PPT_KEYS.map(function (k) { return '<g class="pg pg-' + k + '" filter="url(#bl' + i + ')" opacity="0">' + blobSet(i, k) + '</g>'; }).join('') +
+        '<line class="sf" x1="22" x2="78" y1="380" y2="380" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="2"/></g>' +
+        '<path d="M16 36 H84 M22 36 V330 a28 28 0 0 0 56 0 V36" fill="none" stroke="#DDE6F0" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M31 60 V310" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="5" stroke-linecap="round"/>' +
+        '<g fill="#DDE6F0" opacity=".5">' + [5, 10].map(function (ml) { var y = 356 - ml * 19; return '<rect x="66" y="' + y + '" width="10" height="1.5"/><text x="62" y="' + (y + 4) + '" font-size="9" text-anchor="end" font-family="Atkinson Hyperlegible">' + ml + '</text>'; }).join('') + '</g>' +
+        '</svg></button>';
+      lab += '<div class="tlab" data-l="' + i + '" style="left:' + (13 + TUBE_X(i)) + 'px"></div>';
+    }
+    $('tubes').innerHTML = h; $('tlabs').innerHTML = lab;
+    tubeEls = [];
+    $('tubes').querySelectorAll('.tube-btn').forEach(function (b, i) {
+      tubeEls.push({ btn: b, lq: b.querySelector('.lq'), tn: b.querySelector('.tn'), sf: b.querySelector('.sf'),
+        g: PPT_KEYS.reduce(function (o, k) { o[k] = b.querySelector('.pg-' + k); return o; }, {}),
+        lab: document.querySelector('.tlab[data-l="' + i + '"]') });
+    });
+  }
+  $('tubes').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-t]'); if (!b) return;
+    active = +b.getAttribute('data-t'); renderLabels(); renderPour();
+  });
+  function liquidTint(tb) {
+    var v = volume(tb); if (v <= 0) return 'rgba(207,224,238,.28)';
+    var eq = tb.drops ? equilibrium(tb) : null, f = eq ? eq.free : {}, tot = 0, rgb = [0, 0, 0];
+    ['cu', 'fe2', 'fe3'].forEach(function (k) { var a = f[k] || 0; if (a > 0) { var c = hex(TINT[k]); tot += a; for (var j = 0; j < 3; j++) rgb[j] += c[j] * a; } });
+    if (tot <= 0) return 'rgba(207,224,238,.28)';
+    var alpha = clamp(tot / v * 0.8, 0.12, 0.85);
+    return 'rgba(' + rgb.map(function (x) { return Math.round(x / tot); }).join(',') + ',' + alpha.toFixed(2) + ')';
+  }
+  function drawTube(i) {
+    var tb = tubes[i], el = tubeEls[i], v = volume(tb), level = 356 - v * 19;
+    if (v <= 0.001) level = 380;
+    el.lq.setAttribute('y', level); el.tn.setAttribute('y', level); el.sf.setAttribute('y1', level); el.sf.setAttribute('y2', level);
+    var tint = liquidTint(tb), m = /rgba\((\d+),(\d+),(\d+),([\d.]+)\)/.exec(tint);
+    el.tn.setAttribute('fill', 'rgb(' + m[1] + ',' + m[2] + ',' + m[3] + ')'); el.tn.setAttribute('fill-opacity', m[4] === '.28' || m[4] === '0.28' ? 0 : m[4]);
+    var bottom = 356, span = Math.max(8, bottom - level);
+    PPT_KEYS.forEach(function (k) {
+      var g = el.g[k], a = tb.shown[k];
+      var op = clamp(a / 0.6, 0, 1) * 0.95;
+      g.setAttribute('opacity', op.toFixed(3));
+      if (op < 0.01) return;
+      var col = PPT[k].color;
+      if (k === 'agcl') col = mix('#F4F6F8', '#4A4452', clamp(tb.expo / 25, 0, 1));
+      g.setAttribute('fill', col);
+      var spread = clamp(a / 1.5, 0.35, 1);
+      g.querySelectorAll('circle').forEach(function (c) {
+        var start = tb.shaken ? +c.getAttribute('data-uni') : +c.getAttribute('data-top');
+        var fin = 1 - (1 - +c.getAttribute('data-fin')) * spread;
+        var fy = start + (fin - start) * tb.settle;
+        c.setAttribute('cx', (22 + 56 * +c.getAttribute('data-fx')).toFixed(1));
+        c.setAttribute('cy', (level + 4 + (span - 4) * fy).toFixed(1));
+      });
+    });
+  }
+  function tubeSummary(tb) {
+    var v = volume(tb), g = tb.drops.soude + tb.drops.nitrate;
+    return v <= 0.001 ? 'vide' : fmt(v) + ' mL' + (g ? ' · ' + g + ' gtt' : '');
+  }
+  function renderLabels() {
+    tubeEls.forEach(function (el, i) {
+      el.btn.classList.toggle('act', i === active);
+      el.lab.classList.toggle('act', i === active);
+      el.lab.innerHTML = '<b>Tube ' + (i + 1) + '</b>' + tubeSummary(tubes[i]);
+      el.btn.setAttribute('aria-label', 'Tube ' + (i + 1) + ', ' + tubeSummary(tubes[i]) + '. ' + describe(tubes[i]) + (i === active ? ' (tube sélectionné)' : ''));
+      el.btn.setAttribute('aria-pressed', String(i === active));
+    });
+  }
+
+  /* ================= Observation (texte du cahier) ================= */
+  function describe(tb, useTarget) {
+    var v = volume(tb); if (v <= 0.001) return 'Tube vide.';
+    var eq = equilibrium(tb), out = [];
+    var src = useTarget ? eq.p : tb.shown;
+    PPT_KEYS.forEach(function (k) {
+      var a = src[k]; if (a < 0.12) return;
+      var w = PPT[k].word;
+      if (k === 'agcl') w = tb.expo > 18 ? 'gris-noir (noirci à la lumière)' : tb.expo > 6 ? 'blanc qui noircit' : 'blanc';
+      out.push({ a: a, t: 'précipité ' + w + (a < 0.45 ? ' léger' : '') });
+    });
+    out.sort(function (x, y) { return y.a - x.a; });
+    var txt;
+    if (out.length) txt = out.map(function (o) { return o.t; }).join(' + ');
+    else if (tb.drops.soude || tb.drops.nitrate) txt = 'aucun précipité';
+    else {
+      var f = eq.free, best = null;
+      ['cu', 'fe2', 'fe3'].forEach(function (k) { if (f[k] > 0.05 && (!best || f[k] > f[best])) best = k; });
+      txt = (best ? { cu: 'solution bleue', fe2: 'solution vert pâle', fe3: 'solution jaune orangé' }[best] : 'solution incolore') + ', limpide (pas encore de détecteur)';
+    }
+    var notes = [];
+    if (eq.zincate > 0.15 && tb.hadZn > 0.3) notes.push(eq.p.zn < 0.12 ? 'le précipité blanc s’est redissous (trop de soude)' : 'le précipité blanc commence à se redissoudre (excès de soude)');
+    if (src.ag2o >= 0.12) notes.push('deux détecteurs dans le même tube, il faut faire un test par tube');
+    return txt.charAt(0).toUpperCase() + txt.slice(1) + '.' + (notes.length ? ' Remarque : ' + notes.join(' ; ') + '.' : '');
+  }
+
+  /* ================= Cahier de labo ================= */
+  function addSys(t) { log.push({ sys: true, text: t }); renderLog(true); }
+  /* à appeler AVANT de modifier le tube : fige l'observation des étapes précédentes */
+  function willMerge(tube, key) { var last = log[log.length - 1]; return last && !last.sys && last.tube === tube && last.key === key && !last.frozen && last.unit; }
+  function beginAct(tube, key) {
+    if (willMerge(tube, key)) return;
+    log.forEach(function (e) { if (!e.sys && e.tube === tube && !e.frozen) { e.frozen = true; e.obs = e.unit ? describe(tubes[tube], true) : ''; } });
+  }
+  function addAct(tube, what, key, qty, unit) {
+    if (willMerge(tube, key)) log[log.length - 1].qty += qty;
+    else log.push({ tube: tube, key: key, what: what, qty: qty, unit: unit });
+    renderLog(true);
+  }
+  function entryText(e) {
+    if (e.unit === 'mL') return '+ ' + fmt(e.qty) + ' mL ' + de(e.what);
+    if (e.unit === 'g') return '+ ' + e.qty + ' goutte' + (e.qty > 1 ? 's' : '') + ' ' + de(e.what);
+    return e.what;
+  }
+  function de(w) { return /^[aeéèêiouyh]/i.test(w) ? 'd’' + w : 'de ' + w; }
+  function renderLog(scroll) {
+    var el = $('log'), atEnd = el.scrollTop + el.clientHeight >= el.scrollHeight - 8;
+    if (!log.length) { el.innerHTML = '<div class="empty">Tes manipulations et observations s’écrivent ici automatiquement.</div>'; return; }
+    el.innerHTML = log.map(function (e) {
+      if (e.sys) return '<div class="e sys">' + e.text + '</div>';
+      var o = e.frozen ? e.obs : (e.unit ? describe(tubes[e.tube]) : '');
+      return '<div class="e"><span class="t">T' + (e.tube + 1) + '</span>' + entryText(e) + (o ? '<span class="o">→ ' + o + '</span>' : '') + '</div>';
+    }).join('');
+    if (scroll || atEnd) el.scrollTop = el.scrollHeight;
+  }
+
+  /* ================= Verser ================= */
+  var fxSvg = $('fx'), parts = [];
+  function pourRowHTML() {
+    if (!hand) return '<span class="h">Verser</span><span style="font-size:14px;color:var(--soft)">Choisis un flacon sur l’étagère, puis un tube.</span>';
+    if (hand.indexOf('d:') === 0) {
+      var d = DETS[hand.slice(2)];
+      return '<span class="h">→ Tube ' + (active + 1) + '</span>' +
+        '<button class="act-btn main" id="bHold">Goutte à goutte (maintenir)</button>' +
+        '<button class="act-btn" data-drops="1">+1 goutte</button><button class="act-btn" data-drops="5">+5 gouttes</button>';
+    }
+    return '<span class="h">→ Tube ' + (active + 1) + '</span>' +
+      [1, 2, 5].map(function (q) { return '<button class="act-btn' + (q === 2 ? ' main' : '') + '" data-ml="' + q + '">Verser ' + q + ' mL</button>'; }).join('');
+  }
+  function renderPour() {
+    $('pourRow').innerHTML = pourRowHTML();
+    var hold = $('bHold');
+    if (hold) {
+      var timer = null, usedPointer = false;
+      var stop = function () { if (timer) clearInterval(timer); timer = null; hold.classList.remove('on'); };
+      hold.addEventListener('pointerdown', function (e) {
+        usedPointer = true; e.preventDefault(); hold.setPointerCapture && hold.setPointerCapture(e.pointerId);
+        hold.classList.add('on'); addDrops(1); timer = setInterval(function () { addDrops(1); }, 260);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave', 'lostpointercapture'].forEach(function (ev) { hold.addEventListener(ev, stop); });
+      hold.addEventListener('click', function (e) { if (usedPointer && e.detail !== 0) { usedPointer = false; return; } addDrops(1); });
+      hold.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    }
+  }
+  $('pourRow').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-ml],[data-drops]'); if (!b) return;
+    if (b.hasAttribute('data-ml')) pourMl(+b.getAttribute('data-ml'));
+    else addDrops(+b.getAttribute('data-drops'));
+  });
+  function handComp() {
+    if (hand.indexOf('s:') === 0) return o1(hand.slice(2));
+    var f = defi && defi.flasks.filter(function (x) { return 'u:' + x.id === hand; })[0];
+    return f ? f.comp : {};
+  }
+  function handName() {
+    if (hand.indexOf('s:') === 0) { var nm = SOLS[hand.slice(2)].name; return nm.charAt(0).toLowerCase() + nm.slice(1); }
+    return hand.indexOf('u:') === 0 ? 'flacon ' + hand.slice(2) : DETS[hand.slice(2)].full;
+  }
+  function pourMl(q) {
+    var tb = tubes[active], v = volume(tb);
+    if (v + q > CAP) { say('Le tube ' + (active + 1) + ' est presque plein : il déborderait !', 'warn'); return; }
+    var comp = handComp();
+    beginAct(active, hand);
+    for (var k in comp) tb.vol[k] = (tb.vol[k] || 0) + q * comp[k];
+    tb.settle = Math.min(tb.settle, 0.3);
+    addAct(active, handName(), hand, q, 'mL');
+    stream(active, compColor(comp));
+    if (v + q > 5) say('Un petit échantillon suffit : environ 2 mL, jamais plus d’un tiers du tube.', 'warn');
+    else say('Échantillon versé. Prends maintenant un détecteur.', '');
+    afterChange();
+  }
+  function addDrops(n) {
+    var tb = tubes[active], key = hand.slice(2), v = volume(tb);
+    if (v + n * DROP_ML > CAP) { say('Le tube est plein.', 'warn'); return; }
+    beginAct(active, hand);
+    tb.drops[key] += n;
+    tb.settle = Math.min(tb.settle, 0.15); tb.shaken = false;
+    addAct(active, DETS[key].full, hand, n, 'g');
+    for (var j = 0; j < Math.min(n, 5); j++) drop(active, j * 0.12);
+    var total = tb.drops.soude + tb.drops.nitrate;
+    if (v < 0.01) say('Le tube est vide : verse d’abord un échantillon de solution.', 'warn');
+    else if (total > 20) say('Utilise de petites quantités de détecteur : quelques gouttes suffisent.', 'warn');
+    else say('', '');
+    afterChange();
+  }
+  function afterChange() {
+    var tb = tubes[active], eq = equilibrium(tb);
+    tb.hadZn = Math.max(tb.hadZn, Math.min(eq.t.zn, eq.t.oh / 2));
+    renderLabels();
+  }
+  function tipX(i) { return TUBE_X(i) + 50; }
+  function drop(i, delay) { parts.push({ kind: 'drop', i: i, t: -delay }); }
+  function stream(i, color) { parts.push({ kind: 'stream', i: i, t: 0, color: color }); }
+  function drawFx(dt) {
+    var h = '';
+    if (hand) {
+      var x = tipX(active), isDet = hand.indexOf('d:') === 0;
+      var c = isDet ? 'rgba(221,232,240,.35)' : (hand.indexOf('s:') === 0 || hand.indexOf('u:') === 0 ? compColor(handComp()) : '#ccc');
+      h += '<g transform="translate(' + x + ',0)"><ellipse cx="0" cy="12" rx="10" ry="12" fill="' + (isDet ? '#E5484D' : '#8A94A6') + '"/><rect x="-9" y="22" width="18" height="6" rx="2" fill="' + (isDet ? '#B7373B' : '#5A6680') + '"/>' +
+        '<path d="M-5.5 28 H5.5 V74 L2 84 H-2 L-5.5 74 Z" fill="' + c + '" stroke="#DDE6F0" stroke-width="1.6"/></g>';
+    }
+    parts = parts.filter(function (p) {
+      p.t += dt;
+      var tb = tubes[p.i], lvl = 52 + (volume(tb) > 0.001 ? 356 - volume(tb) * 19 : 356);
+      if (p.kind === 'drop') {
+        if (p.t < 0) return true;
+        var y = 86 + 900 * p.t * p.t; if (y > lvl) return false;
+        h += '<circle cx="' + tipX(p.i) + '" cy="' + y.toFixed(1) + '" r="4" fill="#DDE8F0"/>';
+        return true;
+      }
+      if (p.t > 0.55) return false;
+      h += '<rect x="' + (tipX(p.i) - 2) + '" y="86" width="4" height="' + Math.max(0, lvl - 86) + '" fill="' + p.color + '" opacity="' + (1 - p.t / 0.55).toFixed(2) + '"/>';
+      return true;
+    });
+    fxSvg.innerHTML = h;
+  }
+
+  /* ================= Actions sur les tubes ================= */
+  $('bShake').onclick = function () { var tb = tubes[active]; if (volume(tb) < 0.01) return; beginAct(active, 'shake'); tb.shaken = true; tb.settle = 0; addAct(active, 'tube agité', 'shake', 0, ''); say('Tube ' + (active + 1) + ' agité : le précipité se répartit, puis redescend.', ''); };
+  $('bEmpty').onclick = function () {
+    var tb = tubes[active]; if (volume(tb) < 0.01) return;
+    beginAct(active, 'empty');
+    for (var k in tb.vol) tb.vol[k] *= 0.03; tb.drops.soude = Math.round(tb.drops.soude * 0.03); tb.drops.nitrate = Math.round(tb.drops.nitrate * 0.03);
+    PPT_KEYS.forEach(function (k) { tb.shown[k] *= 0.03; });
+    addAct(active, 'tube vidé (sans rinçage)', 'empty', 0, ''); renderLabels();
+    say('Tube vidé mais pas rincé : il reste des traces qui peuvent fausser le prochain test.', 'warn');
+  };
+  function rinse(i) { tubes[i] = newTube(); }
+  $('bRinse').onclick = function () { beginAct(active, 'rinse'); rinse(active); addAct(active, 'tube rincé', 'rinse', 0, ''); renderLabels(); say('Tube ' + (active + 1) + ' rincé et propre.', 'ok'); };
+  $('bRinseAll').onclick = function () { for (var i = 0; i < N; i++) { beginAct(i, 'rinse'); rinse(i); } addSys('Tous les tubes rincés.'); renderLabels(); say('Tous les tubes sont propres.', 'ok'); };
+
+  /* ================= Barre du haut ================= */
+  document.querySelectorAll('[data-epi]').forEach(function (b) {
+    b.onclick = function () {
+      var k = b.getAttribute('data-epi'); epi[k] = !epi[k]; b.setAttribute('aria-pressed', String(epi[k]));
+      if (!epi[k] && hand && hand.indexOf('d:') === 0) { hand = null; renderShelf(); renderPour(); }
+      say(epi.blouse && epi.lunettes && epi.gants ? 'Bien équipé(e) : tu peux manipuler les détecteurs.' : '', 'ok');
+    };
+  });
+  $('lamp').onclick = function () { lampOn = !lampOn; this.setAttribute('aria-pressed', String(lampOn)); document.querySelector('.backdrop').classList.toggle('lit', lampOn); addSys(lampOn ? 'Lampe allumée.' : 'Lampe éteinte.'); };
+  $('speed').onclick = function () { speed = speed === 1 ? 10 : 1; this.setAttribute('aria-pressed', String(speed > 1)); this.querySelector('span').textContent = 'Temps ×' + speed; };
+  function setMode(m) {
+    mode = m; $('mLibre').setAttribute('aria-pressed', String(m === 'libre')); $('mDefi').setAttribute('aria-pressed', String(m === 'defi'));
+    if (m === 'defi') showTab('defi');
+    if (hand && hand.indexOf('u:') === 0 && m === 'libre') hand = null;
+    renderShelf(); renderPour(); renderDefi();
+  }
+  $('mLibre').onclick = function () { setMode('libre'); };
+  $('mDefi').onclick = function () { setMode('defi'); };
+  function showTab(t) {
+    $('tCahier').setAttribute('aria-selected', String(t === 'cahier')); $('tDefi').setAttribute('aria-selected', String(t === 'defi'));
+    $('pCahier').hidden = t !== 'cahier'; $('pDefi').hidden = t !== 'defi';
+  }
+  $('tCahier').onclick = function () { showTab('cahier'); };
+  $('tDefi').onclick = function () { showTab('defi'); if (mode !== 'defi') setMode('defi'); };
+
+  /* ================= Panneau défi + réponses ================= */
+  function renderDefi() {
+    var c = $('defiCard'), a = $('ansCard');
+    if (!defi) { c.innerHTML = '<h3>Les défis</h3><p>Identifie des ions dans des flacons dont l’étiquette a disparu. Ton professeur peut donner le même code à toute la classe.</p>'; a.hidden = true; $('chooser').hidden = false; return; }
+    c.innerHTML = '<h3>' + DEFIS[defi.type].title + '</h3><p>' + DEFIS[defi.type].text + '</p><p>Code : <span class="code">' + defi.code + '</span> <button class="linkish" id="bChange">' + (chooserOpen ? 'Fermer' : 'Changer de défi') + '</button></p>';
+    $('chooser').hidden = !chooserOpen;
+    $('bChange').onclick = function () { chooserOpen = !chooserOpen; renderDefi(); };
+    a.hidden = chooserOpen;
+    var opts = ['cu', 'fe2', 'fe3', 'zn', 'cl', 'none'];
+    a.innerHTML = '<p><b>Mes réponses</b> : coche les ions détectés.</p>' + defi.flasks.map(function (f) {
+      var sel = answers[f.id] || {};
+      var res = '';
+      if (defi.checked) { var good = flaskOk(f); res = '<span class="fl-res ' + (good ? 'ok' : 'ko') + '">' + (good ? '✓ juste' : '✗ à revoir') + '</span>'; }
+      return '<div class="fl"><b>' + f.name + ' ' + res + '</b><div class="chips2">' + opts.map(function (o) {
+        return '<button data-f="' + f.id + '" data-o="' + o + '" aria-pressed="' + !!sel[o] + '">' + (o === 'none' ? 'aucun' : ION_LABEL[o]) + '</button>';
+      }).join('') + '</div></div>';
+    }).join('') + '<button class="act-btn main" id="bCheck" style="align-self:flex-start">Vérifier mes réponses</button><div class="res" id="score"></div>';
+    if (defi.checked) showScore();
+    $('bCheck').onclick = function () { defi.checked = true; renderDefi(); };
+  }
+  function flaskOk(f) {
+    var sel = answers[f.id] || {}, picked = Object.keys(sel).filter(function (k) { return sel[k]; });
+    var truth = f.ions.length ? f.ions : ['none'];
+    return picked.length === truth.length && truth.every(function (t) { return sel[t]; });
+  }
+  function score() { return defi.flasks.filter(flaskOk).length; }
+  function showScore() {
+    var s = score(), n = defi.flasks.length;
+    $('score').textContent = s === n ? 'Bravo, tout est juste (' + s + '/' + n + ') !' : s + ' / ' + n + ' flacon' + (n > 1 ? 's' : '') + ' correct' + (s > 1 ? 's' : '') + '. Refais les tests pour les flacons à revoir.';
+    $('score').style.color = s === n ? '#3DD68C' : '#FCA5A5';
+  }
+  $('ansCard').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-f]'); if (!b) return;
+    var f = b.getAttribute('data-f'), o = b.getAttribute('data-o'), sel = answers[f] = answers[f] || {};
+    if (o === 'none') { answers[f] = sel = { none: !sel.none }; }
+    else { sel[o] = !sel[o]; sel.none = false; }
+    defi.checked = false; renderDefi();
+  });
+  $('bLoad').onclick = function () { loadDefi($('codeIn').value); };
+  $('codeIn').addEventListener('keydown', function (e) { if (e.key === 'Enter') loadDefi(this.value); });
+  document.querySelectorAll('[data-new]').forEach(function (b) { b.onclick = function () { newDefi(+b.getAttribute('data-new')); }; });
+
+  /* ================= Message ================= */
+  var msgTimer = null;
+  function say(t, kind) {
+    var m = $('msg'); m.textContent = t; m.className = 'msg' + (kind ? ' ' + kind : '');
+    clearTimeout(msgTimer); if (t) msgTimer = setTimeout(function () { m.textContent = ''; }, 9000);
+  }
+
+  /* ================= Compte rendu imprimable ================= */
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function buildReport() {
+    var rows = log.filter(function (e) { return !e.sys; }).map(function (e) {
+      var o = e.frozen ? e.obs : (e.unit ? describe(tubes[e.tube]) : '');
+      return '<tr><td>' + (e.tube + 1) + '</td><td>' + esc(entryText(e)) + '</td><td>' + esc(o) + '</td></tr>';
+    }).join('');
+    var d = new Date();
+    var h = '<h1>Compte rendu — Labo virtuel</h1><div class="meta"><span><b>Nom :</b> ' + esc($('nom').value || '..............................') + '</span><span><b>Classe :</b> ' + esc($('classe').value || '..........') + '</span><span><b>Date :</b> ' + d.toLocaleDateString('fr-FR') + '</span></div>';
+    if (defi) h += '<h2>Défi ' + defi.code + ' : ' + DEFIS[defi.type].title + '</h2><p>' + DEFIS[defi.type].text + '</p>';
+    h += '<h2>Manipulations et observations</h2><table><thead><tr><th>Tube</th><th>Manipulation</th><th>Observation</th></tr></thead><tbody>' + (rows || '<tr><td colspan="3">Aucune manipulation.</td></tr>') + '</tbody></table>';
+    h += '<h2>Conclusion</h2><div class="box">' + esc($('concl').value || '') + '</div>';
+    if (defi) {
+      h += '<h2>Réponses</h2><table><thead><tr><th>Flacon</th><th>Ions trouvés</th>' + (defi.checked ? '<th>Vérification</th>' : '') + '</tr></thead><tbody>' + defi.flasks.map(function (f) {
+        var sel = answers[f.id] || {}, picked = Object.keys(sel).filter(function (k) { return sel[k]; }).map(function (k) { return k === 'none' ? 'aucun' : ION_LABEL[k]; }).join(', ') || '—';
+        var truth = f.ions.length ? f.ions : ['none'], ok = truth.length === Object.keys(sel).filter(function (k) { return sel[k]; }).length && truth.every(function (t) { return sel[t]; });
+        return '<tr><td>' + f.name + '</td><td>' + picked + '</td>' + (defi.checked ? '<td>' + (ok ? 'juste' : 'à revoir') + '</td>' : '') + '</tr>';
+      }).join('') + '</tbody></table>';
+    }
+    $('report').innerHTML = h;
+  }
+  $('bPrint').onclick = function () { buildReport(); window.print(); };
+  window.addEventListener('beforeprint', buildReport);
+
+  /* ================= Boucle de simulation ================= */
+  var prev = performance.now(), acc = 0;
+  function frame(now) {
+    var rdt = Math.max(0, Math.min(0.1, (now - prev) / 1000)); prev = now;
+    var dt = rdt * speed;
+    tubes.forEach(function (tb, i) {
+      var eq = equilibrium(tb);
+      PPT_KEYS.forEach(function (k) { tb.shown[k] += (eq.p[k] - tb.shown[k]) * Math.min(1, dt * 1.6); });
+      tb.settle = Math.min(1, tb.settle + dt * 0.11);
+      if (tb.shown.agcl > 0.05) tb.expo += dt * (lampOn ? 1 : 0.1);
+      drawTube(i);
+    });
+    drawFx(rdt);
+    acc += rdt;
+    if (acc > 0.6) { acc = 0; renderLog(); renderLabels(); }
+    requestAnimationFrame(frame);
+  }
+
+  buildTubes(); renderShelf(); renderPour(); renderLog(); renderDefi(); renderLabels();
+  var q = /[?&]defi=([^&]+)/.exec(location.search);
+  if (q) loadDefi(decodeURIComponent(q[1]));
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

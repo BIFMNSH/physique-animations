@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Identifier des ions en solution · Physique-chimie en animations</title>
+<meta name="description" content="Animation et labo virtuel : tests d'identification des ions Cu²⁺, Fe²⁺, Fe³⁺, Zn²⁺ (soude) et Cl⁻ (nitrate d'argent).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+text{font-family:'Atkinson Hyperlegible',sans-serif;font-weight:700}
+.tube-host{position:absolute}
+.liq{transition:fill .8s,fill-opacity .8s}
+.bottle{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .5s}
+.bottle .lbl{font-size:15px;font-weight:700;text-align:center;line-height:1.25}
+.panel{position:absolute;left:640px;top:8px;width:592px;display:flex;flex-direction:column;gap:14px}
+.box{background:var(--panel);border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.box .h{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.kv{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 14px;font-size:18px;align-items:center}
+.kv .k{color:var(--muted);font-size:15px;font-weight:700}
+.res{display:inline-flex;align-items:center;gap:10px;font-weight:700;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s}
+.res.on{opacity:1;transform:none}
+.sw{width:22px;height:22px;border-radius:6px;border:2px solid #FFFFFF;flex-shrink:0;transition:background .8s}
+table.tb{border-collapse:collapse;width:100%;font-size:16px}
+.tb th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px;border-bottom:1.5px solid var(--line)}
+.tb td{padding:7px 10px;border-bottom:1px solid var(--line3);transition:opacity .5s,background .5s}
+.tb tr.pend td{opacity:.18}
+.tb tr.cur td{background:rgba(92,200,255,.10)}
+.tb .c{display:inline-flex;align-items:center;gap:8px}
+.tb .c i{width:16px;height:16px;border-radius:4px;border:1.5px solid #FFFFFF;display:inline-block}
+.rules{display:flex;flex-direction:column;gap:10px;font-size:18px;line-height:1.35}
+.rules .r{display:flex;gap:12px;align-items:flex-start}
+.rules .n{width:28px;height:28px;border-radius:50%;background:#FFB547;color:#2A1A00;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.warn{background:#3A1D1D;border:1.5px solid #E5484D;border-radius:14px;padding:12px 16px;font-size:16px;display:flex;gap:12px;align-items:center}
+.view-intro,.view-test,.view-bilan{transition:opacity .5s}
+.mode-intro .view-test,.mode-intro .view-bilan,.mode-test .view-intro,.mode-test .view-bilan,.mode-bilan .view-intro{opacity:0;pointer-events:none}
+.mode-bilan .view-test .card-sol{opacity:0}
+.sun{opacity:0;transition:opacity .8s}
+.light .sun{opacity:1}
+.lab-btn{font:700 14px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;color:#0E1626;background:#FFB547;border:none;border-radius:22px;height:44px;padding:0 16px;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.lab-btn[aria-pressed="true"]{background:#EEF2F8}
+
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="topbar" aria-label="Navigation">
+<a class="back" href="../">← <span class="lbl-t">Animations</span></a>
+<div class="crumb"><span class="num">5 / 5</span><span class="ttl">Identifier des ions en solution</span></div>
+<div class="grow"></div>
+<span class="keys">Espace : lecture · ← → : étapes · F : plein écran</span>
+<a class="tb-btn" href="../ions/" aria-label="Animation précédente">←</a>
+<a class="tb-btn" aria-disabled="true" aria-label="Animation suivante"><span class="lbl">Suivante</span> →</a>
+<button class="tb-btn" data-fs aria-label="Plein écran"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button>
+</nav>
+<main class="viewport">
+<div class="stage">
+<header class="s-header">
+<div class="eyebrow"><span class="kicker">Physique-chimie · Fiche méthode · Tests d'identification</span><span class="badge" data-badge style="color:#0E1626"></span></div>
+<div class="cap"><h1 data-cap-title></h1><p data-cap-text></p></div>
+</header>
+
+<div class="scene">
+<!-- Paillasse -->
+<div class="bottle" id="bottle" style="left:70px;top:200px;width:150px">
+<svg width="110" height="150" viewBox="0 0 110 150" aria-hidden="true">
+<rect x="38" y="4" width="34" height="26" rx="4" fill="#5A6680"/>
+<path d="M30 30 H80 V44 Q104 56 104 84 V138 Q104 146 96 146 H14 Q6 146 6 138 V84 Q6 56 30 44 Z" fill="#1E2A44" stroke="#C9D2E0" stroke-width="2.5"/>
+<path d="M10 96 H100 V138 Q100 142 96 142 H14 Q10 142 10 138 Z" fill="#DDE8F0" fill-opacity=".35"/>
+<rect x="18" y="64" width="74" height="30" rx="4" fill="#EEF2F8"/>
+<path d="M55 100 L70 115 L55 130 L40 115 Z" fill="#FFFFFF" stroke="#E5484D" stroke-width="3"/>
+<text x="55" y="121" text-anchor="middle" font-size="15" fill="#E5484D">!</text>
+</svg>
+<div class="lbl" id="bottleLbl">Soude</div>
+</div>
+<div class="tube-card" style="left:282px;top:118px;width:196px;height:356px"></div>
+<div class="tube-host" id="guideTube" style="left:300px;top:-6px"></div>
+<svg class="sun" width="120" height="120" viewBox="0 0 120 120" style="position:absolute;left:470px;top:60px" aria-hidden="true">
+<g stroke="#FFE27A" stroke-width="4" stroke-linecap="round">
+<line x1="60" y1="6" x2="60" y2="22"/><line x1="60" y1="98" x2="60" y2="114"/><line x1="6" y1="60" x2="22" y2="60"/><line x1="98" y1="60" x2="114" y2="60"/>
+<line x1="22" y1="22" x2="33" y2="33"/><line x1="87" y1="87" x2="98" y2="98"/><line x1="98" y1="22" x2="87" y2="33"/><line x1="33" y1="87" x2="22" y2="98"/>
+</g>
+<circle cx="60" cy="60" r="24" fill="#FFE27A"/>
+<text x="60" y="140" text-anchor="middle" font-size="14" fill="#FFE27A">lumière</text>
+</svg>
+
+<!-- Panneau de droite : introduction -->
+<div class="panel view-intro">
+<div class="box">
+<div class="h">Le principe</div>
+<div style="font-size:19px;line-height:1.45">On verse la solution à tester dans un tube à essais, puis on ajoute <b>quelques gouttes d'un détecteur</b>. Si le test est positif, il se forme un <b>précipité</b> (un solide) dont la <b>couleur</b> est caractéristique de l'ion présent.</div>
+</div>
+<div class="box">
+<div class="h">3 règles à respecter</div>
+<div class="rules">
+<div class="r"><span class="n">1</span><span>Prélever un petit échantillon de la solution pour réaliser le test.</span></div>
+<div class="r"><span class="n">2</span><span>Consulter les pictogrammes de sécurité et respecter les consignes d'utilisation des détecteurs.</span></div>
+<div class="r"><span class="n">3</span><span>Utiliser de petites quantités de détecteur.</span></div>
+</div>
+</div>
+<div class="warn"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 2 L32 17 L17 32 L2 17 Z" fill="#FFFFFF" stroke="#E5484D" stroke-width="3"/><text x="17" y="23" text-anchor="middle" font-size="16" fill="#E5484D">!</text></svg><span>La soude et le nitrate d'argent sont <b>corrosifs</b> : blouse, lunettes et gants.</span></div>
+</div>
+
+<!-- Panneau de droite : test en cours + tableau -->
+<div class="panel view-test">
+<div class="box card-sol" style="transition:opacity .5s">
+<div class="h">Test en cours</div>
+<div class="kv">
+<span class="k">Solution testée</span><span id="cSol"></span>
+<span class="k">Ion recherché</span><span id="cIon"></span>
+<span class="k">Détecteur</span><span id="cDet"></span>
+<span class="k">Observation</span><span class="res" id="cRes"><span class="sw" id="cSw"></span><span id="cResTxt"></span></span>
+</div>
+</div>
+<div class="box">
+<div class="h">Tableau de la fiche méthode</div>
+<table class="tb">
+<thead><tr><th>Ion</th><th>Formule</th><th>Détecteur</th><th>Précipité</th></tr></thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- Labo virtuel -->
+</div>
+
+<div class="footer"></div>
+</div>
+</main>
+</div>
+<script src="../assets/player.js"></script>
+<script>
+(function () {
+  /* ---------- Données chimiques (fiche méthode) ---------- */
+  var COLORLESS = '#DDE8F0';
+  var SOL = {
+    cu:  { name: 'Sulfate de cuivre (II)', liquid: '#7DB9EE', lo: .7, ions: ['cu'] },
+    fe2: { name: 'Sulfate de fer (II)', liquid: '#CFE3B8', lo: .55, ions: ['fe2'] },
+    fe3: { name: 'Chlorure de fer (III)', liquid: '#EBB24F', lo: .7, ions: ['fe3', 'cl'] },
+    zn:  { name: 'Sulfate de zinc', liquid: COLORLESS, lo: .3, ions: ['zn'] },
+    nacl:{ name: 'Eau salée (chlorure de sodium)', liquid: COLORLESS, lo: .3, ions: ['cl'] },
+    eau: { name: 'Eau déminéralisée', liquid: COLORLESS, lo: .3, ions: [] }
+  };
+  var ION = {
+    cu:  { name: 'ion cuivre II', f: 'Cu²⁺', det: 'soude', color: '#2F8FE0', word: 'bleu' },
+    fe2: { name: 'ion fer II', f: 'Fe²⁺', det: 'soude', color: '#56701F', word: 'vert' },
+    fe3: { name: 'ion fer III', f: 'Fe³⁺', det: 'soude', color: '#B8441B', word: 'rouille' },
+    zn:  { name: 'ion zinc', f: 'Zn²⁺', det: 'soude', color: '#F2F4F6', word: 'blanc' },
+    cl:  { name: 'ion chlorure', f: 'Cl⁻', det: 'nitrate', color: '#F2F4F6', word: 'blanc qui noircit à la lumière' }
+  };
+  var DET = { soude: 'Soude (hydroxyde de sodium)', nitrate: 'Nitrate d’argent' };
+  var DARK = '#55505E';
+  function hex(h) { return [parseInt(h.substr(1, 2), 16), parseInt(h.substr(3, 2), 16), parseInt(h.substr(5, 2), 16)]; }
+  function mix(a, b, t) { var A = hex(a), B = hex(b); return 'rgb(' + A.map(function (v, i) { return Math.round(v + (B[i] - v) * t); }).join(',') + ')'; }
+  function clamp(p) { return Math.max(0, Math.min(1, p)); }
+  function ease(p) { p = clamp(p); return p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; }
+  function rnd(i) { var x = Math.sin(i * 12.9898 + 3.3) * 43758.5453; return x - Math.floor(x); }
+  /* quel précipité pour (solution, détecteur) ? */
+  function result(solKey, det) {
+    var ions = SOL[solKey].ions;
+    for (var i = 0; i < ions.length; i++) if (ION[ions[i]].det === det) return ions[i];
+    return null;
+  }
+
+  /* ---------- Tube à essais dessiné en SVG ---------- */
+  function Tube(host, uid) {
+    var blobs = '';
+    for (var i = 0; i < 16; i++) {
+      var x = 34 + rnd(i * 3 + 1 + uid) * 92, y = 300 + rnd(i * 3 + 2 + uid) * 150, r = 10 + rnd(i * 3 + 3 + uid) * 14;
+      blobs += '<circle data-y="' + y.toFixed(0) + '" cx="' + x.toFixed(0) + '" cy="' + y.toFixed(0) + '" r="' + r.toFixed(0) + '"/>';
+    }
+    host.innerHTML =
+      '<svg width="160" height="490" viewBox="0 0 160 490" overflow="visible" aria-hidden="true">' +
+      '<defs><clipPath id="clip' + uid + '"><path d="M32 150 V420 a48 48 0 0 0 96 0 V150 Z"/></clipPath>' +
+      '<filter id="blur' + uid + '" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4.5"/></filter></defs>' +
+      '<g class="dropper" style="transition:transform .6s cubic-bezier(.4,0,.2,1),opacity .4s">' +
+      '<ellipse cx="80" cy="34" rx="15" ry="22" fill="#E5484D"/><rect x="66" y="50" width="28" height="10" rx="3" fill="#B7373B"/>' +
+      '<path d="M73 60 H87 V118 L82 132 H78 L73 118 Z" fill="rgba(221,232,240,.25)" stroke="#DDE6F0" stroke-width="2"/></g>' +
+      '<g class="drops" fill="#DDE8F0"><circle r="5" cx="80" cy="-50"/><circle r="5" cx="80" cy="-50"/><circle r="5" cx="80" cy="-50"/></g>' +
+      '<g clip-path="url(#clip' + uid + ')"><rect class="liq" x="0" y="290" width="160" height="200"/>' +
+      '<g class="pp" filter="url(#blur' + uid + ')">' + blobs + '</g></g>' +
+      '<path d="M32 290 H128" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="2"/>' +
+      '<path d="M26 146 H134 M32 146 V420 a48 48 0 0 0 96 0 V146" fill="none" stroke="#DDE6F0" stroke-width="3.5" stroke-linecap="round"/>' +
+      '<path d="M44 170 V400" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="5" stroke-linecap="round"/>' +
+      '</svg>';
+    var liq = host.querySelector('.liq'), pp = host.querySelector('.pp'), circles = pp.querySelectorAll('circle');
+    var drops = host.querySelectorAll('.drops circle'), dropper = host.querySelector('.dropper');
+    return {
+      liquid: function (c, o) { liq.style.fill = c; liq.style.fillOpacity = o; },
+      precip: function (c, p) {
+        pp.style.fill = c; pp.style.opacity = clamp(p * 1.4) * .95;
+        circles.forEach(function (el) { var y = +el.getAttribute('data-y'); el.setAttribute('cy', (300 + (y - 300) * ease(p)).toFixed(1)); });
+      },
+      dropper: function (on) { dropper.style.transform = on ? 'translateY(150px)' : 'translateY(0)'; dropper.style.opacity = on ? 1 : 0; },
+      drops: function (ys) { drops.forEach(function (d, i) { var y = ys[i]; d.setAttribute('cy', y == null ? -50 : y); d.style.opacity = y == null ? 0 : 1; }); }
+    };
+  }
+  function drops3(l, starts) { return starts.map(function (t0) { var p = (l - t0) / .45; return p < 0 || p > 1 ? null : 290 - 135 * (1 - p * p) ; }); }
+
+  /* ---------- Animation guidée ---------- */
+  var guide = Tube(document.getElementById('guideTube'), 1);
+  var bottle = document.getElementById('bottle'), bottleLbl = document.getElementById('bottleLbl');
+  var $ = function (id) { return document.getElementById(id); };
+  var ORDER = ['cu', 'fe2', 'fe3', 'zn', 'cl'];
+  var GSOL = { cu: 'cu', fe2: 'fe2', fe3: 'fe3', zn: 'zn', cl: 'nacl' };
+  $('tbody').innerHTML = ORDER.map(function (k) {
+    var I = ION[k];
+    return '<tr class="pend" data-k="' + k + '"><td>' + I.name + '</td><td><b>' + I.f + '</b></td><td>' + (I.det === 'soude' ? 'soude' : 'nitrate d’argent') + '</td><td><span class="c"><i style="background:' + I.color + '"></i><span>' + I.word + '</span></span></td></tr>';
+  }).join('');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#tbody tr'));
+
+  var STEPS = [
+    { chip: 'Principe', mode: 'intro', badge: 'Fiche méthode', col: '#FFB547', title: 'Identifier des ions en solution', text: 'Pour détecter un ion dans une solution, on réalise un test d’identification avec un détecteur approprié.' },
+    { chip: 'Cu²⁺', mode: 'test', ion: 'cu', badge: 'Détecteur : soude', col: '#7DB9EE', title: 'Test des ions cuivre II (Cu²⁺)', text: 'On ajoute quelques gouttes de soude à la solution de sulfate de cuivre : un précipité bleu se forme.' },
+    { chip: 'Fe²⁺', mode: 'test', ion: 'fe2', badge: 'Détecteur : soude', col: '#CFE3B8', title: 'Test des ions fer II (Fe²⁺)', text: 'Avec la soude, la solution de sulfate de fer II donne un précipité vert.' },
+    { chip: 'Fe³⁺', mode: 'test', ion: 'fe3', badge: 'Détecteur : soude', col: '#EBB24F', title: 'Test des ions fer III (Fe³⁺)', text: 'Avec la soude, la solution de chlorure de fer III donne un précipité couleur rouille.' },
+    { chip: 'Zn²⁺', mode: 'test', ion: 'zn', badge: 'Détecteur : soude', col: '#EEF2F8', title: 'Test des ions zinc (Zn²⁺)', text: 'Avec la soude, la solution de sulfate de zinc donne un précipité blanc.' },
+    { chip: 'Cl⁻', mode: 'test', ion: 'cl', badge: 'Détecteur : nitrate d’argent', col: '#C4B5FD', title: 'Test des ions chlorure (Cl⁻)', text: 'On ajoute quelques gouttes de nitrate d’argent à l’eau salée : un précipité blanc se forme.' },
+    { chip: 'Lumière', mode: 'test', ion: 'cl', light: true, badge: 'Détecteur : nitrate d’argent', col: '#C4B5FD', title: 'Attendre et observer…', text: 'Exposé à la lumière, le précipité blanc noircit peu à peu : c’est la signature des ions chlorure.' },
+    { chip: 'Bilan', mode: 'bilan', badge: 'À retenir', col: '#5CC8FF', title: 'Bilan : un détecteur, une couleur', text: 'La soude identifie les ions métalliques (Cu²⁺ bleu, Fe²⁺ vert, Fe³⁺ rouille, Zn²⁺ blanc). Le nitrate d’argent identifie les ions chlorure Cl⁻ (blanc qui noircit). À toi de jouer dans le labo virtuel !' }
+  ];
+
+  var labBtn = document.createElement('a');
+  labBtn.className = 'lab-btn';
+  labBtn.href = '../labo/';
+  labBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 1 V7 L2 15 Q1.5 17 3.5 17 H14.5 Q16.5 17 16 15 L11 7 V1 M5.5 1 H12.5"/></svg><span>Ouvrir le labo virtuel</span>';
+
+  var player = Player({
+    stepSeconds: 7,
+    extraControl: labBtn,
+    steps: STEPS.map(function (s) { return { chip: s.chip, badge: s.badge, badgeColor: s.col, title: s.title, text: s.text }; }),
+    flags: function (s) { var S = STEPS[s]; return 'mode-' + S.mode + (S.light ? ' light' : ''); },
+    onStep: function (s) {
+      var S = STEPS[s];
+      if (S.mode === 'test') {
+        var I = ION[S.ion], sol = SOL[GSOL[S.ion]];
+        $('cSol').textContent = sol.name;
+        $('cIon').innerHTML = I.name + ' <b>' + I.f + '</b>';
+        $('cDet').textContent = DET[I.det];
+        $('cSw').style.background = I.color;
+        $('cResTxt').textContent = 'précipité ' + (S.light ? 'blanc qui noircit' : I.word.replace(' qui noircit à la lumière', ''));
+        bottleLbl.textContent = I.det === 'soude' ? 'Soude' : 'Nitrate d’argent';
+        bottle.style.opacity = 1;
+        guide.liquid(sol.liquid, sol.lo);
+      } else {
+        bottle.style.opacity = S.mode === 'intro' ? .35 : 0;
+        bottleLbl.textContent = 'Soude';
+        guide.liquid(COLORLESS, .3);
+      }
+    },
+    onTick: function (t, s, l) {
+      var S = STEPS[s];
+      if (S.mode !== 'test') {
+        guide.dropper(false); guide.drops([null, null, null]); guide.precip('#FFFFFF', 0);
+        rows.forEach(function (r) { r.className = S.mode === 'bilan' ? '' : 'pend'; });
+        return;
+      }
+      var I = ION[S.ion], cur = ORDER.indexOf(S.ion);
+      if (S.light) {
+        guide.dropper(false); guide.drops([null, null, null]);
+        guide.precip(mix(I.color, DARK, ease((l - .8) / 4.5)), 1);
+        $('cRes').classList.add('on');
+      } else {
+        guide.dropper(l > .2 && l < 2.8);
+        guide.drops(drops3(l, [1.0, 1.5, 2.0]));
+        var p = clamp((l - 1.3) / 2.6);
+        guide.precip(I.color, p);
+        $('cRes').classList.toggle('on', l > 3.2);
+      }
+      rows.forEach(function (r, i) {
+        var shown = i < cur || (i === cur && (S.light || l > 3.2));
+        r.className = (shown ? '' : 'pend') + (i === cur ? ' cur' : '');
+      });
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

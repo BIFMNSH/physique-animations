@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Fiches élèves · Physique-chimie en animations</title>
+<meta name="description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+html,body{height:auto;min-height:100%}
+body{background:var(--app)}
+.fbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line3)}
+.fbar .grow{flex:1}
+.fbar .tb-btn,.seg2 button{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 14px;border-radius:22px;border:1.5px solid var(--line);background:transparent;color:var(--soft);text-decoration:none;font:700 14px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
+.fbar .tb-btn:hover{border-color:var(--blue);color:var(--text)}
+.fbar .main{background:var(--blue);border-color:var(--blue);color:#0E1626}
+.seg2{display:flex;gap:6px}
+.seg2 button[aria-pressed="true"]{background:var(--panel);border-color:var(--blue);color:var(--text)}
+.wrap{padding:24px 16px 48px;display:flex;justify-content:center}
+/* La feuille reste blanche (aperçu fidèle à l'impression), quel que soit le thème */
+.sheet{width:100%;max-width:210mm;min-height:297mm;background:#fff;color:#141414;padding:14mm 14mm 16mm;box-shadow:0 10px 40px rgba(0,0,0,.35);border-radius:4px;font:12pt/1.45 'Atkinson Hyperlegible',Arial,sans-serif}
+.sheet h1{font:800 21pt/1.15 'Bricolage Grotesque',sans-serif;margin:0 0 2mm}
+.sheet h2{font:800 13pt 'Bricolage Grotesque',sans-serif;margin:6mm 0 2mm;padding-bottom:1mm;border-bottom:2px solid #141414}
+.sheet .who{display:grid;grid-template-columns:2fr 1fr 1fr;gap:4mm;font-size:11pt;margin:3mm 0 4mm}
+.sheet .who span{border-bottom:1px dotted #555;padding-bottom:1mm}
+.sheet .obj{font-size:11.5pt;background:#F3F5F8;border-left:4px solid #1F8FD6;padding:2.5mm 4mm}
+.sheet .tag{font-size:9.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555}
+.sheet figure{margin:3mm 0 0;text-align:center}
+.sheet figure svg{width:100%;max-width:150mm;height:auto;font-family:'Atkinson Hyperlegible',Arial,sans-serif}
+.sheet figcaption{font-size:10pt;color:#444;margin-top:1mm}
+.sheet ul{margin:0;padding-left:5mm;display:flex;flex-direction:column;gap:2.5mm}
+.blank{display:inline-block;min-width:28mm;border-bottom:1.5px solid #141414;color:transparent}
+.corr .blank{color:#C62828;font-weight:700;border-bottom-color:#C62828;min-width:0}
+.sheet ol{margin:0;padding-left:5mm;display:flex;flex-direction:column;gap:3.5mm}
+.lines{margin-top:2mm}
+.lines i{display:block;height:8mm;border-bottom:1px dotted #777}
+.ans{display:none;color:#C62828;font-weight:700;margin-top:1.5mm}
+.corr .ans{display:block}
+.corr .lines{display:none}
+.sheet table{border-collapse:collapse;width:100%;font-size:11pt}
+.sheet th,.sheet td{border:1px solid #444;padding:2mm 2.5mm;text-align:left}
+.sheet th{background:#F0F0F0}
+.sheet td.bl{color:transparent}
+.corr .sheet td.bl,.corr td.bl{color:#C62828;font-weight:700}
+.badge-corr{display:none;font:700 10pt 'Atkinson Hyperlegible',sans-serif;color:#fff;background:#C62828;border-radius:4px;padding:1mm 3mm;margin-left:3mm;vertical-align:middle}
+.corr .badge-corr{display:inline-block}
+.foot{margin-top:6mm;font-size:9pt;color:#666;text-align:right}
+/* Liste des fiches */
+.list{width:100%;max-width:900px;display:flex;flex-direction:column;gap:14px}
+.list h1{margin:0 0 6px;font:800 34px 'Bricolage Grotesque',sans-serif;color:var(--text)}
+.list p{margin:0 0 8px;color:var(--soft);font-size:17px}
+.item{display:flex;align-items:center;gap:14px;background:var(--panel);border:1.5px solid var(--line3);border-radius:16px;padding:14px 16px;color:var(--text);text-decoration:none}
+.item:hover{border-color:var(--blue)}
+.item .n{width:40px;height:40px;border-radius:50%;background:var(--blue);color:#0E1626;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.item b{font-size:18px}
+.item span.o{display:block;color:var(--soft);font-size:15px}
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .fbar{display:none}
+  .wrap{padding:0}
+  .sheet{box-shadow:none;border-radius:0;max-width:none;min-height:0}
+}
+
+.sheet .opts{list-style:none;padding:0;margin:1.5mm 0 0;display:grid;grid-template-columns:1fr 1fr;gap:1mm 4mm;font-size:11pt}
+.sheet .opts li{display:flex;gap:2mm;align-items:flex-start}
+.sheet .opts li:before{content:"";flex:none;width:3.4mm;height:3.4mm;margin-top:1mm;border:1.5px solid #141414;border-radius:50%}
+.corr .sheet .opts li.ok{color:#C62828;font-weight:700}
+.corr .sheet .opts li.ok:before{background:#C62828;border-color:#C62828}
+.sheet .gridg{display:block;width:100%;max-width:130mm;height:auto;margin:2mm auto 0}
+.sheet .stepsl li b{font-weight:700}
+.list h2{margin:18px 0 0;font:800 24px 'Bricolage Grotesque',sans-serif;color:var(--text)}
+@media print{.sheet,.sheet h2,.sheet li{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="fbar" id="bar">
+<a class="tb-btn" href="../">← Animations</a>
+<a class="tb-btn" href="./" id="toList" hidden>Toutes les fiches</a>
+<div class="grow"></div>
+<div class="seg2" id="seg" hidden role="group" aria-label="Version de la fiche"><button id="vEleve" aria-pressed="true">Version élève</button><button id="vCorr" aria-pressed="false">Corrigé</button></div>
+<a class="tb-btn" id="toAnim" hidden>Voir l'animation</a>
+<button class="tb-btn main" id="bPrint" hidden>Imprimer</button>
+<button class="tb-btn" data-theme-btn id="themeBtn"></button>
+</div>
+<div class="wrap" id="wrap"></div>
+<script src="../assets/player.js"></script>
+<script src="../assets/content.js"></script>
+<script>
+(function () {
+  var C = window.SITE_CONTENT, wrap = document.getElementById('wrap');
+  document.getElementById('themeBtn').onclick = function () { SiteTheme.toggle(); };
+  SiteTheme.set(SiteTheme.get()); registerSW();
+  var m = /[?&]a=([a-z]+)/.exec(location.search), key = m && C.fiches[m[1]] ? m[1] : null;
+  var ms = /[?&]s=([a-z-]+)/.exec(location.search);
+  if (ms && !key) { simSheet(ms[1]); return; }
+
+  function simSheet(slug) {
+    var def = null;
+    window.Sim = { register: function (sl, d) { def = d; }, run: function () {} };
+    function esc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    var sc = document.createElement('script'); sc.src = '../assets/sim/' + slug + '.js';
+    sc.onerror = function () { wrap.innerHTML = '<div class="list"><h1>Fiche introuvable</h1><p><a href="./#simulations" style="color:var(--blue)">Voir toutes les fiches</a></p></div>'; };
+    sc.onload = function () {
+      if (!def) { sc.onerror(); return; }
+      var meta = (window.SIM_INDEX || []).filter(function (x) { return x.slug === slug; })[0] || { title: slug, level: '', themeLabel: '' };
+      var cap = (window.SIM_FICHE && window.SIM_FICHE[slug]) || {};
+      document.title = 'Fiche : ' + meta.title + ' · Simulateur · Physique-chimie en animations';
+      ['toList', 'seg', 'toAnim', 'bPrint'].forEach(function (id) { document.getElementById(id).hidden = false; });
+      document.getElementById('toAnim').href = '../simulateur/?s=' + slug; document.getElementById('toAnim').textContent = 'Lancer la simulation';
+      var h = '<article class="sheet"><div class="tag">Physique-chimie · Simulation · ' + esc(meta.level) + ' · ' + esc(meta.themeLabel) + '</div>' +
+        '<h1>' + esc(meta.title) + '<span class="badge-corr">Corrigé</span></h1>' +
+        '<div class="who"><span>Nom, prénom :</span><span>Classe :</span><span>Date :</span></div>' +
+        '<div class="obj"><b>Objectif :</b> ' + esc(def.objective) + '</div>' +
+        '<h2>Ma manipulation</h2><ol class="stepsl">' + (def.steps || []).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>';
+      var cols = cap.table || [{ label: 'Grandeur 1' }, { label: 'Grandeur 2' }, { label: 'Grandeur 3' }];
+      cols = cols.filter(function (k) { return k.k !== 'n'; });
+      h += '<h2>Mes mesures</h2><table><thead><tr>' + cols.map(function (k) { return '<th>' + esc(k.label) + (k.unit ? ' (' + esc(k.unit) + ')' : '') + '</th>'; }).join('') + '</tr></thead><tbody>';
+      for (var r = 0; r < 6; r++) h += '<tr>' + cols.map(function () { return '<td style="height:8mm"></td>'; }).join('') + '</tr>';
+      h += '</tbody></table>';
+      if (def.chart || cap.chart) {
+        var ch = cap.chart || {}, x0 = 40, y0 = 14, w = 440, ht = 250, g = '';
+        for (var i = 0; i <= 10; i++) g += '<line x1="' + (x0 + i * w / 10) + '" y1="' + y0 + '" x2="' + (x0 + i * w / 10) + '" y2="' + (y0 + ht) + '" stroke="#bbb" stroke-width="' + (i % 5 ? 0.6 : 1.2) + '"/>';
+        for (var j = 0; j <= 10; j++) g += '<line x1="' + x0 + '" y1="' + (y0 + j * ht / 10) + '" x2="' + (x0 + w) + '" y2="' + (y0 + j * ht / 10) + '" stroke="#bbb" stroke-width="' + (j % 5 ? 0.6 : 1.2) + '"/>';
+        g += '<path d="M' + x0 + ' ' + y0 + ' V' + (y0 + ht) + ' H' + (x0 + w) + '" fill="none" stroke="#141414" stroke-width="2"/>';
+        var xl = (ch.xlabel ? ch.xlabel + (ch.xunit ? ' (' + ch.xunit + ')' : '') : '………………'), yl = (ch.ylabel ? ch.ylabel + (ch.yunit ? ' (' + ch.yunit + ')' : '') : '………………');
+        h += '<h2>Je trace ma courbe</h2><svg class="gridg" viewBox="0 0 500 292" font-family="Atkinson Hyperlegible,Arial,sans-serif" aria-label="Graphique à compléter">' + g +
+          '<text x="' + (x0 + w / 2) + '" y="286" font-size="13" text-anchor="middle" fill="#141414">' + esc(xl) + '</text>' +
+          '<text transform="translate(12 ' + (y0 + ht / 2) + ') rotate(-90)" font-size="13" text-anchor="middle" fill="#141414">' + esc(yl) + '</text></svg>' +
+          '<div class="lines" style="margin-top:2mm"><i></i></div><div class="ans">Place les points, trace la courbe qui passe au plus près d’eux (droite, palier…), puis lis le résultat demandé.</div>';
+      }
+      h += '<h2>Je retiens : complète</h2><ul>' + (def.retiens || []).map(function (x) { return '<li>' + blanks(x.replace(/<b>(.+?)<\/b>/g, '[[$1]]')) + '</li>'; }).join('') + '</ul>';
+      h += '<h2>Je m’exerce</h2><ol>' + (def.quiz || []).map(function (q) {
+        return '<li>' + esc(q.q) + '<ul class="opts">' + q.o.map(function (o, k) { return '<li' + (k === q.a ? ' class="ok"' : '') + '>' + esc(o) + '</li>'; }).join('') + '</ul><div class="ans">' + esc(q.e) + '</div></li>';
+      }).join('') + '</ol>';
+      h += '<h2>Ma conclusion</h2><div class="lines"><i></i><i></i><i></i><i></i></div><div class="foot">Simulation : physique-animations.vercel.app/simulateur/?s=' + slug + '</div></article>';
+      wrap.innerHTML = h;
+      function setV(corr) {
+        document.body.classList.toggle('corr', corr);
+        document.getElementById('vEleve').setAttribute('aria-pressed', String(!corr));
+        document.getElementById('vCorr').setAttribute('aria-pressed', String(corr));
+      }
+      document.getElementById('vEleve').onclick = function () { setV(false); };
+      document.getElementById('vCorr').onclick = function () { setV(true); };
+      document.getElementById('bPrint').onclick = function () { window.print(); };
+      if (/[?&]corrige\b/.test(location.search)) setV(true);
+    };
+    sc.setAttribute('data-sheet', '1');
+    var si = document.createElement('script'); si.src = '../assets/sim-index.js';
+    si.onload = function () { var sf = document.createElement('script'); sf.src = '../assets/sim-fiche.js'; sf.onload = sf.onerror = function () { document.head.appendChild(sc); }; document.head.appendChild(sf); };
+    document.head.appendChild(si);
+  }
+  function blanks(t) { return t.replace(/\[\[(.+?)\]\]/g, '<span class="blank">$1</span>'); }
+
+  if (!key) {
+    document.title = 'Fiches élèves · Physique-chimie en animations';
+    wrap.innerHTML = '<div class="list"><h1>Fiches élèves</h1><p>Une fiche A4 par animation : schéma, texte à compléter, exercices. Chaque fiche a sa version corrigée.</p>' +
+      C.order.map(function (k, i) { var f = C.fiches[k]; return '<a class="item" href="?a=' + k + '"><span class="n">' + (i + 1) + '</span><span><b>' + f.title + '</b><span class="o">' + f.objectif + '</span></span></a>'; }).join('') + '<h2 id="simulations">Fiches du Simulateur (cycle 4)</h2><p>Une fiche par simulation : manipulation, tableau de mesures et graphique à compléter, « je retiens », exercices et conclusion.</p><div id="simList" class="list"></div></div>';
+    var sc = document.createElement('script'); sc.src = '../assets/sim-index.js';
+    sc.onload = function () { document.getElementById('simList').innerHTML = (window.SIM_INDEX || []).map(function (x) { return '<a class="item" href="?s=' + x.slug + '"><span class="n">' + x.level + '</span><span><b>' + x.title + '</b><span class="o">' + x.exp + '</span></span></a>'; }).join(''); };
+    document.head.appendChild(sc);
+    return;
+  }
+  var f = C.fiches[key], i = C.order.indexOf(key);
+  document.title = 'Fiche : ' + f.title + ' · Physique-chimie en animations';
+  ['toList', 'seg', 'toAnim', 'bPrint'].forEach(function (id) { document.getElementById(id).hidden = false; });
+  document.getElementById('toAnim').href = '../' + key + '/';
+  var h = '<article class="sheet"><div class="tag">Physique-chimie · Fiche ' + (i + 1) + '</div>' +
+    '<h1>' + f.title + '<span class="badge-corr">Corrigé</span></h1>' +
+    '<div class="who"><span>Nom, prénom :</span><span>Classe :</span><span>Date :</span></div>' +
+    '<div class="obj"><b>Objectif :</b> ' + f.objectif + '</div>' +
+    '<h2>Le schéma</h2><figure>' + f.schema + '<figcaption>' + f.legende + '</figcaption></figure>' +
+    '<h2>Je retiens : complète</h2><ul>' + f.retiens.map(function (r) { return '<li>' + blanks(r) + '</li>'; }).join('') + '</ul>';
+  if (f.tableau) {
+    var T = f.tableau;
+    h += '<h2>Je complète le tableau</h2><table><thead><tr>' + T.head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      T.rows.map(function (r) { return '<tr>' + r.map(function (c, j) { return '<td' + (T.blank.indexOf(j) >= 0 ? ' class="bl"' : '') + '>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+  }
+  h += '<h2>Je m’exerce</h2><ol>' + f.exercices.map(function (e) {
+    var lines = ''; for (var k = 0; k < e.lines; k++) lines += '<i></i>';
+    return '<li>' + e.q + '<div class="lines">' + lines + '</div><div class="ans">' + e.a + '</div></li>';
+  }).join('') + '</ol><div class="foot">Animation : physique-animations.vercel.app/' + key + '/</div></article>';
+  wrap.innerHTML = h;
+  function setV(corr) {
+    document.body.classList.toggle('corr', corr);
+    document.getElementById('vEleve').setAttribute('aria-pressed', String(!corr));
+    document.getElementById('vCorr').setAttribute('aria-pressed', String(corr));
+  }
+  document.getElementById('vEleve').onclick = function () { setV(false); };
+  document.getElementById('vCorr').onclick = function () { setV(true); };
+  document.getElementById('bPrint').onclick = function () { window.print(); };
+  if (/[?&]corrige\b/.test(location.search)) setV(true);
+})();
+</script>
+</body>
+</html>

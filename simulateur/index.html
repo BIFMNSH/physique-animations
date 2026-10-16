@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Simulateur d'expériences · Physique-chimie en animations</title>
+<meta name="description" content="17 simulations d'expériences du programme de physique-chimie du cycle 4 : l'élève manipule, mesure, trace des courbes et imprime son compte rendu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/sim.css">
+</head>
+<body>
+
+<!-- Hub : toutes les simulations, filtrables par niveau et par thème -->
+<main class="home" id="hub">
+<div class="home-in">
+<header class="home-head">
+<div class="home-tools"><a class="tb-btn" href="../">← Animations</a><a class="tb-btn" href="../labo/">Labo virtuel (ions)</a><a class="tb-btn" href="../fiche/#simulations">Fiches élèves (A4)</a><button class="tb-btn" id="themeBtn" data-theme-btn></button></div>
+<span class="kicker">Physique-chimie · Cycle 4</span>
+<h1>Simulateur d’expériences</h1>
+<p>17 expériences du programme à manipuler à l’écran : l’élève règle, mesure, trace ses courbes et imprime son compte rendu. Souris ou doigt, avec ou sans réseau.</p>
+</header>
+<div class="hub-tools" id="fLevel" role="group" aria-label="Filtrer par niveau"></div>
+<div class="hub-tools" id="fTheme" role="group" aria-label="Filtrer par thème"></div>
+<section class="sgrid" id="grid" aria-label="Simulations"></section>
+<footer class="home-foot"><span>Chaque simulation a sa consigne, son tableau de mesures, sa courbe, son quiz, un compte rendu imprimable et une fiche élève A4 avec corrigé.</span></footer>
+</div>
+</main>
+
+<!-- Page d'une simulation -->
+<div class="app" id="runApp" hidden>
+<nav class="topbar" aria-label="Navigation">
+<a class="back" href="./">← <span class="lbl-t">Simulateur</span></a>
+<div class="crumb"><span class="num" id="cLv"></span><span class="ttl" id="cTtl"></span></div>
+<div class="grow"></div>
+<a class="tb-btn" id="ficheSim" aria-label="Fiche élève imprimable">Fiche élève</a>
+<a class="tb-btn" id="prevSim" aria-label="Simulation précédente">←</a>
+<a class="tb-btn" id="nextSim" aria-label="Simulation suivante"><span class="lbl">Suivante</span> →</a>
+<button class="tb-btn" data-fs aria-label="Plein écran"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button>
+</nav>
+<main class="viewport"><div class="stage"></div></main>
+</div>
+<div id="report"></div>
+
+<script src="../assets/player.js"></script>
+<script src="../assets/sim-index.js"></script>
+<script src="../assets/sim.js"></script>
+<script>
+(function () {
+  var IDX = window.SIM_INDEX, $ = function (id) { return document.getElementById(id); };
+  var s = (/[?&]s=([a-z0-9-]+)/.exec(location.search) || [])[1];
+  var meta = s && IDX.filter(function (m) { return m.slug === s; })[0];
+
+  if (!meta) { hub(); } else { runPage(); }
+
+  function hub() {
+    document.title = 'Simulateur d’expériences · Physique-chimie en animations';
+    $('themeBtn').onclick = function () { SiteTheme.toggle(); };
+    SiteTheme.set(SiteTheme.get()); registerSW();
+    var lv = 'tous', th = 'tous';
+    var LEVELS = [['tous', 'Tous les niveaux'], ['5e', '5e'], ['4e', '4e'], ['3e', '3e']];
+    var themes = [['tous', 'Tous les thèmes']];
+    IDX.forEach(function (m) { if (!themes.some(function (t) { return t[0] === m.theme; })) themes.push([m.theme, m.themeLabel]); });
+    function chips(box, list, get, set) {
+      box.innerHTML = list.map(function (x) { return '<button type="button" class="fchip" data-v="' + x[0] + '" aria-pressed="' + (get() === x[0]) + '">' + x[1] + '</button>'; }).join('');
+      box.querySelectorAll('button').forEach(function (b) { b.onclick = function () { set(b.getAttribute('data-v')); draw(); }; });
+    }
+    function draw() {
+      chips($('fLevel'), LEVELS, function () { return lv; }, function (v) { lv = v; });
+      chips($('fTheme'), themes, function () { return th; }, function (v) { th = v; });
+      var list = IDX.filter(function (m) { return (lv === 'tous' || m.level === lv) && (th === 'tous' || m.theme === th); });
+      $('grid').innerHTML = list.length ? list.map(function (m) {
+        return '<a class="scard lv' + m.level[0] + '" href="?s=' + m.slug + '"><div class="m"><span class="lv">' + m.level + '</span><span class="th">' + m.themeLabel + '</span></div>' +
+          '<h2>' + m.title + '</h2><p>' + m.summary + '</p><div class="exp">Expérience : ' + m.exp + ' · ~' + m.minutes + ' min</div><span class="go">Lancer la simulation →</span></a>';
+      }).join('') : '<p>Aucune simulation pour ce filtre.</p>';
+    }
+    draw();
+  }
+
+  function runPage() {
+    document.title = meta.title + ' · Simulateur · Physique-chimie en animations';
+    $('hub').hidden = true; $('runApp').hidden = false;
+    $('cLv').textContent = meta.level; $('cTtl').textContent = meta.title;
+    var i = IDX.indexOf(meta), pv = IDX[i - 1], nx = IDX[i + 1];
+    [[$('prevSim'), pv], [$('nextSim'), nx]].forEach(function (p) {
+      if (p[1]) p[0].setAttribute('href', '?s=' + p[1].slug); else { p[0].removeAttribute('href'); p[0].setAttribute('aria-disabled', 'true'); }
+    });
+    $('ficheSim').setAttribute('href', '../fiche/?s=' + meta.slug);
+    window.Shell();
+    /* portrait (tablette, téléphone) : mise en page verticale qui défile, à l'échelle de la largeur */
+    function fitSim() {
+      var vp = document.querySelector('.viewport'), r = vp.getBoundingClientRect(), app = $('runApp');
+      var portrait = r.width < 900 && r.height > r.width * 0.85;
+      app.classList.toggle('portrait', portrait);
+      if (portrait) document.querySelector('.stage').style.setProperty('--z', Math.max(0.3, Math.min(1.15, (r.width - 16) / 840)));
+    }
+    window.addEventListener('resize', fitSim); document.addEventListener('fullscreenchange', fitSim); fitSim();
+    var sc = document.createElement('script');
+    sc.src = '../assets/sim/' + meta.slug + '.js';
+    sc.onload = function () {
+      window.Sim.run(meta.slug, IDX);
+      var bx = document.querySelector('#pBilan .btns');
+      if (bx) { var a = document.createElement('a'); a.className = 'btn2'; a.textContent = 'Fiche élève (A4)'; a.href = '../fiche/?s=' + meta.slug; a.target = '_blank'; a.style.cssText = 'display:inline-flex;align-items:center;text-decoration:none'; bx.insertBefore(a, bx.lastChild); }
+    };
+    sc.onerror = function () { document.querySelector('.stage').innerHTML = '<p style="padding:40px;font-size:20px">Cette simulation n’a pas pu être chargée. Vérifie la connexion, puis recharge la page.</p>'; };
+    document.head.appendChild(sc);
+  }
+})();
+</script>
+</body>
+</html>

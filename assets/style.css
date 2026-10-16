@@ -1,0 +1,161 @@
+:root{
+  --app:#0A111E;--bg:#0E1626;--panel:#16213A;--line:#2B3A57;--line2:#3B4E73;--line3:#22304B;
+  --text:#EEF2F8;--muted:#A9B4C7;--soft:#C9D2E0;--blue:#5CC8FF;--focus:#FFB547;
+  color-scheme:dark;
+}
+/* Thème clair : pour projeter dans une salle lumineuse */
+:root[data-theme="light"]{
+  --app:#E3E8EF;--bg:#FFFFFF;--panel:#EEF2F7;--line:#CBD4E1;--line2:#AEB9CC;--line3:#DCE3EC;
+  --text:#142033;--muted:#55627A;--soft:#2F3C52;--blue:#1F8FD6;--focus:#C76A00;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ---------- Coque d'une page d'animation ---------- */
+.app{height:100vh;height:100dvh;display:flex;flex-direction:column;background:var(--app)}
+.topbar{height:56px;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--line3);background:var(--bg)}
+.topbar .back{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:20px;border:1.5px solid var(--line);color:var(--soft);text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap}
+.topbar .back:hover{border-color:var(--blue);color:var(--text)}
+.topbar .crumb{display:flex;align-items:baseline;gap:10px;min-width:0}
+.topbar .crumb .num{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em}
+.topbar .crumb .ttl{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .grow{flex:1}
+.topbar .tb-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;min-width:40px;padding:0 12px;border-radius:20px;border:1.5px solid var(--line);background:transparent;color:var(--soft);text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.topbar .tb-btn:hover{border-color:var(--blue);color:var(--text)}
+.topbar .tb-btn[aria-disabled="true"]{opacity:.35;pointer-events:none}
+.topbar .keys{font-size:12px;color:var(--muted);white-space:nowrap}
+@media (max-width:1240px){.topbar .keys{display:none}}
+@media (max-width:820px){.topbar .keys,.topbar .crumb .num,.topbar .lbl,.topbar .lbl-t{display:none}}
+@media (max-width:560px){.topbar .crumb{display:none}}
+
+.viewport{flex:1;position:relative;overflow:hidden}
+.stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center center;
+  background:var(--bg);display:flex;flex-direction:column;overflow:hidden;border-radius:calc(14px / var(--s,1));box-shadow:0 30px 80px rgba(0,0,0,.5)}
+:fullscreen .stage,.app.fs .stage{border-radius:0;box-shadow:none}
+
+/* ---------- Bandeau titre ---------- */
+.s-header{height:140px;flex-shrink:0;padding:30px 48px 0;display:flex;flex-direction:column;gap:8px}
+.eyebrow{display:flex;align-items:center;gap:12px}
+.eyebrow .kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.eyebrow .badge{font-size:13px;font-weight:700;color:#0E1626;background:var(--muted);border-radius:12px;padding:3px 12px;transition:background .6s}
+.cap{display:flex;flex-direction:column;gap:6px}
+.cap h1{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:36px;line-height:1.1;letter-spacing:-.01em}
+.cap p{margin:0;font-size:19px;line-height:1.4;color:var(--soft);max-width:1120px}
+.cap-in{animation:capin .7s ease both}
+
+.scene{position:relative;height:480px;flex-shrink:0}
+
+/* ---------- Pied : progression + commandes ---------- */
+.footer{height:100px;flex-shrink:0;padding:0 48px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.progress{height:4px;border-radius:2px;background:var(--line3);overflow:hidden}
+.progress-fill{height:100%;width:0;background:var(--blue)}
+.controls{display:flex;align-items:center;gap:8px}
+.chips{display:flex;gap:8px;margin-left:10px}
+.controls .grow{flex:1}
+.ctl{width:44px;height:44px;border-radius:50%;border:none;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.ctl.ghost{background:transparent;color:var(--text);border:1.5px solid var(--line2)}
+.chip{font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);background:transparent;border:1.5px solid var(--line);border-radius:22px;height:44px;padding:0 13px;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.chip:hover{border-color:var(--blue);color:var(--text)}
+.chip.done{color:var(--soft);border-color:var(--line2)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#0E1626}
+
+/* ---------- Animations partagées ---------- */
+@keyframes capin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes dash{to{stroke-dashoffset:-18}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes j1{0%{transform:translate(-7px,-4px)}50%{transform:translate(5px,6px)}100%{transform:translate(8px,-6px)}}
+@keyframes j2{0%{transform:translate(6px,5px)}50%{transform:translate(-6px,2px)}100%{transform:translate(-3px,-8px)}}
+@keyframes j3{0%{transform:translate(0,-8px)}50%{transform:translate(7px,3px)}100%{transform:translate(-7px,6px)}}
+@keyframes j4{0%{transform:translate(-8px,6px)}50%{transform:translate(2px,-7px)}100%{transform:translate(7px,4px)}}
+.pop{animation:pop .6s cubic-bezier(.2,1.4,.4,1) both}
+
+/* ---------- Page d'accueil ---------- */
+.home{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:56px 20px 40px}
+.home-in{width:100%;max-width:1120px;display:flex;flex-direction:column;gap:36px}
+.home-head{display:flex;flex-direction:column;gap:12px;text-align:center;align-items:center}
+.home-head .kicker{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.home-head h1{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,56px);line-height:1.05;letter-spacing:-.02em}
+.home-head p{margin:0;max-width:640px;font-size:18px;line-height:1.5;color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{display:flex;flex-direction:column;background:var(--panel);border:1.5px solid var(--line3);border-radius:18px;overflow:hidden;color:var(--text);text-decoration:none;transition:transform .25s,border-color .25s}
+.card:hover{transform:translateY(-3px);border-color:var(--blue)}
+.card .thumb{aspect-ratio:16/8;background:var(--bg);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line3)}
+.card .thumb svg{width:100%;height:100%}
+.card .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px}
+.card .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.card .tag{font-size:12px;font-weight:700;border-radius:10px;padding:3px 10px;background:var(--line3);color:var(--soft)}
+.card .tag.lvl{background:var(--blue);color:#0E1626}
+.card h2{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;line-height:1.15}
+.card p{margin:0;color:var(--soft);font-size:16px;line-height:1.45}
+.card .go{margin-top:4px;font-weight:700;color:var(--blue);font-size:15px}
+.home-foot{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;color:var(--muted);font-size:14px}
+.home-foot kbd{font:700 12px 'Atkinson Hyperlegible',sans-serif;border:1px solid var(--line2);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--soft)}
+
+/* Téléphone tenu en portrait : on invite à tourner l'écran */
+.viewport::after{content:"Tournez votre appareil pour agrandir l'animation";display:none;position:absolute;left:0;right:0;bottom:24px;text-align:center;font-size:14px;color:var(--muted)}
+@media (orientation:portrait) and (max-width:700px){.viewport::after{display:block}}
+/* 5e carte seule sur sa ligne : on la centre */
+@media (min-width:761px){.grid > .card:last-child:nth-child(odd){grid-column:1 / -1;max-width:calc(50% - 10px);justify-self:center;width:100%}}
+
+/* ---------- Thème clair : couleurs neutres des dessins SVG ---------- */
+:root[data-theme="light"] .stage:not(.sim-stage) [fill="#EEF2F8"]{fill:#142033}
+:root[data-theme="light"] .stage:not(.sim-stage) [stroke="#EEF2F8"]{stroke:#142033}
+:root[data-theme="light"] .stage:not(.sim-stage) [fill="#C9D2E0"]{fill:#2F3C52}
+:root[data-theme="light"] .stage:not(.sim-stage) [stroke="#C9D2E0"]{stroke:#55627A}
+:root[data-theme="light"] .stage:not(.sim-stage) [fill="#0E1626"]{fill:#FFFFFF}
+:root[data-theme="light"] .stage:not(.sim-stage) [fill="#232C40"],:root[data-theme="light"] .stage:not(.sim-stage) [fill="#1E2A44"]{fill:#E4E9F1}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#E2B744"]{fill:#8A6410}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#5CC8FF"]{fill:#0F6FA8}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#FFB547"]{fill:#A85A00}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#C4B5FD"]{fill:#5B3FC4}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#FCD34D"]{fill:#8A6300}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#FFE27A"]{fill:#8A6700}
+:root[data-theme="light"] .stage:not(.sim-stage) text[fill="#FDBA74"]{fill:#A3520A}
+:root[data-theme="light"] .stage:not(.sim-stage) [stroke="#C4B5FD"]{stroke:#7C5CE0}
+:root[data-theme="light"] .stage:not(.sim-stage) [stroke="#FCD34D"]{stroke:#D9A400}
+:root[data-theme="light"] .stage:not(.sim-stage) [stroke="#FFB547"]{stroke:#E08A00}
+:root[data-theme="light"] .stage{box-shadow:0 20px 50px rgba(20,32,51,.18)}
+:root[data-theme="light"] .tlabel{color:#8A6700!important}
+:root[data-theme="light"] .warn{background:#FDECEC!important}
+
+/* Fond sombre derrière les tubes à essais (même en thème clair) : on voit mieux les précipités blancs */
+.tube-card{position:absolute;background:#0B1220;border:1px solid #1E2A44;border-radius:16px}
+
+/* ---------- Quiz ---------- */
+.quiz{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(5,10,20,.66)}
+.quiz.open{display:flex}
+.quiz-card{width:100%;max-width:640px;max-height:100%;overflow:auto;background:var(--bg);color:var(--text);border-radius:20px;padding:22px 24px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.quiz-top{display:flex;align-items:center;justify-content:space-between}
+.quiz-k{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.quiz-x{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--text);font-size:24px;line-height:1;cursor:pointer}
+.quiz-bar{height:4px;border-radius:2px;background:var(--line3);overflow:hidden}
+.quiz-bar i{display:block;height:100%;background:var(--blue)}
+.quiz-q{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(20px,3.2vw,26px);line-height:1.2}
+.quiz-opts{display:flex;flex-direction:column;gap:10px}
+.quiz-opt{font:700 17px 'Atkinson Hyperlegible',sans-serif;display:flex;align-items:center;gap:12px;text-align:left;min-height:52px;padding:8px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}
+.quiz-opt:hover{border-color:var(--blue)}
+.quiz-l{width:30px;height:30px;border-radius:50%;background:var(--line3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.quiz-opt.right{border-color:#2FBF71;background:rgba(47,191,113,.16)}
+.quiz-opt.right .quiz-l{background:#2FBF71;color:#062312}
+.quiz-opt.wrong{border-color:#E5484D;background:rgba(229,72,77,.14)}
+.quiz-opt.wrong .quiz-l{background:#E5484D;color:#fff}
+.quiz-opt.dim{opacity:.55}
+.quiz-opt[aria-disabled="true"]{cursor:default}
+.quiz-fb{font-size:16px;line-height:1.45;color:var(--soft);min-height:1em}
+.quiz-actions{display:flex;gap:10px;flex-wrap:wrap}
+.quiz-go{font:700 16px 'Atkinson Hyperlegible',sans-serif;height:48px;padding:0 20px;border-radius:24px;border:none;background:var(--blue);color:#0E1626;cursor:pointer}
+.quiz-ghost{font:700 16px 'Atkinson Hyperlegible',sans-serif;height:48px;padding:0 20px;border-radius:24px;border:1.5px solid var(--line);background:transparent;color:var(--text);cursor:pointer}
+.quiz-score{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:64px;line-height:1;color:var(--blue)}
+.quiz-msg{margin:0;font-size:18px;color:var(--soft)}
+.topbar .quiz-btn{border-color:var(--blue);color:var(--text)}
+@media (max-width:980px){.topbar .tb-btn .lbl{display:none}}
+.home-tools{align-self:flex-end;display:flex;gap:8px;margin-bottom:-8px}
+.home-tools .tb-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 14px;border-radius:22px;border:1.5px solid var(--line);background:transparent;color:var(--soft);text-decoration:none;font-weight:700;font-size:14px;cursor:pointer}
+.home-tools .tb-btn:hover{border-color:var(--blue);color:var(--text)}

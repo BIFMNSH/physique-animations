@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>L'atome et sa composition · Physique-chimie en animations</title>
+<meta name="description" content="Animation : l'atome de chlore, son noyau (protons, neutrons), ses électrons et sa neutralité électrique.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.atom{position:absolute;left:160px;top:20px;width:440px;height:440px}
+.atom .shell{position:absolute;inset:0;border-radius:50%;border:2px dashed #6B8F5A;background:radial-gradient(circle,rgba(127,227,222,.08),rgba(127,227,222,0) 70%)}
+.nuc{position:absolute;left:160px;top:160px;width:120px;height:120px;border-radius:50%;transition:transform 1.2s cubic-bezier(.6,0,.2,1)}
+.zoom .nuc{transform:scale(2.4)}
+.nuc .core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#6C7A2E,#4A5520)}
+.nucleon{position:absolute;width:18px;height:18px;border-radius:50%;box-shadow:inset -2px -2px 4px rgba(0,0,0,.3),0 0 0 1px rgba(0,0,0,.25);color:#FFFFFF;font-size:13px;font-weight:700;line-height:18px;text-align:center}
+.nucleon.p{background:#D93A3F}.nucleon.n{background:#9AA5B8}
+.psign{opacity:0;transition:opacity .6s .6s}
+.zoom .psign{opacity:1}
+.nlabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-size:34px;font-weight:800;color:#FFFFFF;text-shadow:0 2px 6px rgba(0,0,0,.6);transition:opacity .6s}
+.zoom .nlabel{opacity:0}
+.elayer{position:absolute;left:220px;top:220px;width:0;height:0;transition:opacity .8s}
+.zoom .elayer{opacity:.15}
+.orb{position:absolute;left:0;top:0;width:0;height:0}
+.eball{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#7FE3DE,#1F9E99);box-shadow:0 0 0 1.5px #FFFFFF;color:#FFFFFF;font-size:16px;font-weight:700;line-height:19px;text-align:center;transition:box-shadow .6s}
+.count .eball{box-shadow:0 0 0 2px #FFFFFF,0 0 14px 4px rgba(127,227,222,.9)}
+.esign{opacity:0;transition:opacity .6s}
+.signs .esign{opacity:1}
+.panel{position:absolute;left:700px;top:20px;width:532px;display:flex;flex-direction:column;gap:14px}
+.row{background:var(--panel);border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateX(16px);transition:opacity .6s,transform .6s,box-shadow .6s}
+.r1 .row1,.r2 .row2,.r3 .row3,.r4 .row4{opacity:1;transform:none}
+.count .row2{box-shadow:0 0 0 3px #7FE3DE}
+.row .h{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.row .l{display:flex;align-items:center;gap:12px;font-size:19px}
+.pt{width:22px;height:22px;border-radius:50%;color:#FFFFFF;font-weight:700;text-align:center;line-height:22px;flex-shrink:0}
+.yel{background:#E3E85A;color:#1E2208;font-weight:700;border-radius:14px}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="topbar" aria-label="Navigation">
+<a class="back" href="../">← <span class="lbl-t">Animations</span></a>
+<div class="crumb"><span class="num">3 / 4</span><span class="ttl">L'atome et sa composition</span></div>
+<div class="grow"></div>
+<span class="keys">Espace : lecture · ← → : étapes · F : plein écran</span>
+<a class="tb-btn" href="../solutions/" aria-label="Animation précédente">←</a>
+<a class="tb-btn" href="../ions/" aria-label="Animation suivante"><span class="lbl">Suivante</span> →</a>
+<button class="tb-btn" data-fs aria-label="Plein écran"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button>
+</nav>
+<main class="viewport">
+<div class="stage">
+<header class="s-header">
+<div class="eyebrow"><span class="kicker">Physique-chimie · Constitution de la matière</span><span class="badge" data-badge></span></div>
+<div class="cap"><h1 data-cap-title></h1><p data-cap-text></p></div>
+</header>
+
+<div class="scene">
+<div class="atom">
+<div class="shell"></div>
+<div class="elayer" id="elayer"></div>
+<div class="nuc"><div class="core"></div><div id="nucleons"></div><div class="nlabel">17+</div></div>
+</div>
+<div style="position:absolute;left:160px;top:462px;width:440px;text-align:center;font-size:13px;color:var(--muted)">Modèle simplifié — dessin pas à l'échelle</div>
+
+<div class="panel">
+<div class="row row1">
+<div class="h">Le noyau</div>
+<div class="l"><span class="pt" style="background:#D93A3F">+</span><span><b>17 protons</b> : 17 charges positives</span></div>
+<div class="l"><span class="pt" style="background:#9AA5B8"></span><span><b>18 neutrons</b> : sans charge électrique</span></div>
+</div>
+<div class="row row2">
+<div class="h">Autour du noyau</div>
+<div class="l"><span class="pt" style="background:#1F9E99;line-height:21px">−</span><span><b>17 électrons</b> : 17 charges négatives</span></div>
+</div>
+<div class="row row3" style="flex-direction:row;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px"><div class="h">Bilan des charges</div><div style="font-size:26px;font-weight:700">17 − 17 = 0</div></div>
+<span class="yel" style="font-size:18px;padding:8px 18px">neutre</span>
+</div>
+<div class="row row4" style="background:transparent;flex-direction:row;align-items:center;gap:18px;padding:4px">
+<span class="yel" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;border-radius:12px;padding:2px 22px">Cl</span>
+<span style="font-size:20px;color:var(--soft)">symbole de l'atome de chlore</span>
+</div>
+</div>
+</div>
+
+<div class="footer"></div>
+</div>
+</main>
+</div>
+<script src="../assets/player.js"></script>
+<script>
+(function () {
+  function rnd(i) { var x = Math.sin(i * 12.9898 + 2.7) * 43758.5453; return x - Math.floor(x); }
+  var eh = '';
+  for (var i = 0; i < 17; i++) {
+    var r = 85 + ((i * 37) % 17) / 16 * 115, d = (7 + rnd(i + 3) * 9).toFixed(1), del = (rnd(i + 40) * 16).toFixed(1), rev = i % 2 === 1;
+    eh += '<div class="orb" style="animation:spin ' + d + 's linear -' + del + 's infinite' + (rev ? ' reverse' : '') + '">' +
+      '<div style="position:absolute;left:-10px;top:' + (-r - 10).toFixed(0) + 'px;width:20px;height:20px">' +
+      '<div class="eball" style="animation:spin ' + d + 's linear -' + del + 's infinite' + (rev ? '' : ' reverse') + '"><span class="esign">−</span></div></div></div>';
+  }
+  document.getElementById('elayer').innerHTML = eh;
+  var nh = '', n = 35, protons = 0;
+  for (var k = 0; k < n; k++) {
+    var rr = 50 * Math.sqrt((k + 0.5) / n), th = k * 2.39996, isP = k % 2 === 0 && protons < 17;
+    if (isP) protons++;
+    nh += '<div class="nucleon ' + (isP ? 'p' : 'n') + '" style="left:' + (60 + rr * Math.cos(th) - 9).toFixed(1) + 'px;top:' + (60 + rr * Math.sin(th) - 9).toFixed(1) + 'px">' + (isP ? '<span class="psign">+</span>' : '') + '</div>';
+  }
+  document.getElementById('nucleons').innerHTML = nh;
+  var B = 'L’atome', C = '#7FE3DE';
+  Player({
+    stepSeconds: 7,
+    steps: [
+      { chip: 'L’atome', badge: B, badgeColor: C, title: 'Un atome : l’atome de chlore', text: 'Toute la matière est faite d’atomes. Au centre se trouve un noyau ; autour, des électrons en mouvement.' },
+      { chip: 'Le noyau', badge: B, badgeColor: C, title: 'Le noyau', text: 'Il contient des protons, chargés positivement (17 pour le chlore), et des neutrons, sans charge (18 ici).' },
+      { chip: 'Les électrons', badge: B, badgeColor: C, title: 'Les électrons', text: 'Ils se déplacent autour du noyau. Chacun porte une charge négative. L’atome de chlore en possède 17.' },
+      { chip: 'Neutre', badge: B, badgeColor: C, title: 'Un atome est électriquement neutre', text: 'Il y a autant de charges + dans le noyau que d’électrons autour : 17 − 17 = 0.' },
+      { chip: 'Le symbole', badge: B, badgeColor: C, title: 'Son symbole : Cl', text: 'Chaque sorte d’atome a un symbole. En réalité le noyau est environ 100 000 fois plus petit que l’atome : l’atome est surtout du vide.' }
+    ],
+    flags: function (s) {
+      return [s === 1 && 'zoom', s >= 1 && 'r1', s >= 2 && 'r2', s >= 2 && 'signs', s === 2 && 'count', s >= 3 && 'r3', s >= 4 && 'r4'].filter(Boolean).join(' ');
+    }
+  });
+})();
+</script>
+</body>
+</html>

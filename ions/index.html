@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>La formation des ions · Physique-chimie en animations</title>
+<meta name="description" content="Animation : un atome gagne ou perd des électrons et devient un ion. Exemples de Cl⁻ et Na⁺.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.shell{position:absolute;left:160px;top:40px;width:400px;height:400px;border-radius:50%;border:2px dashed #6B8F5A;background:radial-gradient(circle,rgba(127,227,222,.08),rgba(127,227,222,0) 70%)}
+.elayer{position:absolute;left:360px;top:240px;width:0;height:0}
+.orb{position:absolute;left:0;top:0;width:0;height:0;transition:opacity .4s}
+.na .orb.extra{opacity:0}
+.eball{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#7FE3DE,#1F9E99);box-shadow:0 0 0 1.5px #FFFFFF;color:#FFFFFF;font-size:16px;font-weight:700;line-height:19px;text-align:center}
+.nucleus{position:absolute;left:300px;top:180px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#8A9A3C,#4A5520);box-shadow:inset -6px -8px 16px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-size:34px;font-weight:800;color:#FFFFFF;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.trav{position:absolute;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFF3B0,#E0B21E);box-shadow:0 0 0 2px #FFFFFF,0 0 18px 6px rgba(255,226,122,.8);color:#3A2C00;font-size:20px;font-weight:700;line-height:27px;text-align:center;transition:opacity .5s}
+.tlabel{position:absolute;left:470px;top:4px;width:210px;text-align:center;font-size:18px;font-weight:700;color:#FFE27A;transition:opacity .5s}
+.arw{opacity:0;transition:opacity .5s}
+.arrive .arw-in,.leave .arw-out{opacity:1}
+.panel{position:absolute;left:770px;top:20px;width:462px;display:flex;flex-direction:column;gap:14px;transition:opacity .4s}
+.summary .card-p{opacity:0;pointer-events:none}
+.sum-p{opacity:0}
+.summary .sum-p{opacity:1}
+.box{background:var(--panel);border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:6px;transition:background .6s,box-shadow .6s}
+.changed .ehl{background:rgba(255,226,122,.16);box-shadow:0 0 0 2px #FFE27A}
+.box .h{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.box .l{display:flex;align-items:center;gap:12px;font-size:19px}
+.pt{width:22px;height:22px;border-radius:50%;color:#FFFFFF;font-weight:700;text-align:center;line-height:22px;flex-shrink:0}
+.sym{color:#1E2208;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;border-radius:12px;padding:2px 22px;min-width:60px;text-align:center;transition:background .6s}
+.stat{color:#1E2208;font-weight:700;font-size:18px;border-radius:14px;padding:8px 18px;white-space:nowrap;transition:background .6s}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="topbar" aria-label="Navigation">
+<a class="back" href="../">← <span class="lbl-t">Animations</span></a>
+<div class="crumb"><span class="num">4 / 4</span><span class="ttl">La formation des ions</span></div>
+<div class="grow"></div>
+<span class="keys">Espace : lecture · ← → : étapes · F : plein écran</span>
+<a class="tb-btn" href="../atome/" aria-label="Animation précédente">←</a>
+<a class="tb-btn" aria-disabled="true" aria-label="Animation suivante"><span class="lbl">Suivante</span> →</a>
+<button class="tb-btn" data-fs aria-label="Plein écran"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg></button>
+</nav>
+<main class="viewport">
+<div class="stage">
+<header class="s-header">
+<div class="eyebrow"><span class="kicker">Physique-chimie · Constitution de la matière</span><span class="badge" data-badge style="color:#1E2208"></span></div>
+<div class="cap"><h1 data-cap-title></h1><p data-cap-text></p></div>
+</header>
+
+<div class="scene">
+<div class="shell"></div>
+<div class="elayer" id="elayer"></div>
+<div class="nucleus" id="nucleus">17+</div>
+<svg width="1280" height="480" viewBox="0 0 1280 480" style="position:absolute;left:0;top:0;pointer-events:none" aria-hidden="true">
+<defs><marker id="mY" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#FFE27A"/></marker></defs>
+<line class="arw arw-in" x1="684" y1="54" x2="545" y2="134" stroke="#FFE27A" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#mY)"/>
+<line class="arw arw-out" x1="545" y1="134" x2="684" y2="54" stroke="#FFE27A" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#mY)"/>
+</svg>
+<div class="trav" id="trav">−</div>
+<div class="tlabel" id="tlabel"></div>
+<div style="position:absolute;left:160px;top:452px;width:400px;text-align:center;font-size:13px;color:var(--muted)">Modèle simplifié — dessin pas à l'échelle</div>
+
+<div class="panel card-p">
+<div style="display:flex;align-items:center;gap:18px"><span class="sym" id="sym">Cl</span><span style="font-size:22px;font-weight:700" id="name">atome de chlore</span></div>
+<div class="box"><div class="h">Noyau (inchangé)</div><div class="l"><span class="pt" style="background:#D93A3F">+</span><span id="nucTxt"></span></div></div>
+<div class="box ehl"><div class="h">Autour du noyau</div><div class="l"><span class="pt" style="background:#1F9E99;line-height:21px">−</span><span id="eTxt"></span></div></div>
+<div class="box" style="flex-direction:row;align-items:center;justify-content:space-between;gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px"><div class="h">Bilan des charges</div><div style="font-size:26px;font-weight:700" id="calc"></div></div>
+<span class="stat" id="stat"></span>
+</div>
+</div>
+<div class="panel sum-p">
+<div class="box" style="padding:18px 20px;gap:8px"><div class="h">Électron(s) gagné(s)</div><div style="font-size:24px;font-weight:700">Cl + 1 e⁻ → Cl⁻</div><div style="font-size:18px;color:var(--soft)">ion négatif : un <b style="color:#FCA5A5">anion</b></div></div>
+<div class="box" style="padding:18px 20px;gap:8px"><div class="h">Électron(s) perdu(s)</div><div style="font-size:24px;font-weight:700">Na → Na⁺ + 1 e⁻</div><div style="font-size:18px;color:var(--soft)">ion positif : un <b style="color:#93C5FD">cation</b></div></div>
+<div style="background:#E3E85A;color:#1E2208;border-radius:14px;padding:16px 20px;font-size:19px;font-weight:700;line-height:1.35">Le noyau ne change jamais : seul le nombre d'électrons change.</div>
+</div>
+</div>
+
+<div class="footer"></div>
+</div>
+</main>
+</div>
+<script src="../assets/player.js"></script>
+<script>
+(function () {
+  function rnd(i) { var x = Math.sin(i * 12.9898 + 5.1) * 43758.5453; return x - Math.floor(x); }
+  var eh = '';
+  for (var i = 0; i < 17; i++) {
+    var r = 82 + ((i * 37) % 17) / 16 * 98, d = (7 + rnd(i + 3) * 9).toFixed(1), del = (rnd(i + 40) * 16).toFixed(1), rev = i % 2 === 1;
+    eh += '<div class="orb' + (i >= 10 ? ' extra' : '') + '" style="animation:spin ' + d + 's linear -' + del + 's infinite' + (rev ? ' reverse' : '') + '">' +
+      '<div style="position:absolute;left:-10px;top:' + (-r - 10).toFixed(0) + 'px;width:20px;height:20px">' +
+      '<div class="eball" style="animation:spin ' + d + 's linear -' + del + 's infinite' + (rev ? '' : ' reverse') + '">−</div></div></div>';
+  }
+  document.getElementById('elayer').innerHTML = eh;
+  var $ = function (id) { return document.getElementById(id); };
+  var trav = $('trav'), tlabel = $('tlabel');
+
+  var NEUTRE = '#E3E85A', NEG = '#FCA5A5', POS = '#93C5FD';
+  var data = [
+    { sym: 'Cl', name: 'atome de chlore', nuc: '17+', nt: '17 charges positives (protons)', e: '17 électrons', calc: '17 − 17 = 0', st: 'neutre', col: NEUTRE },
+    { sym: 'Cl', name: 'atome de chlore', nuc: '17+', nt: '17 charges positives (protons)', e: '17 électrons + 1 qui arrive…', calc: '17 − 17 = 0', st: 'neutre', col: NEUTRE },
+    { sym: 'Cl⁻', name: 'ion chlorure', nuc: '17+', nt: '17 charges positives (protons)', e: '18 électrons', calc: '17 − 18 = −1', st: 'négatif', col: NEG },
+    { sym: 'Na', name: 'atome de sodium', nuc: '11+', nt: '11 charges positives (protons)', e: '11 électrons', calc: '11 − 11 = 0', st: 'neutre', col: NEUTRE },
+    { sym: 'Na', name: 'atome de sodium', nuc: '11+', nt: '11 charges positives (protons)', e: '11 électrons − 1 qui part…', calc: '11 − 11 = 0', st: 'neutre', col: NEUTRE },
+    { sym: 'Na⁺', name: 'ion sodium', nuc: '11+', nt: '11 charges positives (protons)', e: '10 électrons', calc: '11 − 10 = +1', st: 'positif', col: POS },
+    { sym: 'Na⁺', name: 'ion sodium', nuc: '11+', nt: '', e: '', calc: '', st: '', col: POS }
+  ];
+  var lastSym = '';
+  function ease(p) { return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; }
+  function clamp(p) { return Math.max(0, Math.min(1, p)); }
+
+  Player({
+    stepSeconds: 7,
+    steps: [
+      { chip: 'Atome Cl', badge: 'Atome neutre', badgeColor: NEUTRE, title: 'L’atome de chlore', text: 'Son noyau porte 17 charges positives. Autour, 17 électrons : l’atome est électriquement neutre.' },
+      { chip: 'Gain', badge: 'Gain d’électron', badgeColor: NEUTRE, title: 'Un électron arrive…', text: 'L’atome de chlore capte un électron supplémentaire. Son noyau, lui, ne change pas.' },
+      { chip: 'Ion Cl⁻', badge: 'Anion', badgeColor: NEG, title: 'L’ion chlorure Cl⁻', text: 'Il a 18 électrons pour 17 charges + : il porte une charge −1. C’est un ion négatif, un anion.' },
+      { chip: 'Atome Na', badge: 'Atome neutre', badgeColor: NEUTRE, title: 'L’atome de sodium', text: 'Son noyau porte 11 charges positives. Autour, 11 électrons : l’atome est neutre. L’électron en jaune va partir.' },
+      { chip: 'Perte', badge: 'Perte d’électron', badgeColor: NEUTRE, title: 'Un électron s’en va…', text: 'L’atome de sodium perd un électron. Son noyau ne change pas.' },
+      { chip: 'Ion Na⁺', badge: 'Cation', badgeColor: POS, title: 'L’ion sodium Na⁺', text: 'Il lui reste 10 électrons pour 11 charges + : il porte une charge +1. C’est un ion positif, un cation.' },
+      { chip: 'À retenir', badge: 'À retenir', badgeColor: '#7FE3DE', title: 'À retenir', text: 'Un ion est un atome qui a gagné ou perdu un ou plusieurs électrons. Électron gagné : ion négatif. Électron perdu : ion positif.' }
+    ],
+    flags: function (s) {
+      return [s === 1 && 'arrive', s >= 3 && 'na', s === 4 && 'leave', (s === 2 || s === 5) && 'changed', s === 6 && 'summary'].filter(Boolean).join(' ');
+    },
+    onStep: function (s) {
+      var d = data[s];
+      $('nucleus').textContent = d.nuc;
+      $('name').textContent = d.name; $('nucTxt').textContent = d.nt; $('eTxt').textContent = d.e; $('calc').textContent = d.calc;
+      $('stat').textContent = d.st; $('stat').style.background = d.col;
+      var sym = $('sym'); sym.textContent = d.sym; sym.style.background = d.col;
+      if (d.sym !== lastSym) { sym.classList.remove('pop'); void sym.offsetWidth; sym.classList.add('pop'); lastSym = d.sym; }
+    },
+    onTick: function (t, s, local) {
+      var th = 0.6 * t - 0.5, ox = 360 + 150 * Math.cos(th), oy = 240 + 150 * Math.sin(th), sx = 700, sy = 44;
+      var x = ox, y = oy, op = 1, lab = '', lop = 0, p;
+      if (s === 0) { x = sx; y = sy; op = 0; }
+      else if (s === 1) { p = ease(clamp((local - 0.6) / 3)); x = sx + (ox - sx) * p; y = sy + (oy - sy) * p; lab = '+ 1 électron gagné'; lop = 1; }
+      else if (s === 4) { p = ease(clamp((local - 0.6) / 3)); x = ox + (sx - ox) * p; y = oy + (sy - oy) * p; lab = '− 1 électron perdu'; lop = 1; }
+      else if (s >= 5) { x = sx; y = sy; op = 0.7; lab = 'électron perdu'; lop = 0.8; }
+      trav.style.left = (x - 14) + 'px'; trav.style.top = (y - 14) + 'px'; trav.style.opacity = op;
+      if (tlabel.textContent !== lab) tlabel.textContent = lab;
+      tlabel.style.opacity = lop;
+    }
+  });
+})();
+</script>
+</body>
+</html>
