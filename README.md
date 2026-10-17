@@ -11,3 +11,5 @@ Site statique (HTML/CSS/JS, sans étape de build) : animations pas à pas, labo 
 - `sw.js` : cache hors-ligne (augmenter `VERSION` à chaque mise à jour)
 
 Déploiement : Vercel, projet `physique-animations` (aucune commande de build, dossier racine).
+
+<!-- déploiement Vercel : relance depuis Git -->
