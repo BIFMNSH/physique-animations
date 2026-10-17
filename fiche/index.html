@@ -96,7 +96,7 @@ body{background:var(--app)}
   document.getElementById('themeBtn').onclick = function () { SiteTheme.toggle(); };
   SiteTheme.set(SiteTheme.get()); registerSW();
   var m = /[?&]a=([a-z]+)/.exec(location.search), key = m && C.fiches[m[1]] ? m[1] : null;
-  var ms = /[?&]s=([a-z-]+)/.exec(location.search);
+  var ms = /[?&]s=([a-z0-9-]+)/.exec(location.search);
   if (ms && !key) { simSheet(ms[1]); return; }
 
   function simSheet(slug) {

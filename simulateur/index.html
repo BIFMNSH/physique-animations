@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
 <title>Simulateur d'expériences · Physique-chimie en animations</title>
-<meta name="description" content="17 simulations d'expériences du programme de physique-chimie du cycle 4 : l'élève manipule, mesure, trace des courbes et imprime son compte rendu.">
+<meta name="description" content="26 simulations d'expériences du programme de physique-chimie du cycle 4 : l'élève manipule, mesure, trace des courbes et imprime son compte rendu.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
@@ -21,7 +21,7 @@
 <div class="home-tools"><a class="tb-btn" href="../">← Animations</a><a class="tb-btn" href="../labo/">Labo virtuel (ions)</a><a class="tb-btn" href="../fiche/#simulations">Fiches élèves (A4)</a><button class="tb-btn" id="themeBtn" data-theme-btn></button></div>
 <span class="kicker">Physique-chimie · Cycle 4</span>
 <h1>Simulateur d’expériences</h1>
-<p>17 expériences du programme à manipuler à l’écran : l’élève règle, mesure, trace ses courbes et imprime son compte rendu. Souris ou doigt, avec ou sans réseau.</p>
+<p>26 expériences du programme à manipuler à l’écran : l’élève règle, mesure, trace ses courbes et imprime son compte rendu. Souris ou doigt, avec ou sans réseau.</p>
 </header>
 <div class="hub-tools" id="fLevel" role="group" aria-label="Filtrer par niveau"></div>
 <div class="hub-tools" id="fTheme" role="group" aria-label="Filtrer par thème"></div>
@@ -60,7 +60,7 @@
     document.title = 'Simulateur d’expériences · Physique-chimie en animations';
     $('themeBtn').onclick = function () { SiteTheme.toggle(); };
     SiteTheme.set(SiteTheme.get()); registerSW();
-    var lv = 'tous', th = 'tous';
+    var lv = (/[?&]niveau=(5e|4e|3e)/.exec(location.search) || [])[1] || 'tous', th = 'tous';
     var LEVELS = [['tous', 'Tous les niveaux'], ['5e', '5e'], ['4e', '4e'], ['3e', '3e']];
     var themes = [['tous', 'Tous les thèmes']];
     IDX.forEach(function (m) { if (!themes.some(function (t) { return t[0] === m.theme; })) themes.push([m.theme, m.themeLabel]); });
@@ -74,7 +74,7 @@
       var list = IDX.filter(function (m) { return (lv === 'tous' || m.level === lv) && (th === 'tous' || m.theme === th); });
       $('grid').innerHTML = list.length ? list.map(function (m) {
         return '<a class="scard lv' + m.level[0] + '" href="?s=' + m.slug + '"><div class="m"><span class="lv">' + m.level + '</span><span class="th">' + m.themeLabel + '</span></div>' +
-          '<h2>' + m.title + '</h2><p>' + m.summary + '</p><div class="exp">Expérience : ' + m.exp + ' · ~' + m.minutes + ' min</div><span class="go">Lancer la simulation →</span></a>';
+          (m.prog ? '<span class="th" style="color:var(--blue)">Programme MENA</span>' : '') + '<h2>' + m.title + '</h2><p>' + m.summary + '</p><div class="exp">Expérience : ' + m.exp + ' · ~' + m.minutes + ' min</div><span class="go">Lancer la simulation →</span></a>';
       }).join('') : '<p>Aucune simulation pour ce filtre.</p>';
     }
     draw();
