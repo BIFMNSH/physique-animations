@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');document.documentElement.setAttribute('data-theme',p.theme==='light'?'light':'dark')}catch(e){}</script>
+<title>Parcours 4e · Physique-chimie en animations</title>
+<meta name="description" content="Physique-chimie 4e (programme MENA, Côte d’Ivoire) : chaque leçon a un résumé vidéo narré d’une minute, une simulation à manipuler, un défi chronométré en équipes et un quiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/studio/studio.css">
+</head>
+<body class="hubp">
+<main class="hub">
+<div class="hubin">
+  <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <a class="btn" href="../">← Accueil</a>
+    <nav class="steps" aria-label="Niveaux">
+      <button type="button" disabled title="Bientôt">6e</button>
+      <button type="button" disabled title="Bientôt">5e</button>
+      <button type="button" aria-current="step">4e</button>
+      <button type="button" id="go3">3e</button>
+    </nav>
+    <div style="flex:1"></div>
+    <button class="btn" id="theme" type="button"></button>
+  </header>
+
+  <section class="hero">
+    <div style="flex:1 1 520px;display:flex;flex-direction:column;gap:10px;justify-content:center">
+      <span class="kick">Physique-chimie · 4e · programme MENA</span>
+      <h1>Comprendre en 1 minute,<br>puis expérimenter.</h1>
+      <p>13 leçons de la progression officielle. Chacune aura un résumé vidéo narré, une simulation à manipuler, un défi à relever seul ou en équipes, et un quiz.</p>
+    </div>
+    <div class="greet" id="greet"></div>
+  </section>
+
+  <section class="themes" id="themes" aria-label="Thèmes et leçons"></section>
+
+  <section class="chips">
+    <span class="kick">Dans chaque leçon</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--blue)" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Résumé vidéo · 1 min</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.4" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>Simulation</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>Défi chronométré</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2.4" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Fiche + quiz</span>
+    <span style="flex:1"></span>
+    <span style="font-size:14px;color:var(--muted)">Fonctionne sans réseau une fois ouverte</span>
+  </section>
+</div>
+</main>
+<script src="../assets/studio/studio.js"></script>
+<script>
+(function () {
+  var S = window.Studio, P = S.progress;
+  var TH = [
+    { nm: 'Optique', col: 'var(--blue)', on: '#0E1626', ic: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>', les: ['Sources et récepteurs de lumière', 'Propagation de la lumière', 'Les phases de la Lune et les éclipses', 'Analyse et synthèse de la lumière blanche'] },
+    { nm: 'Courants et tensions alternatifs', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M2 12c2.5-6 5-6 7.5 0s5 6 7.5 0 3.5-4 5-2"/>', les: ['Aimant et bobine', { t: 'Production d’une tension alternative', id: '4e-tension-alternative', href: '../lecon/?l=tension-alternative' }, 'Tension alternative sinusoïdale', 'Dangers du courant du secteur', 'Transformation, redressement et lissage'] },
+    { nm: 'Les ions', col: 'var(--violet)', on: '#1B1238', ic: '<circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>', les: ['Atomes et ions', 'Transformation d’un métal en ion et inversement'] },
+    { nm: 'Eau potable', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3C8 9 6 12 6 15a6 6 0 0 0 12 0c0-3-2-6-6-12z"/>', les: ['Traitement de l’eau', 'Qualité de l’eau'] }
+  ];
+  function steps(id) { var p = P[id] || {}; return ['resume', 'sim', 'defi', 'quiz'].filter(function (k) { return p[k]; }).length; }
+  var box = document.getElementById('themes');
+  box.innerHTML = TH.map(function (t) {
+    var avail = t.les.filter(function (l) { return typeof l === 'object'; }), done = avail.reduce(function (a, l) { return a + steps(l.id); }, 0), max = t.les.length * 4;
+    return '<article class="theme' + (avail.length ? ' cur' : '') + '"><div class="hd"><span class="ic" style="background:' + t.col + '"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="' + t.on + '" stroke-width="2.4" aria-hidden="true">' + t.ic + '</svg></span><div style="display:flex;flex-direction:column"><b style="font:800 18px var(--f-display)">' + t.nm + '</b><span style="font-size:12px;color:var(--muted)">' + t.les.length + ' leçons' + (avail.length ? ' · ' + avail.length + ' disponible' : ' · bientôt') + '</span></div></div>' +
+      '<div class="bar"><i style="width:' + Math.round(done / max * 100) + '%;background:' + t.col + '"></i></div><div style="display:flex;flex-direction:column;gap:2px">' +
+      t.les.map(function (l) {
+        if (typeof l === 'object') { var n = steps(l.id); return '<a class="les" href="' + l.href + '"><span class="st" style="color:' + (n === 4 ? 'var(--green)' : 'var(--amber)') + '">' + (n === 4 ? '●' : '▸') + '</span><b style="color:var(--text)">' + l.t + '</b><span class="new">' + (n ? n + '/4' : 'Nouveau') + '</span></a>'; }
+        return '<div class="les"><span class="st" style="color:var(--dim)">○</span>' + l + '<span class="soon">bientôt</span></div>';
+      }).join('') + '</div></article>';
+  }).join('');
+  var last = P.last === '4e-tension-alternative', n = steps('4e-tension-alternative');
+  document.getElementById('greet').innerHTML = S.lumi(96, 'happy2') + '<div style="display:flex;flex-direction:column;gap:6px"><b style="font:800 20px var(--f-display)">Salut, moi c’est Lumi !</b><span style="font-size:15px;line-height:1.4;color:var(--soft)">' + (last && n ? 'On reprend : <b style="color:var(--text)">Production d’une tension alternative</b> (' + n + '/4 étapes).' : 'Première leçon disponible : <b style="color:var(--text)">Production d’une tension alternative</b>.') + '</span><a class="btn primary" style="align-self:flex-start" href="../lecon/?l=tension-alternative">' + (last && n ? 'Continuer ▸' : 'Commencer ▸') + '</a></div>';
+  var tb = document.getElementById('theme');
+  function paint() { tb.textContent = S.settings.theme === 'light' ? 'Thème sombre' : 'Thème clair'; }
+  tb.onclick = function () { S.settings.theme = S.settings.theme === 'light' ? 'dark' : 'light'; S.applySettings(); paint(); };
+  S.applySettings(); paint();
+  document.getElementById('go3').onclick = function () { location.href = '../simulateur/?niveau=3e'; };
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('../sw.js').catch(function () {});
+})();
+</script>
+</body>
+</html>

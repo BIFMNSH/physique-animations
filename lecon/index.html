@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');document.documentElement.setAttribute('data-theme',(p.theme==='light'?'light':'dark')||localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Leçon · Physique-chimie en animations</title>
+<meta name="description" content="Leçon de physique-chimie : résumé vidéo narré, simulation à manipuler, défi chronométré en équipes et quiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/studio/studio.css">
+</head>
+<body>
+<noscript><p style="padding:40px;font-size:20px">Cette leçon a besoin de JavaScript.</p></noscript>
+<script src="../assets/studio/studio.js"></script>
+<script>
+(function () {
+  var LESSONS = { 'tension-alternative': '../assets/studio/lecons/tension-alternative.js' };
+  var l = (/[?&]l=([a-z0-9-]+)/.exec(location.search) || [])[1] || 'tension-alternative';
+  var src = LESSONS[l];
+  if (!src) { document.body.innerHTML = '<p style="padding:40px;font-size:20px">Cette leçon n’existe pas encore. <a href="../4e/">Retour au parcours</a></p>'; return; }
+  var sc = document.createElement('script'); sc.src = src;
+  sc.onerror = function () { document.body.innerHTML = '<p style="padding:40px;font-size:20px">La leçon n’a pas pu être chargée. Vérifie la connexion puis recharge la page.</p>'; };
+  document.body.appendChild(sc);
+})();
+</script>
+</body>
+</html>

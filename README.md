@@ -7,6 +7,7 @@ Site statique (HTML/CSS/JS, sans étape de build) : animations pas à pas, labo 
 - `labo/` : labo virtuel d'identification des ions
 - `simulateur/`, `fiche/` : simulateur d'expériences et fiches élèves
 - `simulateur/?niveau=3e` : 9 simulations de 3e du programme ivoirien MENA (forces, équilibre, travail, électrolyse, alcanes, combustions, réduction, lentilles, œil) dans `assets/sim/` ; `pack-3e/` redirige vers elles
+- `4e/` : parcours 4e (programme MENA) ; `lecon/?l=<leçon>` : leçon « studio » (résumé vidéo narré, simulation, défi en équipes, quiz) — moteur `assets/studio/studio.js`, contenus `assets/studio/lecons/`
 - `assets/` : styles et scripts communs
 - `sw.js` : cache hors-ligne (augmenter `VERSION` à chaque mise à jour)
 
