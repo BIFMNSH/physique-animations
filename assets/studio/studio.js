@@ -292,6 +292,45 @@
     show();
   }
 
+
+  /* ---------- trousse pour les scènes des résumés vidéo ---------- */
+  var kit = {
+    fade: function (t, a, b, f) { f = f || 0.6; return clamp(Math.min((t - a) / f, (b - t) / f), 0, 1); },
+    k: function (t, a, d) { return ease(clamp((t - a) / (d || 0.6), 0, 1)); },
+    arrow: function (x0, y0, x1, y1, w, hw, hl) {
+      var dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy); if (L < 2) return '';
+      var ux = dx / L, uy = dy / L, nx = -uy, ny = ux; hl = Math.min(hl || 14, L * 0.6); hw = hw || 8; w = w || 2.5;
+      var bx = x1 - ux * hl, by = y1 - uy * hl;
+      return 'M' + (x0 + nx * w) + ' ' + (y0 + ny * w) + 'L' + (bx + nx * w) + ' ' + (by + ny * w) + 'L' + (bx + nx * hw) + ' ' + (by + ny * hw) + 'L' + x1 + ' ' + y1 + 'L' + (bx - nx * hw) + ' ' + (by - ny * hw) + 'L' + (bx - nx * w) + ' ' + (by - ny * w) + 'L' + (x0 - nx * w) + ' ' + (y0 - ny * w) + 'Z';
+    },
+    tagger: function (G) {
+      var g = s('g', { opacity: 0 }, G), r = s('rect', { rx: 18, height: 40, fill: 'var(--amber)' }, g), t = s('text', { 'font-size': 18, 'font-weight': 800, fill: 'var(--on-amber)', 'text-anchor': 'middle' }, g), on = false;
+      return {
+        begin: function () { on = false; },
+        show: function (tt, a, b, x, y, txt) { if (on || tt < a || tt > b) return false; on = true; g.setAttribute('opacity', kit.fade(tt, a, b, 0.4)); t.textContent = txt; var w = txt.length * 9.4 + 32; attr(r, { x: x - w / 2, y: y - 28, width: w }); attr(t, { x: x, y: y - 2 }); return true; },
+        end: function () { if (!on) g.setAttribute('opacity', 0); g.parentNode.appendChild(g); }
+      };
+    },
+    chapter: function (G, chapters) {
+      var g = s('g', {}, G), r = s('rect', { x: 24, y: 18, height: 40, rx: 20, fill: 'var(--scene2)' }, g), tx = s('text', { x: 44, y: 44, 'font-size': 17, 'font-weight': 700, fill: 'var(--scene-text)' }, g);
+      return function (t) { var i = 0; chapters.forEach(function (c, j) { if (t >= c.t) i = j; }); var txt = 'Chapitre ' + (i + 1) + ' · ' + chapters[i].title; if (tx.textContent !== txt) { tx.textContent = txt; r.setAttribute('width', txt.length * 8.6 + 40); } g.parentNode.appendChild(g); };
+    },
+    cards: function (G, list, times) {
+      var gs = list.map(function (c, i) {
+        var y = 70 + i * (list.length > 3 ? 92 : 120), hgt = list.length > 3 ? 80 : 100, cg = s('g', { opacity: 0 }, G);
+        s('rect', { x: 120, y: y, width: 700, height: hgt, rx: 20, fill: 'var(--scene2)', stroke: c[2] || 'var(--amber)', 'stroke-width': 3 }, cg);
+        s('circle', { cx: 170, cy: y + hgt / 2, r: 24, fill: c[2] || 'var(--amber)' }, cg);
+        s('text', { x: 170, y: y + hgt / 2 + 9, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 800, fill: '#141C2E', 'font-family': 'Bricolage Grotesque, sans-serif', text: String(i + 1) }, cg);
+        var t1 = s('text', { x: 212, y: y + hgt / 2 - 6, 'font-size': 23, 'font-weight': 800, fill: 'var(--scene-text)' }, cg); t1.innerHTML = c[0].replace(/<b>/g, '<tspan fill="#FFB547">').replace(/<\/b>/g, '</tspan>');
+        s('text', { x: 212, y: y + hgt / 2 + 24, 'font-size': 17, fill: 'var(--scene-muted)', text: c[1] }, cg);
+        return cg;
+      });
+      return function (t) { gs.forEach(function (cg, i) { var k = clamp((t - times[i]) / 0.6, 0, 1); cg.setAttribute('opacity', t < times[0] - 0.5 ? 0 : k); cg.setAttribute('transform', 'translate(' + (40 * (1 - ease(k))) + ' 0)'); }); };
+    },
+    group: function (G, t, a, b, f) { var o = kit.fade(t, a, b, f || 0.6); G.setAttribute('opacity', o); G.style.display = o > 0 ? '' : 'none'; return o > 0; },
+    sine: function (x0, w, y0, amp, per, ph, step) { var d = ''; step = step || 2; for (var px = 0; px <= w; px += step) d += (px ? 'L' : 'M') + (x0 + px).toFixed(1) + ' ' + (y0 - amp * Math.sin(2 * Math.PI * per * px / w + (ph || 0))).toFixed(1); return d; }
+  };
+
   /* ================== LA LEÇON ================== */
   function start(L) {
     var app = document.documentElement; app.classList.add('app');
@@ -737,5 +776,5 @@
     return { enter: function () {}, leave: function () { run = false; } };
   }
 
-  window.Studio = { start: start, h: h, s: s, attr: attr, fmt: fmt, esc: esc, clamp: clamp, ease: ease, lumi: lumi, settings: SET, prof: PROF, progress: PROG, applySettings: applySettings, onSettings: onSettings, loop: loop, speak: speak, sound: sound, confetti: confetti, chart: chart, gauss: gauss, store: store, save: save };
+  window.Studio = { start: start, kit: kit, h: h, s: s, attr: attr, fmt: fmt, esc: esc, clamp: clamp, ease: ease, lumi: lumi, settings: SET, prof: PROF, progress: PROG, applySettings: applySettings, onSettings: onSettings, loop: loop, speak: speak, sound: sound, confetti: confetti, chart: chart, gauss: gauss, store: store, save: save };
 })();

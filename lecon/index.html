@@ -14,14 +14,14 @@
 <body>
 <noscript><p style="padding:40px;font-size:20px">Cette leçon a besoin de JavaScript.</p></noscript>
 <script src="../assets/studio/studio.js"></script>
+<script src="../assets/studio/programme.js"></script>
 <script>
 (function () {
-  var LESSONS = { 'tension-alternative': '../assets/studio/lecons/tension-alternative.js' };
-  var l = (/[?&]l=([a-z0-9-]+)/.exec(location.search) || [])[1] || 'tension-alternative';
-  var src = LESSONS[l];
-  if (!src) { document.body.innerHTML = '<p style="padding:40px;font-size:20px">Cette leçon n’existe pas encore. <a href="../4e/">Retour au parcours</a></p>'; return; }
-  var sc = document.createElement('script'); sc.src = src;
-  sc.onerror = function () { document.body.innerHTML = '<p style="padding:40px;font-size:20px">La leçon n’a pas pu être chargée. Vérifie la connexion puis recharge la page.</p>'; };
+  var l = (/[?&]l=([a-z0-9-]+)/.exec(location.search) || [])[1] || 'tension-alternative', ok = false;
+  Object.keys(window.PROGRAMME).forEach(function (lv) { window.PROGRAMME[lv].forEach(function (th) { th.les.forEach(function (x) { if (x.slug === l && x.ready) ok = true; }); }); });
+  if (!ok) { document.body.innerHTML = '<p style="padding:40px;font-size:20px;font-family:sans-serif">Cette leçon arrive bientôt. <a href="../4e/">Retour au parcours</a></p>'; return; }
+  var sc = document.createElement('script'); sc.src = '../assets/studio/lecons/' + l + '.js';
+  sc.onerror = function () { document.body.innerHTML = '<p style="padding:40px;font-size:20px;font-family:sans-serif">La leçon n’a pas pu être chargée. Vérifie la connexion puis recharge la page.</p>'; };
   document.body.appendChild(sc);
 })();
 </script>
