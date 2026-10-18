@@ -46,7 +46,7 @@ window.PROGRAMME = {
       { slug: 'court-circuit', t: 'Court-circuit et protection des installations électriques', ready: true, kit: 'elec' }] },
     { nm: 'Propriétés physiques de la matière', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>', les: [
       { slug: 'solides-liquides', t: 'Solides et liquides', ready: true, kit: 'thermo' },
-      { slug: 'les-gaz', t: 'Les gaz', ready: false },
+      { slug: 'les-gaz', t: 'Les gaz', ready: true, kit: 'thermo' },
       { slug: 'temperature', t: 'Température d’un corps', ready: false },
       { slug: 'changements-etat', t: 'Les changements d’état de l’eau', ready: false }] },
     { nm: 'Les combustions', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M12 2c3 5 6 7 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z"/>', les: [
