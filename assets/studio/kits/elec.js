@@ -82,8 +82,8 @@
     o = o || {}; var g = s('g', { transform: 'translate(' + x + ' ' + y + ')' }, G), col = kind === 'A' ? '#FFB547' : '#4FC3FF';
     s('circle', { r: 20, fill: '#0F1729', stroke: col, 'stroke-width': 3 }, g);
     s('text', { y: 7, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 900, fill: col, text: kind }, g);
-    var dy = o.below ? 32 : -58, box = s('rect', { x: -44, y: dy, width: 88, height: 28, rx: 7, fill: '#071016', stroke: col, 'stroke-width': 1.5 }, g);
-    var t = s('text', { x: 0, y: dy + 20, 'text-anchor': 'middle', 'font-size': 16, 'font-weight': 800, fill: '#9BF0C5', 'font-family': 'ui-monospace,Menlo,monospace' }, g);
+    var dy = o.right ? -14 : o.below ? 32 : -58, dx = o.right ? 72 : 0, box = s('rect', { x: dx - 44, y: dy, width: 88, height: 28, rx: 7, fill: '#071016', stroke: col, 'stroke-width': 1.5 }, g);
+    var t = s('text', { x: dx, y: dy + 20, 'text-anchor': 'middle', 'font-size': 16, 'font-weight': 800, fill: '#9BF0C5', 'font-family': 'ui-monospace,Menlo,monospace' }, g);
     return { g: g, set: function (txt) { t.textContent = txt; }, show: function (b) { g.style.display = b ? '' : 'none'; } };
   }
   function dot(G, x, y) { return s('circle', { cx: x, cy: y, r: 5, fill: '#EEF2F8' }, G); }
