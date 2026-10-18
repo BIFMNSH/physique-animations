@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr" data-theme="dark" data-level="5e">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');document.documentElement.setAttribute('data-theme',p.theme==='light'?'light':'dark')}catch(e){}</script>
+<title>Parcours 5e · Physique-chimie en animations</title>
+<meta name="description" content="Physique-chimie 5e (programme MENA, Côte d’Ivoire) : chaque leçon a un résumé vidéo narré d’une minute, une simulation à manipuler, un défi chronométré en équipes et un quiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="stylesheet" href="../assets/studio/studio.css">
+</head>
+<body class="hubp">
+<main class="hub">
+<div class="hubin">
+  <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <a class="btn" href="../">← Accueil</a>
+    <nav class="steps" aria-label="Niveaux">
+      <button type="button" disabled title="Bientôt">6e</button>
+      <button type="button" aria-current="step">5e</button>
+      <button type="button" data-go="../4e/">4e</button>
+      <button type="button" data-go="../simulateur/?niveau=3e">3e</button>
+    </nav>
+    <div style="flex:1"></div>
+    <button class="btn" id="theme" type="button"></button>
+  </header>
+
+  <section class="hero">
+    <div style="flex:1 1 520px;display:flex;flex-direction:column;gap:10px;justify-content:center">
+      <span class="kick">Physique-chimie · 5e · programme MENA</span>
+      <h1>Comprendre en 1 minute,<br>puis expérimenter.</h1>
+      <p>13 leçons de la progression officielle. Chacune aura un résumé vidéo narré, une simulation à manipuler, un défi à relever seul ou en équipes, et un quiz.</p>
+    </div>
+    <div class="greet" id="greet"></div>
+  </section>
+
+  <section class="themes" id="themes" aria-label="Thèmes et leçons"></section>
+
+  <section class="chips">
+    <span class="kick">Dans chaque leçon</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--blue)" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Résumé vidéo · 1 min</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.4" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>Simulation</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>Défi chronométré</span>
+    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2.4" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Fiche + quiz</span>
+    <span style="flex:1"></span>
+    <span style="font-size:14px;color:var(--muted)">Fonctionne sans réseau une fois ouverte</span>
+  </section>
+</div>
+</main>
+<script src="../assets/studio/studio.js"></script>
+<script src="../assets/studio/programme.js"></script>
+<script src="../assets/studio/hub.js"></script>
+</body>
+</html>

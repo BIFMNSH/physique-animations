@@ -19,5 +19,24 @@ window.PROGRAMME = {
     { nm: 'Eau potable', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3C8 9 6 12 6 15a6 6 0 0 0 12 0c0-3-2-6-6-12z"/>', les: [
       { slug: 'traitement-eau', t: 'Traitement de l’eau', ready: true },
       { slug: 'qualite-eau', t: 'Qualité de l’eau', ready: true }] }
+  ],
+  '5e': [
+    { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
+      { slug: 'generateur-recepteur', t: 'Adaptation d’un générateur à un récepteur', ready: false },
+      { slug: 'association-lampes', t: 'Association de lampes électriques', ready: false },
+      { slug: 'piles-serie', t: 'Association de piles en série', ready: false }] },
+    { nm: 'Mesure de grandeurs physiques', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
+      { slug: 'intensite', t: 'Intensité du courant électrique', ready: false },
+      { slug: 'tension', t: 'Tension électrique', ready: false },
+      { slug: 'pression-atmospherique', t: 'Pression atmosphérique', ready: false }] },
+    { nm: 'Mélanges et réactions chimiques', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>', les: [
+      { slug: 'melanges', t: 'Les mélanges', ready: false },
+      { slug: 'atomes-molecules', t: 'Atomes et molécules', ready: false },
+      { slug: 'combustion-carbone', t: 'Combustion du carbone', ready: false },
+      { slug: 'combustion-soufre', t: 'Combustion du soufre', ready: false }] },
+    { nm: 'Propriétés physiques de la matière', col: 'var(--green)', on: '#062A18', ic: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>', les: [
+      { slug: 'dilatation-solides', t: 'Dilatation des solides', ready: false },
+      { slug: 'dilatation-liquides', t: 'Dilatation des liquides', ready: false },
+      { slug: 'dilatation-gaz', t: 'Dilatation des gaz', ready: false }] }
   ]
 };
