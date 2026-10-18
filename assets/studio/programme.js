@@ -57,5 +57,25 @@ window.PROGRAMME = {
     { nm: 'Mesure de grandeurs physiques', col: 'var(--green)', on: '#062A18', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
       { slug: 'volume', t: 'Volume d’un liquide et d’un solide', ready: true },
       { slug: 'masse', t: 'Masse d’un solide et d’un liquide', ready: true }] }
+  ],
+  '3e': [
+    { nm: 'Mécanique', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M12 3v14"/><path d="M8 13l4 4 4-4"/><circle cx="12" cy="20" r="1.5"/>', les: [
+      { slug: 'masse-poids', t: 'Masse et poids d’un corps', ready: true },
+      { slug: 'les-forces', t: 'Les forces', ready: false },
+      { slug: 'equilibre-deux-forces', t: 'Équilibre d’un solide soumis à deux forces', ready: false },
+      { slug: 'travail-puissance', t: 'Travail et puissance mécaniques', ready: false },
+      { slug: 'energie-mecanique', t: 'Énergie mécanique', ready: false }] },
+    { nm: 'Les réactions chimiques', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>', les: [
+      { slug: 'electrolyse-eau', t: 'Électrolyse et synthèse de l’eau', ready: false },
+      { slug: 'alcanes', t: 'Les alcanes', ready: false },
+      { slug: 'oxydation-corps-purs', t: 'Oxydation des corps purs simples', ready: false },
+      { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: false },
+      { slug: 'solutions-acides-basiques', t: 'Solutions acides, basiques et neutres', ready: false }] },
+    { nm: 'Optique', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3c-3 5-3 13 0 18c3-5 3-13 0-18z"/><path d="M2 12h20"/>', les: [
+      { slug: 'lentilles', t: 'Les lentilles', ready: false },
+      { slug: 'defauts-oeil', t: 'Les défauts de l’œil et leurs corrections', ready: false }] },
+    { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
+      { slug: 'puissance-energie-electriques', t: 'Puissance et énergie électriques', ready: false },
+      { slug: 'conducteur-ohmique', t: 'Le conducteur ohmique', ready: false }] }
   ]
 };
