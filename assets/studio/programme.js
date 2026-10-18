@@ -11,8 +11,8 @@ window.PROGRAMME = {
       { slug: 'aimant-bobine', t: 'Aimant et bobine', ready: true },
       { slug: 'tension-alternative', t: 'Production d’une tension alternative', ready: true },
       { slug: 'tension-sinusoidale', t: 'Tension alternative sinusoïdale', ready: true },
-      { slug: 'dangers-secteur', t: 'Dangers du courant du secteur', ready: false },
-      { slug: 'transfo-redressement', t: 'Transformation, redressement et lissage', ready: false }] },
+      { slug: 'dangers-secteur', t: 'Dangers du courant du secteur', ready: true },
+      { slug: 'transfo-redressement', t: 'Transformation, redressement et lissage', ready: true }] },
     { nm: 'Les ions', col: 'var(--violet)', on: '#1B1238', ic: '<circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>', les: [
       { slug: 'atomes-ions', t: 'Atomes et ions', ready: false },
       { slug: 'metal-ion', t: 'Transformation d’un métal en ion et inversement', ready: false }] },
