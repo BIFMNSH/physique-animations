@@ -38,5 +38,24 @@ window.PROGRAMME = {
       { slug: 'dilatation-solides', t: 'Dilatation des solides', ready: true, kit: 'thermo' },
       { slug: 'dilatation-liquides', t: 'Dilatation des liquides', ready: true, kit: 'thermo' },
       { slug: 'dilatation-gaz', t: 'Dilatation des gaz', ready: true, kit: 'thermo' }] }
+  ],
+  '6e': [
+    { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
+      { slug: 'circuit-electrique', t: 'Le circuit électrique', ready: true, kit: 'elec' },
+      { slug: 'commande-circuit', t: 'Commande d’un circuit électrique', ready: false },
+      { slug: 'court-circuit', t: 'Court-circuit et protection des installations électriques', ready: false }] },
+    { nm: 'Propriétés physiques de la matière', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>', les: [
+      { slug: 'solides-liquides', t: 'Solides et liquides', ready: false },
+      { slug: 'les-gaz', t: 'Les gaz', ready: false },
+      { slug: 'temperature', t: 'Température d’un corps', ready: false },
+      { slug: 'changements-etat', t: 'Les changements d’état de l’eau', ready: false }] },
+    { nm: 'Les combustions', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M12 2c3 5 6 7 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z"/>', les: [
+      { slug: 'constituants-air', t: 'Les constituants de l’air', ready: false },
+      { slug: 'combustion-solide-liquide', t: 'Combustion d’un solide et d’un liquide dans l’air', ready: false },
+      { slug: 'combustion-gaz', t: 'Combustion d’un gaz dans l’air', ready: false },
+      { slug: 'dangers-combustions', t: 'Dangers des combustions', ready: false }] },
+    { nm: 'Mesure de grandeurs physiques', col: 'var(--green)', on: '#062A18', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
+      { slug: 'volume', t: 'Volume d’un liquide et d’un solide', ready: false },
+      { slug: 'masse', t: 'Masse d’un solide et d’un liquide', ready: false }] }
   ]
 };
