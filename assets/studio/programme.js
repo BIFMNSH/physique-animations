@@ -37,6 +37,6 @@ window.PROGRAMME = {
     { nm: 'Propriétés physiques de la matière', col: 'var(--green)', on: '#062A18', ic: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>', les: [
       { slug: 'dilatation-solides', t: 'Dilatation des solides', ready: true, kit: 'thermo' },
       { slug: 'dilatation-liquides', t: 'Dilatation des liquides', ready: true, kit: 'thermo' },
-      { slug: 'dilatation-gaz', t: 'Dilatation des gaz', ready: false }] }
+      { slug: 'dilatation-gaz', t: 'Dilatation des gaz', ready: true, kit: 'thermo' }] }
   ]
 };
