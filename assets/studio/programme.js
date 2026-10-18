@@ -61,7 +61,7 @@ window.PROGRAMME = {
   '3e': [
     { nm: 'Mécanique', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M12 3v14"/><path d="M8 13l4 4 4-4"/><circle cx="12" cy="20" r="1.5"/>', les: [
       { slug: 'masse-poids', t: 'Masse et poids d’un corps', ready: true },
-      { slug: 'les-forces', t: 'Les forces', ready: false },
+      { slug: 'les-forces', t: 'Les forces', ready: true },
       { slug: 'equilibre-deux-forces', t: 'Équilibre d’un solide soumis à deux forces', ready: false },
       { slug: 'travail-puissance', t: 'Travail et puissance mécaniques', ready: false },
       { slug: 'energie-mecanique', t: 'Énergie mécanique', ready: false }] },
