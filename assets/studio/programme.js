@@ -18,6 +18,6 @@ window.PROGRAMME = {
       { slug: 'metal-ion', t: 'Transformation d’un métal en ion et inversement', ready: true }] },
     { nm: 'Eau potable', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3C8 9 6 12 6 15a6 6 0 0 0 12 0c0-3-2-6-6-12z"/>', les: [
       { slug: 'traitement-eau', t: 'Traitement de l’eau', ready: true },
-      { slug: 'qualite-eau', t: 'Qualité de l’eau', ready: false }] }
+      { slug: 'qualite-eau', t: 'Qualité de l’eau', ready: true }] }
   ]
 };

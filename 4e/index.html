@@ -70,7 +70,7 @@
   if (!cur || n === 4) { var nx = all.filter(function (l) { return steps('4e-' + l.slug) < 4; })[0]; if (nx) { cur = nx; n = steps('4e-' + nx.slug); } }
   cur = cur || all[0];
   document.getElementById('greet').innerHTML = S.lumi(96, 'happy2') + '<div style="display:flex;flex-direction:column;gap:6px"><b style="font:800 20px var(--f-display)">Salut, moi c’est Lumi !</b><span style="font-size:15px;line-height:1.4;color:var(--soft)">' + (n ? 'On reprend : <b style="color:var(--text)">' + cur.t + '</b> (' + n + '/4 étapes).' : 'Je te propose : <b style="color:var(--text)">' + cur.t + '</b>.') + '</span><a class="btn primary" style="align-self:flex-start" href="../lecon/?l=' + cur.slug + '">' + (n ? 'Continuer ▸' : 'Commencer ▸') + '</a></div>';
-  var ready = all.length; document.querySelector('.hero p').textContent = '13 leçons de la progression officielle, ' + ready + ' déjà en ligne. Chacune a un résumé vidéo narré, une simulation à manipuler, un défi à relever seul ou en équipes, et un quiz.';
+  var ready = all.length; document.querySelector('.hero p').textContent = (ready >= 13 ? 'Les 13 leçons de la progression officielle sont en ligne. Chacune' : '13 leçons de la progression officielle, ' + ready + ' déjà en ligne. Chacune') a un résumé vidéo narré, une simulation à manipuler, un défi à relever seul ou en équipes, et un quiz.';
   var tb = document.getElementById('theme');
   function paint() { tb.textContent = S.settings.theme === 'light' ? 'Thème sombre' : 'Thème clair'; }
   tb.onclick = function () { S.settings.theme = S.settings.theme === 'light' ? 'dark' : 'light'; S.applySettings(); paint(); };
