@@ -22,7 +22,7 @@ window.PROGRAMME = {
   ],
   '5e': [
     { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
-      { slug: 'generateur-recepteur', t: 'Adaptation d’un générateur à un récepteur', ready: false },
+      { slug: 'generateur-recepteur', t: 'Adaptation d’un générateur à un récepteur', ready: true, kit: 'elec' },
       { slug: 'association-lampes', t: 'Association de lampes électriques', ready: false },
       { slug: 'piles-serie', t: 'Association de piles en série', ready: false }] },
     { nm: 'Mesure de grandeurs physiques', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
