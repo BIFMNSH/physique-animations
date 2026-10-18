@@ -48,7 +48,7 @@ window.PROGRAMME = {
       { slug: 'solides-liquides', t: 'Solides et liquides', ready: true, kit: 'thermo' },
       { slug: 'les-gaz', t: 'Les gaz', ready: true, kit: 'thermo' },
       { slug: 'temperature', t: 'Température d’un corps', ready: true, kit: 'thermo' },
-      { slug: 'changements-etat', t: 'Les changements d’état de l’eau', ready: false }] },
+      { slug: 'changements-etat', t: 'Les changements d’état de l’eau', ready: true, kit: 'thermo' }] },
     { nm: 'Les combustions', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M12 2c3 5 6 7 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z"/>', les: [
       { slug: 'constituants-air', t: 'Les constituants de l’air', ready: false },
       { slug: 'combustion-solide-liquide', t: 'Combustion d’un solide et d’un liquide dans l’air', ready: false },
