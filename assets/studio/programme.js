@@ -51,7 +51,7 @@ window.PROGRAMME = {
       { slug: 'changements-etat', t: 'Les changements d’état de l’eau', ready: true, kit: 'thermo' }] },
     { nm: 'Les combustions', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M12 2c3 5 6 7 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z"/>', les: [
       { slug: 'constituants-air', t: 'Les constituants de l’air', ready: true, kit: 'combustion' },
-      { slug: 'combustion-solide-liquide', t: 'Combustion d’un solide et d’un liquide dans l’air', ready: false },
+      { slug: 'combustion-solide-liquide', t: 'Combustion d’un solide et d’un liquide dans l’air', ready: true, kit: 'combustion' },
       { slug: 'combustion-gaz', t: 'Combustion d’un gaz dans l’air', ready: false },
       { slug: 'dangers-combustions', t: 'Dangers des combustions', ready: false }] },
     { nm: 'Mesure de grandeurs physiques', col: 'var(--green)', on: '#062A18', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
