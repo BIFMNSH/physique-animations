@@ -53,7 +53,7 @@ window.PROGRAMME = {
       { slug: 'constituants-air', t: 'Les constituants de l’air', ready: true, kit: 'combustion' },
       { slug: 'combustion-solide-liquide', t: 'Combustion d’un solide et d’un liquide dans l’air', ready: true, kit: 'combustion' },
       { slug: 'combustion-gaz', t: 'Combustion d’un gaz dans l’air', ready: true, kit: 'combustion' },
-      { slug: 'dangers-combustions', t: 'Dangers des combustions', ready: false }] },
+      { slug: 'dangers-combustions', t: 'Dangers des combustions', ready: true, kit: 'combustion' }] },
     { nm: 'Mesure de grandeurs physiques', col: 'var(--green)', on: '#062A18', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
       { slug: 'volume', t: 'Volume d’un liquide et d’un solide', ready: false },
       { slug: 'masse', t: 'Masse d’un solide et d’un liquide', ready: false }] }
