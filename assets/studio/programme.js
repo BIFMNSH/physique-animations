@@ -6,7 +6,7 @@ window.PROGRAMME = {
       { slug: 'sources-recepteurs', t: 'Sources et récepteurs de lumière', ready: true },
       { slug: 'propagation-lumiere', t: 'Propagation de la lumière', ready: true },
       { slug: 'phases-eclipses', t: 'Les phases de la Lune et les éclipses', ready: true },
-      { slug: 'lumiere-blanche', t: 'Analyse et synthèse de la lumière blanche', ready: false }] },
+      { slug: 'lumiere-blanche', t: 'Analyse et synthèse de la lumière blanche', ready: true }] },
     { nm: 'Courants et tensions alternatifs', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M2 12c2.5-6 5-6 7.5 0s5 6 7.5 0 3.5-4 5-2"/>', les: [
       { slug: 'aimant-bobine', t: 'Aimant et bobine', ready: true },
       { slug: 'tension-alternative', t: 'Production d’une tension alternative', ready: true },
