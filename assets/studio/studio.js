@@ -488,7 +488,7 @@
     var fiche = h('div', { id: 'fiche' }, document.body);
     window.addEventListener('beforeprint', function () {
       fiche.innerHTML = '<h1>' + esc(L.title) + '</h1><p>Physique-chimie · ' + L.level + ' · ' + esc(L.theme) + '</p><h2>À retenir</h2>' + L.retiens.map(function (r) { return '<div class="box">' + r + '</div>'; }).join('') +
-        '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol><p style="font-size:9pt;color:#555">Corrigé : ' + L.quiz.map(function (q, i) { return (i + 1) + String.fromCharCode(97 + q.a); }).join(' · ') + '</p>';
+        '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol>' + (printTeacher ? '<h2>Corrigé professeur</h2><ol>' + L.quiz.map(function (q) { return '<li>' + String.fromCharCode(97 + q.a) + ') ' + q.o[q.a] + (q.e ? '<br>' + q.e : '') + '</li>'; }).join('') + '</ol>' : '');
     });
 
     /* mise à l'échelle */
@@ -623,6 +623,13 @@
     return { enter: function () { render(true); }, leave: function () { play(false); } };
   }
 
+  // Ctrl+P produit toujours une fiche élève ; le corrigé exige un choix explicite.
+  var printTeacher = false;
+  function printSheet(teacher) {
+    printTeacher = teacher === true;
+    try { window.print(); } finally { printTeacher = false; }
+  }
+
   /* ================== SIMULATION ================== */
   function buildSim(root, S, ctx) {
     var main = h('div', { class: 'main' }, root);
@@ -647,7 +654,8 @@
     var bilCard = h('div', { class: 'card res' }, panes.bilan);
     var retCard = h('div', { class: 'card' }, panes.bilan, '<h3>À retenir</h3><ul>' + ctx.L.retiens.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul>');
     var br = h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' }, panes.bilan);
-    h('button', { class: 'btn' }, br, 'Imprimer la fiche').onclick = function () { window.print(); };
+    h('button', { class: 'btn' }, br, 'Fiche élève').onclick = function () { printSheet(false); };
+    h('button', { class: 'btn' }, br, 'Corrigé professeur').onclick = function () { printSheet(true); };
     h('button', { class: 'btn primary' }, br, 'Relever le défi ▸').onclick = function () { ctx.go('defi'); };
     var resets = [];
     var api = {
@@ -782,7 +790,11 @@
       try { localStorage.setItem('pc-studio-defi-' + ctx.L.id, JSON.stringify({ at: Date.now(), teams: sorted.map(function (t) { return { n: t.n, pts: t.pts }; }) })); } catch (e) {}
     }
     intro();
-    return { enter: function () {}, leave: function () { run = false; } };
+    var paused = false;
+    return {
+      enter: function () { if (paused) { run = true; paused = false; } },
+      leave: function () { paused = paused || run; run = false; }
+    };
   }
 
   window.Studio = { start: start, kit: kit, h: h, s: s, attr: attr, fmt: fmt, esc: esc, clamp: clamp, ease: ease, lumi: lumi, settings: SET, prof: PROF, progress: PROG, applySettings: applySettings, onSettings: onSettings, loop: loop, speak: speak, sound: sound, confetti: confetti, chart: chart, gauss: gauss, store: store, save: save };
