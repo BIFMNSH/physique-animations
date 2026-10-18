@@ -56,6 +56,6 @@ window.PROGRAMME = {
       { slug: 'dangers-combustions', t: 'Dangers des combustions', ready: true, kit: 'combustion' }] },
     { nm: 'Mesure de grandeurs physiques', col: 'var(--green)', on: '#062A18', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
       { slug: 'volume', t: 'Volume d’un liquide et d’un solide', ready: true },
-      { slug: 'masse', t: 'Masse d’un solide et d’un liquide', ready: false }] }
+      { slug: 'masse', t: 'Masse d’un solide et d’un liquide', ready: true }] }
   ]
 };
