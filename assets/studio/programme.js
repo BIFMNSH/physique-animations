@@ -33,7 +33,7 @@ window.PROGRAMME = {
       { slug: 'melanges', t: 'Les mélanges', ready: true },
       { slug: 'atomes-molecules', t: 'Atomes et molécules', ready: true },
       { slug: 'combustion-carbone', t: 'Combustion du carbone', ready: true, kit: 'combustion' },
-      { slug: 'combustion-soufre', t: 'Combustion du soufre', ready: false }] },
+      { slug: 'combustion-soufre', t: 'Combustion du soufre', ready: true, kit: 'combustion' }] },
     { nm: 'Propriétés physiques de la matière', col: 'var(--green)', on: '#062A18', ic: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>', les: [
       { slug: 'dilatation-solides', t: 'Dilatation des solides', ready: false },
       { slug: 'dilatation-liquides', t: 'Dilatation des liquides', ready: false },
