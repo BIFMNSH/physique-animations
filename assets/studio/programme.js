@@ -27,7 +27,7 @@ window.PROGRAMME = {
       { slug: 'piles-serie', t: 'Association de piles en série', ready: true, kit: 'elec' }] },
     { nm: 'Mesure de grandeurs physiques', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/>', les: [
       { slug: 'intensite', t: 'Intensité du courant électrique', ready: true, kit: 'elec' },
-      { slug: 'tension', t: 'Tension électrique', ready: false },
+      { slug: 'tension', t: 'Tension électrique', ready: true, kit: 'elec' },
       { slug: 'pression-atmospherique', t: 'Pression atmosphérique', ready: false }] },
     { nm: 'Mélanges et réactions chimiques', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>', les: [
       { slug: 'melanges', t: 'Les mélanges', ready: false },
