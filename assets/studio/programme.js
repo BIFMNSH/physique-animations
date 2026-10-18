@@ -72,7 +72,7 @@ window.PROGRAMME = {
       { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: true },
       { slug: 'solutions-acides-basiques', t: 'Solutions acides, basiques et neutres', ready: true }] },
     { nm: 'Optique', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3c-3 5-3 13 0 18c3-5 3-13 0-18z"/><path d="M2 12h20"/>', les: [
-      { slug: 'lentilles', t: 'Les lentilles', ready: false },
+      { slug: 'lentilles', t: 'Les lentilles', ready: true },
       { slug: 'defauts-oeil', t: 'Les défauts de l’œil et leurs corrections', ready: false }] },
     { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
       { slug: 'puissance-energie-electriques', t: 'Puissance et énergie électriques', ready: false },
