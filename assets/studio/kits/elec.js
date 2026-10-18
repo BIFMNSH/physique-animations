@@ -97,5 +97,52 @@
     if (r <= 1.5) return { r: r, b: Math.pow(r, 1.6), k: 'high', t: 'brille trop fort : surtension' };
     return { r: r, b: 2, k: 'burn', t: 'grille : forte surtension' };
   }
-  window.ElecKit = { glow: glow, battery: battery, lamp: lamp, motor: motor, wire: wire, switchK: switchK, meter: meter, dot: dot, lampState: lampState, v: v };
+
+  /* multimètre : afficheur, sélecteur rotatif cliquable, 4 bornes (10A, mA, COM, V) */
+  var CALS = [
+    { k: 'OFF', l: 'OFF', ty: null },
+    { k: 'A10', l: '10 A', ty: 'A', max: 10, dec: 2, u: 'A' },
+    { k: 'mA200', l: '200 mA', ty: 'A', max: 0.2, dec: 1, u: 'mA', mul: 1000 },
+    { k: 'mA20', l: '20 mA', ty: 'A', max: 0.02, dec: 2, u: 'mA', mul: 1000 },
+    { k: 'V20', l: '20 V', ty: 'V', max: 20, dec: 2, u: 'V' },
+    { k: 'V2', l: '2 V', ty: 'V', max: 2, dec: 3, u: 'V' }
+  ];
+  function multimeter(G, x, y, o) {
+    o = o || {}; var g = s('g', { transform: 'translate(' + x + ' ' + y + ')' }, G), cal = o.cal || 'OFF';
+    s('rect', { x: -100, y: 0, width: 200, height: 380, rx: 26, fill: '#F2C94C' }, g);
+    s('rect', { x: -88, y: 12, width: 176, height: 356, rx: 18, fill: '#22262E' }, g);
+    s('rect', { x: -74, y: 28, width: 148, height: 64, rx: 8, fill: '#A9C29A' }, g);
+    var lcd = s('text', { x: 64, y: 76, 'text-anchor': 'end', 'font-size': 34, 'font-weight': 700, fill: '#1B2418', 'font-family': 'ui-monospace,Menlo,monospace' }, g);
+    var unit = s('text', { x: -66, y: 44, 'font-size': 11, 'font-weight': 800, fill: '#1B2418' }, g);
+    var cx = 0, cy = 190, R = 58;
+    s('circle', { cx: cx, cy: cy, r: R + 30, fill: '#2C313B' }, g);
+    var labs = [], N = CALS.length;
+    CALS.forEach(function (c, i) {
+      var a = (-150 + i * (300 / (N - 1))) * Math.PI / 180, lx = cx + (R + 18) * Math.sin(a), ly = cy - (R + 18) * Math.cos(a);
+      var t = s('text', { x: lx, y: ly + 4, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 800, fill: c.ty === 'A' ? '#FFB547' : c.ty === 'V' ? '#4FC3FF' : '#C9D2E3', text: c.l, style: 'cursor:pointer' }, g);
+      t.addEventListener('click', function () { set(c.k); o.onDial && o.onDial(c.k); }); labs.push(t); c.a = a;
+    });
+    var knob = s('g', { style: 'cursor:pointer' }, g); s('circle', { cx: cx, cy: cy, r: R - 14, fill: '#3A404C', stroke: '#11141A', 'stroke-width': 3 }, knob);
+    var ptr = s('rect', { x: cx - 5, y: cy - R + 16, width: 10, height: 30, rx: 4, fill: '#EEF2F8' }, knob);
+    knob.addEventListener('click', function () { var i = CALS.map(function (c) { return c.k; }).indexOf(cal); set(CALS[(i + 1) % N].k); o.onDial && o.onDial(cal); });
+    var sock = {}; [['10A', -66, '#FF5A4E'], ['mA', -22, '#FF5A4E'], ['COM', 22, '#11141A'], ['V', 66, '#FF5A4E']].forEach(function (b) {
+      s('circle', { cx: b[1], cy: 330, r: 13, fill: '#11141A', stroke: b[2] === '#11141A' ? '#7D89A3' : b[2], 'stroke-width': 3 }, g);
+      s('text', { x: b[1], y: 308, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 800, fill: '#C9D2E3', text: b[0] }, g);
+      sock[b[0]] = { x: x + b[1], y: y + 330 };
+    });
+    function set(k) { cal = k; var c = CALS.filter(function (z) { return z.k === k; })[0]; knob.setAttribute('transform', 'rotate(' + (c.a * 180 / Math.PI) + ' ' + cx + ' ' + cy + ')'); labs.forEach(function (t, i) { t.setAttribute('text-decoration', CALS[i].k === k ? 'underline' : 'none'); }); }
+    function show(val, ty) {
+      var c = CALS.filter(function (z) { return z.k === cal; })[0];
+      if (!c.ty) { lcd.textContent = ''; unit.textContent = ''; return { st: 'off' }; }
+      unit.textContent = c.u;
+      if (ty && ty !== c.ty) { lcd.textContent = '0' + (c.dec ? '.' + '0'.repeat(c.dec) : ''); return { st: 'wrongmode', c: c }; }
+      if (Math.abs(val) > c.max) { lcd.textContent = '1    '; lcd.setAttribute('text-anchor', 'end'); return { st: 'over', c: c }; }
+      var v = val * (c.mul || 1); lcd.textContent = (v < 0 ? '-' : '') + Math.abs(v).toFixed(c.dec); return { st: 'ok', c: c, txt: (v < 0 ? '−' : '') + Math.abs(v).toFixed(c.dec).replace('.', ',') + ' ' + c.u };
+    }
+    set(cal);
+    return { g: g, set: set, show: show, sock: sock, get cal() { return cal; } };
+  }
+  /* cordon de mesure entre deux points (courbe) */
+  function lead(G, col) { var p = s('path', { fill: 'none', stroke: col, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.95 }, G), e = s('circle', { r: 6, fill: col }, G); return { set: function (a, b) { var my = Math.max(a.y, b.y) + 60; p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' C' + a.x + ' ' + my + ' ' + b.x + ' ' + my + ' ' + b.x + ' ' + b.y); attr(e, { cx: b.x, cy: b.y }); }, show: function (v) { p.style.display = e.style.display = v ? '' : 'none'; } }; }
+  window.ElecKit = { glow: glow, battery: battery, lamp: lamp, motor: motor, wire: wire, switchK: switchK, meter: meter, dot: dot, lampState: lampState, v: v, multimeter: multimeter, lead: lead, CALS: CALS };
 })();
