@@ -66,7 +66,7 @@ window.PROGRAMME = {
       { slug: 'travail-puissance', t: 'Travail et puissance mécaniques', ready: true },
       { slug: 'energie-mecanique', t: 'Énergie mécanique', ready: true }] },
     { nm: 'Les réactions chimiques', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>', les: [
-      { slug: 'electrolyse-eau', t: 'Électrolyse et synthèse de l’eau', ready: false },
+      { slug: 'electrolyse-eau', t: 'Électrolyse et synthèse de l’eau', ready: true },
       { slug: 'alcanes', t: 'Les alcanes', ready: false },
       { slug: 'oxydation-corps-purs', t: 'Oxydation des corps purs simples', ready: false },
       { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: false },
