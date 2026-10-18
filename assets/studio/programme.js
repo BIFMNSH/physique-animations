@@ -76,6 +76,6 @@ window.PROGRAMME = {
       { slug: 'defauts-oeil', t: 'Les défauts de l’œil et leurs corrections', ready: true }] },
     { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
       { slug: 'puissance-energie-electriques', t: 'Puissance et énergie électriques', ready: true },
-      { slug: 'conducteur-ohmique', t: 'Le conducteur ohmique', ready: false }] }
+      { slug: 'conducteur-ohmique', t: 'Le conducteur ohmique', ready: true }] }
   ]
 };
