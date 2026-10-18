@@ -70,7 +70,7 @@ window.PROGRAMME = {
       { slug: 'alcanes', t: 'Les alcanes', ready: true },
       { slug: 'oxydation-corps-purs', t: 'Oxydation des corps purs simples', ready: true },
       { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: true },
-      { slug: 'solutions-acides-basiques', t: 'Solutions acides, basiques et neutres', ready: false }] },
+      { slug: 'solutions-acides-basiques', t: 'Solutions acides, basiques et neutres', ready: true }] },
     { nm: 'Optique', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3c-3 5-3 13 0 18c3-5 3-13 0-18z"/><path d="M2 12h20"/>', les: [
       { slug: 'lentilles', t: 'Les lentilles', ready: false },
       { slug: 'defauts-oeil', t: 'Les défauts de l’œil et leurs corrections', ready: false }] },
