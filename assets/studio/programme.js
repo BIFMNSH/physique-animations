@@ -43,7 +43,7 @@ window.PROGRAMME = {
     { nm: 'Électricité', col: 'var(--amber)', on: '#2A1A00', ic: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>', les: [
       { slug: 'circuit-electrique', t: 'Le circuit électrique', ready: true, kit: 'elec' },
       { slug: 'commande-circuit', t: 'Commande d’un circuit électrique', ready: true, kit: 'elec' },
-      { slug: 'court-circuit', t: 'Court-circuit et protection des installations électriques', ready: false }] },
+      { slug: 'court-circuit', t: 'Court-circuit et protection des installations électriques', ready: true, kit: 'elec' }] },
     { nm: 'Propriétés physiques de la matière', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>', les: [
       { slug: 'solides-liquides', t: 'Solides et liquides', ready: false },
       { slug: 'les-gaz', t: 'Les gaz', ready: false },
