@@ -62,7 +62,7 @@ window.PROGRAMME = {
     { nm: 'Mécanique', col: 'var(--blue)', on: '#0E1626', ic: '<path d="M12 3v14"/><path d="M8 13l4 4 4-4"/><circle cx="12" cy="20" r="1.5"/>', les: [
       { slug: 'masse-poids', t: 'Masse et poids d’un corps', ready: true },
       { slug: 'les-forces', t: 'Les forces', ready: true },
-      { slug: 'equilibre-deux-forces', t: 'Équilibre d’un solide soumis à deux forces', ready: false },
+      { slug: 'equilibre-deux-forces', t: 'Équilibre d’un solide soumis à deux forces', ready: true },
       { slug: 'travail-puissance', t: 'Travail et puissance mécaniques', ready: false },
       { slug: 'energie-mecanique', t: 'Énergie mécanique', ready: false }] },
     { nm: 'Les réactions chimiques', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>', les: [
