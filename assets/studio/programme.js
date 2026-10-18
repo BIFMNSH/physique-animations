@@ -14,7 +14,7 @@ window.PROGRAMME = {
       { slug: 'dangers-secteur', t: 'Dangers du courant du secteur', ready: true },
       { slug: 'transfo-redressement', t: 'Transformation, redressement et lissage', ready: true }] },
     { nm: 'Les ions', col: 'var(--violet)', on: '#1B1238', ic: '<circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>', les: [
-      { slug: 'atomes-ions', t: 'Atomes et ions', ready: false },
+      { slug: 'atomes-ions', t: 'Atomes et ions', ready: true },
       { slug: 'metal-ion', t: 'Transformation d’un métal en ion et inversement', ready: false }] },
     { nm: 'Eau potable', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3C8 9 6 12 6 15a6 6 0 0 0 12 0c0-3-2-6-6-12z"/>', les: [
       { slug: 'traitement-eau', t: 'Traitement de l’eau', ready: false },
