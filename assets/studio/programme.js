@@ -68,7 +68,7 @@ window.PROGRAMME = {
     { nm: 'Les réactions chimiques', col: 'var(--violet)', on: '#1B1238', ic: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>', les: [
       { slug: 'electrolyse-eau', t: 'Électrolyse et synthèse de l’eau', ready: true },
       { slug: 'alcanes', t: 'Les alcanes', ready: true },
-      { slug: 'oxydation-corps-purs', t: 'Oxydation des corps purs simples', ready: false },
+      { slug: 'oxydation-corps-purs', t: 'Oxydation des corps purs simples', ready: true },
       { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: false },
       { slug: 'solutions-acides-basiques', t: 'Solutions acides, basiques et neutres', ready: false }] },
     { nm: 'Optique', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3c-3 5-3 13 0 18c3-5 3-13 0-18z"/><path d="M2 12h20"/>', les: [
