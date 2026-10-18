@@ -3,7 +3,7 @@
 window.PROGRAMME = {
   '4e': [
     { nm: 'Optique', col: 'var(--blue)', on: '#0E1626', ic: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>', les: [
-      { slug: 'sources-recepteurs', t: 'Sources et récepteurs de lumière', ready: false },
+      { slug: 'sources-recepteurs', t: 'Sources et récepteurs de lumière', ready: true },
       { slug: 'propagation-lumiere', t: 'Propagation de la lumière', ready: false },
       { slug: 'phases-eclipses', t: 'Les phases de la Lune et les éclipses', ready: false },
       { slug: 'lumiere-blanche', t: 'Analyse et synthèse de la lumière blanche', ready: false }] },
