@@ -69,7 +69,7 @@ window.PROGRAMME = {
       { slug: 'electrolyse-eau', t: 'Électrolyse et synthèse de l’eau', ready: true },
       { slug: 'alcanes', t: 'Les alcanes', ready: true },
       { slug: 'oxydation-corps-purs', t: 'Oxydation des corps purs simples', ready: true },
-      { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: false },
+      { slug: 'reduction-oxydes', t: 'Réduction des oxydes', ready: true },
       { slug: 'solutions-acides-basiques', t: 'Solutions acides, basiques et neutres', ready: false }] },
     { nm: 'Optique', col: 'var(--green)', on: '#062A18', ic: '<path d="M12 3c-3 5-3 13 0 18c3-5 3-13 0-18z"/><path d="M2 12h20"/>', les: [
       { slug: 'lentilles', t: 'Les lentilles', ready: false },
