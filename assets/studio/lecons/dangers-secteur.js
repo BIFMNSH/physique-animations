@@ -2,7 +2,8 @@
 (function () {
   var S = window.Studio, s = S.s, attr = S.attr, fmt = S.fmt, clamp = S.clamp, K = S.kit;
   var U = 220;
-  var LEVELS = [[1, 'non perçu', 'var(--green)'], [10, 'picotements, secousse', 'var(--green)'], [30, 'contractions : on ne peut plus lâcher', 'var(--amber)'], [75, 'arrêt de la respiration possible', 'var(--red)'], [1e9, 'fibrillation du cœur : mortel', 'var(--red)']];
+  // Indications de risque, jamais des seuils physiologiques universels.
+  var LEVELS = [[1, 'faible courant : prudence', 'var(--amber)'], [10, 'courant dans le corps : danger', 'var(--amber)'], [30, 'courant dans le corps : danger', 'var(--red)'], [75, 'risque de lésions graves', 'var(--red)'], [1e9, 'danger potentiellement mortel', 'var(--red)']];
   function level(mA) { for (var i = 0; i < LEVELS.length; i++) if (mA < LEVELS[i][0]) return { i: i, t: LEVELS[i][1], c: LEVELS[i][2] }; }
 
   /* ---------- dessins ---------- */
@@ -161,8 +162,8 @@
         else { st.fault = true; st.touch = t < 42 ? 'case' : 'none'; st.floor = 'wet'; st.earth = t >= 33 && t < 38; st.dd = t >= 38; st.trip = t >= 39.4 && t < 42; st.short = t >= 42.5; st.fuse = true; st.blown = t >= 44; if (t >= 42) { st.fault = false; st.dd = false; st.trip = false; } }
         lab.step(t - lastT, t);
         tg.show(t, 4.4, 6.8, 560, 62, 'Neutre : le voyant reste éteint') || tg.show(t, 7.2, 10.4, 560, 62, 'Phase : le voyant s’allume !') || tg.show(t, 10.8, 13.8, 560, 62, 'Terre : borne de sécurité') ||
-          tg.show(t, 16, 21.6, 560, 62, 'Pieds nus sur sol mouillé : 220 mA, mortel') || tg.show(t, 22.4, 25.8, 560, 62, 'Avec des chaussures isolantes : 4 mA') || tg.show(t, 26.2, 29.8, 560, 62, 'Défaut + pieds mouillés : danger') ||
-          tg.show(t, 33.2, 37.8, 560, 62, 'La terre emporte le courant de fuite') || tg.show(t, 38.2, 41.8, 560, 62, 'Le différentiel coupe en moins de 30 ms') || tg.show(t, 42.6, 46.8, 560, 62, 'Court-circuit : le fusible fond');
+          tg.show(t, 16, 21.6, 560, 62, 'Pieds nus sur sol mouillé : 220 mA simulés : danger mortel') || tg.show(t, 22.4, 25.8, 560, 62, 'Chaussures : aucune sécurité garantie') || tg.show(t, 26.2, 29.8, 560, 62, 'Défaut + pieds mouillés : danger') ||
+          tg.show(t, 33.2, 37.8, 560, 62, 'La terre emporte le courant de fuite') || tg.show(t, 38.2, 41.8, 560, 62, 'Le différentiel déclenche selon ses caractéristiques') || tg.show(t, 42.6, 46.8, 560, 62, 'Court-circuit : le fusible fond');
       }
       lastT = t;
       K.group(g4, t, 46.8, 99); cards(t);
@@ -177,7 +178,7 @@
       { t: 0, d: 4, say: 'Une prise de courant a trois bornes : la phase, le neutre et la terre.', sub: 'Une prise a 3 bornes : <b>phase</b>, <b>neutre</b> et <b>terre</b>.' },
       { t: 4.2, d: 6.2, say: 'Avec un tournevis testeur, le voyant reste éteint sur le neutre… et s’allume sur la phase : c’est elle qui est dangereuse.', sub: 'Le tournevis testeur s’allume sur la <b>phase</b> : c’est la borne <b>dangereuse</b>.' },
       { t: 10.6, d: 3.4, say: 'La terre est une borne de sécurité.', sub: 'La <b>terre</b> est une borne de <b>sécurité</b>.' },
-      { t: 14, d: 7.6, say: 'Si une personne touche la phase, pieds nus sur un sol mouillé, un courant traverse son corps jusqu’au sol : environ deux cent vingt milliampères. C’est mortel.', sub: 'Toucher la phase pieds nus : <b>220 mA</b> traversent le corps. <b>Mortel</b>.' },
+      { t: 14, d: 7.6, say: 'Si une personne touche la phase, pieds nus sur un sol mouillé, un courant traverse son corps jusqu’au sol : deux cent vingt milliampères dans ce modèle. Ce contact peut être mortel.', sub: 'Toucher la phase pieds nus : <b>220 mA</b> traversent le corps. <b>Danger potentiellement mortel</b>.' },
       { t: 22, d: 4, say: 'Avec des chaussures isolantes, le courant est beaucoup plus faible.', sub: 'Avec des <b>chaussures isolantes</b>, le courant est bien plus faible.' },
       { t: 26, d: 4, say: 'Attention aux appareils en défaut : leur carcasse peut être sous tension.', sub: 'Un appareil en <b>défaut</b> : sa carcasse peut être <b>sous tension</b>.' },
       { t: 30, d: 7.8, say: 'Pour se protéger, on relie la carcasse métallique à la terre : le courant de fuite part dans la terre plutôt que dans le corps.', sub: 'La <b>prise de terre</b> évacue le courant de fuite.' },
@@ -189,7 +190,7 @@
     ],
     learn: [
       { t: 9, ch: 1, html: 'La <b>phase</b> est la borne dangereuse (le testeur s’allume).' },
-      { t: 21, ch: 2, html: 'Le danger dépend de l’<b>intensité</b> qui traverse le corps : au-delà de 30 mA, c’est grave.' },
+      { t: 21, ch: 2, html: 'Le danger dépend de l’<b>intensité</b>, de la durée et du trajet du courant dans le corps.' },
       { t: 36, ch: 3, html: 'La <b>prise de terre</b> évacue le courant de fuite.' },
       { t: 45, ch: 3, html: 'Le <b>différentiel</b> protège les personnes, le <b>fusible</b> protège l’installation.' }
     ],
@@ -202,6 +203,7 @@
     W: 860, H: 470,
     alt: 'Une installation avec tableau électrique, prise de courant, machine à laver, fil de terre et une personne ; jauge du courant dans le corps',
     steps: [
+      'Simulation uniquement : ne jamais reproduire ces contacts ou tests sur une prise réelle. Résistances et temps de déclenchement simplifiés ; aucune situation de contact ne doit être considérée comme sûre.',
       'Teste les bornes de la prise avec le tournevis testeur : laquelle est la phase ?',
       'La machine à laver a un défaut. Sans terre ni différentiel, la personne touche la carcasse : regarde la jauge selon le sol (mouillé, sec, chaussures).',
       'Ajoute la prise de terre, puis le disjoncteur différentiel : la personne est-elle protégée ?',
@@ -239,7 +241,7 @@
       return { bilan: function () {
         if (rows.length < 2) return '<p>Relève au moins 2 situations différentes.</p>';
         var h = '<p>Le danger dépend de l’<b>intensité</b> du courant qui traverse le corps : elle est bien plus grande avec la peau mouillée (I = U ÷ R).</p>';
-        if (rows.some(function (r) { return r.e; })) h += '<p>Avec la <b>terre</b>, le courant de fuite passe par le fil de terre et non par la personne.</p>';
+        if (rows.some(function (r) { return r.e; })) h += '<p>La liaison à la <b>terre</b> facilite l’évacuation du courant de défaut ; le contact reste dangereux et le différentiel est une protection complémentaire.</p>';
         if (rows.some(function (r) { return r.cut === 'différentiel'; })) h += '<p>Le <b>différentiel 30 mA</b> a coupé le courant : il protège les personnes.</p>';
         if (rows.some(function (r) { return r.cut === 'fusible'; })) h += '<p>Le <b>fusible</b> a fondu lors du court-circuit : il protège l’installation.</p>';
         return h;
@@ -270,16 +272,16 @@
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
       'Une prise de courant possède trois bornes : la <b>phase</b>, le <b>neutre</b> et la <b>terre</b>. La phase est à environ 220 V par rapport à la terre : c’est elle qui est <b>dangereuse</b>. Le tournevis testeur s’allume sur la phase.',
-      'Si l’on touche la phase en étant relié au sol (ou la phase et le neutre), un courant traverse le corps : c’est l’<b>électrisation</b>, et l’<b>électrocution</b> si elle est mortelle. Le danger augmente avec l’<b>intensité</b> : au-delà de 30 mA, c’est grave.',
+      'Si l’on touche la phase en étant relié au sol (ou la phase et le neutre), un courant traverse le corps : c’est l’<b>électrisation</b>, et l’<b>électrocution</b> si elle est mortelle. Le danger dépend de l’<b>intensité</b>, de la <b>durée</b> et du trajet du courant. Une intensité inférieure à 30 mA peut aussi être dangereuse.',
       'La <b>prise de terre</b> relie les carcasses métalliques au sol : en cas de défaut, le courant de fuite passe par la terre.',
-      'Le <b>disjoncteur différentiel 30 mA</b> coupe le courant dès qu’une fuite apparaît : il protège les <b>personnes</b>. Le <b>fusible</b> ou le disjoncteur protège l’<b>installation</b> contre les surintensités (court-circuit, surcharge).',
+      'Le <b>disjoncteur différentiel 30 mA</b> détecte un déséquilibre de courant et déclenche selon ses caractéristiques : il contribue à protéger les <b>personnes</b>, sans garantir une sécurité absolue. Le <b>fusible</b> ou le disjoncteur protège l’<b>installation</b> contre les surintensités (court-circuit, surcharge).',
       'Règles : ne jamais toucher un appareil électrique les mains mouillées, ne rien introduire dans une prise, couper le courant avant toute réparation, ne pas surcharger les multiprises.'
     ],
     quiz: [
-      { q: 'Quelle borne d’une prise est dangereuse ?', o: ['Le neutre', 'La terre', 'La phase', 'Aucune'], a: 2, e: 'La phase est à environ 220 V par rapport à la terre.' },
+      { q: 'Quelle borne est sous tension par rapport à la terre dans ce modèle ?', o: ['Le neutre', 'La terre', 'La phase', 'Aucune'], a: 2, e: 'La phase est à environ 220 V par rapport à la terre.' },
       { q: 'Le tournevis testeur s’allume sur :', o: ['la phase', 'le neutre', 'la terre', 'les trois bornes'], a: 0, e: 'Il signale la phase.' },
-      { q: 'À partir de quelle intensité dans le corps le danger devient-il grave ?', o: ['0,1 mA', '1 mA', 'environ 30 mA', '10 A'], a: 2, e: 'Au-delà d’environ 30 mA : risque de paralysie respiratoire.' },
-      { q: 'Pourquoi relie-t-on la carcasse d’une machine à laver à la terre ?', o: ['Pour qu’elle consomme moins', 'Pour que le courant de fuite passe par la terre', 'Pour la refroidir', 'Pour éviter les courts-circuits'], a: 1, e: 'En cas de défaut, la fuite part par la terre, pas par la personne.' },
+      { q: 'Le danger d’un courant traversant le corps dépend notamment :', o: ['uniquement de sa couleur', 'uniquement de la puissance inscrite sur l’appareil', 'de son intensité, de sa durée et de son trajet', 'uniquement de la marque du disjoncteur'], a: 2, e: 'Le danger dépend de ces facteurs ; 30 mA n’est pas une frontière universelle de sécurité.' },
+      { q: 'Pourquoi relie-t-on la carcasse d’une machine à laver à la terre ?', o: ['Pour qu’elle consomme moins', 'Pour que le courant de fuite passe par la terre', 'Pour la refroidir', 'Pour éviter les courts-circuits'], a: 1, e: 'La liaison à la terre facilite l’évacuation du courant de défaut et le déclenchement de la protection ; elle ne dispense jamais des autres mesures de sécurité.' },
       { q: 'Quel appareil protège les personnes contre l’électrocution ?', o: ['Le fusible', 'Le disjoncteur différentiel 30 mA', 'La multiprise', 'L’ampoule'], a: 1, e: 'Il coupe dès qu’une fuite de 30 mA apparaît.' }
     ]
   });
