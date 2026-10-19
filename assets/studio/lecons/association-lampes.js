@@ -220,7 +220,7 @@
     quiz: [
       { q: 'Deux lampes en série :', o: ['forment deux boucles', 'forment une seule boucle', 'ne s’allument jamais', 'sont toujours plus brillantes'], a: 1, e: 'Le courant n’a qu’un seul chemin.' },
       { q: 'En dérivation, une lampe grille. Les autres :', o: ['s’éteignent', 'continuent de briller', 'grillent aussi', 'brillent moins'], a: 1, e: 'Chaque lampe a sa propre boucle.' },
-      { q: 'Trois lampes identiques en série sur leur générateur adapté brillent :', o: ['normalement', 'faiblement', 'trop fort', 'pas du tout'], a: 1, e: 'La tension se partage entre les trois lampes.' },
+      { q: 'Trois lampes identiques (6 V) sont branchées en série sur un générateur de 6 V. Elles brillent :', o: ['normalement', 'faiblement', 'trop fort', 'pas du tout'], a: 1, e: 'La tension de 6 V se partage entre les trois lampes : chacune reçoit environ 2 V, moins que ses 6 V nominaux.' },
       { q: 'Les prises d’une maison sont montées :', o: ['en série', 'en dérivation', 'au hasard', 'en boucle unique'], a: 1, e: 'Chaque appareil fonctionne indépendamment.' },
       { q: 'Sur un schéma, le symbole d’une lampe est :', o: ['un rectangle', 'un cercle avec une croix', 'deux traits parallèles', 'un triangle'], a: 1, e: 'Cercle barré d’une croix.' }
     ]

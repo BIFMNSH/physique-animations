@@ -148,7 +148,7 @@
       var lab = Lab(api.g, { onSel: function () { api.sound('tick'); } }), st = lab.st, c = api.c, rows = [];
       var cM = c.seg({ label: 'Expérience', value: 'compare', options: [{ v: 'compare', l: 'Trois liquides' }, { v: 'one', l: 'Un seul ballon' }, { v: 'thermo', l: 'Le thermomètre' }], onChange: function (v) { st.mode = v; vis(); } });
       var cL = c.seg({ label: 'Liquide', value: 'eau', options: Object.keys(LIQ).map(function (k) { return { v: k, l: LIQ[k].n }; }), onChange: function (v) { st.one = v; } });
-      var sT = c.slider({ label: 'Température du bain-marie', min: 0, max: 90, step: 1, value: 20, unit: '°C', onInput: function (v) { st.T = v; } });
+      var sT = c.slider({ label: 'Température du bain-marie', min: 6, max: 90, step: 1, value: 20, unit: '°C', onInput: function (v) { st.T = v; } });
       var sH = c.slider({ label: 'Température du bain', min: -10, max: 100, step: 1, value: 20, unit: '°C', onInput: function (v) { st.tTher = v; } });
       function vis() { cL.hide(st.mode !== 'one'); sT.hide(st.mode === 'thermo'); sH.hide(st.mode !== 'thermo'); }
       vis();
@@ -181,11 +181,11 @@
     intro: 'Chauffe, refroidis, compare : les liquides n’ont qu’à bien se tenir !',
     missions: [
       { title: 'Sous le repère', text: 'Fais descendre l’eau colorée <span style="color:#4FA8FF">sous le repère</span>.', lumi: 'Que faut-il faire au bain-marie ?', hint: 'Refroidis le bain (glace).',
-        build: function (api) { var lab = mini(api, { mode: 'one', one: 'eau', T: 50 }); api.c.slider({ label: 'Température du bain-marie', min: 0, max: 90, step: 1, value: 50, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.d < -0.15 ? { ok: true, msg: 'Refroidie, l’eau se contracte.' } : { ok: false, msg: 'Le niveau est encore au-dessus du repère.' }; }; },
+        build: function (api) { var lab = mini(api, { mode: 'one', one: 'eau', T: 50 }); api.c.slider({ label: 'Température du bain-marie', min: 6, max: 90, step: 1, value: 50, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.d < -0.15 ? { ok: true, msg: 'Refroidie, l’eau se contracte.' } : { ok: false, msg: 'Le niveau est encore au-dessus du repère.' }; }; },
         e: 'En refroidissant, le liquide se contracte : son niveau descend.' },
       { type: 'qcm', title: 'Volume', text: 'Quand un liquide se contracte, son volume :', o: ['augmente', 'diminue', 'ne change pas', 'double'], a: 1, hint: 'Contraction…', e: 'Il diminue.' },
       { title: 'Le champion', text: 'Chauffe les trois ballons à au moins <b>60 °C</b>, puis <b>clique sur le liquide</b> qui se dilate le plus.', lumi: 'Compare les hauteurs dans les tubes.', hint: 'C’est le liquide des thermomètres.',
-        build: function (api) { var lab = mini(api, { mode: 'compare' }); api.c.slider({ label: 'Température du bain-marie', min: 0, max: 90, step: 1, value: 20, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.T >= 60 && r.sel === 'alcool' ? { ok: true, msg: 'L’alcool se dilate le plus !' } : { ok: false, msg: r.T < 60 ? 'Chauffe d’abord à 60 °C.' : 'Clique sur le liquide qui monte le plus.' }; }; },
+        build: function (api) { var lab = mini(api, { mode: 'compare' }); api.c.slider({ label: 'Température du bain-marie', min: 6, max: 90, step: 1, value: 20, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.T >= 60 && r.sel === 'alcool' ? { ok: true, msg: 'L’alcool se dilate le plus !' } : { ok: false, msg: r.T < 60 ? 'Chauffe d’abord à 60 °C.' : 'Clique sur le liquide qui monte le plus.' }; }; },
         e: 'À même température, l’alcool se dilate le plus.' },
       { type: 'qcm', title: 'Le thermomètre', text: 'Le thermomètre à alcool fonctionne grâce :', o: ['à l’évaporation de l’alcool', 'à la dilatation de l’alcool', 'à la pression de l’air', 'à l’électricité'], a: 1, hint: 'L’alcool monte dans le tube…', e: 'L’alcool se dilate et monte dans le tube.' },
       { title: '37 °C', text: 'Règle le bain pour que le thermomètre indique <span style="color:var(--amber)">37 °C</span>, la température du corps.', lumi: 'Lis bien les graduations.', hint: 'Entre 30 et 40.',
@@ -202,6 +202,7 @@
       'Expérience : le niveau d’eau colorée dans le tube monte au-dessus du repère quand on chauffe, et descend en dessous quand on refroidit.',
       'La dilatation dépend de la <b>nature du liquide</b> : à même température, l’alcool se dilate plus que l’huile, qui se dilate plus que l’eau.',
       'Les liquides se dilatent plus que les solides.',
+      'Modèle simplifié, valable de 6 à 90 °C environ. Exception : entre 0 et 4 °C, l’eau se <b>contracte</b> quand on la chauffe (c’est pourquoi la glace flotte et les lacs gèlent par le dessus).',
       'Application : le <b>thermomètre</b> à liquide. Précaution : on ne remplit pas une bouteille ou un réservoir à ras bord.'
     ],
     quiz: [

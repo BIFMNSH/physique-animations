@@ -8,7 +8,7 @@
   };
   function uni(pH) { var st = [[0, [220, 30, 40]], [3, [240, 90, 40]], [5, [245, 190, 40]], [7, [70, 180, 70]], [9, [40, 150, 170]], [11, [50, 80, 200]], [14, [110, 40, 150]]]; for (var i = 1; i < st.length; i++) if (pH <= st[i][0]) { var a = st[i - 1], b = st[i], k = (pH - a[0]) / (b[0] - a[0]); return 'rgb(' + a[1].map(function (v, j) { return Math.round(v + (b[1][j] - v) * k); }).join(',') + ')'; } return 'rgb(110,40,150)'; }
   function bbt(pH) { return pH < 6 ? '#F2D23C' : pH <= 7.6 ? '#4CAF50' : '#2E6BD8'; }
-  function kind(pH) { return pH < 6.95 ? 'acide' : pH > 7.05 ? 'basique' : 'neutre'; }
+  function kind(pH) { pH = Math.round(pH * 10) / 10; return pH < 7 ? 'acide' : pH > 7 ? 'basique' : 'neutre'; }
   function dil(pH0, f) { var acid = pH0 < 7, d = Math.log10(f), p = acid ? pH0 + d : pH0 - d; if (acid && p > 6.5) p = 7 - 0.5 * Math.exp(-(p - 6.5)); if (!acid && p < 7.5) p = 7 + 0.5 * Math.exp(-(7.5 - p)); return p; }
 
   function Lab(G, o) {

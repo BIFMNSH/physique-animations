@@ -111,7 +111,7 @@
     duration: 71, chapters: CH,
     segs: [
       { t: 0, d: 6.6, say: 'Au village, on remonte l’eau du puits avec un seau. Comment mesurer l’effort fourni ?', sub: 'Comment mesurer l’<b>effort</b> ?' },
-      { t: 7, d: 11.6, say: 'Une force travaille quand son point d’application se déplace. Pousser le chariot avec cinquante newtons sur quatre mètres : le travail vaut F fois d, soit deux cents joules.', sub: '<b>W = F × d</b> = 50 × 4 = 200 J.' },
+      { t: 7, d: 11.6, say: 'Une force travaille quand son point d’application se déplace dans sa direction. Pousser le chariot avec cinquante newtons sur quatre mètres : le travail vaut F fois d, soit deux cents joules.', sub: '<b>W = F × d</b> = 50 × 4 = 200 J.' },
       { t: 19, d: 11.6, say: 'Pour remonter un seau de dix kilogrammes d’un puits de huit mètres, on travaille contre son poids : m fois g fois h, soit huit cents joules.', sub: 'W = m × g × h = <b>800 J</b>.' },
       { t: 31, d: 6.4, say: 'Kofi remonte le seau en vingt secondes : sa puissance est huit cents divisé par vingt, soit quarante watts.', sub: '<b>P = W / t</b> = 800 / 20 = 40 W.' },
       { t: 37.6, d: 6, say: 'Aya fait le même travail en quarante secondes : sa puissance n’est que de vingt watts.', sub: 'Même travail, plus lentement : 20 W.' },
@@ -164,7 +164,7 @@
       api.say('Appuie sur « Lancer » pour remonter le seau.');
       return { bilan: function () {
         if (rows.length < 3) return '<p>Relève au moins 3 mesures.</p>';
-        return '<p>Une force <b>travaille</b> lorsque son point d’application se déplace. Pour une force constante parallèle au déplacement : <b>W = F × d</b>, en <b>joules (J)</b>. Le travail du poids lors d’un déplacement vertical de hauteur h : <b>W = m × g × h</b>.</p><p>Le travail est <b>moteur</b> (positif) si la force est dans le sens du déplacement, <b>résistant</b> (négatif) si elle s’y oppose.</p><p>La <b>puissance</b> mesure la rapidité du travail : <b>P = W / t</b>, en <b>watts (W)</b>. Pour un même travail, plus la durée est courte, plus la puissance est grande.</p>';
+        return '<p>Une force <b>travaille</b> lorsque son point d’application se déplace et qu’elle n’est pas perpendiculaire au déplacement (une force perpendiculaire au déplacement, comme le poids d’un chariot sur un sol horizontal, ne travaille pas). Pour une force constante parallèle au déplacement : <b>W = F × d</b>, en <b>joules (J)</b>. Le travail du poids lors d’un déplacement vertical de hauteur h : <b>W = m × g × h</b>.</p><p>Le travail est <b>moteur</b> (positif) si la force est dans le sens du déplacement, <b>résistant</b> (négatif) si elle s’y oppose.</p><p>La <b>puissance</b> mesure la rapidité du travail : <b>P = W / t</b>, en <b>watts (W)</b>. Pour un même travail, plus la durée est courte, plus la puissance est grande.</p>';
       } };
     }
   };
@@ -193,7 +193,7 @@
     id: '3e-travail-puissance', level: '3e', theme: 'Mécanique', title: 'Travail et puissance mécaniques', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
-      'Une force <b>travaille</b> lorsque son point d’application se déplace.',
+      'Une force <b>travaille</b> lorsque son point d’application se déplace et qu’elle n’est pas perpendiculaire au déplacement. Une force perpendiculaire au déplacement ne travaille pas (W = 0).',
       'Travail d’une force constante parallèle au déplacement : <b>W = F × d</b> (F en N, d en m, W en <b>joules, J</b>).',
       'Travail du poids pour une dénivellation h : <b>W = m × g × h</b>. Il est <b>moteur</b> à la descente et <b>résistant</b> à la montée.',
       'Le travail est <b>moteur</b> si la force est dans le sens du déplacement, <b>résistant</b> (négatif) si elle s’y oppose (frottements).',

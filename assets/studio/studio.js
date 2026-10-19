@@ -268,8 +268,28 @@
     return { t: '', href: L.back || '../', done: true };
   }
   /* ---------- quiz ---------- */
-  function quiz(stage, qs, title, onDone, next) {
-    var m = h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Quiz' }, stage), i = 0, score = 0;
+  /* fenêtre modale accessible : focus placé et contenu, Échap pour fermer, focus rendu au déclencheur */
+  function trapModal(m, onClose) {
+    var prev = document.activeElement;
+    function items() { return Array.prototype.filter.call(m.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'), function (x) { return !x.disabled && x.offsetParent !== null; }); }
+    function key(e) {
+      if (e.key === 'Escape') { e.preventDefault(); onClose(); return; }
+      if (e.key !== 'Tab') return;
+      var it = items(); if (!it.length) return;
+      var f = it[0], l = it[it.length - 1];
+      if (e.shiftKey && (document.activeElement === f || !m.contains(document.activeElement))) { e.preventDefault(); l.focus(); }
+      else if (!e.shiftKey && (document.activeElement === l || !m.contains(document.activeElement))) { e.preventDefault(); f.focus(); }
+    }
+    document.addEventListener('keydown', key, true);
+    setTimeout(function () { var it = items(); if (it.length && !m.contains(document.activeElement)) it[0].focus(); }, 0);
+    return { release: function () { document.removeEventListener('keydown', key, true); try { if (prev && prev.focus) prev.focus(); } catch (e) {} }, focusFirst: function () { var it = items(); if (it.length) it[0].focus(); } };
+  }
+  var printTeacher = false;
+  function printSheet(teacher) { printTeacher = teacher === true; try { window.print(); } finally { printTeacher = false; } }
+  function quiz(stage, qs, title, onDone, next, onClose) {
+    var m = h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Quiz' }, stage), i = 0, score = 0, closed = false;
+    function close() { if (closed) return; closed = true; m.remove(); a11y.release(); onClose && onClose(); }
+    var a11y = trapModal(m, close);
     var box = h('div', { class: 'box' }, m);
     function show() {
       if (i >= qs.length) {
@@ -277,10 +297,10 @@
         box.innerHTML = '<div style="display:flex;gap:16px;align-items:center">' + lumi(90, ok ? 'happy2' : 'think') + '<div><span class="kick">Quiz terminé</span><h2>' + score + ' / ' + qs.length + (ok ? ' · Bravo !' : '') + '</h2><p style="margin:6px 0 0;color:var(--soft)">' + (ok ? 'Tu as le badge de cette leçon.' : 'Relis « À retenir » et retente ta chance : il faut 4 bonnes réponses sur 5.') + '</p></div></div>';
         var r = h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, box);
         h('button', { class: 'btn' }, r, 'Recommencer').onclick = function () { i = 0; score = 0; show(); };
-        h('button', { class: 'btn' + (next ? '' : ' primary') }, r, 'Fermer').onclick = function () { m.remove(); };
+        h('button', { class: 'btn' + (next ? '' : ' primary') }, r, 'Fermer').onclick = close;
         if (next) { var a = h('a', { class: 'btn primary', href: next.href }, r, (next.done ? 'Retour au parcours' : 'Leçon suivante : ' + esc(next.t)) + ' ▸'); a.style.textDecoration = 'none'; }
         if (ok) { sound('win'); confetti(stage); }
-        onDone && onDone(score, ok); return;
+        a11y.focusFirst(); onDone && onDone(score, ok); return;
       }
       var q = qs[i];
       box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center"><span class="kick">' + esc(title) + ' · question ' + (i + 1) + ' / ' + qs.length + '</span></div><h2>' + q.q + '</h2>';
@@ -296,7 +316,8 @@
           nx = h('button', { class: 'btn primary', style: 'align-self:flex-end' }, box, i + 1 < qs.length ? 'Question suivante →' : 'Voir mon score'); nx.onclick = function () { i++; show(); }; nx.focus();
         };
       });
-      var cl = h('button', { class: 'btn sm', style: 'align-self:flex-start' }, box, 'Fermer le quiz'); cl.onclick = function () { m.remove(); };
+      var cl = h('button', { class: 'btn sm', style: 'align-self:flex-start' }, box, 'Fermer le quiz'); cl.onclick = close;
+      a11y.focusFirst();
     }
     show();
   }
@@ -379,7 +400,6 @@
     };
     function mvSpot(e) { if (!spot) return; var p = stagePt(e); spot.style.setProperty('--x', p.x + 'px'); spot.style.setProperty('--y', p.y + 'px'); }
     bPen.onclick = function () {
-      if (pen) { pen.c.style.pointerEvents = 'none'; pen.on = false; pen.c.style.cursor = ''; }
       if (!pen) {
         var c = h('canvas', { class: 'draw', width: stage.offsetWidth, height: stage.offsetHeight }, stage), g = c.getContext('2d'), down = false;
         g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = '#FFB547'; g.lineWidth = 5;
@@ -387,8 +407,9 @@
         c.addEventListener('pointermove', function (e) { if (!down) return; var p = stagePt(e); g.lineTo(p.x, p.y); g.stroke(); });
         c.addEventListener('pointerup', function () { down = false; });
         pen = { c: c, g: g, on: true };
-      } else { pen.on = !pen.on; pen.c.style.pointerEvents = pen.on ? 'auto' : 'none'; }
-      bPen.setAttribute('aria-pressed', pen.on);
+      } else { pen.on = !pen.on; }
+      pen.c.style.pointerEvents = pen.on ? 'auto' : 'none'; pen.c.style.cursor = pen.on ? 'crosshair' : '';
+      bPen.setAttribute('aria-pressed', String(pen.on));
     };
     bClr.onclick = function () { if (pen) pen.g.clearRect(0, 0, pen.c.width, pen.c.height); };
     bFrz.onclick = function () { frozen = !frozen; app.classList.toggle('frozen', frozen); bFrz.setAttribute('aria-pressed', frozen); hush(); toast(frozen ? 'Écran figé' : 'Animation relancée'); };
@@ -428,12 +449,14 @@
 
     /* ---------- mode enseignant ---------- */
     var mp = h('div', { class: 'modal', hidden: '', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Mode enseignant' }, stage);
-    bProf.onclick = function () { drawProf(); mp.hidden = false; };
+    var profA11y = null;
+    function closeProf() { mp.hidden = true; applyProf(); if (profA11y) { profA11y.release(); profA11y = null; } }
+    bProf.onclick = function () { drawProf(); mp.hidden = false; profA11y = trapModal(mp, closeProf); };
     function drawProf() {
       mp.innerHTML = '';
       var box = h('div', { class: 'box', style: 'width:min(1100px,96%)' }, mp);
       var hd = h('div', { style: 'display:flex;align-items:center;gap:12px' }, box, '<span class="btn sm primary" style="pointer-events:none">' + ICON.lock + 'Mode enseignant</span><h2 style="flex:1">Préparer ma séance</h2>');
-      h('button', { class: 'btn' }, hd, 'Fermer').onclick = function () { mp.hidden = true; applyProf(); };
+      h('button', { class: 'btn' }, hd, 'Fermer').onclick = closeProf;
       var gr = h('div', { style: 'display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px' }, box);
       var c1 = h('div', { class: 'card' }, gr, '<h3>1 · Déroulé de la leçon</h3>'), k1 = controls(c1);
       [['resume', 'Résumé vidéo'], ['sim', 'Simulation'], ['defi', 'Défi'], ['quiz', 'Quiz de sortie']].forEach(function (st) { k1.toggle({ label: st[1], value: PROF.steps[st[0]], onChange: function (v) { PROF.steps[st[0]] = v; save('pc-studio-prof', PROF); paintSteps(); } }); });
@@ -466,8 +489,13 @@
     /* ---------- vues ---------- */
     var views = {}, cur = null, ctl = {};
     function go(name) {
-      if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k]; })[0]; if (!nx) return; name = nx; }
-      if (name === 'quiz') { quiz(stage, L.quiz, L.title, function (sc, ok) { if (ok) { prog.quiz = true; save('pc-studio-prog', PROG); paintSteps(); } }, nextLesson(L)); return; }
+      if (name === 'quiz' && !PROF.steps.quiz) { toast('Le quiz est désactivé par l’enseignant'); return; }
+      if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k] && k !== 'quiz'; })[0]; name = nx || 'resume'; }
+      if (name === 'quiz') {
+        var back = cur; hush(); if (back && ctl[back] && ctl[back].leave) ctl[back].leave();
+        quiz(stage, L.quiz, L.title, function (sc, ok) { if (ok) { prog.quiz = true; save('pc-studio-prog', PROG); paintSteps(); } }, nextLesson(L), function () { if (back && ctl[back] && ctl[back].resume) ctl[back].resume(); });
+        return;
+      }
       hush();
       Object.keys(views).forEach(function (k) { views[k].hidden = k !== name; if (ctl[k] && ctl[k].leave && k !== name) ctl[k].leave(); });
       cur = name; paintSteps();
@@ -487,8 +515,9 @@
     /* fiche à imprimer */
     var fiche = h('div', { id: 'fiche' }, document.body);
     window.addEventListener('beforeprint', function () {
+      var teacher = printTeacher;
       fiche.innerHTML = '<h1>' + esc(L.title) + '</h1><p>Physique-chimie · ' + L.level + ' · ' + esc(L.theme) + '</p><h2>À retenir</h2>' + L.retiens.map(function (r) { return '<div class="box">' + r + '</div>'; }).join('') +
-        '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol><p style="font-size:9pt;color:#555">Corrigé : ' + L.quiz.map(function (q, i) { return (i + 1) + String.fromCharCode(97 + q.a); }).join(' · ') + '</p>';
+        '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol>' + (teacher ? '<h2>Corrigé (professeur)</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + String.fromCharCode(97 + q.a) + ')</b> ' + q.o[q.a] + (q.e ? ' — ' + q.e : '') + '</li>'; }).join('') + '</ol>' : '<h2>Mes réponses et justifications</h2><div class="box" style="min-height:120px"></div>');
     });
 
     /* mise à l'échelle */
@@ -620,7 +649,7 @@
       });
     }
     seek(0);
-    return { enter: function () { render(true); }, leave: function () { play(false); } };
+    return { enter: function () { render(true); }, leave: function () { play(false); }, resume: function () { render(true); } };
   }
 
   /* ================== SIMULATION ================== */
@@ -647,7 +676,8 @@
     var bilCard = h('div', { class: 'card res' }, panes.bilan);
     var retCard = h('div', { class: 'card' }, panes.bilan, '<h3>À retenir</h3><ul>' + ctx.L.retiens.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul>');
     var br = h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' }, panes.bilan);
-    h('button', { class: 'btn' }, br, 'Imprimer la fiche').onclick = function () { window.print(); };
+    h('button', { class: 'btn' }, br, 'Fiche élève').onclick = function () { printSheet(false); };
+    h('button', { class: 'btn' }, br, 'Corrigé professeur').onclick = function () { printSheet(true); };
     h('button', { class: 'btn primary' }, br, 'Relever le défi ▸').onclick = function () { ctx.go('defi'); };
     var resets = [];
     var api = {
@@ -782,7 +812,10 @@
       try { localStorage.setItem('pc-studio-defi-' + ctx.L.id, JSON.stringify({ at: Date.now(), teams: sorted.map(function (t) { return { n: t.n, pts: t.pts }; }) })); } catch (e) {}
     }
     intro();
-    return { enter: function () {}, leave: function () { run = false; } };
+    var paused = false;
+    function pause() { if (run) { paused = true; run = false; } }
+    function resume() { if (paused) { paused = false; run = true; } }
+    return { enter: resume, leave: pause, resume: resume };
   }
 
   window.Studio = { start: start, kit: kit, h: h, s: s, attr: attr, fmt: fmt, esc: esc, clamp: clamp, ease: ease, lumi: lumi, settings: SET, prof: PROF, progress: PROG, applySettings: applySettings, onSettings: onSettings, loop: loop, speak: speak, sound: sound, confetti: confetti, chart: chart, gauss: gauss, store: store, save: save };

@@ -5,7 +5,7 @@
   function solve(st) {
     var cut = !st.closed || st.blown || st.tripped;
     if (cut) return { I: 0, V1: 0, V2: 0 };
-    if (st.sc === 'G') return { I: 6, V1: 0, V2: 0 };
+    if (st.sc === 'G') return { I: 6, V1: 0, V2: 0 }; /* valeur d’illustration : en réalité elle dépend de la résistance interne du générateur */
     if (st.sc === 'L1') return { I: U / R, V1: 0, V2: U };
     return { I: U / (2 * R), V1: U / 2, V2: U / 2 };
   }
@@ -165,7 +165,7 @@
       api.say('Pose un fil aux bornes de L1.');
       return { bilan: function () {
         if (rows.length < 3) return '<p>Relève au moins 3 observations.</p>';
-        return '<p>Un dipôle est <b>court-circuité</b> lorsqu’un fil de connexion relie ses deux bornes : le courant passe par le fil. Une lampe court-circuitée s’éteint ; dans un circuit en série, l’autre lampe brille plus fort.</p><p>Le <b>court-circuit du générateur</b> est dangereux : l’intensité devient très grande, les fils et le générateur s’échauffent, les isolants peuvent fondre et provoquer un <b>incendie</b>.</p><p>On protège les installations avec un <b>fusible</b> (son fil fond et coupe le courant ; on le remplace) ou un <b>disjoncteur</b> (il se déclenche ; on le réarme après avoir supprimé la cause).</p>';
+        return '<p>Un dipôle est <b>court-circuité</b> lorsqu’un fil de connexion relie ses deux bornes : le courant passe par le fil. Une lampe court-circuitée s’éteint ; dans un circuit en série, l’autre lampe brille plus fort.</p><p>Le <b>court-circuit du générateur</b> est dangereux : l’intensité devient très grande, les fils et le générateur s’échauffent, les isolants peuvent fondre et provoquer un <b>incendie</b>.</p><p>On protège les installations avec un <b>fusible</b> (son fil fond et coupe le courant ; on le remplace) ou un <b>disjoncteur</b> (il se déclenche ; on le réarme après avoir supprimé la cause).</p><p style="font-size:13px;color:var(--muted)">Dans cette simulation, l’intensité de court-circuit est une valeur d’illustration : en réalité, elle dépend du générateur (de sa résistance interne) et peut devenir très grande.</p>';
       } };
     }
   };

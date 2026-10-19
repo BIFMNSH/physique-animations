@@ -114,8 +114,8 @@
       // jauges
       [Q.deb, Q.sand, Q.clay, Q.mic].forEach(function (v, k) { attr(bars[k].f, { width: Math.max(0, 140 * v) }); bars[k].v.textContent = Math.round(v * 100) + ' %'; });
       verdict.style.display = st.verdict ? '' : 'none';
-      vR.setAttribute('fill', Q.pot ? '#3DD68C' : '#FF5A4E'); vT.setAttribute('fill', Q.pot ? '#06281A' : '#2A0805'); vT.textContent = Q.pot ? 'EAU POTABLE' : 'NON POTABLE';
-      var why = Q.deb ? 'Les débris passent : il faut une grille.' : Q.sand > 0.05 ? 'Il reste du sable dans l’eau.' : Q.clay > 0.1 ? 'L’eau est encore trouble.' : Q.tooMuch ? 'Trop de chlore : goût et odeur désagréables.' : Q.mic > 0.05 ? 'L’eau est limpide… mais pleine de microbes !' : 'Limpide et sans microbes dangereux.';
+      vR.setAttribute('fill', Q.pot ? '#3DD68C' : '#FF5A4E'); vT.setAttribute('fill', Q.pot ? '#06281A' : '#2A0805'); vT.textContent = Q.pot ? 'EAU TRAITÉE' : 'NON POTABLE';
+      var why = Q.deb ? 'Les débris passent : il faut une grille.' : Q.sand > 0.05 ? 'Il reste du sable dans l’eau.' : Q.clay > 0.1 ? 'L’eau est encore trouble.' : Q.tooMuch ? 'Trop de chlore : goût et odeur désagréables.' : Q.mic > 0.05 ? 'L’eau est limpide… mais pleine de microbes !' : 'Traitée dans ce modèle (en vrai : analyses obligatoires).';
       bNote.textContent = 'Eau à la sortie (en % de l’eau brute de la rivière).'; bNote2.textContent = why;
       Q.why = why; return Q;
     }
@@ -138,7 +138,7 @@
         st.t = t * 1.6; st.gr = t > 12; st.de = t > 22; st.tDec = 3 * K.k(t, 23, 6); st.fi = t > 34; st.ch = t > 46; st.dose = 1.2 * K.k(t, 47, 4); st.verdict = t > 2;
         lab.step();
         tg.show(t, 3, 9.6, 380, 92, 'Débris, sable, boue et microbes') || tg.show(t, 13, 19.6, 380, 92, 'La grille arrête les gros débris') || tg.show(t, 24, 31.6, 380, 92, 'Au repos, les particules tombent au fond') ||
-          tg.show(t, 35, 42.6, 380, 92, 'Le sable retient les fines particules') || tg.show(t, 47, 52, 380, 92, 'Limpide… mais pas encore potable !') || tg.show(t, 52.4, 56.6, 380, 92, 'Le chlore détruit les microbes : eau potable');
+          tg.show(t, 35, 42.6, 380, 92, 'Le sable retient les fines particules') || tg.show(t, 47, 52, 380, 92, 'Limpide… mais pas encore potable !') || tg.show(t, 52.4, 56.6, 380, 92, 'Le chlore détruit les microbes');
       }
       bg.setAttribute('opacity', t > 56.8 ? 1 : 0);
       K.group(g5, t, 56.8, 99); cards(t);
@@ -159,10 +159,10 @@
       { t: 32, d: 2.8, say: 'Troisième étape : la filtration.', sub: 'Étape 3 : la <b>filtration</b>.' },
       { t: 35, d: 7.6, say: 'L’eau traverse du sable et du gravier, qui retiennent les plus fines particules. L’eau devient limpide.', sub: 'Sable et gravier retiennent les fines particules : eau <b>limpide</b>.' },
       { t: 43, d: 3.6, say: 'Mais attention : une eau limpide peut encore contenir des microbes.', sub: 'Limpide ne veut pas dire <b>potable</b> !' },
-      { t: 46.8, d: 9.6, say: 'Dernière étape : la désinfection. Un peu de chlore détruit les microbes. L’eau est potable, elle part vers le château d’eau.', sub: 'Étape 4 : la <b>désinfection</b> au chlore : l’eau est <b>potable</b>.' },
+      { t: 46.8, d: 9.6, say: 'Dernière étape : la désinfection. Le chlore détruit les microbes. Après contrôle en laboratoire, l’eau part vers le château d’eau.', sub: 'Étape 4 : la <b>désinfection</b> au chlore, puis les contrôles.' },
       { t: 57, d: 4.4, say: 'À retenir : l’eau naturelle n’est pas toujours potable.', sub: 'L’eau naturelle n’est pas toujours potable.' },
       { t: 61.6, d: 4.2, say: 'Dégrillage, décantation et filtration la rendent limpide.', sub: 'Dégrillage, décantation, filtration : eau <b>limpide</b>.' },
-      { t: 66, d: 5, say: 'La désinfection détruit les microbes : l’eau devient potable.', sub: 'La <b>désinfection</b> la rend <b>potable</b>.' }
+      { t: 66, d: 5, say: 'La désinfection détruit les microbes ; des analyses vérifient ensuite que l’eau est potable.', sub: 'La <b>désinfection</b>, puis les <b>analyses</b>.' }
     ],
     learn: [
       { t: 19, ch: 1, html: '<b>Dégrillage</b> : une grille arrête les gros débris.' },
@@ -181,7 +181,7 @@
     steps: [
       'Désactive toutes les étapes : que contient l’eau qui arrive au robinet ?',
       'Active les étapes une à une et observe les jauges : quel rôle joue chacune ?',
-      'Règle la durée de décantation et la dose de chlore pour obtenir une eau potable.',
+      'Règle la durée de décantation et la dose de chlore pour obtenir une eau traitée (dans ce modèle simplifié).',
       'Relève plusieurs doses de chlore dans l’onglet Mesures.'
     ],
     build: function (api) {
@@ -191,7 +191,7 @@
       var sC = c.slider({ label: 'Dose de chlore', min: 0, max: 2, step: 0.1, value: 1.2, unit: 'mg/L', dec: 1, onInput: function (v) { st.dose = v; } });
       var ro = api.readouts([{ k: 't', label: 'Turbidité' }, { k: 'm', label: 'Microbes restants' }, { k: 'v', label: 'Verdict' }]);
       var last = {};
-      api.loop(function () { last = lab.step(); ro.t.set(Math.round(last.clay * 100) + ' %'); ro.m.set(Math.round(last.mic * 100) + ' %'); ro.v.set(last.pot ? 'potable' : 'non potable'); });
+      api.loop(function () { last = lab.step(); ro.t.set(Math.round(last.clay * 100) + ' %'); ro.m.set(Math.round(last.mic * 100) + ' %'); ro.v.set(last.pot ? 'traitée (modèle)' : 'non potable'); });
       var M = api.measure; M.innerHTML = '<h3>Mes analyses</h3>';
       var br = api.h('div', { style: 'display:flex;gap:8px' }, M), bR = api.h('button', { class: 'btn sm primary' }, br, 'Analyser l’eau'), tb = api.h('div', { style: 'margin-top:8px' }, M);
       bR.onclick = function () { rows.push({ cfg: ST.filter(function (x) { return st[x.k]; }).map(function (x) { return x.n.slice(0, 4) + '.'; }).join(' ') || 'aucune', d: st.ch ? st.dose : 0, m: last.mic, v: last.pot }); api.sound(last.pot ? 'ok' : 'tick'); paint(); if (rows.length >= 4) api.done(); };
@@ -206,7 +206,7 @@
       api.say('Désactive les étapes une à une pour voir leur rôle.');
       return { bilan: function () {
         if (rows.length < 3) return '<p>Fais au moins 3 analyses avec des réglages différents.</p>';
-        return '<p>Le <b>dégrillage</b> arrête les gros débris, la <b>décantation</b> fait tomber les particules lourdes (plus elle dure, plus l’eau s’éclaircit), la <b>filtration</b> sur sable retient les fines particules : l’eau devient <b>limpide</b>.</p><p>Une eau limpide peut encore contenir des microbes : la <b>désinfection</b> au chlore les détruit. Il faut une dose suffisante… mais pas trop forte (goût, odeur).</p><p>L’eau potable est ensuite stockée dans le château d’eau et distribuée.</p>';
+        return '<p>Le <b>dégrillage</b> arrête les gros débris, la <b>décantation</b> fait tomber les particules lourdes (plus elle dure, plus l’eau s’éclaircit), la <b>filtration</b> sur sable retient les fines particules : l’eau devient <b>limpide</b>.</p><p>Une eau limpide peut encore contenir des microbes : la <b>désinfection</b> au chlore les détruit. Il faut une dose suffisante… mais pas trop forte (goût, odeur).</p><p>L’eau est ensuite stockée dans le château d’eau et distribuée.</p><p><b>Limites du modèle :</b> cette simulation est simplifiée. Dans une vraie station, la dose de chlore dépend de la qualité de l’eau et du temps de contact, et des analyses de laboratoire vérifient la potabilité, y compris des polluants chimiques que la filtration et le chlore n’éliminent pas. Aucun réglage de ce jeu ne garantit qu’une eau réelle est potable.</p>';
       } };
     }
   };
@@ -217,11 +217,11 @@
     title: 'Le défi de la station',
     intro: 'Tu diriges la station de traitement : la ville attend une eau potable !',
     missions: [
-      { title: 'Eau potable !', text: 'Toutes les étapes sont arrêtées. Remets la station en marche pour obtenir une <span style="color:#3DD68C">eau potable</span>.', lumi: 'Chaque étape retire quelque chose de différent…', hint: 'Active les 4 étapes.',
-        build: function (api) { var lab = mini(api, { gr: false, de: false, fi: false, ch: false }); var r = api.c.row(); ST.forEach(function (S0) { var b = api.c.button({ label: S0.n, sm: true, into: r, onClick: function () { lab.st[S0.k] = !lab.st[S0.k]; b.classList.toggle('primary', lab.st[S0.k]); } }); }); return function () { var q = lab.res(); return q.pot ? { ok: true, msg: 'Bravo, la ville a de l’eau potable !' } : { ok: false, msg: q.why }; }; },
+      { title: 'Remise en marche', text: 'Toutes les étapes sont arrêtées. Remets la station en marche pour obtenir une <span style="color:#3DD68C">eau traitée</span>.', lumi: 'Chaque étape retire quelque chose de différent…', hint: 'Active les 4 étapes.',
+        build: function (api) { var lab = mini(api, { gr: false, de: false, fi: false, ch: false }); var r = api.c.row(); ST.forEach(function (S0) { var b = api.c.button({ label: S0.n, sm: true, into: r, onClick: function () { lab.st[S0.k] = !lab.st[S0.k]; b.classList.toggle('primary', lab.st[S0.k]); } }); }); return function () { var q = lab.res(); return q.pot ? { ok: true, msg: 'Bravo, la station traite l’eau (il restera les analyses de contrôle).' } : { ok: false, msg: q.why }; }; },
         e: 'Il faut enchaîner dégrillage, décantation, filtration et désinfection.' },
       { type: 'qcm', title: 'La décantation', text: 'À quoi sert la décantation ?', o: ['À tuer les microbes', 'À faire tomber au fond les particules lourdes', 'À chauffer l’eau', 'À ajouter des minéraux'], a: 1, hint: 'Pense à l’eau boueuse qu’on laisse reposer.', e: 'Au repos, les particules plus lourdes que l’eau tombent au fond.' },
-      { title: 'La juste dose', text: 'Il y a trop de chlore ! Règle la dose pour que l’eau soit <span style="color:#3DD68C">potable</span> sans mauvais goût.', lumi: 'Ni trop, ni trop peu…', hint: 'Entre 0,9 et 1,5 mg/L.',
+      { title: 'La juste dose', text: 'Il y a trop de chlore ! Règle la dose pour que l’eau soit <span style="color:#3DD68C">désinfectée</span> sans mauvais goût.', lumi: 'Ni trop, ni trop peu…', hint: 'Entre 0,9 et 1,5 mg/L.',
         build: function (api) { var lab = mini(api, { dose: 2 }); api.c.slider({ label: 'Dose de chlore', min: 0, max: 2, step: 0.1, value: 2, unit: 'mg/L', dec: 1, onInput: function (v) { lab.st.dose = v; } }); return function () { var q = lab.res(); return q.pot ? { ok: true, msg: 'Dose parfaite : microbes détruits, pas de goût.' } : { ok: false, msg: q.why }; }; },
         e: 'Une dose suffisante détruit les microbes ; trop de chlore donne un mauvais goût.' },
       { type: 'qcm', title: 'Limpide = potable ?', text: 'L’eau sort limpide du filtre. Peut-on la boire ?', o: ['Oui, elle est claire', 'Non, il faut encore la désinfecter', 'Oui, si on la refroidit', 'Non, il faut la décanter encore'], a: 1, hint: 'Les microbes sont invisibles…', e: 'Une eau limpide peut contenir des microbes : il faut la désinfecter.' },
@@ -237,7 +237,7 @@
       '<b>Dégrillage</b> : une grille arrête les gros débris.',
       '<b>Décantation</b> : au repos, les particules lourdes tombent au fond. <b>Filtration</b> : le sable et le gravier retiennent les fines particules. L’eau devient <b>limpide</b>.',
       '<b>Désinfection</b> : le chlore (ou l’eau de Javel, l’ozone) détruit les microbes. Une eau limpide n’est pas forcément potable.',
-      'L’eau potable est stockée dans un <b>château d’eau</b> puis distribuée. À la maison, on peut aussi la faire bouillir ou utiliser quelques gouttes d’eau de Javel.'
+      'L’eau traitée et contrôlée est stockée dans un <b>château d’eau</b> puis distribuée. À la maison, en cas de doute sur l’eau, on suit les consignes des autorités sanitaires.'
     ],
     quiz: [
       { q: 'La grille du dégrillage arrête :', o: ['les microbes', 'les gros débris', 'le sel', 'le chlore'], a: 1, e: 'Feuilles, branches, plastiques…' },

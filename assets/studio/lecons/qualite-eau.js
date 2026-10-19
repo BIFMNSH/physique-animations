@@ -34,9 +34,9 @@
   function verdict(sm, done) {
     var d = done[sm] || {}, all = true, bad = null, any = false;
     TESTS.forEach(function (T) { if ((d[T.k] || 0) >= 1) { any = true; var r = result(sm, T.k); if (!r.ok && !bad) bad = T; } else all = false; });
-    if (bad) return { s: 'bad', t: 'NON POTABLE', why: bad.n + ' hors norme' };
+    if (bad) return { s: 'bad', t: 'NON CONFORME', why: bad.n + ' hors des valeurs de référence' };
     if (sm === 'distillee' && all) return { s: 'warn', t: 'BUVABLE MAIS SANS SELS', why: 'pas de sels minéraux utiles' };
-    return all ? { s: 'ok', t: 'POTABLE', why: 'tous les critères sont respectés' } : { s: 'wait', t: any ? 'ANALYSE EN COURS' : 'À ANALYSER', why: '' };
+    return all ? { s: 'ok', t: 'CONFORME AUX TESTS', why: 'ces 7 critères sont respectés (d’autres analyses restent nécessaires)' } : { s: 'wait', t: any ? 'ANALYSE EN COURS' : 'À ANALYSER', why: '' };
   }
   var PHC = ['#D32F2F', '#E53935', '#F4511E', '#FB8C00', '#FDD835', '#C0CA33', '#7CB342', '#43A047', '#00897B', '#00ACC1', '#1E88E5', '#3949AB', '#5E35B1', '#6A1B9A'];
   function phColor(p) { var i = Math.max(0, Math.min(13, Math.round(p) - 1)); return PHC[i]; }
@@ -154,8 +154,8 @@
     var G = api.g, tg = K.tagger(G), chap = K.chapter(G, CH);
     var g = s('g', { transform: 'translate(36 26) scale(0.92)' }, G), lab = Lab(g, { noTitle: true }), st = lab.st;
     var g5 = s('g', {}, G), cards = K.cards(g5, [
-      ['Une eau <b>potable</b> peut être bue sans danger', 'limpide, inodore, sans microbes, avec peu de sels minéraux.', 'var(--blue)'],
-      ['Le <b>pH</b> mesure l’acidité', 'pH < 7 acide, 7 neutre, > 7 basique ; eau potable : entre 6,5 et 8,5.', '#7CB342'],
+      ['Une eau <b>potable</b> peut être bue sans danger', 'limpide, inodore, sans microbes dangereux, peu de sels minéraux.', 'var(--blue)'],
+      ['Le <b>pH</b> mesure l’acidité', 'pH < 7 acide, 7 neutre, > 7 basique ; référence OMS : 6,5 à 8,5.', '#7CB342'],
       ['Des <b>réactifs</b> révèlent les ions', 'nitrate d’argent → Cl⁻, chlorure de baryum → SO₄²⁻, oxalate d’ammonium → Ca²⁺.', '#FFB547']], [56.2, 60.6, 65]);
     var bg = s('rect', { x: 0, y: 0, width: 900, height: 560, fill: 'var(--scene)', opacity: 0 }, G); G.insertBefore(bg, g5);
     function render(t) {
@@ -167,7 +167,7 @@
         lab.step();
         tg.show(t, 2.4, 5.8, 388, 92, 'Limpide et inodore') || tg.show(t, 8, 11.6, 388, 92, 'Trouble : elle n’est pas potable') || tg.show(t, 14.4, 18.6, 388, 92, 'pH ≈ 7 : neutre') || tg.show(t, 21, 25.6, 388, 92, 'pH 6,1 : trop acide') ||
           tg.show(t, 28.4, 31.2, 388, 92, 'Précipité blanc : ions chlorure') || tg.show(t, 33.4, 36, 388, 92, 'Précipité blanc : ions sulfate') || tg.show(t, 38.4, 41.6, 388, 92, 'Précipité blanc : ions calcium') ||
-          tg.show(t, 44.4, 47.8, 388, 92, 'Il reste des sels minéraux') || tg.show(t, 50.4, 55.6, 388, 92, 'Aucun microbe : eau potable !');
+          tg.show(t, 44.4, 47.8, 388, 92, 'Il reste des sels minéraux') || tg.show(t, 50.4, 55.6, 388, 92, 'Aucun microbe dangereux détecté');
       }
       bg.setAttribute('opacity', t > 55.8 ? 1 : 0);
       K.group(g5, t, 55.8, 99); cards(t);
@@ -187,16 +187,16 @@
       { t: 31.6, d: 4.6, say: 'Le chlorure de baryum révèle les ions sulfate.', sub: '<b>Chlorure de baryum</b> → ions <b>sulfate</b>.' },
       { t: 36.4, d: 5.4, say: 'L’oxalate d’ammonium révèle les ions calcium.', sub: '<b>Oxalate d’ammonium</b> → ions <b>calcium</b>.' },
       { t: 42, d: 6, say: 'Faisons évaporer l’eau : il reste un dépôt blanc, le résidu sec. Ce sont les sels minéraux dissous.', sub: 'Après évaporation : le <b>résidu sec</b> (sels minéraux).' },
-      { t: 48.2, d: 7.4, say: 'Enfin, une culture en laboratoire montre qu’il n’y a aucun microbe. L’eau du robinet est potable.', sub: 'Aucun <b>microbe</b> : l’eau est <b>potable</b>.' },
-      { t: 56, d: 4.4, say: 'À retenir : une eau potable respecte des normes précises.', sub: 'Une eau potable respecte des <b>normes</b>.' },
+      { t: 48.2, d: 7.4, say: 'Enfin, une culture en laboratoire ne révèle aucun microbe dangereux. L’eau du robinet passe tous ces tests.', sub: 'Aucun <b>microbe dangereux</b> détecté.' },
+      { t: 56, d: 4.4, say: 'À retenir : une eau potable respecte des normes contrôlées par des laboratoires.', sub: 'Une eau potable respecte des <b>normes</b>.' },
       { t: 60.6, d: 4.2, say: 'Son pH est compris entre six et demi et huit et demi.', sub: 'pH entre <b>6,5 et 8,5</b>.' },
       { t: 65, d: 5, say: 'Des réactifs permettent d’identifier les ions qu’elle contient.', sub: 'Des <b>réactifs</b> identifient les ions.' }
     ],
     learn: [
       { t: 11, ch: 0, html: 'Une eau potable est <b>limpide</b>, <b>inodore</b> et sans goût désagréable.' },
-      { t: 25, ch: 1, html: '<b>pH</b> : acide &lt; 7 &lt; basique ; eau potable entre 6,5 et 8,5.' },
+      { t: 25, ch: 1, html: '<b>pH</b> : acide &lt; 7 &lt; basique ; valeur de référence 6,5 à 8,5.' },
       { t: 41, ch: 2, html: 'Nitrate d’argent → <b>Cl⁻</b> ; chlorure de baryum → <b>SO₄²⁻</b> ; oxalate d’ammonium → <b>Ca²⁺</b>.' },
-      { t: 55, ch: 3, html: 'Le <b>résidu sec</b> = sels minéraux ; une eau potable est <b>sans microbes</b>.' }
+      { t: 55, ch: 3, html: 'Le <b>résidu sec</b> = sels minéraux ; une eau potable est <b>sans microbes dangereux</b>.' }
     ],
     question: { q: 'Une eau de pH 5 est :', o: ['acide', 'neutre', 'basique', 'forcément potable'], a: 0, e: 'pH inférieur à 7 : solution acide (et hors norme pour l’eau potable).' },
     scene: scene
@@ -229,14 +229,14 @@
       function paint() {
         api.count(rows.length);
         tb.innerHTML = rows.length ? '<table class="mt"><thead><tr><th>Eau</th><th>Tests</th><th>Verdict</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><td>' + r.n + '</td><td>' + r.t + ' / 7</td><td>' + r.v + (r.w ? '<br><small>' + r.w + '</small>' : '') + '</td></tr>'; }).join('') + '</tbody></table>' : '<div class="empty">Aucun échantillon relevé.</div>';
-        api.chart.innerHTML = '<h3>Normes de potabilité (simplifiées)</h3><table class="mt"><tbody><tr><td>Aspect</td><td>limpide, inodore</td></tr><tr><td>pH</td><td>entre 6,5 et 8,5</td></tr><tr><td>Ions chlorure</td><td>≤ 250 mg/L</td></tr><tr><td>Ions sulfate</td><td>≤ 250 mg/L</td></tr><tr><td>Résidu sec</td><td>≤ 1 500 mg/L</td></tr><tr><td>Microbes</td><td>aucun germe pathogène</td></tr></tbody></table>';
+        api.chart.innerHTML = '<h3>Valeurs de référence (simplifiées, d’après les recommandations de l’OMS)</h3><table class="mt"><tbody><tr><td>Aspect</td><td>limpide, inodore</td></tr><tr><td>pH</td><td>entre 6,5 et 8,5</td></tr><tr><td>Ions chlorure</td><td>≤ 250 mg/L</td></tr><tr><td>Ions sulfate</td><td>≤ 250 mg/L</td></tr><tr><td>Résidu sec</td><td>≤ 1 500 mg/L</td></tr><tr><td>Microbes</td><td>aucun germe pathogène</td></tr></tbody></table>';
       }
       paint();
       api.onReset(function () { st.sample = 'robinet'; st.test = 'asp'; st.prog = 0; st.run = false; st.done = {}; cS.set('robinet'); cT.set('asp'); rows = []; paint(); });
       api.say('Clique sur une bouteille, puis réalise les tests un par un.');
       return { bilan: function () {
         if (rows.length < 3) return '<p>Analyse et relève au moins 3 eaux différentes.</p>';
-        return '<p>Une eau <b>potable</b> est limpide, inodore, a un <b>pH entre 6,5 et 8,5</b>, contient peu de sels minéraux et <b>aucun microbe</b> dangereux. L’eau du robinet et l’eau minérale respectent ces normes.</p><p>L’eau de puits peut être acide et contenir des microbes ; l’eau de lagune et l’eau de mer contiennent beaucoup trop de sels (chlorures, sulfates).</p><p>Les réactifs révèlent les ions : nitrate d’argent → chlorure, chlorure de baryum → sulfate, oxalate d’ammonium → calcium. L’eau distillée ne contient pas de sels minéraux.</p>';
+        return '<p>Une eau <b>potable</b> est limpide, inodore, a un <b>pH entre 6,5 et 8,5</b> (valeur de référence), contient peu de sels minéraux et <b>aucun microbe dangereux</b>. L’eau du robinet et l’eau minérale passent ces tests.</p><p><b>Attention :</b> ces quelques tests ne suffisent pas à déclarer une eau potable. Les laboratoires agréés contrôlent de nombreux autres critères (métaux, nitrates, pesticides…). Les seuils utilisés ici sont des valeurs de référence simplifiées.</p><p>L’eau de puits peut être acide et contenir des microbes ; l’eau de lagune et l’eau de mer contiennent beaucoup trop de sels (chlorures, sulfates).</p><p>Les réactifs révèlent les ions : nitrate d’argent → chlorure, chlorure de baryum → sulfate, oxalate d’ammonium → calcium. L’eau distillée ne contient pas de sels minéraux.</p>';
       } };
     }
   };
@@ -256,9 +256,9 @@
         build: function (api) { var lab = mini(api, { sample: 'puits', test: 'asp' }); testRow(api, lab, ['asp', 'ph', 'res', 'mic']); return function () { var r = lab.res(); return r.V.s === 'bad' ? { ok: true, msg: 'Prouvé : ' + r.V.why + '.' } : { ok: false, msg: 'Aucun test réalisé ne la rend non potable pour l’instant.' }; }; },
         e: 'L’eau de puits est trop acide (pH 6,1) et contient des microbes.' },
       { type: 'qcm', title: 'Quel réactif ?', text: 'Pour mettre en évidence les ions chlorure, on utilise :', o: ['l’oxalate d’ammonium', 'le chlorure de baryum', 'le nitrate d’argent', 'le papier pH'], a: 2, hint: 'Un réactif à base d’argent…', e: 'Le nitrate d’argent donne un précipité blanc avec les ions chlorure.' },
-      { title: 'Le verdict', text: 'Réalise une analyse complète (7 tests) d’une eau <span style="color:#3DD68C">potable</span>.', lumi: 'Robinet ou minérale ? Les deux devraient passer !', hint: 'Choisis l’eau du robinet et enchaîne les 7 tests.',
-        build: function (api) { var lab = mini(api, { sample: 'robinet', test: 'asp' }); testRow(api, lab, TESTS.map(function (T) { return T.k; })); return function () { var r = lab.res(); return r.V.s === 'ok' ? { ok: true, msg: r.sample === 'robinet' ? 'L’eau du robinet est potable !' : 'Cette eau est potable !' } : { ok: false, msg: r.V.s === 'bad' ? 'Cette eau n’est pas potable.' : 'Il manque des tests sur la fiche.' }; }; },
-        e: 'Une eau est déclarée potable seulement si tous les critères sont respectés.' }
+      { title: 'Le verdict', text: 'Réalise les 7 tests sur une eau qui doit tous les <span style="color:#3DD68C">réussir</span>.', lumi: 'Robinet ou minérale ? Les deux devraient passer !', hint: 'Choisis l’eau du robinet et enchaîne les 7 tests.',
+        build: function (api) { var lab = mini(api, { sample: 'robinet', test: 'asp' }); testRow(api, lab, TESTS.map(function (T) { return T.k; })); return function () { var r = lab.res(); return r.V.s === 'ok' ? { ok: true, msg: r.sample === 'robinet' ? 'L’eau du robinet réussit les 7 tests.' : 'Cette eau réussit les 7 tests.' } : { ok: false, msg: r.V.s === 'bad' ? 'Cette eau échoue à un test.' : 'Il manque des tests sur la fiche.' }; }; },
+        e: 'Une eau qui échoue à un seul test n’est pas potable ; réussir ces tests ne suffit pas à elle seule pour la déclarer potable.' }
     ]
   };
 
@@ -266,14 +266,14 @@
     id: '4e-qualite-eau', level: '4e', theme: 'Eau potable', title: 'Qualité de l’eau', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
-      'Une <b>eau potable</b> peut être consommée sans danger : elle est limpide, inodore, sans goût désagréable, sans microbes, et sa teneur en sels minéraux est limitée.',
-      'Le <b>pH</b> se mesure avec du papier pH ou un pH-mètre : pH &lt; 7 acide, pH = 7 neutre, pH &gt; 7 basique. L’eau potable a un pH compris entre <b>6,5 et 8,5</b>.',
+      'Une <b>eau potable</b> peut être consommée sans danger : elle est limpide, inodore, sans goût désagréable, sans microbes dangereux, et sa teneur en sels minéraux est limitée. Sa potabilité est contrôlée par des laboratoires sur de nombreux critères.',
+      'Le <b>pH</b> se mesure avec du papier pH ou un pH-mètre : pH &lt; 7 acide, pH = 7 neutre, pH &gt; 7 basique. Valeur de référence pour l’eau de boisson : pH entre <b>6,5 et 8,5</b>.',
       'Tests d’ions : <b>nitrate d’argent</b> → précipité blanc (qui noircit à la lumière) avec les ions <b>chlorure</b> Cl<sup>−</sup> ; <b>chlorure de baryum</b> → précipité blanc avec les ions <b>sulfate</b> SO<sub>4</sub><sup>2−</sup> ; <b>oxalate d’ammonium</b> → précipité blanc avec les ions <b>calcium</b> Ca<sup>2+</sup>.',
       'L’évaporation de l’eau laisse un <b>résidu sec</b> : ce sont les sels minéraux dissous.',
       'L’étiquette d’une eau minérale indique sa composition (en mg/L) : on la compare aux normes de potabilité.'
     ],
     quiz: [
-      { q: 'Une eau potable a un pH compris entre :', o: ['0 et 3', '6,5 et 8,5', '10 et 14', '4 et 5'], a: 1, e: 'Norme de potabilité.' },
+      { q: 'Une eau potable a un pH compris entre :', o: ['0 et 3', '6,5 et 8,5', '10 et 14', '4 et 5'], a: 1, e: 'C’est la valeur de référence recommandée pour l’eau de boisson.' },
       { q: 'Le chlorure de baryum met en évidence les ions :', o: ['chlorure', 'sulfate', 'calcium', 'sodium'], a: 1, e: 'Précipité blanc de sulfate de baryum.' },
       { q: 'Le résidu sec, c’est :', o: ['l’eau qui reste', 'les sels minéraux dissous', 'les microbes', 'la boue'], a: 1, e: 'Il reste après évaporation de l’eau.' },
       { q: 'Une eau de pH 9 est :', o: ['acide', 'neutre', 'basique', 'pure'], a: 2, e: 'pH supérieur à 7.' },

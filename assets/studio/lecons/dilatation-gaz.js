@@ -121,7 +121,7 @@
       { t: 44, d: 11.6, say: 'Pour un même échauffement, le fer augmente à peine de volume, l’alcool un peu plus… et l’air beaucoup plus. Les gaz se dilatent bien plus que les liquides et les solides.', sub: 'Gaz > liquides > solides.' },
       { t: 56, d: 4.4, say: 'À retenir : un gaz chauffé se dilate ; refroidi, il se contracte.', sub: 'Gaz chauffé : dilatation ; refroidi : contraction.' },
       { t: 60.6, d: 4.2, say: 'Les gaz se dilatent plus que les liquides et les solides.', sub: 'Les gaz se dilatent le <b>plus</b>.' },
-      { t: 65, d: 5, say: 'On en tient compte : on garde les bouteilles de gaz et les aérosols loin de la chaleur.', sub: 'Bouteilles de gaz et aérosols : <b>loin de la chaleur</b>.' }
+      { t: 65, d: 5, say: 'Dans une bouteille fermée, c’est la pression qui monte : on garde les bouteilles de gaz et les aérosols loin de la chaleur.', sub: 'Récipient fermé : la <b>pression</b> monte. Loin de la chaleur !' }
     ],
     learn: [
       { t: 19, ch: 1, html: 'Chauffé, un gaz <b>se dilate</b> : son volume augmente.' },
@@ -169,7 +169,7 @@
       api.say('Chauffe le bain et regarde le ballon de baudruche.');
       return { bilan: function () {
         if (rows.length < 3) return '<p>Relève le volume de l’air à au moins 3 températures.</p>';
-        return '<p>Chauffé, un gaz <b>se dilate</b> : son volume augmente (le ballon de baudruche gonfle, des bulles sortent du tube). Refroidi, il <b>se contracte</b> (le ballon se dégonfle, l’eau remonte dans le tube).</p><p>À l’échelle des particules, elles s’agitent plus vite et occupent plus de place.</p><p>Pour un même échauffement, les <b>gaz se dilatent beaucoup plus</b> que les liquides, qui se dilatent plus que les solides.</p><p>Précautions : ne pas exposer une bouteille de gaz ou un aérosol à la chaleur ; vérifier la pression des pneus à froid.</p>';
+        return '<p>Chauffé, un gaz <b>se dilate</b> : son volume augmente (le ballon de baudruche gonfle, des bulles sortent du tube). Refroidi, il <b>se contracte</b> (le ballon se dégonfle, l’eau remonte dans le tube).</p><p>À l’échelle des particules, elles s’agitent plus vite et occupent plus de place.</p><p>Pour un même échauffement, les <b>gaz se dilatent beaucoup plus</b> que les liquides, qui se dilatent plus que les solides.</p><p>Ces expériences concernent un gaz <b>qui peut changer de volume</b>. Dans un récipient rigide fermé (bouteille de gaz, aérosol), le volume ne peut pas augmenter : c’est la <b>pression</b> qui augmente quand on chauffe, d’où le risque d’explosion. Précautions : ne pas exposer une bouteille de gaz ou un aérosol à la chaleur ; vérifier la pression des pneus à froid.</p>';
       } };
     }
   };
@@ -198,11 +198,11 @@
     id: '5e-dilatation-gaz', level: '5e', theme: 'Propriétés physiques de la matière', title: 'Dilatation des gaz', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
-      'Lorsqu’on chauffe un gaz, son volume augmente : il <b>se dilate</b>. Lorsqu’on le refroidit, il <b>se contracte</b>.',
+      'Lorsqu’on chauffe un gaz <b>qui peut changer de volume</b> (ballon souple, piston, bulles qui s’échappent), son volume augmente : il <b>se dilate</b>. Lorsqu’on le refroidit, il <b>se contracte</b>.',
       'Expériences : un ballon de baudruche sur un ballon de verre gonfle dans l’eau chaude ; l’air chauffé par les mains s’échappe en bulles par un tube plongé dans l’eau.',
       'Pour un même échauffement, les <b>gaz se dilatent beaucoup plus</b> que les liquides, qui se dilatent plus que les solides.',
       'À l’échelle des particules : chauffées, elles s’agitent plus vite et occupent plus de place.',
-      'Applications et précautions : montgolfière (air chaud) ; on éloigne les bouteilles de gaz et les aérosols de la chaleur ; on vérifie la pression des pneus à froid.'
+      'Dans un récipient rigide et fermé (bouteille de gaz, aérosol), le gaz ne peut pas se dilater : c’est sa <b>pression</b> qui augmente quand on chauffe, ce qui peut faire éclater le récipient. On les éloigne donc de la chaleur ; on vérifie la pression des pneus à froid. Application : la montgolfière (air chaud).'
     ],
     quiz: [
       { q: 'Un gaz refroidi :', o: ['se dilate', 'se contracte', 'explose', 'devient plus chaud'], a: 1, e: 'Son volume diminue.' },
