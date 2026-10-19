@@ -1,4 +1,4 @@
-# Consolidation après audit — lots 1 à 4
+# Consolidation après audit — lots 1 à 5
 
 Référence de l’audit : main `e0603c013692e3a102b21e8d481707be0a5ff567`.
 Branche : `codex/consolidation-pedagogique-2026`, PR #1.
@@ -83,3 +83,11 @@ A16 (court-circuit), A17 (effet de serre), A18 (puissance active/tarifs) et les 
 - Références : https://www.se.com/mk/en/download/document/CALC_EL_POWERS_SE_PMD/ ; https://www.climate.gov/teaching/literacy/2-c-greenhouse-effect . Ces sources distinguent les notions physiques ; elles ne certifient pas les modèles numériques utilisés.
 
 Restent la refonte quantitative des modèles, la généralisation des investigations et la couverture détaillée du programme MENA.
+
+## Lot 5 — investigations et critères de réussite
+
+- A06 : ajout de commande de circuit (6e), court-circuit/protections (6e) et traitement de l’eau (4e), avec situation-problème, prévision préalable, protocole ciblé, confrontation et bilan. Total actuel : 8 investigations sur 29 leçons Studio.
+- A21, partiel : trois critères de réussite affichés avant la rédaction du bilan pour chacune des huit investigations. Critères spécifiques aux trois nouvelles leçons ; critères transversaux pour les cinq précédentes. La saisie ne vaut pas validation automatique, et ne remplace pas la rétroaction de l’enseignant. Une remédiation individualisée reste à développer.
+- Protocoles vérifiés contre les commandes existantes ; précautions et limites des modèles conservées. Le traitement de l’eau compare séparément turbidité et microbes et ne certifie aucune potabilité réelle.
+- Validation : 93 assertions jsdom réussies ; six parcours Chromium (trois leçons × 390/1280 px) de la prévision au déverrouillage du bilan, sans erreur JavaScript ni débordement horizontal. Ces parcours ne constituent pas une recette exhaustive de toutes les manipulations physiques simulées.
+- Cache v40. Les investigations du moteur Sim et les 21 autres leçons Studio restent à compléter.
