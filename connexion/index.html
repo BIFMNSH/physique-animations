@@ -15,7 +15,7 @@
 <div class="preview" role="note">Accès 100 % gratuit et sans compte jusqu’au 31 décembre 2026 · Aperçu : la connexion n’est pas encore active, rien n’est envoyé.</div>
 <div class="auth">
   <aside class="side">
-    <a class="brand" href="../abonnement/" style="font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none">← NOHOBA<span style="color:var(--amber)">-Lab</span></a>
+    <a class="brand" href="../lab/" style="font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none">← NOHOBA<span style="color:var(--amber)">-Lab</span></a>
     <h1 id="sideT">Content de vous revoir.</h1>
     <p id="sideP">Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.</p>
     <ul>
@@ -28,6 +28,15 @@
 
   <main class="main">
     <div class="box">
+<p class="small" style="margin:0 0 8px;font-weight:700;color:var(--text)">Continuer avec</p>
+      <div class="social" role="group" aria-label="Continuer avec un compte existant">
+        <button type="button" class="sbtn" data-p="Google"><span class="si" aria-hidden="true">G</span>Google</button>
+        <button type="button" class="sbtn" data-p="Facebook"><span class="si" aria-hidden="true">f</span>Facebook</button>
+        <button type="button" class="sbtn" data-p="X"><span class="si" aria-hidden="true">X</span>X</button>
+        <button type="button" class="sbtn" data-p="Apple"><span class="si" aria-hidden="true">A</span>Apple</button>
+      </div>
+      <p class="msg" id="mSocial" role="status" aria-live="polite"></p>
+      <div class="or">ou avec un numéro de téléphone</div>
       <div class="tabs" role="tablist" aria-label="Type de compte">
         <button type="button" role="tab" id="t-eleve" aria-controls="p-eleve" aria-selected="true">Élève</button>
         <button type="button" role="tab" id="t-prof" aria-controls="p-prof" aria-selected="false" tabindex="-1">Enseignant</button>
@@ -118,7 +127,7 @@
         </form>
       </section>
 
-      <div class="note">Mineurs : pour un élève de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe de l’élève. <a href="../confidentialite/" style="color:var(--blue)">Confidentialité</a></div>
+      <div class="note">Mineurs : Google, Facebook, X et Apple exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe de l’élève. <a href="../confidentialite/" style="color:var(--blue)">Confidentialité</a></div>
     </div>
   </main>
 </div>
@@ -165,6 +174,7 @@
     if(ok&&pw.length>=8)document.getElementById('mProf').textContent=PREVIEW;};
   document.getElementById('showPw').onclick=function(){var i=document.getElementById('pwP'),s=i.type==='password';i.type=s?'text':'password';this.textContent=s?'Masquer':'Afficher';this.setAttribute('aria-pressed',String(s));};
   document.getElementById('forgot').onclick=function(e){e.preventDefault();document.getElementById('mProf').textContent='Aperçu : un lien ou un code de réinitialisation serait envoyé par SMS ou e-mail.';};
+  document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){document.getElementById('mSocial').textContent='Aperçu : la connexion avec '+b.dataset.p+' sera branchée à l’ouverture des comptes. Rien n’a été envoyé.';};});
   document.getElementById('fEcole').onsubmit=function(e){e.preventDefault();document.getElementById('mEcole').textContent=PREVIEW;};
   document.getElementById('fDevis').onsubmit=function(e){e.preventDefault();var m=document.getElementById('mDevis');
     if(!document.getElementById('okD').checked){m.textContent='Cochez la case pour accepter d’être recontacté.';return;}

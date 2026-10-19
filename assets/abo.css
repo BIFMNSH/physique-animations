@@ -105,3 +105,10 @@ section.blk p.sub{color:var(--soft);font-size:17px;line-height:1.5;margin:0 0 28
 @media (max-width:980px){.plans{grid-template-columns:1fr 1fr}.hero .in{grid-template-columns:1fr}.phone{display:none}.feat{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.auth{grid-template-columns:1fr}.auth .side{border-right:none;border-bottom:1px solid var(--line3);padding:20px 16px}.auth .side ul,.auth .side .hideM{display:none}.auth .side h1{margin-top:8px}}
 @media (max-width:620px){.plans,.steps3,.feat{grid-template-columns:1fr}section.blk{padding:38px 0}.nav .btn.hideS{display:none}}
+
+/* Connexion avec un compte existant (les logos officiels des fournisseurs seront intégrés au branchement) */
+.social{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.sbtn{display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--text);font:700 15px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;text-align:left}
+.sbtn:hover{border-color:var(--blue)}
+.sbtn .si{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--panel);font:800 15px 'Bricolage Grotesque',sans-serif;flex-shrink:0}
+@media (max-width:420px){.social{grid-template-columns:1fr}}

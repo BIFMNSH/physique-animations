@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NOHOBA-Lab · Le laboratoire de physique-chimie dans ta poche</title>
+<meta name="description" content="Pas de salle de TP ? Avec NOHOBA-Lab, les collégiens font les expériences de physique-chimie sur leur téléphone : 53 leçons de la 6e au BEPC, simulations, défis et quiz. Gratuit jusqu’au 31 décembre 2026.">
+<meta name="theme-color" content="#060A18">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+:root{
+  --night:#060A18; --deep:#0C1430; --ink:#EEF2FB; --mist:#A4B0CC; --line:rgba(164,176,204,.18);
+  --nohoba:#F97316; --nohoba-soft:#FFB27A;
+  --ph1:#E5383B; --ph4:#F9A03F; --ph6:#E9D23B; --ph7:#3FBF6A; --ph9:#2E9CDB; --ph11:#4C5BD4; --ph13:#8E3FD0;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--ink);font:400 17px/1.55 'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* Barre */
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(6,10,24,.72);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
+.logo .mark{width:30px;height:30px;border-radius:9px;background:conic-gradient(from 200deg,var(--ph1),var(--ph4),var(--ph6),var(--ph7),var(--ph9),var(--ph11),var(--ph13),var(--ph1));box-shadow:0 0 18px rgba(249,115,22,.35)}
+.logo b{font:800 20px 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.logo b span{color:var(--nohoba)}
+.top nav{display:flex;gap:4px}
+.top nav a{text-decoration:none;color:var(--mist);font-weight:700;font-size:15px;padding:10px 12px;border-radius:10px}
+.top nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer;border:1.5px solid var(--line);color:var(--ink);background:rgba(255,255,255,.04)}
+.btn:hover{border-color:rgba(255,255,255,.4)}
+.btn.go{background:var(--nohoba);border-color:var(--nohoba);color:#1B0A00;box-shadow:0 10px 30px -8px rgba(249,115,22,.65)}
+.btn.go:hover{background:#FF8A3D}
+.btn.sm{min-height:42px;padding:0 16px;font-size:15px}
+
+/* Héros : le bécher */
+.hero{position:relative;padding:56px 0 40px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto -10%;height:120%;background:radial-gradient(600px 380px at 78% 38%,var(--glow,rgba(63,191,106,.22)),transparent 70%),radial-gradient(500px 300px at 10% 0%,rgba(249,115,22,.12),transparent 70%);transition:background .6s;pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+h1{font:800 clamp(40px,5.6vw,76px)/.98 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;margin:0 0 22px;text-wrap:balance}
+.lead{font-size:clamp(18px,2.1vw,21px);color:var(--mist);max-width:540px;margin:0 0 30px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.free{margin-top:26px;display:inline-flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;border-radius:14px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.35);font-size:15px}
+.free i{font-style:normal;font:800 14px 'Bricolage Grotesque',sans-serif;background:var(--nohoba);color:#1B0A00;border-radius:9px;padding:4px 9px}
+
+.bench{position:relative;border-radius:28px;padding:18px 18px 16px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line);box-shadow:0 40px 120px -40px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
+.bench canvas{display:block;width:100%;aspect-ratio:1/1;max-height:460px;border-radius:20px;background:radial-gradient(circle at 50% 30%,#101a3a,#070c1e 70%);touch-action:none}
+.bench .read{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:14px 4px 10px}
+.bench .ph{white-space:nowrap;font:800 44px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.bench .kind{text-align:right;font-weight:700;font-size:17px;padding:6px 12px;border-radius:10px;background:rgba(255,255,255,.07)}
+.bench label{display:block;font-size:14px;color:var(--mist);margin:0 4px 6px}
+.spectrum{-webkit-appearance:none;appearance:none;width:100%;height:16px;border-radius:9px;background:linear-gradient(90deg,var(--ph1),var(--ph4) 25%,var(--ph6) 42%,var(--ph7) 50%,var(--ph9) 66%,var(--ph11) 83%,var(--ph13));outline:none;margin:4px 0}
+.spectrum::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:4px solid var(--night);box-shadow:0 0 0 2px #fff,0 6px 18px rgba(0,0,0,.5);cursor:grab}
+.spectrum::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--night);box-shadow:0 0 0 2px #fff;cursor:grab}
+.spectrum:focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:6px}
+.ends{display:flex;justify-content:space-between;font-size:13px;color:var(--mist);margin:4px 4px 0}
+.try{position:absolute;top:30px;left:30px;font-size:14px;font-weight:700;color:#fff;background:rgba(6,10,24,.6);border:1px solid var(--line);border-radius:10px;padding:6px 10px;pointer-events:none;transition:opacity .4s}
+
+/* Expériences */
+section{padding:84px 0}
+h2{font:800 clamp(30px,4.2vw,52px)/1.02 'Bricolage Grotesque',sans-serif;letter-spacing:-.025em;margin:0 0 14px;max-width:760px}
+.sub{color:var(--mist);font-size:19px;max-width:640px;margin:0 0 40px}
+.xp{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--line)}
+.xp a{display:flex;flex-direction:column;gap:10px;padding:22px 20px 24px;background:var(--deep);text-decoration:none;min-height:300px;transition:background .25s}
+.xp a:hover{background:#111c40}
+.xp svg{width:100%;height:130px;margin-bottom:6px}
+.xp h3{font:800 22px/1.15 'Bricolage Grotesque',sans-serif;margin:0}
+.xp p{margin:0;color:var(--mist);font-size:15.5px}
+.xp .lv{margin-top:auto;font-size:14px;font-weight:700;color:var(--nohoba-soft)}
+
+/* Publics */
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.who h3{font:800 26px 'Bricolage Grotesque',sans-serif;margin:0 0 10px;padding-top:18px;border-top:3px solid var(--c)}
+.who p{margin:0 0 14px;color:var(--mist)}
+.who ul{margin:0;padding-left:18px;color:var(--ink);line-height:1.7}
+
+/* Mission */
+.mission{background:linear-gradient(180deg,var(--night),var(--deep))}
+.mission .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:end}
+.quote{font:700 clamp(28px,3.6vw,46px)/1.12 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:0}
+.by{color:var(--mist);font-size:17px;margin:0}
+.by b{color:var(--ink);display:block;font-size:19px;margin-bottom:6px}
+.stats{display:flex;gap:36px;flex-wrap:wrap;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}
+.stats div{font-size:15px;color:var(--mist)}
+.stats b{display:block;font:800 40px 'Bricolage Grotesque',sans-serif;color:var(--ink);letter-spacing:-.02em}
+
+/* Appel final */
+.final{text-align:center}
+.final h2{margin:0 auto 14px}
+.final .sub{margin:0 auto 32px}
+.final .ctas{justify-content:center}
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--mist);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
+
+@media (max-width:980px){.hero .wrap,.mission .wrap{grid-template-columns:1fr}.xp{grid-template-columns:1fr 1fr}.who{grid-template-columns:1fr;gap:28px}.top nav{display:none}}
+@media (max-width:560px){.xp{grid-template-columns:1fr}.xp a{min-height:0}section{padding:60px 0}.hero{padding-top:34px}.top .btn.sm.hideS{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero::before{transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="./" aria-label="NOHOBA-Lab, accueil"><span class="mark" aria-hidden="true"></span><b>NOHOBA<span>-Lab</span></b></a>
+    <nav aria-label="Sections"><a href="#experiences">Expériences</a><a href="#pour-qui">Pour qui</a><a href="../abonnement/">Offres</a></nav>
+    <a class="btn sm hideS" href="../connexion/">Se connecter</a>
+    <a class="btn sm go" href="#niveaux">Commencer</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="h">
+  <div class="wrap">
+    <div>
+      <h1 id="h">Le labo de <span style="white-space:nowrap">physique-chimie</span>, dans ta poche.</h1>
+      <p class="lead">Pas de salle de TP ? Ici, tu fais l’expérience toi-même : tu changes un réglage, tu observes, tu comprends. 53 leçons de la 6e au BEPC, sur téléphone ou projetées en classe.</p>
+      <div class="ctas">
+        <a class="btn go" href="#niveaux">Choisir ma classe</a>
+        <a class="btn" href="../simulateur/">Voir les 26 simulations</a>
+      </div>
+      <div class="free"><i>Gratuit</i>Tout est ouvert, sans compte, jusqu’au 31 décembre 2026.</div>
+    </div>
+
+    <div class="bench">
+      <canvas id="lab" width="900" height="900" role="img" aria-label="Bécher contenant une solution et un indicateur coloré. Sa couleur change avec le pH choisi."></canvas>
+      <span class="try" id="try" aria-hidden="true">Fais glisser le curseur</span>
+      <div class="read" aria-live="polite"><span class="ph" id="phv">pH 7</span><span class="kind" id="kind">neutre</span></div>
+      <label for="ph">Ajoute un acide ou une base, et regarde l’indicateur</label>
+      <input class="spectrum" id="ph" type="range" min="1" max="13" step="0.1" value="7" aria-valuetext="pH 7, solution neutre">
+      <div class="ends"><span>Acide (vinaigre, citron)</span><span>Basique (savon, soude)</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="experiences" aria-labelledby="hx">
+  <div class="wrap">
+    <h2 id="hx">Des expériences qu’on fait, pas qu’on recopie.</h2>
+    <p class="sub">Chaque leçon commence par un résumé vidéo d’une minute, puis la simulation, un défi chronométré et un quiz.</p>
+    <div class="xp">
+      <a href="../lecon/?l=circuit-electrique">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="40" y="25" width="160" height="80" rx="10" fill="none" stroke="#5F6E96" stroke-width="4"/><circle cx="120" cy="25" r="16" fill="#FFD66B"/><circle cx="120" cy="25" r="30" fill="#FFD66B" opacity=".18"/><rect x="28" y="52" width="24" height="26" rx="4" fill="#F97316"/><g fill="#7FD3FF"><circle cx="70" cy="105" r="4"/><circle cx="110" cy="105" r="4"/><circle cx="150" cy="105" r="4"/><circle cx="200" cy="70" r="4"/></g></svg>
+        <h3>Allumer une lampe</h3><p>Construis le circuit, ouvre l’interrupteur, mesure l’intensité.</p><span class="lv">6e · Électricité</span>
+      </a>
+      <a href="../lecon/?l=electrolyse-eau">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M50 20h140v90a12 12 0 0 1-12 12H62a12 12 0 0 1-12-12z" fill="#2E9CDB" opacity=".22" stroke="#5F6E96" stroke-width="4"/><rect x="85" y="30" width="16" height="70" rx="4" fill="#C8CFDB"/><rect x="140" y="30" width="16" height="70" rx="4" fill="#C8CFDB"/><g fill="#fff" opacity=".85"><circle cx="93" cy="60" r="4"/><circle cx="96" cy="45" r="3"/><circle cx="148" cy="62" r="5"/><circle cx="145" cy="48" r="4"/><circle cx="150" cy="36" r="3"/></g></svg>
+        <h3>Décomposer l’eau</h3><p>Le courant sépare l’eau en dihydrogène et dioxygène : compte les volumes.</p><span class="lv">3e · Chimie</span>
+      </a>
+      <a href="../lecon/?l=lentilles">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><line x1="10" y1="65" x2="230" y2="65" stroke="#5F6E96" stroke-width="2"/><path d="M120 15c14 20 14 80 0 100c-14-20-14-80 0-100z" fill="#7FD3FF" opacity=".35" stroke="#7FD3FF" stroke-width="3"/><g stroke="#FFD66B" stroke-width="3"><line x1="20" y1="35" x2="120" y2="35"/><line x1="120" y1="35" x2="200" y2="95"/><line x1="20" y1="35" x2="200" y2="95" opacity=".25"/></g><circle cx="170" cy="65" r="5" fill="#F97316"/></svg>
+        <h3>Former une image</h3><p>Déplace l’objet, trouve le foyer, corrige un œil myope.</p><span class="lv">3e · Optique</span>
+      </a>
+      <a href="../lecon/?l=solutions-acides-basiques">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#E5383B"/><stop offset=".5" stop-color="#3FBF6A"/><stop offset="1" stop-color="#8E3FD0"/></linearGradient></defs><rect x="20" y="52" width="200" height="22" rx="11" fill="url(#g)"/><g font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="16" fill="#EEF2FB"><text x="22" y="100">1</text><text x="114" y="100">7</text><text x="204" y="100">14</text></g><circle cx="120" cy="63" r="15" fill="#fff" stroke="#060A18" stroke-width="5"/></svg>
+        <h3>Mesurer le pH</h3><p>Vinaigre, eau de Javel, jus de citron : classe-les du plus acide au plus basique.</p><span class="lv">3e · Solutions</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="pour-qui" aria-labelledby="hq" style="padding-top:20px">
+  <div class="wrap">
+    <h2 id="hq">Pensé pour la classe, utile à la maison.</h2>
+    <p class="sub">Suit la progression du programme du MENA (Côte d’Ivoire). Léger : une leçon ouverte reste disponible hors connexion.</p>
+    <div class="who">
+      <div style="--c:var(--ph9)"><h3>Élèves</h3><p>Réviser en manipulant, jusqu’au BEPC.</p><ul><li>Résumé vidéo d’une minute</li><li>Simulation à manipuler</li><li>Quiz corrigé et expliqué</li></ul></div>
+      <div style="--c:var(--nohoba)"><h3>Enseignants</h3><p>Faire la séance au vidéoprojecteur.</p><ul><li>Mode enseignant et outils de projection</li><li>Défis en équipes pour toute la classe</li><li>Fiches élèves et corrigés à imprimer</li></ul></div>
+      <div style="--c:var(--ph7)"><h3>Établissements</h3><p>Équiper tout le collège en une fois.</p><ul><li>Tous les enseignants de physique-chimie</li><li>Accès pour toutes les classes</li><li>Sans salle de TP ni matériel</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="mission" aria-labelledby="hm">
+  <div class="wrap">
+    <div>
+      <h2 id="hm" class="quote">« Maîtriser la matière, c’est améliorer les conditions de vie des êtres humains. »</h2>
+    </div>
+    <p class="by"><b>Le porteur du projet</b>Docteur en chimie physique de l’université Paris-Saclay, professeur de physique-chimie en France et chef de projet en rénovation énergétique. NOHOBA-Lab veut donner aux jeunes les moyens d’aimer la science.</p>
+  </div>
+  <div class="wrap" style="display:block">
+    <div class="stats"><div><b>53</b>leçons, de la 6e à la 3e</div><div><b>26</b>simulations d’expériences</div><div><b>4</b>niveaux du collège</div><div><b>0 F</b>jusqu’au 31 décembre</div></div>
+  </div>
+</section>
+
+<section class="final" id="niveaux" aria-labelledby="hf">
+  <div class="wrap">
+    <h2 id="hf">En quelle classe es-tu ?</h2>
+    <p class="sub">Choisis ton niveau et ouvre ta première leçon. Pas de compte à créer.</p>
+    <div class="ctas">
+      <a class="btn go" href="../6e/">6e</a><a class="btn go" href="../5e/">5e</a><a class="btn go" href="../4e/">4e</a><a class="btn go" href="../3e/">3e</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>NOHOBA-Lab, une initiative NOHOBA</span><a href="../mentions-legales/">Mentions légales</a><a href="../confidentialite/">Confidentialité</a><a href="../credits/">Crédits et licences</a><span>Ressource indépendante, non officielle</span></div></footer>
+
+<script>
+(function(){
+  var cv=document.getElementById('lab'),cx=cv.getContext('2d'),inp=document.getElementById('ph'),
+      phv=document.getElementById('phv'),kind=document.getElementById('kind'),hint=document.getElementById('try'),
+      hero=document.querySelector('.hero');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Indicateur universel (couleurs approchées)
+  var STOPS=[[1,[229,56,59]],[4,[249,160,63]],[6,[233,210,59]],[7,[63,191,106]],[9,[46,156,219]],[11,[76,91,212]],[13,[142,63,208]]];
+  function col(p){for(var i=0;i<STOPS.length-1;i++){var a=STOPS[i],b=STOPS[i+1];if(p<=b[0]){var t=(p-a[0])/(b[0]-a[0]);return a[1].map(function(v,k){return Math.round(v+(b[1][k]-v)*t);});}}return STOPS[STOPS.length-1][1];}
+  function kindOf(p){var r=Math.round(p*10)/10;return r<7?'acide':r>7?'basique':'neutre';}
+  var W=900,H=900,cur=7,target=7,parts=[],t0=performance.now(),touched=false;
+  // Bécher
+  var B={x:200,y:170,w:500,h:600,r:46};var level=0;
+  for(var i=0;i<44;i++)parts.push({x:B.x+50+Math.random()*(B.w-100),y:B.y+190+Math.random()*(B.h-240),vx:(Math.random()-.5)*1.1,vy:(Math.random()-.5)*1.1,s:Math.random()});
+  function rr(x,y,w,h,r){cx.beginPath();cx.moveTo(x,y);cx.lineTo(x,y+h-r);cx.quadraticCurveTo(x,y+h,x+r,y+h);cx.lineTo(x+w-r,y+h);cx.quadraticCurveTo(x+w,y+h,x+w,y+h-r);cx.lineTo(x+w,y);}
+  function draw(now){
+    var c=col(cur),rgb='rgb('+c+')',ra=function(a){return 'rgba('+c+','+a+')';};
+    cx.clearRect(0,0,W,H);
+    // halo
+    var g=cx.createRadialGradient(450,560,40,450,560,460);g.addColorStop(0,ra(.35));g.addColorStop(1,ra(0));cx.fillStyle=g;cx.fillRect(0,0,W,H);
+    // graduations
+    cx.strokeStyle='rgba(164,176,204,.35)';cx.lineWidth=3;
+    for(var k=0;k<6;k++){var yy=B.y+B.h-90-k*80;cx.beginPath();cx.moveTo(B.x+B.w-70,yy);cx.lineTo(B.x+B.w-20,yy);cx.stroke();}
+    // liquide
+    var top=B.y+B.h-(B.h-150)*level, wave=reduce?0:Math.sin(now/600)*6;
+    cx.save();rr(B.x+8,B.y,B.w-16,B.h-8,B.r);cx.clip();
+    var lg=cx.createLinearGradient(0,top,0,B.y+B.h);lg.addColorStop(0,ra(.95));lg.addColorStop(1,'rgba('+c.map(function(v){return Math.round(v*.45);})+',.95)');
+    cx.fillStyle=lg;cx.beginPath();cx.moveTo(B.x,top+wave);
+    for(var x=0;x<=B.w;x+=20)cx.lineTo(B.x+x,top+Math.sin((x/90)+(reduce?0:now/500))*7);
+    cx.lineTo(B.x+B.w,B.y+B.h);cx.lineTo(B.x,B.y+B.h);cx.closePath();cx.fill();
+    // ions : H+ (acide) et HO- (base)
+    var acid=Math.max(0,7-cur)/6, base=Math.max(0,cur-7)/6;
+    parts.forEach(function(p,i){
+      if(!reduce){p.x+=p.vx+Math.sin(now/900+i)*.3;p.y+=p.vy+Math.cos(now/1100+i)*.3;var T=B.y+150;if(p.y<T+34){p.y=T+34;p.vy=Math.abs(p.vy);}if(p.y>B.y+B.h-40){p.y=B.y+B.h-40;p.vy=-Math.abs(p.vy);}if(p.x<B.x+40){p.x=B.x+40;p.vx=Math.abs(p.vx);}if(p.x>B.x+B.w-40){p.x=B.x+B.w-40;p.vx=-Math.abs(p.vx);}}
+      if(p.y<top+20)return;
+      var isA=i%2===0, a=isA?acid:base; if(a<.04&&p.s>.2)return;
+      var show=Math.max(Math.min(1,a*1.6),(p.s<.22)?.6:0);
+      cx.globalAlpha=Math.min(1,show*1.2);cx.fillStyle=isA?'#FFE0E0':'#DDEBFF';
+      cx.beginPath();cx.arc(p.x,p.y,isA?22:26,0,7);cx.fill();
+      if(show>.5){cx.fillStyle='#0A1022';cx.font='800 24px Bricolage Grotesque, sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(isA?'H⁺':'HO⁻',p.x,p.y+1);}
+      cx.globalAlpha=1;});
+    // reflet
+    var sh=cx.createLinearGradient(B.x,0,B.x+B.w,0);sh.addColorStop(0,'rgba(255,255,255,.12)');sh.addColorStop(.18,'rgba(255,255,255,0)');sh.addColorStop(1,'rgba(255,255,255,.05)');cx.fillStyle=sh;cx.fillRect(B.x,B.y,B.w,B.h);
+    cx.restore();
+    // verre
+    cx.strokeStyle='rgba(220,230,255,.75)';cx.lineWidth=7;rr(B.x+4,B.y,B.w-8,B.h-4,B.r);cx.stroke();
+    cx.beginPath();cx.moveTo(B.x-24,B.y);cx.lineTo(B.x+40,B.y);cx.moveTo(B.x+B.w-40,B.y);cx.lineTo(B.x+B.w+10,B.y);cx.stroke();
+  }
+  function setUI(){var r=Math.round(cur*10)/10,k=kindOf(cur);
+    phv.textContent='pH '+r.toLocaleString('fr-FR');kind.textContent=k==='neutre'?'neutre : ni acide ni basique':k;
+    var c=col(cur);phv.style.color='rgb('+c+')';hero.style.setProperty('--glow','rgba('+c+',.24)');
+    inp.setAttribute('aria-valuetext','pH '+r.toLocaleString('fr-FR')+', solution '+k);}
+  inp.addEventListener('input',function(){target=parseFloat(inp.value);if(reduce)cur=target;if(!touched){touched=true;hint.style.opacity=0;}setUI();});
+  // Glisser directement sur le bécher
+  function fromPointer(e){var r=cv.getBoundingClientRect();var p=1+12*Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));inp.value=p.toFixed(1);inp.dispatchEvent(new Event('input'));}
+  cv.addEventListener('pointerdown',function(e){cv.setPointerCapture(e.pointerId);fromPointer(e);cv.onpointermove=fromPointer;});
+  cv.addEventListener('pointerup',function(){cv.onpointermove=null;});
+  // Ouverture : le bécher se remplit, puis l'indicateur parcourt l'échelle une fois et revient au neutre
+  var intro=!reduce;
+  function frame(now){
+    var e=(now-t0)/1000;
+    if(intro){level=Math.min(1,e/1.1);level=1-Math.pow(1-level,3);
+      if(e>1.2&&e<3.4&&!touched){var u=(e-1.2)/2.2;target=7+6*Math.sin(u*Math.PI*2)*(1-u*.15);}
+      if(e>=3.4){intro=false;if(!touched)target=7;}}
+    else level=1;
+    cur+= (target-cur)*(reduce?1:.12);
+    setUI();draw(now);
+    if(!reduce||intro)requestAnimationFrame(frame);
+  }
+  if(reduce){level=1;setUI();draw(0);inp.addEventListener('input',function(){draw(0);});}
+  else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
