@@ -10,7 +10,7 @@ Sim.register('travail-puissance', {
     'Change l’angle α en gardant F et d : comment varie le travail ? Que se passe-t-il pour P si on va deux fois plus vite ?'
   ],
   retiens: [
-    'Une force <b>travaille</b> quand son point d’application se déplace. Le travail W s’exprime en <b>joules (J)</b>.',
+    'Une force <b>travaille</b> si son point d’application se déplace et que la force possède une composante non nulle selon ce déplacement. Le travail W s’exprime en <b>joules (J)</b>.',
     'Force constante faisant un angle α avec le déplacement d : <b>W = F × d × cos α</b>. Si la force est dans le sens du déplacement (α = 0°), W = F × d.',
     'Une force perpendiculaire au déplacement (α = 90°) ne travaille pas : W = 0.',
     'La <b>puissance</b> indique la rapidité du transfert : <b>P = W ÷ t</b>, en <b>watts (W)</b>, avec t en secondes.'
