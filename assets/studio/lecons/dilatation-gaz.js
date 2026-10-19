@@ -138,6 +138,7 @@
     W: 860, H: 470,
     alt: 'Trois expériences de dilatation des gaz : ballon de verre coiffé d’un ballon de baudruche dans un bain chaud ou glacé, ballon réchauffé par les mains dont l’air sort en bulles par un tube plongé dans l’eau, et comparaison de la dilatation d’un solide, d’un liquide et d’un gaz',
     steps: [
+      'Modèle à pression approximativement constante : le volume peut varier. Dans un récipient rigide fermé, le chauffage augmente surtout la pression.',
       'Ballon : chauffe puis refroidis le bain et observe le ballon de baudruche.',
       'Bulles : augmente la température de l’air (tes mains), puis laisse-le refroidir.',
       'Comparaison : pour un même échauffement, compare solide, liquide et gaz.',
@@ -198,7 +199,7 @@
     id: '5e-dilatation-gaz', level: '5e', theme: 'Propriétés physiques de la matière', title: 'Dilatation des gaz', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
-      'Lorsqu’on chauffe un gaz, son volume augmente : il <b>se dilate</b>. Lorsqu’on le refroidit, il <b>se contracte</b>.',
+      'À pression constante et pour une même quantité de gaz, lorsqu’on le chauffe, son volume augmente : il <b>se dilate</b>. Lorsqu’on le refroidit, il <b>se contracte</b>.',
       'Expériences : un ballon de baudruche sur un ballon de verre gonfle dans l’eau chaude ; l’air chauffé par les mains s’échappe en bulles par un tube plongé dans l’eau.',
       'Pour un même échauffement, les <b>gaz se dilatent beaucoup plus</b> que les liquides, qui se dilatent plus que les solides.',
       'À l’échelle des particules : chauffées, elles s’agitent plus vite et occupent plus de place.',
@@ -207,7 +208,7 @@
     quiz: [
       { q: 'Un gaz refroidi :', o: ['se dilate', 'se contracte', 'explose', 'devient plus chaud'], a: 1, e: 'Son volume diminue.' },
       { q: 'Le ballon de baudruche gonfle dans l’eau chaude car :', o: ['l’eau entre dedans', 'l’air se dilate', 'le verre fond', 'l’air disparaît'], a: 1, e: 'L’air chauffé se dilate.' },
-      { q: 'Pourquoi ne faut-il pas chauffer un aérosol ?', o: ['il se vide', 'le gaz se dilate et peut le faire éclater', 'il devient froid', 'il change de couleur'], a: 1, e: 'Le gaz dilaté peut faire éclater le récipient.' },
+      { q: 'Pourquoi ne faut-il pas chauffer un aérosol ?', o: ['il se vide', 'la pression augmente dans le récipient rigide', 'il devient froid', 'il change de couleur'], a: 1, e: 'Dans un récipient rigide fermé, le volume varie peu : la hausse de température augmente la pression et peut provoquer une rupture.' },
       { q: 'Qui se dilate le moins ?', o: ['l’air', 'l’alcool', 'le fer', 'l’eau'], a: 2, e: 'Les solides se dilatent le moins.' },
       { q: 'Une montgolfière s’élève grâce à :', o: ['l’air froid', 'l’air chaud dilaté', 'l’eau', 'le vent seulement'], a: 1, e: 'L’air chaud, dilaté, est plus léger.' }
     ]
