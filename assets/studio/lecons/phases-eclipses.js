@@ -199,6 +199,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un élève pense qu’une éclipse de Soleil se produit à chaque nouvelle lune. Comment tester son idée avec le modèle Soleil–Terre–Lune ?", "prediction": "Prévois si la nouvelle lune suffit pour obtenir une éclipse de Soleil. Quel rôle pourrait jouer la position des nœuds de l’orbite ?", "steps": ["Place la Lune à la nouvelle lune avec le curseur du jour ; note la position des nœuds et le résultat.", "Garde la même phase et fais varier uniquement la position des nœuds. Note deux configurations différentes.", "Observe les alignements et compare les indications d’éclipse.", "Confronte les résultats à ta prévision : distingue une condition nécessaire d’une condition suffisante."]},
     id: '4e-phases-eclipses', level: '4e', theme: 'Optique', title: 'Les phases de la Lune et les éclipses', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
