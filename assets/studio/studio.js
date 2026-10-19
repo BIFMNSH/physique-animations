@@ -53,7 +53,7 @@
   /* ---------- réglages (gardés sur l'appareil) ---------- */
   var SET = store('pc-studio', { fs: 1, speed: 1, theme: null, cvd: false, proj: false, tts: false, hints: true, sound: true, sub: 22, voice: true });
   if (!SET.theme) { try { SET.theme = localStorage.getItem('pc-theme') || 'dark'; } catch (e) { SET.theme = 'dark'; } }
-  var PROF = store('pc-studio-prof', { on: false, steps: { resume: true, sim: true, defi: true, quiz: true }, level: 'std', hideRes: false, corr: false, time: 60, nTeams: 4, teams: ['Baobab', 'Lagune', 'Fromager', 'Savane', 'Iroko', 'Lagon'], board: true });
+  var PROF = store('pc-studio-prof', { on: false, steps: { resume: true, sim: true, defi: true, quiz: true }, level: 'std', hideRes: false, corr: false, time: 60, timed: false, nTeams: 4, teams: ['Baobab', 'Lagune', 'Fromager', 'Savane', 'Iroko', 'Lagon'], board: true });
   var PROG = store('pc-studio-prog', {});
   var TEAMC = ['#FFB547', '#5CC8FF', '#3DD68C', '#C4B5FD', '#FF7A7A', '#F0E442'];
   var listeners = [];
@@ -71,11 +71,12 @@
   function onSettings(f) { listeners.push(f); }
 
   /* ---------- horloge commune ---------- */
-  var loops = [], frozen = false, last = performance.now(), T = 0;
+  var modalDepth = 0;
+  var loops = [], frozen = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches), last = performance.now(), T = 0;
   function loop(f) { loops.push(f); return function () { loops = loops.filter(function (g) { return g !== f; }); }; }
   (function tick(now) {
     var dt = Math.min(0.05, Math.max(0, (now - last) / 1000)); last = now;
-    if (!frozen && !document.hidden) { T += dt; for (var i = 0; i < loops.length; i++) loops[i](dt, T); }
+    if (!frozen && !modalDepth && !document.hidden) { T += dt; for (var i = 0; i < loops.length; i++) loops[i](dt, T); }
     requestAnimationFrame(tick);
   })(last);
 
@@ -123,6 +124,7 @@
 
   /* ---------- confettis ---------- */
   function confetti(stage) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var c = h('canvas', { class: 'overlay', width: 1280, height: 720, style: 'width:100%;height:100%' }, stage), g = c.getContext('2d'), P = [];
     var cols = ['#FFB547', '#5CC8FF', '#3DD68C', '#C4B5FD', '#FF7A7A', '#FFFFFF'];
     for (var i = 0; i < 160; i++) P.push({ x: 640 + gauss() * 80, y: 300, vx: gauss() * 420, vy: -300 - Math.random() * 520, r: 4 + Math.random() * 6, a: Math.random() * 6, va: gauss() * 8, c: cols[i % cols.length] });
@@ -267,17 +269,46 @@
     for (var k = i + 1; k < list.length; k++) if (list[k].ready) return { t: list[k].t, href: '../lecon/?l=' + list[k].slug };
     return { t: '', href: L.back || '../', done: true };
   }
+  function modalSession(modal, onClose) {
+    var previous = document.activeElement, closed = false;
+    modalDepth++; hush();
+    var siblings = Array.prototype.filter.call(modal.parentNode.children, function (el) { return el !== modal; });
+    var states = siblings.map(function (el) { var old = el.inert; el.inert = true; return old; });
+    modal.setAttribute('tabindex', '-1');
+    function focusable() { return Array.prototype.filter.call(modal.querySelectorAll('button,a[href],input,select,textarea,[tabindex]'), function (el) { return !el.disabled && el.tabIndex >= 0 && !el.closest('[hidden]'); }); }
+    function focusFirst() { var list = focusable(); (list[0] || modal).focus(); }
+    function close() {
+      if (closed) return; closed = true;
+      document.removeEventListener('keydown', key, true);
+      siblings.forEach(function (el, i) { el.inert = states[i]; });
+      modalDepth = Math.max(0, modalDepth - 1); onClose();
+      if (previous && previous.isConnected) previous.focus();
+    }
+    function key(e) {
+      if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); close(); }
+      else if (e.key === 'Tab') {
+        var list = focusable(), i = list.indexOf(document.activeElement);
+        if (!list.length) { e.preventDefault(); modal.focus(); }
+        else if (e.shiftKey && i <= 0) { e.preventDefault(); list[list.length - 1].focus(); }
+        else if (!e.shiftKey && (i < 0 || i === list.length - 1)) { e.preventDefault(); list[0].focus(); }
+      }
+    }
+    document.addEventListener('keydown', key, true); focusFirst();
+    return { close: close, focus: focusFirst };
+  }
+
   /* ---------- quiz ---------- */
   function quiz(stage, qs, title, onDone, next) {
     var m = h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Quiz' }, stage), i = 0, score = 0;
-    var box = h('div', { class: 'box' }, m);
+    var box = h('div', { class: 'box' }, m), session;
+    function closeQuiz() { session.close(); }
     function show() {
       if (i >= qs.length) {
         var ok = score >= Math.ceil(qs.length * 0.8);
         box.innerHTML = '<div style="display:flex;gap:16px;align-items:center">' + lumi(90, ok ? 'happy2' : 'think') + '<div><span class="kick">Quiz terminé</span><h2>' + score + ' / ' + qs.length + (ok ? ' · Bravo !' : '') + '</h2><p style="margin:6px 0 0;color:var(--soft)">' + (ok ? 'Tu as le badge de cette leçon.' : 'Relis « À retenir » et retente ta chance : il faut 4 bonnes réponses sur 5.') + '</p></div></div>';
         var r = h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, box);
-        h('button', { class: 'btn' }, r, 'Recommencer').onclick = function () { i = 0; score = 0; show(); };
-        h('button', { class: 'btn' + (next ? '' : ' primary') }, r, 'Fermer').onclick = function () { m.remove(); };
+        h('button', { class: 'btn' }, r, 'Recommencer').onclick = function () { i = 0; score = 0; show(); session.focus(); };
+        h('button', { class: 'btn' + (next ? '' : ' primary') }, r, 'Fermer').onclick = closeQuiz;
         if (next) { var a = h('a', { class: 'btn primary', href: next.href }, r, (next.done ? 'Retour au parcours' : 'Leçon suivante : ' + esc(next.t)) + ' ▸'); a.style.textDecoration = 'none'; }
         if (ok) { sound('win'); confetti(stage); }
         onDone && onDone(score, ok); return;
@@ -293,12 +324,13 @@
           g.querySelectorAll('button').forEach(function (x, k) { x.disabled = true; if (k === q.a) x.className = 'good'; else if (k === j) x.className = 'bad'; });
           fb.className = 'msg ' + (good ? 'ok' : 'bad'); fb.innerHTML = '<b>' + (good ? 'Exact !' : 'Pas tout à fait.') + '</b> ' + q.e;
           sound(good ? 'ok' : 'bad');
-          nx = h('button', { class: 'btn primary', style: 'align-self:flex-end' }, box, i + 1 < qs.length ? 'Question suivante →' : 'Voir mon score'); nx.onclick = function () { i++; show(); }; nx.focus();
+          nx = h('button', { class: 'btn primary', style: 'align-self:flex-end' }, box, i + 1 < qs.length ? 'Question suivante →' : 'Voir mon score'); nx.onclick = function () { i++; show(); session.focus(); }; nx.focus();
         };
       });
-      var cl = h('button', { class: 'btn sm', style: 'align-self:flex-start' }, box, 'Fermer le quiz'); cl.onclick = function () { m.remove(); };
+      var cl = h('button', { class: 'btn sm', style: 'align-self:flex-start' }, box, 'Fermer le quiz'); cl.onclick = closeQuiz;
     }
     show();
+    session = modalSession(m, function () { m.remove(); });
   }
 
 
@@ -346,6 +378,8 @@
     document.title = L.title + ' · ' + L.level + ' · Physique-chimie en animations';
     applySettings();
     var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage' }, vp);
+    var inquiry = store('pc-inquiry-' + L.id, { prediction: '', observation: '', comparison: '', conclusion: '', started: false, complete: false });
+    var revision = false;
     var prog = PROG[L.id] = PROG[L.id] || {}; PROG.last = L.id; save('pc-studio-prog', PROG);
 
     /* barre du haut */
@@ -355,7 +389,7 @@
     var tt = h('div', { style: 'display:flex;flex-direction:column;min-width:0;max-width:330px' }, top, '<span class="kick">' + esc(L.theme) + '</span><span class="ttl">' + esc(L.title) + '</span>');
     h('div', { class: 'grow' }, top);
     var steps = h('nav', { class: 'steps', 'aria-label': 'Étapes de la leçon' }, top);
-    var STEPS = [['resume', '1 · Résumé'], ['sim', '2 · Simulation'], ['defi', '3 · Défi'], ['quiz', '4 · Quiz']];
+    var STEPS = [['resume', 'Résumé'], ['sim', L.inquiry ? 'Investigation' : 'Simulation'], ['defi', 'Défi'], ['quiz', 'Quiz']];
     var stepBtn = {};
     STEPS.forEach(function (st) { var b = h('button', { type: 'button' }, steps); b.onclick = function () { go(st[0]); }; stepBtn[st[0]] = b; });
     function paintSteps() { STEPS.forEach(function (st) { var b = stepBtn[st[0]]; b.innerHTML = (prog[st[0]] ? '<span class="ok" aria-label="terminé">✓</span>' : '') + st[1]; b.hidden = !PROF.steps[st[0]]; b.setAttribute('aria-current', cur === st[0] ? 'step' : 'false'); }); }
@@ -379,7 +413,6 @@
     };
     function mvSpot(e) { if (!spot) return; var p = stagePt(e); spot.style.setProperty('--x', p.x + 'px'); spot.style.setProperty('--y', p.y + 'px'); }
     bPen.onclick = function () {
-      if (pen) { pen.c.style.pointerEvents = 'none'; pen.on = false; pen.c.style.cursor = ''; }
       if (!pen) {
         var c = h('canvas', { class: 'draw', width: stage.offsetWidth, height: stage.offsetHeight }, stage), g = c.getContext('2d'), down = false;
         g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = '#FFB547'; g.lineWidth = 5;
@@ -415,6 +448,7 @@
       var th = h('div', { class: 'th' }, db);
       [['dark', 'Sombre', 'background:#0B1220;color:#EEF2F8'], ['light', 'Clair', 'background:#F4F7FB;color:#142033'], ['contrast', 'Contraste élevé', 'background:#000;color:#FFFF00']].forEach(function (t) { var b = h('button', { type: 'button', 'aria-pressed': SET.theme === t[0], style: t[2] }, th, t[1]); b.onclick = function () { SET.theme = t[0]; applySettings(); drawSettings(); }; });
       var c = controls(db);
+      c.toggle({ label: 'Mettre les animations en pause', value: frozen, onChange: function (v) { frozen = v; app.classList.toggle('frozen', frozen); bFrz.setAttribute('aria-pressed', frozen); hush(); } });
       c.toggle({ label: 'Couleurs adaptées aux daltoniens', value: SET.cvd, onChange: function (v) { SET.cvd = v; applySettings(); } });
       c.toggle({ label: 'Mode projection (traits épais)', value: SET.proj, onChange: function (v) { SET.proj = v; applySettings(); } });
       c.toggle({ label: 'Voix du résumé vidéo', value: SET.voice, onChange: function (v) { SET.voice = v; applySettings(); } });
@@ -428,22 +462,24 @@
 
     /* ---------- mode enseignant ---------- */
     var mp = h('div', { class: 'modal', hidden: '', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Mode enseignant' }, stage);
-    bProf.onclick = function () { drawProf(); mp.hidden = false; };
+    var profSession;
+    bProf.onclick = function () { if (!mp.hidden) return; drawProf(); mp.hidden = false; profSession = modalSession(mp, function () { mp.hidden = true; applyProf(); }); };
     function drawProf() {
       mp.innerHTML = '';
       var box = h('div', { class: 'box', style: 'width:min(1100px,96%)' }, mp);
       var hd = h('div', { style: 'display:flex;align-items:center;gap:12px' }, box, '<span class="btn sm primary" style="pointer-events:none">' + ICON.lock + 'Mode enseignant</span><h2 style="flex:1">Préparer ma séance</h2>');
-      h('button', { class: 'btn' }, hd, 'Fermer').onclick = function () { mp.hidden = true; applyProf(); };
+      h('button', { class: 'btn' }, hd, 'Fermer').onclick = function () { profSession.close(); };
       var gr = h('div', { style: 'display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px' }, box);
       var c1 = h('div', { class: 'card' }, gr, '<h3>1 · Déroulé de la leçon</h3>'), k1 = controls(c1);
-      [['resume', 'Résumé vidéo'], ['sim', 'Simulation'], ['defi', 'Défi'], ['quiz', 'Quiz de sortie']].forEach(function (st) { k1.toggle({ label: st[1], value: PROF.steps[st[0]], onChange: function (v) { PROF.steps[st[0]] = v; save('pc-studio-prof', PROF); paintSteps(); } }); });
+      [['resume', 'Résumé vidéo'], ['sim', 'Simulation'], ['defi', 'Défi'], ['quiz', 'Quiz de sortie']].forEach(function (st) { k1.toggle({ label: st[1], value: PROF.steps[st[0]], onChange: function (v) { PROF.steps[st[0]] = v; if (!['resume', 'sim', 'defi'].some(function (k) { return PROF.steps[k]; })) PROF.steps.sim = true; save('pc-studio-prof', PROF); paintSteps(); } }); });
       k1.toggle({ label: 'Outils de projection', value: PROF.on, onChange: function (v) { PROF.on = v; save('pc-studio-prof', PROF); applyProf(); } });
       var c2 = h('div', { class: 'card' }, gr, '<h3>2 · Difficulté et réponses</h3>'), k2 = controls(c2);
       k2.seg({ value: PROF.level, options: [{ v: 'dec', l: 'Découverte' }, { v: 'std', l: 'Standard' }, { v: 'exp', l: 'Expert' }], onChange: function (v) { PROF.level = v; save('pc-studio-prof', PROF); lvlNote.textContent = LVLN[v]; } });
-      var LVLN = { dec: 'Découverte : lectures faites automatiquement, indices illimités, 90 s par mission.', std: 'Standard : l’élève lit l’oscilloscope lui-même, indices disponibles.', exp: 'Expert : pas d’indice, incertitudes plus fortes, temps réduit de moitié.' };
+      var LVLN = { dec: 'Découverte : lectures faites automatiquement, indices illimités, 90 s par mission.', std: 'Standard : l’élève lit l’oscilloscope lui-même, indices disponibles.', exp: 'Expert : pas d’indice, incertitudes plus fortes ; même durée de réflexion.' };
       var lvlNote = h('p', { class: 'note', style: 'font-size:13px;color:var(--muted);margin:0 0 10px' }, c2, LVLN[PROF.level]);
       k2.toggle({ label: 'Masquer les résultats du bilan', value: PROF.hideRes, onChange: function (v) { PROF.hideRes = v; save('pc-studio-prof', PROF); } });
       k2.toggle({ label: 'Montrer le corrigé après chaque mission', value: PROF.corr, onChange: function (v) { PROF.corr = v; save('pc-studio-prof', PROF); } });
+      k2.toggle({ label: 'Activer le chronomètre (optionnel)', value: PROF.timed, onChange: function (v) { PROF.timed = v; save('pc-studio-prof', PROF); } });
       k2.slider({ label: 'Temps par mission', min: 20, max: 120, step: 10, value: PROF.time, unit: 's', onInput: function (v) { PROF.time = v; save('pc-studio-prof', PROF); } });
       var c3 = h('div', { class: 'card' }, gr, '<h3>3 · Équipes</h3>'), k3 = controls(c3);
       var names = h('div', { style: 'display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px' });
@@ -461,12 +497,14 @@
       k3.toggle({ label: 'Afficher le classement', value: PROF.board, onChange: function (v) { PROF.board = v; save('pc-studio-prof', PROF); } });
       h('p', { class: 'note', style: 'font-size:13px;color:var(--muted);margin:10px 0 0' }, c3, 'Les équipes jouent à tour de rôle sur le même écran, sans compte ni réseau.');
     }
-    function applyProf() { pt.hidden = !PROF.on; bProf.classList.toggle('primary', PROF.on); paintSteps(); }
+    function applyProf() { if (!['resume', 'sim', 'defi'].some(function (k) { return PROF.steps[k]; })) PROF.steps.sim = true; if (cur && !PROF.steps[cur]) go('sim'); pt.hidden = !PROF.on; bProf.classList.toggle('primary', PROF.on); paintSteps(); if (cur && ctl[cur] && ctl[cur].refresh) ctl[cur].refresh(); }
 
     /* ---------- vues ---------- */
     var views = {}, cur = null, ctl = {};
     function go(name) {
-      if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k]; })[0]; if (!nx) return; name = nx; }
+      if (L.inquiry && !revision && !inquiry.complete) PROF.steps.sim = true;
+      if (L.inquiry && !revision && !inquiry.complete && name !== 'sim') { toast('Termine la confrontation et ton bilan, ou choisis le parcours Révision.'); name = 'sim'; }
+      if (!PROF.steps[name]) { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k]; })[0]; if (!nx) return; name = nx; }
       if (name === 'quiz') { quiz(stage, L.quiz, L.title, function (sc, ok) { if (ok) { prog.quiz = true; save('pc-studio-prog', PROG); paintSteps(); } }, nextLesson(L)); return; }
       hush();
       Object.keys(views).forEach(function (k) { views[k].hidden = k !== name; if (ctl[k] && ctl[k].leave && k !== name) ctl[k].leave(); });
@@ -480,29 +518,29 @@
 
     var BUILD = {
       resume: function (root) { return buildResume(root, L.resume, { stage: stage, done: function () { done('resume'); }, go: go }); },
-      sim: function (root) { return buildSim(root, L.sim, { stage: stage, done: function () { done('sim'); }, go: go, L: L }); },
+      sim: function (root) { return buildSim(root, L.sim, { stage: stage, done: function () { done('sim'); }, go: go, L: L, inquiry: inquiry, revision: function () { return revision; }, revise: function () { revision = true; go('resume'); } }); },
       defi: function (root) { return buildDefi(root, L.defi, { stage: stage, done: function () { done('defi'); }, go: go, L: L }); }
     };
 
     /* fiche à imprimer */
     var fiche = h('div', { id: 'fiche' }, document.body);
     window.addEventListener('beforeprint', function () {
-      fiche.innerHTML = '<h1>' + esc(L.title) + '</h1><p>Physique-chimie · ' + L.level + ' · ' + esc(L.theme) + '</p><h2>À retenir</h2>' + L.retiens.map(function (r) { return '<div class="box">' + r + '</div>'; }).join('') +
+      fiche.innerHTML = '<h1>' + esc(L.title) + '</h1><p>Physique-chimie · ' + L.level + ' · ' + esc(L.theme) + '</p>' + (printTeacher ? '<h2>À retenir</h2>' + L.retiens.map(function (r) { return '<div class="box">' + r + '</div>'; }).join('') : '<h2>Ma démarche</h2>' + (L.inquiry ? '<p>' + esc(L.inquiry.situation) + '</p>' : '') + [['prediction', 'Ma prévision et ma justification'], ['observation', 'Mes réglages et mes observations'], ['comparison', 'Confrontation aux résultats'], ['conclusion', 'Mon bilan']].map(function (item) { return '<h3>' + item[1] + '</h3><div class="box learner-answer">' + esc(inquiry[item[0]] || '................................................................................') + '</div>'; }).join('')) +
         '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol>' + (printTeacher ? '<h2>Corrigé professeur</h2><ol>' + L.quiz.map(function (q) { return '<li>' + String.fromCharCode(97 + q.a) + ') ' + q.o[q.a] + (q.e ? '<br>' + q.e : '') + '</li>'; }).join('') + '</ol>' : '');
     });
 
     /* mise à l'échelle */
     function fit() {
-      var w = window.innerWidth, hh = window.innerHeight, portrait = w < 900 && hh > w * 1.05;
+      var w = window.innerWidth, hh = window.innerHeight, portrait = w < 1000;
       app.classList.toggle('portrait', portrait);
       document.body.style.overflow = portrait ? 'auto' : 'hidden';
-      if (portrait) { var k = w / 820; stage.style.transform = 'scale(' + k + ')'; vp.style.height = ''; stage.parentNode.style.height = (stage.offsetHeight * k) + 'px'; }
+      if (portrait) { stage.style.transform = 'none'; stage.parentNode.style.height = ''; }
       else { var k2 = Math.min(w / 1280, hh / 720); stage.style.transform = 'scale(' + k2 + ')'; stage.parentNode.style.height = ''; }
     }
     window.addEventListener('resize', fit); document.addEventListener('fullscreenchange', fit);
     applyProf();
     var first = (location.hash || '').slice(1);
-    go(STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : 'resume');
+    go(STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : (L.inquiry ? 'sim' : 'resume'));
     fit(); setTimeout(fit, 50);
     if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('../sw.js').catch(function () {});
     window.Studio.stage = stage;
@@ -632,6 +670,8 @@
 
   /* ================== SIMULATION ================== */
   function buildSim(root, S, ctx) {
+    var I = ctx.L.inquiry, state = ctx.inquiry;
+    function persist() { if (I) save('pc-inquiry-' + ctx.L.id, state); }
     var main = h('div', { class: 'main' }, root);
     var box = h('div', { class: 'scene' }, main);
     var sv = s('svg', { class: 'sv', viewBox: '0 0 ' + S.W + ' ' + S.H, role: 'img', 'aria-label': S.alt }, box);
@@ -642,10 +682,40 @@
     var panes = {}, tabB = {};
     [['manip', 'Manipuler'], ['mes', 'Mesures'], ['bilan', 'Bilan']].forEach(function (p) {
       var b = h('button', { role: 'tab', 'aria-selected': p[0] === 'manip' }, tabs, p[1] + (p[0] === 'mes' ? '<span class="n">0</span>' : ''));
-      b.onclick = function () { tab(p[0]); }; tabB[p[0]] = b;
-      panes[p[0]] = h('div', { class: 'pane', role: 'tabpanel', hidden: p[0] === 'manip' ? null : '' }, side);
+      b.id = ctx.L.id + '-tab-' + p[0]; b.setAttribute('aria-controls', ctx.L.id + '-pane-' + p[0]); b.tabIndex = p[0] === 'manip' ? 0 : -1; b.onclick = function () { tab(p[0]); }; tabB[p[0]] = b;
+      panes[p[0]] = h('div', { class: 'pane', role: 'tabpanel', id: ctx.L.id + '-pane-' + p[0], 'aria-labelledby': ctx.L.id + '-tab-' + p[0], hidden: p[0] === 'manip' ? null : '' }, side);
     });
-    function tab(k) { Object.keys(panes).forEach(function (x) { panes[x].hidden = x !== k; tabB[x].setAttribute('aria-selected', x === k); }); if (k === 'bilan') bilan(); }
+    function tab(k) { Object.keys(panes).forEach(function (x) { panes[x].hidden = x !== k; tabB[x].setAttribute('aria-selected', x === k); tabB[x].tabIndex = x === k ? 0 : -1; }); if (k === 'bilan') bilan(); }
+    tabs.addEventListener('keydown', function (e) {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+      var keys = Object.keys(tabB), index = keys.findIndex(function (k) { return tabB[k] === document.activeElement; });
+      if (index < 0) return;
+      e.preventDefault(); index = e.key === 'Home' ? 0 : e.key === 'End' ? keys.length - 1 : (index + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length;
+      tab(keys[index]); tabB[keys[index]].focus();
+    });
+    var inquiryCard, comparisonCard;
+    if (I) {
+      inquiryCard = h('details', { class: 'card inquiry', open: state.started ? null : '' }, panes.manip, '<summary>Situation-problème et prévision</summary><h3>1 · Situation-problème</h3><p>' + esc(I.situation) + '</p><h3>2 · Ma prévision</h3>');
+      h('label', { for: 'inquiry-prediction' }, inquiryCard, esc(I.prediction));
+      var prediction = h('textarea', { id: 'inquiry-prediction', rows: 4, maxlength: 2000 }, inquiryCard); prediction.value = state.prediction; prediction.readOnly = state.started;
+      prediction.oninput = function () { state.prediction = prediction.value; persist(); };
+      var begin = h('button', { class: 'btn primary' }, inquiryCard, state.started ? 'Prévision enregistrée' : 'Enregistrer ma prévision'); begin.disabled = state.started;
+      var notice = h('p', { role: 'status' }, inquiryCard);
+      begin.onclick = function () { if (!prediction.value.trim()) { notice.textContent = 'Formule une prévision et explique ton raisonnement.'; prediction.focus(); return; } state.started = true; persist(); prediction.readOnly = true; begin.disabled = true; begin.textContent = 'Prévision enregistrée'; inquiryCard.open = false; unlock(); cmdCard.querySelector('button,input,select')?.focus(); };
+      h('button', { class: 'btn sm' }, inquiryCard, 'Parcours Révision').onclick = ctx.revise;
+      comparisonCard = h('div', { class: 'card inquiry' }, panes.bilan, '<h3>4 · Confrontation aux résultats</h3><p>Ma prévision initiale :</p>');
+      var initial = h('blockquote', {}, comparisonCard);
+      [['observation', 'Mes résultats : indique le montage, les réglages et ce que tu observes.'], ['comparison', 'Compare tes résultats à ta prévision. Justifie avec « car » ou « parce que ».'], ['conclusion', '5 · Mon bilan : quelle règle retiens-tu ?']].forEach(function (item) {
+        var id = 'inquiry-' + item[0]; h('label', { for: id }, comparisonCard, item[1]);
+        var input = h('textarea', { id: id, rows: 3, maxlength: 2000 }, comparisonCard); input.value = state[item[0]];
+        input.oninput = function () { state[item[0]] = input.value; state.complete = false; persist(); retCard.hidden = true; bilCard.hidden = true; };
+      });
+      var feedback = h('p', { role: 'status' }, comparisonCard);
+      h('button', { class: 'btn primary' }, comparisonCard, 'Comparer avec le bilan scientifique').onclick = function () {
+        if (!state.started || !['observation', 'comparison', 'conclusion'].every(function (k) { return state[k].trim(); })) { feedback.textContent = 'Complète la prévision, tes observations, la comparaison et ton bilan.'; return; }
+        state.complete = true; persist(); feedback.textContent = 'Trace enregistrée. Compare ton explication au bilan scientifique ; ce dépôt ne valide pas automatiquement sa justesse.'; bilan();
+      };
+    }
     var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + S.steps.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
     var cmdCard = h('div', { class: 'card' }, panes.manip, '<h3>Commandes</h3>');
     var msg = h('div', { class: 'msg', 'aria-live': 'polite' }, panes.manip);
@@ -670,11 +740,20 @@
       done: ctx.done, gauss: gauss, sound: sound, lumi: lumi, h: h
     };
     var model = S.build(api);
+    function unlock() {
+      if (!I) return;
+      var locked = !state.started && !ctx.revision();
+      main.hidden = locked; cmdCard.hidden = locked; cons.hidden = locked; msg.hidden = locked; if (rr) rr.hidden = locked; root.classList.toggle('inquiry-start', locked);
+      initial.textContent = state.prediction || 'Aucune prévision enregistrée.';
+      tabB.mes.disabled = locked; tabB.bilan.disabled = locked;
+    }
+    unlock();
     var rr = h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:auto' }, panes.manip);
     h('button', { class: 'btn sm' }, rr, 'Tout remettre à zéro').onclick = function () { resets.forEach(function (f) { f(); }); api.say('Simulation remise à zéro.'); };
+    unlock();
     zoomable(box, sv, S.W, S.H, G).tools.classList.add('ztl');
-    function bilan() { bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
-    return { enter: function () { if (SET.tts) speak(S.steps.join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
+    function bilan() { var withheld = PROF.hideRes || (I && !state.complete && !ctx.revision()); retCard.hidden = withheld; bilCard.hidden = withheld; if (I) initial.textContent = state.prediction || 'Aucune prévision enregistrée.'; bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
+    return { refresh: function () { unlock(); bilan(); }, enter: function () { unlock(); bilan(); if (SET.tts) speak(S.steps.join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
   }
 
   /* ================== DÉFI CHRONOMÉTRÉ ================== */
@@ -686,10 +765,10 @@
       var wrap = h('div', { style: 'flex:1;display:flex;gap:26px;align-items:center;justify-content:center' }, root);
       h('div', {}, wrap, lumi(150, 'happy2'));
       var col = h('div', { style: 'max-width:620px;display:flex;flex-direction:column;gap:14px' }, wrap);
-      h('span', { class: 'kick', style: 'color:var(--green)' }, col, 'Défi · ' + D.missions.length + ' missions chronométrées');
+      h('span', { class: 'kick', style: 'color:var(--green)' }, col, 'Défi · ' + D.missions.length + ' missions' );
       h('h1', { style: 'margin:0;font:800 calc(42px*var(--fs))/1.08 var(--f-display)' }, col, D.title);
       h('p', { style: 'margin:0;font-size:calc(18px*var(--fs));line-height:1.45;color:var(--soft)' }, col, D.intro);
-      h('p', { style: 'margin:0;font-size:15px;color:var(--muted)' }, col, '100 points par mission réussie + 10 par seconde restante. 3 étoiles si tu réussis vite, sans indice. En équipes, chaque équipe joue à son tour le même nombre de missions.');
+      h('p', { style: 'margin:0;font-size:15px;color:var(--muted)' }, col, '100 points par mission réussie, sans bonus de vitesse. Les étoiles indiquent la réussite avec ou sans indice. Chaque équipe réalise toutes les missions ; les réponses précédentes peuvent être entendues, ce défi est un entraînement collectif.');
       var r = h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, col);
       h('button', { class: 'btn big primary' }, r, 'Jouer seul ▸').onclick = function () { begin(['Moi']); };
       var tn = PROF.teams.slice(0, PROF.nTeams);
@@ -697,11 +776,11 @@
       h('p', { style: 'margin:0;font-size:13px;color:var(--dim)' }, col, 'Les noms et le nombre d’équipes se règlent dans le mode enseignant (cadenas, en haut).');
     }
     var total = 0;
-    function begin(names) { teams = names.map(function (n, i) { return { n: n, c: TEAMC[i], pts: 0, stars: [] }; }); mi = 0; results = []; total = teams.length === 1 ? D.missions.length : teams.length * Math.max(1, Math.floor(D.missions.length / teams.length)); mission(); }
-    function mtime() { var base = PROF.time || 60; return lvl() === 'dec' ? Math.max(base, 90) : lvl() === 'exp' ? Math.round(base / 2) : base; }
+    function begin(names) { teams = names.map(function (n, i) { return { n: n, c: TEAMC[i], pts: 0, stars: [] }; }); mi = 0; results = []; total = teams.length * D.missions.length; mission(); }
+    function mtime() { var base = PROF.time || 60; return lvl() === 'dec' ? Math.max(base, 90) : base; }
     function mission() {
       root.innerHTML = ''; hintUsed = false;
-      var M = D.missions[mi % D.missions.length], team = teams[mi % teams.length];
+      var M = D.missions[Math.floor(mi / teams.length)], team = teams[mi % teams.length];
       var hd = h('div', { style: 'display:flex;align-items:center;gap:14px' }, root);
       h('span', { class: 'kick', style: 'color:var(--green)' }, hd, 'Défi · ' + esc(ctx.L.title));
       h('div', { style: 'flex:1' }, hd);
@@ -740,10 +819,10 @@
       if (M.hint && cur.hintB) cur.hintB.onclick = function () { if (!run) return; if (!hintUsed) { hintUsed = true; cur.hintB.textContent = 'Indice (utilisé)'; } say(M.hint, 'think'); };
       if (M.type === 'qcm' && M.hint && SET.hints && lvl() !== 'exp') { var hb = h('button', { class: 'btn', style: 'align-self:flex-start' }, play, 'Indice'); hb.onclick = function () { if (!run) return; hintUsed = true; say(M.hint, 'think'); }; }
       timeLeft = mtime(); var T0 = timeLeft; run = true;
-      function drawRing() { var k = timeLeft / T0, C = 2 * Math.PI * 58; ring.innerHTML = '<svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="Il reste ' + Math.ceil(timeLeft) + ' secondes"><circle cx="66" cy="66" r="58" fill="none" stroke="var(--line)" stroke-width="12"/><circle cx="66" cy="66" r="58" fill="none" stroke="' + (k < 0.25 ? 'var(--red)' : 'var(--amber)') + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (C * k) + ' ' + C + '" transform="rotate(-90 66 66)"/><text x="66" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--text)" font-family="Bricolage Grotesque, sans-serif">' + Math.floor(Math.ceil(timeLeft) / 60) + ':' + ('0' + (Math.ceil(timeLeft) % 60)).slice(-2) + '</text></svg>'; }
+      function drawRing() { if (!PROF.timed) { ring.textContent = 'Sans chronomètre'; return; } var k = timeLeft / T0, C = 2 * Math.PI * 58; ring.innerHTML = '<svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="Il reste ' + Math.ceil(timeLeft) + ' secondes"><circle cx="66" cy="66" r="58" fill="none" stroke="var(--line)" stroke-width="12"/><circle cx="66" cy="66" r="58" fill="none" stroke="' + (k < 0.25 ? 'var(--red)' : 'var(--amber)') + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (C * k) + ' ' + C + '" transform="rotate(-90 66 66)"/><text x="66" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--text)" font-family="Bricolage Grotesque, sans-serif">' + Math.floor(Math.ceil(timeLeft) / 60) + ':' + ('0' + (Math.ceil(timeLeft) % 60)).slice(-2) + '</text></svg>'; }
       drawRing();
       var tl = loop(function (dt) {
-        if (!run || root.hidden) return;
+        if (!run || root.hidden || !PROF.timed) return;
         timeLeft -= dt; tickT += dt;
         if (timeLeft <= 10 && tickT > 1) { tickT = 0; sound('tick'); }
         drawRing();
@@ -765,7 +844,7 @@
     function finish(ok, msg) {
       if (!run) return; run = false;
       var M = cur.M, team = cur.team, stars = 0, pts = 0;
-      if (ok) { stars = timeLeft > mtime() / 2 ? 3 : 2; if (hintUsed) stars = Math.max(1, stars - 1); pts = 100 + Math.round(timeLeft) * 10; team.pts += pts; team.stars.push(stars); sound('win'); confetti(ctx.stage); }
+      if (ok) { stars = hintUsed ? 2 : 3; pts = 100; team.pts += pts; team.stars.push(stars); sound('win'); confetti(ctx.stage); }
       else { team.stars.push(0); sound('bad'); }
       results[mi] = ok;
       cur.say((ok ? '<b>Réussi ! +' + pts + ' points</b> ' + '★'.repeat(stars) + '<br>' : '<b>Raté…</b><br>') + (PROF.corr || ok ? (msg || '') : 'On en parle avec le professeur ?'), ok ? 'wow' : 'sad');
