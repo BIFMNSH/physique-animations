@@ -284,6 +284,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Au laboratoire, deux récipients contiennent de l’eau mélangée à du sable ou à du sel. Une filtration permettra-t-elle de séparer les constituants dans les deux cas ?", "prediction": "Prévois ce que le filtre retiendra pour chaque mélange. Explique ta réponse avant de lancer les essais.", "steps": ["Sélectionne eau et sable, puis la filtration. Lance l’essai et relève le résultat.", "Recommence avec eau et sel, en gardant la filtration. Relève ce qui change.", "Teste une autre technique proposée pour séparer l’eau et le sel ; relève son résultat.", "Compare tes prévisions aux résultats du modèle et explique pourquoi une technique ne convient pas à tous les mélanges."]},
     id: '5e-melanges', level: '5e', theme: 'Mélanges et réactions chimiques', title: 'Les mélanges', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
