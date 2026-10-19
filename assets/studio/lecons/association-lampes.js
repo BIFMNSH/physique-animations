@@ -208,6 +208,10 @@
   };
 
   S.start({
+    inquiry: {
+      situation: 'Pour éclairer une maquette, Awa utilise une pile de 6 V et deux lampes identiques de tension nominale 6 V. Elle souhaite que la seconde lampe reste allumée lorsque la première est dévissée. Quel montage choisir ?',
+      prediction: 'Prévois ce qui se passera en série puis en dérivation. Explique pourquoi. Pendant les essais, garde la pile à 6 V et utilise deux lampes.'
+    },
     id: '5e-association-lampes', level: '5e', theme: 'Électricité', title: 'Association de lampes électriques', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -220,7 +224,7 @@
     quiz: [
       { q: 'Deux lampes en série :', o: ['forment deux boucles', 'forment une seule boucle', 'ne s’allument jamais', 'sont toujours plus brillantes'], a: 1, e: 'Le courant n’a qu’un seul chemin.' },
       { q: 'En dérivation, une lampe grille. Les autres :', o: ['s’éteignent', 'continuent de briller', 'grillent aussi', 'brillent moins'], a: 1, e: 'Chaque lampe a sa propre boucle.' },
-      { q: 'Trois lampes identiques en série sur leur générateur adapté brillent :', o: ['normalement', 'faiblement', 'trop fort', 'pas du tout'], a: 1, e: 'La tension se partage entre les trois lampes.' },
+      { q: 'Trois lampes identiques de tension nominale 6 V, branchées en série sur un générateur de 6 V, brillent :', o: ['normalement', 'faiblement', 'trop fort', 'pas du tout'], a: 1, e: 'La tension se partage entre les trois lampes.' },
       { q: 'Les prises d’une maison sont montées :', o: ['en série', 'en dérivation', 'au hasard', 'en boucle unique'], a: 1, e: 'Chaque appareil fonctionne indépendamment.' },
       { q: 'Sur un schéma, le symbole d’une lampe est :', o: ['un rectangle', 'un cercle avec une croix', 'deux traits parallèles', 'un triangle'], a: 1, e: 'Cercle barré d’une croix.' }
     ]
