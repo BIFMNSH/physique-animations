@@ -1,4 +1,4 @@
-# Consolidation après audit — lots 1 à 3
+# Consolidation après audit — lots 1 à 4
 
 Référence de l’audit : main `e0603c013692e3a102b21e8d481707be0a5ff567`.
 Branche : `codex/consolidation-pedagogique-2026`, PR #1.
@@ -73,3 +73,13 @@ Les autres modèles scientifiques ouverts, la couverture détaillée MENA et la 
 - Diagnostic PR : GitHub renvoyait « dirty », mais la comparaison des commits indiquait main comme ancêtre commun, 28 commits d’avance et aucun de retard. Aucun conflit de contenu n’est établi par cette comparaison ; aucune réécriture d’historique n’a été effectuée. Le statut de fusion doit être revérifié avant intégration.
 
 A16 (court-circuit), A17 (effet de serre), A18 (puissance active/tarifs) et les autres points ouverts restent à traiter.
+
+## Lot 4 — explicitation des modèles et coût en FCFA
+
+- A16, partiel : la leçon Studio court-circuit précise avant manipulation et au bilan que 6 A et les délais de protection sont illustratifs. La résistance interne n’est pas modélisée ; le module intensité reste à revoir.
+- A17 : l’objectif, la première consigne et les questions distinguent les pertes thermiques imposées par le calcul d’une validation expérimentale sur des bocaux. Convection, humidité, parois et capteurs sont mentionnés comme facteurs à contrôler. Le modèle reste une analogie qualitative, sans validation métrologique ni nouveau calcul radiatif.
+- A18 : facteur de puissance égal à 1 explicité, limite de 16 A propre au matériel représenté. Prix fictif 100 FCFA/kWh, réglable de 0 à 300, quiz et unités convertis ; aucun tarif ivoirien officiel revendiqué. Puissance et intensité affichées à zéro lorsque l’appareil est éteint ; contrôle préventif de surcharge maintenu.
+- Cache v39. Validation : 71 assertions existantes réussies ; ouverture Chromium des deux simulateurs modifiés ; scénario radiateur, allumage/arrêt, relevé énergie/coût et réinitialisation du prix fictif.
+- Références : https://www.se.com/mk/en/download/document/CALC_EL_POWERS_SE_PMD/ ; https://www.climate.gov/teaching/literacy/2-c-greenhouse-effect . Ces sources distinguent les notions physiques ; elles ne certifient pas les modèles numériques utilisés.
+
+Restent la refonte quantitative des modèles, la généralisation des investigations et la couverture détaillée du programme MENA.
