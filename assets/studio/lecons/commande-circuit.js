@@ -214,6 +214,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Pour une maquette, une lampe doit pouvoir être allumée si au moins un des deux interrupteurs est fermé. Faut-il monter ces interrupteurs en série ou en dérivation ?", "prediction": "Prévois l’état de la lampe pour les quatre combinaisons des deux interrupteurs, dans chaque montage. Justifie ton choix.", "steps": ["Choisis Deux interrupteurs en série. Essaie les quatre combinaisons ouvert/fermé et note l’état de la lampe.", "Recommence en dérivation avec les mêmes combinaisons.", "Compare les deux tables, en particulier quand un seul interrupteur est fermé.", "Confronte tes prévisions aux résultats et choisis le montage qui répond au besoin de la maquette."], "criteria": ["Je présente les quatre combinaisons pour chaque montage.", "Je cite une observation qui permet de distinguer les deux montages.", "Je justifie mon choix par les chemins possibles du courant."]},
     id: '6e-commande-circuit', level: '6e', theme: 'Électricité', title: 'Commande d’un circuit électrique', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
