@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Connexion · Physique-chimie en animations</title>
+<meta name="description" content="Connexion des élèves, enseignants et établissements à Physique-chimie en animations.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/abo.css">
+</head>
+<body>
+<div class="preview" role="note">Aperçu de travail : la connexion n’est pas encore active, et rien de ce que vous tapez n’est envoyé ni enregistré.</div>
+<div class="auth">
+  <aside class="side">
+    <a class="brand" href="../abonnement/" style="font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none">← Physique-chimie en animations</a>
+    <h1 id="sideT">Content de vous revoir.</h1>
+    <p id="sideP">Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.</p>
+    <ul>
+      <li>53 leçons de la 6e à la 3e</li>
+      <li>Simulations, défis et quiz</li>
+      <li>Disponible hors connexion</li>
+    </ul>
+    <div class="note" id="offerBox" hidden></div>
+  </aside>
+
+  <main class="main">
+    <div class="box">
+      <div class="tabs" role="tablist" aria-label="Type de compte">
+        <button type="button" role="tab" id="t-eleve" aria-controls="p-eleve" aria-selected="true">Élève</button>
+        <button type="button" role="tab" id="t-prof" aria-controls="p-prof" aria-selected="false" tabindex="-1">Enseignant</button>
+        <button type="button" role="tab" id="t-ecole" aria-controls="p-ecole" aria-selected="false" tabindex="-1">Établissement</button>
+      </div>
+
+      <!-- Élève : téléphone + code SMS, ou code classe -->
+      <section class="pane" id="p-eleve" role="tabpanel" aria-labelledby="t-eleve">
+        <form id="fEleve" novalidate>
+          <h2>Connexion élève</h2>
+          <p class="hint">Avec le numéro de téléphone utilisé pour le pass (le vôtre ou celui d’un parent).</p>
+          <div class="field">
+            <label for="telE">Numéro de téléphone</label>
+            <div class="in"><span class="pre">+225</span><input id="telE" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="07 00 00 00 00" maxlength="14" aria-describedby="errTelE"></div>
+            <div class="err" id="errTelE" aria-live="polite"></div>
+          </div>
+          <div class="field" id="otpRow" hidden>
+            <label for="otp">Code reçu par SMS</label>
+            <div class="in"><input id="otp" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••" aria-describedby="errOtp"></div>
+            <div class="err" id="errOtp" aria-live="polite"></div>
+          </div>
+          <button class="btn primary block" type="submit" id="bEleve">Recevoir mon code par SMS</button>
+          <p class="msg" id="mEleve" role="status" aria-live="polite"></p>
+        </form>
+        <div class="or">ou</div>
+        <form id="fClasse" novalidate>
+          <div class="field">
+            <label for="codeC">J’ai un code classe (donné par mon professeur)</label>
+            <div class="in"><input id="codeC" class="code" autocomplete="off" placeholder="3E-B7K4" maxlength="8" aria-describedby="errC"></div>
+            <div class="err" id="errC" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="prenom">Mon prénom</label>
+            <div class="in"><input id="prenom" autocomplete="given-name" maxlength="30" placeholder="Prénom seulement"></div>
+          </div>
+          <button class="btn block" type="submit">Rejoindre ma classe</button>
+          <p class="msg" id="mClasse" role="status" aria-live="polite"></p>
+        </form>
+        <p class="small" style="margin-top:18px">Pas encore de pass ? <a href="../abonnement/#offres">Voir les offres</a> · <a href="../3e/">Essayer gratuitement</a></p>
+      </section>
+
+      <!-- Enseignant -->
+      <section class="pane" id="p-prof" role="tabpanel" aria-labelledby="t-prof" hidden>
+        <form id="fProf" novalidate>
+          <h2>Connexion enseignant</h2>
+          <p class="hint">Avec votre numéro de téléphone ou votre adresse e-mail.</p>
+          <div class="field">
+            <label for="idP">Téléphone ou e-mail</label>
+            <div class="in"><input id="idP" autocomplete="username" placeholder="07 00 00 00 00 ou nom@exemple.ci" aria-describedby="errIdP"></div>
+            <div class="err" id="errIdP" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="pwP">Mot de passe</label>
+            <div class="in"><input id="pwP" type="password" autocomplete="current-password" aria-describedby="errPwP"><button type="button" class="btn sm" id="showPw" style="border:none;min-height:46px" aria-pressed="false">Afficher</button></div>
+            <div class="err" id="errPwP" aria-live="polite"></div>
+          </div>
+          <button class="btn primary block" type="submit">Se connecter</button>
+          <p class="msg" id="mProf" role="status" aria-live="polite"></p>
+          <p class="small"><a href="#" id="forgot">Mot de passe oublié ?</a> · <a href="../abonnement/#offres">Créer un compte enseignant</a></p>
+        </form>
+      </section>
+
+      <!-- Établissement -->
+      <section class="pane" id="p-ecole" role="tabpanel" aria-labelledby="t-ecole" hidden>
+        <form id="fEcole" novalidate>
+          <h2>Espace établissement</h2>
+          <p class="hint">Pour les chefs d’établissement et responsables pédagogiques.</p>
+          <div class="field">
+            <label for="idE">Identifiant de l’établissement</label>
+            <div class="in"><input id="idE" autocomplete="username" placeholder="ex. CL-ABJ-0042"></div>
+          </div>
+          <div class="field">
+            <label for="pwE">Mot de passe</label>
+            <div class="in"><input id="pwE" type="password" autocomplete="current-password"></div>
+          </div>
+          <button class="btn primary block" type="submit">Se connecter</button>
+          <p class="msg" id="mEcole" role="status" aria-live="polite"></p>
+        </form>
+        <div class="or">Pas encore client ?</div>
+        <form id="fDevis" novalidate>
+          <div class="field"><label for="nomE">Nom de l’établissement</label><div class="in"><input id="nomE" placeholder="Collège …"></div></div>
+          <div class="field"><label for="villeE">Ville</label><div class="in"><input id="villeE" placeholder="Abidjan, Bouaké, Daloa…"></div></div>
+          <div class="field"><label for="nbE">Nombre de classes de collège</label><div class="in"><select id="nbE"><option>1 à 8</option><option>9 à 16</option><option>17 à 30</option><option>Plus de 30</option></select></div></div>
+          <div class="field"><label for="telD">Téléphone du responsable</label><div class="in"><span class="pre">+225</span><input id="telD" type="tel" inputmode="numeric" placeholder="07 00 00 00 00"></div></div>
+          <label class="check"><input type="checkbox" id="okD"> J’accepte d’être recontacté au sujet de ce devis. Ces informations ne servent qu’à cela.</label>
+          <button class="btn amber block" type="submit">Demander un devis</button>
+          <p class="msg" id="mDevis" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <div class="note">Mineurs : pour un élève de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe de l’élève. <a href="../confidentialite/" style="color:var(--blue)">Confidentialité</a></div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var PREVIEW='Aperçu : la connexion n’est pas encore active. Rien n’a été envoyé.';
+  var tabs=['eleve','prof','ecole'];
+  var SIDE={eleve:['Content de vous revoir.','Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.'],
+            prof:['Votre classe vous attend.','Mode enseignant, défis en équipes, fiches et corrigés : tout est prêt pour la séance.'],
+            ecole:['Équipez tout votre collège.','Un seul abonnement pour tous les enseignants de physique-chimie et toutes les classes.']};
+  function show(k,focus){
+    tabs.forEach(function(t){var b=document.getElementById('t-'+t),on=t===k;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;document.getElementById('p-'+t).hidden=!on;});
+    document.getElementById('sideT').textContent=SIDE[k][0];document.getElementById('sideP').textContent=SIDE[k][1];
+    if(focus)document.getElementById('t-'+k).focus();
+  }
+  tabs.forEach(function(t,i){var b=document.getElementById('t-'+t);b.onclick=function(){show(t);};
+    b.onkeydown=function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){e.preventDefault();show(tabs[(i+d+3)%3],true);}};});
+  // Offre choisie depuis la page Abonnements
+  var q=new URLSearchParams(location.search),o=q.get('offre'),du=q.get('duree')||'an';
+  var NOM={eleve:'Pass Élève',prof:'Pass Enseignant',ecole:'Établissement'},DUR={mois:'1 mois',trim:'1 trimestre',an:'année scolaire'};
+  var PX={eleve:{mois:'1 000 F',trim:'2 500 F',an:'6 000 F'},prof:{mois:'2 500 F',trim:'6 000 F',an:'15 000 F'}};
+  if(o&&NOM[o]){show(o);var box=document.getElementById('offerBox');box.hidden=false;
+    box.innerHTML=o==='ecole'?'<b>Offre choisie :</b> Établissement, sur devis.':'<b>Offre choisie :</b> '+NOM[o]+', '+DUR[du]+' : <b>'+(PX[o][du]||'')+'</b>. Après connexion, vous validerez le paiement Mobile Money.';}
+  // Numéros ivoiriens : 10 chiffres, commençant par 01, 05, 07, 21, 25 ou 27
+  function tel(v){v=v.replace(/\D/g,'');if(v.indexOf('225')===0&&v.length===13)v=v.slice(3);return /^(01|05|07|21|25|27)\d{8}$/.test(v)?v:null;}
+  function fmt(i){i.addEventListener('input',function(){var d=i.value.replace(/\D/g,'').slice(0,10);i.value=d.replace(/(\d{2})(?=\d)/g,'$1 ');});}
+  fmt(document.getElementById('telE'));fmt(document.getElementById('telD'));
+  function err(id,m){document.getElementById(id).textContent=m||'';}
+  document.getElementById('fEleve').onsubmit=function(e){e.preventDefault();
+    var t=tel(document.getElementById('telE').value);err('errTelE',t?'':'Entrez un numéro à 10 chiffres, par exemple 07 12 34 56 78.');
+    if(!t){document.getElementById('telE').focus();return;}
+    var row=document.getElementById('otpRow');
+    if(row.hidden){row.hidden=false;document.getElementById('bEleve').textContent='Me connecter';document.getElementById('mEleve').textContent='Aperçu : en service, un code à 6 chiffres arriverait par SMS au '+t.replace(/(\d{2})(?=\d)/g,'$1 ')+'.';document.getElementById('otp').focus();return;}
+    var c=document.getElementById('otp').value.replace(/\D/g,'');err('errOtp',c.length===6?'':'Le code contient 6 chiffres.');
+    if(c.length===6)document.getElementById('mEleve').textContent=PREVIEW;};
+  document.getElementById('fClasse').onsubmit=function(e){e.preventDefault();
+    var c=document.getElementById('codeC').value.trim().toUpperCase();var ok=/^[0-9A-Z]{2}-?[0-9A-Z]{4}$/.test(c);
+    err('errC',ok?'':'Le code classe ressemble à 3E-B7K4.');if(ok)document.getElementById('mClasse').textContent=PREVIEW;};
+  document.getElementById('fProf').onsubmit=function(e){e.preventDefault();
+    var v=document.getElementById('idP').value.trim(),ok=tel(v)||/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v);
+    err('errIdP',ok?'':'Entrez un numéro à 10 chiffres ou une adresse e-mail.');
+    var pw=document.getElementById('pwP').value;err('errPwP',pw.length>=8?'':'Au moins 8 caractères.');
+    if(ok&&pw.length>=8)document.getElementById('mProf').textContent=PREVIEW;};
+  document.getElementById('showPw').onclick=function(){var i=document.getElementById('pwP'),s=i.type==='password';i.type=s?'text':'password';this.textContent=s?'Masquer':'Afficher';this.setAttribute('aria-pressed',String(s));};
+  document.getElementById('forgot').onclick=function(e){e.preventDefault();document.getElementById('mProf').textContent='Aperçu : un lien ou un code de réinitialisation serait envoyé par SMS ou e-mail.';};
+  document.getElementById('fEcole').onsubmit=function(e){e.preventDefault();document.getElementById('mEcole').textContent=PREVIEW;};
+  document.getElementById('fDevis').onsubmit=function(e){e.preventDefault();var m=document.getElementById('mDevis');
+    if(!document.getElementById('okD').checked){m.textContent='Cochez la case pour accepter d’être recontacté.';return;}
+    m.textContent='Aperçu : la demande de devis n’est pas encore envoyée.';};
+})();
+</script>
+</body>
+</html>
