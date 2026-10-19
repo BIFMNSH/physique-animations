@@ -364,7 +364,7 @@
   /* ================== LA LEÇON ================== */
   function start(L) {
     var app = document.documentElement; app.classList.add('app');
-    document.title = L.title + ' · ' + L.level + ' · Physique-chimie en animations';
+    document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab';
     applySettings();
     var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage' }, vp);
     var prog = PROG[L.id] = PROG[L.id] || {}; PROG.last = L.id; save('pc-studio-prog', PROG);

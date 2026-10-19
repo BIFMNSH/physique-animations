@@ -2,26 +2,27 @@
 <html lang="fr" data-theme="dark">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
-<title>Fiches élèves · Physique-chimie en animations</title>
+<title>Fiches élèves · NOHOBA-Lab</title>
 <meta name="description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
 <link rel="canonical" href="https://physique-animations.vercel.app/fiche/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Physique-chimie en animations">
+<meta property="og:site_name" content="NOHOBA-Lab">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:title" content="Fiches élèves · Physique-chimie en animations">
+<meta property="og:title" content="Fiches élèves · NOHOBA-Lab">
 <meta property="og:description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
 <meta property="og:url" content="https://physique-animations.vercel.app/fiche/">
 <meta property="og:image" content="https://physique-animations.vercel.app/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Physique-chimie en animations : leçons de la 6e à la 3e">
+<meta property="og:image:alt" content="NOHOBA-Lab : simulations de physique-chimie, de la 6e à la 3e">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Fiches élèves · Physique-chimie en animations">
+<meta name="twitter:title" content="Fiches élèves · NOHOBA-Lab">
 <meta name="twitter:description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
 <meta name="twitter:image" content="https://physique-animations.vercel.app/assets/og.png">
-<meta name="twitter:image:alt" content="Physique-chimie en animations : leçons de la 6e à la 3e">
+<meta name="twitter:image:alt" content="NOHOBA-Lab : simulations de physique-chimie, de la 6e à la 3e">
 <meta name="theme-color" content="#0B1220">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/style.css">
@@ -124,7 +125,7 @@ body{background:var(--app)}
       if (!def) { sc.onerror(); return; }
       var meta = (window.SIM_INDEX || []).filter(function (x) { return x.slug === slug; })[0] || { title: slug, level: '', themeLabel: '' };
       var cap = (window.SIM_FICHE && window.SIM_FICHE[slug]) || {};
-      document.title = 'Fiche : ' + meta.title + ' · Simulateur · Physique-chimie en animations';
+      document.title = 'Fiche : ' + meta.title + ' · Simulateur · NOHOBA-Lab';
       ['toList', 'seg', 'toAnim', 'bPrint'].forEach(function (id) { document.getElementById(id).hidden = false; });
       document.getElementById('toAnim').href = '../simulateur/?s=' + slug; document.getElementById('toAnim').textContent = 'Lancer la simulation';
       var h = '<article class="sheet"><div class="tag">Physique-chimie · Simulation · ' + esc(meta.level) + ' · ' + esc(meta.themeLabel) + '</div>' +
@@ -172,7 +173,7 @@ body{background:var(--app)}
   function blanks(t) { return t.replace(/\[\[(.+?)\]\]/g, '<span class="blank">$1</span>'); }
 
   if (!key) {
-    document.title = 'Fiches élèves · Physique-chimie en animations';
+    document.title = 'Fiches élèves · NOHOBA-Lab';
     wrap.innerHTML = '<div class="list"><h1>Fiches élèves</h1><p>Une fiche A4 par animation : schéma, texte à compléter, exercices. Chaque fiche a sa version corrigée.</p>' +
       C.order.map(function (k, i) { var f = C.fiches[k]; return '<a class="item" href="?a=' + k + '"><span class="n">' + (i + 1) + '</span><span><b>' + f.title + '</b><span class="o">' + f.objectif + '</span></span></a>'; }).join('') + '<h2 id="simulations">Fiches du Simulateur (cycle 4)</h2><p>Une fiche par simulation : manipulation, tableau de mesures et graphique à compléter, « je retiens », exercices et conclusion.</p><div id="simList" class="list"></div></div>';
     var sc = document.createElement('script'); sc.src = '../assets/sim-index.js';
@@ -181,7 +182,7 @@ body{background:var(--app)}
     return;
   }
   var f = C.fiches[key], i = C.order.indexOf(key);
-  document.title = 'Fiche : ' + f.title + ' · Physique-chimie en animations';
+  document.title = 'Fiche : ' + f.title + ' · NOHOBA-Lab';
   ['toList', 'seg', 'toAnim', 'bPrint'].forEach(function (id) { document.getElementById(id).hidden = false; });
   document.getElementById('toAnim').href = '../' + key + '/';
   var h = '<article class="sheet"><div class="tag">Physique-chimie · Fiche ' + (i + 1) + '</div>' +
