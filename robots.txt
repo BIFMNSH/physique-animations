@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://physique-animations.vercel.app/sitemap.xml
+Sitemap: https://lab.nohaba.com/sitemap.xml

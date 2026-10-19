@@ -7,21 +7,21 @@
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
 <title>Fiches élèves · NOHOBA-Lab</title>
 <meta name="description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
-<link rel="canonical" href="https://physique-animations.vercel.app/fiche/">
+<link rel="canonical" href="https://lab.nohaba.com/fiche/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NOHOBA-Lab">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="Fiches élèves · NOHOBA-Lab">
 <meta property="og:description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
-<meta property="og:url" content="https://physique-animations.vercel.app/fiche/">
-<meta property="og:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta property="og:url" content="https://lab.nohaba.com/fiche/">
+<meta property="og:image" content="https://lab.nohaba.com/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="NOHOBA-Lab : simulations de physique-chimie, de la 6e à la 3e">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Fiches élèves · NOHOBA-Lab">
 <meta name="twitter:description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
-<meta name="twitter:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta name="twitter:image" content="https://lab.nohaba.com/assets/og.png">
 <meta name="twitter:image:alt" content="NOHOBA-Lab : simulations de physique-chimie, de la 6e à la 3e">
 <meta name="theme-color" content="#0B1220">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
@@ -153,7 +153,7 @@ body{background:var(--app)}
       h += '<h2>Je m’exerce</h2><ol>' + (def.quiz || []).map(function (q) {
         return '<li>' + esc(q.q) + '<ul class="opts">' + q.o.map(function (o, k) { return '<li' + (k === q.a ? ' class="ok"' : '') + '>' + esc(o) + '</li>'; }).join('') + '</ul><div class="ans">' + esc(q.e) + '</div></li>';
       }).join('') + '</ol>';
-      h += '<h2>Ma conclusion</h2><div class="lines"><i></i><i></i><i></i><i></i></div><div class="foot">Simulation : physique-animations.vercel.app/simulateur/?s=' + slug + '</div></article>';
+      h += '<h2>Ma conclusion</h2><div class="lines"><i></i><i></i><i></i><i></i></div><div class="foot">Simulation : lab.nohaba.com/simulateur/?s=' + slug + '</div></article>';
       wrap.innerHTML = h;
       function setV(corr) {
         document.body.classList.toggle('corr', corr);
@@ -199,7 +199,7 @@ body{background:var(--app)}
   h += '<h2>Je m’exerce</h2><ol>' + f.exercices.map(function (e) {
     var lines = ''; for (var k = 0; k < e.lines; k++) lines += '<i></i>';
     return '<li>' + e.q + '<div class="lines">' + lines + '</div><div class="ans">' + e.a + '</div></li>';
-  }).join('') + '</ol><div class="foot">Animation : physique-animations.vercel.app/' + key + '/</div></article>';
+  }).join('') + '</ol><div class="foot">Animation : lab.nohaba.com/' + key + '/</div></article>';
   wrap.innerHTML = h;
   function setV(corr) {
     document.body.classList.toggle('corr', corr);

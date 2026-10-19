@@ -53,5 +53,18 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "physique-animations.vercel.app"
+        }
+      ],
+      "destination": "https://lab.nohaba.com/:path*",
+      "permanent": true
+    }
   ]
 }
