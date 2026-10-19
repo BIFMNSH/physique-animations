@@ -688,7 +688,7 @@
     function tab(k) { Object.keys(panes).forEach(function (x) { panes[x].hidden = x !== k; tabB[x].setAttribute('aria-selected', x === k); tabB[x].tabIndex = x === k ? 0 : -1; }); if (k === 'bilan') bilan(); }
     tabs.addEventListener('keydown', function (e) {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
-      var keys = Object.keys(tabB), index = keys.findIndex(function (k) { return tabB[k] === document.activeElement; });
+      var keys = Object.keys(tabB).filter(function (k) { return !tabB[k].disabled; }), index = keys.findIndex(function (k) { return tabB[k] === document.activeElement; });
       if (index < 0) return;
       e.preventDefault(); index = e.key === 'Home' ? 0 : e.key === 'End' ? keys.length - 1 : (index + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length;
       tab(keys[index]); tabB[keys[index]].focus();
@@ -716,7 +716,7 @@
         state.complete = true; persist(); feedback.textContent = 'Trace enregistrée. Compare ton explication au bilan scientifique ; ce dépôt ne valide pas automatiquement sa justesse.'; bilan();
       };
     }
-    var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + S.steps.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
+    var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + (ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
     var cmdCard = h('div', { class: 'card' }, panes.manip, '<h3>Commandes</h3>');
     var msg = h('div', { class: 'msg', 'aria-live': 'polite' }, panes.manip);
     var mesCard = h('div', { class: 'card' }, panes.mes);
@@ -753,7 +753,7 @@
     unlock();
     zoomable(box, sv, S.W, S.H, G).tools.classList.add('ztl');
     function bilan() { var withheld = PROF.hideRes || (I && !state.complete && !ctx.revision()); retCard.hidden = withheld; bilCard.hidden = withheld; if (I) initial.textContent = state.prediction || 'Aucune prévision enregistrée.'; bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
-    return { refresh: function () { unlock(); bilan(); }, enter: function () { unlock(); bilan(); if (SET.tts) speak(S.steps.join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
+    return { refresh: function () { unlock(); bilan(); }, enter: function () { unlock(); bilan(); if (SET.tts) speak((ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
   }
 
   /* ================== DÉFI CHRONOMÉTRÉ ================== */
