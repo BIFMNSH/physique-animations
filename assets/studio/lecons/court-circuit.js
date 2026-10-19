@@ -193,6 +193,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Dans une maquette virtuelle, un fil relie accidentellement les bornes de la pile. Un fusible et un disjoncteur permettent-ils de remettre ensuite le circuit en service de la même façon ?", "prediction": "Prévois ce qui arrive au courant avec chaque protection, puis ce qui sera nécessaire pour remettre le circuit en service.", "steps": ["Simulation uniquement : 6 A et les délais sont illustratifs. Ne reproduis pas un court-circuit réel.", "Choisis un fusible et place le fil aux bornes de la pile. Attends son déclenchement et relève les observations.", "Supprime le fil de court-circuit avant de changer le fusible ; observe le retour du courant.", "Recommence avec le disjoncteur : attends le déclenchement, supprime le défaut puis réarme.", "Compare les deux protections et explique pourquoi supprimer le défaut précède la remise en service."], "criteria": ["Je distingue le déclenchement de la protection et la suppression du défaut.", "Je compare remplacement du fusible et réarmement du disjoncteur.", "Je distingue les valeurs illustratives du modèle des caractéristiques réelles."]},
     id: '6e-court-circuit', level: '6e', theme: 'Électricité', title: 'Court-circuit et protection des installations électriques', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
