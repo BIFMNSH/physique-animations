@@ -119,7 +119,7 @@
     segs: [
       { t: 0, d: 5.6, say: 'La Lune ne produit pas de lumière : c’est un objet diffusant, éclairé par le Soleil.', sub: 'La Lune est un <b>objet diffusant</b> éclairé par le <b>Soleil</b>.' },
       { t: 5.8, d: 6, say: 'À chaque instant, la moitié de la Lune tournée vers le Soleil est éclairée ; l’autre moitié est dans la nuit.', sub: 'Toujours <b>une moitié éclairée</b>, celle tournée vers le Soleil.' },
-      { t: 12, d: 6.6, say: 'La Lune tourne autour de la Terre en vingt-neuf jours et demi. Depuis la Terre, on ne voit qu’une partie de sa moitié éclairée.', sub: 'Elle tourne autour de la Terre en <b>29,5 jours</b>.' },
+      { t: 12, d: 6.6, say: 'Le cycle des phases dure vingt-neuf jours et demi. On voit une partie de la moitié éclairée de la Lune.', sub: 'Le cycle des phases dure <b>29,5 jours</b>.' },
       { t: 18.8, d: 6.4, say: 'Nouvelle lune, premier croissant, premier quartier, gibbeuse… puis la pleine lune, quand la Terre est entre le Soleil et la Lune.', sub: 'Nouvelle lune → croissant → premier quartier → <b>pleine lune</b>…' },
       { t: 25.4, d: 6.2, say: 'Ensuite la partie visible diminue : dernier quartier, dernier croissant, et le cycle recommence.', sub: '…dernier quartier → dernier croissant : le cycle recommence.' },
       { t: 32, d: 4.4, say: 'Parfois, à la nouvelle lune, le Soleil, la Lune et la Terre sont parfaitement alignés.', sub: 'Soleil – Lune – Terre <b>alignés</b>…' },
@@ -203,7 +203,7 @@
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
       'La Lune est un <b>objet diffusant</b> : elle renvoie la lumière du Soleil. À chaque instant, la moitié tournée vers le Soleil est éclairée.',
-      'La Lune tourne autour de la Terre en environ <b>29,5 jours</b>. Depuis la Terre, on voit une partie plus ou moins grande de sa moitié éclairée : ce sont les <b>phases</b> (nouvelle lune, premier croissant, premier quartier, gibbeuse, pleine lune, dernier quartier, dernier croissant).',
+      'La révolution de la Lune autour de la Terre dure environ <b>27,3 jours</b> par rapport aux étoiles. Le cycle des phases, ou <b>lunaison</b>, dure environ <b>29,5 jours</b>, car la Terre se déplace aussi autour du Soleil. Depuis la Terre, on voit une partie plus ou moins grande de sa moitié éclairée : ce sont les <b>phases</b> (nouvelle lune, premier croissant, premier quartier, gibbeuse, pleine lune, dernier quartier, dernier croissant).',
       'À la <b>nouvelle lune</b>, la Lune est entre le Soleil et la Terre ; à la <b>pleine lune</b>, la Terre est entre le Soleil et la Lune.',
       '<b>Éclipse de Soleil</b> : Soleil, Lune et Terre sont alignés (nouvelle lune) ; la Lune cache le Soleil et son ombre se projette sur la Terre.',
       '<b>Éclipse de Lune</b> : Soleil, Terre et Lune sont alignés (pleine lune) ; la Lune passe dans l’ombre de la Terre. Les éclipses sont rares car l’orbite de la Lune est inclinée.'
