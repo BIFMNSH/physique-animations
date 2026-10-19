@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sujets types BEPC · Physique-chimie · NOHOBA-Lab</title>
+<meta name="description" content="Sujets types du BEPC de physique-chimie (3e, programme MENA) avec corrigés et barème : entraînement ou examen blanc de 2 heures, note sur 20.">
+<link rel="canonical" href="https://physique-animations.vercel.app/bepc/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NOHOBA-Lab">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Sujets types BEPC · Physique-chimie · NOHOBA-Lab">
+<meta property="og:description" content="Sujets types du BEPC de physique-chimie avec corrigés et barème : entraînement ou examen blanc de 2 heures.">
+<meta property="og:url" content="https://physique-animations.vercel.app/bepc/">
+<meta property="og:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060A18">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+:root{--night:#060A18;--deep:#0C1430;--card:#101A38;--ink:#EEF2FB;--mist:#A4B0CC;--line:rgba(164,176,204,.2);--nohoba:#F97316;--soft:#FFB27A;--ok:#3FBF6A;--ko:#FF7A7A;--blue:#7FD3FF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--ink);font:400 17px/1.55 'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--soft)}
+:focus-visible{outline:3px solid var(--soft);outline-offset:3px;border-radius:6px}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+.top{position:sticky;top:0;z-index:20;background:rgba(6,10,24,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{max-width:1100px;display:flex;align-items:center;gap:12px;height:62px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto}
+.logo img{width:32px;height:32px;border-radius:9px}
+.logo b{font:800 19px 'Bricolage Grotesque',sans-serif;letter-spacing:.03em}.logo b span{color:var(--nohoba)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:13px;border:1.5px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer}
+.btn:hover{border-color:rgba(255,255,255,.45)}
+.btn.go{background:var(--nohoba);border-color:var(--nohoba);color:#1B0A00}
+.btn.sm{min-height:40px;padding:0 14px;font-size:15px}
+.timer{font:800 20px 'Bricolage Grotesque',sans-serif;font-variant-numeric:tabular-nums;padding:6px 12px;border-radius:10px;background:rgba(249,115,22,.14);border:1px solid rgba(249,115,22,.4)}
+.timer.low{background:rgba(255,122,122,.18);border-color:var(--ko)}
+
+h1{font:800 clamp(34px,5.4vw,56px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;margin:38px 0 14px}
+.lead{color:var(--mist);font-size:19px;margin:0 0 26px;max-width:680px}
+.modes{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px}
+.modes button{flex:1 1 260px;text-align:left;padding:14px 16px;border-radius:16px;border:1.5px solid var(--line);background:var(--deep);color:var(--ink);cursor:pointer;font:inherit}
+.modes button[aria-pressed="true"]{border-color:var(--nohoba);box-shadow:0 0 0 1px var(--nohoba)}
+.modes b{display:block;font:800 19px 'Bricolage Grotesque',sans-serif;margin-bottom:2px}
+.modes span{color:var(--mist);font-size:15px}
+.list{display:grid;gap:12px;margin-bottom:60px}
+.subj{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:18px;background:var(--deep);border:1.5px solid var(--line)}
+.subj h2{margin:0;font:800 22px 'Bricolage Grotesque',sans-serif}
+.subj p{margin:2px 0 0;color:var(--mist);font-size:15px}
+.subj .best{margin-left:auto;text-align:right;font-size:14px;color:var(--mist);white-space:nowrap}
+.subj .best b{display:block;font:800 22px 'Bricolage Grotesque',sans-serif;color:var(--ink)}
+.note{color:var(--mist);font-size:14.5px;border-left:3px solid var(--nohoba);padding:4px 0 4px 14px;margin:0 0 40px}
+
+/* Sujet */
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin:30px 0 6px}
+.head h1{margin:0;font-size:clamp(30px,4.6vw,44px)}
+.meta{color:var(--mist);margin:0 0 24px}
+.ex{border:1.5px solid var(--line);border-radius:20px;background:var(--deep);padding:20px 20px 18px;margin-bottom:18px}
+.ex h2{margin:0 0 12px;font:800 22px/1.2 'Bricolage Grotesque',sans-serif;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.ex h2 small{font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--mist)}
+.ex h2 .pts{margin-left:auto;font-size:16px;color:var(--soft)}
+.item{margin:0 0 18px}
+.cons{font-weight:700;margin:0 0 10px}
+.ctx{background:rgba(255,255,255,.04);border-radius:12px;padding:12px 14px;margin:0 0 14px;color:var(--ink)}
+.situ{border:1px dashed rgba(249,115,22,.55)}
+.trous{line-height:2.4}
+select{font:700 16px 'Atkinson Hyperlegible',sans-serif;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;min-height:40px;padding:0 8px;max-width:100%}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .s{flex:1 1 300px}
+.seg{display:inline-flex;gap:6px}
+.seg button,.opt{font:700 15px 'Atkinson Hyperlegible',sans-serif;min-height:40px;padding:0 14px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"],.opt[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#06121F}
+.q{margin:0 0 8px;font-weight:700}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.oq{margin:0 0 16px}
+.oq .q{display:flex;gap:10px}
+.oq .q .p{margin-left:auto;color:var(--soft);white-space:nowrap}
+textarea{width:100%;min-height:70px;font:400 16px 'Atkinson Hyperlegible',sans-serif;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;resize:vertical}
+.fb{margin-top:6px;font-size:15px}
+.fb.ok{color:var(--ok)}.fb.ko{color:var(--ko)}
+.key{margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(63,191,106,.1);border:1px solid rgba(63,191,106,.4)}
+.key b{color:var(--ok)}
+.self{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:15px;color:var(--mist)}
+.exfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:6px}
+.score{font:800 18px 'Bricolage Grotesque',sans-serif}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 70px}
+.result{border-radius:22px;padding:24px;background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(127,211,255,.08));border:1.5px solid rgba(249,115,22,.5);margin:10px 0 18px}
+.result .big{font:800 64px/1 'Bricolage Grotesque',sans-serif}
+.result table{border-collapse:collapse;margin-top:14px;font-size:15px}
+.result td{padding:4px 18px 4px 0}
+.correct-hidden .key,.correct-hidden .fb,.correct-hidden .self{display:none}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--mist);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 22px}
+[hidden]{display:none!important}
+@media (max-width:600px){.subj{flex-wrap:wrap}.subj .best{margin-left:0;text-align:left}.ex{padding:16px 14px}}
+
+/* Impression : sujet sans corrigé, ou corrigé */
+@media print{
+  body{background:#fff;color:#000;font-size:11.5pt}
+  .top,.modes,.bar,.exfoot,.self,footer,.note,#home,.noprint{display:none!important}
+  .ex{border:1px solid #999;background:#fff;break-inside:avoid;border-radius:0}
+  .ctx{background:#f3f3f3}
+  select,textarea,.seg button,.opt{border:1px solid #999;color:#000;background:#fff}
+  textarea{min-height:60px}
+  .key{background:#fff;border:1px solid #999}.key b{color:#000}
+  .meta,.ex h2 small{color:#333}
+  body:not(.print-key) .key,body:not(.print-key) .fb{display:none!important}
+  body.print-key textarea{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/brand/nohoba-icon.svg" alt="" width="32" height="32"><b>NOHOBA<span>-Lab</span></b></a>
+    <span class="timer" id="timer" hidden aria-live="off" title="Temps restant"></span>
+    <a class="btn sm" href="../3e/">Parcours 3e</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="home" aria-labelledby="t">
+    <h1 id="t">Sujets types du BEPC</h1>
+    <p class="lead">Physique-chimie, 3e. Trois sujets complets sur le programme du MENA, avec le barème et le corrigé détaillé de chaque question.</p>
+    <div class="modes" role="group" aria-label="Mode">
+      <button type="button" data-m="train" aria-pressed="true"><b>Entraînement</b><span>Tu corriges chaque exercice dès que tu l’as fini.</span></button>
+      <button type="button" data-m="exam" aria-pressed="false"><b>Examen blanc</b><span>2 heures chronométrées, corrigé et note à la fin.</span></button>
+    </div>
+    <div class="list" id="list"></div>
+    <p class="note">Sujets d’entraînement rédigés pour NOHOBA-Lab dans l’esprit de l’épreuve (2 heures, coefficient 2) : ce ne sont pas des sujets officiels. Les questions ouvertes se corrigent avec le corrigé : tu indiques toi-même les points obtenus, honnêtement.</p>
+  </section>
+
+  <section id="paper" hidden aria-live="polite"></section>
+</main>
+
+<footer><div class="wrap"><span>NOHOBA-Lab, une initiative NOHOBA</span><a href="../mentions-legales/">Mentions légales</a><a href="../confidentialite/">Confidentialité</a><a href="../credits/">Crédits</a></div></footer>
+
+<script src="../assets/bepc/sujets.js"></script>
+<script>
+(function(){
+  var S=window.BEPC, mode='train', cur=null, state=null, tick=null;
+  var $=function(s,r){return (r||document).querySelector(s);};
+  function fr(n){return (Math.round(n*100)/100).toLocaleString('fr-FR');}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function load(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+  /* ----- Accueil ----- */
+  function home(){
+    clearInterval(tick); $('#timer').hidden=true;
+    $('#home').hidden=false; $('#paper').hidden=true; document.title='Sujets types BEPC · Physique-chimie · NOHOBA-Lab';
+    $('#list').innerHTML=S.map(function(s){var b=load('pc-bepc-'+s.id);
+      return '<div class="subj"><div><h2>'+esc(s.titre)+'</h2><p>'+esc(s.themes)+'</p></div><div class="best">'+(b?'Meilleure note<b>'+fr(b.best)+' / 20</b>':'Pas encore fait')+'</div><button class="btn go" type="button" data-s="'+s.id+'">Commencer</button></div>';}).join('');
+    document.querySelectorAll('[data-s]').forEach(function(b){b.onclick=function(){open(b.dataset.s);};});
+  }
+  document.querySelectorAll('.modes button').forEach(function(b){b.onclick=function(){mode=b.dataset.m;document.querySelectorAll('.modes button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});};});
+
+  /* ----- Rendu du sujet ----- */
+  function itemHTML(it,ei,ii){
+    var id='e'+ei+'i'+ii, h='<div class="item" data-i="'+id+'">';
+    if(it.consigne)h+='<p class="cons">'+esc(it.consigne)+'</p>';
+    if(it.t==='trous'){
+      var k=0;h+='<p class="trous">'+esc(it.texte).replace(/\[\[(.*?)\]\]/g,function(){var n=k++;return '<select aria-label="Mot manquant '+(n+1)+'" data-k="'+n+'"><option value="">……</option>'+it.banque.map(function(w){return '<option>'+esc(w)+'</option>';}).join('')+'</select>';})+'</p><div class="fb" data-fb></div>';
+    }
+    if(it.t==='vf'){
+      it.liste.forEach(function(l,n){h+='<div class="row"><span class="s">'+esc(l[0])+'</span><span class="seg" role="group" aria-label="Vrai ou faux"><button type="button" data-k="'+n+'" data-v="1" aria-pressed="false">Vrai</button><button type="button" data-k="'+n+'" data-v="0" aria-pressed="false">Faux</button></span><div class="fb" data-fb="'+n+'" style="flex-basis:100%"></div></div>';});
+    }
+    if(it.t==='qcm'){
+      it.liste.forEach(function(q,n){h+='<p class="q">'+(n+1)+'. '+esc(q.q)+'</p><div class="opts" role="group" aria-label="Question '+(n+1)+'">'+q.o.map(function(o,j){return '<button type="button" class="opt" data-k="'+n+'" data-v="'+j+'" aria-pressed="false">'+esc(o)+'</button>';}).join('')+'</div><div class="fb" data-fb="'+n+'"></div>';});
+    }
+    if(it.t==='apparier'){
+      it.liste.forEach(function(l,n){h+='<div class="row"><span class="s">'+esc(l[0])+'</span><select data-k="'+n+'" aria-label="'+esc(l[0])+'"><option value="">Choisir…</option>'+it.choix.map(function(c){return '<option>'+esc(c)+'</option>';}).join('')+'</select><div class="fb" data-fb="'+n+'" style="flex-basis:100%"></div></div>';});
+    }
+    if(it.t==='ouvert'){
+      if(it.contexte)h+='<div class="ctx'+(it.situation?' situ':'')+'">'+esc(it.contexte)+'</div>';
+      it.questions.forEach(function(q,n){h+='<div class="oq"><p class="q"><span>'+(n+1)+'. '+esc(q.q)+'</span><span class="p">'+fr(q.pts)+' pt'+(q.pts>1?'s':'')+'</span></p><textarea aria-label="Ma réponse à la question '+(n+1)+'" placeholder="Ma réponse…"></textarea><div class="key" hidden><b>Corrigé :</b> '+esc(q.r)+'</div><div class="self" hidden data-k="'+n+'">Mes points : '+[0,q.pts/2,q.pts].map(function(v){return '<button type="button" class="opt" data-v="'+v+'" aria-pressed="false">'+fr(v)+'</button>';}).join('')+'</div></div>';});
+    }
+    return h+'</div>';
+  }
+  function open(id){
+    cur=S.filter(function(s){return s.id===id;})[0]; state={done:{},self:{}};
+    $('#home').hidden=true; var P=$('#paper'); P.hidden=false; P.className=mode==='exam'?'correct-hidden':'';
+    document.title=cur.titre+' · BEPC · NOHOBA-Lab';
+    var h='<div class="head"><h1>'+esc(cur.titre)+'</h1></div><p class="meta">Épreuve de physique-chimie · Durée : 2 heures · '+(mode==='exam'?'Examen blanc':'Entraînement')+' · '+esc(cur.themes)+'</p>';
+    cur.ex.forEach(function(e,ei){
+      h+='<article class="ex" data-e="'+ei+'"><h2>Exercice '+e.n+' <small>'+esc(e.partie)+'</small> '+esc(e.titre)+'<span class="pts">'+e.pts+' points</span></h2>';
+      e.items.forEach(function(it,ii){h+=itemHTML(it,ei,ii);});
+      h+='<div class="exfoot">'+(mode==='train'?'<button class="btn" type="button" data-corr="'+ei+'">Corriger l’exercice '+e.n+'</button>':'')+'<span class="score" data-sc="'+ei+'"></span></div></article>';
+    });
+    h+='<div id="res"></div><div class="bar">'+(mode==='exam'?'<button class="btn go" type="button" id="finish">Terminer et voir ma note</button>':'<button class="btn go" type="button" id="finish">Voir ma note sur 20</button>')+'<button class="btn" type="button" id="pSujet">Imprimer le sujet</button><button class="btn" type="button" id="pKey">Imprimer le corrigé</button><button class="btn" type="button" id="back">Autres sujets</button></div>';
+    P.innerHTML=h; window.scrollTo(0,0);
+    // interactions
+    P.querySelectorAll('.seg button,.opts .opt').forEach(function(b){b.onclick=function(){if(b.closest('.locked'))return;b.parentNode.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});};});
+    P.querySelectorAll('[data-corr]').forEach(function(b){b.onclick=function(){corrige(+b.dataset.corr);b.remove();};});
+    $('#finish').onclick=finish; $('#back').onclick=function(){if(confirm('Quitter ce sujet ? Tes réponses ne seront pas gardées.'))home();};
+    $('#pSujet').onclick=function(){document.body.classList.remove('print-key');window.print();};
+    $('#pKey').onclick=function(){P.querySelectorAll('.key').forEach(function(k){k.hidden=false;});document.body.classList.add('print-key');window.print();setTimeout(function(){document.body.classList.remove('print-key');},500);};
+    if(mode==='exam')startTimer(); else {clearInterval(tick);$('#timer').hidden=true;}
+    P.querySelector('h1').setAttribute('tabindex','-1');P.querySelector('h1').focus();
+  }
+  function startTimer(){
+    var end=Date.now()+2*3600*1000, t=$('#timer'); t.hidden=false; clearInterval(tick);
+    function up(){var s=Math.max(0,Math.round((end-Date.now())/1000));t.textContent=Math.floor(s/3600)+' h '+String(Math.floor(s%3600/60)).padStart(2,'0')+' min';t.classList.toggle('low',s<600);if(s===0){clearInterval(tick);alert('Le temps est écoulé : voici ta correction.');finish();}}
+    up(); tick=setInterval(up,15000);
+  }
+
+  /* ----- Correction ----- */
+  function corrige(ei){
+    if(state.done[ei]!==undefined)return state.done[ei];
+    var e=cur.ex[ei], art=document.querySelector('[data-e="'+ei+'"]'), auto=0;
+    art.classList.add('locked');
+    e.items.forEach(function(it,ii){
+      var box=art.querySelector('[data-i="e'+ei+'i'+ii+'"]');
+      if(it.t==='trous'){var good=[];it.texte.replace(/\[\[(.*?)\]\]/g,function(m,w){good.push(w);});var ok=0;
+        box.querySelectorAll('select').forEach(function(s,n){s.disabled=true;if(s.value===good[n])ok++;});
+        auto+=ok*0.5; var fb=box.querySelector('[data-fb]');fb.className='fb '+(ok===good.length?'ok':'ko');fb.textContent=ok+' / '+good.length+' juste'+(ok>1?'s':'')+'. Réponses : '+good.join(', ')+'.';}
+      if(it.t==='vf')it.liste.forEach(function(l,n){var p=box.querySelector('[data-k="'+n+'"][aria-pressed="true"]'),r=p?p.dataset.v==='1':null,ok=r===l[1];if(ok)auto+=0.5;
+        var fb=box.querySelector('[data-fb="'+n+'"]');fb.className='fb '+(ok?'ok':'ko');fb.textContent=(ok?'Juste. ':'Faux : la réponse est « '+(l[1]?'Vrai':'Faux')+' ». ')+(l[2]||'');});
+      if(it.t==='qcm')it.liste.forEach(function(q,n){var p=box.querySelector('.opt[data-k="'+n+'"][aria-pressed="true"]'),ok=p&&+p.dataset.v===q.a;if(ok)auto+=1;
+        var fb=box.querySelector('[data-fb="'+n+'"]');fb.className='fb '+(ok?'ok':'ko');fb.textContent=(ok?'Juste. ':'La bonne réponse : « '+q.o[q.a]+' ». ')+(q.e||'');});
+      if(it.t==='apparier')it.liste.forEach(function(l,n){var s=box.querySelector('select[data-k="'+n+'"]');s.disabled=true;var ok=s.value===l[1];if(ok)auto+=0.5;
+        var fb=box.querySelector('[data-fb="'+n+'"]');fb.className='fb '+(ok?'ok':'ko');fb.textContent=ok?'Juste.':'Réponse : '+l[1]+'.';});
+      if(it.t==='ouvert'){box.querySelectorAll('.key').forEach(function(k){k.hidden=false;});
+        box.querySelectorAll('.self').forEach(function(sf){sf.hidden=false;sf.querySelectorAll('button').forEach(function(b){b.onclick=function(){sf.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});state.self[ei+'-'+ii+'-'+sf.dataset.k]=+b.dataset.v;showScore(ei);};});});}
+    });
+    state.done[ei]=auto; showScore(ei); return auto;
+  }
+  function exScore(ei){var s=state.done[ei]||0;Object.keys(state.self).forEach(function(k){if(k.split('-')[0]===String(ei))s+=state.self[k];});return s;}
+  function pendingSelf(ei){var n=0;cur.ex[ei].items.forEach(function(it,ii){if(it.t==='ouvert')it.questions.forEach(function(q,k){if(state.self[ei+'-'+ii+'-'+k]===undefined)n++;});});return n;}
+  function showScore(ei){var sp=document.querySelector('[data-sc="'+ei+'"]'),p=pendingSelf(ei);
+    sp.textContent=fr(exScore(ei))+' / '+cur.ex[ei].pts+(p?' (indique tes points pour '+p+' question'+(p>1?'s':'')+')':'');}
+  function finish(){
+    clearInterval(tick); $('#paper').classList.remove('correct-hidden');
+    cur.ex.forEach(function(e,ei){corrige(ei);var b=document.querySelector('[data-corr="'+ei+'"]');if(b)b.remove();});
+    var p=cur.ex.reduce(function(a,e,ei){return a+pendingSelf(ei);},0), tot=cur.ex.reduce(function(a,e,ei){return a+exScore(ei);},0);
+    var rows=cur.ex.map(function(e,ei){return '<tr><td>Exercice '+e.n+' · '+esc(e.titre)+'</td><td><b>'+fr(exScore(ei))+'</b> / '+e.pts+'</td></tr>';}).join('');
+    var msg=tot>=16?'Excellent : tu es prêt pour le BEPC.':tot>=12?'Bien : revois les questions manquées.':tot>=10?'C’est la moyenne : refais les simulations des chapitres ratés.':'Reprends les leçons concernées, puis refais ce sujet.';
+    $('#res').innerHTML='<div class="result" tabindex="-1"><div>Ma note</div><div class="big">'+fr(tot)+' / 20</div><p style="margin:8px 0 0">'+msg+(p?' <b>Il te reste '+p+' question'+(p>1?'s':'')+' ouverte'+(p>1?'s':'')+' à noter avec le corrigé : ta note va monter.</b>':'')+'</p><table>'+rows+'</table></div>';
+    var k='pc-bepc-'+cur.id, b=load(k)||{best:0,n:0}; b.best=Math.max(b.best,tot); b.n++; b.last=tot; save(k,b);
+    $('#res .result').focus(); $('#finish').textContent='Recalculer ma note';
+  }
+  home();
+})();
+</script>
+</body>
+</html>
