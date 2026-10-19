@@ -259,3 +259,35 @@ a.les:hover{background:var(--panel2);color:var(--text)}
 #fiche .box{border:1px solid #999;border-radius:3mm;padding:3mm 4mm;margin-bottom:2mm}
 #fiche table{border-collapse:collapse;width:100%}#fiche td,#fiche th{border:1px solid #999;padding:1.5mm 2mm}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+/* Investigation et affichage étroit : conserver la taille des commandes. */
+.inquiry{display:flex;flex-direction:column;gap:10px}
+.inquiry p{margin:0;line-height:1.5}
+.inquiry textarea{width:100%;min-height:90px;resize:vertical;background:var(--bg);color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:10px;font:inherit}
+.inquiry blockquote{margin:0;padding:10px;border-left:3px solid var(--blue);white-space:pre-wrap;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+.app.portrait .stage{width:100%;max-width:100%;height:auto;transform:none}
+.app.portrait .top{height:auto;min-height:64px;flex-wrap:wrap;padding:12px;gap:8px}
+.app.portrait .steps{order:10;width:100%;overflow-x:auto;flex-shrink:0}
+.app.portrait .main{min-height:340px;padding:12px}
+.app.portrait .side{width:100%;max-width:100%}
+.app.portrait .player{min-height:400px}
+.app.portrait .pctl{flex-wrap:wrap}
+.app.portrait .modal{position:fixed;height:100dvh}
+.app.portrait .modal .box{max-height:90dvh;padding:16px}
+.app.portrait .modal .box>div[style*="grid-template-columns"]{grid-template-columns:minmax(0,1fr)!important}
+.app.portrait .defi>div,.app.portrait .defi>div>div{flex-wrap:wrap;min-width:0!important;max-width:100%}
+.app.portrait .board{width:100%}
+@media print{.learner-answer{min-height:70px;white-space:pre-wrap}}
+
+.view.inquiry-start{justify-content:center;overflow:auto}
+.view.inquiry-start .side{width:min(760px,100%);border:0}
+
+.app.portrait .scene{display:flex;flex-direction:column;touch-action:pan-y}
+.app.portrait .scene>.ztools{position:static;order:-1;align-self:center;flex-wrap:wrap;margin:6px;max-width:calc(100% - 12px)}
+.app.portrait .scene>svg.sv{min-height:220px;touch-action:none}
+.inquiry summary{cursor:pointer;font-weight:700}
+.inquiry[open]>summary{margin-bottom:10px}
+
+@page{size:A4;margin:14mm}
+@media print{#fiche{padding:0}#fiche h2,#fiche h3{break-after:avoid}#fiche li,#fiche .box{break-inside:avoid}}
