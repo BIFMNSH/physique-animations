@@ -1,4 +1,4 @@
-# Consolidation après audit — lot 1
+# Consolidation après audit — lots 1 et 2
 
 Référence de l’audit : main `e0603c013692e3a102b21e8d481707be0a5ff567`.
 Branche : `codex/consolidation-pedagogique-2026`, PR #1.
@@ -10,7 +10,7 @@ Validation : 19 octobre 2026. Cette proposition ne clôture pas les 28 constats.
 - A02 : révolution sidérale 27,3 jours et lunaison 29,5 jours distinguées dans narration, sous-titre et bilan.
 - A03–A04 : résultats de traitement/analyse présentés comme résultats du modèle ; retrait du dosage domestique, des unités réelles du réglage fictif et des certifications injustifiées de potabilité. Seuils de l’exercice explicitement pédagogiques. Les normes ivoiriennes restent à documenter.
 - A05 : retrait de la frontière universelle de danger à 30 mA ; limites des résistances et déclenchements simulés indiquées ; effets physiologiques non présentés comme diagnostics certains. Modèle électrique simplifié encore à approfondir.
-- A06 : infrastructure d’investigation et **pilote sur association de lampes (5e)**. Prévision conservée et verrouillée avant manipulation ; observations, comparaison et bilan saisis avant révélation de la synthèse ; parcours Révision explicite ; données conservées sur l’appareil. Le dépôt d’un texte ne valide pas automatiquement sa justesse. Les 28 autres leçons Studio et le moteur Sim n’ont pas encore cette démarche complète.
+- A06 : infrastructure d’investigation et **pilote sur association de lampes (5e)**. Prévision conservée et verrouillée avant manipulation ; observations, comparaison et bilan saisis avant révélation de la synthèse ; parcours Révision explicite ; données conservées sur l’appareil. Le dépôt d’un texte ne valide pas automatiquement sa justesse. État initial du lot 1 ; voir extension du lot 2 ci-dessous.
 - A07 : conservation du correctif de reprise proposé dans la PR initiale, désormais testé.
 - A08, A22–A23 : pause des boucles derrière les fenêtres, annotation activable/désactivable, focus d’entrée/restauration, confinement Tab et fermeture Échap.
 - A09 : fiche élève sans réponses ni synthèse préremplie ; trace d’investigation imprimable ; corrigé par choix explicite. Ce choix n’est pas un contrôle d’accès sécurisé.
@@ -39,7 +39,7 @@ Les scénarios reproductibles sont dans `scripts/regression.cjs` : Node >=22.13,
 ## Restant à traiter
 
 1. Étendre le parcours d’investigation avec des situations-problèmes spécifiques à chaque leçon ; ajouter des critères d’évaluation et une remédiation contextualisée (A06/A21).
-2. Reprendre dilatation des liquides et domaine thermique, masse volumique/flottaison à égalité, résistance interne en court-circuit, effet de serre et validité expérimentale, puissance active et contextualisation des tarifs (A12/A14/A16/A17/A18).
+2. Reprendre masse volumique/flottaison à égalité, résistance interne en court-circuit, effet de serre et validité expérimentale, puissance active et contextualisation des tarifs (A12/A14/A16/A17/A18).
 3. Approfondir les modèles et narrations des risques électriques, de l’eau et des gaz sans transformer des hypothèses simplifiées en lois universelles.
 4. Vérifier le programme détaillé MENA au-delà des titres de progression : couverture partielle de 6e, synthèse de l’eau et sous-objectifs de 3e ; classement par référentiel ; README (A28).
 5. Recette exhaustive clavier/tactile, lecteur d’écran, contraste, voix/sous-titres, zoom 200 %, toutes les missions, corrigés PDF longs et hors ligne/mise à jour (A23–A27).
@@ -53,3 +53,14 @@ Les scénarios reproductibles sont dans `scripts/regression.cjs` : Node >=22.13,
 - W3C APG : https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
 
 Ces références cadrent les corrections ; elles ne certifient pas les simulations ni une conformité réglementaire ivoirienne.
+
+## Lot 2 — 19 octobre 2026
+
+- A06 : quatre nouvelles investigations : circuit électrique (6e), mélanges et dilatation des liquides (5e), phases et éclipses (4e). Total : 5 leçons sur 29. Consignes spécifiques avec paramètres à garder constants, prévision conservée, observations et confrontation avant synthèse. Le pilote lampes dispose aussi de son protocole ciblé. Les textes déposés ne constituent pas une validation de compétence.
+- A12 : modèle linéaire qualitatif explicitement borné à 10–60 °C, commandes, défis et trajectoires du résumé inclus. Exception de l’eau entre 0 et 4 °C et changements d’état exclus explicitement. Comparaison à volume initial et variation de température identiques ; suppression de la généralisation liquides/solides. Affichage signé du refroidissement corrigé. Les coefficients restent illustratifs : aucune précision métrologique n’est revendiquée.
+- Navigation : les flèches du clavier ignorent les onglets désactivés avant la prévision.
+- Cache porté à v37.
+- Validation : 71 assertions jsdom réussies, syntaxe JavaScript et ouverture des 29 leçons. Dix parcours dans Chromium (5 investigations × 390/1280 px), sans erreur JavaScript ni débordement horizontal du document, avec accès au bilan après confrontation.
+- Référence scientifique du domaine : https://www.usgs.gov/water-science-school/science/water-density . Cette source décrit notamment le comportement particulier de l’eau autour de 4 °C ; elle ne valide pas les coefficients illustratifs du modèle.
+
+Les autres modèles scientifiques ouverts, la couverture détaillée MENA et la recette exhaustive restent à traiter. Aucun contenu Educadhoc n’a été utilisé sans lecture vérifiée.
