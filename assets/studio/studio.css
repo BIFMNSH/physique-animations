@@ -1,7 +1,7 @@
 /* Studio : leçons premium (résumé vidéo, simulation, défi) — physique-chimie en animations */
 :root{
   --bg:#0A111E;--bg2:#070C16;--panel:#111A2E;--panel2:#16213A;--line:#22304B;--line2:#2B3A57;
-  --text:#EEF2F8;--soft:#C9D2E0;--muted:#A9B4C7;--dim:#6B7894;
+  --text:#EEF2F8;--soft:#C9D2E0;--muted:#A9B4C7;--dim:#8A97B0;
   --blue:#5CC8FF;--amber:#FFB547;--green:#3DD68C;--violet:#C4B5FD;--red:#FF7A7A;
   --on-amber:#2A1A00;--on-blue:#0E1626;--on-green:#062A18;
   --scene:#0B1220;--scene2:#16213A;--scene-line:#2B3A57;--scene-text:#EEF2F8;--scene-muted:#A9B4C7;
@@ -13,8 +13,8 @@
 }
 :root[data-theme=light]{
   --bg:#EEF2F7;--bg2:#E3E8EF;--panel:#FFFFFF;--panel2:#E9EEF5;--line:#D5DDE8;--line2:#B9C5D6;
-  --text:#142033;--soft:#2F3C52;--muted:#55627A;--dim:#7A879C;
-  --blue:#1F7FC4;--amber:#C76A00;--green:#17894F;--violet:#6D4FD6;--red:#C0392B;
+  --text:#142033;--soft:#2F3C52;--muted:#55627A;--dim:#5B6880;
+  --blue:#0A6BAA;--amber:#A35400;--green:#127A45;--violet:#6D4FD6;--red:#C0392B;
   --on-amber:#FFFFFF;--on-blue:#FFFFFF;--on-green:#FFFFFF;
   --scene:#F7F9FC;--scene2:#E3EAF3;--scene-line:#B9C5D6;--scene-text:#142033;--scene-muted:#55627A;
   --scope:#0E1E14;--scope-grid:#1F3D2A;--scope-axis:#2F6B45;--trace:#3DD68C;

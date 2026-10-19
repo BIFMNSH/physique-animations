@@ -6,9 +6,24 @@
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
 <title>Labo virtuel · Identifier des ions · Physique-chimie en animations</title>
 <meta name="description" content="Labo virtuel : tubes à essais, quantités libres, soude et nitrate d'argent, défis avec flacons inconnus et cahier de laboratoire imprimable.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="canonical" href="https://physique-animations.vercel.app/labo/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Physique-chimie en animations">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Labo virtuel · Identifier des ions · Physique-chimie en animations">
+<meta property="og:description" content="Labo virtuel : tubes à essais, quantités libres, soude et nitrate d'argent, défis avec flacons inconnus et cahier de laboratoire imprimable.">
+<meta property="og:url" content="https://physique-animations.vercel.app/labo/">
+<meta property="og:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Physique-chimie en animations : leçons de la 6e à la 3e">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Labo virtuel · Identifier des ions · Physique-chimie en animations">
+<meta name="twitter:description" content="Labo virtuel : tubes à essais, quantités libres, soude et nitrate d'argent, défis avec flacons inconnus et cahier de laboratoire imprimable.">
+<meta name="twitter:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta name="twitter:image:alt" content="Physique-chimie en animations : leçons de la 6e à la 3e">
+<meta name="theme-color" content="#0B1220">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
 .lab-stage{display:block}
@@ -16,7 +31,7 @@
 .lh h1{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;white-space:nowrap}
 .seg{display:flex;background:var(--panel);border-radius:24px;padding:4px;gap:4px;margin-left:12px}
 .seg button{font:700 15px 'Atkinson Hyperlegible',sans-serif;border:none;background:transparent;color:var(--muted);border-radius:20px;height:40px;padding:0 16px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--blue);color:#0E1626}
+.seg button[aria-pressed="true"]{background:var(--blue);color:var(--on-blue)}
 .tg{font:700 14px 'Atkinson Hyperlegible',sans-serif;display:flex;align-items:center;gap:7px;height:44px;padding:0 12px;border-radius:22px;border:1.5px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
 .tg:hover{border-color:var(--blue);color:var(--text)}
 .tg[aria-pressed="true"]{background:#3DD68C;border-color:#3DD68C;color:#0E1626}
@@ -97,7 +112,7 @@
 .ans .fl b{font-size:14px}
 .chips2{display:flex;gap:5px;flex-wrap:wrap}
 .chips2 button{font:700 13px 'Atkinson Hyperlegible',sans-serif;min-height:36px;min-width:44px;padding:0 9px;border-radius:18px;border:1.5px solid var(--line);background:transparent;color:var(--soft);cursor:pointer}
-.chips2 button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#0E1626}
+.chips2 button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
 .chips2 button.ok{box-shadow:0 0 0 2px #3DD68C}
 .chips2 button.ko{box-shadow:0 0 0 2px #E5484D}
 .res{font-size:14px;font-weight:700}

@@ -6,9 +6,24 @@
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
 <title>Fiches élèves · Physique-chimie en animations</title>
 <meta name="description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<link rel="canonical" href="https://physique-animations.vercel.app/fiche/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Physique-chimie en animations">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Fiches élèves · Physique-chimie en animations">
+<meta property="og:description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
+<meta property="og:url" content="https://physique-animations.vercel.app/fiche/">
+<meta property="og:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Physique-chimie en animations : leçons de la 6e à la 3e">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fiches élèves · Physique-chimie en animations">
+<meta name="twitter:description" content="Fiches élèves imprimables (A4) avec schéma, texte à compléter, exercices et corrigé.">
+<meta name="twitter:image" content="https://physique-animations.vercel.app/assets/og.png">
+<meta name="twitter:image:alt" content="Physique-chimie en animations : leçons de la 6e à la 3e">
+<meta name="theme-color" content="#0B1220">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
 html,body{height:auto;min-height:100%}
@@ -17,7 +32,7 @@ body{background:var(--app)}
 .fbar .grow{flex:1}
 .fbar .tb-btn,.seg2 button{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 14px;border-radius:22px;border:1.5px solid var(--line);background:transparent;color:var(--soft);text-decoration:none;font:700 14px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
 .fbar .tb-btn:hover{border-color:var(--blue);color:var(--text)}
-.fbar .main{background:var(--blue);border-color:var(--blue);color:#0E1626}
+.fbar .main{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
 .seg2{display:flex;gap:6px}
 .seg2 button[aria-pressed="true"]{background:var(--panel);border-color:var(--blue);color:var(--text)}
 .wrap{padding:24px 16px 48px;display:flex;justify-content:center}
@@ -55,7 +70,7 @@ body{background:var(--app)}
 .list p{margin:0 0 8px;color:var(--soft);font-size:17px}
 .item{display:flex;align-items:center;gap:14px;background:var(--panel);border:1.5px solid var(--line3);border-radius:16px;padding:14px 16px;color:var(--text);text-decoration:none}
 .item:hover{border-color:var(--blue)}
-.item .n{width:40px;height:40px;border-radius:50%;background:var(--blue);color:#0E1626;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.item .n{width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--on-blue);font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .item b{font-size:18px}
 .item span.o{display:block;color:var(--soft);font-size:15px}
 @page{size:A4;margin:0}

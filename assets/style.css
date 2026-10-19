@@ -1,12 +1,12 @@
 :root{
   --app:#0A111E;--bg:#0E1626;--panel:#16213A;--line:#2B3A57;--line2:#3B4E73;--line3:#22304B;
-  --text:#EEF2F8;--muted:#A9B4C7;--soft:#C9D2E0;--blue:#5CC8FF;--focus:#FFB547;
+  --text:#EEF2F8;--muted:#A9B4C7;--soft:#C9D2E0;--blue:#5CC8FF;--focus:#FFB547;--on-blue:#0E1626;
   color-scheme:dark;
 }
 /* Thème clair : pour projeter dans une salle lumineuse */
 :root[data-theme="light"]{
   --app:#E3E8EF;--bg:#FFFFFF;--panel:#EEF2F7;--line:#CBD4E1;--line2:#AEB9CC;--line3:#DCE3EC;
-  --text:#142033;--muted:#55627A;--soft:#2F3C52;--blue:#1F8FD6;--focus:#C76A00;
+  --text:#142033;--muted:#55627A;--soft:#2F3C52;--blue:#0A6BAA;--focus:#C76A00;--on-blue:#FFFFFF;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -61,7 +61,7 @@ button{font:inherit}
 .chip{font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);background:transparent;border:1.5px solid var(--line);border-radius:22px;height:44px;padding:0 13px;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap}
 .chip:hover{border-color:var(--blue);color:var(--text)}
 .chip.done{color:var(--soft);border-color:var(--line2)}
-.chip.on{background:var(--blue);border-color:var(--blue);color:#0E1626}
+.chip.on{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
 
 /* ---------- Animations partagées ---------- */
 @keyframes capin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -91,7 +91,7 @@ button{font:inherit}
 .card .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px}
 .card .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .card .tag{font-size:12px;font-weight:700;border-radius:10px;padding:3px 10px;background:var(--line3);color:var(--soft)}
-.card .tag.lvl{background:var(--blue);color:#0E1626}
+.card .tag.lvl{background:var(--blue);color:var(--on-blue)}
 .card h2{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;line-height:1.15}
 .card p{margin:0;color:var(--soft);font-size:16px;line-height:1.45}
 .card .go{margin-top:4px;font-weight:700;color:var(--blue);font-size:15px}
@@ -150,7 +150,7 @@ button{font:inherit}
 .quiz-opt[aria-disabled="true"]{cursor:default}
 .quiz-fb{font-size:16px;line-height:1.45;color:var(--soft);min-height:1em}
 .quiz-actions{display:flex;gap:10px;flex-wrap:wrap}
-.quiz-go{font:700 16px 'Atkinson Hyperlegible',sans-serif;height:48px;padding:0 20px;border-radius:24px;border:none;background:var(--blue);color:#0E1626;cursor:pointer}
+.quiz-go{font:700 16px 'Atkinson Hyperlegible',sans-serif;height:48px;padding:0 20px;border-radius:24px;border:none;background:var(--blue);color:var(--on-blue);cursor:pointer}
 .quiz-ghost{font:700 16px 'Atkinson Hyperlegible',sans-serif;height:48px;padding:0 20px;border-radius:24px;border:1.5px solid var(--line);background:transparent;color:var(--text);cursor:pointer}
 .quiz-score{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:64px;line-height:1;color:var(--blue)}
 .quiz-msg{margin:0;font-size:18px;color:var(--soft)}
