@@ -153,7 +153,7 @@
         var i = t < 43.6 ? 0 : t < 47.2 ? 1 : 2, m = mats[i];
         sc4.innerHTML = ''; screen(sc4, 380, 230, m); b4.set(true);
         r4.innerHTML = ''; [-30, 0, 30].forEach(function (d) { ray(r4, 140, 230 + d * 0.3, 370, 230 + d, 1); if (TR[m] > 0) ray(r4, 390, 230 + d, 820, 230 + d * (m === 'calque' ? 3 : 1.4), TR[m]); });
-        cap4.textContent = ['Verre : transparent, il laisse passer la lumière', 'Papier calque : translucide, une partie passe', 'Planche : opaque, la lumière ne passe pas'][i];
+        cap4.textContent = ['Verre : transparent, il laisse passer la lumière', 'Papier calque : transmission diffuse', 'Planche : opaque, la lumière ne passe pas'][i];
       }
       K.group(g5, t, 51, 99); cards(t);
       tg.end(); chap(t);
@@ -172,7 +172,7 @@
       { t: 29, d: 5.4, say: 'L’œil est un récepteur de lumière. Il y en a d’autres : la cellule photovoltaïque fait tourner un moteur.', sub: 'Récepteurs : l’<b>œil</b>, la <b>cellule photovoltaïque</b>…' },
       { t: 34.6, d: 5.2, say: 'La résistance d’une photorésistance diminue quand elle est éclairée.', sub: '…la <b>photorésistance</b> : sa résistance diminue à la lumière.' },
       { t: 40, d: 3.4, say: 'Le verre est transparent : il laisse passer la lumière.', sub: 'Le verre est <b>transparent</b>.' },
-      { t: 43.6, d: 3.4, say: 'Le papier calque est translucide : il en laisse passer une partie.', sub: 'Le papier calque est <b>translucide</b>.' },
+      { t: 43.6, d: 3.4, say: 'Le calque transmet la lumière en la diffusant : il est translucide.', sub: 'Le papier calque est <b>translucide</b>.' },
       { t: 47.2, d: 3.6, say: 'Le bois est opaque : la lumière ne passe pas.', sub: 'Le bois est <b>opaque</b>.' },
       { t: 51, d: 4.6, say: 'À retenir : une source primaire produit de la lumière.', sub: 'Une <b>source primaire</b> produit la lumière.' },
       { t: 55.8, d: 4.4, say: 'Un objet diffusant renvoie la lumière qu’il reçoit.', sub: 'Un <b>objet diffusant</b> la renvoie.' },
@@ -222,7 +222,7 @@
       api.say('Allume ou éteins la source et change de récepteur : que se passe-t-il ?');
       return { bilan: function () {
         if (rows.length < 2) return '<p>Relève l’éclairement pour au moins 2 distances.</p>';
-        return '<p>Plus le récepteur est <b>loin</b> de la source, plus l’éclairement est <b>faible</b> (si la distance double, il est divisé par 4).</p><p>Un écran <b>transparent</b> laisse passer presque toute la lumière, un écran <b>translucide</b> une partie, un écran <b>opaque</b> rien du tout.</p><p>Une bougie éclaire beaucoup moins qu’une lampe.</p>';
+        return '<p>Plus le récepteur est <b>loin</b> de la source, plus l’éclairement est <b>faible</b> (si la distance double, il est divisé par 4).</p><p>Un écran <b>transparent</b> permet de distinguer une image nette à travers lui. Un écran <b>translucide</b> transmet la lumière en la diffusant, sans image nette. Un écran <b>opaque</b> ne transmet pas la lumière visible.</p><p>Une bougie éclaire beaucoup moins qu’une lampe.</p>';
       } };
     }
   };
@@ -253,13 +253,13 @@
       'Un <b>objet diffusant</b> (source secondaire) renvoie dans toutes les directions une partie de la lumière qu’il reçoit : la Lune, les planètes, un livre, un mur. On ne le voit que s’il est éclairé.',
       'On <b>voit un objet</b> lorsque de la lumière provenant de cet objet entre dans notre œil.',
       'Un <b>récepteur</b> de lumière réagit à la lumière qu’il reçoit : l’œil, la cellule photovoltaïque (panneau solaire), la photorésistance, le capteur d’un appareil photo.',
-      'Un corps <b>transparent</b> laisse passer la lumière (verre, eau), un corps <b>translucide</b> en laisse passer une partie (papier calque), un corps <b>opaque</b> ne la laisse pas passer (bois, métal).'
+      'Un corps <b>transparent</b> permet de voir nettement à travers lui (verre clair, eau limpide), un corps <b>translucide</b> transmet la lumière en la diffusant, sans image nette (papier calque), un corps <b>opaque</b> ne la laisse pas passer (bois, métal).'
     ],
     quiz: [
       { q: 'Laquelle est une source primaire de lumière ?', o: ['La Lune', 'Le Soleil', 'Une feuille blanche', 'Une vitre'], a: 1, e: 'Le Soleil produit sa propre lumière.' },
       { q: 'Un mur blanc éclairé est :', o: ['une source primaire', 'un objet diffusant', 'un récepteur', 'opaque et invisible'], a: 1, e: 'Il diffuse la lumière qu’il reçoit.' },
       { q: 'Pour voir un objet, il faut que :', o: ['l’œil envoie de la lumière vers l’objet', 'de la lumière venant de l’objet entre dans l’œil', 'l’objet soit transparent', 'il fasse jour'], a: 1, e: 'C’est la condition de visibilité.' },
-      { q: 'Le papier calque est :', o: ['transparent', 'translucide', 'opaque', 'une source'], a: 1, e: 'Il laisse passer une partie de la lumière.' },
+      { q: 'Le papier calque est :', o: ['transparent', 'translucide', 'opaque', 'une source'], a: 1, e: 'Il transmet la lumière en la diffusant, sans permettre de voir une image nette à travers lui.' },
       { q: 'Quand une photorésistance est éclairée, sa résistance :', o: ['augmente', 'diminue', 'ne change pas', 'devient infinie'], a: 1, e: 'Elle diminue avec l’éclairement.' }
     ]
   });
