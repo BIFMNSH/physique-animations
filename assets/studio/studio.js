@@ -705,6 +705,8 @@
       h('button', { class: 'btn sm' }, inquiryCard, 'Parcours Révision').onclick = ctx.revise;
       comparisonCard = h('div', { class: 'card inquiry' }, panes.bilan, '<h3>4 · Confrontation aux résultats</h3><p>Ma prévision initiale :</p>');
       var initial = h('blockquote', {}, comparisonCard);
+      var criteria = I.criteria || ['Je décris les conditions des essais et leurs résultats.', 'Je compare explicitement mes résultats à ma prévision initiale.', 'Je justifie mon bilan par les observations et une connaissance scientifique.'];
+      h('div', { class: 'inquiry-criteria' }, comparisonCard, '<h4>Critères de réussite</h4><ul>' + criteria.map(function (item) { return '<li>' + esc(item) + '</li>'; }).join('') + '</ul><p>Relis ta trace avec ces critères. La présence d’un texte ne valide pas sa justesse ; une rétroaction de l’enseignant reste nécessaire.</p>');
       [['observation', 'Mes résultats : indique le montage, les réglages et ce que tu observes.'], ['comparison', 'Compare tes résultats à ta prévision. Justifie avec « car » ou « parce que ».'], ['conclusion', '5 · Mon bilan : quelle règle retiens-tu ?']].forEach(function (item) {
         var id = 'inquiry-' + item[0]; h('label', { for: id }, comparisonCard, item[1]);
         var input = h('textarea', { id: id, rows: 3, maxlength: 2000 }, comparisonCard); input.value = state[item[0]];
