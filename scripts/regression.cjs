@@ -28,7 +28,7 @@ function setup(lesson,prof={}){
  check(JSON.parse(w.localStorage.getItem('pc-inquiry-5e-association-lampes')).prediction===pred.value,'prediction persisted');
  dom.window.close();
 }
-for(const lesson of ['circuit-electrique','melanges','phases-eclipses','dilatation-liquides']){
+for(const lesson of ['circuit-electrique','melanges','phases-eclipses','dilatation-liquides','commande-circuit','court-circuit','traitement-eau']){
  const {dom,w,btn,ticks}=setup(lesson),d=w.document;
  check(d.querySelector('.main').hidden,lesson+' prediction gate');
  const tab=d.querySelector('[role=tab]');tab.focus();tab.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
@@ -39,7 +39,7 @@ for(const lesson of ['circuit-electrique','melanges','phases-eclipses','dilatati
   const ranges=[...d.querySelectorAll('input[type=range]')].filter(x=>x.min==='10'&&x.max==='60');check(ranges.length===2,'both liquid controls bounded 10–60');
   ranges[0].value=10;ranges[0].dispatchEvent(new w.Event('input'));ticks(3);check(d.querySelector('.ros').textContent.includes('-1,1')||d.querySelector('.ros').textContent.includes('-1.1'),'cooling displays negative rise');
  }
- btn('Bilan').click();check(d.querySelector('.res').hidden,lesson+' synthesis withheld');
+ btn('Bilan').click();check(d.querySelector('.res').hidden,lesson+' synthesis withheld');check(d.querySelectorAll('.inquiry-criteria li').length===3,lesson+' three explicit success criteria');
  for(const key of ['observation','comparison','conclusion']){const x=d.querySelector('#inquiry-'+key);x.value='Trace '+key;x.dispatchEvent(new w.Event('input'));}
  btn('Comparer avec le bilan scientifique').click();check(!d.querySelector('.res').hidden,lesson+' synthesis revealed');
  dom.window.close();
