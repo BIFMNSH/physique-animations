@@ -209,6 +209,7 @@
 
   S.start({
     inquiry: {
+      steps: ['Garde deux lampes et le générateur de 6 V pendant tous les essais.', 'En série, observe les deux lampes puis dévisse une lampe. Note le résultat.', 'Passe en dérivation ; recommence le même essai.', 'Compare ta prévision aux observations et justifie le montage choisi pour la maquette.'],
       situation: 'Pour éclairer une maquette, Awa utilise une pile de 6 V et deux lampes identiques de tension nominale 6 V. Elle souhaite que la seconde lampe reste allumée lorsque la première est dévissée. Quel montage choisir ?',
       prediction: 'Prévois ce qui se passera en série puis en dérivation. Explique pourquoi. Pendant les essais, garde la pile à 6 V et utilise deux lampes.'
     },
