@@ -231,6 +231,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une eau paraît claire après filtration. Peut-on en conclure que tous les microbes ont disparu ? Utilise les indicateurs du modèle pour examiner cette idée.", "prediction": "Prévois ce qui change pour la turbidité et les microbes avec la filtration, puis avec la désinfection. Explique si une eau claire suffit à établir sa potabilité.", "steps": ["Les indices sont arbitraires : ce modèle ne fournit ni dosage réel ni certification de potabilité.", "Désactive les étapes et observe les deux indicateurs de départ.", "Active la filtration seule et note les deux indicateurs. Analyse l’eau pour conserver un relevé.", "Garde la filtration et active la désinfection ; conserve les autres réglages. Note de nouveau les deux indicateurs.", "Compare ta prévision aux observations et précise ce que le modèle ne permet pas de conclure sur une eau réelle."], "criteria": ["Je compare séparément turbidité et microbes dans les deux configurations.", "Je relie les résultats aux étapes activées en gardant les autres réglages constants.", "Je précise que la clarté et les résultats simulés ne certifient pas la potabilité."]},
     id: '4e-traitement-eau', level: '4e', theme: 'Eau potable', title: 'Traitement de l’eau', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
