@@ -139,6 +139,7 @@
     W: 860, H: 470,
     alt: 'Circuit avec une pile, un interrupteur et deux lampes en série ; on peut poser un fil aux bornes de L1 ou de la pile et ajouter un fusible ou un disjoncteur ; à droite, l’intensité, l’échauffement et un diagnostic',
     steps: [
+      'Simulation uniquement : le courant de court-circuit de 6 A et les délais de protection sont des valeurs illustratives, non universelles. Ils dépendent en réalité du générateur, des fils et de la protection. Ne réalise jamais ces essais sur une installation réelle.',
       'Pose un fil aux bornes de L1 : que deviennent L1 et L2 ?',
       'Sans protection, pose un fil aux bornes de la pile : observe l’intensité et l’échauffement.',
       'Ajoute un fusible, puis un disjoncteur, et recommence.',
@@ -195,6 +196,7 @@
     id: '6e-court-circuit', level: '6e', theme: 'Électricité', title: 'Court-circuit et protection des installations électriques', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
+      'Dans cette simulation, 6 A est une valeur illustrative de court-circuit ; le modèle ne calcule pas la résistance interne du générateur ni celle des fils.',
       'Un dipôle est <b>court-circuité</b> lorsque ses deux bornes sont reliées par un fil de connexion : le courant passe par le fil.',
       'Une lampe court-circuitée <b>s’éteint</b> ; dans un circuit en série, les autres lampes brillent davantage.',
       'Le <b>court-circuit du générateur</b> est <b>dangereux</b> : l’intensité devient très grande, les fils et le générateur s’échauffent, ce qui peut provoquer un <b>incendie</b>.',
