@@ -28,6 +28,22 @@ function setup(lesson,prof={}){
  check(JSON.parse(w.localStorage.getItem('pc-inquiry-5e-association-lampes')).prediction===pred.value,'prediction persisted');
  dom.window.close();
 }
+for(const lesson of ['circuit-electrique','melanges','phases-eclipses','dilatation-liquides']){
+ const {dom,w,btn,ticks}=setup(lesson),d=w.document;
+ check(d.querySelector('.main').hidden,lesson+' prediction gate');
+ const tab=d.querySelector('[role=tab]');tab.focus();tab.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
+ check(d.activeElement===tab,lesson+' disabled tabs inaccessible by keyboard');
+ const pred=d.querySelector('#inquiry-prediction');pred.value='Ma prévision avant les essais';pred.dispatchEvent(new w.Event('input'));btn('Enregistrer ma prévision').click();
+ check(!d.querySelector('.main').hidden,lesson+' manipulation unlocked');
+ if(lesson==='dilatation-liquides'){
+  const ranges=[...d.querySelectorAll('input[type=range]')].filter(x=>x.min==='10'&&x.max==='60');check(ranges.length===2,'both liquid controls bounded 10–60');
+  ranges[0].value=10;ranges[0].dispatchEvent(new w.Event('input'));ticks(3);check(d.querySelector('.ros').textContent.includes('-1,1')||d.querySelector('.ros').textContent.includes('-1.1'),'cooling displays negative rise');
+ }
+ btn('Bilan').click();check(d.querySelector('.res').hidden,lesson+' synthesis withheld');
+ for(const key of ['observation','comparison','conclusion']){const x=d.querySelector('#inquiry-'+key);x.value='Trace '+key;x.dispatchEvent(new w.Event('input'));}
+ btn('Comparer avec le bilan scientifique').click();check(!d.querySelector('.res').hidden,lesson+' synthesis revealed');
+ dom.window.close();
+}
 for(const filename of fs.readdirSync(path.join(root,'assets/studio/lecons'))){const {dom,w,btn,ticks}=setup(filename.replace('.js',''));if(!w.document.querySelector('#inquiry-prediction'))btn('Simulation').click();for(const input of w.document.querySelectorAll('input[type=range]')){input.value=input.max;input.dispatchEvent(new w.Event('input'));input.value=input.min;input.dispatchEvent(new w.Event('input'));}ticks(3);check(!!w.document.querySelector('.stage'),'loaded '+filename);dom.window.close();}
 const ph=fs.readFileSync(path.join(root,'assets/sim/ph.js'),'utf8');const classify=new Function('return '+ph.match(/function P\(t\)\{[^}]+\}/)[0])();check(classify(6.6)==='acide'&&classify(7)==='neutre'&&classify(7.4)==='basique','pH classification');
 for(const dir of ['assets/studio','assets/studio/lecons','assets/studio/kits','assets/sim'])for(const f of fs.readdirSync(path.join(root,dir)))if(f.endsWith('.js'))new Function(fs.readFileSync(path.join(root,dir,f),'utf8'));
