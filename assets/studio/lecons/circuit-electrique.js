@@ -194,6 +194,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une lampe de poche ne brille plus. Le circuit peut être ouvert ou un objet peut empêcher le passage du courant. Comment distinguer ces causes dans la maquette virtuelle ?", "prediction": "Prévois l’état de la lampe avec un interrupteur ouvert, un fil débranché, puis un objet conducteur ou isolant entre les pinces. Justifie.", "steps": ["Garde le cuivre entre les pinces. Compare interrupteur ouvert puis fermé, tous les fils branchés.", "Ferme l’interrupteur puis débranche et rebranche un fil. Note les états de la lampe.", "Tous les fils branchés et interrupteur fermé, compare au moins six objets et relève les résultats.", "Dans le bilan, confronte chaque observation à ta prévision et indique les conditions nécessaires pour allumer la lampe."]},
     id: '6e-circuit-electrique', level: '6e', theme: 'Électricité', title: 'Le circuit électrique', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
