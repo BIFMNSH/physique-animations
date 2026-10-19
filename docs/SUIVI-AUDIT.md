@@ -1,4 +1,4 @@
-# Consolidation après audit — lots 1 et 2
+# Consolidation après audit — lots 1 à 3
 
 Référence de l’audit : main `e0603c013692e3a102b21e8d481707be0a5ff567`.
 Branche : `codex/consolidation-pedagogique-2026`, PR #1.
@@ -64,3 +64,12 @@ Ces références cadrent les corrections ; elles ne certifient pas les simulatio
 - Référence scientifique du domaine : https://www.usgs.gov/water-science-school/science/water-density . Cette source décrit notamment le comportement particulier de l’eau autour de 4 °C ; elle ne valide pas les coefficients illustratifs du modèle.
 
 Les autres modèles scientifiques ouverts, la couverture détaillée MENA et la recette exhaustive restent à traiter. Aucun contenu Educadhoc n’a été utilisé sans lecture vérifiée.
+
+## Lot 3 — flottaison et diagnostic GitHub
+
+- A14 : distinction masse volumique moyenne inférieure, égale ou supérieure à celle du fluide. Ajout d’un objet modèle à 1,00 g/mL, entièrement immergé en équilibre dans l’eau du modèle ; position graphique, message et QCM cohérents. Les autres objets conservent leur comportement.
+- Validation : 71 assertions existantes réussies ; trois scénarios Chromium (objet neutre, liège, fer) avec vérification des messages et du déplacement de 10 mL pour l’objet neutre moyen, après stabilisation de l’animation. Cache v38.
+- Référence : https://www.nasa.gov/wp-content/uploads/2017/06/167748main_fs_nbl508c.pdf . L’équilibre immergé correspond à la compensation du poids par la poussée d’Archimède.
+- Diagnostic PR : GitHub renvoyait « dirty », mais la comparaison des commits indiquait main comme ancêtre commun, 28 commits d’avance et aucun de retard. Aucun conflit de contenu n’est établi par cette comparaison ; aucune réécriture d’historique n’a été effectuée. Le statut de fusion doit être revérifié avant intégration.
+
+A16 (court-circuit), A17 (effet de serre), A18 (puissance active/tarifs) et les autres points ouverts restent à traiter.
