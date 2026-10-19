@@ -97,9 +97,9 @@
       tg.begin();
       if (K.group(g, t, -1, 56.2)) {
         st.t = t;
-        if (t < 31) { st.mode = 'one'; st.one = 'eau'; st.T = t < 10 ? 20 : t < 20 ? 20 + 60 * K.k(t, 10.5, 6) : 80 - 76 * K.k(t, 20.5, 7); }
-        else if (t < 44) { st.mode = 'compare'; st.T = 20 + 60 * K.k(t, 32, 7); }
-        else { st.mode = 'thermo'; st.tTher = t < 48 ? 20 + 17 * K.k(t, 44.5, 2.5) : t < 52 ? 37 + 63 * K.k(t, 48, 3) : 100 - 100 * K.k(t, 52, 3); }
+        if (t < 31) { st.mode = 'one'; st.one = 'eau'; st.T = t < 10 ? 20 : t < 20 ? 20 + 40 * K.k(t, 10.5, 6) : 60 - 50 * K.k(t, 20.5, 7); }
+        else if (t < 44) { st.mode = 'compare'; st.T = 20 + 40 * K.k(t, 32, 7); }
+        else { st.mode = 'thermo'; st.tTher = t < 48 ? 20 + 17 * K.k(t, 44.5, 2.5) : t < 52 ? 37 + 23 * K.k(t, 48, 3) : 60 - 50 * K.k(t, 52, 3); }
         lab.step();
         tg.show(t, 2, 9.6, 290, 92, 'Le liquide est au repère') || tg.show(t, 12, 19.6, 290, 92, 'Chauffé, il monte : il se dilate') || tg.show(t, 22, 30.6, 290, 92, 'Refroidi, il descend : il se contracte') ||
           tg.show(t, 33, 43.6, 290, 92, 'Alcool > huile > eau') || tg.show(t, 45, 55.6, 290, 92, 'Thermomètre : ' + Math.round(st.tTher) + ' °C');
@@ -120,17 +120,17 @@
       { t: 20, d: 10.6, say: 'Ajoutons de la glace : le niveau redescend, et passe même sous le repère. En refroidissant, le liquide se contracte.', sub: 'Refroidie, l’eau <b>se contracte</b> : son niveau descend.' },
       { t: 31, d: 12.6, say: 'Chauffons ensemble trois liquides : de l’eau, de l’huile et de l’alcool. Ils montent tous, mais l’alcool monte le plus et l’eau le moins : la dilatation dépend du liquide.', sub: 'L’<b>alcool</b> se dilate le plus, l’<b>eau</b> le moins.' },
       { t: 44, d: 11.6, say: 'C’est le principe du thermomètre : l’alcool coloré du réservoir se dilate et monte dans le tube gradué quand la température augmente.', sub: 'Le <b>thermomètre</b> : un liquide qui se dilate dans un tube gradué.' },
-      { t: 56, d: 4.4, say: 'À retenir : un liquide chauffé se dilate, refroidi il se contracte.', sub: 'Chauffé : dilatation ; refroidi : contraction.' },
+      { t: 56, d: 4.4, say: 'À retenir, entre dix et soixante degrés dans ce modèle : un liquide chauffé se dilate, refroidi il se contracte.', sub: 'Chauffé : dilatation ; refroidi : contraction.' },
       { t: 60.6, d: 4.2, say: 'Tous les liquides ne se dilatent pas de la même façon.', sub: 'La dilatation dépend du <b>liquide</b>.' },
       { t: 65, d: 5, say: 'Le thermomètre à liquide fonctionne grâce à la dilatation.', sub: 'Le thermomètre utilise la <b>dilatation</b>.' }
     ],
     learn: [
-      { t: 19, ch: 1, html: 'Chauffé, un liquide <b>se dilate</b> : son volume augmente.' },
+      { t: 19, ch: 1, html: 'Dans ce modèle, chauffé, un liquide <b>se dilate</b> : son volume augmente.' },
       { t: 30, ch: 2, html: 'Refroidi, il <b>se contracte</b>.' },
       { t: 43, ch: 3, html: 'Alcool > huile > eau : la dilatation dépend du <b>liquide</b>.' },
       { t: 55, ch: 4, html: 'Le <b>thermomètre</b> à alcool utilise la dilatation.' }
     ],
-    question: { q: 'Quand on chauffe un liquide, son volume :', o: ['diminue', 'augmente', 'reste le même', 'devient nul'], a: 1, e: 'Il se dilate.' },
+    question: { q: 'Dans ce modèle (10–60 °C), quand on chauffe un liquide, son volume :', o: ['diminue', 'augmente', 'reste le même', 'devient nul'], a: 1, e: 'Il se dilate.' },
     scene: scene
   };
 
@@ -139,6 +139,7 @@
     W: 860, H: 470,
     alt: 'Bain-marie chauffé ou refroidi par de la glace, contenant un ou trois ballons de liquide surmontés de tubes gradués, ou un thermomètre à alcool ; thermomètre et loupe sur les particules à droite',
     steps: [
+      'Modèle qualitatif entre 10 et 60 °C : les changements d’état et l’anomalie de l’eau entre 0 et 4 °C ne sont pas représentés.',
       'Un seul ballon : chauffe puis refroidis le bain-marie et observe le niveau par rapport au repère.',
       'Trois ballons : chauffe-les ensemble. Quel liquide se dilate le plus ?',
       'Thermomètre : fais varier la température du bain et lis le thermomètre.',
@@ -148,28 +149,28 @@
       var lab = Lab(api.g, { onSel: function () { api.sound('tick'); } }), st = lab.st, c = api.c, rows = [];
       var cM = c.seg({ label: 'Expérience', value: 'compare', options: [{ v: 'compare', l: 'Trois liquides' }, { v: 'one', l: 'Un seul ballon' }, { v: 'thermo', l: 'Le thermomètre' }], onChange: function (v) { st.mode = v; vis(); } });
       var cL = c.seg({ label: 'Liquide', value: 'eau', options: Object.keys(LIQ).map(function (k) { return { v: k, l: LIQ[k].n }; }), onChange: function (v) { st.one = v; } });
-      var sT = c.slider({ label: 'Température du bain-marie', min: 0, max: 90, step: 1, value: 20, unit: '°C', onInput: function (v) { st.T = v; } });
-      var sH = c.slider({ label: 'Température du bain', min: -10, max: 100, step: 1, value: 20, unit: '°C', onInput: function (v) { st.tTher = v; } });
+      var sT = c.slider({ label: 'Température du bain-marie', min: 10, max: 60, step: 1, value: 20, unit: '°C', onInput: function (v) { st.T = v; } });
+      var sH = c.slider({ label: 'Température du bain', min: 10, max: 60, step: 1, value: 20, unit: '°C', onInput: function (v) { st.tTher = v; } });
       function vis() { cL.hide(st.mode !== 'one'); sT.hide(st.mode === 'thermo'); sH.hide(st.mode !== 'thermo'); }
       vis();
       var ro = api.readouts([{ k: 't', label: 'Température' }, { k: 'o', label: 'Observation' }]);
       var last = {};
-      api.loop(function () { last = lab.step(); ro.t.set(Math.round(last.T) + ' °C'); ro.o.set(st.mode === 'compare' ? 'alcool : +' + fmt(Math.max(0, rise('alcool', st.T)) / 18, 1) + ' gr.' : st.mode === 'one' ? (last.d > 0.15 ? 'dilatation' : last.d < -0.15 ? 'contraction' : 'au repère') : 'thermomètre : ' + Math.round(st.tTher) + ' °C'); });
-      var M = api.measure; M.innerHTML = '<h3>Montée des liquides (graduations)</h3>';
+      api.loop(function () { last = lab.step(); ro.t.set(Math.round(last.T) + ' °C'); ro.o.set(st.mode === 'compare' ? 'alcool : ' + (st.T >= 20 ? '+' : '') + fmt(rise('alcool', st.T) / 18, 1) + ' gr.' : st.mode === 'one' ? (last.d > 0.15 ? 'dilatation' : last.d < -0.15 ? 'contraction' : 'au repère') : 'thermomètre : ' + Math.round(st.tTher) + ' °C'); });
+      var M = api.measure; M.innerHTML = '<p>Modèle qualitatif linéaire, de 10 à 60 °C ; récipients identiques, même volume initial à 20 °C. Les graduations ne sont pas des mesures expérimentales réelles.</p><h3>Montée des liquides (graduations)</h3>';
       var br = api.h('div', { style: 'display:flex;gap:8px' }, M), bR = api.h('button', { class: 'btn sm primary' }, br, 'Relever (mode trois liquides)'), tb = api.h('div', { style: 'margin-top:8px' }, M);
       bR.onclick = function () { if (st.mode !== 'compare') { api.say('Passe en mode « Trois liquides » pour relever.'); return; } rows.push({ T: st.T, e: rise('eau', st.T) / 18, a: rise('alcool', st.T) / 18, h: rise('huile', st.T) / 18 }); rows.sort(function (p, q) { return p.T - q.T; }); api.sound('ok'); paint(); if (rows.length >= 4) api.done(); };
       function paint() {
         api.count(rows.length);
         tb.innerHTML = rows.length ? '<table class="mt"><thead><tr><th>T</th><th>eau</th><th>alcool</th><th>huile</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><td>' + r.T + ' °C</td><td>' + fmt(r.e, 1) + '</td><td>' + fmt(r.a, 1) + '</td><td>' + fmt(r.h, 1) + '</td></tr>'; }).join('') + '</tbody></table>' : '<div class="empty">Aucun relevé.</div>';
         api.chart.innerHTML = '<h3>Montée en fonction de la température</h3>'; var bx = api.h('div', {}, api.chart);
-        S.chart(bx, { xlabel: 'température (°C)', ylabel: 'montée (gr.)', xmin: 0, xmax: 90, xstep: 15, ymin: -2, ymax: 10, ystep: 2, series: [{ color: LIQ.eau.c, pts: rows.map(function (r) { return [r.T, r.e]; }) }, { color: LIQ.alcool.c, pts: rows.map(function (r) { return [r.T, r.a]; }) }, { color: LIQ.huile.c, pts: rows.map(function (r) { return [r.T, r.h]; }) }] });
+        S.chart(bx, { xlabel: 'température (°C)', ylabel: 'montée (gr.)', xmin: 10, xmax: 60, xstep: 10, ymin: -2, ymax: 10, ystep: 2, series: [{ color: LIQ.eau.c, pts: rows.map(function (r) { return [r.T, r.e]; }) }, { color: LIQ.alcool.c, pts: rows.map(function (r) { return [r.T, r.a]; }) }, { color: LIQ.huile.c, pts: rows.map(function (r) { return [r.T, r.h]; }) }] });
       }
       paint();
       api.onReset(function () { st.mode = 'compare'; st.T = 20; st.one = 'eau'; st.sel = null; st.tTher = 20; cM.set('compare'); cL.set('eau'); sT.set(20); sH.set(20); vis(); rows = []; paint(); });
       api.say('Chauffe le bain-marie et regarde les tubes.');
       return { bilan: function () {
         if (rows.length < 3) return '<p>Relève la montée des liquides à au moins 3 températures.</p>';
-        return '<p>Chauffé, un liquide <b>se dilate</b> : son volume augmente et son niveau monte dans le tube. Refroidi, il <b>se contracte</b>.</p><p>À même température, l’<b>alcool</b> se dilate plus que l’huile, qui se dilate plus que l’<b>eau</b> : la dilatation dépend de la nature du liquide. Plus l’élévation de température est grande, plus la montée est importante.</p><p>Le <b>thermomètre</b> à liquide (alcool coloré) fonctionne grâce à cette dilatation. On ne remplit jamais une bouteille à ras bord : le liquide pourrait déborder en se dilatant.</p>';
+        return '<p>Dans ce modèle, chauffé, un liquide <b>se dilate</b> : son volume augmente et son niveau monte dans le tube. Refroidi, il <b>se contracte</b>.</p><p>Pour un même volume initial à 20 °C et une même élévation de température, l’<b>alcool</b> se dilate plus que l’huile, qui se dilate plus que l’<b>eau</b> : la dilatation dépend de la nature du liquide. Plus l’élévation de température est grande, plus la montée est importante.</p><p>Le <b>thermomètre</b> à liquide (alcool coloré) fonctionne grâce à cette dilatation. On ne remplit jamais une bouteille à ras bord : le liquide pourrait déborder en se dilatant.</p>';
       } };
     }
   };
@@ -181,35 +182,36 @@
     intro: 'Chauffe, refroidis, compare : les liquides n’ont qu’à bien se tenir !',
     missions: [
       { title: 'Sous le repère', text: 'Fais descendre l’eau colorée <span style="color:#4FA8FF">sous le repère</span>.', lumi: 'Que faut-il faire au bain-marie ?', hint: 'Refroidis le bain (glace).',
-        build: function (api) { var lab = mini(api, { mode: 'one', one: 'eau', T: 50 }); api.c.slider({ label: 'Température du bain-marie', min: 0, max: 90, step: 1, value: 50, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.d < -0.15 ? { ok: true, msg: 'Refroidie, l’eau se contracte.' } : { ok: false, msg: 'Le niveau est encore au-dessus du repère.' }; }; },
+        build: function (api) { var lab = mini(api, { mode: 'one', one: 'eau', T: 50 }); api.c.slider({ label: 'Température du bain-marie', min: 10, max: 60, step: 1, value: 50, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.d < -0.15 ? { ok: true, msg: 'Refroidie, l’eau se contracte.' } : { ok: false, msg: 'Le niveau est encore au-dessus du repère.' }; }; },
         e: 'En refroidissant, le liquide se contracte : son niveau descend.' },
       { type: 'qcm', title: 'Volume', text: 'Quand un liquide se contracte, son volume :', o: ['augmente', 'diminue', 'ne change pas', 'double'], a: 1, hint: 'Contraction…', e: 'Il diminue.' },
       { title: 'Le champion', text: 'Chauffe les trois ballons à au moins <b>60 °C</b>, puis <b>clique sur le liquide</b> qui se dilate le plus.', lumi: 'Compare les hauteurs dans les tubes.', hint: 'C’est le liquide des thermomètres.',
-        build: function (api) { var lab = mini(api, { mode: 'compare' }); api.c.slider({ label: 'Température du bain-marie', min: 0, max: 90, step: 1, value: 20, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.T >= 60 && r.sel === 'alcool' ? { ok: true, msg: 'L’alcool se dilate le plus !' } : { ok: false, msg: r.T < 60 ? 'Chauffe d’abord à 60 °C.' : 'Clique sur le liquide qui monte le plus.' }; }; },
-        e: 'À même température, l’alcool se dilate le plus.' },
+        build: function (api) { var lab = mini(api, { mode: 'compare' }); api.c.slider({ label: 'Température du bain-marie', min: 10, max: 60, step: 1, value: 20, unit: '°C', onInput: function (v) { lab.st.T = v; } }); return function () { var r = lab.res(); return r.T >= 60 && r.sel === 'alcool' ? { ok: true, msg: 'L’alcool se dilate le plus !' } : { ok: false, msg: r.T < 60 ? 'Chauffe d’abord à 60 °C.' : 'Clique sur le liquide qui monte le plus.' }; }; },
+        e: 'Pour un même volume initial à 20 °C et une même élévation de température, l’alcool se dilate le plus.' },
       { type: 'qcm', title: 'Le thermomètre', text: 'Le thermomètre à alcool fonctionne grâce :', o: ['à l’évaporation de l’alcool', 'à la dilatation de l’alcool', 'à la pression de l’air', 'à l’électricité'], a: 1, hint: 'L’alcool monte dans le tube…', e: 'L’alcool se dilate et monte dans le tube.' },
       { title: '37 °C', text: 'Règle le bain pour que le thermomètre indique <span style="color:var(--amber)">37 °C</span>, la température du corps.', lumi: 'Lis bien les graduations.', hint: 'Entre 30 et 40.',
-        build: function (api) { var lab = mini(api, { mode: 'thermo', tTher: 20 }); api.c.slider({ label: 'Température du bain', min: -10, max: 100, step: 1, value: 20, unit: '°C', onInput: function (v) { lab.st.tTher = v; } }); return function () { var r = lab.res(); return Math.abs(r.T - 37) <= 1 ? { ok: true, msg: 'Le thermomètre indique 37 °C.' } : { ok: false, msg: 'Il indique ' + Math.round(r.T) + ' °C.' }; }; },
+        build: function (api) { var lab = mini(api, { mode: 'thermo', tTher: 20 }); api.c.slider({ label: 'Température du bain', min: 10, max: 60, step: 1, value: 20, unit: '°C', onInput: function (v) { lab.st.tTher = v; } }); return function () { var r = lab.res(); return Math.abs(r.T - 37) <= 1 ? { ok: true, msg: 'Le thermomètre indique 37 °C.' } : { ok: false, msg: 'Il indique ' + Math.round(r.T) + ' °C.' }; }; },
         e: 'Le thermomètre indique la température du bain grâce à la dilatation de l’alcool.' }
     ]
   };
 
   S.start({
+    inquiry: {"situation": "Trois ballons identiques contiennent le même volume d’eau, d’huile ou d’alcool à 20 °C. Le niveau montera-t-il autant dans les trois tubes si on les chauffe ensemble ?", "prediction": "Prévois les montées relatives des trois liquides à 40 °C puis à 60 °C. Explique ce que tu garderas identique pour comparer.", "steps": ["Ce modèle qualitatif est limité à 10–60 °C ; il ne représente pas les changements d’état ni l’anomalie de l’eau entre 0 et 4 °C.", "Choisis Trois liquides. Relève les niveaux à 20, 40 et 60 °C.", "Compare les variations depuis 20 °C, à volume initial et récipients identiques.", "Reviens à 10 °C et note le signe des variations par rapport au repère de 20 °C.", "Compare les résultats du modèle à ta prévision ; distingue ce modèle d’une mesure réelle."]},
     id: '5e-dilatation-liquides', level: '5e', theme: 'Propriétés physiques de la matière', title: 'Dilatation des liquides', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
-      'Lorsqu’on chauffe un liquide, son volume augmente : il <b>se dilate</b>. Lorsqu’on le refroidit, son volume diminue : il <b>se contracte</b>.',
+      'Dans le domaine étudié (10–60 °C), lorsqu’on chauffe ces liquides, son volume augmente : il <b>se dilate</b>. Lorsqu’on le refroidit, son volume diminue : il <b>se contracte</b>.',
       'Expérience : le niveau d’eau colorée dans le tube monte au-dessus du repère quand on chauffe, et descend en dessous quand on refroidit.',
-      'La dilatation dépend de la <b>nature du liquide</b> : à même température, l’alcool se dilate plus que l’huile, qui se dilate plus que l’eau.',
-      'Les liquides se dilatent plus que les solides.',
+      'La dilatation dépend de la <b>nature du liquide</b> : pour un même volume initial à 20 °C et une même élévation de température, l’alcool se dilate plus que l’huile, qui se dilate plus que l’eau.',
+      'Ce modèle linéaire est qualitatif, entre 10 et 60 °C. Il néglige la dilatation du récipient et ne représente ni les changements d’état ni le comportement particulier de l’eau entre 0 et 4 °C.',
       'Application : le <b>thermomètre</b> à liquide. Précaution : on ne remplit pas une bouteille ou un réservoir à ras bord.'
     ],
     quiz: [
-      { q: 'Un liquide chauffé :', o: ['se contracte', 'se dilate', 'devient solide', 'ne change pas'], a: 1, e: 'Son volume augmente.' },
+      { q: 'Dans ce modèle (10–60 °C), un liquide chauffé :', o: ['se contracte', 'se dilate', 'devient solide', 'ne change pas'], a: 1, e: 'Son volume augmente.' },
       { q: 'Lequel se dilate le plus ?', o: ['l’eau', 'l’huile', 'l’alcool', 'ils se dilatent pareil'], a: 2, e: 'L’alcool.' },
       { q: 'Pourquoi ne remplit-on pas une bouteille à ras bord ?', o: ['pour économiser', 'le liquide pourrait déborder en se dilatant', 'pour qu’elle soit plus légère', 'par habitude'], a: 1, e: 'Le liquide a besoin de place pour se dilater.' },
       { q: 'Dans un thermomètre, quand la température baisse, l’alcool :', o: ['monte', 'descend', 's’évapore', 'gèle aussitôt'], a: 1, e: 'Il se contracte.' },
-      { q: 'Les liquides se dilatent :', o: ['moins que les solides', 'plus que les solides', 'jamais', 'seulement au soleil'], a: 1, e: 'Plus que les solides.' }
+      { q: 'Pour comparer les trois liquides, on garde :', o: ['des volumes initiaux différents', 'le même volume initial et la même variation de température', 'seulement la même couleur', 'des températures initiales différentes'], a: 1, e: 'On fait varier la nature du liquide en gardant les autres conditions identiques.' }
     ]
   });
 })();
