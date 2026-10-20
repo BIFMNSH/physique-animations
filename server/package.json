@@ -1,0 +1,21 @@
+{
+  "name": "nohoba-lab-api",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Comptes, pass et suivi de classe pour NOHOBA-Lab (Railway)",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --env-file=.env --watch src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "better-auth": "^1.7.11",
+    "hono": "^4.13.13",
+    "pg": "^8.23.1"
+  }
+}
