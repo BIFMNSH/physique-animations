@@ -195,6 +195,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On chauffe un gaz dans le dispositif proposé. Que prévois-tu pour son volume ou sa pression, selon les contraintes du dispositif ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-dilatation-gaz', level: '5e', theme: 'Propriétés physiques de la matière', title: 'Dilatation des gaz', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -213,3 +214,4 @@
     ]
   });
 })();
+

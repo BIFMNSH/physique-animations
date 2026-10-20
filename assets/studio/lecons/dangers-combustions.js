@@ -229,6 +229,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une famille utilise un appareil à combustion dans une pièce. Quelles conditions peuvent augmenter les risques et quelles protections prévoir ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-dangers-combustions', level: '6e', theme: 'Les combustions', title: 'Dangers des combustions', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -247,3 +248,4 @@
     ]
   });
 })();
+

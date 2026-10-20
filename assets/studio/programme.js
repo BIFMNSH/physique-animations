@@ -1,4 +1,4 @@
-/* Progression 4e (programme MENA, Côte d'Ivoire, 2025-2026) : thèmes et leçons « studio ».
+/* Progression 4e (programme MENA, Côte d'Ivoire, 2026-2027) : thèmes et leçons « studio ».
    ready: true → la leçon est en ligne (fichier assets/studio/lecons/<slug>.js). */
 window.PROGRAMME = {
   '4e': [
@@ -79,3 +79,4 @@ window.PROGRAMME = {
       { slug: 'conducteur-ohmique', t: 'Le conducteur ohmique', ready: true }] }
   ]
 };
+

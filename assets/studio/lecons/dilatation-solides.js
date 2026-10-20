@@ -215,6 +215,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une pièce métallique doit conserver sa fonction lorsqu’elle chauffe. Comment ses dimensions peuvent-elles évoluer ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-dilatation-solides', level: '5e', theme: 'Propriétés physiques de la matière', title: 'Dilatation des solides', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -233,3 +234,4 @@
     ]
   });
 })();
+

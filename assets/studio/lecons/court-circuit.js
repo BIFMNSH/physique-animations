@@ -192,6 +192,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Dans un circuit virtuel, on ajoute un fil aux bornes d’une lampe. Que va-t-il arriver à la lampe et au courant ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-court-circuit', level: '6e', theme: 'Électricité', title: 'Court-circuit et protection des installations électriques', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -210,3 +211,4 @@
     ]
   });
 })();
+

@@ -194,6 +194,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une lampe reliée à une pile reste éteinte. Quelles conditions du montage faut-il vérifier pour l’allumer ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-circuit-electrique', level: '6e', theme: 'Électricité', title: 'Le circuit électrique', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -212,3 +213,4 @@
     ]
   });
 })();
+

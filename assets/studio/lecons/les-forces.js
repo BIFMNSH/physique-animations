@@ -199,6 +199,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un objet peut être déplacé ou déformé par une action. Comment représenter cette action par une force ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-les-forces', level: '3e', theme: 'Mécanique', title: 'Les forces', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -217,3 +218,4 @@
     ]
   });
 })();
+

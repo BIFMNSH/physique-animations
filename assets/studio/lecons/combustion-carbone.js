@@ -208,6 +208,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un morceau de carbone brûle dans un récipient. Quel rôle joue le dioxygène et comment identifier le produit formé ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-combustion-carbone', level: '5e', theme: 'Mélanges et réactions chimiques', title: 'Combustion du carbone', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -226,3 +227,4 @@
     ]
   });
 })();
+

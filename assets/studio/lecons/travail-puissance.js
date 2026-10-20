@@ -190,6 +190,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Deux dispositifs réalisent le même travail en des durées différentes. Ont-ils la même puissance ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-travail-puissance', level: '3e', theme: 'Mécanique', title: 'Travail et puissance mécaniques', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -208,3 +209,4 @@
     ]
   });
 })();
+

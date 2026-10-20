@@ -185,6 +185,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un récipient contient de l’eau que l’on chauffe puis refroidit. Quels changements d’état peut-on prévoir ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-changements-etat', level: '6e', theme: 'Propriétés physiques de la matière', title: 'Les changements d’état de l’eau', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -203,3 +204,4 @@
     ]
   });
 })();
+

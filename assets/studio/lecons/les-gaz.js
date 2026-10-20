@@ -200,6 +200,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On enferme de l’air dans une seringue virtuelle. Peut-on modifier le volume qu’il occupe sans changer la quantité de gaz ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-les-gaz', level: '6e', theme: 'Propriétés physiques de la matière', title: 'Les gaz', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -218,3 +219,4 @@
     ]
   });
 })();
+

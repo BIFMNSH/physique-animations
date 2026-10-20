@@ -196,6 +196,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Deux objets sont comparés avec une balance et un dynamomètre. Comment relier leur masse et leur poids ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-masse-poids', level: '3e', theme: 'Mécanique', title: 'Masse et poids d’un corps', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -214,3 +215,4 @@
     ]
   });
 })();
+

@@ -193,6 +193,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On mesure des tensions aux bornes des dipôles d’un circuit. Quelles relations prévoir selon leur association ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-tension', level: '5e', theme: 'Mesure de grandeurs physiques', title: 'Tension électrique', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -211,3 +212,4 @@
     ]
   });
 })();
+

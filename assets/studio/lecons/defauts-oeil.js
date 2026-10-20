@@ -181,6 +181,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une personne voit certains objets flous. Comment la position de l’image dans le modèle de l’œil peut-elle expliquer ce défaut et guider sa correction ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-defauts-oeil', level: '3e', theme: 'Optique', title: 'Les défauts de l’œil et leurs corrections', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -199,3 +200,4 @@
     ]
   });
 })();
+

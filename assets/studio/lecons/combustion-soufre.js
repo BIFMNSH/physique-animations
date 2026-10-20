@@ -203,6 +203,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Dans le laboratoire virtuel, du soufre brûle dans le dioxygène. Quelles observations indiqueraient la formation d’un nouveau corps ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-combustion-soufre', level: '5e', theme: 'Mélanges et réactions chimiques', title: 'Combustion du soufre', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -221,3 +222,4 @@
     ]
   });
 })();
+

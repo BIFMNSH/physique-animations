@@ -230,6 +230,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un dispositif doit recevoir une tension différente de celle du générateur. Quels effets produisent un transformateur et un redresseur ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-transfo-redressement', level: '4e', theme: 'Courants et tensions alternatifs', title: 'Transformation, redressement et lissage', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -248,3 +249,4 @@
     ]
   });
 })();
+

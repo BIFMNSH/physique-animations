@@ -236,6 +236,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "L’air autour de nous semble invisible et léger. Quels effets du dispositif permettraient de montrer qu’il exerce une pression ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-pression-atmospherique', level: '5e', theme: 'Mesure de grandeurs physiques', title: 'Pression atmosphérique', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -254,3 +255,4 @@
     ]
   });
 })();
+

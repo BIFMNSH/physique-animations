@@ -190,6 +190,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On transfère différents échantillons entre des récipients. Quelles propriétés permettent de distinguer un solide d’un liquide ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-solides-liquides', level: '6e', theme: 'Propriétés physiques de la matière', title: 'Solides et liquides', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -208,3 +209,4 @@
     ]
   });
 })();
+

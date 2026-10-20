@@ -263,6 +263,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Deux eaux paraissent transparentes. Cela suffit-il pour conclure qu’elles ont la même composition ou la même qualité ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-qualite-eau', level: '4e', theme: 'Eau potable', title: 'Qualité de l’eau', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -281,3 +282,4 @@
     ]
   });
 })();
+

@@ -200,6 +200,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une flamme de gaz change d’aspect lorsque l’arrivée d’air change. Comment prévoir les conséquences sur la combustion ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-combustion-gaz', level: '6e', theme: 'Les combustions', title: 'Combustion d’un gaz : le butane', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -218,3 +219,4 @@
     ]
   });
 })();
+

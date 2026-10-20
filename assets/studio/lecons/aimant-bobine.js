@@ -295,6 +295,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un élève veut produire une tension avec un aimant et une bobine. Faut-il déplacer l’aimant ou suffit-il de le laisser près de la bobine ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-aimant-bobine', level: '4e', theme: 'Courants et tensions alternatifs', title: 'Aimant et bobine', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -313,3 +314,4 @@
     ]
   });
 })();
+

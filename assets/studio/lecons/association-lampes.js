@@ -208,6 +208,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On souhaite éclairer deux pièces : si une lampe est dévissée, l’autre doit rester allumée. Quel montage choisir ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-association-lampes', level: '5e', theme: 'Électricité', title: 'Association de lampes électriques', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -226,3 +227,4 @@
     ]
   });
 })();
+

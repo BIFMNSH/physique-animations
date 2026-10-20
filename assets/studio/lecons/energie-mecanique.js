@@ -178,6 +178,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un objet change de hauteur et de vitesse dans le modèle. Comment évoluent ses énergies cinétique, potentielle et mécanique ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-energie-mecanique', level: '3e', theme: 'Mécanique', title: 'Énergie mécanique', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -196,3 +197,4 @@
     ]
   });
 })();
+

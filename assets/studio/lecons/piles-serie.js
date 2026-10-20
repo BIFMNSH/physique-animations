@@ -185,6 +185,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Une seule pile ne fournit pas la tension souhaitée. Que se passe-t-il si on associe plusieurs piles et si on change leur sens ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-piles-serie', level: '5e', theme: 'Électricité', title: 'Association de piles en série', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -203,3 +204,4 @@
     ]
   });
 })();
+

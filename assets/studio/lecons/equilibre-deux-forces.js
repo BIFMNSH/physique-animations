@@ -186,6 +186,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un objet est soumis à deux forces. Quelles conditions permettraient de le maintenir en équilibre ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-equilibre-deux-forces', level: '3e', theme: 'Mécanique', title: 'Équilibre d’un solide soumis à deux forces', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -204,3 +205,4 @@
     ]
   });
 })();
+

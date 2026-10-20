@@ -198,6 +198,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On veut déterminer la masse d’un objet avec une balance. Quel protocole et quelle unité choisir ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-masse', level: '6e', theme: 'Mesure de grandeurs physiques', title: 'Masse d’un solide et d’un liquide', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -216,3 +217,4 @@
     ]
   });
 })();
+

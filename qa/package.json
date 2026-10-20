@@ -1,0 +1,1 @@
+{"name":"nohoba-lab-regression","private":true,"scripts":{"test":"node regression.cjs"},"devDependencies":{"jsdom":"26.1.0"}}
