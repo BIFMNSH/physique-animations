@@ -202,6 +202,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On cherche à expliquer pourquoi une combustion ne consomme pas tout l’air d’un récipient. Quelle composition de l’air proposer ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-constituants-air', level: '6e', theme: 'Les combustions', title: 'Les constituants de l’air', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -220,3 +221,4 @@
     ]
   });
 })();
+

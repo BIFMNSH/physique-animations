@@ -214,6 +214,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On veut commander l’éclairage sans débrancher la pile. Comment placer et utiliser un interrupteur ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-commande-circuit', level: '6e', theme: 'Électricité', title: 'Commande d’un circuit électrique', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -232,3 +233,4 @@
     ]
   });
 })();
+

@@ -132,6 +132,7 @@
     W: 860, H: 470,
     alt: 'Deux activités : une lampe 6 V – 3 W alimentée par un générateur réglable, avec un ampèremètre et un voltmètre, dont on calcule la puissance P = U × I ; puis une maison avec six appareils que l’on allume ou éteint en cliquant, une durée d’utilisation, le calcul de la puissance totale, de l’énergie par jour et du prix mensuel, un compteur et un disjoncteur de 10 A',
     steps: [
+      'Hypothèse : les appareils sont assimilés à des récepteurs résistifs. Pour un moteur ou un appareil électronique réel, le calcul en alternatif peut demander un facteur de puissance.',
       'Lampe : règle la tension et calcule P = U × I.',
       'Sous quelle tension la lampe reçoit-elle 3 W ?',
       'Maison : allume des appareils (clique dessus) et lis la puissance totale.',
@@ -182,21 +183,23 @@
   };
 
   S.start({
+    inquiry: {"situation": "Deux appareils n’ont pas la même puissance ni la même durée d’utilisation. Comment comparer leurs consommations d’énergie ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-puissance-energie-electriques', level: '3e', theme: 'Électricité', title: 'Puissance et énergie électriques', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
-      'La <b>puissance électrique</b> reçue par un appareil : <b>P = U × I</b> (P en watts W, U en volts V, I en ampères A).',
+      'En courant continu, ou pour un récepteur résistif en alternatif, la <b>puissance électrique</b> reçue vaut : <b>P = U × I</b> (P en watts W, U en volts V, I en ampères A).',
       'Les indications « 220 V – 60 W » donnent la <b>tension nominale</b> et la <b>puissance nominale</b> : l’appareil reçoit 60 W lorsqu’il est alimenté sous 220 V.',
       'L’<b>énergie électrique</b> consommée : <b>E = P × t</b> ; en joules (W × s) ou en wattheures (W × h). <b>1 kWh = 1 000 Wh = 3 600 000 J</b>.',
-      'Le <b>compteur</b> mesure l’énergie consommée en kWh ; la facture est proportionnelle à cette énergie.',
+      'Le <b>compteur</b> mesure l’énergie consommée en kWh ; à tarif constant, le coût variable de l’énergie est proportionnel à cette énergie, hors abonnement et autres frais.',
       'La puissance totale d’une installation est la somme des puissances des appareils ; une puissance trop grande provoque une <b>surintensité</b> et le <b>disjoncteur</b> coupe le courant.'
     ],
     quiz: [
       { q: 'La puissance électrique s’exprime en :', o: ['volts', 'ampères', 'watts', 'kilowattheures'], a: 2, e: 'En watts (W).' },
-      { q: 'Un appareil alimenté sous 220 V est traversé par 5 A. Sa puissance :', o: ['44 W', '225 W', '1 100 W', '215 W'], a: 2, e: '220 × 5 = 1 100 W.' },
+      { q: 'Un appareil résistif alimenté sous 220 V est traversé par 5 A. Sa puissance :', o: ['44 W', '225 W', '1 100 W', '215 W'], a: 2, e: '220 × 5 = 1 100 W.' },
       { q: 'L’énergie électrique se calcule par :', o: ['E = U × I', 'E = P × t', 'E = P / t', 'E = U / I'], a: 1, e: 'E = P × t.' },
       { q: 'Le compteur électrique de la maison mesure :', o: ['la tension', 'l’intensité', 'l’énergie consommée', 'la puissance nominale'], a: 2, e: 'L’énergie, en kWh.' },
       { q: 'Une lampe 220 V – 100 W alimentée sous 110 V reçoit :', o: ['100 W', 'plus de 100 W', 'moins de 100 W', '0 W'], a: 2, e: 'Sous-tension : moins que la puissance nominale.' }
     ]
   });
 })();
+

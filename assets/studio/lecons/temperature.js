@@ -198,6 +198,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Deux corps donnent des sensations différentes au toucher. Comment comparer objectivement leurs températures ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '6e-temperature', level: '6e', theme: 'Propriétés physiques de la matière', title: 'Température d’un corps', back: '../6e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -216,3 +217,4 @@
     ]
   });
 })();
+

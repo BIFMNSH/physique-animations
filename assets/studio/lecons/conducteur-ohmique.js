@@ -186,6 +186,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On fait varier la tension aux bornes d’un conducteur ohmique. Comment l’intensité du courant va-t-elle évoluer ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-conducteur-ohmique', level: '3e', theme: 'Électricité', title: 'Le conducteur ohmique', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -204,3 +205,4 @@
     ]
   });
 })();
+

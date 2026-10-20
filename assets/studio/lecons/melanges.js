@@ -284,6 +284,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Un échantillon contient plusieurs constituants. Quelles opérations permettraient de les séparer avec les dispositifs proposés ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-melanges', level: '5e', theme: 'Mélanges et réactions chimiques', title: 'Les mélanges', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -302,3 +303,4 @@
     ]
   });
 })();
+

@@ -189,6 +189,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "La classe compare plusieurs molécules d’alcanes. Comment prévoir le nombre d’atomes d’hydrogène à partir du nombre d’atomes de carbone ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-alcanes', level: '3e', theme: 'Les réactions chimiques', title: 'Les alcanes', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -207,3 +208,4 @@
     ]
   });
 })();
+

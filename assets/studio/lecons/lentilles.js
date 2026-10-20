@@ -184,6 +184,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On veut obtenir une image nette sur un écran avec une lentille. De quels réglages dépend la formation de cette image ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-lentilles', level: '3e', theme: 'Optique', title: 'Les lentilles', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -202,3 +203,4 @@
     ]
   });
 })();
+

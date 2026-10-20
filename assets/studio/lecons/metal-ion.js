@@ -281,6 +281,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "On met un métal en présence d’une solution ionique dans le laboratoire virtuel. Quels indices permettraient de reconnaître une transformation chimique ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-metal-ion', level: '4e', theme: 'Les ions', title: 'Transformation d’un métal en ion et inversement', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -299,3 +300,4 @@
     ]
   });
 })();
+

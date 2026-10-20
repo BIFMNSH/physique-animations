@@ -441,6 +441,7 @@
 
   /* ================== LEÇON ================== */
   S.start({
+    inquiry: {"situation": "Une tension varie au cours du temps. Quels indices permettent de la distinguer d’une tension continue ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-tension-alternative', level: '4e', theme: 'Courants et tensions alternatifs', title: 'Production d’une tension alternative', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -459,3 +460,4 @@
     ]
   });
 })();
+

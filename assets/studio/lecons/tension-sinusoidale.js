@@ -240,6 +240,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Deux tensions sinusoïdales sont représentées à l’écran. Comment comparer leurs amplitudes, périodes et fréquences ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-tension-sinusoidale', level: '4e', theme: 'Courants et tensions alternatifs', title: 'Tension alternative sinusoïdale', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -258,3 +259,4 @@
     ]
   });
 })();
+

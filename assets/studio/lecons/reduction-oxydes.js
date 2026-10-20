@@ -193,6 +193,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "Dans le laboratoire virtuel, on cherche à obtenir un métal à partir de son oxyde. Quels réactifs et quels indices de transformation faut-il examiner ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '3e-reduction-oxydes', level: '3e', theme: 'Les réactions chimiques', title: 'Réduction des oxydes', back: '../3e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -211,3 +212,4 @@
     ]
   });
 })();
+

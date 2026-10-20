@@ -61,6 +61,11 @@
         {
           "type": "host",
           "value": "physique-animations.vercel.app"
+        },
+        {
+          "type": "header",
+          "key": "accept",
+          "value": ".*text/html.*"
         }
       ],
       "destination": "https://lab.nohaba.com/:path*",

@@ -177,7 +177,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
-    alt: 'Station de traitement de l’eau : rivière, grille, décanteur, filtre à sable, chloration et château d’eau, avec des jauges de qualité et un verdict potable ou non',
+    alt: 'Station de traitement de l’eau : rivière, grille, décanteur, filtre à sable, chloration et château d’eau, avec des jauges de qualité et un indicateur de traitement du modèle',
     steps: [
       'Désactive toutes les étapes : que contient l’eau qui arrive au robinet ?',
       'Active les étapes une à une et observe les jauges : quel rôle joue chacune ?',
@@ -191,13 +191,13 @@
       var sC = c.slider({ label: 'Dose de chlore', min: 0, max: 2, step: 0.1, value: 1.2, unit: 'mg/L', dec: 1, onInput: function (v) { st.dose = v; } });
       var ro = api.readouts([{ k: 't', label: 'Turbidité' }, { k: 'm', label: 'Microbes restants' }, { k: 'v', label: 'Verdict' }]);
       var last = {};
-      api.loop(function () { last = lab.step(); ro.t.set(Math.round(last.clay * 100) + ' %'); ro.m.set(Math.round(last.mic * 100) + ' %'); ro.v.set(last.pot ? 'traitée (modèle)' : 'non potable'); });
+      api.loop(function () { last = lab.step(); ro.t.set(Math.round(last.clay * 100) + ' %'); ro.m.set(Math.round(last.mic * 100) + ' %'); ro.v.set(last.pot ? 'traitée (modèle)' : 'traitement incomplet'); });
       var M = api.measure; M.innerHTML = '<h3>Mes analyses</h3>';
       var br = api.h('div', { style: 'display:flex;gap:8px' }, M), bR = api.h('button', { class: 'btn sm primary' }, br, 'Analyser l’eau'), tb = api.h('div', { style: 'margin-top:8px' }, M);
       bR.onclick = function () { rows.push({ cfg: ST.filter(function (x) { return st[x.k]; }).map(function (x) { return x.n.slice(0, 4) + '.'; }).join(' ') || 'aucune', d: st.ch ? st.dose : 0, m: last.mic, v: last.pot }); api.sound(last.pot ? 'ok' : 'tick'); paint(); if (rows.length >= 4) api.done(); };
       function paint() {
         api.count(rows.length);
-        tb.innerHTML = rows.length ? '<table class="mt"><thead><tr><th>Étapes</th><th>Chlore</th><th>Microbes</th><th>Verdict</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><td>' + r.cfg + '</td><td>' + fmt(r.d, 1) + '</td><td>' + Math.round(r.m * 100) + ' %</td><td>' + (r.v ? 'potable' : 'non') + '</td></tr>'; }).join('') + '</tbody></table>' : '<div class="empty">Aucune analyse.</div>';
+        tb.innerHTML = rows.length ? '<table class="mt"><thead><tr><th>Étapes</th><th>Chlore</th><th>Microbes</th><th>Verdict</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><td>' + r.cfg + '</td><td>' + fmt(r.d, 1) + '</td><td>' + Math.round(r.m * 100) + ' %</td><td>' + (r.v ? 'traitement du modèle terminé' : 'traitement incomplet') + '</td></tr>'; }).join('') + '</tbody></table>' : '<div class="empty">Aucune analyse.</div>';
         api.chart.innerHTML = '<h3>Microbes restants selon la dose de chlore</h3>'; var bx = api.h('div', {}, api.chart);
         S.chart(bx, { xlabel: 'chlore (mg/L)', ylabel: 'microbes (%)', xmin: 0, xmax: 2, xstep: 0.5, ymin: 0, ymax: 100, ystep: 25, series: [{ color: '#3DD68C', pts: rows.map(function (r) { return [r.d, r.m * 100]; }) }] });
       }
@@ -215,7 +215,7 @@
   function mini(api, o) { var sv = api.s('svg', { viewBox: '0 0 860 470', style: 'width:100%;flex:1;min-height:0', role: 'img', 'aria-label': 'Station de traitement de l’eau' }, api.root), G = api.s('g', {}, sv), lab = Lab(G, o); var r = {}; api.loop(function () { r = lab.step(); }); lab.res = function () { return r; }; return lab; }
   var DEFI = {
     title: 'Le défi de la station',
-    intro: 'Tu diriges la station de traitement : la ville attend une eau potable !',
+    intro: 'Tu diriges la station de traitement : compare les étapes du traitement dans ce modèle. La potabilité réelle nécessite des analyses.',
     missions: [
       { title: 'Remise en marche', text: 'Toutes les étapes sont arrêtées. Remets la station en marche pour obtenir une <span style="color:#3DD68C">eau traitée</span>.', lumi: 'Chaque étape retire quelque chose de différent…', hint: 'Active les 4 étapes.',
         build: function (api) { var lab = mini(api, { gr: false, de: false, fi: false, ch: false }); var r = api.c.row(); ST.forEach(function (S0) { var b = api.c.button({ label: S0.n, sm: true, into: r, onClick: function () { lab.st[S0.k] = !lab.st[S0.k]; b.classList.toggle('primary', lab.st[S0.k]); } }); }); return function () { var q = lab.res(); return q.pot ? { ok: true, msg: 'Bravo, la station traite l’eau (il restera les analyses de contrôle).' } : { ok: false, msg: q.why }; }; },
@@ -224,12 +224,13 @@
       { title: 'La juste dose', text: 'Il y a trop de chlore ! Règle la dose pour que l’eau soit <span style="color:#3DD68C">désinfectée</span> sans mauvais goût.', lumi: 'Ni trop, ni trop peu…', hint: 'Entre 0,9 et 1,5 mg/L.',
         build: function (api) { var lab = mini(api, { dose: 2 }); api.c.slider({ label: 'Dose de chlore', min: 0, max: 2, step: 0.1, value: 2, unit: 'mg/L', dec: 1, onInput: function (v) { lab.st.dose = v; } }); return function () { var q = lab.res(); return q.pot ? { ok: true, msg: 'Dose parfaite : microbes détruits, pas de goût.' } : { ok: false, msg: q.why }; }; },
         e: 'Une dose suffisante détruit les microbes ; trop de chlore donne un mauvais goût.' },
-      { type: 'qcm', title: 'Limpide = potable ?', text: 'L’eau sort limpide du filtre. Peut-on la boire ?', o: ['Oui, elle est claire', 'Non, il faut encore la désinfecter', 'Oui, si on la refroidit', 'Non, il faut la décanter encore'], a: 1, hint: 'Les microbes sont invisibles…', e: 'Une eau limpide peut contenir des microbes : il faut la désinfecter.' },
+      { type: 'qcm', title: 'Limpide = potable ?', text: 'L’eau sort limpide du filtre. Peut-on la boire ?', o: ['Oui, elle est claire', 'Non, sa limpidité ne prouve pas sa potabilité', 'Oui, si on la refroidit', 'Non, il faut la décanter encore'], a: 1, hint: 'Les microbes sont invisibles…', e: 'Une eau limpide peut contenir des microbes ou des polluants dissous. Des traitements adaptés et des analyses sont nécessaires.' },
       { type: 'qcm', title: 'Dans l’ordre', text: 'Quel est l’ordre des étapes du traitement ?', o: ['filtration, dégrillage, désinfection, décantation', 'dégrillage, décantation, filtration, désinfection', 'désinfection, filtration, décantation, dégrillage', 'décantation, désinfection, dégrillage, filtration'], a: 1, hint: 'Des plus gros déchets aux plus petits.', e: 'On retire d’abord les gros débris, puis les particules, puis les microbes.' }
     ]
   };
 
   S.start({
+    inquiry: {"situation": "Une eau de rivière contient des débris, des particules et des microbes. Quelles étapes du modèle agissent sur ces constituants, et que ne permettent-elles pas de conclure ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-traitement-eau', level: '4e', theme: 'Eau potable', title: 'Traitement de l’eau', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -248,3 +249,4 @@
     ]
   });
 })();
+

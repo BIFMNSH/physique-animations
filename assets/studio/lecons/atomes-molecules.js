@@ -216,6 +216,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "La classe doit représenter plusieurs corps avec des modèles de particules. Comment distinguer un atome, une molécule et un mélange ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '5e-atomes-molecules', level: '5e', theme: 'Mélanges et réactions chimiques', title: 'Atomes et molécules', back: '../5e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -234,3 +235,4 @@
     ]
   });
 })();
+

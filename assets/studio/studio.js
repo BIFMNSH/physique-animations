@@ -53,7 +53,7 @@
   /* ---------- réglages (gardés sur l'appareil) ---------- */
   var SET = store('pc-studio', { fs: 1, speed: 1, theme: null, cvd: false, proj: false, tts: false, hints: true, sound: true, sub: 22, voice: true });
   if (!SET.theme) { try { SET.theme = localStorage.getItem('pc-theme') || 'dark'; } catch (e) { SET.theme = 'dark'; } }
-  var PROF = store('pc-studio-prof', { on: false, steps: { resume: true, sim: true, defi: true, quiz: true }, level: 'std', hideRes: false, corr: false, time: 60, nTeams: 4, teams: ['Baobab', 'Lagune', 'Fromager', 'Savane', 'Iroko', 'Lagon'], board: true });
+  var PROF = store('pc-studio-prof', { on: false, steps: { resume: true, sim: true, defi: true, quiz: true }, level: 'std', hideRes: false, corr: false, time: 60, timed: false, nTeams: 4, teams: ['Baobab', 'Lagune', 'Fromager', 'Savane', 'Iroko', 'Lagon'], board: true });
   var PROG = store('pc-studio-prog', {});
   var TEAMC = ['#FFB547', '#5CC8FF', '#3DD68C', '#C4B5FD', '#FF7A7A', '#F0E442'];
   var listeners = [];
@@ -363,6 +363,8 @@
 
   /* ================== LA LEÇON ================== */
   function start(L) {
+    var inquiry = store('pc-inquiry-' + L.id, { prediction: '', observation: '', comparison: '', conclusion: '', started: false, complete: false });
+    var revision = false;
     var app = document.documentElement; app.classList.add('app');
     document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab';
     applySettings();
@@ -376,7 +378,7 @@
     var tt = h('div', { style: 'display:flex;flex-direction:column;min-width:0;max-width:330px' }, top, '<span class="kick">' + esc(L.theme) + '</span><span class="ttl">' + esc(L.title) + '</span>');
     h('div', { class: 'grow' }, top);
     var steps = h('nav', { class: 'steps', 'aria-label': 'Étapes de la leçon' }, top);
-    var STEPS = [['resume', '1 · Résumé'], ['sim', '2 · Simulation'], ['defi', '3 · Défi'], ['quiz', '4 · Quiz']];
+    var STEPS = [['resume', '1 · Résumé'], ['sim', L.inquiry ? 'Investigation' : 'Simulation'], ['defi', '3 · Défi'], ['quiz', '4 · Quiz']];
     var stepBtn = {};
     STEPS.forEach(function (st) { var b = h('button', { type: 'button' }, steps); b.onclick = function () { go(st[0]); }; stepBtn[st[0]] = b; });
     function paintSteps() { STEPS.forEach(function (st) { var b = stepBtn[st[0]]; b.innerHTML = (prog[st[0]] ? '<span class="ok" aria-label="terminé">✓</span>' : '') + st[1]; b.hidden = !PROF.steps[st[0]]; b.setAttribute('aria-current', cur === st[0] ? 'step' : 'false'); }); }
@@ -463,10 +465,11 @@
       k1.toggle({ label: 'Outils de projection', value: PROF.on, onChange: function (v) { PROF.on = v; save('pc-studio-prof', PROF); applyProf(); } });
       var c2 = h('div', { class: 'card' }, gr, '<h3>2 · Difficulté et réponses</h3>'), k2 = controls(c2);
       k2.seg({ value: PROF.level, options: [{ v: 'dec', l: 'Découverte' }, { v: 'std', l: 'Standard' }, { v: 'exp', l: 'Expert' }], onChange: function (v) { PROF.level = v; save('pc-studio-prof', PROF); lvlNote.textContent = LVLN[v]; } });
-      var LVLN = { dec: 'Découverte : lectures faites automatiquement, indices illimités, 90 s par mission.', std: 'Standard : l’élève lit l’oscilloscope lui-même, indices disponibles.', exp: 'Expert : pas d’indice, incertitudes plus fortes, temps réduit de moitié.' };
+      var LVLN = { dec: 'Découverte : lectures faites automatiquement, indices illimités, 90 s par mission si le chronomètre est activé.', std: 'Standard : l’élève lit l’oscilloscope lui-même, indices disponibles.', exp: 'Expert : pas d’indice, incertitudes plus fortes, temps réduit de moitié si le chronomètre est activé.' };
       var lvlNote = h('p', { class: 'note', style: 'font-size:13px;color:var(--muted);margin:0 0 10px' }, c2, LVLN[PROF.level]);
       k2.toggle({ label: 'Masquer les résultats du bilan', value: PROF.hideRes, onChange: function (v) { PROF.hideRes = v; save('pc-studio-prof', PROF); } });
       k2.toggle({ label: 'Montrer le corrigé après chaque mission', value: PROF.corr, onChange: function (v) { PROF.corr = v; save('pc-studio-prof', PROF); } });
+      k2.toggle({ label: 'Activer le chronomètre (optionnel)', value: !!PROF.timed, onChange: function (v) { PROF.timed = v; save('pc-studio-prof', PROF); } });
       k2.slider({ label: 'Temps par mission', min: 20, max: 120, step: 10, value: PROF.time, unit: 's', onInput: function (v) { PROF.time = v; save('pc-studio-prof', PROF); } });
       var c3 = h('div', { class: 'card' }, gr, '<h3>3 · Équipes</h3>'), k3 = controls(c3);
       var names = h('div', { style: 'display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px' });
@@ -489,6 +492,7 @@
     /* ---------- vues ---------- */
     var views = {}, cur = null, ctl = {};
     function go(name) {
+      if (L.inquiry && !revision && !inquiry.complete) { PROF.steps.sim = true; if (name !== 'sim') { toast('Complète ta démarche ou choisis le parcours Révision.'); name = 'sim'; } }
       if (name === 'quiz' && !PROF.steps.quiz) { toast('Le quiz est désactivé par l’enseignant'); return; }
       if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k] && k !== 'quiz'; })[0]; name = nx || 'resume'; }
       if (name === 'quiz') {
@@ -508,7 +512,7 @@
 
     var BUILD = {
       resume: function (root) { return buildResume(root, L.resume, { stage: stage, done: function () { done('resume'); }, go: go }); },
-      sim: function (root) { return buildSim(root, L.sim, { stage: stage, done: function () { done('sim'); }, go: go, L: L }); },
+      sim: function (root) { return buildSim(root, L.sim, { stage: stage, done: function () { done('sim'); }, go: go, L: L, inquiry: inquiry, revision: function () { return revision; }, revise: function () { revision = true; go('resume'); } }); },
       defi: function (root) { return buildDefi(root, L.defi, { stage: stage, done: function () { done('defi'); }, go: go, L: L }); }
     };
 
@@ -516,8 +520,8 @@
     var fiche = h('div', { id: 'fiche' }, document.body);
     window.addEventListener('beforeprint', function () {
       var teacher = printTeacher;
-      fiche.innerHTML = '<h1>' + esc(L.title) + '</h1><p>Physique-chimie · ' + L.level + ' · ' + esc(L.theme) + '</p><h2>À retenir</h2>' + L.retiens.map(function (r) { return '<div class="box">' + r + '</div>'; }).join('') +
-        '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol>' + (teacher ? '<h2>Corrigé (professeur)</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + String.fromCharCode(97 + q.a) + ')</b> ' + q.o[q.a] + (q.e ? ' — ' + q.e : '') + '</li>'; }).join('') + '</ol>' : '<h2>Mes réponses et justifications</h2><div class="box" style="min-height:120px"></div>');
+      fiche.innerHTML = '<h1>' + esc(L.title) + '</h1><p>Physique-chimie · ' + L.level + ' · ' + esc(L.theme) + '</p>' + (printTeacher ? '<h2>À retenir</h2>' + L.retiens.map(function (r) { return '<div class="box">' + r + '</div>'; }).join('') : '<h2>Ma démarche</h2>' + (L.inquiry ? '<p>' + esc(L.inquiry.situation) + '</p>' : '') + [['prediction', 'Ma prévision et ma justification'], ['observation', 'Mes réglages et mes observations'], ['comparison', 'Confrontation aux résultats'], ['conclusion', 'Mon bilan']].map(function (item) { return '<h3>' + item[1] + '</h3><div class="box learner-answer">' + esc(inquiry[item[0]] || '................................................................................') + '</div>'; }).join('')) +
+        '<h2>Je m’exerce</h2><ol>' + L.quiz.map(function (q) { return '<li><b>' + q.q + '</b><br>' + q.o.map(function (o, i) { return String.fromCharCode(97 + i) + ') ' + o; }).join(' &nbsp; ') + '</li>'; }).join('') + '</ol>' + (printTeacher ? '<h2>Corrigé professeur</h2><ol>' + L.quiz.map(function (q) { return '<li>' + String.fromCharCode(97 + q.a) + ') ' + q.o[q.a] + (q.e ? '<br>' + q.e : '') + '</li>'; }).join('') + '</ol>' : '');
     });
 
     /* mise à l'échelle */
@@ -525,13 +529,13 @@
       var w = window.innerWidth, hh = window.innerHeight, portrait = w < 900 && hh > w * 1.05;
       app.classList.toggle('portrait', portrait);
       document.body.style.overflow = portrait ? 'auto' : 'hidden';
-      if (portrait) { var k = w / 820; stage.style.transform = 'scale(' + k + ')'; vp.style.height = ''; stage.parentNode.style.height = (stage.offsetHeight * k) + 'px'; }
+      if (portrait) { stage.style.transform = 'none'; vp.style.height = ''; stage.parentNode.style.height = ''; }
       else { var k2 = Math.min(w / 1280, hh / 720); stage.style.transform = 'scale(' + k2 + ')'; stage.parentNode.style.height = ''; }
     }
     window.addEventListener('resize', fit); document.addEventListener('fullscreenchange', fit);
     applyProf();
     var first = (location.hash || '').slice(1);
-    go(STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : 'resume');
+    go(STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : (L.inquiry ? 'sim' : 'resume'));
     fit(); setTimeout(fit, 50);
     if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('../sw.js').catch(function () {});
     window.Studio.stage = stage;
@@ -654,6 +658,8 @@
 
   /* ================== SIMULATION ================== */
   function buildSim(root, S, ctx) {
+    var I = ctx.L.inquiry, state = ctx.inquiry;
+    function persist() { if (I) save('pc-inquiry-' + ctx.L.id, state); }
     var main = h('div', { class: 'main' }, root);
     var box = h('div', { class: 'scene' }, main);
     var sv = s('svg', { class: 'sv', viewBox: '0 0 ' + S.W + ' ' + S.H, role: 'img', 'aria-label': S.alt }, box);
@@ -664,11 +670,43 @@
     var panes = {}, tabB = {};
     [['manip', 'Manipuler'], ['mes', 'Mesures'], ['bilan', 'Bilan']].forEach(function (p) {
       var b = h('button', { role: 'tab', 'aria-selected': p[0] === 'manip' }, tabs, p[1] + (p[0] === 'mes' ? '<span class="n">0</span>' : ''));
-      b.onclick = function () { tab(p[0]); }; tabB[p[0]] = b;
-      panes[p[0]] = h('div', { class: 'pane', role: 'tabpanel', hidden: p[0] === 'manip' ? null : '' }, side);
+      b.id = ctx.L.id + '-tab-' + p[0]; b.setAttribute('aria-controls', ctx.L.id + '-pane-' + p[0]); b.tabIndex = p[0] === 'manip' ? 0 : -1; b.onclick = function () { tab(p[0]); }; tabB[p[0]] = b;
+      panes[p[0]] = h('div', { class: 'pane', role: 'tabpanel', id: ctx.L.id + '-pane-' + p[0], 'aria-labelledby': ctx.L.id + '-tab-' + p[0], hidden: p[0] === 'manip' ? null : '' }, side);
     });
-    function tab(k) { Object.keys(panes).forEach(function (x) { panes[x].hidden = x !== k; tabB[x].setAttribute('aria-selected', x === k); }); if (k === 'bilan') bilan(); }
-    var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + S.steps.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
+    function tab(k) { Object.keys(panes).forEach(function (x) { panes[x].hidden = x !== k; tabB[x].setAttribute('aria-selected', x === k); tabB[x].tabIndex = x === k ? 0 : -1; }); if (k === 'bilan') bilan(); }
+    tabs.addEventListener('keydown', function (e) {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+      var keys = Object.keys(tabB).filter(function (k) { return !tabB[k].disabled; }), index = keys.findIndex(function (k) { return tabB[k] === document.activeElement; });
+      if (index < 0) return;
+      e.preventDefault(); index = e.key === 'Home' ? 0 : e.key === 'End' ? keys.length - 1 : (index + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length;
+      tab(keys[index]); tabB[keys[index]].focus();
+    });
+    var inquiryCard, comparisonCard;
+    if (I) {
+      inquiryCard = h('details', { class: 'card inquiry', open: state.started ? null : '' }, panes.manip, '<summary>Situation-problème et prévision</summary><h3>1 · Situation-problème</h3><p>' + esc(I.situation) + '</p><h3>2 · Ma prévision</h3>');
+      h('label', { for: 'inquiry-prediction' }, inquiryCard, esc(I.prediction));
+      var prediction = h('textarea', { id: 'inquiry-prediction', rows: 4, maxlength: 2000 }, inquiryCard); prediction.value = state.prediction; prediction.readOnly = state.started;
+      prediction.oninput = function () { state.prediction = prediction.value; persist(); };
+      var begin = h('button', { class: 'btn primary' }, inquiryCard, state.started ? 'Prévision enregistrée' : 'Enregistrer ma prévision'); begin.disabled = state.started;
+      var notice = h('p', { role: 'status' }, inquiryCard);
+      begin.onclick = function () { if (!prediction.value.trim()) { notice.textContent = 'Formule une prévision et explique ton raisonnement.'; prediction.focus(); return; } state.started = true; persist(); prediction.readOnly = true; begin.disabled = true; begin.textContent = 'Prévision enregistrée'; inquiryCard.open = false; unlock(); cmdCard.querySelector('button,input,select')?.focus(); };
+      h('button', { class: 'btn sm' }, inquiryCard, 'Parcours Révision').onclick = ctx.revise;
+      comparisonCard = h('div', { class: 'card inquiry' }, panes.bilan, '<h3>4 · Confrontation aux résultats</h3><p>Ma prévision initiale :</p>');
+      var initial = h('blockquote', {}, comparisonCard);
+      var criteria = I.criteria || ['Je décris les conditions des essais et leurs résultats.', 'Je compare explicitement mes résultats à ma prévision initiale.', 'Je justifie mon bilan par les observations et une connaissance scientifique.'];
+      h('div', { class: 'inquiry-criteria' }, comparisonCard, '<h4>Critères de réussite</h4><ul>' + criteria.map(function (item) { return '<li>' + esc(item) + '</li>'; }).join('') + '</ul><p>Relis ta trace avec ces critères. La présence d’un texte ne valide pas sa justesse ; une rétroaction de l’enseignant reste nécessaire.</p>');
+      [['observation', 'Mes résultats : indique le montage, les réglages et ce que tu observes.'], ['comparison', 'Compare tes résultats à ta prévision. Justifie avec « car » ou « parce que ».'], ['conclusion', '5 · Mon bilan : quelle règle retiens-tu ?']].forEach(function (item) {
+        var id = 'inquiry-' + item[0]; h('label', { for: id }, comparisonCard, item[1]);
+        var input = h('textarea', { id: id, rows: 3, maxlength: 2000 }, comparisonCard); input.value = state[item[0]];
+        input.oninput = function () { state[item[0]] = input.value; state.complete = false; persist(); retCard.hidden = true; bilCard.hidden = true; };
+      });
+      var feedback = h('p', { role: 'status' }, comparisonCard);
+      h('button', { class: 'btn primary' }, comparisonCard, 'Comparer avec le bilan scientifique').onclick = function () {
+        if (!state.started || !['observation', 'comparison', 'conclusion'].every(function (k) { return state[k].trim(); })) { feedback.textContent = 'Complète la prévision, tes observations, la comparaison et ton bilan.'; return; }
+        state.complete = true; persist(); feedback.textContent = 'Trace enregistrée. Compare ton explication au bilan scientifique ; ce dépôt ne valide pas automatiquement sa justesse.'; bilan();
+      };
+    }
+    var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + (ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
     var cmdCard = h('div', { class: 'card' }, panes.manip, '<h3>Commandes</h3>');
     var msg = h('div', { class: 'msg', 'aria-live': 'polite' }, panes.manip);
     var mesCard = h('div', { class: 'card' }, panes.mes);
@@ -692,11 +730,20 @@
       done: ctx.done, gauss: gauss, sound: sound, lumi: lumi, h: h
     };
     var model = S.build(api);
+    function unlock() {
+      if (!I) return;
+      var locked = !state.started && !ctx.revision();
+      main.hidden = locked; cmdCard.hidden = locked; cons.hidden = locked; msg.hidden = locked; if (rr) rr.hidden = locked; root.classList.toggle('inquiry-start', locked);
+      initial.textContent = state.prediction || 'Aucune prévision enregistrée.';
+      tabB.mes.disabled = locked; tabB.bilan.disabled = locked;
+    }
+    unlock();
     var rr = h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:auto' }, panes.manip);
     h('button', { class: 'btn sm' }, rr, 'Tout remettre à zéro').onclick = function () { resets.forEach(function (f) { f(); }); api.say('Simulation remise à zéro.'); };
+    unlock();
     zoomable(box, sv, S.W, S.H, G).tools.classList.add('ztl');
-    function bilan() { bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
-    return { enter: function () { if (SET.tts) speak(S.steps.join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
+    function bilan() { var withheld = PROF.hideRes || (I && !state.complete && !ctx.revision()); retCard.hidden = withheld; bilCard.hidden = withheld; if (I) initial.textContent = state.prediction || 'Aucune prévision enregistrée.'; bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
+    return { refresh: function () { unlock(); bilan(); }, enter: function () { unlock(); bilan(); if (SET.tts) speak((ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
   }
 
   /* ================== DÉFI CHRONOMÉTRÉ ================== */
@@ -708,7 +755,7 @@
       var wrap = h('div', { style: 'flex:1;display:flex;gap:26px;align-items:center;justify-content:center' }, root);
       h('div', {}, wrap, lumi(150, 'happy2'));
       var col = h('div', { style: 'max-width:620px;display:flex;flex-direction:column;gap:14px' }, wrap);
-      h('span', { class: 'kick', style: 'color:var(--green)' }, col, 'Défi · ' + D.missions.length + ' missions chronométrées');
+      h('span', { class: 'kick', style: 'color:var(--green)' }, col, 'Défi · ' + D.missions.length + (PROF.timed ? ' missions chronométrées' : ' missions sans chronomètre'));
       h('h1', { style: 'margin:0;font:800 calc(42px*var(--fs))/1.08 var(--f-display)' }, col, D.title);
       h('p', { style: 'margin:0;font-size:calc(18px*var(--fs));line-height:1.45;color:var(--soft)' }, col, D.intro);
       h('p', { style: 'margin:0;font-size:15px;color:var(--muted)' }, col, '100 points par mission réussie + 10 par seconde restante. 3 étoiles si tu réussis vite, sans indice. En équipes, chaque équipe joue à son tour le même nombre de missions.');
@@ -754,7 +801,7 @@
         cur.check = M.build(api);
         var br = h('div', { style: 'display:flex;gap:10px;margin-top:auto' }, play);
         h('button', { class: 'btn big primary', style: 'flex:1' }, br, 'Valider').onclick = function () {
-          if (!run) return; var r = cur.check(); if (r.ok) finish(true, r.msg); else { timeLeft = Math.max(0, timeLeft - 5); say(r.msg || 'Pas encore… (−5 s)', 'sad'); sound('bad'); }
+          if (!run) return; var r = cur.check(); if (r.ok) finish(true, r.msg); else { say(r.msg || 'Pas encore… compare ton essai à la consigne.', 'think'); sound('bad'); }
         };
         cur.hintB = h('button', { class: 'btn big' }, br, 'Indice');
         if (lvl() === 'exp' || !SET.hints) cur.hintB.style.display = 'none';
@@ -762,10 +809,10 @@
       if (M.hint && cur.hintB) cur.hintB.onclick = function () { if (!run) return; if (!hintUsed) { hintUsed = true; cur.hintB.textContent = 'Indice (utilisé)'; } say(M.hint, 'think'); };
       if (M.type === 'qcm' && M.hint && SET.hints && lvl() !== 'exp') { var hb = h('button', { class: 'btn', style: 'align-self:flex-start' }, play, 'Indice'); hb.onclick = function () { if (!run) return; hintUsed = true; say(M.hint, 'think'); }; }
       timeLeft = mtime(); var T0 = timeLeft; run = true;
-      function drawRing() { var k = timeLeft / T0, C = 2 * Math.PI * 58; ring.innerHTML = '<svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="Il reste ' + Math.ceil(timeLeft) + ' secondes"><circle cx="66" cy="66" r="58" fill="none" stroke="var(--line)" stroke-width="12"/><circle cx="66" cy="66" r="58" fill="none" stroke="' + (k < 0.25 ? 'var(--red)' : 'var(--amber)') + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (C * k) + ' ' + C + '" transform="rotate(-90 66 66)"/><text x="66" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--text)" font-family="Bricolage Grotesque, sans-serif">' + Math.floor(Math.ceil(timeLeft) / 60) + ':' + ('0' + (Math.ceil(timeLeft) % 60)).slice(-2) + '</text></svg>'; }
+      function drawRing() { if (!PROF.timed) { ring.textContent = 'Sans chronomètre'; return; } var k = timeLeft / T0, C = 2 * Math.PI * 58; ring.innerHTML = '<svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="Il reste ' + Math.ceil(timeLeft) + ' secondes"><circle cx="66" cy="66" r="58" fill="none" stroke="var(--line)" stroke-width="12"/><circle cx="66" cy="66" r="58" fill="none" stroke="' + (k < 0.25 ? 'var(--red)' : 'var(--amber)') + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (C * k) + ' ' + C + '" transform="rotate(-90 66 66)"/><text x="66" y="77" text-anchor="middle" font-size="32" font-weight="800" fill="var(--text)" font-family="Bricolage Grotesque, sans-serif">' + Math.floor(Math.ceil(timeLeft) / 60) + ':' + ('0' + (Math.ceil(timeLeft) % 60)).slice(-2) + '</text></svg>'; }
       drawRing();
       var tl = loop(function (dt) {
-        if (!run || root.hidden) return;
+        if (!run || root.hidden || !PROF.timed) return;
         timeLeft -= dt; tickT += dt;
         if (timeLeft <= 10 && tickT > 1) { tickT = 0; sound('tick'); }
         drawRing();
@@ -787,7 +834,7 @@
     function finish(ok, msg) {
       if (!run) return; run = false;
       var M = cur.M, team = cur.team, stars = 0, pts = 0;
-      if (ok) { stars = timeLeft > mtime() / 2 ? 3 : 2; if (hintUsed) stars = Math.max(1, stars - 1); pts = 100 + Math.round(timeLeft) * 10; team.pts += pts; team.stars.push(stars); sound('win'); confetti(ctx.stage); }
+      if (ok) { stars = 3; pts = 100; team.pts += pts; team.stars.push(stars); sound('win'); confetti(ctx.stage); }
       else { team.stars.push(0); sound('bad'); }
       results[mi] = ok;
       cur.say((ok ? '<b>Réussi ! +' + pts + ' points</b> ' + '★'.repeat(stars) + '<br>' : '<b>Raté…</b><br>') + (PROF.corr || ok ? (msg || '') : 'On en parle avec le professeur ?'), ok ? 'wow' : 'sad');
@@ -820,3 +867,4 @@
 
   window.Studio = { start: start, kit: kit, h: h, s: s, attr: attr, fmt: fmt, esc: esc, clamp: clamp, ease: ease, lumi: lumi, settings: SET, prof: PROF, progress: PROG, applySettings: applySettings, onSettings: onSettings, loop: loop, speak: speak, sound: sound, confetti: confetti, chart: chart, gauss: gauss, store: store, save: save };
 })();
+

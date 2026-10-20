@@ -213,6 +213,7 @@
   };
 
   S.start({
+    inquiry: {"situation": "La classe observe de la lumière blanche à travers un dispositif optique. Est-elle constituée d’une seule couleur ?", "prediction": "Avant de manipuler, prévois le résultat et justifie ton choix avec « car » ou « parce que ».", "criteria": ["Je décris au moins deux essais avec leurs conditions et leurs résultats.", "Je compare ces résultats à ma prévision initiale.", "Je rédige un bilan argumenté et précise une limite de la simulation."]},
     id: '4e-lumiere-blanche', level: '4e', theme: 'Optique', title: 'Analyse et synthèse de la lumière blanche', back: '../4e/',
     resume: RESUME, sim: SIM, defi: DEFI,
     retiens: [
@@ -231,3 +232,4 @@
     ]
   });
 })();
+
