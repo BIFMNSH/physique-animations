@@ -34,9 +34,9 @@
   --bg:linear-gradient(135deg,#0E162A 0%,#0A1226 45%,#020719 100%);
   --bar:rgba(10,18,38,.74); --hover:#1A263A; --card:rgba(255,255,255,.04);
   --nohoba:#F28800; --nohoba-soft:#FFB454; --yellow:#F6B301;
-  --orange-grad:linear-gradient(135deg,#FC9800,#E37300);
+  --orange-grad:linear-gradient(135deg,#C95C00,#A94600);
   --bench-bg:radial-gradient(circle at 50% 30%,#1A263A,#0A1226 70%);
-  --on-orange:#1B0A00; --thumb-ring:#0A1226;
+  --on-orange:#FFFFFF; --thumb-ring:#0A1226;
   --ph1:#E5383B; --ph4:#F9A03F; --ph6:#E9D23B; --ph7:#3FBF6A; --ph9:#2E9CDB; --ph11:#4C5BD4; --ph13:#8E3FD0;
 }
 :root[data-theme="light"]{
@@ -67,7 +67,7 @@ a{color:inherit}
 .top nav a:hover{color:var(--ink)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer;border:1.5px solid var(--line);color:var(--ink);background:var(--card)}
 .btn:hover{border-color:var(--mist)}
-.btn.go{background:var(--orange-grad);border-color:#E37300;color:var(--on-orange);box-shadow:0 10px 30px -8px rgba(227,115,0,.65)}
+.btn.go{background:var(--orange-grad);border-color:#A94600;color:var(--on-orange);box-shadow:0 10px 30px -8px rgba(201,92,0,.7)}
 .btn.go:hover{filter:brightness(1.08)}
 .btn.sm{min-height:42px;padding:0 16px;font-size:15px}
 
@@ -77,7 +77,7 @@ a{color:inherit}
 .tsw .trk::after{content:"";position:absolute;top:3px;left:3px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);transition:transform .25s}
 .tsw .st{position:absolute;top:0;bottom:0;display:flex;align-items:center;font:800 13px/1 'Bricolage Grotesque',sans-serif;letter-spacing:.04em}
 .tsw .on{left:11px;opacity:0}.tsw .off{right:9px}
-.tsw[aria-checked="true"] .trk{background:var(--orange-grad);color:var(--on-orange)}
+.tsw[aria-checked="true"] .trk{background:var(--orange-grad);color:#fff}
 .tsw[aria-checked="true"] .trk::after{transform:translateX(34px)}
 .tsw[aria-checked="true"] .on{opacity:1}.tsw[aria-checked="true"] .off{opacity:0}
 .tsw:hover .trk{filter:brightness(1.06)}
@@ -91,8 +91,8 @@ a{color:inherit}
 h1{font:800 clamp(40px,5.6vw,76px)/.98 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;margin:0 0 22px;text-wrap:balance}
 .lead{font-size:clamp(18px,2.1vw,21px);color:var(--mist);max-width:540px;margin:0 0 30px}
 .ctas{display:flex;gap:12px;flex-wrap:wrap}
-.free{margin-top:26px;display:inline-flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;border-radius:14px;background:rgba(242,136,0,.12);border:1px solid rgba(242,136,0,.4);font-size:15px}
-.free i{font-style:normal;font:800 14px 'Bricolage Grotesque',sans-serif;background:var(--orange-grad);color:var(--on-orange);border-radius:9px;padding:4px 9px}
+.free{margin-top:26px;display:inline-flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;border-radius:14px;background:var(--orange-grad);color:#fff;border:1px solid #A94600;font-size:15px;font-weight:700;box-shadow:0 10px 30px -10px rgba(201,92,0,.6)}
+.free i{font-style:normal;font:800 14px 'Bricolage Grotesque',sans-serif;background:#fff;color:#A94600;border-radius:9px;padding:4px 9px}
 
 .bench{position:relative;border-radius:28px;padding:18px 18px 16px;background:var(--card);border:1px solid var(--line);box-shadow:0 40px 120px -40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}
 .bench canvas{display:block;width:100%;aspect-ratio:1/1;max-height:460px;border-radius:20px;background:var(--bench-bg);touch-action:none}
@@ -106,6 +106,39 @@ h1{font:800 clamp(40px,5.6vw,76px)/.98 'Bricolage Grotesque',sans-serif;letter-s
 .spectrum:focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:6px}
 .ends{display:flex;justify-content:space-between;font-size:13px;color:var(--mist);margin:4px 4px 0}
 .try{position:absolute;top:30px;left:30px;font-size:14px;font-weight:700;color:var(--ink);background:var(--bar);border:1px solid var(--line);border-radius:10px;padding:6px 10px;pointer-events:none;transition:opacity .4s}
+
+
+/* Simulations à lancer */
+.sims{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sims a{display:flex;flex-direction:column;gap:8px;padding:12px 12px 20px;border-radius:22px;background:var(--deep);border:1px solid var(--line);text-decoration:none;transition:transform .2s,border-color .2s,background .2s}
+.sims a:hover{transform:translateY(-4px);border-color:var(--nohoba);background:var(--hover)}
+.sims .scene{display:block;width:100%;height:auto;border-radius:14px;background:#0E162A;margin-bottom:6px}
+.sims h3{font:800 20px/1.15 'Bricolage Grotesque',sans-serif;margin:6px 8px 0}
+.sims p{margin:0 8px;color:var(--mist);font-size:15px}
+.sims .row{display:flex;align-items:center;justify-content:space-between;margin:auto 8px 0;padding-top:8px;font-size:14px;font-weight:700}
+.sims .lv{color:var(--nohoba-soft)}
+.sims .go2{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;background:var(--orange-grad);color:#fff}
+.sims-more{display:flex;justify-content:center;margin-top:28px}
+.scene *{transform-box:fill-box}
+@keyframes up{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(-46px);opacity:0}}
+@keyframes rise{from{transform:scaleY(.15)}to{transform:scaleY(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinr{to{transform:rotate(-360deg)}}
+@keyframes blink{0%,45%{opacity:1}55%,100%{opacity:.18}}
+@keyframes blink2{0%,45%{opacity:.18}55%,100%{opacity:1}}
+@keyframes drop{0%{transform:translateY(0);animation-timing-function:cubic-bezier(.5,0,1,.6)}45%{transform:translateY(62px);animation-timing-function:cubic-bezier(0,.4,.5,1)}90%,100%{transform:translateY(0)}}
+@keyframes dash{to{stroke-dashoffset:-24}}
+@keyframes dashr{to{stroke-dashoffset:24}}
+.a-rise{transform-origin:50% 100%;animation:rise 4s ease-in-out infinite alternate}
+.a-bub{animation:up 2.2s linear infinite}
+.a-orbit{transform-box:view-box;transform-origin:120px 65px;animation:spin 9s linear infinite}
+.a-keep{transform-origin:50% 50%;animation:spinr 9s linear infinite}
+.a-b1{animation:blink 2.4s steps(1) infinite}.a-b2{animation:blink2 2.4s steps(1) infinite}
+.a-ball{animation:drop 2s infinite}
+.a-in{stroke-dasharray:6 6;animation:dash .8s linear infinite}.a-out{stroke-dasharray:6 6;animation:dashr .8s linear infinite}
+@media (prefers-reduced-motion:reduce){.scene *{animation:none!important}}
+@media (max-width:980px){.sims{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.sims{grid-template-columns:1fr}}
 
 /* Expériences */
 section{padding:84px 0}
@@ -153,7 +186,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 <header class="top">
   <div class="wrap">
     <a class="logo" href="./" aria-label="NOHOBA-Lab, accueil"><img class="mark" src="assets/brand/nohoba-icon.svg" alt="" width="34" height="34"><b>NOHOBA<span>-Lab</span></b></a>
-    <nav aria-label="Sections"><a href="#experiences">Expériences</a><a href="#pour-qui">Pour qui</a><a href="lecons/">Leçons</a><a href="simulateur/">Simulateur</a><a href="bepc/">BEPC</a></nav>
+    <nav aria-label="Sections"><a href="#simulations">Simulations</a><a href="#experiences">Expériences</a><a href="#pour-qui">Pour qui</a><a href="lecons/">Leçons</a><a href="bepc/">BEPC</a></nav>
     <button type="button" class="tsw" id="tsw" role="switch" aria-checked="true" aria-label="Mode sombre"><span class="lbl" aria-hidden="true">Mode sombre</span><span class="trk" aria-hidden="true"><span class="st on">ON</span><span class="st off">OFF</span></span></button>
     <a class="btn sm go" href="#niveaux">Commencer</a>
   </div>
@@ -180,6 +213,40 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
       <input class="spectrum" id="ph" type="range" min="1" max="13" step="0.1" value="7" aria-valuetext="pH 7, solution neutre">
       <div class="ends"><span>Acide (vinaigre, citron)</span><span>Basique (savon, soude)</span></div>
     </div>
+  </div>
+</section>
+
+<section id="simulations" aria-labelledby="hs">
+  <div class="wrap">
+    <h2 id="hs">Lance une simulation, tout de suite.</h2>
+    <p class="sub">Six des 26 simulations, une par thème : matière, univers, électricité, énergie, lumière, climat. Un toucher et c’est parti, sans compte.</p>
+    <div class="sims">
+      <a href="simulateur/?s=etat-eau">
+        <svg class="scene" viewBox="0 0 240 130" aria-hidden="true"><rect x="86" y="30" width="26" height="62" rx="13" fill="none" stroke="#8FA0C0" stroke-width="4"/><circle cx="99" cy="98" r="14" fill="#E5383B"/><rect class="a-rise" x="95" y="38" width="8" height="58" rx="4" fill="#E5383B"/><path d="M150 100c8-10-8-16 0-28c4 8 14 12 8 24c10-4 14-20 4-34c-6 18-18 18-12 38z" fill="#F9A03F"/><g fill="#BFE6FF"><circle class="a-bub" cx="168" cy="52" r="4"/><circle class="a-bub" cx="182" cy="60" r="3" style="animation-delay:.7s"/><circle class="a-bub" cx="156" cy="62" r="3" style="animation-delay:1.4s"/></g><line x1="30" y1="108" x2="210" y2="108" stroke="#5F6E96" stroke-width="3"/></svg>
+        <h3>Chauffer la glace jusqu’à la vapeur</h3><p>Relève la température, repère les paliers de fusion et d’ébullition.</p><div class="row"><span class="lv">5e · Matière</span><span class="go2">Lancer →</span></div>
+      </a>
+      <a href="simulateur/?s=phases-lune">
+        <svg class="scene" viewBox="0 0 240 130" aria-hidden="true"><circle cx="120" cy="65" r="44" fill="none" stroke="#3A4A70" stroke-width="2" stroke-dasharray="3 5"/><circle cx="120" cy="65" r="14" fill="#2E9CDB"/><path d="M114 58q8 -6 12 2q-4 8 -10 6z" fill="#3FBF6A"/><g class="a-orbit"><g transform="translate(164 65)"><g class="a-keep"><circle r="9" fill="#1B2442" stroke="#8FA0C0" stroke-width="1.5"/><path d="M0 -9a9 9 0 0 0 0 18z" fill="#F4F1DC"/></g></g></g><g stroke="#FFD66B" stroke-width="3" stroke-linecap="round"><line x1="12" y1="55" x2="34" y2="55"/><line x1="12" y1="65" x2="34" y2="65"/><line x1="12" y1="75" x2="34" y2="75"/></g></svg>
+        <h3>Les phases de la Lune</h3><p>Déplace la Lune autour de la Terre et observe la partie éclairée.</p><div class="row"><span class="lv">5e · Univers</span><span class="go2">Lancer →</span></div>
+      </a>
+      <a href="simulateur/?s=circuits-lampes">
+        <svg class="scene" viewBox="0 0 240 130" aria-hidden="true"><rect x="40" y="28" width="160" height="74" rx="10" fill="none" stroke="#5F6E96" stroke-width="4"/><g class="a-b1"><circle cx="90" cy="28" r="22" fill="#FFD66B" opacity=".3"/><circle cx="90" cy="28" r="11" fill="#FFD66B"/></g><g class="a-b2"><circle cx="150" cy="28" r="22" fill="#FFD66B" opacity=".3"/><circle cx="150" cy="28" r="11" fill="#FFD66B"/></g><rect x="28" y="56" width="24" height="26" rx="4" fill="#F97316"/><text x="40" y="74" text-anchor="middle" font-size="16" font-weight="800" fill="#fff" font-family="sans-serif">+</text></svg>
+        <h3>Lampes en série ou en dérivation</h3><p>Dévisse une lampe : les autres s’éteignent-elles ?</p><div class="row"><span class="lv">5e · Électricité</span><span class="go2">Lancer →</span></div>
+      </a>
+      <a href="simulateur/?s=energie-chute">
+        <svg class="scene" viewBox="0 0 240 130" aria-hidden="true"><line x1="30" y1="112" x2="210" y2="112" stroke="#5F6E96" stroke-width="4"/><ellipse cx="90" cy="112" rx="16" ry="3" fill="#000" opacity=".4"/><circle class="a-ball" cx="90" cy="26" r="12" fill="#F97316"/><g><rect x="150" y="40" width="14" height="72" rx="3" fill="#1F2A47"/><rect class="a-rise" x="150" y="40" width="14" height="72" rx="3" fill="#FFD66B" style="animation-direction:alternate-reverse"/><rect x="176" y="40" width="14" height="72" rx="3" fill="#1F2A47"/><rect class="a-rise" x="176" y="40" width="14" height="72" rx="3" fill="#2E9CDB"/></g></svg>
+        <h3>Énergie d’une bille qui tombe</h3><p>Vois l’énergie de position se transformer en énergie cinétique.</p><div class="row"><span class="lv">3e · Énergie</span><span class="go2">Lancer →</span></div>
+      </a>
+      <a href="simulateur/?s=miroir">
+        <svg class="scene" viewBox="0 0 240 130" aria-hidden="true"><line x1="40" y1="100" x2="200" y2="100" stroke="#C8CFDB" stroke-width="6" stroke-linecap="round"/><line x1="120" y1="100" x2="120" y2="30" stroke="#5F6E96" stroke-width="1.5" stroke-dasharray="3 4"/><line class="a-in" x1="50" y1="30" x2="120" y2="100" stroke="#FFD66B" stroke-width="4" stroke-linecap="round"/><line class="a-out" x1="120" y1="100" x2="190" y2="30" stroke="#FFD66B" stroke-width="4" stroke-linecap="round"/><circle cx="120" cy="100" r="5" fill="#fff"/><path d="M120 70a30 30 0 0 0-21 9" fill="none" stroke="#7FD3FF" stroke-width="2"/><path d="M120 70a30 30 0 0 1 21 9" fill="none" stroke="#7FD3FF" stroke-width="2"/></svg>
+        <h3>La lumière sur un miroir</h3><p>Mesure l’angle d’incidence et celui de réflexion : que remarques-tu ?</p><div class="row"><span class="lv">4e · Signaux</span><span class="go2">Lancer →</span></div>
+      </a>
+      <a href="simulateur/?s=effet-serre">
+        <svg class="scene" viewBox="0 0 240 130" aria-hidden="true"><path d="M0 118q120 -30 240 0v12H0z" fill="#2E9CDB"/><path d="M0 118q120 -30 240 0" fill="none" stroke="#3FBF6A" stroke-width="3"/><rect x="0" y="52" width="240" height="14" fill="#8FA0C0" opacity=".25"/><line class="a-in" x1="60" y1="8" x2="60" y2="96" stroke="#FFD66B" stroke-width="5" stroke-linecap="round"/><line class="a-in" x1="110" y1="8" x2="110" y2="96" stroke="#FFD66B" stroke-width="5" stroke-linecap="round"/><line class="a-out" x1="170" y1="100" x2="170" y2="58" stroke="#F97316" stroke-width="5" stroke-linecap="round"/><line class="a-in" x1="200" y1="58" x2="200" y2="96" stroke="#F97316" stroke-width="5" stroke-linecap="round"/></svg>
+        <h3>Comprendre l’effet de serre</h3><p>Modifie la couche de gaz et regarde la Terre se réchauffer.</p><div class="row"><span class="lv">3e · Énergie</span><span class="go2">Lancer →</span></div>
+      </a>
+    </div>
+    <div class="sims-more"><a class="btn go" href="simulateur/">Voir les 26 simulations</a></div>
   </div>
 </section>
 
