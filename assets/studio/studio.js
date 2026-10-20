@@ -703,7 +703,7 @@
       var feedback = h('p', { role: 'status' }, comparisonCard);
       h('button', { class: 'btn primary' }, comparisonCard, 'Comparer avec le bilan scientifique').onclick = function () {
         if (!state.started || !['observation', 'comparison', 'conclusion'].every(function (k) { return state[k].trim(); })) { feedback.textContent = 'Complète la prévision, tes observations, la comparaison et ton bilan.'; return; }
-        state.complete = true; persist(); feedback.textContent = 'Trace enregistrée. Compare ton explication au bilan scientifique ; ce dépôt ne valide pas automatiquement sa justesse.'; bilan();
+        state.complete = true; persist(); feedback.textContent = 'Trace enregistrée. Compare ton explication au bilan scientifique ; cet outil ne valide pas automatiquement sa justesse.'; bilan();
       };
     }
     var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + (ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
