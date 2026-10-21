@@ -21,3 +21,6 @@ Liens (1 189, 0 cassé), sitemap (72 URL), SW CORE (122 entrées présentes), m�
 
 ## Limites
 Pas de relecture scientifique humaine des 395 questions ; CI GitHub Actions en `startup_failure` (cause non vérifiée) ; balayage axe en mode clair non terminé au moment de l'écriture.
+
+## Suivi (même jour)
+Corrigés après l'audit : N1 (options mélangées), N2 (g expliqué), A20 (missions par équipe annoncées), A25 (animations en pause si « réduire les animations »), A04 (seuils présentés comme exemples pédagogiques sourcés OMS 2017, non normes ivoiriennes), A21 en partie (bonne réponse rappelée après erreur, 33 explications enrichies). Reste : ~245 explications courtes à relire avec un regard scientifique.
