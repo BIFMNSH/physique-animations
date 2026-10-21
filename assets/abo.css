@@ -98,7 +98,7 @@ section.blk p.sub{color:var(--soft);font-size:17px;line-height:1.5;margin:0 0 28
 .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line3)}
 .note{background:var(--panel);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.45;color:var(--soft);margin-top:18px}
 .msg{margin-top:14px;font-weight:700;line-height:1.4}
-.pane[hidden],.field[hidden],.note[hidden]{display:none}
+.pane[hidden],.field[hidden],.note[hidden],.or[hidden]{display:none}
 .small{font-size:14px;color:var(--muted)}
 .small a{color:var(--blue)}
 

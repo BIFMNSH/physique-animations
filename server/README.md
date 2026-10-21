@@ -5,7 +5,8 @@ Ce dossier est le serveur qui gère les comptes, déployé sur **Railway** : `ht
 
 | Fonction | Où |
 |---|---|
-| Connexion Google, Facebook, X | Better Auth (`src/auth.js`) |
+| Connexion Google, Apple, Facebook, X | Better Auth (`src/auth.js`) |
+| Compte par e-mail + mot de passe (confirmation d'adresse, mot de passe oublié) | Better Auth + e-mails Resend (`src/mail.js`) |
 | Connexion par code SMS (numéros +225 et +33) | plugin téléphone + Africa's Talking (`src/sms.js`) |
 | Profil élève / enseignant / établissement | `POST /api/me/profile` |
 | Classes avec code (ex. `K7M-4PX`), suivi par l'enseignant | `/api/classes…` |
@@ -55,6 +56,14 @@ URI de redirection OAuth valide : `https://api.lab.nohaba.com/api/auth/callback/
 ### 4. X
 developer.x.com → projet → app → **User authentication settings** : OAuth 2.0, type **Web App** (client confidentiel).
 Callback : `https://api.lab.nohaba.com/api/auth/callback/twitter`. Website : `https://lab.nohaba.com`. Pour recevoir l'e-mail, active « Request email from users » (X demande une politique de confidentialité et des conditions). Sans e-mail, le compte marche quand même (adresse de remplacement).
+
+### 4 bis. Apple
+Compte **Apple Developer** (payant, 99 $ par an) → Certificates, Identifiers & Profiles → crée un **App ID** (avec « Sign in with Apple »), puis un **Services ID** (c'est le `APPLE_CLIENT_ID`) : Domains `api.lab.nohaba.com`, Return URL `https://api.lab.nohaba.com/api/auth/callback/apple`. Crée une **Key** « Sign in with Apple » (télécharge le `.p8`, note son Key ID). Génère le jeton secret :
+`node scripts/apple-secret.mjs TEAM_ID SERVICES_ID KEY_ID AuthKey_XXXX.p8` → à mettre dans `APPLE_CLIENT_SECRET`. **Il expire au bout de 6 mois : prévois de le régénérer.** Apple ne donne le nom et l'e-mail qu'à la première connexion.
+
+### 4 ter. E-mails (confirmation d'adresse, mot de passe oublié)
+Compte sur resend.com → **Domains** : ajoute `nohaba.com` et crée les enregistrements DNS demandés (Vercel → Domains → DNS Records) → **API Keys**. Dans Railway : `RESEND_API_KEY` et `MAIL_FROM` (ex. `NOHOBA-Lab <comptes@nohaba.com>`).
+Sans `RESEND_API_KEY`, la création de compte par e-mail est **désactivée en production** (on ne peut pas confirmer l'adresse) ; en développement, les liens s'affichent dans la console.
 
 ### 5. SMS (Africa's Talking)
 Compte sur africastalking.com → **SMS** → crée une clé API. `AT_USERNAME` et `AT_API_KEY` dans Railway. Fais d'abord un test en `AT_SANDBOX=1`.

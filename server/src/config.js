@@ -17,6 +17,8 @@ export const cfg = {
   google: { id: e.GOOGLE_CLIENT_ID, secret: e.GOOGLE_CLIENT_SECRET },
   facebook: { id: e.FACEBOOK_CLIENT_ID, secret: e.FACEBOOK_CLIENT_SECRET },
   twitter: { id: e.TWITTER_CLIENT_ID, secret: e.TWITTER_CLIENT_SECRET },
+  apple: { id: e.APPLE_CLIENT_ID, secret: e.APPLE_CLIENT_SECRET }, // id = Services ID ; secret = jeton généré par scripts/apple-secret.mjs (6 mois max)
+  mail: { key: e.RESEND_API_KEY, from: e.MAIL_FROM || 'NOHOBA-Lab <comptes@nohaba.com>' },
   sms: {
     username: e.AT_USERNAME, apiKey: e.AT_API_KEY, from: e.AT_SENDER_ID || '',
     sandbox: e.AT_SANDBOX === '1',

@@ -37,8 +37,17 @@
         <div id="socialRow" hidden>
           <p class="small" style="margin:0 0 8px;font-weight:700;color:var(--text)">Continuer avec</p>
           <div class="social" role="group" aria-label="Continuer avec un compte existant" id="social"></div>
-          <div class="or">ou avec un numéro de téléphone</div>
         </div>
+        <div class="or" id="orMail" hidden>ou avec une adresse e-mail</div>
+        <form id="fMail" novalidate hidden>
+          <div class="field" id="rowNom" hidden><label for="mNom">Prénom</label><div class="in"><input id="mNom" autocomplete="given-name" maxlength="30" placeholder="Prénom seulement"></div></div>
+          <div class="field" id="rowMail"><label for="mail">Adresse e-mail</label><div class="in"><input id="mail" type="email" autocomplete="email" inputmode="email" placeholder="prenom@exemple.com" aria-describedby="errMail"></div><div class="err" id="errMail" aria-live="polite"></div></div>
+          <div class="field"><label for="mdp" id="lMdp">Mot de passe</label><div class="in"><input id="mdp" type="password" autocomplete="current-password" minlength="8" aria-describedby="errMdp hintMdp"><button type="button" id="voir" class="btn" style="border:none;min-height:0;height:50px;border-radius:0" aria-pressed="false">Afficher</button></div><div class="small" id="hintMdp" hidden>8 caractères minimum.</div><div class="err" id="errMdp" aria-live="polite"></div></div>
+          <button class="btn primary block" type="submit" id="bMail">Se connecter</button>
+          <p class="msg" id="mMail" role="status" aria-live="polite"></p>
+          <p class="small" style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 0"><a href="#" id="lBascule">Créer un compte avec une adresse e-mail</a><a href="#" id="lOubli">Mot de passe oublié ?</a></p>
+        </form>
+        <div class="or" id="orTel" hidden>ou avec un numéro de téléphone</div>
         <form id="fTel" novalidate>
           <p class="hint">Un code à 6 chiffres vous est envoyé par SMS. Élève : vous pouvez utiliser le numéro d’un parent.</p>
           <div class="field">
@@ -105,7 +114,7 @@
         <p class="msg" id="mDel" role="status" aria-live="polite"></p>
       </section>
 
-      <div class="note"><b>Établissements :</b> un collège passe par le compte de ses enseignants ; le pass établissement est proposé sur devis : <a href="mailto:testnohoba@gmail.com?subject=Devis%20NOHOBA-Lab%20pour%20un%20%C3%A9tablissement&body=Bonjour%2C%0A%0ANom%20de%20l%E2%80%99%C3%A9tablissement%20%3A%0AVille%20%3A%0ANombre%20de%20classes%20de%20coll%C3%A8ge%20%3A%0AT%C3%A9l%C3%A9phone%20du%20responsable%20%3A%0A%0AMerci.">écrivez-nous</a> (testnohoba@gmail.com).<br>Mineurs : Google, Facebook et X exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe.</div>
+      <div class="note"><b>Établissements :</b> un collège passe par le compte de ses enseignants ; le pass établissement est proposé sur devis : <a href="mailto:testnohoba@gmail.com?subject=Devis%20NOHOBA-Lab%20pour%20un%20%C3%A9tablissement&body=Bonjour%2C%0A%0ANom%20de%20l%E2%80%99%C3%A9tablissement%20%3A%0AVille%20%3A%0ANombre%20de%20classes%20de%20coll%C3%A8ge%20%3A%0AT%C3%A9l%C3%A9phone%20du%20responsable%20%3A%0A%0AMerci.">écrivez-nous</a> (testnohoba@gmail.com).<br>Mineurs : Google, Apple, Facebook et X exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe.</div>
     </div>
   </main>
 </div>
@@ -116,7 +125,7 @@
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function show(id,on){$(id).hidden=!on;}
   function say(id,m){$(id).textContent=m||'';}
-  var NOM={google:'Google',facebook:'Facebook',twitter:'X'};
+  var NOM={google:'Google',apple:'Apple',facebook:'Facebook',twitter:'X'};
   var SIDE={eleve:['Content de vous revoir.','Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.'],prof:['Votre classe vous attend.','Mode enseignant, défis en équipes, fiches et corrigés : tout est prêt pour la séance.']};
   var q=new URLSearchParams(location.search),o=q.get('offre'),du=q.get('duree')||'an';
   var NOMP={eleve:'Pass Élève',prof:'Pass Enseignant',ecole:'Établissement'},DUR={mois:'1 mois',trim:'1 trimestre',an:'année scolaire'};
@@ -135,12 +144,49 @@
     if(!C){say('mTop','Le service de comptes est momentanément indisponible. Le site reste utilisable sans compte.');return;}
     C.providers().then(function(p){
       var ks=Object.keys(NOM).filter(function(k){return p.providers&&p.providers[k];});
+      var mailOn=!!(p.providers&&p.providers.email);
+      if(mailOn){show('fMail',true);show('orMail',ks.length>0);modeMail(RESET?'reset':q.get('reset')?'forgot':'in');if(q.get('reset')&&!RESET)say('mMail','Ce lien a expiré. Demandez-en un nouveau.');}
+      show('orTel',ks.length>0||mailOn);
       if(ks.length){show('socialRow',true);$('social').innerHTML=ks.map(function(k){return '<button type="button" class="sbtn" data-p="'+k+'"><span class="si" aria-hidden="true">'+NOM[k].charAt(0)+'</span>'+NOM[k]+'</button>';}).join('');
         document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){say('mTop','Redirection vers '+NOM[b.dataset.p]+'…');
           C.req('/api/auth/sign-in/social',{method:'POST',body:{provider:b.dataset.p,callbackURL:location.origin+'/connexion/'}}).then(function(r){C.marquer();if(r&&r.url)location.href=r.url;else say('mTop','Connexion indisponible pour le moment.');}).catch(function(e){say('mTop',e.message);});};});}
     }).catch(function(){say('mTop','Le service de comptes n’est pas joignable pour le moment. Le site reste utilisable sans compte.');});
+    if(q.get('verifie'))C.marquer();
     if(C.connecte())C.me().then(compte).catch(function(e){if(e.status===401)localStorage.removeItem('nl-compte');});
   }
+
+  // --- E-mail : connexion, création de compte, mot de passe oublié, nouveau mot de passe ---
+  var RESET=q.get('reset')?q.get('token'):null,MODE='in';
+  var MSG={INVALID_EMAIL_OR_PASSWORD:'E-mail ou mot de passe incorrect.',USER_ALREADY_EXISTS:'Un compte existe déjà avec cette adresse : connectez-vous.',USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL:'Un compte existe déjà avec cette adresse : connectez-vous.',PASSWORD_TOO_SHORT:'8 caractères minimum.',INVALID_EMAIL:'Cette adresse e-mail n’est pas valide.',EMAIL_NOT_VERIFIED:'Confirmez d’abord votre adresse : cliquez sur le lien reçu par e-mail.',INVALID_TOKEN:'Ce lien a expiré. Demandez-en un nouveau.'};
+  function modeMail(m){MODE=m;var up=m==='up',fg=m==='forgot',rs=m==='reset';
+    show('rowNom',up);show('rowMail',!rs);$('mdp').parentNode.parentNode.hidden=fg;$('hintMdp').hidden=!(up||rs);
+    $('lMdp').textContent=rs?'Nouveau mot de passe':'Mot de passe';
+    $('mdp').autocomplete=(up||rs)?'new-password':'current-password';
+    $('bMail').textContent=up?'Créer mon compte':fg?'Recevoir le lien par e-mail':rs?'Enregistrer le mot de passe':'Se connecter';
+    $('lBascule').textContent=up||fg?'J’ai déjà un compte : me connecter':'Créer un compte avec une adresse e-mail';
+    $('lBascule').parentNode.hidden=rs;$('lOubli').hidden=up||fg||rs;
+    say('mMail','');say('errMail','');say('errMdp','');}
+  $('lBascule').onclick=function(e){e.preventDefault();modeMail(MODE==='in'?'up':'in');};
+  $('lOubli').onclick=function(e){e.preventDefault();modeMail('forgot');};
+  $('voir').onclick=function(){var on=$('mdp').type==='password';$('mdp').type=on?'text':'password';$('voir').textContent=on?'Masquer':'Afficher';$('voir').setAttribute('aria-pressed',on?'true':'false');};
+  function errM(er){return MSG[er.code]||(er.status===429?'Trop de tentatives : attendez une minute.':'Une erreur est survenue. Réessayez.');}
+  $('fMail').onsubmit=function(e){e.preventDefault();if(!C)return;
+    var em=$('mail').value.trim(),pw=$('mdp').value,nom=$('mNom').value.trim();
+    say('errMail','');say('errMdp','');
+    if(MODE!=='reset'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){say('errMail','Entrez une adresse e-mail valide, par exemple prenom@exemple.com.');$('mail').focus();return;}
+    if(MODE!=='forgot'&&pw.length<8){say('errMdp','8 caractères minimum.');$('mdp').focus();return;}
+    if(MODE==='up'&&!nom){say('mMail','Entrez votre prénom.');$('mNom').focus();return;}
+    var b=$('bMail');b.disabled=true;var done=function(){b.disabled=false;};
+    var back=location.origin+'/connexion/?verifie=1';
+    if(MODE==='forgot'){C.req('/api/auth/request-password-reset',{method:'POST',body:{email:em,redirectTo:location.origin+'/connexion/?reset=1'}}).then(function(){say('mMail','Si un compte existe avec '+em+', un lien vient d’être envoyé. Il est valable une heure.');}).catch(function(er){say('mMail',errM(er));}).then(done);return;}
+    if(MODE==='reset'){C.req('/api/auth/reset-password',{method:'POST',body:{newPassword:pw,token:RESET}}).then(function(){RESET=null;history.replaceState(null,'','./');modeMail('in');say('mMail','Mot de passe enregistré. Vous pouvez vous connecter.');}).catch(function(er){say('mMail',errM(er));}).then(done);return;}
+    if(MODE==='up'){C.req('/api/auth/sign-up/email',{method:'POST',body:{email:em,password:pw,name:nom,callbackURL:back}}).then(function(r){
+        if(r&&r.token){C.marquer();return C.me().then(compte);}
+        say('mMail','Un e-mail de confirmation vient d’être envoyé à '+em+'. Cliquez sur le lien qu’il contient pour activer votre compte (pensez à regarder les courriers indésirables).');
+      }).catch(function(er){say('mMail',errM(er));}).then(done);return;}
+    C.req('/api/auth/sign-in/email',{method:'POST',body:{email:em,password:pw,callbackURL:back}}).then(function(){C.marquer();return C.me();}).then(compte)
+      .catch(function(er){say('mMail',errM(er));if(er.code==='EMAIL_NOT_VERIFIED')C.req('/api/auth/send-verification-email',{method:'POST',body:{email:em,callbackURL:back}}).then(function(){say('mMail',errM(er)+' Nous venons de renvoyer le lien.');}).catch(function(){});}).then(done);
+  };
 
   // --- Téléphone : envoi puis vérification du code ---
   $('fTel').onsubmit=function(e){e.preventDefault();
