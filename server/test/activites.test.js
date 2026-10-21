@@ -71,7 +71,7 @@ test('les 16 fiches publiques ne contiennent pas de bloc professeur', async () =
   const ids = ['A01','A02','A04','B01','B02','B03','B04','B05','C01','C03','C06','C08','D01','D02','D05','D06'];
   for (const id of ids) {
     const js = readFileSync(new URL('../../assets/activites/fiches/NL-C4-' + id + '.js', import.meta.url), 'utf8');
-    assert.doesNotMatch(js, /\\bprof\\s*:\\s*\\{/);
+    assert.doesNotMatch(js, /\bprof\s*:\s*\{/);
   }
 });
 
