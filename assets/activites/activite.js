@@ -299,7 +299,7 @@
         var authNotice = h('p', { 'aria-live': 'polite' }, pf);
         profBtn.onclick = function () {
           profBtn.disabled = true; authNotice.textContent = 'Vérification de l’habilitation…';
-          var api = window.NOHOBALAB_API_URL || '';
+          var api = window.NOHOBALAB_API_URL || 'https://api.lab.nohaba.com';
           fetch(api + '/api/activites/' + encodeURIComponent(F.id) + '/corrige', { credentials: 'include', cache: 'no-store' })
             .then(function (res) {
               if (!res.ok) throw new Error(res.status === 401 ? 'Connexion nécessaire.' : res.status === 402 ? 'Abonnement au thème nécessaire.' : res.status === 403 ? 'Accès réservé aux enseignants habilités.' : 'Corrigé indisponible.');
