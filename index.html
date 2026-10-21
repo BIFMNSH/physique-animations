@@ -119,15 +119,20 @@ h1{font:800 clamp(40px,5.6vw,76px)/.98 'Bricolage Grotesque',sans-serif;letter-s
 .reel h3{font:800 clamp(20px,2.2vw,26px)/1.12 'Bricolage Grotesque',sans-serif;margin:0}
 .reel p{margin:0;color:var(--mist);font-size:15px}
 .reel .go2{align-self:flex-start}
-.tabs{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
-.tabs button{position:relative;overflow:hidden;min-width:48px;min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--deep);color:var(--ink);font:800 16px 'Bricolage Grotesque',sans-serif;cursor:pointer}
-.tabs button[aria-pressed="true"]{border-color:#F97316;color:var(--ink)}
-.tabs button i{position:absolute;left:0;bottom:0;height:4px;width:0;background:#F97316}
-.tabs button[aria-pressed="true"] i{width:100%;animation:vfill var(--vdur,12s) linear}
+.bench{padding-bottom:62px}
+.tabs{position:absolute;right:16px;bottom:22px;z-index:5;display:flex;gap:0;align-items:center}
+.tabs button{position:relative;width:24px;height:24px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.tabs button::before{content:"";width:10px;height:10px;border-radius:5px;background:#C9D2E6;transition:width .2s}
+[data-theme=dark] .tabs button::before{background:#3A4766}
+.tabs button[aria-pressed="true"]{width:44px}
+.tabs button[aria-pressed="true"]::before{width:34px}
+.tabs button:focus-visible{outline:3px solid #F97316;outline-offset:1px;border-radius:12px}
+.tabs button i{position:absolute;left:5px;top:7px;height:10px;width:0;border-radius:5px;background:#F97316}
+.tabs button[aria-pressed="true"] i{animation:vfill var(--vdur,12s) linear forwards}
 .tabs.paused button i{animation-play-state:paused}
-.tabs.still button i{animation:none;width:0}
-.tabs .lab{color:var(--mist);font-size:14px;margin-left:auto}
-@keyframes vfill{from{width:0}to{width:100%}}
+.tabs.still button[aria-pressed="true"] i{animation:none;width:34px}
+@keyframes vfill{from{width:0}to{width:34px}}
+@media (max-width:560px){.bench{padding-bottom:70px}.reel{padding-bottom:70px}.tabs{left:0;right:0;justify-content:center;bottom:26px}}
 .xp.an{grid-template-columns:repeat(3,1fr)}
 .an a svg{height:150px}
 .an .lv b{font:800 14px 'Bricolage Grotesque',sans-serif;color:#fff;background:#0E162A;border-radius:50%;width:24px;height:24px;display:inline-grid;place-items:center;margin-right:8px}
@@ -248,16 +253,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
         <p id="rdes"></p>
         <a class="btn go go2" id="rgo" href="animations/">Voir l’animation →</a>
       </div>
-    </div>
       <div class="tabs still" id="tabs" role="group" aria-label="Choisir ce que montre la vitrine">
-        <button type="button" data-i="0" aria-pressed="true" aria-label="Simulation du pH">pH<i></i></button>
-        <button type="button" data-i="1" aria-pressed="false" aria-label="Animation 1 : le courant dans un métal">1<i></i></button>
-        <button type="button" data-i="2" aria-pressed="false" aria-label="Animation 2 : le courant dans les solutions ioniques">2<i></i></button>
-        <button type="button" data-i="3" aria-pressed="false" aria-label="Animation 3 : l’atome et sa composition">3<i></i></button>
-        <button type="button" data-i="4" aria-pressed="false" aria-label="Animation 4 : la formation des ions">4<i></i></button>
-        <button type="button" data-i="5" aria-pressed="false" aria-label="Animation 5 : identifier des ions en solution">5<i></i></button>
-        <span class="lab">animations</span>
-      </div>
+        <button type="button" data-i="0" aria-pressed="true" aria-label="Simulation du pH" title="Simulation du pH"><i></i></button>
+        <button type="button" data-i="1" aria-pressed="false" aria-label="Animation 1 : le courant dans un métal" title="Animation 1 : le courant dans un métal"><i></i></button>
+        <button type="button" data-i="2" aria-pressed="false" aria-label="Animation 2 : le courant dans les solutions ioniques" title="Animation 2 : le courant dans les solutions ioniques"><i></i></button>
+        <button type="button" data-i="3" aria-pressed="false" aria-label="Animation 3 : l’atome et sa composition" title="Animation 3 : l’atome et sa composition"><i></i></button>
+        <button type="button" data-i="4" aria-pressed="false" aria-label="Animation 4 : la formation des ions" title="Animation 4 : la formation des ions"><i></i></button>
+        <button type="button" data-i="5" aria-pressed="false" aria-label="Animation 5 : identifier des ions en solution" title="Animation 5 : identifier des ions en solution"><i></i></button>
+              </div>
+    </div>
     </div>
   </div>
 </section>
