@@ -1,0 +1,114 @@
+/* Pages Abonnements et Connexion (aperçu). Réutilise les couleurs de style.css. */
+:root{--amber:#FFB547;--on-amber:#2A1A00;--green:#3DD68C;--violet:#C4B5FD;--card:#121C31;--hero:radial-gradient(circle at 80% 0%,#1d3157 0,#0E1626 55%)}
+:root[data-theme="light"]{--amber:#A35400;--on-amber:#FFFFFF;--green:#127A45;--violet:#6D4FD6;--card:#FFFFFF;--hero:radial-gradient(circle at 80% 0%,#dbe8f7 0,#FFFFFF 60%)}
+html,body{height:auto}
+body{background:var(--bg);overflow-x:hidden}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.preview{background:var(--amber);color:var(--on-amber);text-align:center;font-weight:700;font-size:14px;padding:8px 16px;line-height:1.35}
+.nav{display:flex;align-items:center;gap:10px;padding:14px 0;flex-wrap:wrap}
+.nav .brand{font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none;margin-right:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:24px;border:1.5px solid var(--line);background:transparent;color:var(--text);font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer;touch-action:manipulation}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.btn.amber{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn.sm{min-height:42px;padding:0 16px;font-size:15px}
+.btn.block{width:100%}
+
+/* Accueil abonnements */
+.hero{background:var(--hero);border-bottom:1px solid var(--line3)}
+.hero .in{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center;padding:36px 0 48px}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.hero h1{font:800 clamp(34px,5.4vw,58px)/1.03 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:12px 0 16px}
+.hero p.lead{font-size:clamp(17px,2vw,20px);line-height:1.5;color:var(--soft);margin:0 0 24px;max-width:560px}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap}
+.proof{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:15px}
+.proof b{color:var(--text)}
+.phone{justify-self:center;width:min(300px,100%);aspect-ratio:9/17;border-radius:34px;border:10px solid #1b2740;background:var(--card);box-shadow:0 30px 70px rgba(0,0,0,.35);padding:16px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.phone .pt{font:800 15px 'Bricolage Grotesque',sans-serif}
+.phone .row{display:flex;align-items:center;gap:10px;background:var(--panel);border-radius:14px;padding:10px}
+.phone .ic{width:34px;height:34px;border-radius:10px;flex-shrink:0}
+.phone .row div{font-size:13px;line-height:1.3;color:var(--soft)}
+.phone .row b{display:block;color:var(--text);font-size:14px}
+.phone .bar{height:8px;border-radius:4px;background:var(--line3);overflow:hidden}
+.phone .bar i{display:block;height:100%;background:var(--green)}
+section.blk{padding:52px 0}
+section.blk h2{font:800 clamp(26px,3.6vw,38px)/1.1 'Bricolage Grotesque',sans-serif;margin:0 0 10px;letter-spacing:-.01em}
+section.blk p.sub{color:var(--soft);font-size:17px;line-height:1.5;margin:0 0 28px;max-width:720px}
+.period{display:inline-flex;border:1.5px solid var(--line);border-radius:26px;padding:4px;gap:4px;margin-bottom:24px;flex-wrap:wrap}
+.period button{min-height:42px;padding:0 16px;border-radius:21px;border:none;background:transparent;color:var(--soft);font:700 15px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
+.period button[aria-pressed="true"]{background:var(--blue);color:var(--on-blue)}
+.period .save{font-size:12px;opacity:.85;margin-left:4px}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.plan{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:22px 20px;display:flex;flex-direction:column;gap:12px;position:relative}
+.plan.best{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+.plan .flag{position:absolute;top:-13px;left:20px;background:var(--amber);color:var(--on-amber);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:12px;padding:3px 10px}
+.plan h3{font:800 22px 'Bricolage Grotesque',sans-serif;margin:0}
+.plan .who{color:var(--muted);font-size:15px;margin:-6px 0 0}
+.plan .price{font:800 34px 'Bricolage Grotesque',sans-serif;line-height:1}
+.plan .price small{font:700 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)}
+.plan .eq{font-size:14px;color:var(--muted);min-height:20px}
+.plan ul{list-style:none;padding:0;margin:4px 0 8px;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.35;color:var(--soft)}
+.plan li{padding-left:24px;position:relative}
+.plan li::before{content:"";position:absolute;left:2px;top:5px;width:12px;height:7px;border-left:2.5px solid var(--green);border-bottom:2.5px solid var(--green);transform:rotate(-45deg)}
+.plan li.no{color:var(--muted)}
+.plan li.no::before{border:none;width:12px;height:2.5px;background:var(--muted);top:9px;transform:none}
+.plan .btn{margin-top:auto}
+.pay{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;align-items:center;color:var(--muted);font-size:15px}
+.pay span.m{border:1.5px solid var(--line);border-radius:12px;padding:6px 12px;color:var(--text);font-weight:700}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.steps3 div{background:var(--panel);border-radius:18px;padding:20px;counter-increment:s}
+.steps3 div::before{content:counter(s);display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:var(--on-blue);font-weight:800;margin-bottom:10px}
+.steps3 h3{margin:0 0 6px;font:800 19px 'Bricolage Grotesque',sans-serif}
+.steps3 p{margin:0;color:var(--soft);line-height:1.45}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feat div{border:1.5px solid var(--line3);border-radius:18px;padding:18px}
+.feat h3{margin:0 0 6px;font:800 18px 'Bricolage Grotesque',sans-serif}
+.feat p{margin:0;color:var(--soft);line-height:1.45;font-size:15px}
+.faq details{border-bottom:1px solid var(--line3);padding:14px 0}
+.faq summary{cursor:pointer;font-weight:700;font-size:17px;list-style-position:outside}
+.faq p{color:var(--soft);line-height:1.5;margin:10px 0 0}
+.foot{border-top:1px solid var(--line3);padding:24px 0 40px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 22px}
+.foot a{color:inherit}
+
+/* Connexion */
+.auth{min-height:calc(100vh - 40px);display:grid;grid-template-columns:1fr 1fr}
+.auth .side{background:var(--hero);border-right:1px solid var(--line3);padding:28px 40px;display:flex;flex-direction:column;gap:18px}
+.auth .side h1{font:800 clamp(30px,4vw,44px)/1.05 'Bricolage Grotesque',sans-serif;margin:24px 0 0;letter-spacing:-.02em}
+.auth .side p{color:var(--soft);font-size:18px;line-height:1.5;margin:0}
+.auth .side ul{margin:0;padding-left:20px;color:var(--soft);line-height:1.7}
+.auth .main{display:flex;align-items:flex-start;justify-content:center;padding:40px 16px}
+.box{width:100%;max-width:440px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border:1.5px solid var(--line);border-radius:26px;padding:4px;margin-bottom:22px}
+.tabs button{min-height:44px;border-radius:22px;border:none;background:transparent;color:var(--soft);font:700 15px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--blue);color:var(--on-blue)}
+.box h2{font:800 28px 'Bricolage Grotesque',sans-serif;margin:0 0 6px}
+.box .hint{color:var(--muted);margin:0 0 20px;line-height:1.45}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-weight:700;font-size:15px}
+.field .in{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.field .in:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(92,200,255,.25)}
+.field .pre{padding:0 12px;color:var(--muted);font-weight:700;border-right:1.5px solid var(--line);align-self:stretch;display:flex;align-items:center}
+.field input,.field select{flex:1;min-width:0;height:50px;border:none;background:transparent;color:var(--text);font:400 18px 'Atkinson Hyperlegible',sans-serif;padding:0 12px;outline:none}
+.field input.code{letter-spacing:.3em;font-weight:700;text-transform:uppercase}
+.field .err{color:#FF8F8F;font-size:14px;min-height:0}
+:root[data-theme="light"] .field .err{color:#B42318}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;color:var(--soft);margin:4px 0 18px}
+.check input{width:20px;height:20px;margin-top:1px;accent-color:var(--blue);flex-shrink:0}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;margin:18px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line3)}
+.note{background:var(--panel);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.45;color:var(--soft);margin-top:18px}
+.msg{margin-top:14px;font-weight:700;line-height:1.4}
+.pane[hidden],.field[hidden],.note[hidden]{display:none}
+.small{font-size:14px;color:var(--muted)}
+.small a{color:var(--blue)}
+
+@media (max-width:980px){.plans{grid-template-columns:1fr 1fr}.hero .in{grid-template-columns:1fr}.phone{display:none}.feat{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.auth{grid-template-columns:1fr}.auth .side{border-right:none;border-bottom:1px solid var(--line3);padding:20px 16px}.auth .side ul,.auth .side .hideM{display:none}.auth .side h1{margin-top:8px}}
+@media (max-width:620px){.plans,.steps3,.feat{grid-template-columns:1fr}section.blk{padding:38px 0}.nav .btn.hideS{display:none}}
+
+/* Connexion avec un compte existant (les logos officiels des fournisseurs seront intégrés au branchement) */
+.social{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.sbtn{display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--text);font:700 15px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;text-align:left}
+.sbtn:hover{border-color:var(--blue)}
+.sbtn .si{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--panel);font:800 15px 'Bricolage Grotesque',sans-serif;flex-shrink:0}
+@media (max-width:420px){.social{grid-template-columns:1fr}}

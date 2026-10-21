@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Connexion · NOHOBA-Lab</title>
+<meta name="description" content="Connexion des élèves, enseignants et établissements à NOHOBA-Lab.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/abo.css">
+<script defer src="../assets/compte.js"></script>
+</head>
+<body>
+<div class="preview" role="note">Accès 100 % gratuit jusqu’au 31 décembre 2026 : un compte n’est pas nécessaire. Il sert à garder votre progression et à rejoindre une classe.</div>
+<div class="auth">
+  <aside class="side">
+    <a class="brand" href="../" style="font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none"><img src="../assets/brand/nohoba-icon.svg" alt="" width="30" height="30" style="vertical-align:-8px;margin-right:8px;border-radius:8px">NOHOBA<span style="color:var(--amber)">-Lab</span></a>
+    <h1 id="sideT">Content de vous revoir.</h1>
+    <p id="sideP">Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.</p>
+    <ul>
+      <li>53 leçons de la 6e à la 3e</li>
+      <li>Simulations, défis et quiz</li>
+      <li>Disponible hors connexion</li>
+    </ul>
+    <div class="note" id="offerBox" hidden></div>
+  </aside>
+
+  <main class="main">
+    <div class="box">
+      <p class="msg" id="mTop" role="status" aria-live="polite"></p>
+
+      <!-- Visiteur : connexion -->
+      <section id="vLogin">
+        <h2>Se connecter ou créer un compte</h2>
+        <div id="socialRow" hidden>
+          <p class="small" style="margin:0 0 8px;font-weight:700;color:var(--text)">Continuer avec</p>
+          <div class="social" role="group" aria-label="Continuer avec un compte existant" id="social"></div>
+          <div class="or">ou avec un numéro de téléphone</div>
+        </div>
+        <form id="fTel" novalidate>
+          <p class="hint">Un code à 6 chiffres vous est envoyé par SMS. Élève : vous pouvez utiliser le numéro d’un parent.</p>
+          <div class="field">
+            <label for="tel">Numéro de téléphone</label>
+            <div class="in"><select id="ind" aria-label="Indicatif du pays" style="border:none;background:transparent;color:inherit;font:inherit"><option value="225">+225</option><option value="33">+33</option></select><input id="tel" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="07 00 00 00 00" maxlength="14" aria-describedby="errTel"></div>
+            <div class="err" id="errTel" aria-live="polite"></div>
+          </div>
+          <div class="field" id="otpRow" hidden>
+            <label for="otp">Code reçu par SMS</label>
+            <div class="in"><input id="otp" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••" aria-describedby="errOtp"></div>
+            <div class="err" id="errOtp" aria-live="polite"></div>
+          </div>
+          <button class="btn primary block" type="submit" id="bTel">Recevoir mon code par SMS</button>
+          <p class="msg" id="mTel" role="status" aria-live="polite"></p>
+        </form>
+        <p class="small" style="margin-top:18px">Pas encore de pass ? <a href="../abonnement/#offres">Voir les offres</a> · <a href="../3e/">Essayer sans compte</a></p>
+      </section>
+
+      <!-- Connecté : profil, classe -->
+      <section id="vCompte" hidden>
+        <h2 id="hello">Mon compte</h2>
+        <form id="fProfil" novalidate hidden>
+          <p class="hint">Dites-nous qui vous êtes. On ne demande que le prénom et la classe.</p>
+          <fieldset style="border:none;padding:0;margin:0 0 12px"><legend class="small" style="font-weight:700;color:var(--text)">Je suis</legend>
+            <label class="check"><input type="radio" name="role" value="eleve" checked> Élève</label>
+            <label class="check"><input type="radio" name="role" value="enseignant"> Enseignant</label>
+          </fieldset>
+          <div class="field"><label for="prenom">Prénom</label><div class="in"><input id="prenom" autocomplete="given-name" maxlength="30" placeholder="Prénom seulement"></div></div>
+          <div class="field" id="rowCl"><label for="niv">Ma classe</label><div class="in"><select id="niv"><option value="">— choisir —</option><option>6e</option><option>5e</option><option>4e</option><option>3e</option></select></div></div>
+          <button class="btn primary block" type="submit">Enregistrer</button>
+          <p class="msg" id="mProfil" role="status" aria-live="polite"></p>
+        </form>
+
+        <div id="vEleve" hidden>
+          <p id="resume" class="hint"></p>
+          <form id="fClasse" novalidate>
+            <div class="field">
+              <label for="codeC">J’ai un code classe (donné par mon professeur)</label>
+              <div class="in"><input id="codeC" class="code" autocomplete="off" placeholder="K7M-4PX" maxlength="8" aria-describedby="errC"></div>
+              <div class="err" id="errC" aria-live="polite"></div>
+            </div>
+            <button class="btn block" type="submit">Rejoindre ma classe</button>
+            <p class="msg" id="mClasse" role="status" aria-live="polite"></p>
+          </form>
+          <ul id="mesClasses" class="small"></ul>
+        </div>
+
+        <div id="vProf" hidden>
+          <p id="resumeP" class="hint"></p>
+          <form id="fNewClasse" novalidate>
+            <div class="field"><label for="nomC">Créer une classe</label><div class="in"><input id="nomC" maxlength="60" placeholder="ex. 5e B"></div></div>
+            <div class="field"><label for="nivC">Niveau</label><div class="in"><select id="nivC"><option>6e</option><option selected>5e</option><option>4e</option><option>3e</option></select></div></div>
+            <button class="btn block" type="submit">Créer la classe et son code</button>
+            <p class="msg" id="mNew" role="status" aria-live="polite"></p>
+          </form>
+          <ul id="lesClasses" class="small"></ul>
+        </div>
+
+        <div class="or">Mon compte</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" type="button" id="bOut">Me déconnecter</button>
+          <button class="btn" type="button" id="bDel">Supprimer mon compte</button>
+        </div>
+        <p class="msg" id="mDel" role="status" aria-live="polite"></p>
+      </section>
+
+      <div class="note"><b>Établissements :</b> un collège passe par le compte de ses enseignants ; le pass établissement est proposé sur devis (voir les offres).<br>Mineurs : Google, Facebook et X exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe.</div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i);}, C=null;
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function show(id,on){$(id).hidden=!on;}
+  function say(id,m){$(id).textContent=m||'';}
+  var NOM={google:'Google',facebook:'Facebook',twitter:'X'};
+  var SIDE={eleve:['Content de vous revoir.','Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.'],prof:['Votre classe vous attend.','Mode enseignant, défis en équipes, fiches et corrigés : tout est prêt pour la séance.']};
+  var q=new URLSearchParams(location.search),o=q.get('offre'),du=q.get('duree')||'an';
+  var NOMP={eleve:'Pass Élève',prof:'Pass Enseignant',ecole:'Établissement'},DUR={mois:'1 mois',trim:'1 trimestre',an:'année scolaire'};
+  var PX={eleve:{mois:'1 000 F',trim:'2 500 F',an:'6 000 F'},prof:{mois:'2 500 F',trim:'6 000 F',an:'15 000 F'}};
+  if(o&&NOMP[o]){var box=$('offerBox');box.hidden=false;box.innerHTML=o==='ecole'?'<b>Offre choisie :</b> Établissement, sur devis.':'<b>Offre choisie :</b> '+NOMP[o]+', '+DUR[du]+' : <b>'+(PX[o]&&PX[o][du]||'')+'</b>. Le paiement Mobile Money n’est pas encore ouvert : tout reste gratuit jusqu’au 31 décembre 2026.';}
+  if(q.get('error'))say('mTop','La connexion n’a pas abouti. Réessayez, ou utilisez votre numéro de téléphone.');
+
+  function telOk(ind,v){v=v.replace(/\D/g,'').replace(/^0/,ind==='33'?'':'0');
+    if(ind==='225'){v=v.replace(/^225/,'');return /^(01|05|07)\d{8}$/.test(v)?'+225'+v:null;}
+    return /^[67]\d{8}$/.test(v)?'+33'+v:null;}
+  var tel=$('tel');tel.addEventListener('input',function(){var d=tel.value.replace(/\D/g,'').slice(0,10);tel.value=d.replace(/(\d{2})(?=\d)/g,'$1 ');});
+  var numero=null;
+
+  function ready(){
+    C=window.NLCompte;
+    if(!C){say('mTop','Le service de comptes est momentanément indisponible. Le site reste utilisable sans compte.');return;}
+    C.providers().then(function(p){
+      var ks=Object.keys(NOM).filter(function(k){return p.providers&&p.providers[k];});
+      if(ks.length){show('socialRow',true);$('social').innerHTML=ks.map(function(k){return '<button type="button" class="sbtn" data-p="'+k+'"><span class="si" aria-hidden="true">'+NOM[k].charAt(0)+'</span>'+NOM[k]+'</button>';}).join('');
+        document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){say('mTop','Redirection vers '+NOM[b.dataset.p]+'…');
+          C.req('/api/auth/sign-in/social',{method:'POST',body:{provider:b.dataset.p,callbackURL:location.origin+'/connexion/'}}).then(function(r){C.marquer();if(r&&r.url)location.href=r.url;else say('mTop','Connexion indisponible pour le moment.');}).catch(function(e){say('mTop',e.message);});};});}
+    }).catch(function(){say('mTop','Le service de comptes n’est pas joignable pour le moment. Le site reste utilisable sans compte.');});
+    if(C.connecte())C.me().then(compte).catch(function(e){if(e.status===401)localStorage.removeItem('nl-compte');});
+  }
+
+  // --- Téléphone : envoi puis vérification du code ---
+  $('fTel').onsubmit=function(e){e.preventDefault();
+    if(!C)return;var n=telOk($('ind').value,tel.value);say('errTel',n?'':($('ind').value==='225'?'Entrez un numéro mobile à 10 chiffres (01, 05 ou 07), par exemple 07 12 34 56 78.':'Entrez un mobile français à 9 chiffres, par exemple 6 12 34 56 78.'));
+    if(!n){tel.focus();return;}
+    if($('otpRow').hidden){
+      $('bTel').disabled=true;
+      C.req('/api/auth/phone-number/send-otp',{method:'POST',body:{phoneNumber:n}}).then(function(){numero=n;show('otpRow',true);$('bTel').textContent='Me connecter';say('mTel','Un code à 6 chiffres vient d’être envoyé au '+n+'. Il est valable 5 minutes.');$('otp').focus();})
+        .catch(function(er){say('mTel',er.status===429?'Trop de demandes : attendez une minute.':'Le SMS n’a pas pu être envoyé. Vérifiez le numéro et réessayez.');}).then(function(){$('bTel').disabled=false;});
+      return;}
+    var c=$('otp').value.replace(/\D/g,'');say('errOtp',c.length===6?'':'Le code contient 6 chiffres.');if(c.length!==6)return;
+    $('bTel').disabled=true;
+    C.req('/api/auth/phone-number/verify',{method:'POST',body:{phoneNumber:numero||n,code:c}}).then(function(){C.marquer();return C.me();}).then(function(m){say('mTel','');compte(m);})
+      .catch(function(er){say('errOtp','Code incorrect ou expiré. Après 3 essais, demandez un nouveau code.');}).then(function(){$('bTel').disabled=false;});
+  };
+
+  // --- Compte ---
+  var ME=null;
+  function compte(m){
+    ME=m;show('vLogin',false);show('vCompte',true);
+    var nom=(m.profile&&m.profile.display_name)||(m.user&&m.user.name)||'';
+    $('hello').textContent=nom&&!/^Élève \d+$/.test(nom)?'Bonjour '+nom:'Mon compte';
+    var p=m.profile||{};
+    if(!p.role){show('fProfil',true);show('vEleve',false);show('vProf',false);return;}
+    show('fProfil',false);
+    if(p.role==='eleve'){show('vEleve',true);show('vProf',false);$('resume').textContent='Compte élève'+(p.classe?' · '+p.classe:'')+'.';listeEleve();}
+    else{show('vEleve',false);show('vProf',true);$('resumeP').textContent='Compte enseignant. Créez une classe : vos élèves la rejoignent avec son code.';listeProf();}
+    $('sideT').textContent=SIDE[p.role==='eleve'?'eleve':'prof'][0];$('sideP').textContent=SIDE[p.role==='eleve'?'eleve':'prof'][1];
+    if(m.access&&m.access.level==='gratuit')say('mTop','Tout le site est gratuit jusqu’au 31 décembre 2026.');
+  }
+  var rowCl=$('rowCl');document.querySelectorAll('input[name=role]').forEach(function(r){r.onchange=function(){rowCl.hidden=document.querySelector('input[name=role]:checked').value!=='eleve';};});
+  $('fProfil').onsubmit=function(e){e.preventDefault();var role=document.querySelector('input[name=role]:checked').value,niv=$('niv').value,pre=$('prenom').value.trim();
+    if(role==='eleve'&&!niv){say('mProfil','Choisissez votre classe.');return;}
+    C.req('/api/me/profile',{method:'POST',body:{role:role,classe:role==='eleve'?niv:null,displayName:pre||null}}).then(function(){return C.me();}).then(compte).catch(function(er){say('mProfil',er.message);});};
+
+  function listeEleve(){C.req('/api/classes').then(function(r){$('mesClasses').innerHTML=r.joined.map(function(c){return '<li>Classe rejointe : <b>'+esc(c.name)+'</b> ('+esc(c.level)+')</li>';}).join('');}).catch(function(){});}
+  $('fClasse').onsubmit=function(e){e.preventDefault();var c=$('codeC').value.trim().toUpperCase();var ok=/^[0-9A-Z]{3}-?[0-9A-Z]{3}$/.test(c);say('errC',ok?'':'Le code classe ressemble à K7M-4PX.');if(!ok)return;
+    C.req('/api/classes/join',{method:'POST',body:{code:c}}).then(function(r){say('mClasse','Vous avez rejoint la classe '+r.class.name+'.');$('codeC').value='';listeEleve();}).catch(function(er){say('mClasse',er.status===404?'Ce code de classe n’existe pas.':er.message);});};
+
+  function listeProf(){C.req('/api/classes').then(function(r){$('lesClasses').innerHTML=r.owned.map(function(c){return '<li><b>'+esc(c.name)+'</b> ('+esc(c.level)+') · code <b style="letter-spacing:.08em">'+esc(c.code)+'</b> · '+c.students+' élève'+(c.students>1?'s':'')+'</li>';}).join('');}).catch(function(){});}
+  $('fNewClasse').onsubmit=function(e){e.preventDefault();var n=$('nomC').value.trim();if(!n){say('mNew','Donnez un nom à la classe.');return;}
+    C.req('/api/classes',{method:'POST',body:{name:n,level:$('nivC').value}}).then(function(r){say('mNew','Classe créée. Code à donner à vos élèves : '+r.class.code);$('nomC').value='';listeProf();}).catch(function(er){say('mNew',er.message);});};
+
+  $('bOut').onclick=function(){C.signOut().then(function(){location.href='../';}).catch(function(er){say('mDel',er.message);});};
+  var armed=false;$('bDel').onclick=function(){
+    if(!armed){armed=true;$('bDel').textContent='Confirmer la suppression définitive';say('mDel','Cette action efface votre compte, votre progression et vos classes. Elle est irréversible. Cliquez à nouveau pour confirmer.');return;}
+    C.req('/api/me',{method:'DELETE'}).then(function(){return C.signOut().catch(function(){});}).then(function(){location.href='../';}).catch(function(er){say('mDel',er.message);});};
+
+  if(document.readyState==='complete'||window.NLCompte)ready();else window.addEventListener('load',ready);
+})();
+</script>
+</body>
+</html>

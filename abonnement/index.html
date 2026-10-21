@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
+<title>Abonnements · NOHOBA-Lab</title>
+<meta name="description" content="Abonnements élève, enseignant et établissement : toute la physique-chimie du collège, de la 6e au BEPC, en simulations, défis et quiz. Paiement Mobile Money.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/abo.css">
+</head>
+<body>
+<div class="preview" role="note">Accès 100 % gratuit jusqu’au 31 décembre 2026 · Aperçu : prix proposés, paiement pas encore actif.</div>
+
+<header class="hero">
+  <div class="wrap">
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="brand" href="../"><img src="../assets/brand/nohoba-icon.svg" alt="" width="30" height="30" style="vertical-align:-8px;margin-right:8px;border-radius:8px">NOHOBA<span style="color:var(--amber)">-Lab</span></a>
+      <a class="btn sm hideS" href="#offres">Offres</a>
+      <button class="btn sm" type="button" id="themeBtn" aria-label="Changer de thème">Thème</button>
+      <a class="btn sm primary" href="../connexion/">Se connecter</a>
+    </nav>
+    <div class="in">
+      <div>
+        <div class="eyebrow">NOHOBA-Lab · Simulations d’expériences · Collège</div>
+        <h1>La physique-chimie qu’on comprend en la manipulant.</h1>
+        <p class="lead">53 leçons de la 6e à la 3e, chacune avec un résumé vidéo d’une minute, une simulation à manipuler, un défi chronométré et un quiz. Sur téléphone, à la maison, ou projeté en classe.</p>
+        <div class="ctas">
+          <a class="btn amber" href="../3e/">Tout essayer gratuitement</a>
+          <a class="btn" href="#offres">Offres à partir de janvier</a>
+        </div>
+        <div class="proof"><span><b>53</b> leçons</span><span><b>26</b> simulations</span><span>Fonctionne <b>hors ligne</b></span><span>Paiement <b>Mobile Money</b></span></div>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="pt">Ma progression · 3e</div>
+        <div class="row"><span class="ic" style="background:#5CC8FF"></span><div><b>Loi d’Ohm</b>Simulation terminée</div></div>
+        <div class="row"><span class="ic" style="background:#FFC773"></span><div><b>Électrolyse de l’eau</b>Quiz 9/10</div></div>
+        <div class="row"><span class="ic" style="background:#7dd3a8"></span><div><b>Les alcanes</b>Défi : 2e place</div></div>
+        <div class="pt" style="margin-top:6px">Objectif BEPC</div>
+        <div class="bar"><i style="width:62%"></i></div>
+        <div style="font-size:13px;color:var(--muted)">9 leçons sur 14 maîtrisées</div>
+        <div class="row"><span class="ic" style="background:#C4B5FD"></span><div><b>Sujet type BEPC</b>Physique-chimie · 1 h</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="blk" id="offres" aria-labelledby="tOffres">
+  <div class="wrap">
+    <h2 id="tOffres">Choisissez votre accès</h2>
+    <p class="sub"><b>Jusqu’au 31 décembre 2026, tout est gratuit.</b> À partir de janvier, juste à temps pour préparer le BEPC, les pass prennent le relais. Pas de renouvellement automatique : vous payez un pass, comme un forfait internet.</p>
+    <div class="period" role="group" aria-label="Durée du pass">
+      <button type="button" data-p="mois" aria-pressed="false">1 mois</button>
+      <button type="button" data-p="trim" aria-pressed="false">1 trimestre</button>
+      <button type="button" data-p="an" aria-pressed="true">Année scolaire <span class="save">la plus avantageuse</span></button>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Découverte</h3>
+        <p class="who">Pour essayer</p>
+        <div class="price">0 F</div>
+        <div class="eq">Sans inscription</div>
+        <ul>
+          <li>Tous les résumés vidéo narrés</li>
+          <li>Les quiz de chaque leçon</li>
+          <li class="no">Simulations et défis</li>
+          <li class="no">Fiches et corrigés</li>
+        </ul>
+        <a class="btn block" href="../3e/">Commencer</a>
+      </article>
+      <article class="plan best">
+        <span class="flag">Élèves · BEPC</span>
+        <h3>Élève</h3>
+        <p class="who">Pour réviser à la maison</p>
+        <div class="price" data-plan="eleve"></div>
+        <div class="eq" data-eq="eleve"></div>
+        <ul>
+          <li>Les 53 leçons de la 6e à la 3e</li>
+          <li>Toutes les simulations et défis</li>
+          <li>Fiches de révision et corrigés</li>
+          <li>Sujets types BEPC corrigés</li>
+          <li>Suivi de progression, hors ligne</li>
+        </ul>
+        <a class="btn amber block" data-go="eleve" href="../connexion/?offre=eleve">Choisir le pass Élève</a>
+      </article>
+      <article class="plan">
+        <h3>Enseignant</h3>
+        <p class="who">Pour projeter en classe</p>
+        <div class="price" data-plan="prof"></div>
+        <div class="eq" data-eq="prof"></div>
+        <ul>
+          <li>Tout le pass Élève</li>
+          <li>Mode enseignant et outils de projection</li>
+          <li>Défis en équipes pour toute la classe</li>
+          <li>Fiches élèves et corrigés professeur</li>
+          <li>Un code classe pour vos élèves</li>
+        </ul>
+        <a class="btn primary block" data-go="prof" href="../connexion/?offre=prof">Pass Enseignant</a>
+      </article>
+      <article class="plan">
+        <h3>Établissement</h3>
+        <p class="who">Collèges et groupes scolaires</p>
+        <div class="price"><small>à partir de</small><br>150 000 F</div>
+        <div class="eq">par année scolaire, sur facture</div>
+        <ul>
+          <li>Tous les enseignants de physique-chimie</li>
+          <li>Codes d’accès pour toutes les classes</li>
+          <li>Tableau de suivi par classe</li>
+          <li>Paiement Mobile Money, virement ou chèque</li>
+        </ul>
+        <a class="btn block" href="../connexion/?offre=ecole">Demander un devis</a>
+      </article>
+    </div>
+    <div class="pay" aria-label="Moyens de paiement"><span>Payer avec</span><span class="m">Wave</span><span class="m">Orange Money</span><span class="m">MTN MoMo</span><span class="m">Moov Money</span><span class="m">Carte bancaire</span></div>
+  </div>
+</section>
+
+<section class="blk" style="background:var(--app)" aria-labelledby="tComment">
+  <div class="wrap">
+    <h2 id="tComment">Prêt en trois minutes</h2>
+    <p class="sub">Un numéro de téléphone suffit. L’élève peut utiliser celui d’un parent.</p>
+    <div class="steps3">
+      <div><h3>Choisissez un pass</h3><p>Un mois pour essayer, ou l’année scolaire jusqu’au BEPC.</p></div>
+      <div><h3>Payez par Mobile Money</h3><p>Validez le paiement sur votre téléphone, sans carte bancaire.</p></div>
+      <div><h3>Connectez-vous</h3><p>Un code arrive par SMS. Les leçons s’ouvrent, même hors connexion ensuite.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" aria-labelledby="tPourquoi">
+  <div class="wrap">
+    <h2 id="tPourquoi">Pourquoi ça marche</h2>
+    <p class="sub">On retient mieux ce qu’on a manipulé. Chaque leçon suit la même démarche, pensée pour la classe ivoirienne.</p>
+    <div class="feat">
+      <div><h3>Voir avant d’apprendre</h3><p>Un résumé vidéo narré d’une minute pose l’essentiel, avec les mots du programme.</p></div>
+      <div><h3>Manipuler sans laboratoire</h3><p>Circuits, électrolyse, lentilles, pH : l’élève fait l’expérience, mesure et trace la courbe.</p></div>
+      <div><h3>Se tester en équipe</h3><p>Le défi chronométré transforme la révision en jeu, en classe ou entre amis.</p></div>
+      <div><h3>Léger et hors ligne</h3><p>Une fois ouverte, une leçon reste disponible sans connexion : on économise les données.</p></div>
+      <div><h3>Exemples d’ici</h3><p>Francs CFA, bouteille de gaz B12, facture de la CIE, Abidjan : la physique de tous les jours.</p></div>
+      <div><h3>Porté par un scientifique</h3><p>Conçu par un docteur en chimie physique de l’université Paris-Saclay, professeur de physique-chimie.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" aria-labelledby="tMission">
+  <div class="wrap">
+    <h2 id="tMission">Maîtriser la matière, c’est améliorer la vie.</h2>
+    <p class="sub">Dans beaucoup d’établissements, il manque des salles de travaux pratiques. NOHOBA-Lab met le laboratoire dans la poche des élèves et sur le tableau de la classe : on voit, on manipule, on comprend.</p>
+    <p class="sub" style="margin-bottom:0">Le projet est porté par un docteur en chimie physique de l’université Paris-Saclay, professeur de physique-chimie en France et chef de projet en rénovation énergétique. Première phase : le collège, de la 6e au BEPC.</p>
+  </div>
+</section>
+
+<section class="blk" style="background:var(--app)" aria-labelledby="tFaq">
+  <div class="wrap faq">
+    <h2 id="tFaq">Questions fréquentes</h2>
+    <details><summary>C’est vraiment gratuit jusqu’en décembre ?</summary><p>Oui : jusqu’au 31 décembre 2026, toutes les leçons, simulations, défis et quiz sont accessibles sans inscription et sans paiement.</p></details>
+    <details><summary>Le pass se renouvelle-t-il tout seul ?</summary><p>Non. Rien n’est prélevé automatiquement. Un rappel par SMS est envoyé quelques jours avant la fin, et vous choisissez de reprendre un pass ou non.</p></details>
+    <details><summary>Sur combien d’appareils puis-je me connecter ?</summary><p>Proposition : deux appareils par pass Élève (le téléphone de l’élève et celui d’un parent, par exemple), trois pour le pass Enseignant.</p></details>
+    <details><summary>Ça consomme beaucoup de données ?</summary><p>Non : il n’y a pas de vidéo à télécharger, les animations sont dessinées par le téléphone. Une leçon ouverte une fois reste disponible hors connexion.</p></details>
+    <details><summary>Et si je ne suis pas satisfait ?</summary><p>Proposition : remboursement intégral dans les 7 jours suivant le premier achat, sur simple demande.</p></details>
+    <details><summary>Mon enfant a moins de 15 ans, qui crée le compte ?</summary><p>Le parent crée le compte avec son numéro de téléphone et paie le pass. Nous ne demandons que le prénom et la classe de l’élève.</p></details>
+    <details><summary>Le site est-il officiel ?</summary><p>Non. NOHOBA-Lab est une ressource indépendante qui suit le programme du MENA (Côte d’Ivoire), conçue par un docteur en chimie physique, professeur de physique-chimie.</p></details>
+  </div>
+</section>
+</main>
+
+<div class="wrap foot"><a href="../mentions-legales/">Mentions légales</a><a href="../confidentialite/">Confidentialité</a><a href="../credits/">Crédits et licences</a><span>Conditions générales de vente : à rédiger avant l’ouverture des paiements</span></div>
+
+<script>
+(function(){
+  var P={eleve:{mois:1000,trim:2500,an:6000},prof:{mois:2500,trim:6000,an:15000}};
+  var L={mois:'/ mois',trim:'/ trimestre',an:'/ an'};
+  var N={mois:1,trim:3,an:9};
+  function f(n){return n.toLocaleString('fr-FR').replace(/ | /g,' ')+' F';}
+  function set(p){
+    document.querySelectorAll('.period button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.p===p));});
+    Object.keys(P).forEach(function(k){
+      document.querySelector('[data-plan='+k+']').innerHTML=f(P[k][p])+' <small>'+L[p]+'</small>';
+      var per=Math.round(P[k][p]/N[p]/50)*50;
+      document.querySelector('[data-eq='+k+']').textContent=p==='mois'?'Sans engagement':(p==='an'?'Année scolaire, ':'')+'soit environ '+f(per)+' par mois';
+      document.querySelector('[data-go='+k+']').href='../connexion/?offre='+k+'&duree='+p;
+    });
+    try{localStorage.setItem('pc-abo-duree',p);}catch(e){}
+  }
+  document.querySelectorAll('.period button').forEach(function(b){b.onclick=function(){set(b.dataset.p);};});
+  var d='an';try{d=localStorage.getItem('pc-abo-duree')||'an';}catch(e){}
+  set(P.eleve[d]?d:'an');
+  document.getElementById('themeBtn').onclick=function(){var t=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('pc-theme',t);}catch(e){}};
+})();
+</script>
+</body>
+</html>

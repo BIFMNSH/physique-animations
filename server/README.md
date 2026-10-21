@@ -69,5 +69,10 @@ Compte marchand CinetPay (justificatif d'activité demandé), puis `CINETPAY_API
 - Mettre à jour `/confidentialite/` : comptes, téléphone, e-mail, fournisseurs de connexion, CinetPay, Africa's Talking.
 - Élèves mineurs : prévoir le consentement d'un parent ou de l'établissement.
 
-## Branchement du site (étape suivante)
-Le site ne parle pas encore au serveur. Il faudra : autoriser `https://api.lab.nohaba.com` dans `connect-src` de `vercel.json`, publier `/connexion/` et `/abonnement/` (aujourd'hui sur la branche `abonnements`) en les reliant à ces routes, et synchroniser `pc-studio-prog` avec `/api/progress`.
+## Branchement du site (fait côté front)
+- `assets/compte.js` : client du serveur (`api.lab.nohaba.com` ; en local `localhost:3000`). Il n'appelle le serveur que si le visiteur s'est déjà connecté : un visiteur anonyme ne déclenche aucune requête.
+- `/connexion/` : Google, Facebook, X (boutons affichés selon `/api/providers`), code SMS (+225 mobiles 01/05/07 et +33 6/7), profil (élève ou enseignant, prénom, classe), code classe pour l'élève, création de classes pour l'enseignant, déconnexion, suppression du compte.
+- `/abonnement/` : offres et prix (le paiement n'est pas ouvert : `PAY_MODE=off`).
+- `vercel.json` : `connect-src` autorise `https://api.lab.nohaba.com`.
+- Testé en local avec Postgres : parcours enseignant et élève complets (SMS, profil, classe, suppression), sans erreur JS, accessibilité WCAG A/AA sur mobile.
+- **Reste à faire** : brancher les corrigés (`/api/activites/:id/corrige`), le paiement CinetPay (`/api/pay/init`), la synchronisation de la progression (`/api/progress`) et le formulaire de devis établissement (pas de point d'accès côté serveur).

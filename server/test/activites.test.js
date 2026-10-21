@@ -43,7 +43,7 @@ test('pass enseignant tous thèmes : corrigé servi, jamais en cache ; thème no
   const r = await p.call('/api/activites/NL-C4-D06/corrige'); assert.equal(r.status, 200);
   assert.match(r.headers.get('cache-control'), /no-store/);
   const c = await j(r); assert.equal(c.id, 'NL-C4-D06'); assert.ok(c.prof.reference.includes('0,64 m'));
-  assert.equal((await p.call('/api/activites/NL-C4-B03/corrige')).status, 404); // activité sans corrigé exporté
+  assert.equal((await p.call('/api/activites/NL-C4-A03/corrige')).status, 404); // activité sans corrigé exporté (encore en conception)
   const p2 = await user(4, 'enseignant'); await pass(p2.id, 'prof', 'B');
   assert.equal((await p2.call('/api/activites/NL-C4-B02/corrige')).status, 200);
   assert.equal((await p2.call('/api/activites/NL-C4-D06/corrige')).status, 402);

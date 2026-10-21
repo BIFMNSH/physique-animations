@@ -189,6 +189,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
     <a class="logo" href="./" aria-label="NOHOBA-Lab, accueil"><img class="mark" src="assets/brand/nohoba-icon.svg" alt="" width="34" height="34"><b>NOHOBA<span>-Lab</span></b></a>
     <nav aria-label="Sections"><a href="#experiences">Expériences</a><a href="#pour-qui">Pour qui</a><a href="lecons/">Leçons</a><a href="simulateur/">Simulateur</a><a href="bepc/">BEPC</a></nav>
     <button type="button" class="tsw" id="tsw" role="switch" aria-checked="true" aria-label="Mode sombre"><span class="lbl" aria-hidden="true">Mode sombre</span><span class="trk" aria-hidden="true"><span class="st on">ON</span><span class="st off">OFF</span></span></button>
+    <a class="btn sm" href="connexion/" data-compte>Se connecter</a>
     <a class="btn sm go hideS" href="#niveaux">Commencer</a>
   </div>
 </header>
@@ -452,5 +453,6 @@ if(save){try{localStorage.setItem('pc-theme',t);}catch(e){}}window.dispatchEvent
 apply(r.getAttribute('data-theme')==='light'?'light':'dark',false);
 b.addEventListener('click',function(){apply(r.getAttribute('data-theme')==='light'?'dark':'light',true);});})();</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});</script>
+<script defer src="assets/compte.js"></script>
 </body>
 </html>
