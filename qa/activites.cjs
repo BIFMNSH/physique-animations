@@ -3,7 +3,7 @@ const fs = require('fs'), vm = require('vm'), path = require('path'), assert = r
 const root = path.join(__dirname, '..');
 const ctx = { window: {}, Activite: { h() {}, $() {}, esc: s => s, num: x => Number(x).toFixed(1).replace('.', ',') } }; vm.createContext(ctx);
 const run = f => vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8'), ctx);
-run('assets/activites/catalogue.js'); run('assets/activites/programme.js'); run('assets/activites/pedagogie-catalogue.js'); run('assets/activites/fiches/NL-C4-A04.js'); run('assets/activites/fiches/NL-C4-B02.js'); run('assets/activites/fiches/NL-C4-C06.js'); run('assets/activites/fiches/NL-C4-D06.js'); ['A02','C03','D05','C08','B01','B03','B04','B05'].forEach(i => run('assets/activites/fiches/NL-C4-' + i + '.js'));
+run('assets/activites/catalogue.js'); run('assets/activites/programme.js'); run('assets/activites/pedagogie-catalogue.js'); run('assets/activites/fiches/NL-C4-A04.js'); run('assets/activites/fiches/NL-C4-B02.js'); run('assets/activites/fiches/NL-C4-C06.js'); run('assets/activites/fiches/NL-C4-D06.js'); ['A01','C01','D01','D02','A02','C03','D05','C08','B01','B03','B04','B05'].forEach(i => run('assets/activites/fiches/NL-C4-' + i + '.js'));
 const A = ctx.window.ACTIVITES; let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; };
 ok(A.length === 48, '48 activités');
 ok(new Set(A.map(a => a.id)).size === 48, 'identifiants uniques');
@@ -12,7 +12,7 @@ ok(cnt.socle === 32 && cnt.appui === 5 && cnt.reconcevoir === 1 && cnt.creer ===
 A.forEach(a => { ok(/^NL-C4-[A-D]\d\d$/.test(a.id) && a.id[6] === a.theme, a.id + ' thème'); ok(['5e', '4e', '3e'].includes(a.niveau), a.id + ' niveau'); ok(a.objectif.length > 10, a.id + ' objectif'); });
 const sims = new Set(fs.readdirSync(path.join(root, 'assets/sim')).map(f => f.replace(/\.js$/, ''))), les = new Set(fs.readdirSync(path.join(root, 'assets/studio/lecons')).map(f => f.replace(/\.js$/, '')));
 A.forEach(a => a.ressources.forEach(r => { const [k, v] = r.split(':'); if (k === 'simulation') ok(sims.has(v), r); else if (k === 'lecon') ok(les.has(v), r); else ok(fs.existsSync(path.join(root, v)), r); }));
-ok(A.filter(a => a.statut === 'disponible').map(a => a.id).join() === 'NL-C4-A02,NL-C4-A04,NL-C4-B01,NL-C4-B02,NL-C4-B03,NL-C4-B04,NL-C4-B05,NL-C4-C03,NL-C4-C06,NL-C4-C08,NL-C4-D05,NL-C4-D06', 'douze activités disponibles');
+ok(A.filter(a => a.statut === 'disponible').map(a => a.id).join() === 'NL-C4-A01,NL-C4-A02,NL-C4-A04,NL-C4-B01,NL-C4-B02,NL-C4-B03,NL-C4-B04,NL-C4-B05,NL-C4-C01,NL-C4-C03,NL-C4-C06,NL-C4-C08,NL-C4-D01,NL-C4-D02,NL-C4-D05,NL-C4-D06', 'seize activités disponibles');
 // modèle A04 : la masse d'un système fermé ne change pas, 1 à 10 g
 const F = ctx.window.FICHE_A04;
 for (let s = F.sucreMin; s <= F.sucreMax; s++) { const e = F.essai(s); ok(e.avant === e.apres, 'masse égale pour ' + s + ' g'); ok(e.avant === 145 + s, 'somme des masses ' + s); }
@@ -147,7 +147,7 @@ dispo.forEach(a => {
 
 // activités en conception : même cadre (compétences, objectifs, savoir-faire, évaluation)
 const PC = ctx.window.PEDAGOGIE_CATALOGUE, conc = A.filter(a => a.statut !== 'disponible');
-ok(conc.length === 36 && Object.keys(PC).length === 36 && conc.every(a => PC[a.id]), 'catalogue : 36 activités en conception, toutes renseignées');
+ok(conc.length === 32 && Object.keys(PC).length === 32 && conc.every(a => PC[a.id]), 'catalogue : 32 activités en conception, toutes renseignées');
 conc.forEach(a => { const P = PC[a.id];
   ok(P.theme === a.theme, a.id + ' (conception) : thème'); ok(PR.themes[P.theme].attendus[P.attendu], a.id + ' (conception) : attendu'); ok(P.connaissance.length > 30, a.id + ' (conception) : connaissance');
   ok(P.competences.length >= 2 && P.competences.every(c => PR.competences[c[0]] && PR.competences[c[0]].cap[c[1]]), a.id + ' (conception) : compétences du programme');
@@ -155,4 +155,24 @@ conc.forEach(a => { const P = PC[a.id];
   P.objectifs.forEach(o => { ok(/^Je sais /.test(o.eleve) && !/\d/.test(o.eleve), a.id + ' ' + o.id + ' (conception) : énoncé élève'); ok(o.savoirFaire.length >= 1 && o.indicateur.length > 15 && o.preuve.length > 3 && o.objectif.length > 15, a.id + ' ' + o.id + ' (conception) : savoir-faire, indicateur, preuve'); });
 });
 ok(Object.keys(PC).every(k => !dispo.some(a => a.id === k)), 'aucun doublon entre fiches produites et catalogue en conception');
+// lot 4 : A01, C01, D01, D02
+const A1 = ctx.window.FICHE_A01, MA1 = A1.modele_;
+ok(MA1.FORMES.bloc === 'propre' && MA1.FORMES.eau === 'recipient' && MA1.OCC.air === 'tout' && MA1.COMP.air === 'oui' && MA1.COMP.eau === 'non', 'A01 : modèle des trois états');
+ok(MA1.volAffiche('eau', false) === MA1.volAffiche('eau', true) && MA1.volAffiche('air', true) < MA1.volAffiche('air', false), 'A01 : volume du liquide conservé, gaz comprimé');
+ok(/cohérentes/.test(A1.diagnostic({ essais: [{ c: 'air', nom: 'L’air', r: 'haut', forme: 'recipient', occ: 'tout', comp: 'oui' }] })[0]) && /compression/.test(A1.diagnostic({ essais: [{ c: 'eau', nom: 'L’eau', r: 'haut', forme: 'recipient', occ: 'bas', comp: 'oui' }] })[0]), 'A01 : diagnostic');
+ok(A1.transfert.rep === 'non' && !/grain/.test(JSON.stringify([A1.objectifEleve, A1.protocole, A1.confrontation, A1.retroaction, A1.aides])), 'A01 : transfert, pas de réponse dans les textes élève');
+const C1 = ctx.window.FICHE_C01, MC1 = C1.modele_;
+ok(MC1.formeSource('pile') === 'chimique' && MC1.formeSource('solaire') === 'rayonnement' && MC1.SORTIE === 'lumth' && MC1.BILAN === 'autant', 'C01 : chaînes pile / solaire');
+ok(/cohérentes/.test(C1.diagnostic({ essais: [{ s: 'pile', nom: 'x', a: 'chimique', b: 'lumth', c: 'autant' }, { s: 'solaire', nom: 'y', a: 'rayonnement', b: 'lumth', c: 'autant' }] })[0]) && /bilan/.test(C1.diagnostic({ essais: [{ s: 'pile', nom: 'x', a: 'chimique', b: 'lumth', c: 'plus' }] })[0]) && /un seul montage/.test(C1.diagnostic({ essais: [{ s: 'pile', nom: 'x', a: 'chimique', b: 'lumth', c: 'autant' }] }).join(' ')), 'C01 : diagnostic');
+ok(C1.transfert.rep === 'bonne', 'C01 : transfert moteur');
+const D1 = ctx.window.FICHE_D01, MD1 = D1.modele_;
+ok(MD1.visible('carte', false) === false && MD1.visible('carte', true) && MD1.trajet('carte', true) === 'diffuse' && MD1.trajet('source', true) === 'direct' && MD1.trajet('carte', false) === 'aucun' && MD1.type('carte') === 'diffusant' && MD1.type('source') === 'primaire', 'D01 : modèle visibilité / trajets / types');
+ok(/cohérentes/.test(D1.diagnostic({ essais: [{ o: 'carte', on: false, nom: 'c', a: 'non', b: 'aucun', c: 'diffusant' }, { o: 'carte', on: true, nom: 'c', a: 'oui', b: 'diffuse', c: 'diffusant' }] })[0]) && /visibilité/.test(D1.diagnostic({ essais: [{ o: 'carte', on: false, nom: 'c', a: 'oui', b: 'aucun', c: 'diffusant' }] })[0]), 'D01 : diagnostic');
+ok(D1.transfert.rep === 'diff', 'D01 : transfert Lune');
+const D2 = ctx.window.FICHE_D02, MD2 = D2.modele_;
+ok(MD2.ombre(30) === 12 && MD2.ombre(20) === 18 && MD2.ombre(40) === 9 && MD2.ombre(45) === 8 && MD2.rapport(30) === 2 && MD2.rapport(20) === 3, 'D02 : ombre 12 / 18 / 9 / 8 cm, facteurs 2 et 3');
+ok(MD2.DIST.every(d => Math.abs(MD2.ombre(d) / MD2.DISQUE - MD2.DE / d) < 0.06), 'D02 : proportion ombre/disque = 60/d');
+ok(/cohérents/.test(D2.diagnostic({ essais: [{ d: 30, omb: 12, rap: 2 }, { d: 20, omb: 18, rap: 3 }] }).join(' ')) && /rapport/.test(D2.diagnostic({ essais: [{ d: 30, omb: 12, rap: 5 }] })[0]) && /ombre/.test(D2.diagnostic({ essais: [{ d: 30, omb: 8, rap: 1.33 }] })[0]), 'D02 : diagnostic');
+ok(D2.transfert.rep === 'oui' && !/\b30\b|\b12\b/.test(JSON.stringify([D2.objectifEleve, D2.protocole, D2.confrontation, D2.retroaction, D2.aides])), 'D02 : transfert, pas de réponse dans les textes élève');
+
 console.log(n + ' assertions activités passées.');

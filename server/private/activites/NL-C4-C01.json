@@ -1,0 +1,27 @@
+{
+ "id": "NL-C4-C01",
+ "version": "1.0",
+ "titre": "La lampe à plusieurs histoires",
+ "critere": "Distinguer sources, convertisseurs, transferts et formes, et inclure le transfert vers l’environnement.",
+ "prof": {
+  "reference": "Pile : énergie chimique → électrique ; panneau solaire : rayonnement → électrique. Lampe : électrique → rayonnement lumineux + transfert thermique vers l’environnement. Aucun convertisseur ne crée d’énergie : conservation, répartie entre formes. Transfert : pile → moteur → mouvement + transfert thermique.",
+  "attendus": [
+   "Seul le début de la chaîne diffère.",
+   "Le transfert thermique est cité.",
+   "Bilan : autant d’énergie en sortie qu’en entrée.",
+   "Vocabulaire source / convertisseur / transfert / forme employé correctement."
+  ],
+  "erreurs": [
+   "Dire que la pile « contient de l’électricité ».",
+   "Oublier le transfert thermique de la lampe.",
+   "Penser que la lampe « produit » de l’énergie."
+  ],
+  "limites": "Modèle qualitatif de chaîne d’énergie, sans valeurs chiffrées ni rendement ; la nuance entre « énergie perdue » et « énergie dégradée » n’est pas traitée. Une réponse libre n’est pas validée automatiquement par des mots-clés.",
+  "differenciation": "Aide : cartes déjà ordonnées à compléter. Approfondissement : ajouter une chaîne avec une dynamo ou un chauffe-eau solaire."
+ },
+ "transfert": {
+  "reponse": "bonne",
+  "explication": "La pile fournit de l’énergie chimique convertie en énergie électrique ; le moteur la convertit en mouvement, avec un transfert thermique vers l’environnement. Aucun convertisseur ne crée d’énergie."
+ },
+ "synthese": "Une chaîne d’énergie relie une source, des convertisseurs et des transferts. Seul le début change entre pile (énergie chimique) et panneau solaire (rayonnement) ; le circuit est électrique et la lampe fournit du rayonnement lumineux et un transfert thermique. Aucun convertisseur ne crée d’énergie : elle se conserve, répartie entre plusieurs formes."
+}

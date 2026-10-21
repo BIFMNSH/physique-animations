@@ -13,7 +13,7 @@ window.ACTIVITES = [
    "lecon:solides-liquides",
    "lecon:les-gaz"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -411,7 +411,7 @@ window.ACTIVITES = [
   "objectif": "Distinguer source, forme, transfert et conversion d’énergie.",
   "decision": "creer",
   "ressources": [],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -593,7 +593,7 @@ window.ACTIVITES = [
   "ressources": [
    "lecon:sources-recepteurs"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -607,7 +607,7 @@ window.ACTIVITES = [
   "ressources": [
    "lecon:propagation-lumiere"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {

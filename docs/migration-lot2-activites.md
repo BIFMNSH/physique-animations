@@ -33,3 +33,13 @@ Service worker : `pc-v78`.
 - Correction d'accessibilité : identifiant dupliqué `app` dans C08 (le libellé n'était pas relié au sélecteur).
 - Contrôles : 428 assertions, axe WCAG A/AA clair et sombre sur les douze activités, PDF vierge de deux pages pour chacune. Service worker `pc-v80`.
 - Limites : mêmes que le lot 2 (valeurs synthétiques, non relues scientifiquement ni testées en classe ; corrigés encore dans les fiches publiques).
+
+## Lot 4 (21/10/2026) — A01, C01, D01, D02 (5e)
+
+- **A01 Le colis à trois compartiments** : bloc / eau / air dans trois récipients, compression du volume enfermé ; table forme–occupation–compression ; transfert « tas de sable » (échelle du grain).
+- **C01 La lampe à plusieurs histoires** : chaîne pile ou panneau solaire → circuit → lampe (lumière + transfert thermique) ; bilan « aucun convertisseur ne crée d'énergie ». Modèle qualitatif, sans rendement.
+- **D01 L'objet dans la boîte** : lampe allumée/éteinte, carte ou source observée ; trajet orienté vers l'œil ; source primaire / objet diffusant ; transfert Lune.
+- **D02 Le logo sur l'écran** : source ponctuelle, écran à 60 cm, disque de 6 cm à 20/30/40/45 cm ; ombre = 6 × 60 / d (12 cm à 30 cm, 18 cm à 20 cm) ; l'élève relève l'ombre et calcule le rapport.
+- Blocs `pedagogie` repris du catalogue en conception (qui passe de 36 à 32 activités) ; 16 activités disponibles ; service worker `pc-v83`.
+- Contrôles : 1006 assertions activités, 931 de régression, axe WCAG A/AA clair/sombre à 390 px, PDF vierge de deux pages, corrigés privés régénérés (16 fichiers). Une aide de D02 révélait « 30 cm » : reformulée.
+- Limites : valeurs synthétiques, non relues scientifiquement ni testées en classe ; corrigés encore dans les fiches publiques tant que le front n'est pas branché au serveur.
