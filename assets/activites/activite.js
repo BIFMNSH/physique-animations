@@ -39,6 +39,22 @@
   function themeNom(F) { var P = window.PROGRAMME, ped = F.pedagogie; return P && ped && P.themes[ped.theme] ? P.themes[ped.theme] : null; }
   var AEL = { non: 'pas encore', partie: 'en partie', oui: 'oui' };
 
+  /* Notes réservées à l'enseignant (limites du modèle, différenciation) : elles ne sont plus dans la fiche publique, le serveur les remet à un compte enseignant. */
+  var PRIV = {};
+  function privLoad(F) {
+    if (PRIV[F.id]) return Promise.resolve({ ok: true });
+    var C = window.NLCompte;
+    if (!C) return Promise.resolve({ ok: false, msg: 'Le service de comptes n’est pas disponible pour le moment.' });
+    if (!C.connecte()) return Promise.resolve({ ok: false, code: 401, msg: 'Connectez-vous avec un compte enseignant pour afficher les limites du modèle et la différenciation.' });
+    return C.req('/api/activites/' + F.id + '/corrige').then(function (j) { PRIV[F.id] = j.prof || {}; return { ok: true }; }).catch(function (e) {
+      return { ok: false, code: e.status, msg: e.status === 401 ? 'Votre session a expiré : reconnectez-vous avec un compte enseignant.' : e.status === 403 ? 'Ces notes sont réservées aux comptes enseignants (profil « enseignant »).' : e.status === 402 ? 'Un pass enseignant couvrant ce thème est nécessaire.' : e.status === 404 ? 'Notes enseignant non disponibles pour cette activité.' : 'Le serveur de comptes n’est pas joignable pour le moment.' };
+    });
+  }
+  function privSecs(F, sec) {
+    var P = PRIV[F.id];
+    return P ? sec('▸', 'Limites du modèle', '<p>' + esc(P.limites) + '</p>') + sec('▸', 'Différenciation', '<p>' + esc(P.differenciation) + '</p>')
+      : sec('▸', 'Limites du modèle et différenciation', '<p>Réservé aux comptes enseignants : connectez-vous sur lab.nohaba.com/connexion/ pour les afficher.</p>');
+  }
   /* ---- fiche imprimable : même HTML à l'écran (aperçu) et à l'impression (A4, deux pages) ---- */
   function sheetHTML(F, st, mode) { // mode : 'vierge' | 'remplie' | 'prof'
     var filled = mode !== 'vierge', prof = mode === 'prof';
@@ -77,7 +93,7 @@
     if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
       '<section class="sh-sec sh-ref"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></section>' +
       sec('▸', 'Attendus', '<ul>' + F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') + sec('▸', 'Erreurs usuelles', '<ul>' + F.prof.erreurs.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') +
-      profPed(F) + sec('▸', 'Limites du modèle', '<p>' + esc(F.prof.limites) + '</p>') + sec('▸', 'Différenciation', '<p>' + esc(F.prof.differenciation) + '</p>') + '</div>';
+      profPed(F) + privSecs(F, sec) + '</div>';
     return '<div class="sheet">' + p1 + p2 + pr + '</div>';
   }
   function evalSec(F, st, filled) {
@@ -98,9 +114,12 @@
     return sec('▸', 'Compétences, objectifs et évaluation', ctx + tb);
   }
   function printDoc(F, st, mode) {
-    var P = $('#print'), t0 = document.title; P.innerHTML = sheetHTML(F, st, mode);
-    document.title = F.id + '-' + mode; var back = function () { document.title = t0; window.removeEventListener('afterprint', back); }; window.addEventListener('afterprint', back);
-    window.print();
+    var go = function () {
+      var P = $('#print'), t0 = document.title; P.innerHTML = sheetHTML(F, st, mode);
+      document.title = F.id + '-' + mode; var back = function () { document.title = t0; window.removeEventListener('afterprint', back); }; window.addEventListener('afterprint', back);
+      window.print();
+    };
+    if (mode === 'prof') privLoad(F).then(go); else go();
   }
   /* carte « Fiche à imprimer » : aperçu fidèle + Imprimer / Enregistrer en PDF */
   function sheetCard(F, st, parent, modes, profMode) {
@@ -108,7 +127,7 @@
     var mode = modes[0], hasSel = modes.length > 1;
     if (hasSel) { h('label', { for: 'shm', text: 'Version :' }, c); var sel = h('select', { id: 'shm' }, c, modes.map(function (m) { return '<option value="' + m + '">' + { vierge: 'Fiche vierge (à compléter au stylo)', remplie: 'Fiche remplie avec mon travail', prof: 'Version professeur (avec corrigé)' }[m] + '</option>'; }).join('')); }
     var det = h('details', { class: 'sh-prev' }, c), sm = h('summary', { text: 'Voir l’aperçu de la fiche' }, det), pv = h('div', {}, det);
-    function paint() { pv.innerHTML = sheetHTML(F, st, mode); }
+    function paint() { if (mode === 'prof') privLoad(F).then(function () { pv.innerHTML = sheetHTML(F, st, mode); }); else pv.innerHTML = sheetHTML(F, st, mode); }
     det.addEventListener('toggle', function () { if (det.open) paint(); });
     if (hasSel) sel.onchange = function () { mode = sel.value; if (det.open) paint(); };
     var row = h('div', { class: 'row' }, c), b1 = h('button', { class: 'btn primary', type: 'button', text: 'Imprimer' }, row), b2 = h('button', { class: 'btn', type: 'button', text: 'Enregistrer en PDF' }, row);
@@ -301,7 +320,11 @@
         h('p', {}, pf, '<b>Référence :</b> ' + esc(F.prof.reference));
         h('ul', {}, pf, F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join(''));
         h('p', {}, pf, '<b>Erreurs usuelles :</b> ' + F.prof.erreurs.map(esc).join(' · '));
-        h('p', {}, pf, '<b>Limites du modèle :</b> ' + esc(F.prof.limites));
+        var pv2 = h('div', { 'aria-live': 'polite' }, pf, '<p class="sub">Chargement des notes enseignant…</p>');
+        privLoad(F).then(function (r) {
+          pv2.innerHTML = r.ok ? '<p><b>Limites du modèle :</b> ' + esc(PRIV[F.id].limites) + '</p><p><b>Différenciation :</b> ' + esc(PRIV[F.id].differenciation) + '</p>'
+            : '<div class="msg">' + esc(r.msg) + (r.code === 401 ? ' <a href="../connexion/">Se connecter</a>' : '') + '</div>';
+        });
         if (F.pedagogie) { h('h4', { text: 'Compétences, objectifs et évaluation' }, pf); h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau des objectifs, défile horizontalement' }, pf, '<table class="t"><thead><tr><th scope="col">Objectif</th><th scope="col">Savoir-faire</th><th scope="col">Indicateur de réussite</th><th scope="col">Où l’observer</th></tr></thead><tbody>' + F.pedagogie.objectifs.map(function (o) { return '<tr><th scope="row" style="text-align:left">' + o.id + ' — ' + esc(o.objectif) + '</th><td>' + o.savoirFaire.map(esc).join(' ; ') + '</td><td>' + esc(o.indicateur) + '</td><td>' + esc(o.preuve) + '</td></tr>'; }).join('') + '</tbody></table>'); h('p', { style: 'color:var(--mist);font-size:15px' }, pf, 'Connaissance visée : ' + esc(F.pedagogie.connaissance)); }
         var rr = h('div', { class: 'row' }, pf);
         h('button', { class: 'btn primary', type: 'button', text: 'Imprimer la version professeur' }, rr).onclick = function () { printDoc(F, st, 'prof'); };

@@ -75,4 +75,5 @@ Compte marchand CinetPay (justificatif d'activité demandé), puis `CINETPAY_API
 - `/abonnement/` : offres et prix (le paiement n'est pas ouvert : `PAY_MODE=off`).
 - `vercel.json` : `connect-src` autorise `https://api.lab.nohaba.com`.
 - Testé en local avec Postgres : parcours enseignant et élève complets (SMS, profil, classe, suppression), sans erreur JS, accessibilité WCAG A/AA sur mobile.
-- **Reste à faire** : brancher les corrigés (`/api/activites/:id/corrige`), le paiement CinetPay (`/api/pay/init`), la synchronisation de la progression (`/api/progress`) et le formulaire de devis établissement (pas de point d'accès côté serveur).
+- Notes enseignant (limites du modèle, différenciation) : servies par `/api/activites/:id/corrige`, absentes des fiches publiques.
+- **Reste à faire** : le paiement CinetPay (`/api/pay/init`), la synchronisation de la progression (`/api/progress`) et le formulaire de devis établissement (pas de point d'accès côté serveur).

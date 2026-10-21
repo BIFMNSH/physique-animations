@@ -181,4 +181,12 @@ ok(A.every(a => VZ[a.id]) && Object.keys(VZ).length === 48, 'visée : 48 activit
 A.forEach(a => { const v = VZ[a.id]; ok(/^[A-ZÉÈÀ][a-zéèêàâîôûç]+(er|ir|re|dre)\b/.test(v.visee) && /\.$/.test(v.visee) && v.capable.length >= 3 && v.capable.length <= 5 && v.capable.every(c => /^[A-ZÉÈÀ]/.test(c) && !/[.;]$/.test(c) && c.length >= 15), a.id + ' : visée à l’infinitif, 3 à 5 sous-compétences'); });
 ok(!/\b\d+([,.]\d+)? ?(g|cm|mL|ms|m\/s|W|Wh)\b/.test(JSON.stringify(VZ)), 'visée : aucune valeur de correction');
 
+// notes enseignant : hors des fiches publiques, présentes dans les corrigés privés du serveur
+const fs2 = require('fs');
+A.filter(a => a.statut === 'disponible').forEach(a => {
+  const F = ctx.window['FICHE_' + a.id.slice(-3)], priv = JSON.parse(fs2.readFileSync('server/private/activites/' + a.id + '.json', 'utf8'));
+  ok(!('limites' in F.prof) && !('differenciation' in F.prof) && F.prof.reference && F.prof.attendus.length && F.prof.erreurs.length, a.id + ' : fiche publique sans notes enseignant');
+  ok(priv.prof.limites.length > 30 && priv.prof.differenciation.length > 20, a.id + ' : notes enseignant dans le corrigé privé');
+});
+
 console.log(n + ' assertions activités passées.');

@@ -130,8 +130,6 @@
       reference: 'Montage A (une seule boucle) : lampes allumées seulement si S1 et S2 sont fermés. Montage B (une branche par lampe) : lampe 1 commandée par S1 seulement, lampe 2 par S2 seulement ; S1 ouvert et S2 fermé → lampe 1 éteinte, lampe 2 allumée. Transfert : interrupteur général ouvert → deux lampes éteintes.',
       attendus: ['Quatre états testés pour chaque montage.', 'Justification par les chemins fermés : un chemin par lampe dans B, un seul chemin partagé dans A.', 'Distinction entre un interrupteur de branche et un interrupteur général.'],
       erreurs: ['Penser que, dans le montage A, la première lampe est « avant » et reste allumée quand la seconde est coupée.', 'Dire que les lampes de B s’éteignent toutes les deux dès qu’on ouvre un interrupteur de branche.', 'Conclure après un seul état testé.'],
-      limites: 'Modèle qualitatif : pile idéale, lampes compatibles avec la source ; l’éclat des lampes n’est pas comparé (on ne dit rien de l’égalité d’éclat de lampes différentes). Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : schémas pré-imprimés à compléter, repérage des chemins par couleur. Approfondissement : ajouter une troisième zone ou un interrupteur général et prévoir les huit états.'
     }
   };
 })();

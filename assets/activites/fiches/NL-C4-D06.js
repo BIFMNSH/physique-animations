@@ -154,8 +154,6 @@
       reference: 'Trajet total 340 × 0,0080 = 2,72 m ; distance capteur–surface 1,36 m ; hauteur d’eau 2,00 − 1,36 = 0,64 m. Pour 5,0 ms : trajet 1,70 m, distance 0,85 m, hauteur 1,15 m. Un niveau plus haut donne un écho plus précoce.',
       attendus: ['Conversion 8,0 ms = 0,0080 s avant le calcul.', 'Facteur deux : 2,72 m est le trajet aller-retour, pas la distance capteur–surface.', 'Repère du fond : hauteur = 2,00 m − distance capteur–surface.', 'Vérification dans le réservoir : 0,64 m redonne 8,0 ms ; 1,15 m redonne 5,0 ms.', 'Transfert : niveau plus haut, trajet plus court, écho plus tôt.'],
       erreurs: ['Oublier de diviser par deux (donner 2,72 m comme distance, impossible dans un réservoir de 2,00 m).', 'Donner la distance capteur–surface comme hauteur d’eau (oubli du repère du fond).', 'Laisser la durée en millisecondes avec une vitesse en m/s.', 'Confondre l’aller-retour du son avec le décalage entre deux microphones.'],
-      limites: 'Modèle : t = 2 (2 − h) ÷ 340, h entre 0,20 m et 1,80 m, air homogène, délais électroniques négligés, vitesse du son fixée à 340 m/s. L’animation est volontairement ralentie ; le délai affiché est le délai réel. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : décomposer conversion, relation et interprétation sans donner la réponse finale. Approfondissement : discuter la précision, les hypothèses du modèle et le domaine de validité.'
     }
   };
 })();

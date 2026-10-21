@@ -109,8 +109,6 @@
       reference: 'Pile : énergie chimique → électrique ; panneau solaire : rayonnement → électrique. Lampe : électrique → rayonnement lumineux + transfert thermique vers l’environnement. Aucun convertisseur ne crée d’énergie : conservation, répartie entre formes. Transfert : pile → moteur → mouvement + transfert thermique.',
       attendus: ['Seul le début de la chaîne diffère.', 'Le transfert thermique est cité.', 'Bilan : autant d’énergie en sortie qu’en entrée.', 'Vocabulaire source / convertisseur / transfert / forme employé correctement.'],
       erreurs: ['Dire que la pile « contient de l’électricité ».', 'Oublier le transfert thermique de la lampe.', 'Penser que la lampe « produit » de l’énergie.'],
-      limites: 'Modèle qualitatif de chaîne d’énergie, sans valeurs chiffrées ni rendement ; la nuance entre « énergie perdue » et « énergie dégradée » n’est pas traitée. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : cartes déjà ordonnées à compléter. Approfondissement : ajouter une chaîne avec une dynamo ou un chauffe-eau solaire.'
     }
   };
 })();

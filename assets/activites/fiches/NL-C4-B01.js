@@ -108,8 +108,6 @@
       reference: 'Dans le référentiel du véhicule : position 2,0 m à tout instant, passager immobile. Dans le référentiel du sol : 2,0 ; 10,0 ; 18,0 ; 26,0 m à 0 ; 2 ; 4 ; 6 s (vitesse 4 m/s), passager en mouvement rectiligne. Le sac a la même description que le passager.',
       attendus: ['Chaque réponse précise son référentiel.', 'Pas de contradiction : immobile (véhicule) et en mouvement (sol) sont deux descriptions correctes.', 'Lecture du tableau : une colonne constante, une colonne qui varie.', 'Trajectoire rectiligne dans le référentiel du sol.'],
       erreurs: ['Dire « il bouge » ou « il ne bouge pas » sans référentiel.', 'Croire que l’une des deux descriptions est fausse.', 'Confondre immobile et « ne change pas de siège ».'],
-      limites: 'Translation rectiligne à vitesse constante, deux repères ; positions simulées (passager à 2,0 m de l’arrière, sac à +0,5 m). Pas de rotation ni d’accélération. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : phrase à compléter « par rapport au … ». Approfondissement : un deuxième véhicule qui double.'
     }
   };
 })();
