@@ -116,12 +116,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'A : 60 W × 2 h = 120 Wh ; B : 15 W × 10 h = 150 Wh : le moins puissant consomme davantage ici. Récepteur D : 12 V × 0,50 A = 6 W. 1 Wh = 3600 J, donc 120 Wh = 432 000 J. Veille : 5 W × 24 h = 120 Wh ; usage actif : 100 W × 2 h = 200 Wh : la veille représente plus de la moitié de l’énergie de l’usage actif. Transfert : 20 W × 3 h = 60 Wh.',
-      attendus: ['E = P × t calculée avec la durée en heures.', 'Distinction W (puissance instantanée) / Wh (énergie cumulée).', 'Doubler la durée double l’énergie.', 'P = U × I pour le récepteur continu.', 'Aucune déduction de coût ou de bilan carbone réel.'],
-      erreurs: ['Comparer seulement les puissances (60 W > 15 W donc A consomme plus).', 'Écrire des W pour une énergie.', 'Additionner U et I au lieu de les multiplier.', 'Mélanger heures et secondes.'],
-      limites: 'Puissances constantes ; P = U × I appliqué au courant continu dans ce modèle ; pas de tarif ni de facteur d’émission sourcé, donc aucun coût ni bilan carbone réel n’est déduit. Les profils d’usage numériques sont réduits à deux appareils synthétiques (veille permanente et usage actif). Le tarif de l’électricité (en F CFA par kWh) n’est pas inclus : le professeur peut l’apporter avec sa source. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : tableau avec colonnes P, t, E préparées. Approfondissement : calculer 120 Wh en joules, ou proposer un usage numérique et discuter ce qui manque pour estimer un bilan carbone.'
-    }
   };
 })();
