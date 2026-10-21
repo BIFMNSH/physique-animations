@@ -105,12 +105,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'A : positions 0, 1, 2, 3 m → 1 ; 1 ; 1 m par seconde : uniforme. B : 0, 1, 3, 6 m → 1 ; 2 ; 3 m : accéléré. C : 0, 3, 5, 6 m → 3 ; 2 ; 1 m : ralenti. Les trois trajectoires sont rectilignes. Transfert : oui, direction différente de la valeur.',
-      attendus: ['Distances calculées par soustraction sur des durées égales.', 'Qualification à partir des distances, pas de l’impression visuelle.', 'Trajectoire rectiligne dans les trois cas.', 'Distinction entre valeur de la vitesse et direction (transfert circulaire).'],
-      erreurs: ['Qualifier à l’œil sans calcul.', 'Comparer les positions au lieu des distances sur une seconde.', 'Penser qu’un mouvement accéléré a nécessairement une trajectoire courbe.'],
-      limites: 'Positions imposées à 1 s d’intervalle, trois points de calcul ; vitesse moyenne d’intervalle, pas de vitesse instantanée ; interpolation non affichée. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : tableau avec les soustractions préparées. Approfondissement : tracer position en fonction du temps.'
-    }
   };
 })();
