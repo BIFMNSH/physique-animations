@@ -53,7 +53,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg) fixed,var(--night);color:var(--ink);font:400 17px/1.55 'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 20px}
 
 /* Barre */
 .top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:var(--bar);border-bottom:1px solid var(--line)}
@@ -65,7 +65,7 @@ a{color:inherit}
 .top nav{display:flex;gap:4px}
 .top nav a{white-space:nowrap;text-decoration:none;color:var(--mist);font-weight:700;font-size:15px;padding:10px 9px;border-radius:10px}
 .top nav a:hover{color:var(--ink)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer;border:1.5px solid var(--line);color:var(--ink);background:var(--card)}
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer;border:1.5px solid var(--line);color:var(--ink);background:var(--card)}
 .btn:hover{border-color:var(--mist)}
 .btn.go{background:var(--orange-grad);border-color:#F97316;color:var(--on-orange);box-shadow:0 10px 30px -8px rgba(249,115,22,.6)}
 .btn.go:hover{filter:brightness(1.07)}
@@ -81,6 +81,7 @@ a{color:inherit}
 .tsw[aria-checked="true"] .trk::after{transform:translateX(34px)}
 .tsw[aria-checked="true"] .on{opacity:1}.tsw[aria-checked="true"] .off{opacity:0}
 .tsw:hover .trk{filter:brightness(1.06)}
+@media (max-width:1180px){.tsw .lbl{display:none}}
 @media (max-width:560px){.tsw .lbl{display:none}.top .wrap{gap:8px}.logo b{font-size:18px}}
 @media (prefers-reduced-motion:reduce){.tsw .trk,.tsw .trk::after{transition:none}}
 

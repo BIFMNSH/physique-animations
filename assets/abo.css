@@ -3,7 +3,7 @@
 :root[data-theme="light"]{--amber:#A35400;--on-amber:#FFFFFF;--green:#127A45;--violet:#6D4FD6;--card:#FFFFFF;--hero:radial-gradient(circle at 80% 0%,#dbe8f7 0,#FFFFFF 60%)}
 html,body{height:auto}
 body{background:var(--bg);overflow-x:hidden}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1360px;margin:0 auto;padding:0 16px}
 .preview{background:var(--amber);color:var(--on-amber);text-align:center;font-weight:700;font-size:14px;padding:8px 16px;line-height:1.35}
 .nav{display:flex;align-items:center;gap:10px;padding:14px 0;flex-wrap:wrap}
 .nav .brand{font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none;margin-right:auto}
@@ -72,12 +72,12 @@ section.blk p.sub{color:var(--soft);font-size:17px;line-height:1.5;margin:0 0 28
 
 /* Connexion */
 .auth{min-height:calc(100vh - 40px);display:grid;grid-template-columns:1fr 1fr}
-.auth .side{background:var(--hero);border-right:1px solid var(--line3);padding:28px 40px;display:flex;flex-direction:column;gap:18px}
+.auth .side{background:var(--hero);border-right:1px solid var(--line3);padding:28px clamp(40px,6vw,120px);display:flex;flex-direction:column;justify-content:center;gap:18px}
 .auth .side h1{font:800 clamp(30px,4vw,44px)/1.05 'Bricolage Grotesque',sans-serif;margin:24px 0 0;letter-spacing:-.02em}
 .auth .side p{color:var(--soft);font-size:18px;line-height:1.5;margin:0}
 .auth .side ul{margin:0;padding-left:20px;color:var(--soft);line-height:1.7}
-.auth .main{display:flex;align-items:flex-start;justify-content:center;padding:40px 16px}
-.box{width:100%;max-width:440px}
+.auth .main{display:flex;align-items:center;justify-content:center;padding:40px 16px}
+.box{width:100%;max-width:520px}
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border:1.5px solid var(--line);border-radius:26px;padding:4px;margin-bottom:22px}
 .tabs button{min-height:44px;border-radius:22px;border:none;background:transparent;color:var(--soft);font:700 15px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--blue);color:var(--on-blue)}
