@@ -146,6 +146,7 @@ h2{font:800 clamp(30px,4.2vw,52px)/1.02 'Bricolage Grotesque',sans-serif;letter-
 .xp{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--line)}
 .xp a{display:flex;flex-direction:column;gap:10px;padding:22px 20px 24px;background:var(--deep);text-decoration:none;min-height:300px;transition:background .25s}
 .xp a:hover{background:var(--hover)}
+#cycle4 .xp a{min-height:170px}
 .xp svg{width:100%;height:130px;margin-bottom:6px}
 .xp h3{font:800 22px/1.15 'Bricolage Grotesque',sans-serif;margin:0}
 .xp p{margin:0;color:var(--mist);font-size:15.5px}
@@ -188,7 +189,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
     <a class="logo" href="./" aria-label="NOHOBA-Lab, accueil"><img class="mark" src="assets/brand/nohoba-icon.svg" alt="" width="34" height="34"><b>NOHOBA<span>-Lab</span></b></a>
     <nav aria-label="Sections"><a href="#experiences">Expériences</a><a href="#pour-qui">Pour qui</a><a href="lecons/">Leçons</a><a href="simulateur/">Simulateur</a><a href="bepc/">BEPC</a></nav>
     <button type="button" class="tsw" id="tsw" role="switch" aria-checked="true" aria-label="Mode sombre"><span class="lbl" aria-hidden="true">Mode sombre</span><span class="trk" aria-hidden="true"><span class="st on">ON</span><span class="st off">OFF</span></span></button>
-    <a class="btn sm go" href="#niveaux">Commencer</a>
+    <a class="btn sm go hideS" href="#niveaux">Commencer</a>
   </div>
 </header>
 
@@ -260,6 +261,20 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
         <h3>Mesurer le pH</h3><p>Vinaigre, eau de Javel, jus de citron : classe-les du plus acide au plus basique.</p><span class="lv">3e · Solutions</span>
       </a>
     </div>
+  </div>
+</section>
+
+<section id="cycle4" aria-labelledby="hc4" style="padding-top:20px">
+  <div class="wrap">
+    <h2 id="hc4">Nouveau : activités d’investigation du cycle 4.</h2>
+    <p class="sub">Pour les classes qui suivent le programme français (5e, 4e, 3e) : situation, prévision enregistrée avant le résultat, manipulation, confrontation, bilan, puis une trace à imprimer. Quatre activités pilotes sont ouvertes ; les autres arrivent. Le parcours Côte d’Ivoire reste inchangé.</p>
+    <div class="xp">
+      <a href="activites/?a=NL-C4-A04"><h3>Le sachet disparu</h3><p>Le sucre se dissout : la masse du flacon fermé change-t-elle ?</p><span class="lv">5e · Dissolution</span></a>
+      <a href="activites/?a=NL-C4-B02"><h3>Deux robots, un rendez-vous</h3><p>Compare deux vitesses, prévois les temps, lance la course.</p><span class="lv">5e · Vitesse</span></a>
+      <a href="activites/?a=NL-C4-C06"><h3>Le panneau lumineux</h3><p>Quel module ajouter sans dépasser la limite de l’alimentation ?</p><span class="lv">4e · Intensité</span></a>
+      <a href="activites/?a=NL-C4-D06"><h3>La réserve sans contact</h3><p>Trouve la hauteur d’eau d’un réservoir avec la durée d’un écho.</p><span class="lv">3e · Signaux</span></a>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="activites/">Voir toutes les activités</a></p>
   </div>
 </section>
 

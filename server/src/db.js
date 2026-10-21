@@ -30,6 +30,8 @@ create table if not exists pass(
   tx_id text unique references payment(tx_id)
 );
 create index if not exists pass_user on pass(user_id, ends_at);
+-- Thèmes couverts par le pass (ex. « A,C »). NULL = les quatre thèmes (comportement historique).
+alter table pass add column if not exists themes text;
 create table if not exists classe(
   id serial primary key,
   owner_id text not null references "user"(id) on delete cascade,

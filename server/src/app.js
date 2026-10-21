@@ -7,7 +7,7 @@ import { randomInt } from 'node:crypto';
 import { auth, providers } from './auth.js';
 import { q } from './db.js';
 import { cfg, origins } from './config.js';
-import { accessFor, inFreePeriod } from './access.js';
+import { accessFor, inFreePeriod, coversTheme, themeOfActivity } from './access.js';
 import { PLANS } from './plans.js';
 import { startPayment, settle, grant } from './pay.js';
 
@@ -176,6 +176,26 @@ export function createApp() {
     if (a.level === 'aucun') return c.json({ error: 'Pass requis', plans: PLANS }, 402);
     try { return c.body(await readFile(new URL(`../private/${name}.json`, import.meta.url), 'utf8'), 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store' }); }
     catch { return fail(c, 404, 'Contenu introuvable'); }
+  });
+
+  // ---------- Activités du cycle 4 : habilitation par thème, corrigé réservé à l'enseignant ----------
+  const ACT = /^NL-C4-[A-D]\d\d$/;
+  app.get('/api/activites/:id/acces', async (c) => {
+    const id = c.req.param('id'); if (!ACT.test(id)) return fail(c, 400, 'Identifiant invalide');
+    const a = await accessFor(c.get('user').id), theme = themeOfActivity(id);
+    if (!coversTheme(a, theme)) return c.json({ error: 'Pass requis pour ce thème', theme, plans: PLANS }, 402);
+    return c.json({ ok: true, id, theme, level: a.level, until: a.until });
+  });
+  app.get('/api/activites/:id/corrige', async (c) => {
+    const id = c.req.param('id'); if (!ACT.test(id)) return fail(c, 400, 'Identifiant invalide');
+    const a = await accessFor(c.get('user').id), theme = themeOfActivity(id);
+    if (!coversTheme(a, theme)) return c.json({ error: 'Pass requis pour ce thème', theme, plans: PLANS }, 402);
+    // Le corrigé est réservé aux enseignants : profil « enseignant » pendant la période gratuite, puis pass enseignant. Jamais un pass élève ni l'accès par une classe.
+    const role = (await q('select role from app_profile where user_id=$1', [c.get('user').id])).rows[0]?.role;
+    const prof = a.level === 'gratuit' ? role === 'enseignant' : a.level === 'pass' && a.plan === 'prof';
+    if (!prof) return fail(c, 403, 'Réservé aux enseignants');
+    try { return c.body(await readFile(new URL(`../private/activites/${id}.json`, import.meta.url), 'utf8'), 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store' }); }
+    catch { return fail(c, 404, 'Corrigé introuvable'); }
   });
 
   app.onError((e, c) => { console.error('[erreur]', e); return c.json({ error: 'Erreur serveur' }, 500); });
