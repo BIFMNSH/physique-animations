@@ -53,7 +53,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg) fixed,var(--night);color:var(--ink);font:400 17px/1.55 'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1440px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
 
 /* Barre */
 .top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:var(--bar);border-bottom:1px solid var(--line)}
@@ -114,7 +114,8 @@ h1{font:800 clamp(40px,5.6vw,76px)/.98 'Bricolage Grotesque',sans-serif;letter-s
 .reel{position:absolute;inset:0;z-index:3;border-radius:28px;background:var(--deep);padding:18px;display:flex;flex-direction:column;gap:10px}
 .reel[hidden]{display:none}
 .reel .sc{border-radius:20px;background:var(--bench-bg);flex:1;min-height:0;display:block;width:100%}
-.reel .tag{font:800 12px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.08em;color:var(--nohoba-soft)}
+.reel .rtop{display:flex;align-items:center;justify-content:space-between;gap:10px}.reel .tag{font:800 12px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.08em;color:#A34400;background:#FFE9D6;padding:5px 10px;border-radius:999px}[data-theme=dark] .reel .tag{color:#FDBA74;background:rgba(249,115,22,.18)}.reel .pz{font-size:13px;color:var(--mist)}
+.xp.an a.on{box-shadow:inset 0 0 0 3px #F97316;background:var(--hover)}
 .reel h3{font:800 clamp(20px,2.2vw,26px)/1.12 'Bricolage Grotesque',sans-serif;margin:0}
 .reel p{margin:0;color:var(--mist);font-size:15px}
 .reel .go2{align-self:flex-start}
@@ -241,8 +242,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
       <input class="spectrum" id="ph" type="range" min="1" max="13" step="0.1" value="7" aria-valuetext="pH 7, solution neutre">
       <div class="ends"><span>Acide (vinaigre, citron)</span><span>Basique (savon, soude)</span></div>
       <div class="reel" id="reel" hidden role="group" aria-label="Animation à découvrir">
+        <div class="rtop"><span class="tag" id="rtag"></span><span class="pz">⏸ pause au survol</span></div>
         <svg class="sc" id="rsc" viewBox="0 0 430 260" role="img" aria-hidden="true"></svg>
-        <span class="tag" id="rtag"></span>
         <h3 id="rtit"></h3>
         <p id="rdes"></p>
         <a class="btn go go2" id="rgo" href="animations/">Voir l’animation →</a>
@@ -263,7 +264,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 
 <section id="animations" aria-labelledby="han" style="padding-top:20px">
   <div class="wrap">
-    <h2 id="han">Cinq animations pour voir ce qu’on ne voit pas.</h2>
+    <h2 id="han">Les cinq animations, quand tu veux.</h2>
     <p class="sub">Moins d’une minute chacune, pas à pas : tu avances à ton rythme. Idéal avant la manipulation, ou pour réviser.</p>
     <div class="xp an">
       <a href="metal/">
@@ -550,6 +551,7 @@ b.addEventListener('click',function(){apply(r.getAttribute('data-theme')==='ligh
   var cur=0,timer=null,stopped=reduce,paused=false,DUR=12000,cycle=0;
   function show(i){
     cur=i;
+    var cards=document.querySelectorAll('.xp.an a');for(var c=0;c<cards.length;c++){cards[c].classList.toggle('on',c===i-1);}
     for(var k=0;k<btns.length;k++){btns[k].setAttribute('aria-pressed',k===i?'true':'false');}
     if(i===0){reel.hidden=true;}
     else{var d=D[i];sc.innerHTML=d.s;tag.textContent='ANIMATION '+i+' SUR 5';tit.textContent=d.t;des.textContent=d.d;go.href=d.u;reel.hidden=false;}
