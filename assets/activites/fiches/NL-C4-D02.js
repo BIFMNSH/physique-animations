@@ -100,12 +100,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Source ponctuelle, propagation rectiligne : diamètre de l’ombre / diamètre du disque = d(source-écran) / d(source-disque). Écran à 60 cm, disque de 6 cm : à 30 cm, ombre 12 cm (facteur 2) ; à 20 cm, 18 cm (facteur 3) ; à 40 cm, 9 cm ; à 45 cm, 8 cm. Transfert : éloigner le disque de la source réduit l’ombre. Proportion simple en 5e.',
-      attendus: ['Rayons limites tracés.', 'Rapport 60 / d explicité.', 'Le disque est à 30 cm pour un facteur 2.', 'Deux distances comparées.'],
-      erreurs: ['Penser que l’ombre est toujours de la taille du disque.', 'Confondre distance source–disque et disque–écran.', 'Tracer des rayons non rectilignes.'],
-      limites: 'Source ponctuelle idéale : pas de pénombre ; mesures synthétiques arrondies au dixième. La mise en proportion est introduite qualitativement en 5e. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : schéma à l’échelle fourni. Approfondissement : source étendue et pénombre.'
-    }
   };
 })();
