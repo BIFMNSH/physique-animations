@@ -19,7 +19,7 @@
     var c1 = h('div', { class: 'card' }, panel);
     h('h3', { text: 'Mes relevés et mes prévisions' }, c1);
     h('p', { style: 'color:var(--mist)' }, c1, 'Vitesse = distance parcourue en 1 seconde. Complète les deux dernières colonnes <b>avant</b> de lancer la course (virgule ou point accepté).');
-    var tb = h('div', { style: 'overflow-x:auto' }, c1, '<table class="t"><thead><tr><th scope="col">Robot</th><th scope="col">Distance (m)</th><th scope="col">Durée (s)</th><th scope="col">Vitesse (m/s)</th><th scope="col">Temps prévu sur ' + D + ' m (s)</th></tr></thead><tbody>' +
+    var tb = h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau, défile horizontalement' }, c1, '<table class="t"><thead><tr><th scope="col">Robot</th><th scope="col">Distance (m)</th><th scope="col">Durée (s)</th><th scope="col">Vitesse (m/s)</th><th scope="col">Temps prévu sur ' + D + ' m (s)</th></tr></thead><tbody>' +
       ['A', 'B'].map(function (k) { return '<tr><th scope="row" style="font-weight:700">Robot ' + k + '</th><td>' + REL[k].d + '</td><td>' + REL[k].t + '</td><td><input type="text" inputmode="decimal" autocomplete="off" id="v' + k + '" aria-label="Vitesse du robot ' + k + ' en mètres par seconde" style="width:90px"></td><td><input type="text" inputmode="decimal" autocomplete="off" id="p' + k + '" aria-label="Temps prévu pour le robot ' + k + ' sur ' + D + ' mètres, en secondes" style="width:90px"></td></tr>'; }).join('') + '</tbody></table>');
     var ids = ['vA', 'vB', 'pA', 'pB'], inp = {}; ids.forEach(function (i) { inp[i] = panel.querySelector('#' + i); inp[i].oninput = refresh; });
     /* 2 · piste */
@@ -40,7 +40,7 @@
     h('p', { style: 'color:var(--mist);font-size:15px' }, c2, 'Le temps affiché est celui du modèle : il ne dépend ni de la puissance de l’appareil ni de la vitesse d’animation choisie. Les deux robots partent ensemble.');
     var aid = h('button', { class: 'btn', type: 'button', text: 'Besoin d’une aide ?' }, panel), aidBox = h('div', { class: 'msg', hidden: '', 'aria-live': 'polite' }, panel);
     aid.onclick = function () { if (!st.essais.length) { aidBox.hidden = false; aidBox.textContent = 'L’aide est disponible après ta première course : essaie d’abord seul.'; return; } aidBox.hidden = false; aidBox.textContent = X.aide(); };
-    var res = h('div', { class: 'card' }, panel); h('h3', { text: 'Mes essais' }, res); var tbl = h('div', { style: 'overflow-x:auto' }, res);
+    var res = h('div', { class: 'card' }, panel); h('h3', { text: 'Mes essais' }, res); var tbl = h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau, défile horizontalement' }, res);
     function table() { tbl.innerHTML = X.tableHTML(F, F.lignes(st), 'Données simulées — modèle ' + F.modele); }
     function ready() { return ids.every(function (i) { return parse(inp[i].value) !== null; }); }
     function refresh() { var ok = ready(); bGo.disabled = bStep.disabled = bEnd.disabled = !ok && !run; if (!ok) live.textContent = 'Complète d’abord les quatre cases pour lancer la course.'; else if (!run && t === 0) live.textContent = ''; }

@@ -29,7 +29,7 @@ window.ACTIVITES = [
    "lecon:volume",
    "lecon:masse"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -444,7 +444,7 @@ window.ACTIVITES = [
    "lecon:association-lampes",
    "lecon:commande-circuit"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -524,7 +524,7 @@ window.ACTIVITES = [
    "simulation:puissance-energie",
    "lecon:puissance-energie-electriques"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -647,7 +647,7 @@ window.ACTIVITES = [
   "ressources": [
    "simulation:vitesse-son"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {

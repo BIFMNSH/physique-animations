@@ -18,7 +18,7 @@
     h('p', {}, c1, 'Le capteur est à <b>2,00 m du fond</b>. Vitesse du son : <b>340 m/s</b>. Choisis la mesure à exploiter, puis complète chaque étape avec ses unités (virgule ou point accepté).');
     var sel = h('select', { id: 'mes', 'aria-label': 'Mesure à exploiter' }, c1, '<option value="a">' + MESURES.a.label + '</option><option value="b">' + MESURES.b.label + '</option>');
     var rows = [['d', 'Durée de l’écho en secondes (conversion de ms en s)', 's'], ['p', 'Trajet total du son (aller-retour)', 'm'], ['q', 'Distance capteur–surface de l’eau', 'm'], ['e', 'Hauteur d’eau', 'm']];
-    var tb = h('div', { style: 'overflow-x:auto' }, c1, '<table class="t"><thead><tr><th scope="col">Étape</th><th scope="col">Ma valeur</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><th scope="row" style="font-weight:700;text-align:left">' + esc(r[1]) + ' (' + r[2] + ')</th><td><input type="text" inputmode="decimal" autocomplete="off" id="c_' + r[0] + '" aria-label="' + esc(r[1]) + ' en ' + (r[2] === 's' ? 'secondes' : 'mètres') + '" style="width:110px"></td></tr>'; }).join('') + '</tbody></table>');
+    var tb = h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau, défile horizontalement' }, c1, '<table class="t"><thead><tr><th scope="col">Étape</th><th scope="col">Ma valeur</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><th scope="row" style="font-weight:700;text-align:left">' + esc(r[1]) + ' (' + r[2] + ')</th><td><input type="text" inputmode="decimal" autocomplete="off" id="c_' + r[0] + '" aria-label="' + esc(r[1]) + ' en ' + (r[2] === 's' ? 'secondes' : 'mètres') + '" style="width:110px"></td></tr>'; }).join('') + '</tbody></table>');
     var msg = h('div', { class: 'msg bad', role: 'alert', hidden: '' }, c1);
     var bRec = h('button', { class: 'btn primary', type: 'button', text: 'Enregistrer mon calcul dans mon tableau' }, c1);
     bRec.onclick = function () {
@@ -47,7 +47,7 @@
     h('p', { style: 'color:var(--mist);font-size:15px' }, c2, reduce ? 'Animation réduite (réglage de ton appareil) : le trajet est dessiné en pointillés, sans mouvement.' : 'Animation volontairement <b>ralentie</b> : le vrai trajet dure quelques millisecondes (le délai affiché est le délai réel). Le temps visuel n’est pas le temps physique.');
     var aid = h('button', { class: 'btn', type: 'button', text: 'Besoin d’une aide ?' }, panel), aidBox = h('div', { class: 'msg', hidden: '', 'aria-live': 'polite' }, panel);
     aid.onclick = function () { aidBox.hidden = false; aidBox.textContent = st.essais.length ? X.aide() : 'L’aide est disponible après ton premier enregistrement : essaie d’abord seul.'; };
-    var res = h('div', { class: 'card' }, panel); h('h3', { text: 'Mon tableau' }, res); var tbl = h('div', { style: 'overflow-x:auto' }, res);
+    var res = h('div', { class: 'card' }, panel); h('h3', { text: 'Mon tableau' }, res); var tbl = h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau, défile horizontalement' }, res);
     function table() { tbl.innerHTML = X.tableHTML(F, F.lignes(st), 'Calculs de l’élève et relevés simulés — modèle ' + F.modele); }
     function layout() {
       var y = top + (FOND - hh) * px, E = panel.querySelector('#eau'), t = delai(hh);

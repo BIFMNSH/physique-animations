@@ -1,0 +1,26 @@
+{
+ "id": "NL-C4-C03",
+ "version": "1.0",
+ "titre": "Deux commandes pour deux zones",
+ "critere": "Vérifier les quatre états et justifier par les chemins conducteurs.",
+ "prof": {
+  "reference": "Montage A (une seule boucle) : lampes allumées seulement si S1 et S2 sont fermés. Montage B (une branche par lampe) : lampe 1 commandée par S1 seulement, lampe 2 par S2 seulement ; S1 ouvert et S2 fermé → lampe 1 éteinte, lampe 2 allumée. Transfert : interrupteur général ouvert → deux lampes éteintes.",
+  "attendus": [
+   "Quatre états testés pour chaque montage.",
+   "Justification par les chemins fermés : un chemin par lampe dans B, un seul chemin partagé dans A.",
+   "Distinction entre un interrupteur de branche et un interrupteur général."
+  ],
+  "erreurs": [
+   "Penser que, dans le montage A, la première lampe est « avant » et reste allumée quand la seconde est coupée.",
+   "Dire que les lampes de B s’éteignent toutes les deux dès qu’on ouvre un interrupteur de branche.",
+   "Conclure après un seul état testé."
+  ],
+  "limites": "Modèle qualitatif : pile idéale, lampes compatibles avec la source ; l’éclat des lampes n’est pas comparé (on ne dit rien de l’égalité d’éclat de lampes différentes). Une réponse libre n’est pas validée automatiquement par des mots-clés.",
+  "differenciation": "Aide : schémas pré-imprimés à compléter, repérage des chemins par couleur. Approfondissement : ajouter une troisième zone ou un interrupteur général et prévoir les huit états."
+ },
+ "transfert": {
+  "reponse": "eteintes",
+  "explication": "Les deux sont éteintes : l’interrupteur général est sur le chemin commun, donc quand il est ouvert la boucle est coupée pour les deux branches. Chaque interrupteur de branche ne commande ensuite que sa lampe."
+ },
+ "synthese": "Une lampe est allumée quand elle appartient à une boucle fermée avec la pile. Dans le montage où tout est sur une seule boucle, ouvrir un interrupteur coupe la boucle entière : les deux lampes s’éteignent. Avec une branche par lampe, chaque interrupteur coupe seulement sa branche : les lampes sont commandées indépendamment. Un interrupteur placé avant la séparation des branches commande tout le circuit."
+}

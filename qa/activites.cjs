@@ -3,7 +3,7 @@ const fs = require('fs'), vm = require('vm'), path = require('path'), assert = r
 const root = path.join(__dirname, '..');
 const ctx = { window: {}, Activite: { h() {}, $() {}, esc: s => s, num: x => Number(x).toFixed(1).replace('.', ',') } }; vm.createContext(ctx);
 const run = f => vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8'), ctx);
-run('assets/activites/catalogue.js'); run('assets/activites/fiches/NL-C4-A04.js'); run('assets/activites/fiches/NL-C4-B02.js'); run('assets/activites/fiches/NL-C4-C06.js'); run('assets/activites/fiches/NL-C4-D06.js');
+run('assets/activites/catalogue.js'); run('assets/activites/fiches/NL-C4-A04.js'); run('assets/activites/fiches/NL-C4-B02.js'); run('assets/activites/fiches/NL-C4-C06.js'); run('assets/activites/fiches/NL-C4-D06.js'); ['A02','C03','D05','C08'].forEach(i => run('assets/activites/fiches/NL-C4-' + i + '.js'));
 const A = ctx.window.ACTIVITES; let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; };
 ok(A.length === 48, '48 activités');
 ok(new Set(A.map(a => a.id)).size === 48, 'identifiants uniques');
@@ -12,7 +12,7 @@ ok(cnt.socle === 32 && cnt.appui === 5 && cnt.reconcevoir === 1 && cnt.creer ===
 A.forEach(a => { ok(/^NL-C4-[A-D]\d\d$/.test(a.id) && a.id[6] === a.theme, a.id + ' thème'); ok(['5e', '4e', '3e'].includes(a.niveau), a.id + ' niveau'); ok(a.objectif.length > 10, a.id + ' objectif'); });
 const sims = new Set(fs.readdirSync(path.join(root, 'assets/sim')).map(f => f.replace(/\.js$/, ''))), les = new Set(fs.readdirSync(path.join(root, 'assets/studio/lecons')).map(f => f.replace(/\.js$/, '')));
 A.forEach(a => a.ressources.forEach(r => { const [k, v] = r.split(':'); if (k === 'simulation') ok(sims.has(v), r); else if (k === 'lecon') ok(les.has(v), r); else ok(fs.existsSync(path.join(root, v)), r); }));
-ok(A.filter(a => a.statut === 'disponible').map(a => a.id).join() === 'NL-C4-A04,NL-C4-B02,NL-C4-C06,NL-C4-D06', 'quatre pilotes disponibles');
+ok(A.filter(a => a.statut === 'disponible').map(a => a.id).join() === 'NL-C4-A02,NL-C4-A04,NL-C4-B02,NL-C4-C03,NL-C4-C06,NL-C4-C08,NL-C4-D05,NL-C4-D06', 'huit activités disponibles');
 // modèle A04 : la masse d'un système fermé ne change pas, 1 à 10 g
 const F = ctx.window.FICHE_A04;
 for (let s = F.sucreMin; s <= F.sucreMax; s++) { const e = F.essai(s); ok(e.avant === e.apres, 'masse égale pour ' + s + ' g'); ok(e.avant === 145 + s, 'somme des masses ' + s); }
@@ -57,4 +57,38 @@ ok(Dd.diagnostic({ essais: [{ origine: 'calcul', ms: 8, d: 8, p: 2.72, q: 1.36, 
 ok(Dd.diagnostic({ essais: [{ origine: 'calcul', ms: 8, d: 0.008, p: 2.72, q: 1.36, e: 0.64 }] }).some(x => /cohérentes/.test(x)), 'calcul juste reconnu');
 const eD = JSON.stringify([Dd.situation, Dd.objectifEleve, Dd.prevision, Dd.protocole, Dd.retroaction, Dd.aides]);
 ok(!/1,36|0,64|0,85|1,15/.test(eD), 'aucune réponse dans les textes élève D06');
+
+// lot 2 : A02, C03, D05, C08
+const A2 = ctx.window.FICHE_A02, MA = A2.modele_;
+ok(MA.affichage(MA.posee('plein', 'eau'), 0) - MA.affichage(MA.posee('vide', 'eau'), 0) === 60, 'A02 : 102 − 42 = 60 g');
+ok(MA.affichage(MA.posee('plein', 'eau'), MA.posee('vide', 'eau')) === 60 && MA.affichage(MA.posee('vide', 'eau'), MA.posee('vide', 'eau')) === 0, 'A02 : tare vide → 0 puis 60 g');
+ok(MA.posee('plein', 'eau') === 102 && MA.posee('plein', 'huile') - MA.FLACON === 54 && MA.posee('plein', 'alcool') - MA.FLACON === 48, 'A02 : 60 mL, masses différentes');
+ok(A2.transfert.rep === 48 && 90 - MA.FLACON === 48, 'A02 transfert 48 g');
+ok(A2.diagnostic({ essais: [{ liq: 'Liquide A', vide: 42, plein: 102, tare: 60 }] })[0].includes('même masse'), 'A02 : essai cohérent reconnu');
+ok(/ne se correspondent pas/.test(A2.diagnostic({ essais: [{ liq: 'Liquide A', vide: 42, plein: 102, tare: 102 }] })[0]), 'A02 : incohérence repérée');
+ok(!/\b(48|54)\b|60 g/.test(JSON.stringify([A2.objectifEleve, A2.protocole, A2.confrontation, A2.retroaction, A2.aides])), 'A02 : aucune réponse dans les textes élève');
+const C3 = ctx.window.FICHE_C03, MC3 = C3.modele_;
+[[1,1],[1,0],[0,1],[0,0]].forEach(([a, b]) => { const s = MC3.etat('serie', !!a, !!b), d = MC3.etat('deriv', !!a, !!b); ok(s.l1 === s.l2 && s.l1 === !!(a && b), 'C03 série ' + a + b); ok(d.l1 === !!a && d.l2 === !!b, 'C03 dérivation ' + a + b); });
+ok(C3.transfert.rep === 'eteintes' && C3.lignes({ essais: [{ montage: 'deriv', s1: false, s2: true, l1: false, l2: true }] })[0][4] === 'allumée', 'C03 transfert et table');
+ok(C3.diagnostic({ essais: [{ montage: 'deriv', s1: true, s2: true }] })[0].includes('1 état'), 'C03 diagnostic états manquants');
+ok(!/Montage B \(une branche/.test(JSON.stringify(C3.prevision)) , 'C03 prévision neutre');
+const D5 = ctx.window.FICHE_D05, MD5 = D5.modele_;
+ok(MD5.delai(3.4) === 10 && MD5.delai(6.8) === 20 && MD5.delai(1.7) === 5 && MD5.t2(3.4) === 14, 'D05 : délais 10 / 20 / 5 ms');
+ok(Math.abs(3.4 / (MD5.delai(3.4) / 1000) - 340) < 1e-9 && Math.abs(6.8 / (MD5.delai(6.8) / 1000) - 340) < 1e-9, 'D05 : 340 m/s aux deux distances');
+ok(D5.transfert.rep === 5, 'D05 transfert 5,0 ms');
+const e5 = (o) => D5.diagnostic({ essais: [Object.assign({ dist: 3.4, t1: 4, t2: 14, dl: 0.01, v: 340 }, o)] }).join(' ');
+ok(/cohérents/.test(e5({})), 'D05 calcul juste');
+ok(/millisecondes/.test(e5({ dl: 10, v: 0.34 })), 'D05 conversion');
+ok(/soustraire/.test(e5({ dl: 0.014, v: 242.9 })), 'D05 horodatage seul');
+ok(/aller-retour/.test(e5({ v: 680 })), 'D05 aller-retour');
+ok(!/340|0,0100|10,0/.test(JSON.stringify([D5.objectifEleve, D5.protocole, D5.confrontation, D5.retroaction, D5.aides])), 'D05 : aucune réponse dans les textes élève');
+const C8 = ctx.window.FICHE_C08, M8 = C8.modele_;
+ok(M8.energieWh(60, 2) === 120 && M8.energieWh(15, 10) === 150 && M8.energieWh(20, 3) === 60 && C8.transfert.rep === 60, 'C08 : 120 / 150 / 60 Wh');
+ok(M8.APP.d.U * M8.APP.d.I === M8.APP.d.P && M8.APP.d.P === 6, 'C08 : 12 V × 0,50 A = 6 W');
+ok(M8.enJoules(120) === 432000 && M8.energieWh(60, 4) === 2 * M8.energieWh(60, 2), 'C08 : 120 Wh = 432000 J ; t double → E double');
+const e8 = (o) => C8.diagnostic({ essais: [Object.assign({ app: 'a', nom: 'Appareil A', t: 2, P: 60, E: 120 }, o)] }).join(' ');
+ok(/cohérentes/.test(e8({})), 'C08 calcul juste'); ok(/durée n’est pas prise/.test(e8({ E: 60 })), 'C08 oubli durée'); ok(/joules/.test(e8({ E: 432000 })), 'C08 joules');
+ok(/somme/.test(e8({ app: 'd', nom: 'Récepteur D', t: 2, P: 12.5, E: 25 })), 'C08 somme U+I');
+ok(!/consommation de|pas de coût|€|CO2|F CFA/.test(JSON.stringify(C8.synthese)) || /Sans tarif/.test(C8.synthese), 'C08 : pas de coût inventé');
+ok(!/\b(120|150|60) Wh|432/.test(JSON.stringify([C8.objectifEleve, C8.protocole, C8.confrontation, C8.retroaction, C8.aides])), 'C08 : aucune réponse dans les textes élève');
 console.log(n + ' assertions activités passées.');

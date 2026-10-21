@@ -29,7 +29,7 @@
     var rel = h('button', { class: 'btn primary', type: 'button', text: 'Relever cette situation dans mon tableau' }, R);
     var aid = h('button', { class: 'btn', type: 'button', text: 'Besoin d’une aide ?' }, R), aidBox = h('div', { class: 'msg', hidden: '', 'aria-live': 'polite' }, R);
     aid.onclick = function () { aidBox.hidden = false; aidBox.textContent = st.essais.length ? X.aide() : 'L’aide est disponible après ton premier relevé : essaie d’abord seul.'; };
-    var res = h('div', { class: 'card' }, panel); h('h3', { text: 'Mes relevés' }, res); var tbl = h('div', { style: 'overflow-x:auto' }, res);
+    var res = h('div', { class: 'card' }, panel); h('h3', { text: 'Mes relevés' }, res); var tbl = h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau, défile horizontalement' }, res);
     function ids() { var a = []; if (on.m1) a.push('m1'); if (on.m2) a.push('m2'); if (slot !== 'aucun') a.push(slot); return a; }
     function table() { tbl.innerHTML = X.tableHTML(F, F.lignes(st), 'Données simulées — modèle ' + F.modele); }
     function branches() { return ids().map(function (k) { return MOD[k].i; }); }
