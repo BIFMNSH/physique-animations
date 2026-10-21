@@ -118,12 +118,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Fil : action de contact. Terre : action à distance. Aimant : action à distance. Air : négligé dans le modèle si on le précise. Retirer le fil supprime l’action du fil mais pas celle de la Terre (la masse tombe). Éloigner l’aimant supprime son attraction. Transfert : livre sur une table → table par contact, Terre à distance.',
-      attendus: ['Quatre objets qualifiés avec la bonne nature d’action.', 'Chaque interaction relie deux objets nommés.', 'Retirer le fil ne supprime pas la Terre.', 'Précision que l’air est négligé dans le modèle.'],
-      erreurs: ['Penser qu’une action exige un contact.', 'Oublier la Terre.', 'Attribuer une action de contact à l’aimant.'],
-      limites: 'Diagramme qualitatif sans champ magnétique ni valeurs de force. Les cas « fil retiré » et « aimant éloigné » sont des scénarios décrits, non animés en physique. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : cartes illustrées des objets à classer. Approfondissement : ajouter le support de l’aimant et discuter les interactions réciproques.'
-    }
   };
 })();

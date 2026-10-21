@@ -128,12 +128,5 @@
         }
       ]
     },
-    prof: {
-      reference: '3,40 m ÷ 0,0100 s = 340 m/s ; avec 6,80 m le délai est 20,0 ms et la vitesse reste 340 m/s. Transfert : 1,70 m → 5,0 ms. Le délai entre capteurs n’est pas un aller-retour.',
-      attendus: ['Délai = différence des horodatages (10,0 ms), pas l’horodatage du capteur 2.', 'Conversion 10,0 ms = 0,0100 s.', 'Distance = séparation des capteurs, sans doubler.', 'Constat : délai proportionnel à la distance, quotient constant.'],
-      erreurs: ['Utiliser l’horodatage du capteur 2 (14,0 ms) comme durée.', 'Laisser le délai en ms avec une distance en m.', 'Doubler la distance comme dans un écho.'],
-      limites: 'Mesures synthétiques arrondies à 0,1 ms ; propagation alignée dans un air homogène, vitesse fixée à 340 m/s, source supposée alignée avec les capteurs. L’incertitude est modélisée de façon simple : l’horloge moins précise ajoute un écart fixe de ± 0,5 ms (valeurs déterministes), sans loi statistique. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : tableau de calcul étape par étape sans résultat final. Approfondissement : changer le milieu ou discuter une erreur de 0,5 ms sur le délai.'
-    }
   };
 })();

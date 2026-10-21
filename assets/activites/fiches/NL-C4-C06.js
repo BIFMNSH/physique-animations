@@ -139,12 +139,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Situation initiale : 120 + 180 = 300 mA. Avec X : 450 mA, dans la limite. Avec Y : 550 mA demandés, hors spécification (limite 500 mA). Un court-circuit n’est pas simplement l’ajout d’un récepteur normal : il crée un chemin de faible résistance. Transfert : deux modules X donnent 600 mA demandés, non conforme.',
-      attendus: ['Totaux exacts : 300, 450 et 550 mA ; 600 mA pour deux modules X.', 'Comparaison explicite à la limite de 500 mA et décision argumentée avec le total.', 'Surcharge (somme trop grande de courants normaux) distinguée du court-circuit (chemin de faible résistance).', 'Au-delà de 500 mA, l’élève parle de demande théorique, pas de mesure garantie.', 'Retirer un module restaure les valeurs précédentes.'],
-      erreurs: ['Penser que le courant principal reste égal à celui d’une branche parce que les branches sont indépendantes.', 'Assimiler le dépassement de la limite à un court-circuit.', 'Annoncer une coupure automatique à 500 mA : le modèle ne l’affirme pas.'],
-      limites: 'Courants nominaux à 6 V. La limite de 500 mA est une capacité nominale d’un dispositif fictif. Au-delà, le modèle affiche une demande théorique et ne simule pas le comportement réel ; aucune coupure universelle n’est inventée. Le court-circuit n’est pas chiffré. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : rappel ciblé de la grandeur ou du modèle et exemple d’organisation des mesures. Approfondissement : laisser choisir un paramètre supplémentaire et justifier les conditions maintenues.'
-    }
   };
 })();

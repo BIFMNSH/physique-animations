@@ -43,7 +43,7 @@ test('pass enseignant tous thèmes : corrigé servi, jamais en cache ; thème no
   const r = await p.call('/api/activites/NL-C4-D06/corrige'); assert.equal(r.status, 200);
   assert.match(r.headers.get('cache-control'), /no-store/);
   const c = await j(r); assert.equal(c.id, 'NL-C4-D06'); assert.ok(c.prof.reference.includes('0,64 m'));
-  assert.equal((await p.call('/api/activites/NL-C4-B03/corrige')).status, 404); // activité sans corrigé exporté
+  assert.equal((await p.call('/api/activites/NL-C4-B03/corrige')).status, 200); // corrigé exporté parmi les 16
   const p2 = await user(4, 'enseignant'); await pass(p2.id, 'prof', 'B');
   assert.equal((await p2.call('/api/activites/NL-C4-B02/corrige')).status, 200);
   assert.equal((await p2.call('/api/activites/NL-C4-D06/corrige')).status, 402);
@@ -63,4 +63,25 @@ test('les corrigés exportés ne fuient pas dans le front public', async () => {
   const v = readFileSync(new URL('../../.vercelignore', import.meta.url), 'utf8');
   assert.match(v, /^server\/?$/m);
   assert.ok(existsSync(new URL('../private/activites/NL-C4-A04.json', import.meta.url)));
+});
+
+
+test('les 16 fiches publiques ne contiennent pas de bloc professeur', async () => {
+  const { readFileSync } = await import('node:fs');
+  const ids = ['A01','A02','A04','B01','B02','B03','B04','B05','C01','C03','C06','C08','D01','D02','D05','D06'];
+  for (const id of ids) {
+    const js = readFileSync(new URL('../../assets/activites/fiches/NL-C4-' + id + '.js', import.meta.url), 'utf8');
+    assert.doesNotMatch(js, /\bprof\s*:\s*\{/);
+  }
+});
+
+test('un rôle enseignant auto-déclaré sans pass prof ne suffit pas', async () => {
+  const u = await user(7, 'enseignant');
+  const r = await u.call('/api/activites/NL-C4-A04/corrige');
+  assert.notEqual(r.status, 200);
+});
+
+test('un pass élève avec rôle enseignant ne donne pas le corrigé', async () => {
+  const u = await user(8, 'enseignant'); await pass(u.id, 'eleve', 'A');
+  assert.equal((await u.call('/api/activites/NL-C4-A04/corrige')).status, 403);
 });

@@ -65,7 +65,7 @@
     var cf = st.confront, verd = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' }, tr = st.transfert;
     var T = F.transfert, trOk = tr && (T.type === 'nombre' ? Math.abs(parseFloat(String(tr.rep).replace(',', '.')) - T.rep) <= (T.tol || 0) : tr.rep === T.rep);
     var ac = st.autocorr, after = '';
-    if (filled && ac && (ac.note || (ac.coches && ac.coches.length))) after = sec('★', 'Après correction', '<p class="sh-q"><b>Points que j’ai vérifiés :</b> ' + (ac.coches || []).map(function (k) { return esc(F.prof.attendus[k] || ''); }).join(' ; ') + '</p>' + field('Ce que j’avais faux ou oublié, et ce que j’ai compris :', ac.note, 2));
+    if (filled && ac && (ac.note || (ac.coches && ac.coches.length))) after = sec('★', 'Après correction', '<p class="sh-q"><b>Points que j’ai vérifiés :</b> ' + (ac.coches || []).map(function (k) { return esc((F.pedagogie.objectifs[k] || {}).eleve || ''); }).join(' ; ') + '</p>' + field('Ce que j’avais faux ou oublié, et ce que j’ai compris :', ac.note, 2));
     var p2 = '<div class="sh-page">' + head.split('<h1>')[0] + '<h1 class="sh-h1b">' + esc(F.titre) + ' <small>(suite)</small></h1>' +
       sec(4, 'Je conclus', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) + field('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
         '<p class="sh-q"><b>Ma prévision est :</b> ' + (filled && cf ? esc(verd[cf.verdict] || '') : '☐ confirmée &nbsp; ☐ infirmée &nbsp; ☐ partiellement confirmée &nbsp; ☐ non testée de façon concluante') + '</p>' +
@@ -259,12 +259,12 @@
         var ac = st.autocorr || { coches: [], note: '' }, c = h('div', { class: 'card' }, cor);
         h('h3', { text: 'Corrigé : je compare avec mon travail' }, c);
         h('p', { style: 'color:var(--mist);font-size:15px' }, c, 'Tu as écrit ta conclusion et tenté le transfert : tu peux maintenant comparer ton travail avec la référence.');
-        h('div', { class: 'msg ok' }, c, '<b>Référence.</b> ' + esc(F.prof.reference));
+        h('div', { class: 'msg ok' }, c, '<b>Synthèse scientifique.</b> ' + esc(F.synthese));
         h('h4', { text: 'Ce que ma fiche doit montrer (je coche ce que j’ai bien fait)' }, c);
         var fs = h('fieldset', { style: 'border:0;padding:0;margin:0' }, c);
-        F.prof.attendus.forEach(function (a, k) { h('label', { class: 'opt' }, fs, '<input type="checkbox" data-k="' + k + '"' + (ac.coches.indexOf(k) >= 0 ? ' checked' : '') + '><span>' + esc(a) + '</span>'); });
+        F.pedagogie.objectifs.forEach(function (o, k) { h('label', { class: 'opt' }, fs, '<input type="checkbox" data-k="' + k + '"' + (ac.coches.indexOf(k) >= 0 ? ' checked' : '') + '><span>' + esc(o.eleve) + '</span>'); });
         h('h4', { text: 'Erreurs fréquentes : est-ce que je me reconnais ?' }, c);
-        h('ul', {}, c, F.prof.erreurs.map(function (e) { return '<li>' + esc(e) + '</li>'; }).join(''));
+        h('p', {}, c, 'Compare ta conclusion et tes calculs à la synthèse scientifique. Vérifie les unités et les observations que tu as relevées.');
         h('label', { for: 'ac', text: 'Ce que j’avais faux ou oublié, et ce que j’ai compris :' }, c); var ta = h('textarea', { id: 'ac' }, c); ta.value = ac.note || '';
         var sv = h('button', { class: 'btn', type: 'button', text: 'Enregistrer mon auto-correction' }, c), ok = h('span', { 'aria-live': 'polite', style: 'margin-left:10px' }, c);
         sv.onclick = function () { var cs = []; [].forEach.call(c.querySelectorAll('input[data-k]:checked'), function (i) { cs.push(Number(i.getAttribute('data-k'))); }); st.autocorr = { coches: cs, note: ta.value.trim(), ts: Date.now() }; save(KEY, st); ok.textContent = 'Enregistrée dans ma fiche.'; };
@@ -295,7 +295,23 @@
       var pf = h('div', { class: 'card' }, panel); h('h3', { text: 'Espace enseignant' }, pf);
       if (!profMode) {
         h('p', { style: 'color:var(--mist)' }, pf, 'Le corrigé et les attendus sont une ressource distincte de la trace élève.');
-        h('button', { class: 'btn', type: 'button', text: 'Passer en mode enseignant' }, pf).onclick = function () { profMode = true; draw(); };
+        var profBtn = h('button', { class: 'btn', type: 'button', text: 'Vérifier mon accès enseignant' }, pf);
+        var authNotice = h('p', { 'aria-live': 'polite' }, pf);
+        profBtn.onclick = function () {
+          profBtn.disabled = true; authNotice.textContent = 'Vérification de l’habilitation…';
+          var api = window.NOHOBALAB_API_URL || 'https://api.lab.nohaba.com';
+          fetch(api + '/api/activites/' + encodeURIComponent(F.id) + '/corrige', { credentials: 'include', cache: 'no-store' })
+            .then(function (res) {
+              if (!res.ok) throw new Error(res.status === 401 ? 'Connexion nécessaire.' : res.status === 402 ? 'Abonnement au thème nécessaire.' : res.status === 403 ? 'Accès réservé aux enseignants habilités.' : 'Corrigé indisponible.');
+              return res.json();
+            })
+            .then(function (data) {
+              if (!data || !data.prof || data.id !== F.id) throw new Error('Réponse du serveur invalide.');
+              F.prof = data.prof; profMode = true; draw();
+            })
+            .catch(function (err) { authNotice.textContent = err.message || 'Contrôle impossible.'; })
+            .then(function () { profBtn.disabled = false; });
+        };
       } else {
         h('div', { class: 'bannerprof', role: 'status' }, pf, 'Mode enseignant activé : les réponses attendues sont affichées. Ne pas projeter devant les élèves avant la fin de l’activité.');
         h('p', {}, pf, '<b>Référence :</b> ' + esc(F.prof.reference));

@@ -141,12 +141,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Pour un flacon et sa coupelle de 45 g, 100 g d’eau et 5 g de sucre, on obtient 150 g avant et après. Avec 10 g de sucre : 155 g. On ne conclut pas à la conservation du volume.',
-      attendus: ['Les deux pesées sont égales pour tout essai (1 à 10 g de sucre).', 'Le système est identifié comme fermé (flacon, coupelle, eau, sucre).', 'L’élève distingue dispersion (le sucre est toujours là) et disparition.', 'Transfert : non, le système n’est plus le même après le renversement.'],
-      erreurs: ['« Le sucre a disparu, donc la masse diminue » : confusion entre ne plus voir et ne plus exister.', 'Confondre la tare (réglage de la balance) avec une perte de matière.', 'Conclure que le volume est conservé : l’activité ne le mesure pas.'],
-      limites: 'Modèle idéal : dissolution complète de 1 à 10 g de sucre dans 100 g d’eau, balance sans bruit de mesure, aucune évaporation. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : pictogrammes du matériel, vocabulaire explicité, tableau préparé. Approfondissement : demander un nouvel exemple ou une limite de la conclusion.'
-    }
   };
 })();

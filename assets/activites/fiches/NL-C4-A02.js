@@ -139,12 +139,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Liquide A : 102 − 42 = 60 g ; la mesure avec tare donne aussi 60 g (zéro avec le flacon vide, puis 60 g après remplissage). Le volume est 60 mL dans cet exemple ; masse et volume restent des grandeurs différentes. Transfert : 90 − 42 = 48 g.',
-      attendus: ['Masse du liquide = masse pleine − masse vide = 60 g pour le liquide A.', 'Mesure tarée identique à la différence des deux pesées.', '102 g est la masse du flacon et du liquide : elle ne répond pas seule à la question.', 'Lecture du volume à hauteur des yeux, au bas du ménisque.', 'Unités conservées : g pour la masse, mL pour le volume.'],
-      erreurs: ['Répondre 102 g (masse totale) ou 42 g (flacon seul).', 'Répondre 60 g « parce que 60 mL » : confusion entre volume et masse.', 'Considérer que la tare fait disparaître de la matière.'],
-      limites: 'Modèle : masse affichée = masse totale − tare ; la masse du liquide est paramétrée indépendamment de son volume (60 mL de liquides différents : 60 g, 54 g, 48 g, valeurs synthétiques). La lecture faussée par la position de l’œil est schématique (± 4 mL). Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : pictogrammes du matériel, vocabulaire explicité, tableau préparé. Approfondissement : demander un nouvel exemple ou une limite de la conclusion.'
-    }
   };
 })();

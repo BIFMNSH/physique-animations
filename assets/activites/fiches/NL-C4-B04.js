@@ -111,12 +111,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Valeur 1,0 m/s en tout point. À 90°, sens inverse des aiguilles : flèche à 180° (vers la gauche) ; à 0° : 90° ; à 180° : 270° ; à 270° : 0°. En sens horaire, toutes les flèches sont inversées. Direction tangente (perpendiculaire au rayon), sens du déplacement. Transfert : sur la droite uniforme, valeur, direction et sens constants.',
-      attendus: ['Flèche tangente au cercle (perpendiculaire au rayon) à chaque position.', 'Longueur (valeur) constante.', 'Inversion du sens du déplacement = inversion des flèches.', 'Trois caractéristiques nommées séparément.'],
-      erreurs: ['Dessiner la flèche selon le rayon (vers le centre ou vers l’extérieur).', 'Dire « la vitesse change » sans préciser ce qui change.', 'Confondre trajectoire courbe et valeur de vitesse variable.'],
-      limites: 'Modèle : cercle de rayon fixe et valeur constante ; huit positions ; angles en degrés. Les flèches ne sont pas des vecteurs mathématiques complets (pas de composantes). La valeur 1,0 m/s est synthétique. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : rayon tracé et équerre. Approfondissement : discuter le cas où la valeur de la vitesse varie sur le cercle.'
-    }
   };
 })();

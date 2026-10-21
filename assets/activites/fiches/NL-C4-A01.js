@@ -114,12 +114,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Bloc : garde sa forme propre, occupe le même espace, ne se comprime pas visiblement. Eau : prend la forme du récipient, reste en bas avec une surface horizontale, volume conservé, ne se comprime pas visiblement. Air : occupe tout l’espace disponible et se comprime. Test liquide / gaz : occupation de tout l’espace et compression. Transfert : le sable est solide à l’échelle du grain ; le tas s’écoule.',
-      attendus: ['Au moins deux propriétés par état.', 'Volume du liquide conservé quand la forme du récipient change.', 'Le gaz occupe tout l’espace et se comprime.', 'Distinction entre l’échelle du grain et celle du tas.'],
-      erreurs: ['Dire que l’eau occupe tout le récipient comme l’air.', 'Dire que l’air « n’a pas de volume ».', 'Classer le sable en liquide d’après la seule forme du tas.'],
-      limites: 'Modèle macroscopique qualitatif, sans granularité ni capillarité ; pas de compression visible du liquide dans la plage scolaire ; volumes de 100 mL et 60 mL synthétiques. La surface libre horizontale suppose un récipient au repos. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : cartes illustrées à classer. Approfondissement : discuter la pâte à modeler, la mousse ou le gel.'
-    }
   };
 })();
