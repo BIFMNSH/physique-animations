@@ -81,7 +81,7 @@
     pedagogie: {
       "theme": "B",
       "attendu": 1,
-      "connaissance": "Identifier les actions mises en jeu (de contact ou à distance) ; action de contact et action à distance. Modélisation par des forces progressive : descriptive dès le début du cycle, formalisée en 4e.",
+      "connaissance": "Identifier les actions mises en jeu (de contact ou à distance) ; action de contact et action à distance. La modélisation par des forces est progressive : descriptive dès le début du cycle, puis, si possible dès la 4e, par la notion de force.",
       "competences": [
         [
           "demarche",

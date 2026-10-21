@@ -15,5 +15,12 @@ Source : Programme du cycle 4, physique-chimie (BOEN n° 31 du 30 juillet 2020, 
 
 ## Limites
 - Les rattachements aux capacités du programme sont ma proposition de rédaction : à valider par un enseignant avant diffusion.
-- Douze activités sont renseignées ; les 36 autres du catalogue le seront quand leurs fiches seront produites.
+- Les 12 activités produites portent leur bloc `pedagogie` dans leur fiche ; les 36 autres sont renseignées dans `assets/activites/pedagogie-catalogue.js` et affichées sur leur carte « en conception ». Chaque fiche future reprendra son bloc.
 - Les corrigés restent dans les fiches publiques tant que le site n'est pas branché au serveur.
+
+## Points à faire valider par un enseignant
+- A04 : la dissolution est rattachée à « conservation de la masse » (attendu *Décrire la constitution et les états de la matière*) ; la solubilité du programme pourrait aussi s'appliquer.
+- C08 : l'énergie électrique est rattachée au premier attendu du thème (sources, transferts, conversions) ; le programme regroupe aussi la conservation de l'énergie dans le même bloc.
+- B04 : le programme n'exige pas le vecteur vitesse complet au cycle 4 ; l'activité s'en tient à la flèche (valeur, direction, sens).
+- B05 : modélisation par des forces seulement descriptive ici, conformément aux repères de progressivité (formalisation si possible dès la 4e).
+- Toutes les fiches : la répartition en trois objectifs et les indicateurs sont des propositions de rédaction.

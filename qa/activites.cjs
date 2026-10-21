@@ -3,7 +3,7 @@ const fs = require('fs'), vm = require('vm'), path = require('path'), assert = r
 const root = path.join(__dirname, '..');
 const ctx = { window: {}, Activite: { h() {}, $() {}, esc: s => s, num: x => Number(x).toFixed(1).replace('.', ',') } }; vm.createContext(ctx);
 const run = f => vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8'), ctx);
-run('assets/activites/catalogue.js'); run('assets/activites/programme.js'); run('assets/activites/fiches/NL-C4-A04.js'); run('assets/activites/fiches/NL-C4-B02.js'); run('assets/activites/fiches/NL-C4-C06.js'); run('assets/activites/fiches/NL-C4-D06.js'); ['A02','C03','D05','C08','B01','B03','B04','B05'].forEach(i => run('assets/activites/fiches/NL-C4-' + i + '.js'));
+run('assets/activites/catalogue.js'); run('assets/activites/programme.js'); run('assets/activites/pedagogie-catalogue.js'); run('assets/activites/fiches/NL-C4-A04.js'); run('assets/activites/fiches/NL-C4-B02.js'); run('assets/activites/fiches/NL-C4-C06.js'); run('assets/activites/fiches/NL-C4-D06.js'); ['A02','C03','D05','C08','B01','B03','B04','B05'].forEach(i => run('assets/activites/fiches/NL-C4-' + i + '.js'));
 const A = ctx.window.ACTIVITES; let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; };
 ok(A.length === 48, '48 activités');
 ok(new Set(A.map(a => a.id)).size === 48, 'identifiants uniques');
@@ -144,4 +144,15 @@ dispo.forEach(a => {
   });
   ok(P.objectifs.some(o => /Transfert|transfert/.test(o.preuve)) || P.objectifs.some(o => /Tableau|Manipulation|Confrontation|Prévision/.test(o.preuve)), a.id + ' : objectifs reliés à une étape observable');
 });
+
+// activités en conception : même cadre (compétences, objectifs, savoir-faire, évaluation)
+const PC = ctx.window.PEDAGOGIE_CATALOGUE, conc = A.filter(a => a.statut !== 'disponible');
+ok(conc.length === 36 && Object.keys(PC).length === 36 && conc.every(a => PC[a.id]), 'catalogue : 36 activités en conception, toutes renseignées');
+conc.forEach(a => { const P = PC[a.id];
+  ok(P.theme === a.theme, a.id + ' (conception) : thème'); ok(PR.themes[P.theme].attendus[P.attendu], a.id + ' (conception) : attendu'); ok(P.connaissance.length > 30, a.id + ' (conception) : connaissance');
+  ok(P.competences.length >= 2 && P.competences.every(c => PR.competences[c[0]] && PR.competences[c[0]].cap[c[1]]), a.id + ' (conception) : compétences du programme');
+  ok(P.objectifs.length === 3 && new Set(P.objectifs.map(o => o.id)).size === 3, a.id + ' (conception) : trois objectifs');
+  P.objectifs.forEach(o => { ok(/^Je sais /.test(o.eleve) && !/\d/.test(o.eleve), a.id + ' ' + o.id + ' (conception) : énoncé élève'); ok(o.savoirFaire.length >= 1 && o.indicateur.length > 15 && o.preuve.length > 3 && o.objectif.length > 15, a.id + ' ' + o.id + ' (conception) : savoir-faire, indicateur, preuve'); });
+});
+ok(Object.keys(PC).every(k => !dispo.some(a => a.id === k)), 'aucun doublon entre fiches produites et catalogue en conception');
 console.log(n + ' assertions activités passées.');
