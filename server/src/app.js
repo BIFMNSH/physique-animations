@@ -192,7 +192,8 @@ export function createApp() {
     if (!coversTheme(a, theme)) return c.json({ error: 'Pass requis pour ce thème', theme, plans: PLANS }, 402);
     // Le corrigé est réservé aux enseignants : profil « enseignant » pendant la période gratuite, puis pass enseignant. Jamais un pass élève ni l'accès par une classe.
     const role = (await q('select role from app_profile where user_id=$1', [c.get('user').id])).rows[0]?.role;
-    const prof = a.level === 'gratuit' ? role === 'enseignant' : a.level === 'pass' && a.plan === 'prof';
+    // Ne jamais accorder un corrigé sur simple rôle auto-déclaré, même en période gratuite.
+    const prof = a.level === 'pass' && a.plan === 'prof' && role === 'enseignant';
     if (!prof) return fail(c, 403, 'Réservé aux enseignants');
     try { return c.body(await readFile(new URL(`../private/activites/${id}.json`, import.meta.url), 'utf8'), 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store' }); }
     catch { return fail(c, 404, 'Corrigé introuvable'); }
