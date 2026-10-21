@@ -33,7 +33,7 @@
     var CP = compsP(ped), V = window.VISEE && window.VISEE[id], n, caps, visee = '';
     if (V) { n = V.capable.length; caps = V.capable.map(function (t, i) { return '<li>' + esc(t) + (i < n - 1 ? ' ;' : '.') + '</li>'; }).join(''); visee = '<p class="vis">' + esc(V.visee) + '</p>'; }
     else { n = ped.objectifs.length; caps = ped.objectifs.map(function (o, i) { var t = String(o.eleve || o.objectif).replace(/^Je sais /, '').replace(/[.;\s]+$/, ''); return '<li>' + esc(t.charAt(0).toUpperCase() + t.slice(1)) + (i < n - 1 ? ' ;' : '.') + '</li>'; }).join(''); }
-    var prog = CP.length ? '<p class="prog">Compétence du programme : <b>' + esc(CP[0].nom) + '</b> — ' + esc(CP[0].cap) + '</p>' : '';
+    var prog = '';
     return '<div class="cadre"><p class="th-nom">Thème : ' + esc(T.nom) + '</p><p class="ch">Chapitre : ' + esc(chapitre) + '</p><h3>Compétence visée</h3>' + visee + prog + '<h3>À la fin de cette partie, je dois être capable de :</h3><ul>' + caps + '</ul></div>';
   }
   function themeNom(F) { var P = window.PROGRAMME, ped = F.pedagogie; return P && ped && P.themes[ped.theme] ? P.themes[ped.theme] : null; }
