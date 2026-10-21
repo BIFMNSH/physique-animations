@@ -105,7 +105,7 @@
         <p class="msg" id="mDel" role="status" aria-live="polite"></p>
       </section>
 
-      <div class="note"><b>Établissements :</b> un collège passe par le compte de ses enseignants ; le pass établissement est proposé sur devis (voir les offres).<br>Mineurs : Google, Facebook et X exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe.</div>
+      <div class="note"><b>Établissements :</b> un collège passe par le compte de ses enseignants ; le pass établissement est proposé sur devis : <a href="mailto:testnohoba@gmail.com?subject=Devis%20NOHOBA-Lab%20pour%20un%20%C3%A9tablissement&body=Bonjour%2C%0A%0ANom%20de%20l%E2%80%99%C3%A9tablissement%20%3A%0AVille%20%3A%0ANombre%20de%20classes%20de%20coll%C3%A8ge%20%3A%0AT%C3%A9l%C3%A9phone%20du%20responsable%20%3A%0A%0AMerci.">écrivez-nous</a> (testnohoba@gmail.com).<br>Mineurs : Google, Facebook et X exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe.</div>
     </div>
   </main>
 </div>
@@ -121,7 +121,7 @@
   var q=new URLSearchParams(location.search),o=q.get('offre'),du=q.get('duree')||'an';
   var NOMP={eleve:'Pass Élève',prof:'Pass Enseignant',ecole:'Établissement'},DUR={mois:'1 mois',trim:'1 trimestre',an:'année scolaire'};
   var PX={eleve:{mois:'1 000 F',trim:'2 500 F',an:'6 000 F'},prof:{mois:'2 500 F',trim:'6 000 F',an:'15 000 F'}};
-  if(o&&NOMP[o]){var box=$('offerBox');box.hidden=false;box.innerHTML=o==='ecole'?'<b>Offre choisie :</b> Établissement, sur devis.':'<b>Offre choisie :</b> '+NOMP[o]+', '+DUR[du]+' : <b>'+(PX[o]&&PX[o][du]||'')+'</b>. Le paiement Mobile Money n’est pas encore ouvert : tout reste gratuit jusqu’au 31 décembre 2026.';}
+  if(o&&NOMP[o]){var box=$('offerBox');box.hidden=false;box.innerHTML=o==='ecole'?'<b>Offre choisie :</b> Établissement, sur devis : écrivez à testnohoba@gmail.com.':'<b>Offre choisie :</b> '+NOMP[o]+', '+DUR[du]+' : <b>'+(PX[o]&&PX[o][du]||'')+'</b>. Le paiement Mobile Money n’est pas encore ouvert : tout reste gratuit jusqu’au 31 décembre 2026.';}
   if(q.get('error'))say('mTop','La connexion n’a pas abouti. Réessayez, ou utilisez votre numéro de téléphone.');
 
   function telOk(ind,v){v=v.replace(/\D/g,'').replace(/^0/,ind==='33'?'':'0');
