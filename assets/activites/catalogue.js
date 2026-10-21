@@ -311,7 +311,7 @@ window.ACTIVITES = [
   "ressources": [
    "simulation:vitesse"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": true
  },
  {

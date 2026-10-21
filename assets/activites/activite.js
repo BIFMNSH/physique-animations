@@ -18,29 +18,10 @@
   function save(key, st) { try { localStorage.setItem(key, JSON.stringify(st)); } catch (e) {} }
 
   /* ---- modèle de séquence de pesée (indépendant du rendu) ---- */
-  function newRun(F, sucre) { return { sucre: sucre, phase: 0, avant: null, apres: null }; } // 0 rien · 1 pesé avant · 2 incliné · 3 agité · 4 pesé après
 
-  /* ---- illustration SVG : flacon fermé sur une balance ---- */
-  function flaskSVG(host) {
-    host.innerHTML =
-      '<svg viewBox="0 0 320 280" role="img" aria-label="Un flacon fermé posé sur une balance. Dans le flacon, de l’eau et une coupelle fixée au bouchon qui contient du sucre." style="width:100%;max-width:420px">' +
-      '<rect x="40" y="236" width="240" height="26" rx="8" fill="#5B6B88"/><rect x="60" y="226" width="200" height="12" rx="3" fill="#7C8CA8"/>' +
-      '<g id="fl" style="transform-origin:160px 226px;transition:transform .8s">' +
-      '<path d="M110 90 h100 v128 a8 8 0 0 1 -8 8 h-84 a8 8 0 0 1 -8 -8 z" fill="rgba(156,200,232,.15)" stroke="var(--glass)" stroke-width="3"/>' +
-      '<rect x="112" y="150" width="96" height="74" rx="4" fill="rgba(79,168,255,.38)"/>' +
-      '<rect x="128" y="72" width="64" height="20" rx="4" fill="#C77B30"/>' +
-      '<path d="M150 92 v34 M170 92 v34" stroke="#C77B30" stroke-width="3"/><path d="M138 126 h44 l-6 14 h-32 z" fill="none" stroke="#C77B30" stroke-width="3" id="coupe"/>' +
-      '<g id="grains" fill="#FFF8E7" stroke="#B8A88A" stroke-width="1"></g></g>' +
-      '<rect x="26" y="40" width="268" height="206" rx="14" fill="none" stroke="var(--or)" stroke-width="2.5" stroke-dasharray="7 6"/>' +
-      '<text x="34" y="34" font-size="13" fill="var(--or-soft)" font-family="sans-serif">Système : tout ce qui est dans le flacon fermé</text></svg>';
-    var g = $('#grains', host), i, pts = [[146,132],[154,134],[162,131],[170,134],[150,128],[158,129],[166,128],[174,131],[142,134],[178,134]];
-    g.innerHTML = '';
-    for (i = 0; i < 10; i++) { var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('cx', pts[i][0]); c.setAttribute('cy', pts[i][1]); c.setAttribute('r', 3.2); c.setAttribute('class', 'grain'); g.appendChild(c); }
-    return { setSugar: function (n) { [].forEach.call(g.children, function (c, k) { c.style.display = k < n ? '' : 'none'; c.style.opacity = 1; c.style.transform = ''; }); },
-      tilt: function (on) { $('#fl', host).style.transform = on ? 'rotate(-38deg)' : ''; },
-      drop: function () { [].forEach.call(g.children, function (c, k) { c.style.transform = 'translate(' + (-10 + (k % 5) * 6) + 'px,' + (70 + (k % 3) * 8) + 'px)'; }); },
-      dissolve: function () { [].forEach.call(g.children, function (c) { c.style.opacity = 0; }); },
-      reset: function (n) { $('#fl', host).style.transform = ''; this.setSugar(n); } };
+  function tableHTML(F, rows, cap) {
+    return '<table class="t">' + (cap ? '<caption class="noprint" style="text-align:left;color:var(--mist)">' + esc(cap) + '</caption>' : '') + '<thead><tr>' + F.colonnes.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      (rows.length ? rows.map(function (r) { return '<tr>' + r.map(function (c, k) { return k ? '<td>' + esc(c) + '</td>' : '<th scope="row" style="font-weight:700">' + esc(c) + '</th>'; }).join('') + '</tr>'; }).join('') : '<tr><td colspan="' + F.colonnes.length + '" style="text-align:center;color:var(--mist)">Aucun essai pour l’instant</td></tr>') + '</tbody></table>';
   }
 
   /* ---- impression ---- */
@@ -50,18 +31,18 @@
     var line = function (t, v) { return '<p><b>' + esc(t) + '</b> ' + (filled && v ? esc(v) : '') + '</p>' + (filled && v ? '' : '<div class="line"></div><div class="line"></div>'); };
     var pv = st.prevision, ch = pv && F.prevision.choix.filter(function (c) { return c[0] === pv.choix; })[0];
     var h1 = '<h1>' + esc(F.titre) + '</h1><p>' + esc(F.id) + ' · version ' + esc(F.version) + ' · niveau ' + esc(F.niveau) + ' · ' + (prof ? 'VERSION PROFESSEUR' : filled ? 'fiche remplie' : 'fiche vierge') + '</p><p>Nom : ____________ Classe : ______ Date : ________</p>';
-    var rows = '', i;
-    for (i = 0; i < Math.max(filled ? st.essais.length : 0, 3); i++) { var e = filled && st.essais[i]; rows += '<tr><td>' + (e ? e.sucre : '') + '</td><td>' + (e ? num(e.avant) : '') + '</td><td>' + (e ? num(e.apres) : '') + '</td><td>' + (e ? num(e.apres - e.avant) : '') + '</td></tr>'; }
+    var rows = '', i, L = filled ? F.lignes(st) : [], nr = Math.max(L.length, F.lignesVides || 3);
+    for (i = 0; i < nr; i++) { rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>'; }
     var p1 = h1 + '<h2>Situation</h2><p>' + esc(F.situation) + '</p><p><b>Matériel :</b> ' + esc(F.materiel) + '</p>' +
       '<h2>Ma prévision</h2><p>' + esc(F.prevision.consigne) + '</p>' + (filled && pv ? '<p>' + (pv.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : '') + esc(ch ? ch[1] : '') + ' — parce que ' + esc(pv.raison || '') + '</p>' : '<div class="line"></div><div class="line"></div>') +
       '<h2>Protocole</h2><ol>' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p>Variable modifiée : ' + esc(F.variable) + '. Conditions maintenues : ' + esc(F.maintenu) + '.</p>' +
-      '<table><thead><tr><th>Sucre (g)</th><th>Masse avant (g)</th><th>Masse après (g)</th><th>Différence (g)</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<table><thead><tr>' + F.colonnes.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table>' +
       (filled && st.essais.length ? '<p><i>Données simulées (modèle ' + esc(F.modele) + ').</i></p>' : '');
     var cf = st.confront, verdicts = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' };
     var tr = st.transfert;
     var p2 = '<div class="pb"></div>' + h1.split('<p>Nom')[0] + '<h2>Expliquer</h2>' +
       line('Ma prévision initiale :', pv && (ch ? ch[1] : '')) +
-      line('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(function (e) { return e.sucre + ' g de sucre : ' + num(e.avant) + ' g puis ' + num(e.apres) + ' g'; }).join(' ; ') : '') +
+      line('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '') +
       '<p><b>Ma prévision est :</b> ' + (filled && cf ? esc(verdicts[cf.verdict] || '') : '☐ confirmée ☐ infirmée ☐ partiellement confirmée ☐ non testée de façon concluante') + '</p>' +
       line('Je le justifie avec :', cf && cf.preuve) + line('Ma conclusion personnelle :', st.conclusion) +
       '<h2>Transfert</h2><p>' + esc(F.transfert.q) + '</p>' + (filled && tr ? '<p>Ma réponse : ' + esc(tr.rep) + ' — ' + esc(tr.just || '') + '</p>' : '<div class="line"></div><div class="line"></div>') +
@@ -75,7 +56,13 @@
 
   /* ---- application ---- */
   function run(F, root) {
-    var KEY = 'pc-act-' + F.id, st = load(KEY), profMode = false, view = st.step || 0, cur = null, api = null;
+    var KEY = 'pc-act-' + F.id, st = load(KEY), profMode = false, view = st.step || 0, ctxNx = null;
+    function ctx() {
+      return { st: function () { return st; }, key: KEY, F: F, h: h, $: $, num: num, esc: esc, tableHTML: tableHTML,
+        save: function () { save(KEY, st); }, tabs: function () { drawTabs(); },
+        addEssai: function (e) { e.ts = Date.now(); e.statut = 'simulé'; e.modele = F.modele; st.essais.push(e); save(KEY, st); drawTabs(); if (ctxNx) ctxNx.disabled = false; },
+        aide: function () { var k = Math.min(st.aides, F.aides.length - 1); st.aides++; save(KEY, st); return F.aides[k]; } };
+    }
     function reached() { // plus grand écran accessible
       if (!st.prevision) return 1;
       if (!st.essais.length) return 2;
@@ -105,7 +92,7 @@
       h('p', { text: F.situation }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
-      var d = h('div', { style: 'text-align:center' }, panel); flaskSVG(d).setSugar(5);
+      var d = h('div', { style: 'text-align:center' }, panel); if (F.illustration) F.illustration(d);
       var r = h('div', { class: 'row' }, panel);
       next('Commencer : ma prévision ▸', 1, r);
       var v = h('button', { class: 'btn', type: 'button', text: 'Fiche vierge (imprimer)' }, r); v.onclick = function () { printDoc(F, st, 'vierge'); };
@@ -143,51 +130,9 @@
     function sManip() {
       h('h2', { text: 'Manipulation' }, panel);
       h('p', {}, panel, '<b>Variable modifiée :</b> ' + esc(F.variable) + ' · <b>Maintenu :</b> ' + esc(F.maintenu));
-      var g = h('div', { class: 'grid2' }, panel), L = h('div', {}, g), R = h('div', {}, g);
-      var holder = h('div', { style: 'text-align:center' }, L); var fl = flaskSVG(holder);
-      var balRow = h('div', { class: 'row', style: 'justify-content:center' }, L);
-      h('span', { text: 'Balance (flacon + contenu) :' }, balRow);
-      var bal = h('output', { class: 'bal', 'aria-live': 'polite' }, balRow, '— g');
-      var sl = h('label', { for: 'sug', text: 'Quantité de sucre dans la coupelle : ' }, R); var out = h('b', {}, sl, '');
-      var rng = h('input', { type: 'range', id: 'sug', min: F.sucreMin, max: F.sucreMax, step: 1, value: cur ? cur.sucre : 5, style: 'width:100%' }, R);
-      var ol = h('ol', { class: 'steps' }, R);
-      var labs = ['Peser le flacon fermé (avant)', 'Incliner le flacon', 'Agiter sans ouvrir', 'Peser le même flacon (après)'];
-      var btns = labs.map(function (t, i) { var li = h('li', {}, ol); var b = h('button', { class: 'btn', type: 'button', text: (i + 1) + ' · ' + t }, li); b.onclick = function () { act(i); }; return { li: li, b: b }; });
-      var note = h('p', { style: 'color:var(--mist);font-size:15px' }, R, 'Le flacon reste fermé pendant tout l’essai : rien n’entre, rien ne sort. Changer la quantité de sucre ouvre un nouvel essai.');
-      var again = h('button', { class: 'btn', type: 'button', text: 'Nouvel essai (même quantité)', disabled: '' }, R); again.onclick = function () { fresh(cur.sucre); };
-      var aid = h('button', { class: 'btn', type: 'button', text: 'Besoin d’une aide ?' }, R); var aidBox = h('div', { class: 'msg', hidden: '', 'aria-live': 'polite' }, R);
-      aid.onclick = function () {
-        if (!st.essais.length) { aidBox.hidden = false; aidBox.textContent = 'L’aide est disponible après ton premier essai complet : essaie d’abord seul.'; return; }
-        var k = Math.min(st.aides, F.aides.length - 1); aidBox.hidden = false; aidBox.textContent = F.aides[k]; st.aides++; save(KEY, st);
-      };
-      var tb = h('div', { class: 'card' }, panel); h('h3', { text: 'Mes essais' }, tb); var tbl = h('div', {}, tb);
-      var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); };
-      function table() {
-        tbl.innerHTML = '<table class="t"><caption class="noprint" style="text-align:left;color:var(--mist)">Données simulées — modèle ' + esc(F.modele) + '</caption><thead><tr><th>Sucre (g)</th><th>Masse avant (g)</th><th>Masse après (g)</th><th>Différence (g)</th></tr></thead><tbody>' +
-          (st.essais.length ? st.essais.map(function (e) { return '<tr><td>' + e.sucre + '</td><td>' + num(e.avant) + '</td><td>' + num(e.apres) + '</td><td>' + num(e.apres - e.avant) + '</td></tr>'; }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--mist)">Aucun essai pour l’instant</td></tr>') + '</tbody></table>';
-        nx.disabled = !st.essais.length;
-      }
-      function paint() {
-        out.textContent = cur.sucre + ' g';
-        btns.forEach(function (o, i) { o.li.className = cur.phase > i ? 'done' : cur.phase === i ? 'now' : ''; o.b.disabled = cur.phase !== i; });
-        again.disabled = cur.phase !== 4;
-        bal.textContent = cur.phase === 0 ? '— g' : cur.phase < 4 ? num(cur.avant) + ' g' : num(cur.apres) + ' g';
-        table();
-      }
-      function fresh(n) { cur = newRun(F, n); fl.reset(n); paint(); }
-      function act(i) {
-        if (cur.phase !== i) return;
-        var m = F.essai(cur.sucre);
-        if (i === 0) { cur.avant = m.avant; cur.phase = 1; }
-        else if (i === 1) { fl.tilt(true); fl.drop(); cur.phase = 2; }
-        else if (i === 2) { fl.dissolve(); cur.phase = 3; }
-        else { cur.apres = m.apres; cur.phase = 4; fl.tilt(false); st.essais.push({ sucre: cur.sucre, avant: cur.avant, apres: cur.apres, ts: Date.now(), statut: 'simulé', modele: F.modele }); save(KEY, st); drawTabs(); }
-        paint();
-      }
-      rng.oninput = function () { fresh(Number(rng.value)); };
-      fresh(Number(rng.value));
+      F.manip(panel, ctx());
+      var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !st.essais.length; ctxNx = nx;
     }
-
     function sConfront() {
       h('h2', { text: 'Confrontation' }, panel);
       h('p', { text: F.confrontation }, panel);
@@ -196,7 +141,7 @@
       h('h3', { text: 'Ma prévision initiale' }, a); h('p', {}, a, (pv.initiale.inconnu ? '<i>Je ne savais pas encore ; hypothèse :</i> ' : '') + esc(ch[1]) + ' — parce que ' + esc(pv.initiale.raison));
       if (pv.revisions && pv.revisions.length) h('p', { style: 'color:var(--mist)' }, a, 'Révisée ' + pv.revisions.length + ' fois depuis.');
       h('h3', { text: 'Mes résultats (données simulées)' }, b);
-      h('div', {}, b, '<table class="t"><thead><tr><th>Sucre (g)</th><th>Avant (g)</th><th>Après (g)</th><th>Diff. (g)</th></tr></thead><tbody>' + st.essais.map(function (e) { return '<tr><td>' + e.sucre + '</td><td>' + num(e.avant) + '</td><td>' + num(e.apres) + '</td><td>' + num(e.apres - e.avant) + '</td></tr>'; }).join('') + '</tbody></table>');
+      h('div', { style: 'overflow-x:auto' }, b, tableHTML(F, F.lignes(st)));
       var cf = st.confront || {};
       var f = h('fieldset', { style: 'border:0;padding:0' }, panel); h('legend', { style: 'font-weight:700' }, f, 'Ma prévision est…');
       [['confirmee', 'confirmée'], ['infirmee', 'infirmée'], ['partielle', 'partiellement confirmée'], ['non', 'impossible à conclure avec ces essais']].forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="vd" value="' + c[0] + '"' + (cf.verdict === c[0] ? ' checked' : '') + '><span>' + c[1] + '</span>'); });
@@ -223,14 +168,22 @@
       if (!st.conclusion) return;
       h('div', { class: 'msg ok' }, panel, '<b>Synthèse scientifique.</b> ' + esc(F.synthese));
       h('h3', { text: 'Transfert' }, panel); h('p', { text: F.transfert.q }, panel);
-      var tr = st.transfert || {};
-      var f = h('fieldset', { style: 'border:0;padding:0' }, panel);
-      [['oui', 'Oui'], ['non', 'Non']].forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="tr" value="' + c[0] + '"' + (tr.rep === c[0] ? ' checked' : '') + '><span>' + c[1] + '</span>'); });
+      var tr = st.transfert || {}, T = F.transfert, isNum = T.type === 'nombre';
+      var f = h('fieldset', { style: 'border:0;padding:0' }, panel), inp = null;
+      if (isNum) {
+        h('label', { for: 'tn', text: 'Ma réponse (' + T.unite + ') :' }, f); inp = h('input', { type: 'text', inputmode: 'decimal', id: 'tn', autocomplete: 'off', style: 'max-width:160px' }, f); inp.value = tr.rep || '';
+      } else {
+        (T.options || [['oui', 'Oui'], ['non', 'Non']]).forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="tr" value="' + c[0] + '"' + (tr.rep === c[0] ? ' checked' : '') + '><span>' + esc(c[1]) + '</span>'); });
+      }
       h('label', { for: 'tj', text: 'Je justifie :' }, panel); var tj = h('textarea', { id: 'tj' }, panel); tj.value = tr.just || '';
       var res = h('div', { class: 'msg', 'aria-live': 'polite', hidden: '' }, panel);
-      function show() { var s = st.transfert; if (!s) return; res.hidden = false; res.className = 'msg ' + (s.rep === F.transfert.rep ? 'ok' : 'bad'); res.innerHTML = '<b>' + (s.rep === F.transfert.rep ? 'Exact.' : 'Pas tout à fait.') + '</b> ' + esc(F.transfert.expl); }
+      function good(rep) { return isNum ? Math.abs(parseFloat(String(rep).replace(',', '.')) - T.rep) <= (T.tol || 0) : rep === T.rep; }
+      function show() { var s2 = st.transfert; if (!s2) return; var g = good(s2.rep); res.hidden = false; res.className = 'msg ' + (g ? 'ok' : 'bad'); res.innerHTML = '<b>' + (g ? 'Exact.' : 'Pas tout à fait.') + '</b> ' + esc(T.expl); }
       var ck = h('button', { class: 'btn', type: 'button', text: 'Vérifier ma réponse' }, panel);
-      ck.onclick = function () { var sel = panel.querySelector('input[name=tr]:checked'); if (!sel) return; st.transfert = { rep: sel.value, just: tj.value.trim(), ts: Date.now() }; save(KEY, st); show(); };
+      ck.onclick = function () {
+        var v = isNum ? inp.value.trim() : (panel.querySelector('input[name=tr]:checked') || {}).value;
+        if (!v) return; st.transfert = { rep: v, just: tj.value.trim(), ts: Date.now() }; save(KEY, st); show();
+      };
       show();
       var r2 = h('div', { class: 'row' }, panel); next('Voir ma trace ▸', 5, r2);
     }
@@ -240,7 +193,7 @@
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
       h('div', { class: 'card' }, panel,
         '<p><b>Prévision initiale :</b> ' + esc(ch[1]) + ' — ' + esc(pv.initiale.raison) + '</p>' +
-        '<p><b>Essais :</b> ' + st.essais.map(function (e) { return e.sucre + ' g : ' + num(e.avant) + ' → ' + num(e.apres) + ' g'; }).join(' · ') + ' <i>(données simulées)</i></p>' +
+        '<p><b>Essais :</b> ' + st.essais.map(F.resume).join(' · ') + ' <i>(données simulées)</i></p>' +
         '<p><b>Verdict :</b> ' + esc(st.confront.verdict) + ' — ' + esc(st.confront.preuve) + '</p>' +
         '<p><b>Ma conclusion :</b> ' + esc(st.conclusion) + '</p>' +
         '<p><b>Aides utilisées :</b> ' + st.aides + '</p>' +
@@ -277,5 +230,5 @@
     draw();
   }
 
-  window.Activite = { run: run, num: num };
+  window.Activite = { run: run, num: num, h: h, $: $, esc: esc };
 })();

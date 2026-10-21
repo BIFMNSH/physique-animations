@@ -56,3 +56,4 @@ svg .grain{transition:opacity .9s,transform .9s}
   #print .box{border:1px solid #000;padding:6pt;margin:4pt 0}
   #print p{margin:3pt 0}
 }
+[hidden]{display:none!important}
