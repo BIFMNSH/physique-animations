@@ -135,12 +135,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'A : 0,50 m/s et 20 s sur 10 m. B : 0,40 m/s et 25 s sur 10 m. A arrive le premier. Données synthétiques de mouvements uniformes. Transfert : B part 4 s avant A ; avec l’origine au départ de B, A arrive à t = 24 s contre 25 s pour B.',
-      attendus: ['Vitesses calculées : A = 6 ÷ 12 = 0,50 m/s ; B = 8 ÷ 20 = 0,40 m/s.', 'Temps prévus sur 10 m : 20 s pour A et 25 s pour B ; observés identiques (modèle uniforme).', 'L’élève explique que la distance seule ne suffit pas : il faut la rapporter à la durée.', 'Unités cohérentes (m, s, m/s) et conclusion appuyée sur des valeurs.', 'Transfert : A arrive à t = 24 s (4 + 20), B à 25 s.'],
-      erreurs: ['Choisir B parce qu’il a parcouru la plus grande distance (8 m > 6 m).', 'Diviser la durée par la distance (inverser v = d / t) ou mélanger m et s.', 'Compter la durée de A à partir de l’origine de B (donner 20 s au lieu de 24 s).'],
-      limites: 'Mouvements uniformes idéalisés : pas d’accélération ni de frottements. L’horloge du modèle est indépendante du nombre d’images par seconde ; la vitesse d’animation ne change pas les temps affichés. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : pictogrammes du matériel, vocabulaire explicité, tableau préparé. Approfondissement : demander un nouvel exemple ou une limite de la conclusion.'
-    }
   };
 })();
