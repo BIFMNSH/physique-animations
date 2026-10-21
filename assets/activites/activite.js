@@ -24,6 +24,12 @@
       (rows.length ? rows.map(function (r) { return '<tr>' + r.map(function (c, k) { return k ? '<td>' + esc(c) + '</td>' : '<th scope="row" style="font-weight:700">' + esc(c) + '</th>'; }).join('') + '</tr>'; }).join('') : '<tr><td colspan="' + F.colonnes.length + '" style="text-align:center;color:var(--mist)">Aucun essai pour l’instant</td></tr>') + '</tbody></table>';
   }
 
+  /* ---- programme : compétences, objectifs, évaluation ---- */
+  var NIV = ['I', 'F', 'S', 'TB'], NIVTXT = { I: 'maîtrise insuffisante', F: 'maîtrise fragile', S: 'maîtrise satisfaisante', TB: 'très bonne maîtrise' };
+  function comps(F) { var P = window.PROGRAMME, ped = F.pedagogie; if (!P || !ped) return []; return ped.competences.map(function (c) { var k = P.competences[c[0]]; return k ? { nom: k.nom, cap: k.cap[c[1]] || '', socle: k.socle } : null; }).filter(Boolean); }
+  function themeNom(F) { var P = window.PROGRAMME, ped = F.pedagogie; return P && ped && P.themes[ped.theme] ? P.themes[ped.theme] : null; }
+  var AEL = { non: 'pas encore', partie: 'en partie', oui: 'oui' };
+
   /* ---- fiche imprimable : même HTML à l'écran (aperçu) et à l'impression (A4, deux pages) ---- */
   function sheetHTML(F, st, mode) { // mode : 'vierge' | 'remplie' | 'prof'
     var filled = mode !== 'vierge', prof = mode === 'prof';
@@ -39,7 +45,8 @@
     var ident = '<div class="sh-ident"><span>Nom : <i></i></span><span>Classe : <i></i></span><span>Date : <i></i></span></div>';
     var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
       '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
-    var p1 = '<div class="sh-page">' + head + ident +
+    var CP = comps(F), compBox = CP.length ? '<div class="sh-comp"><b>Compétences travaillées</b> (programme du cycle 4)<ul>' + CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + ' <i>(domaine ' + esc(c.socle) + ' du socle)</i></li>'; }).join('') + '</ul></div>' : '';
+    var p1 = '<div class="sh-page">' + head + ident + compBox +
       sec(1, 'Situation', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
       sec(2, 'Je prévois', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
       sec(3, 'Je manipule et je mesure', '<ol class="sh-prot">' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p class="sh-var"><b>Je fais varier :</b> ' + esc(F.variable) + '. <b>Je garde identique :</b> ' + esc(F.maintenu) + '.</p>' +
@@ -55,14 +62,31 @@
         '<p class="sh-q"><b>Ma prévision est :</b> ' + (filled && cf ? esc(verd[cf.verdict] || '') : '☐ confirmée &nbsp; ☐ infirmée &nbsp; ☐ partiellement confirmée &nbsp; ☐ non testée de façon concluante') + '</p>' +
         field('Je le justifie avec :', cf && cf.preuve, 2) + field('Ma conclusion personnelle :', st.conclusion, 3)) +
       sec(5, 'Je transfère', '<p>' + esc(T.q) + '</p>' + (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) + after +
-      '<section class="sh-sec sh-eval"><h2><span class="sh-n">✓</span>Mon auto-évaluation</h2><p><b>Critère de réussite :</b> ' + esc(F.critere) + '</p><p>Je l’ai atteint : &nbsp; ☐ pas encore &nbsp; ☐ en partie &nbsp; ☐ oui' + (filled ? ' &nbsp;·&nbsp; Aides utilisées : ' + st.aides : ' &nbsp;·&nbsp; Aides utilisées : ____') + '</p><div class="sh-prof"><b>Avis du professeur :</b>' + lines(2) + '</div></section>' +
+      evalSec(F, st, filled) +
       '<footer class="sh-foot">NOHOBA-Lab · ' + esc(F.id) + ' · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
     if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
       '<section class="sh-sec sh-ref"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></section>' +
       sec('▸', 'Attendus', '<ul>' + F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') + sec('▸', 'Erreurs usuelles', '<ul>' + F.prof.erreurs.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') +
-      sec('▸', 'Limites du modèle', '<p>' + esc(F.prof.limites) + '</p>') + sec('▸', 'Différenciation', '<p>' + esc(F.prof.differenciation) + '</p>') + '</div>';
+      profPed(F) + sec('▸', 'Limites du modèle', '<p>' + esc(F.prof.limites) + '</p>') + sec('▸', 'Différenciation', '<p>' + esc(F.prof.differenciation) + '</p>') + '</div>';
     return '<div class="sheet">' + p1 + p2 + pr + '</div>';
+  }
+  function evalSec(F, st, filled) {
+    var ped = F.pedagogie, ae = st.autoeval || {}, head = '<section class="sh-sec sh-eval"><h2><span class="sh-n">✓</span>Mon auto-évaluation et l’avis du professeur</h2>';
+    var rows = ped ? ped.objectifs.map(function (o) {
+      var moi = ['non', 'partie', 'oui'].map(function (k) { return (filled && ae[o.id] === k ? '● ' : '☐ ') + AEL[k]; }).join(' &nbsp; ');
+      return '<tr><td>' + esc(o.eleve) + '</td><td>' + moi + '</td><td>' + NIV.map(function (n) { return '☐ ' + n; }).join(' &nbsp; ') + '</td></tr>';
+    }).join('') : '';
+    var tb = ped ? '<table class="sh-t sh-ev"><thead><tr><th>Je sais…</th><th>Moi</th><th>Professeur</th></tr></thead><tbody>' + rows + '</tbody></table><p class="sh-note">Avis du professeur : I = maîtrise insuffisante · F = maîtrise fragile · S = maîtrise satisfaisante · TB = très bonne maîtrise.</p>' : '';
+    return head + '<p><b>Critère de réussite :</b> ' + esc(F.critere) + (filled ? ' &nbsp;·&nbsp; Aides utilisées : ' + st.aides : ' &nbsp;·&nbsp; Aides utilisées : ____') + '</p>' + tb + '<div class="sh-prof"><b>Commentaire du professeur :</b><div class="sh-line"></div></div></section>';
+  }
+  function profPed(F) {
+    var ped = F.pedagogie, T = themeNom(F), CP = comps(F); if (!ped) return '';
+    var sec = function (n, t, body) { return '<section class="sh-sec"><h2><span class="sh-n">' + n + '</span>' + esc(t) + '</h2>' + body + '</section>'; };
+    var ctx = '<p class="sh-q"><b>Thème du programme :</b> ' + esc(T.nom) + ' — attendu de fin de cycle : ' + esc(T.attendus[ped.attendu]) + '.</p><p class="sh-q"><b>Connaissance visée :</b> ' + esc(ped.connaissance) + '</p>' +
+      '<ul>' + CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + ' (domaine ' + esc(c.socle) + ')</li>'; }).join('') + '</ul>';
+    var tb = '<table class="sh-t"><thead><tr><th>Objectif</th><th>Savoir-faire</th><th>Indicateur de réussite</th><th>Où l’observer</th></tr></thead><tbody>' + ped.objectifs.map(function (o) { return '<tr><td><b>' + o.id + '</b> ' + esc(o.objectif) + '</td><td><ul>' + o.savoirFaire.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></td><td>' + esc(o.indicateur) + '</td><td>' + esc(o.preuve) + '</td></tr>'; }).join('') + '</tbody></table><p class="sh-note">Niveaux de maîtrise (socle commun) : ' + window.PROGRAMME.niveaux.join(' · ') + '.</p>';
+    return sec('▸', 'Compétences, objectifs et évaluation', ctx + tb);
   }
   function printDoc(F, st, mode) {
     var P = $('#print'), t0 = document.title; P.innerHTML = sheetHTML(F, st, mode);
@@ -123,6 +147,15 @@
       h('p', { text: F.situation }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
+      var CP = comps(F), T = themeNom(F);
+      if (CP.length) {
+        var wk = h('div', { class: 'card' }, panel); h('h3', { text: 'Ce que je travaille' }, wk);
+        h('p', { style: 'color:var(--mist);font-size:15px' }, wk, 'Programme du cycle 4 · ' + esc(T.nom));
+        h('p', {}, wk, '<b>Compétence' + (CP.length > 1 ? 's' : '') + ' :</b>');
+        h('ul', {}, wk, CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + '</li>'; }).join(''));
+        h('p', {}, wk, '<b>À la fin, je saurai :</b>');
+        h('ul', {}, wk, F.pedagogie.objectifs.map(function (o) { return '<li>' + esc(o.eleve.replace(/^Je sais /, '')) + '</li>'; }).join(''));
+      }
       var d = h('div', { style: 'text-align:center' }, panel); if (F.illustration) F.illustration(d);
       var r = h('div', { class: 'row' }, panel);
       next('Commencer : ma prévision ▸', 1, r);
@@ -250,6 +283,13 @@
         '<p><b>Ma conclusion :</b> ' + esc(st.conclusion) + '</p>' +
         '<p><b>Aides utilisées :</b> ' + st.aides + '</p>' +
         '<p style="color:var(--mist);font-size:15px">Critère de réussite : ' + esc(F.critere) + '. Cette trace garde ta propre conclusion ; elle ne contient pas le corrigé. Ton travail est enregistré sur cet appareil seulement.</p>');
+      if (F.pedagogie) {
+        var ae = st.autoeval || {}, ce = h('div', { class: 'card' }, panel); h('h3', { text: 'Mon auto-évaluation' }, ce);
+        h('p', { style: 'color:var(--mist);font-size:15px' }, ce, 'Pour chaque objectif, je dis honnêtement où j’en suis. Ton professeur donnera son avis sur la fiche imprimée.');
+        F.pedagogie.objectifs.forEach(function (o) { h('label', { for: 'ae_' + o.id, text: o.eleve }, ce); h('select', { id: 'ae_' + o.id }, ce, ['', 'non', 'partie', 'oui'].map(function (k) { return '<option value="' + k + '"' + (ae[o.id] === k ? ' selected' : '') + '>' + (k ? AEL[k] : '— choisir —') + '</option>'; }).join('')); });
+        var sv2 = h('button', { class: 'btn', type: 'button', text: 'Enregistrer mon auto-évaluation' }, ce), ok2 = h('span', { 'aria-live': 'polite', style: 'margin-left:10px' }, ce);
+        sv2.onclick = function () { var r = {}; F.pedagogie.objectifs.forEach(function (o) { r[o.id] = panel.querySelector('#ae_' + o.id).value; }); st.autoeval = r; save(KEY, st); ok2.textContent = 'Enregistrée dans ma fiche.'; };
+      }
       sheetCard(F, st, panel, ['remplie', 'vierge']);
       var pf = h('div', { class: 'card' }, panel); h('h3', { text: 'Espace enseignant' }, pf);
       if (!profMode) {
@@ -261,6 +301,7 @@
         h('ul', {}, pf, F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join(''));
         h('p', {}, pf, '<b>Erreurs usuelles :</b> ' + F.prof.erreurs.map(esc).join(' · '));
         h('p', {}, pf, '<b>Limites du modèle :</b> ' + esc(F.prof.limites));
+        if (F.pedagogie) { h('h4', { text: 'Compétences, objectifs et évaluation' }, pf); h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau des objectifs, défile horizontalement' }, pf, '<table class="t"><thead><tr><th scope="col">Objectif</th><th scope="col">Savoir-faire</th><th scope="col">Indicateur de réussite</th><th scope="col">Où l’observer</th></tr></thead><tbody>' + F.pedagogie.objectifs.map(function (o) { return '<tr><th scope="row" style="text-align:left">' + o.id + ' — ' + esc(o.objectif) + '</th><td>' + o.savoirFaire.map(esc).join(' ; ') + '</td><td>' + esc(o.indicateur) + '</td><td>' + esc(o.preuve) + '</td></tr>'; }).join('') + '</tbody></table>'); h('p', { style: 'color:var(--mist);font-size:15px' }, pf, 'Connaissance visée : ' + esc(F.pedagogie.connaissance)); }
         var rr = h('div', { class: 'row' }, pf);
         h('button', { class: 'btn primary', type: 'button', text: 'Imprimer la version professeur' }, rr).onclick = function () { printDoc(F, st, 'prof'); };
         h('button', { class: 'btn', type: 'button', text: 'Enregistrer en PDF (version professeur)' }, rr).onclick = function () { printDoc(F, st, 'prof'); };

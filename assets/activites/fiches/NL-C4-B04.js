@@ -71,6 +71,59 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 300 150" role="img" aria-label="Un cercle avec un mobile qui le parcourt." style="width:100%;max-width:300px"><circle cx="150" cy="75" r="60" fill="none" stroke="var(--mist)" stroke-width="2" stroke-dasharray="3 4"/><circle cx="150" cy="15" r="8" fill="#2E9CDB"/></svg>'; },
     manip: manip,
     modele_: { attendu: attendu, VAL: VAL, norm: norm },
+    pedagogie: {
+      "theme": "B",
+      "attendu": 0,
+      "connaissance": "Vitesse : direction, sens et valeur ; mouvements rectilignes et circulaires.",
+      "competences": [
+        [
+          "demarche",
+          "modele"
+        ],
+        [
+          "langages",
+          "passer"
+        ],
+        [
+          "numerique",
+          "simul"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Représenter la vitesse par une flèche tangente à la trajectoire.",
+          "eleve": "Je sais orienter la flèche de vitesse d’un mobile sur un cercle.",
+          "savoirFaire": [
+            "Repérer la tangente à un cercle",
+            "Orienter la flèche dans le sens du déplacement"
+          ],
+          "indicateur": "Les flèches notées sont conformes dans le tableau.",
+          "preuve": "Manipulation et tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Distinguer valeur, direction et sens.",
+          "eleve": "Je sais nommer séparément ce qui change et ce qui ne change pas dans la vitesse.",
+          "savoirFaire": [
+            "Nommer les trois caractéristiques",
+            "Dire laquelle varie le long du cercle"
+          ],
+          "indicateur": "La conclusion évite « tout change » et « rien ne change ».",
+          "preuve": "Conclusion"
+        },
+        {
+          "id": "O3",
+          "objectif": "Comparer cercle et ligne droite.",
+          "eleve": "Je sais comparer la vitesse sur un cercle et sur une droite.",
+          "savoirFaire": [
+            "Réinvestir les trois caractéristiques dans un autre cas"
+          ],
+          "indicateur": "La réponse au transfert est juste et justifiée.",
+          "preuve": "Transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Valeur 1,0 m/s en tout point. À 90°, sens inverse des aiguilles : flèche à 180° (vers la gauche) ; à 0° : 90° ; à 180° : 270° ; à 270° : 0°. En sens horaire, toutes les flèches sont inversées. Direction tangente (perpendiculaire au rayon), sens du déplacement. Transfert : sur la droite uniforme, valeur, direction et sens constants.',
       attendus: ['Flèche tangente au cercle (perpendiculaire au rayon) à chaque position.', 'Longueur (valeur) constante.', 'Inversion du sens du déplacement = inversion des flèches.', 'Trois caractéristiques nommées séparément.'],

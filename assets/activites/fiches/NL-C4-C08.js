@@ -75,6 +75,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 420 120" role="img" aria-label="Deux barres de hauteurs différentes : la puissance d’un appareil à gauche, la durée de fonctionnement à droite, dont le produit donne l’énergie." style="width:100%;max-width:420px"><rect x="40" y="20" width="60" height="80" fill="#F97316"/><rect x="180" y="60" width="140" height="40" fill="#2E9CDB"/><text x="70" y="115" text-anchor="middle" font-size="12" fill="var(--ink)" font-family="sans-serif">puissance</text><text x="250" y="115" text-anchor="middle" font-size="12" fill="var(--ink)" font-family="sans-serif">durée</text></svg>'; },
     manip: manip,
     modele_: { energieWh: energieWh, enJoules: enJoules, APP: APP },
+    pedagogie: {
+      "theme": "C",
+      "attendu": 0,
+      "connaissance": "Utiliser la relation liant puissance, énergie et durée ; conduire un calcul de consommation d’énergie électrique relatif à une situation de la vie courante (puissance électrique P = U.I) ; l’évaluation d’un coût énergétique associé au numérique en est une illustration.",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "ethique",
+          "reinvestir"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Calculer une puissance électrique.",
+          "eleve": "Je sais calculer une puissance avec une tension et une intensité.",
+          "savoirFaire": [
+            "Multiplier tension et intensité",
+            "Donner l’unité de la puissance"
+          ],
+          "indicateur": "La puissance de l’appareil continu est juste dans le tableau.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Calculer une énergie à partir d’une puissance et d’une durée.",
+          "eleve": "Je sais calculer l’énergie consommée et distinguer la puissance de l’énergie.",
+          "savoirFaire": [
+            "Utiliser la relation entre énergie, puissance et durée",
+            "Garder des unités cohérentes"
+          ],
+          "indicateur": "Les énergies du tableau sont justes avec la bonne unité.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Comparer des usages et proposer une réduction argumentée.",
+          "eleve": "Je sais comparer deux usages et proposer une économie justifiée.",
+          "savoirFaire": [
+            "Classer par énergie consommée",
+            "Argumenter sans inventer de coût"
+          ],
+          "indicateur": "La conclusion s’appuie sur des énergies calculées et ne déduit pas de coût sans tarif.",
+          "preuve": "Conclusion et transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'A : 60 W × 2 h = 120 Wh ; B : 15 W × 10 h = 150 Wh : le moins puissant consomme davantage ici. Récepteur D : 12 V × 0,50 A = 6 W. 1 Wh = 3600 J, donc 120 Wh = 432 000 J. Veille : 5 W × 24 h = 120 Wh ; usage actif : 100 W × 2 h = 200 Wh : la veille représente plus de la moitié de l’énergie de l’usage actif. Transfert : 20 W × 3 h = 60 Wh.',
       attendus: ['E = P × t calculée avec la durée en heures.', 'Distinction W (puissance instantanée) / Wh (énergie cumulée).', 'Doubler la durée double l’énergie.', 'P = U × I pour le récepteur continu.', 'Aucune déduction de coût ou de bilan carbone réel.'],

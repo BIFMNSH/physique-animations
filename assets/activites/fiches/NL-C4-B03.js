@@ -64,6 +64,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 440 60" role="img" aria-label="Quatre points alignés sur une règle, à des écarts réguliers." style="width:100%;max-width:520px"><line x1="30" x2="420" y1="35" y2="35" stroke="var(--ink)" stroke-width="2"/><circle cx="30" cy="25" r="8" fill="#F97316"/><circle cx="160" cy="25" r="8" fill="#F97316"/><circle cx="290" cy="25" r="8" fill="#F97316"/><circle cx="420" cy="25" r="8" fill="#F97316"/></svg>'; },
     manip: manip,
     modele_: { MOB: MOB, dists: dists, nature: nature },
+    pedagogie: {
+      "theme": "B",
+      "attendu": 0,
+      "connaissance": "Mouvements uniformes et mouvements dont la vitesse varie au cours du temps en direction ou en valeur.",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "langages",
+          "passer"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Calculer des distances parcourues pendant des durées égales.",
+          "eleve": "Je sais calculer la distance parcourue pendant chaque seconde à partir des positions.",
+          "savoirFaire": [
+            "Soustraire deux positions voisines",
+            "Compléter un tableau de distances"
+          ],
+          "indicateur": "Les distances du tableau correspondent aux positions.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Qualifier un mouvement : uniforme, accéléré, ralenti.",
+          "eleve": "Je sais qualifier un mouvement en comparant les distances.",
+          "savoirFaire": [
+            "Comparer des distances entre elles",
+            "Choisir le terme qui convient"
+          ],
+          "indicateur": "La qualification est cohérente avec les distances calculées.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Distinguer trajectoire, valeur de la vitesse et direction.",
+          "eleve": "Je sais que la forme de la trajectoire ne dit pas à elle seule comment varie la vitesse.",
+          "savoirFaire": [
+            "Séparer trajectoire et valeur de la vitesse",
+            "Argumenter sur un cas circulaire"
+          ],
+          "indicateur": "La réponse au transfert est juste et justifiée.",
+          "preuve": "Transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'A : positions 0, 1, 2, 3 m → 1 ; 1 ; 1 m par seconde : uniforme. B : 0, 1, 3, 6 m → 1 ; 2 ; 3 m : accéléré. C : 0, 3, 5, 6 m → 3 ; 2 ; 1 m : ralenti. Les trois trajectoires sont rectilignes. Transfert : oui, direction différente de la valeur.',
       attendus: ['Distances calculées par soustraction sur des durées égales.', 'Qualification à partir des distances, pas de l’impression visuelle.', 'Trajectoire rectiligne dans les trois cas.', 'Distinction entre valeur de la vitesse et direction (transfert circulaire).'],

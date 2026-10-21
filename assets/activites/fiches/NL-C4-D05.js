@@ -87,6 +87,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 560 90" role="img" aria-label="Un couloir avec une source à gauche et deux capteurs alignés." style="width:100%;max-width:560px"><rect x="20" y="25" width="520" height="40" fill="none" stroke="var(--mist)" stroke-dasharray="4 4"/><circle cx="60" cy="45" r="12" fill="#F97316"/><rect x="142" y="33" width="16" height="24" fill="#5B6B88"/><rect x="302" y="33" width="16" height="24" fill="#5B6B88"/></svg>'; },
     manip: manip,
     modele_: { t2: t2, delai: delai, C: C, T1: T1 },
+    pedagogie: {
+      "theme": "D",
+      "attendu": 1,
+      "connaissance": "Signaux sonores : relier la distance parcourue par un son à la durée de propagation ; vitesse de propagation.",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "langages",
+          "passer"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Déterminer un délai entre deux détections.",
+          "eleve": "Je sais calculer le temps qui sépare deux détections et le convertir en secondes.",
+          "savoirFaire": [
+            "Soustraire deux horodatages",
+            "Convertir des millisecondes en secondes"
+          ],
+          "indicateur": "Le délai noté est juste et en secondes.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Calculer une vitesse de propagation.",
+          "eleve": "Je sais calculer la vitesse du son avec une distance et un délai.",
+          "savoirFaire": [
+            "Choisir la distance entre les capteurs",
+            "Calculer le quotient avec son unité"
+          ],
+          "indicateur": "La vitesse du tableau est cohérente avec le modèle.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Discuter l’effet d’une erreur de mesure.",
+          "eleve": "Je sais expliquer pourquoi une erreur de temps compte plus sur un court trajet.",
+          "savoirFaire": [
+            "Comparer des résultats avec deux horloges",
+            "Argumenter sur la précision"
+          ],
+          "indicateur": "La confrontation explique l’écart observé avec l’horloge moins précise.",
+          "preuve": "Confrontation"
+        }
+      ]
+    },
     prof: {
       reference: '3,40 m ÷ 0,0100 s = 340 m/s ; avec 6,80 m le délai est 20,0 ms et la vitesse reste 340 m/s. Transfert : 1,70 m → 5,0 ms. Le délai entre capteurs n’est pas un aller-retour.',
       attendus: ['Délai = différence des horodatages (10,0 ms), pas l’horodatage du capteur 2.', 'Conversion 10,0 ms = 0,0100 s.', 'Distance = séparation des capteurs, sans doubler.', 'Constat : délai proportionnel à la distance, quotient constant.'],

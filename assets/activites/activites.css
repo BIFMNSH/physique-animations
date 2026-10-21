@@ -62,7 +62,7 @@ svg .grain{transition:opacity .9s,transform .9s}
 .sheet .sh-t{border-collapse:collapse;width:100%;margin:6px 0}.sheet .sh-t th{background:#f3f4f6;border:1px solid #111;padding:4px 5px;font-size:12px;text-align:left}.sheet .sh-t td{border:1px solid #111;height:28px;padding:3px 5px}
 .sheet .sh-grid{border:1.5px solid #111;margin:4px 0;background-image:linear-gradient(#d6dbe3 1px,transparent 1px),linear-gradient(90deg,#d6dbe3 1px,transparent 1px);background-size:16px 16px}
 .sheet .sh-note{font-size:11.5px;color:#555;font-style:italic}
-.sheet .sh-eval{border:1.5px solid #111;border-radius:6px;padding:6px 8px}.sheet .sh-eval h2{border-left:0;background:none;padding:0}
+.sheet .sh-comp{border:1px solid #888;border-radius:6px;padding:4px 8px;margin:6px 0;font-size:12px}.sheet .sh-comp ul{margin:2px 0 0 16px}.sheet .sh-ev td{vertical-align:top;height:auto;font-size:12px}.sheet .sh-ev td:nth-child(3){white-space:nowrap}.sheet .sh-ev th:nth-child(1){width:46%}.sheet .sh-eval{border:1.5px solid #111;border-radius:6px;padding:6px 8px}.sheet .sh-eval h2{border-left:0;background:none;padding:0}
 .sheet .sh-prof{margin-top:6px}.sheet .sh-ref{border:1.5px solid #111;border-radius:6px;padding:6px 8px}
 .sheet .sh-foot{margin-top:10px;border-top:1px solid #999;padding-top:4px;font-size:11px;color:#555;text-align:center}
 .sh-prev summary{cursor:pointer;font-weight:700;padding:6px 0}.sh-prev .sheet{overflow-x:auto}
@@ -75,6 +75,6 @@ svg .grain{transition:opacity .9s,transform .9s}
   .sheet{font-size:10pt;line-height:1.35}
   .sheet .sh-page{border:0;border-radius:0;padding:0;margin:0;max-width:none;page-break-after:always;break-after:page}
   .sheet .sh-page:last-child{page-break-after:auto;break-after:auto}
-  .sheet h1{font-size:17pt;margin:3pt 0 0}.sheet .sh-line{height:20pt}.sheet .sh-t td{height:23pt}.sheet .sh-sec{margin:6pt 0}.sheet h2{font-size:11pt}.sheet .sh-grid{height:130pt!important}.sheet .sh-meta{margin:1pt 0 4pt}
+  .sheet .sh-comp{font-size:8.5pt;padding:2pt 6pt;margin:3pt 0}.sheet .sh-ev td{font-size:8.5pt}.sheet h1{font-size:17pt;margin:3pt 0 0}.sheet .sh-line{height:18pt}.sheet .sh-t td{height:20pt}.sheet .sh-sec{margin:6pt 0}.sheet h2{font-size:11pt}.sheet .sh-grid{height:95pt!important}.sheet .sh-meta{margin:1pt 0 4pt}
 }
 [hidden]{display:none!important}

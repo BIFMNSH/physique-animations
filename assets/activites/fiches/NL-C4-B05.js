@@ -78,6 +78,59 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 220 120" role="img" aria-label="Une masse suspendue sous un aimant." style="width:100%;max-width:240px"><rect x="70" y="5" width="80" height="14" fill="#5B6B88"/><rect x="95" y="19" width="30" height="20" fill="#D33"/><rect x="95" y="60" width="30" height="24" rx="3" fill="#B0B8C4"/><line x1="110" y1="84" x2="110" y2="110" stroke="var(--ink)" stroke-width="2"/></svg>'; },
     manip: manip,
     modele_: { CAND: CAND, TYPE: TYPE },
+    pedagogie: {
+      "theme": "B",
+      "attendu": 1,
+      "connaissance": "Identifier les actions mises en jeu (de contact ou à distance) ; action de contact et action à distance. Modélisation par des forces progressive : descriptive dès le début du cycle, formalisée en 4e.",
+      "competences": [
+        [
+          "demarche",
+          "modele"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "langages",
+          "passer"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Identifier les objets qui agissent sur un objet étudié.",
+          "eleve": "Je sais lister les objets qui agissent sur la masse suspendue.",
+          "savoirFaire": [
+            "Isoler l’objet étudié",
+            "Nommer l’objet qui agit pour chaque action"
+          ],
+          "indicateur": "Le diagramme enregistré nomme les objets pertinents.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Qualifier une action : contact ou distance.",
+          "eleve": "Je sais dire si une action se fait par contact ou à distance.",
+          "savoirFaire": [
+            "Distinguer contact et distance",
+            "Justifier avec une observation du montage"
+          ],
+          "indicateur": "Le diagramme est cohérent avec le modèle.",
+          "preuve": "Tableau et diagnostic"
+        },
+        {
+          "id": "O3",
+          "objectif": "Réinvestir à une situation voisine.",
+          "eleve": "Je sais décrire les actions sur un objet posé.",
+          "savoirFaire": [
+            "Appliquer la méthode à un autre objet"
+          ],
+          "indicateur": "La réponse au transfert est juste et justifiée.",
+          "preuve": "Transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Fil : action de contact. Terre : action à distance. Aimant : action à distance. Air : négligé dans le modèle si on le précise. Retirer le fil supprime l’action du fil mais pas celle de la Terre (la masse tombe). Éloigner l’aimant supprime son attraction. Transfert : livre sur une table → table par contact, Terre à distance.',
       attendus: ['Quatre objets qualifiés avec la bonne nature d’action.', 'Chaque interaction relie deux objets nommés.', 'Retirer le fil ne supprime pas la Terre.', 'Précision que l’air est négligé dans le modèle.'],

@@ -64,6 +64,59 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 440 100" role="img" aria-label="Un véhicule sur une route avec un passager assis à l’intérieur." style="width:100%;max-width:480px"><line x1="10" x2="430" y1="80" y2="80" stroke="var(--mist)" stroke-width="3"/><rect x="140" y="38" width="110" height="40" rx="8" fill="#5B6B88"/><circle cx="165" cy="82" r="8" fill="#0B1220"/><circle cx="225" cy="82" r="8" fill="#0B1220"/><circle cx="170" cy="30" r="9" fill="#F97316"/></svg>'; },
     manip: manip,
     modele_: { xVehicule: xVehicule, xSol: xSol, V: V, X0: X0 },
+    pedagogie: {
+      "theme": "B",
+      "attendu": 0,
+      "connaissance": "Relativité du mouvement dans des cas simples (train qui démarre le long d’un quai) ; notion d’observateur immobile ou en mouvement.",
+      "competences": [
+        [
+          "demarche",
+          "modele"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "langages",
+          "ecrire"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Décrire un mouvement en précisant le référentiel.",
+          "eleve": "Je sais dire « par rapport à quoi » un objet est immobile ou en mouvement.",
+          "savoirFaire": [
+            "Nommer l’observateur ou le référentiel",
+            "Rédiger une phrase de description complète"
+          ],
+          "indicateur": "Chaque réponse de la conclusion nomme un référentiel.",
+          "preuve": "Conclusion"
+        },
+        {
+          "id": "O2",
+          "objectif": "Comparer deux descriptions d’un même mouvement.",
+          "eleve": "Je sais lire un tableau de positions dans deux référentiels et les comparer.",
+          "savoirFaire": [
+            "Repérer la colonne qui varie et celle qui reste constante",
+            "Relier chaque colonne à son référentiel"
+          ],
+          "indicateur": "La comparaison des deux colonnes est exacte et chaque colonne est reliée à son référentiel.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Transférer à un autre objet.",
+          "eleve": "Je sais appliquer la même description à un autre objet du véhicule.",
+          "savoirFaire": [
+            "Réutiliser la méthode pour un objet voisin"
+          ],
+          "indicateur": "La réponse au transfert est juste et justifiée.",
+          "preuve": "Transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Dans le référentiel du véhicule : position 2,0 m à tout instant, passager immobile. Dans le référentiel du sol : 2,0 ; 10,0 ; 18,0 ; 26,0 m à 0 ; 2 ; 4 ; 6 s (vitesse 4 m/s), passager en mouvement rectiligne. Le sac a la même description que le passager.',
       attendus: ['Chaque réponse précise son référentiel.', 'Pas de contradiction : immobile (véhicule) et en mouvement (sol) sont deux descriptions correctes.', 'Lecture du tableau : une colonne constante, une colonne qui varie.', 'Trajectoire rectiligne dans le référentiel du sol.'],

@@ -100,6 +100,60 @@
       'Les grains ne se voient plus, mais ils sont toujours dans le flacon : ils sont dispersés dans l’eau.'
     ],
     synthese: 'Dans un système fermé, la masse totale ne change pas pendant une dissolution : le sucre est dispersé dans l’eau, il n’a pas disparu. Cela ne dit rien du volume, qui n’a pas été mesuré ici.',
+    pedagogie: {
+      "theme": "A",
+      "attendu": 1,
+      "connaissance": "Conservation de la masse lors d’une transformation ; interpréter la dissolution comme une transformation physique sans perte de matière.",
+      "competences": [
+        [
+          "demarche",
+          "hypothese"
+        ],
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Formuler une prévision justifiée avant d’expérimenter.",
+          "eleve": "Je sais formuler une prévision et la justifier avant de mesurer.",
+          "savoirFaire": [
+            "Choisir une réponse et expliquer pourquoi",
+            "Enregistrer ma prévision avant de voir les résultats"
+          ],
+          "indicateur": "La prévision est enregistrée avant les essais, avec une raison.",
+          "preuve": "Prévision"
+        },
+        {
+          "id": "O2",
+          "objectif": "Mesurer la masse d’un système avant et après dissolution.",
+          "eleve": "Je sais comparer la masse avant et après la dissolution du sucre, dans un flacon fermé.",
+          "savoirFaire": [
+            "Relever deux masses avec leurs unités",
+            "Comparer deux valeurs et conclure"
+          ],
+          "indicateur": "Chaque essai du tableau contient les deux masses et leur comparaison.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Conclure en s’appuyant sur des mesures.",
+          "eleve": "Je sais tirer une conclusion en citant mes mesures.",
+          "savoirFaire": [
+            "Citer un résultat précis avec son unité",
+            "Dire si la prévision est confirmée ou infirmée"
+          ],
+          "indicateur": "La conclusion cite au moins une valeur mesurée et un verdict.",
+          "preuve": "Conclusion et transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Pour un flacon et sa coupelle de 45 g, 100 g d’eau et 5 g de sucre, on obtient 150 g avant et après. Avec 10 g de sucre : 155 g. On ne conclut pas à la conservation du volume.',
       attendus: ['Les deux pesées sont égales pour tout essai (1 à 10 g de sucre).', 'Le système est identifié comme fermé (flacon, coupelle, eau, sucre).', 'L’élève distingue dispersion (le sucre est toujours là) et disparition.', 'Transfert : non, le système n’est plus le même après le renversement.'],

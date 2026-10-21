@@ -85,6 +85,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 420 130" role="img" aria-label="Une pile, deux lampes et deux interrupteurs à relier." style="width:100%;max-width:460px"><rect x="20" y="50" width="20" height="30" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="160" cy="40" r="17" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="160" cy="95" r="17" fill="none" stroke="var(--ink)" stroke-width="3"/><line x1="260" y1="40" x2="300" y2="22" stroke="var(--ink)" stroke-width="3"/><line x1="260" y1="95" x2="300" y2="77" stroke="var(--ink)" stroke-width="3"/></svg>'; },
     manip: manip,
     modele_: { etat: etat, nbEtats: nbEtats },
+    pedagogie: {
+      "theme": "C",
+      "attendu": 2,
+      "connaissance": "Exploiter les lois de l’électricité : dipôles en série, dipôles en dérivation ; élaborer et mettre en œuvre un protocole expérimental simple visant à réaliser un circuit électrique répondant à un cahier des charges.",
+      "competences": [
+        [
+          "concevoir",
+          "dispositif"
+        ],
+        [
+          "demarche",
+          "hypothese"
+        ],
+        [
+          "langages",
+          "passer"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Choisir un montage répondant à un cahier des charges.",
+          "eleve": "Je sais choisir le montage qui permet de commander chaque lampe séparément.",
+          "savoirFaire": [
+            "Proposer un schéma avant de tester",
+            "Relier chaque exigence à un montage"
+          ],
+          "indicateur": "La prévision est enregistrée avec un schéma ou une raison.",
+          "preuve": "Prévision"
+        },
+        {
+          "id": "O2",
+          "objectif": "Tester systématiquement les états d’un circuit.",
+          "eleve": "Je sais tester tous les états des interrupteurs et noter l’état des lampes.",
+          "savoirFaire": [
+            "Faire varier une seule chose à la fois",
+            "Compléter un tableau d’états"
+          ],
+          "indicateur": "Les huit états des deux montages sont notés.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Justifier avec les chemins fermés.",
+          "eleve": "Je sais expliquer pourquoi une lampe est allumée ou éteinte en suivant les chemins du courant.",
+          "savoirFaire": [
+            "Repérer une boucle fermée contenant la pile et la lampe",
+            "Expliquer le rôle d’un interrupteur"
+          ],
+          "indicateur": "La conclusion s’appuie sur des chemins conducteurs.",
+          "preuve": "Conclusion et transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Montage A (une seule boucle) : lampes allumées seulement si S1 et S2 sont fermés. Montage B (une branche par lampe) : lampe 1 commandée par S1 seulement, lampe 2 par S2 seulement ; S1 ouvert et S2 fermé → lampe 1 éteinte, lampe 2 allumée. Transfert : interrupteur général ouvert → deux lampes éteintes.',
       attendus: ['Quatre états testés pour chaque montage.', 'Justification par les chemins fermés : un chemin par lampe dans B, un seul chemin partagé dans A.', 'Distinction entre un interrupteur de branche et un interrupteur général.'],

@@ -98,6 +98,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 320 130" role="img" aria-label="Un flacon posé sur une balance électronique et une éprouvette graduée." style="width:100%;max-width:420px"><rect x="20" y="100" width="170" height="20" rx="8" fill="#5B6B88"/><path d="M60 40 h90 v58 h-90 z" fill="rgba(156,200,232,.15)" stroke="var(--glass)" stroke-width="3"/><rect x="75" y="28" width="60" height="14" rx="3" fill="#C77B30"/><rect x="230" y="10" width="40" height="110" rx="4" fill="none" stroke="var(--glass)" stroke-width="3"/></svg>'; },
     manip: manip,
     modele_: { affichage: affichage, posee: posee, FLACON: FLACON, VOL: VOL, LIQ: LIQ },
+    pedagogie: {
+      "theme": "A",
+      "attendu": 0,
+      "connaissance": "Mesures de masse et de volume d’une substance (études quantitatives dès la classe de 5e) ; le quotient masse volumique n’est introduit qu’à partir de la classe de 4e.",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "outils",
+          "planifier"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Mesurer la masse d’un liquide en excluant celle de son récipient.",
+          "eleve": "Je sais mesurer la masse d’un liquide sans compter celle du flacon.",
+          "savoirFaire": [
+            "Utiliser une balance électronique et sa fonction tare",
+            "Déterminer une masse par différence de deux pesées"
+          ],
+          "indicateur": "Les deux méthodes (différence de pesées, tare) donnent la même valeur dans le tableau.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Lire un volume dans une éprouvette graduée.",
+          "eleve": "Je sais lire un volume au bas du ménisque, l’œil à hauteur du niveau.",
+          "savoirFaire": [
+            "Placer l’œil à hauteur du niveau",
+            "Lire la graduation au bas du ménisque"
+          ],
+          "indicateur": "Le volume lu dans le tableau correspond au volume versé.",
+          "preuve": "Manipulation"
+        },
+        {
+          "id": "O3",
+          "objectif": "Distinguer masse et volume.",
+          "eleve": "Je sais que la masse et le volume sont deux grandeurs différentes, avec leurs unités.",
+          "savoirFaire": [
+            "Associer à chaque grandeur sa bonne unité",
+            "Comparer deux liquides versés au même volume"
+          ],
+          "indicateur": "La conclusion et le transfert n’assimilent pas des millilitres à des grammes.",
+          "preuve": "Conclusion et transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Liquide A : 102 − 42 = 60 g ; la mesure avec tare donne aussi 60 g (zéro avec le flacon vide, puis 60 g après remplissage). Le volume est 60 mL dans cet exemple ; masse et volume restent des grandeurs différentes. Transfert : 90 − 42 = 48 g.',
       attendus: ['Masse du liquide = masse pleine − masse vide = 60 g pour le liquide A.', 'Mesure tarée identique à la différence des deux pesées.', '102 g est la masse du flacon et du liquide : elle ne répond pas seule à la question.', 'Lecture du volume à hauteur des yeux, au bas du ménisque.', 'Unités conservées : g pour la masse, mL pour le volume.'],

@@ -98,6 +98,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 400 130" role="img" aria-label="Alimentation 6 V reliée à deux modules en dérivation et à un emplacement libre pour un module à ajouter." style="width:100%;max-width:440px"><rect x="18" y="30" width="44" height="70" rx="6" fill="#5B6B88"/><text x="40" y="70" text-anchor="middle" font-size="14" font-weight="800" fill="#fff" font-family="sans-serif">6 V</text><path d="M40 30 V10 H370 M40 100 V120 H370" fill="none" stroke="var(--ink)" stroke-width="3"/><path d="M160 10 V30 M160 100 V120 M240 10 V30 M240 100 V120 M320 10 V30 M320 100 V120" stroke="var(--ink)" stroke-width="3"/><rect x="136" y="30" width="48" height="70" rx="8" fill="#F6B301" stroke="var(--ink)" stroke-width="2"/><rect x="216" y="30" width="48" height="70" rx="8" fill="#F6B301" stroke="var(--ink)" stroke-width="2"/><rect x="296" y="30" width="48" height="70" rx="8" fill="none" stroke="var(--mist)" stroke-width="2" stroke-dasharray="6 5"/><text x="320" y="70" text-anchor="middle" font-size="22" fill="var(--mist)" font-family="sans-serif">?</text></svg>'; },
     manip: manip,
     modele_: { total: total, decision: decision, LIMITE: LIMITE, MOD: MOD },
+    pedagogie: {
+      "theme": "C",
+      "attendu": 2,
+      "connaissance": "Loi d’additivité des intensités (circuit à deux mailles) ; mettre en relation les lois de l’électricité et les règles de sécurité dans ce domaine.",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "ethique",
+          "securite"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Appliquer la loi d’additivité des intensités.",
+          "eleve": "Je sais calculer l’intensité totale quand des modules sont en dérivation.",
+          "savoirFaire": [
+            "Additionner les intensités des branches",
+            "Donner le résultat avec son unité"
+          ],
+          "indicateur": "Les intensités totales du tableau sont justes.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Comparer une intensité à une limite de sécurité.",
+          "eleve": "Je sais dire si une alimentation est surchargée.",
+          "savoirFaire": [
+            "Comparer deux valeurs en mA",
+            "Décider « dans la limite » ou « hors limite »"
+          ],
+          "indicateur": "Chaque décision du tableau est cohérente avec la limite.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Expliquer le fondement d’une règle de sécurité.",
+          "eleve": "Je sais expliquer pourquoi on ne dépasse pas une intensité limite.",
+          "savoirFaire": [
+            "Relier surcharge et risque pour l’installation",
+            "Justifier un choix par un calcul"
+          ],
+          "indicateur": "La conclusion justifie le choix par un calcul et par la sécurité.",
+          "preuve": "Conclusion et transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'Situation initiale : 120 + 180 = 300 mA. Avec X : 450 mA, dans la limite. Avec Y : 550 mA demandés, hors spécification (limite 500 mA). Un court-circuit n’est pas simplement l’ajout d’un récepteur normal : il crée un chemin de faible résistance. Transfert : deux modules X donnent 600 mA demandés, non conforme.',
       attendus: ['Totaux exacts : 300, 450 et 550 mA ; 600 mA pour deux modules X.', 'Comparaison explicite à la limite de 500 mA et décision argumentée avec le total.', 'Surcharge (somme trop grande de courants normaux) distinguée du court-circuit (chemin de faible résistance).', 'Au-delà de 500 mA, l’élève parle de demande théorique, pas de mesure garantie.', 'Retirer un module restaure les valeurs précédentes.'],

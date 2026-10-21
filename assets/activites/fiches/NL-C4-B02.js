@@ -94,6 +94,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 640 120" role="img" aria-label="Deux robots, A et B, sur deux voies parallèles prêts à partir sur une piste de 10 mètres." style="width:100%;max-width:640px"><rect x="40" y="10" width="560" height="100" rx="10" fill="rgba(164,176,204,.10)" stroke="var(--line)"/><line x1="560" x2="560" y1="14" y2="106" stroke="var(--ink)" stroke-width="3" stroke-dasharray="6 4"/><rect x="60" y="22" width="32" height="28" rx="7" fill="#2E9CDB" stroke="#0B1220" stroke-width="2"/><text x="76" y="42" text-anchor="middle" font-size="16" font-weight="800" fill="#0B1220" font-family="sans-serif">A</text><rect x="60" y="68" width="32" height="28" rx="7" fill="#E9A23B" stroke="#0B1220" stroke-width="2"/><text x="76" y="88" text-anchor="middle" font-size="16" font-weight="800" fill="#0B1220" font-family="sans-serif">B</text></svg>'; },
     manip: manip,
     modele_: { pos: pos, arrivee: arrivee, VA: VA, VB: VB, D: D },
+    pedagogie: {
+      "theme": "B",
+      "attendu": 0,
+      "connaissance": "Utiliser la relation liant vitesse, distance et durée dans le cas d’un mouvement uniforme.",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "interpreter"
+        ],
+        [
+          "langages",
+          "passer"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Déterminer une vitesse à partir d’une distance et d’une durée.",
+          "eleve": "Je sais calculer une vitesse avec une distance et une durée.",
+          "savoirFaire": [
+            "Relever une distance et une durée",
+            "Calculer le quotient et donner l’unité"
+          ],
+          "indicateur": "Les vitesses du tableau sont justes, avec leur unité.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Comparer deux mouvements uniformes.",
+          "eleve": "Je sais comparer deux vitesses pour désigner le plus rapide.",
+          "savoirFaire": [
+            "Comparer des valeurs avec leurs unités",
+            "Argumenter avec des distances et des durées"
+          ],
+          "indicateur": "Le verdict s’appuie sur des valeurs chiffrées.",
+          "preuve": "Confrontation"
+        },
+        {
+          "id": "O3",
+          "objectif": "Prévoir une durée ou une position.",
+          "eleve": "Je sais prévoir quand un mobile arrivera.",
+          "savoirFaire": [
+            "Utiliser la relation entre distance, vitesse et durée",
+            "Tenir compte d’un départ décalé"
+          ],
+          "indicateur": "La réponse au transfert est juste et justifiée.",
+          "preuve": "Transfert"
+        }
+      ]
+    },
     prof: {
       reference: 'A : 0,50 m/s et 20 s sur 10 m. B : 0,40 m/s et 25 s sur 10 m. A arrive le premier. Données synthétiques de mouvements uniformes. Transfert : B part 4 s avant A ; avec l’origine au départ de B, A arrive à t = 24 s contre 25 s pour B.',
       attendus: ['Vitesses calculées : A = 6 ÷ 12 = 0,50 m/s ; B = 8 ÷ 20 = 0,40 m/s.', 'Temps prévus sur 10 m : 20 s pour A et 25 s pour B ; observés identiques (modèle uniforme).', 'L’élève explique que la distance seule ne suffit pas : il faut la rapporter à la durée.', 'Unités cohérentes (m, s, m/s) et conclusion appuyée sur des valeurs.', 'Transfert : A arrive à t = 24 s (4 + 20), B à 25 s.'],

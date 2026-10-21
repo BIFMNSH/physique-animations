@@ -109,6 +109,60 @@
     illustration: function (host) { host.innerHTML = '<svg viewBox="0 0 640 200" role="img" aria-label="Réservoir avec un capteur en haut et de l’eau au fond. Un son part du capteur vers la surface de l’eau puis revient." style="width:100%;max-width:520px"><rect x="200" y="20" width="160" height="170" fill="none" stroke="var(--ink)" stroke-width="3"/><rect x="203" y="110" width="154" height="77" fill="rgba(46,156,219,.5)"/><rect x="250" y="8" width="60" height="18" rx="4" fill="#5B6B88"/><text x="280" y="21" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">capteur</text><path d="M265 26 V110" stroke="#F97316" stroke-width="3" stroke-dasharray="7 5"/><path d="M295 110 V26" stroke="#E9A23B" stroke-width="3" stroke-dasharray="7 5"/></svg>'; },
     manip: manip,
     modele_: { delai: delai, hauteur: hauteur, C: C, FOND: FOND, HMIN: HMIN, HMAX: HMAX },
+    pedagogie: {
+      "theme": "D",
+      "attendu": 1,
+      "connaissance": "Signaux sonores : relier la distance parcourue par un son à la durée de propagation ; mesurer une grandeur de manière indirecte (écho).",
+      "competences": [
+        [
+          "demarche",
+          "mesure"
+        ],
+        [
+          "demarche",
+          "modele"
+        ],
+        [
+          "langages",
+          "passer"
+        ]
+      ],
+      "objectifs": [
+        {
+          "id": "O1",
+          "objectif": "Exploiter un trajet aller-retour.",
+          "eleve": "Je sais utiliser la durée d’un écho pour trouver une distance.",
+          "savoirFaire": [
+            "Convertir la durée en secondes",
+            "Diviser le trajet total par deux"
+          ],
+          "indicateur": "Distance capteur–surface juste dans le tableau.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O2",
+          "objectif": "Passer d’une distance mesurée à une hauteur.",
+          "eleve": "Je sais déduire une hauteur d’eau à partir d’une distance depuis le capteur.",
+          "savoirFaire": [
+            "Changer de repère : du capteur au fond",
+            "Contrôler la cohérence avec la géométrie"
+          ],
+          "indicateur": "La hauteur d’eau est juste et cohérente avec le réservoir.",
+          "preuve": "Tableau"
+        },
+        {
+          "id": "O3",
+          "objectif": "Contrôler un résultat avec le simulateur.",
+          "eleve": "Je sais vérifier mon calcul avec le réservoir simulé.",
+          "savoirFaire": [
+            "Utiliser une simulation pour contrôler un calcul",
+            "Corriger une étape fausse"
+          ],
+          "indicateur": "Le diagnostic final signale un calcul cohérent.",
+          "preuve": "Manipulation et diagnostic"
+        }
+      ]
+    },
     prof: {
       reference: 'Trajet total 340 × 0,0080 = 2,72 m ; distance capteur–surface 1,36 m ; hauteur d’eau 2,00 − 1,36 = 0,64 m. Pour 5,0 ms : trajet 1,70 m, distance 0,85 m, hauteur 1,15 m. Un niveau plus haut donne un écho plus précoce.',
       attendus: ['Conversion 8,0 ms = 0,0080 s avant le calcul.', 'Facteur deux : 2,72 m est le trajet aller-retour, pas la distance capteur–surface.', 'Repère du fond : hauteur = 2,00 m − distance capteur–surface.', 'Vérification dans le réservoir : 0,64 m redonne 8,0 ms ; 1,15 m redonne 5,0 ms.', 'Transfert : niveau plus haut, trajet plus court, écho plus tôt.'],
