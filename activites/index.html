@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')==='light'?'light':'dark')}catch(e){}</script>
+<title>Activités du cycle 4 · NOHOBA-Lab</title>
+<meta name="description" content="Activités d’investigation de physique-chimie du cycle 4 (5e, 4e, 3e) : situation, prévision, manipulation, confrontation, bilan et trace imprimable.">
+<link rel="canonical" href="https://lab.nohaba.com/activites/">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/activites/activites.css">
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<header class="top noprint"><div class="wrap"><b>NOHOBA<span>-Lab</span></b><a class="btn" href="../">Accueil</a><a class="btn" href="./">Toutes les activités</a></div></header>
+<main class="wrap" id="app"><noscript><p>Cette page a besoin de JavaScript.</p></noscript></main>
+<script src="../assets/activites/catalogue.js"></script>
+<script src="../assets/activites/activite.js"></script>
+<script>
+(function () {
+  var app = document.getElementById('app'), id = (/[?&]a=(NL-C4-[A-D]\d\d)/.exec(location.search) || [])[1];
+  var DEC = { socle: 'Socle existant à adapter', appui: 'Appuis existants', creer: 'À créer', reconcevoir: 'À reconcevoir' };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  var A = id && ACTIVITES.filter(function (a) { return a.id === id; })[0];
+  if (id && !A) { app.innerHTML = '<h1>Activité introuvable</h1><p><a href="./">Retour au catalogue</a></p>'; return; }
+  if (A) {
+    document.title = A.titre + ' · NOHOBA-Lab';
+    app.innerHTML = '<h1>' + esc(A.titre) + '</h1><p class="sub"><span class="badge">' + A.niveau + '</span><span class="badge">' + esc(A.chapitre) + '</span><span class="badge">' + A.id + '</span></p>';
+    if (A.statut !== 'disponible') {
+      app.insertAdjacentHTML('beforeend', '<div class="card"><p><b>Cette activité est en conception.</b></p><p><b>Objectif :</b> ' + esc(A.objectif) + '</p><p>Ressources existantes liées : ' + (A.ressources.length ? esc(A.ressources.join(', ')) : 'aucune, à créer') + '.</p><p><a class="btn" href="./">◂ Retour au catalogue</a></p></div>');
+      return;
+    }
+    var sc = document.createElement('script'); sc.src = '../assets/activites/fiches/' + A.id + '.js';
+    sc.onload = function () { Activite.run(window['FICHE_' + A.id.slice(-3)], app); };
+    sc.onerror = function () { app.insertAdjacentHTML('beforeend', '<p>L’activité n’a pas pu être chargée. Recharge la page.</p>'); };
+    document.body.appendChild(sc);
+    return;
+  }
+  app.innerHTML = '<h1>Activités du cycle 4</h1><p class="sub">Investigation en six étapes : situation, prévision, manipulation, confrontation, bilan, trace. Programme français (5e, 4e, 3e) ; le parcours Côte d’Ivoire reste inchangé.</p>';
+  Object.keys(THEMES).forEach(function (t) {
+    var list = ACTIVITES.filter(function (a) { return a.theme === t; });
+    var sec = document.createElement('section'); sec.innerHTML = '<h2 style="margin-top:28px">' + t + ' · ' + esc(THEMES[t]) + '</h2>';
+    var g = document.createElement('div'); g.className = 'cat';
+    list.forEach(function (a) {
+      var on = a.statut === 'disponible', el = document.createElement(on ? 'a' : 'div'); el.className = 'act'; if (on) el.href = './?a=' + a.id;
+      el.innerHTML = '<div><span class="badge">' + a.niveau + '</span><span class="chip' + (on ? '' : ' off') + '">' + (on ? 'Disponible' : 'En conception') + '</span></div><b>' + esc(a.titre) + '</b><br><span style="color:var(--mist);font-size:15px">' + esc(a.chapitre) + '</span>';
+      g.appendChild(el);
+    });
+    sec.appendChild(g); app.appendChild(sec);
+  });
+})();
+</script>
+</body>
+</html>
