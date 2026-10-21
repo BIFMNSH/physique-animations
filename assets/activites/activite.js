@@ -295,7 +295,23 @@
       var pf = h('div', { class: 'card' }, panel); h('h3', { text: 'Espace enseignant' }, pf);
       if (!profMode) {
         h('p', { style: 'color:var(--mist)' }, pf, 'Le corrigé et les attendus sont une ressource distincte de la trace élève.');
-        h('button', { class: 'btn', type: 'button', text: 'Passer en mode enseignant' }, pf).onclick = function () { profMode = true; draw(); };
+        var profBtn = h('button', { class: 'btn', type: 'button', text: 'Vérifier mon accès enseignant' }, pf);
+        var authNotice = h('p', { 'aria-live': 'polite' }, pf);
+        profBtn.onclick = function () {
+          profBtn.disabled = true; authNotice.textContent = 'Vérification de l’habilitation…';
+          var api = window.NOHOBALAB_API_URL || '';
+          fetch(api + '/api/activites/' + encodeURIComponent(F.id) + '/corrige', { credentials: 'include', cache: 'no-store' })
+            .then(function (res) {
+              if (!res.ok) throw new Error(res.status === 401 ? 'Connexion nécessaire.' : res.status === 402 ? 'Abonnement au thème nécessaire.' : res.status === 403 ? 'Accès réservé aux enseignants habilités.' : 'Corrigé indisponible.');
+              return res.json();
+            })
+            .then(function (data) {
+              if (!data || !data.prof || data.id !== F.id) throw new Error('Réponse du serveur invalide.');
+              F.prof = data.prof; profMode = true; draw();
+            })
+            .catch(function (err) { authNotice.textContent = err.message || 'Contrôle impossible.'; })
+            .then(function () { profBtn.disabled = false; });
+        };
       } else {
         h('div', { class: 'bannerprof', role: 'status' }, pf, 'Mode enseignant activé : les réponses attendues sont affichées. Ne pas projeter devant les élèves avant la fin de l’activité.');
         h('p', {}, pf, '<b>Référence :</b> ' + esc(F.prof.reference));
