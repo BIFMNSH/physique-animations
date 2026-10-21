@@ -297,7 +297,7 @@ window.ACTIVITES = [
   "objectif": "Caractériser un mouvement en précisant le référentiel.",
   "decision": "creer",
   "ressources": [],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -325,7 +325,7 @@ window.ACTIVITES = [
   "ressources": [
    "simulation:mouvement-bille"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -337,7 +337,7 @@ window.ACTIVITES = [
   "objectif": "Distinguer valeur, direction et sens de la vitesse.",
   "decision": "creer",
   "ressources": [],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {
@@ -353,7 +353,7 @@ window.ACTIVITES = [
    "lecon:aimant-bobine",
    "lecon:les-forces"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": false
  },
  {

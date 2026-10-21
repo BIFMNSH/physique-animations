@@ -16,12 +16,12 @@
    "Laisser le délai en ms avec une distance en m.",
    "Doubler la distance comme dans un écho."
   ],
-  "limites": "Mesures synthétiques arrondies à 0,1 ms ; propagation alignée dans un air homogène, vitesse fixée à 340 m/s, source supposée alignée avec les capteurs. L’incertitude de mesure n’est pas modélisée : la discussion sur « l’influence d’une petite erreur » est qualitative. Une réponse libre n’est pas validée automatiquement par des mots-clés.",
+  "limites": "Mesures synthétiques arrondies à 0,1 ms ; propagation alignée dans un air homogène, vitesse fixée à 340 m/s, source supposée alignée avec les capteurs. L’incertitude est modélisée de façon simple : l’horloge moins précise ajoute un écart fixe de ± 0,5 ms (valeurs déterministes), sans loi statistique. Une réponse libre n’est pas validée automatiquement par des mots-clés.",
   "differenciation": "Aide : tableau de calcul étape par étape sans résultat final. Approfondissement : changer le milieu ou discuter une erreur de 0,5 ms sur le délai."
  },
  "transfert": {
   "reponse": 5,
   "explication": "Le délai est proportionnel à la distance : 1,70 m est la moitié de 3,40 m, donc le délai est la moitié de 10,0 ms, soit 5,0 ms (1,70 ÷ 340 = 0,0050 s)."
  },
- "synthese": "La vitesse est le quotient de la distance parcourue par la durée du parcours. Entre deux capteurs alignés, la distance est celle qui les sépare et la durée est la différence des deux horodatages, convertie en secondes. Ce trajet n’est pas un aller-retour. Si la distance double, le délai double et le quotient reste le même dans ce modèle."
+ "synthese": "La vitesse est le quotient de la distance parcourue par la durée du parcours. Entre deux capteurs alignés, la distance est celle qui les sépare et la durée est la différence des deux horodatages, convertie en secondes. Ce trajet n’est pas un aller-retour. Si la distance double, le délai double et le quotient reste le même dans ce modèle. Une horloge moins précise écarte le résultat, surtout pour de petits délais : mesurer sur une plus grande distance réduit l’effet de cette erreur. Contrairement à l’écho d’un réservoir, il n’y a pas de retour du son entre les capteurs."
 }

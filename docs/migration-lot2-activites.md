@@ -23,3 +23,13 @@ Service worker : `pc-v78`.
 - **Corrigé élève** : n'apparaît qu'après la conclusion personnelle ET une réponse au transfert. Référence, points à cocher, erreurs fréquentes, zone « ce que j'avais faux / compris » ; reprise dans une rubrique « Après correction » de la fiche remplie.
 - **Limite** : ce corrigé est encore chargé avec la fiche (JS public). Le verrouillage réel exige le branchement au serveur (`/api/activites/:id/corrige`), non fait. Le corrigé professeur (limites, différenciation) reste en mode enseignant.
 - Service worker `pc-v79`.
+
+## Lot 3 (21/10/2026) — thème B et enrichissement des quatre activités
+- **Thème B ajouté** : B01 Le voyageur assis (référentiel, 2 m / 10 / 18 / 26 m), B03 Les points du mobile (distances 1/1/1, 1/2/3, 3/2/1 m), B04 Le virage régulier (flèche tangente, valeur 1,0 m/s constante), B05 Les voisins invisibles (contact / distance, fil retiré, aimant éloigné). Douze activités disponibles sur 48.
+- **A02** : plusieurs liquides de même volume (60 mL) aux masses différentes, volume lu avec la position de l'œil, diagnostic « masse ≠ volume ».
+- **C03** : lampe grillée (série : tout s'éteint ; dérivation : l'autre reste allumée) et interrupteur général vérifiables, débloqués après les huit états.
+- **D05** : horloge moins précise (± 0,5 ms, valeurs déterministes) ; l'erreur relative pèse davantage sur les petites distances.
+- **C08** : veille permanente 5 W × 24 h = 120 Wh contre usage actif 100 W × 2 h = 200 Wh ; mention explicite qu'aucun tarif (F CFA/kWh) n'est inventé.
+- Correction d'accessibilité : identifiant dupliqué `app` dans C08 (le libellé n'était pas relié au sélecteur).
+- Contrôles : 428 assertions, axe WCAG A/AA clair et sombre sur les douze activités, PDF vierge de deux pages pour chacune. Service worker `pc-v80`.
+- Limites : mêmes que le lot 2 (valeurs synthétiques, non relues scientifiquement ni testées en classe ; corrigés encore dans les fiches publiques).

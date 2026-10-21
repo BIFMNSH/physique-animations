@@ -10,7 +10,7 @@
   var SLOTS = [['vide', 'Masse du flacon vide'], ['plein', 'Masse du flacon plein'], ['tare', 'Mesure avec tare (flacon plein)']];
 
   function manip(panel, X) {
-    var F = window.FICHE_A02, st = X.st(), liq = 'eau', etat = 'rien', tare = 0, oeil = 'niveau', got = {};
+    var F = window.FICHE_A02, st = X.st(), liq = 'eau', etat = 'rien', tare = 0, oeil = 'niveau', got = {}, vlu = null;
     var g = h('div', { class: 'grid2' }, panel), L = h('div', { class: 'card' }, g), R = h('div', { class: 'card' }, g);
     h('h3', { text: 'Balance et éprouvette' }, L);
     var host = h('div', { style: 'text-align:center' }, L);
@@ -37,10 +37,11 @@
         '<rect x="230" y="40" width="40" height="150" rx="4" fill="none" stroke="var(--glass)" stroke-width="3"/>' + (etat === 'plein' ? '<rect x="233" y="' + (190 - VOL * 1.5) + '" width="34" height="' + (VOL * 1.5) + '" fill="rgba(79,168,255,.4)"/>' : '') +
         [0, 20, 40, 60, 80, 100].map(function (v) { return '<line x1="262" x2="270" y1="' + (190 - v * 1.5) + '" y2="' + (190 - v * 1.5) + '" stroke="var(--ink)"/><text x="276" y="' + (194 - v * 1.5) + '" font-size="11" fill="var(--mist)" font-family="sans-serif">' + v + '</text>'; }).join('') + '</svg>';
       var v = affichage(posee(etat, liq), tare); bal.textContent = num(v) + ' g';
-      var lu = etat === 'plein' ? VOL + (oeil === 'haut' ? 4 : oeil === 'bas' ? -4 : 0) : null;
+      var lu = lecture();
       rd.textContent = lu == null ? 'Volume : l’éprouvette est vide.' : 'Volume lu : ' + lu + ' mL' + (oeil === 'niveau' ? ' (œil au niveau du bas du ménisque)' : ' (lecture faussée : l’œil n’est pas au niveau du ménisque)');
       b2.disabled = etat !== 'vide'; b3.disabled = etat === 'rien'; b4.disabled = tare === 0; b1.disabled = etat !== 'rien';
     }
+    function lecture() { return etat === 'plein' ? VOL + (oeil === 'haut' ? 4 : oeil === 'bas' ? -4 : 0) : null; }
     function reset() { etat = 'rien'; tare = 0; draw(); }
     b1.onclick = function () { etat = 'vide'; inf.textContent = 'Flacon vide posé. Tu peux noter cette pesée ou remplir le flacon.'; draw(); };
     b2.onclick = function () { etat = 'plein'; inf.textContent = 'Flacon rempli de 60 mL. Note la pesée, ou essaie la tare.'; draw(); };
@@ -50,8 +51,8 @@
     oe.onchange = function () { oeil = oe.value; draw(); };
     bn.onclick = function () {
       if (etat === 'rien') { inf.textContent = 'Pose d’abord le flacon sur la balance.'; return; }
-      got[nt.value] = affichage(posee(etat, liq), tare); inf.textContent = 'Noté : ' + SLOTS.filter(function (s) { return s[0] === nt.value; })[0][1] + ' = ' + num(got[nt.value]) + ' g.';
-      if (got.vide != null && got.plein != null && got.tare != null) { X.addEssai({ liq: LIQ[liq].n, vide: got.vide, plein: got.plein, tare: got.tare }); table(); inf.textContent += ' Essai complet enregistré.'; got = {}; }
+      got[nt.value] = affichage(posee(etat, liq), tare); if (etat === 'plein' && lecture() != null) vlu = lecture(); inf.textContent = 'Noté : ' + SLOTS.filter(function (s) { return s[0] === nt.value; })[0][1] + ' = ' + num(got[nt.value]) + ' g.';
+      if (got.vide != null && got.plein != null && got.tare != null) { X.addEssai({ liq: LIQ[liq].n, vol: vlu == null ? VOL : vlu, vide: got.vide, plein: got.plein, tare: got.tare }); table(); inf.textContent += ' Essai complet enregistré.'; got = {}; vlu = null; }
     };
     table(); draw();
   }
@@ -64,9 +65,9 @@
     materiel: 'Un flacon, une éprouvette graduée, une balance électronique avec touche de tare.',
     situation: 'Une préparation exige 60 mL de liquide. Le flacon vide pèse 42 g et le flacon rempli de liquide pèse 102 g. Quelle masse de liquide a-t-on prélevée ?',
     prevision: { consigne: 'Choisis une valeur et explique ce que mesure la balance.', choix: [['42', '42 g'], ['60', '60 g'], ['102', '102 g']] },
-    protocole: ['Lire le volume au bas du ménisque, l’œil à hauteur du niveau.', 'Peser le flacon vide, puis le flacon plein.', 'Refaire la mesure en utilisant la tare.', 'Comparer les deux méthodes.'],
+    protocole: ['Lire le volume au bas du ménisque, l’œil à hauteur du niveau.', 'Peser le flacon vide, puis le flacon plein.', 'Refaire la mesure en utilisant la tare.', 'Comparer les deux méthodes.', 'Recommencer avec un autre liquide versé au même volume.'],
     variable: 'Liquide utilisé', maintenu: 'Volume de 60 mL, même flacon, même balance',
-    confrontation: 'Les deux méthodes (calcul avec deux pesées, et mesure avec la tare) donnent-elles la même masse ? Explique pourquoi la pesée du flacon plein ne répond pas, seule, à la question.',
+    confrontation: 'Compare tes essais avec plusieurs liquides. Les deux méthodes (calcul avec deux pesées, et mesure avec la tare) donnent-elles la même masse ? Explique pourquoi la pesée du flacon plein ne répond pas, seule, à la question.',
     retroaction: 'Quel résultat précis soutient ta conclusion ? Relis ta prévision et indique ce que tu conserves ou modifies.',
     transfert: { q: 'Avec 60 mL d’un autre liquide, la balance indique 90 g pour le flacon rempli (le flacon vide pèse toujours 42 g). Quelle est la masse de ce liquide, en grammes ?', type: 'nombre', unite: 'g', rep: 48, tol: 0,
       expl: '90 − 42 = 48 g. On retire la masse du flacon. Deux liquides de même volume (60 mL) peuvent avoir des masses différentes : le volume se mesure en mL, la masse en g.' },
@@ -77,9 +78,9 @@
       'Les millilitres mesurent un volume et les grammes une masse : même quand les nombres se ressemblent, ce ne sont pas les mêmes grandeurs.'
     ],
     synthese: 'La balance mesure la masse de tout ce qui est posé dessus. Pour avoir la masse du liquide seul, on retire la masse du flacon vide (soustraction) ou on tare la balance avec le flacon vide : les deux méthodes donnent la même valeur. Le volume (en mL) et la masse (en g) sont deux grandeurs différentes : 60 mL de liquides différents n’ont pas forcément la même masse.',
-    colonnes: ['Liquide', 'Masse vide (g)', 'Masse pleine (g)', 'Différence (g)', 'Mesure tarée (g)'], lignesVides: 3,
-    lignes: function (st) { return st.essais.map(function (e) { return [e.liq, num(e.vide), num(e.plein), num(e.plein - e.vide), num(e.tare)]; }); },
-    resume: function (e) { return e.liq + ' : vide ' + num(e.vide) + ' g, plein ' + num(e.plein) + ' g, différence ' + num(e.plein - e.vide) + ' g, tarée ' + num(e.tare) + ' g'; },
+    colonnes: ['Liquide', 'Volume lu (mL)', 'Masse vide (g)', 'Masse pleine (g)', 'Différence (g)', 'Mesure tarée (g)'], lignesVides: 3,
+    lignes: function (st) { return st.essais.map(function (e) { return [e.liq, num(e.vol == null ? VOL : e.vol, 0), num(e.vide), num(e.plein), num(e.plein - e.vide), num(e.tare)]; }); },
+    resume: function (e) { return e.liq + ' (' + num(e.vol == null ? VOL : e.vol, 0) + ' mL) : vide ' + num(e.vide) + ' g, plein ' + num(e.plein) + ' g, différence ' + num(e.plein - e.vide) + ' g, tarée ' + num(e.tare) + ' g'; },
     diagnostic: function (st) {
       var o = [];
       st.essais.forEach(function (e) {
@@ -87,7 +88,10 @@
         if (m == null) return;
         if (Math.abs(e.plein - e.vide - m) > 1e-9 || Math.abs(e.tare - m) > 1e-9) o.push('(' + e.liq + ') Tes trois valeurs ne se correspondent pas : vérifie ce que tu as noté comme « vide », « plein » et « avec tare ».');
         else o.push('(' + e.liq + ') La différence des deux pesées et la mesure avec la tare donnent la même masse.');
+        if (e.vol != null && e.vol !== VOL) o.push('(' + e.liq + ') Ton volume lu (' + num(e.vol, 0) + ' mL) diffère du volume réellement versé : place l’œil à hauteur du bas du ménisque avant de lire.');
       });
+      var ms = {}; st.essais.forEach(function (e) { ms[e.liq] = e.plein - e.vide; });
+      var ks = Object.keys(ms); if (ks.length >= 2 && ms[ks[0]] !== ms[ks[1]]) o.push('Tu as testé deux liquides versés au même volume : leurs masses ne sont pas les mêmes. Le volume (mL) et la masse (g) sont des grandeurs différentes.');
       return o;
     },
     extraPrint: { titre: 'Schéma de lecture', consigne: 'Dessine l’éprouvette, le ménisque et la position de l’œil pour lire correctement le volume.', hauteur: 150 },

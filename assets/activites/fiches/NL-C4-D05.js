@@ -4,24 +4,27 @@
 (function () {
   var h = Activite.h, esc = Activite.esc, num = Activite.num;
   var C = 340, T1 = 4.0, DIST = [1.7, 3.4, 6.8];
-  function t2(d) { return Math.round((T1 + 1000 * d / C) * 10) / 10; }  // ms, arrondi au dixième
-  function delai(d) { return Math.round((t2(d) - T1) * 10) / 10; }          // ms
+  var OFFS = { '1.7': 0.5, '3.4': -0.5, '6.8': 0.5 }; // écarts de l'horloge moins précise (ms), déterministes
+  function t2(d, hor) { return Math.round((T1 + 1000 * d / C + (hor === 'lente' ? OFFS[String(d)] || 0 : 0)) * 10) / 10; }  // ms, arrondi au dixième
+  function delai(d, hor) { return Math.round((t2(d, hor) - T1) * 10) / 10; }          // ms
   function parse(x) { var n = parseFloat(String(x).replace(',', '.')); return isFinite(n) ? n : null; }
   function near(a, b, tol) { return a != null && Math.abs(a - b) <= tol; }
   function manip(panel, X) {
-    var F = window.FICHE_D05, st = X.st(), d = 3.4, emis = false;
+    var F = window.FICHE_D05, st = X.st(), d = 3.4, emis = false, hor = 'precise';
     var c1 = h('div', { class: 'card' }, panel); h('h3', { text: 'Le couloir' }, c1);
     h('label', { for: 'dist', text: 'Distance entre les deux capteurs :' }, c1);
     var sel = h('select', { id: 'dist' }, c1, DIST.map(function (x) { return '<option value="' + x + '"' + (x === 3.4 ? ' selected' : '') + '>' + num(x, 2) + ' m</option>'; }).join(''));
+    h('label', { for: 'hor', text: 'Horloge des capteurs :' }, c1); var shor = h('select', { id: 'hor' }, c1, '<option value="precise">précise (au dixième de milliseconde)</option><option value="lente">moins précise (erreur possible de 0,5 ms)</option>');
     var host = h('div', {}, c1);
     var row = h('div', { class: 'row' }, c1), bEm = h('button', { class: 'btn', type: 'button', text: 'Émettre l’impulsion' }, row);
     var rd = h('output', { class: 'bal', 'aria-live': 'polite', style: 'display:block;text-align:center;font-size:22px;min-width:0;margin:8px 0' }, c1, 'Aucune impulsion émise.');
     function draw() {
       var xs = 60 + 0, x1 = 150, x2 = 150 + Math.min(300, d * 45);
       host.innerHTML = '<svg viewBox="0 0 560 120" role="img" aria-label="Un couloir vu de dessus : une source sonore à gauche, puis deux capteurs alignés, séparés de ' + num(d, 2) + ' mètres. Le son se propage de gauche à droite." style="width:100%;max-width:620px"><rect x="20" y="40" width="520" height="40" fill="none" stroke="var(--mist)" stroke-dasharray="4 4"/><circle cx="' + xs + '" cy="60" r="12" fill="#F97316"/><text x="' + xs + '" y="100" text-anchor="middle" font-size="12" fill="var(--ink)" font-family="sans-serif">source</text><rect x="' + (x1 - 8) + '" y="48" width="16" height="24" fill="#5B6B88"/><text x="' + x1 + '" y="36" text-anchor="middle" font-size="12" fill="var(--ink)" font-family="sans-serif">capteur 1</text><rect x="' + (x2 - 8) + '" y="48" width="16" height="24" fill="#5B6B88"/><text x="' + x2 + '" y="36" text-anchor="middle" font-size="12" fill="var(--ink)" font-family="sans-serif">capteur 2</text><line x1="' + x1 + '" x2="' + x2 + '" y1="100" y2="100" stroke="var(--ink)" stroke-width="2"/><text x="' + ((x1 + x2) / 2) + '" y="116" text-anchor="middle" font-size="12" fill="var(--ink)" font-family="sans-serif">' + num(d, 2) + ' m</text></svg>';
-      rd.textContent = emis ? 'Capteur 1 : ' + num(T1) + ' ms · Capteur 2 : ' + num(t2(d)) + ' ms' : 'Aucune impulsion émise.';
+      rd.textContent = emis ? 'Capteur 1 : ' + num(T1) + ' ms · Capteur 2 : ' + num(t2(d, hor)) + ' ms' : 'Aucune impulsion émise.';
     }
     sel.onchange = function () { d = Number(sel.value); emis = false; draw(); };
+    shor.onchange = function () { hor = shor.value; emis = false; draw(); };
     bEm.onclick = function () { emis = true; draw(); };
     var c2 = h('div', { class: 'card' }, panel); h('h3', { text: 'Je calcule la vitesse' }, c2);
     h('p', {}, c2, 'Émets l’impulsion, lis les deux horodatages, puis complète chaque étape avec ses unités (virgule ou point accepté).');
@@ -33,7 +36,7 @@
       if (!emis) { msg.hidden = false; msg.textContent = 'Émets d’abord l’impulsion pour lire les horodatages.'; return; }
       var v = {}, ok = true; rows.forEach(function (r) { v[r[0]] = parse(panel.querySelector('#c_' + r[0]).value); if (v[r[0]] === null) ok = false; });
       if (!ok) { msg.hidden = false; msg.textContent = 'Complète les quatre étapes avec des nombres avant d’enregistrer.'; return; }
-      msg.hidden = true; X.addEssai({ dist: d, t1: v.t1, t2: v.t2, dl: v.dl, v: v.v, lu1: T1, lu2: t2(d) }); table();
+      msg.hidden = true; X.addEssai({ dist: d, hor: hor, t1: v.t1, t2: v.t2, dl: v.dl, v: v.v, lu1: T1, lu2: t2(d, hor) }); table();
       note.hidden = false; note.textContent = 'Calcul enregistré. Change la distance et recommence : que devient le délai, que devient la vitesse ?';
     };
     var aid = h('button', { class: 'btn', type: 'button', text: 'Besoin d’une aide ?' }, panel), aidBox = h('div', { class: 'msg', hidden: '', 'aria-live': 'polite' }, panel);
@@ -50,7 +53,7 @@
     materiel: 'Deux capteurs sonores alignés dans un couloir, une source, un chronomètre électronique.',
     situation: 'Deux capteurs séparés de 3,40 m reçoivent la même impulsion à 10,0 ms d’intervalle. Quelle vitesse déduire ?',
     prevision: { consigne: 'Avant tout calcul, indique de quelle distance tu auras besoin et comment tu obtiendras la durée.', choix: [['entre', 'La distance entre les deux capteurs, et la différence des deux horodatages'], ['source', 'La distance source–capteur 2, et l’horodatage du capteur 2'], ['inconnu', 'Je ne sais pas']] },
-    protocole: ['Lire les deux horodatages.', 'Soustraire pour obtenir le délai.', 'Convertir les millisecondes en secondes.', 'Calculer la vitesse avec la distance entre les capteurs.', 'Refaire avec une autre distance.'],
+    protocole: ['Lire les deux horodatages.', 'Soustraire pour obtenir le délai.', 'Convertir les millisecondes en secondes.', 'Calculer la vitesse avec la distance entre les capteurs.', 'Refaire avec une autre distance.', 'Changer l’horloge pour une moins précise et comparer les vitesses obtenues.'],
     variable: 'Distance entre les capteurs', maintenu: 'Même source, même couloir, air homogène',
     confrontation: 'Compare tes quotients pour les différentes distances. Que se passe-t-il pour le délai quand la distance double ? Une petite erreur sur le délai change-t-elle beaucoup le résultat ?',
     retroaction: 'Quel résultat précis soutient ta conclusion ? Relis ta prévision et indique ce que tu conserves ou modifies.',
@@ -62,21 +65,22 @@
       'Convertis 1 ms en 0,001 s avant de diviser la distance par la durée.',
       'Le son va dans un seul sens entre les deux capteurs : la distance à utiliser est celle qui sépare les capteurs, sans la multiplier ni la diviser par deux.'
     ],
-    synthese: 'La vitesse est le quotient de la distance parcourue par la durée du parcours. Entre deux capteurs alignés, la distance est celle qui les sépare et la durée est la différence des deux horodatages, convertie en secondes. Ce trajet n’est pas un aller-retour. Si la distance double, le délai double et le quotient reste le même dans ce modèle.',
-    colonnes: ['Distance (m)', 'Horodatage 1 (ms)', 'Horodatage 2 (ms)', 'Délai (s)', 'Vitesse (m/s)'], lignesVides: 4,
-    lignes: function (st) { return st.essais.map(function (e) { return [num(e.dist, 2), num(e.t1), num(e.t2), num(e.dl, 4), num(e.v)]; }); },
-    resume: function (e) { return 'Distance ' + num(e.dist, 2) + ' m : horodatages ' + num(e.t1) + ' ms et ' + num(e.t2) + ' ms, délai ' + num(e.dl, 4) + ' s, vitesse ' + num(e.v) + ' m/s'; },
+    synthese: 'La vitesse est le quotient de la distance parcourue par la durée du parcours. Entre deux capteurs alignés, la distance est celle qui les sépare et la durée est la différence des deux horodatages, convertie en secondes. Ce trajet n’est pas un aller-retour. Si la distance double, le délai double et le quotient reste le même dans ce modèle. Une horloge moins précise écarte le résultat, surtout pour de petits délais : mesurer sur une plus grande distance réduit l’effet de cette erreur. Contrairement à l’écho d’un réservoir, il n’y a pas de retour du son entre les capteurs.',
+    colonnes: ['Distance (m)', 'Horloge', 'Horodatage 1 (ms)', 'Horodatage 2 (ms)', 'Délai (s)', 'Vitesse (m/s)'], lignesVides: 4,
+    lignes: function (st) { return st.essais.map(function (e) { return [num(e.dist, 2), e.hor === 'lente' ? '± 0,5 ms' : 'précise', num(e.t1), num(e.t2), num(e.dl, 4), num(e.v)]; }); },
+    resume: function (e) { return 'Distance ' + num(e.dist, 2) + ' m (horloge ' + (e.hor === 'lente' ? 'moins précise' : 'précise') + ') : horodatages ' + num(e.t1) + ' ms et ' + num(e.t2) + ' ms, délai ' + num(e.dl, 4) + ' s, vitesse ' + num(e.v) + ' m/s'; },
     diagnostic: function (st) {
       var o = [];
       st.essais.forEach(function (e) {
-        var tag = '(' + num(e.dist, 2) + ' m) ', dl = delai(e.dist) / 1000, v = e.dist / dl;
-        if (near(e.t1, T1, 0.05) === false || near(e.t2, t2(e.dist), 0.05) === false) o.push(tag + 'Tes horodatages ne correspondent pas à ceux affichés : relis-les sur le simulateur.');
-        if (near(e.dl, delai(e.dist), 0.05)) o.push(tag + 'Ton délai est resté en millisecondes : convertis en secondes (1 ms = 0,001 s) avant de calculer la vitesse.');
-        else if (near(e.dl, t2(e.dist) / 1000, 1e-5)) o.push(tag + 'Ton délai est l’horodatage du capteur 2 : il faut soustraire l’horodatage du capteur 1 pour obtenir le temps qui sépare les deux détections.');
+        var tag = '(' + num(e.dist, 2) + ' m) ', dl = delai(e.dist, e.hor) / 1000, v = e.dist / dl;
+        if (near(e.t1, T1, 0.05) === false || near(e.t2, t2(e.dist, e.hor), 0.05) === false) o.push(tag + 'Tes horodatages ne correspondent pas à ceux affichés : relis-les sur le simulateur.');
+        if (near(e.dl, delai(e.dist, e.hor), 0.05)) o.push(tag + 'Ton délai est resté en millisecondes : convertis en secondes (1 ms = 0,001 s) avant de calculer la vitesse.');
+        else if (near(e.dl, t2(e.dist, e.hor) / 1000, 1e-5)) o.push(tag + 'Ton délai est l’horodatage du capteur 2 : il faut soustraire l’horodatage du capteur 1 pour obtenir le temps qui sépare les deux détections.');
         if (near(e.v, 2 * v, 1)) o.push(tag + 'Ta vitesse est le double de la valeur attendue : le son ne fait pas d’aller-retour entre les capteurs, ne double pas la distance.');
         if (near(e.v, v / 1000, 0.01) || near(e.v, v * 1000, 1)) o.push(tag + 'Ta vitesse est trop petite ou trop grande d’un facteur mille : vérifie la conversion ms → s.');
         if (near(e.dl, dl, 1e-5) && near(e.v, v, 3)) o.push(tag + 'Délai et vitesse sont cohérents avec le modèle.');
       });
+      if (st.essais.some(function (e) { return e.hor === 'lente'; })) o.push('Avec l’horloge moins précise, la vitesse déduite s’écarte de la valeur obtenue avec l’horloge précise : une même erreur de 0,5 ms pèse davantage quand le délai est court, donc quand les capteurs sont proches.');
       return o;
     },
     extraPrint: { titre: 'Schéma du couloir', consigne: 'Dessine la source, les deux capteurs, la distance qui les sépare et le sens de propagation du son.', hauteur: 150 },
@@ -87,7 +91,7 @@
       reference: '3,40 m ÷ 0,0100 s = 340 m/s ; avec 6,80 m le délai est 20,0 ms et la vitesse reste 340 m/s. Transfert : 1,70 m → 5,0 ms. Le délai entre capteurs n’est pas un aller-retour.',
       attendus: ['Délai = différence des horodatages (10,0 ms), pas l’horodatage du capteur 2.', 'Conversion 10,0 ms = 0,0100 s.', 'Distance = séparation des capteurs, sans doubler.', 'Constat : délai proportionnel à la distance, quotient constant.'],
       erreurs: ['Utiliser l’horodatage du capteur 2 (14,0 ms) comme durée.', 'Laisser le délai en ms avec une distance en m.', 'Doubler la distance comme dans un écho.'],
-      limites: 'Mesures synthétiques arrondies à 0,1 ms ; propagation alignée dans un air homogène, vitesse fixée à 340 m/s, source supposée alignée avec les capteurs. L’incertitude de mesure n’est pas modélisée : la discussion sur « l’influence d’une petite erreur » est qualitative. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
+      limites: 'Mesures synthétiques arrondies à 0,1 ms ; propagation alignée dans un air homogène, vitesse fixée à 340 m/s, source supposée alignée avec les capteurs. L’incertitude est modélisée de façon simple : l’horloge moins précise ajoute un écart fixe de ± 0,5 ms (valeurs déterministes), sans loi statistique. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
       differenciation: 'Aide : tableau de calcul étape par étape sans résultat final. Approfondissement : changer le milieu ou discuter une erreur de 0,5 ms sur le délai.'
     }
   };

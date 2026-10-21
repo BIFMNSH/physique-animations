@@ -3,7 +3,7 @@
    Aucun coût ni bilan carbone réel : pas de tarif ni de facteur sourcé. */
 (function () {
   var h = Activite.h, esc = Activite.esc, num = Activite.num;
-  var APP = { a: { n: 'Appareil A — 60 W', P: 60 }, b: { n: 'Appareil B — 15 W', P: 15 }, c: { n: 'Appareil C — 20 W', P: 20 }, d: { n: 'Récepteur continu D — 12 V et 0,50 A', U: 12, I: 0.5, P: 6 } };
+  var APP = { a: { n: 'Appareil A — 60 W', P: 60 }, b: { n: 'Appareil B — 15 W', P: 15 }, c: { n: 'Appareil C — 20 W', P: 20 }, d: { n: 'Récepteur continu D — 12 V et 0,50 A', U: 12, I: 0.5, P: 6 }, e: { n: 'Appareil E en veille permanente — 5 W', P: 5 }, f: { n: 'Appareil F en usage actif — 100 W', P: 100 } };
   function energieWh(P, t) { return P * t; }
   function enJoules(wh) { return wh * 3600; }
   function parse(x) { var n = parseFloat(String(x).replace(',', '.')); return isFinite(n) ? n : null; }
@@ -11,12 +11,13 @@
   function manip(panel, X) {
     var F = window.FICHE_C08, st = X.st(), k = 'a', t = 2;
     var c1 = h('div', { class: 'card' }, panel); h('h3', { text: 'Appareil et durée' }, c1);
-    h('label', { for: 'app', text: 'Appareil :' }, c1);
-    var sel = h('select', { id: 'app' }, c1, Object.keys(APP).map(function (x) { return '<option value="' + x + '">' + APP[x].n + '</option>'; }).join(''));
-    var lt = h('label', { for: 'dur', text: 'Durée de fonctionnement : ' }, c1), out = h('b', {}, lt, ''), rng = h('input', { type: 'range', id: 'dur', min: 0.5, max: 12, step: 0.5, value: t, style: 'width:100%' }, c1);
+    h('label', { for: 'appr', text: 'Appareil :' }, c1);
+    var sel = h('select', { id: 'appr' }, c1, Object.keys(APP).map(function (x) { return '<option value="' + x + '">' + APP[x].n + '</option>'; }).join(''));
+    var lt = h('label', { for: 'dur', text: 'Durée de fonctionnement : ' }, c1), out = h('b', {}, lt, ''), rng = h('input', { type: 'range', id: 'dur', min: 0.5, max: 24, step: 0.5, value: t, style: 'width:100%' }, c1);
     var info = h('p', { 'aria-live': 'polite', style: 'font-weight:700' }, c1);
     function show() { out.textContent = num(t, 1) + ' h'; var a = APP[k]; info.textContent = a.P != null && a.U == null ? 'Puissance indiquée : ' + a.P + ' W · Durée : ' + num(t, 1) + ' h' : 'Tension : ' + a.U + ' V · Intensité : ' + num(a.I, 2) + ' A · Durée : ' + num(t, 1) + ' h (la puissance n’est pas indiquée)'; }
     sel.onchange = function () { k = sel.value; show(); }; rng.oninput = function () { t = Number(rng.value); show(); };
+    h('p', { style: 'color:var(--mist);font-size:15px' }, c1, 'Ici, seule l’énergie est calculée. Pour en déduire un coût, il faudrait un tarif (par exemple en F CFA par kWh) ; il n’est pas fourni et aucun montant n’est inventé.');
     var c2 = h('div', { class: 'card' }, panel); h('h3', { text: 'Mes calculs' }, c2);
     var rows = [['P', 'Puissance de l’appareil', 'W'], ['E', 'Énergie consommée sur la durée choisie', 'Wh']];
     h('div', { style: 'overflow-x:auto', tabindex: '0', role: 'region', 'aria-label': 'Tableau, défile horizontalement' }, c2, '<table class="t"><thead><tr><th scope="col">Grandeur</th><th scope="col">Ma valeur</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr><th scope="row" style="font-weight:700;text-align:left">' + esc(r[1]) + ' (' + r[2] + ')</th><td><input type="text" inputmode="decimal" autocomplete="off" id="c_' + r[0] + '" aria-label="' + esc(r[1]) + ' en ' + (r[2] === 'W' ? 'watts' : 'wattheures') + '" style="width:110px"></td></tr>'; }).join('') + '</tbody></table>');
@@ -42,7 +43,7 @@
     materiel: 'Des fiches techniques d’appareils (puissance ou tension et intensité), un tableau de calcul.',
     situation: 'Un appareil de 60 W fonctionne 2 h ; un autre de 15 W fonctionne 10 h. Le moins puissant consomme-t-il moins ?',
     prevision: { consigne: 'Avant tout calcul, classe les énergies consommées par les deux appareils et explique ton choix.', choix: [['b-moins', 'L’appareil de 15 W consomme moins'], ['a-moins', 'L’appareil de 60 W consomme moins'], ['egal', 'Ils consomment la même énergie'], ['inconnu', 'Je ne sais pas']] },
-    protocole: ['Choisir un appareil et une durée.', 'Déterminer la puissance (la calculer si on donne une tension et une intensité).', 'Calculer l’énergie consommée avec la durée.', 'Recommencer avec d’autres durées et d’autres appareils.', 'Comparer et classer.'],
+    protocole: ['Choisir un appareil et une durée.', 'Déterminer la puissance (la calculer si on donne une tension et une intensité).', 'Calculer l’énergie consommée avec la durée.', 'Recommencer avec d’autres durées et d’autres appareils.', 'Comparer et classer.', 'Comparer un appareil en veille toute la journée avec un appareil actif peu de temps.', 'Proposer une façon de réduire la consommation, avec un argument chiffré.'],
     variable: 'Appareil et durée de fonctionnement', maintenu: 'Puissances supposées constantes',
     confrontation: 'Compare la puissance et l’énergie des deux appareils. Qu’est-ce qui inverse le classement ? Que se passe-t-il pour l’énergie si la durée double ?',
     retroaction: 'Quel résultat précis soutient ta conclusion ? Relis ta prévision et indique ce que tu conserves ou modifies.',
@@ -75,10 +76,10 @@
     manip: manip,
     modele_: { energieWh: energieWh, enJoules: enJoules, APP: APP },
     prof: {
-      reference: 'A : 60 W × 2 h = 120 Wh ; B : 15 W × 10 h = 150 Wh : le moins puissant consomme davantage ici. Récepteur D : 12 V × 0,50 A = 6 W. 1 Wh = 3600 J, donc 120 Wh = 432 000 J. Transfert : 20 W × 3 h = 60 Wh.',
+      reference: 'A : 60 W × 2 h = 120 Wh ; B : 15 W × 10 h = 150 Wh : le moins puissant consomme davantage ici. Récepteur D : 12 V × 0,50 A = 6 W. 1 Wh = 3600 J, donc 120 Wh = 432 000 J. Veille : 5 W × 24 h = 120 Wh ; usage actif : 100 W × 2 h = 200 Wh : la veille représente plus de la moitié de l’énergie de l’usage actif. Transfert : 20 W × 3 h = 60 Wh.',
       attendus: ['E = P × t calculée avec la durée en heures.', 'Distinction W (puissance instantanée) / Wh (énergie cumulée).', 'Doubler la durée double l’énergie.', 'P = U × I pour le récepteur continu.', 'Aucune déduction de coût ou de bilan carbone réel.'],
       erreurs: ['Comparer seulement les puissances (60 W > 15 W donc A consomme plus).', 'Écrire des W pour une énergie.', 'Additionner U et I au lieu de les multiplier.', 'Mélanger heures et secondes.'],
-      limites: 'Puissances constantes ; P = U × I appliqué au courant continu dans ce modèle ; pas de tarif ni de facteur d’émission sourcé, donc aucun coût ni bilan carbone réel n’est déduit. Les profils d’usage numériques ne sont pas simulés dans cette version : le travail porte sur les trois appareils et le récepteur continu. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
+      limites: 'Puissances constantes ; P = U × I appliqué au courant continu dans ce modèle ; pas de tarif ni de facteur d’émission sourcé, donc aucun coût ni bilan carbone réel n’est déduit. Les profils d’usage numériques sont réduits à deux appareils synthétiques (veille permanente et usage actif). Le tarif de l’électricité (en F CFA par kWh) n’est pas inclus : le professeur peut l’apporter avec sa source. Une réponse libre n’est pas validée automatiquement par des mots-clés.',
       differenciation: 'Aide : tableau avec colonnes P, t, E préparées. Approfondissement : calculer 120 Wh en joules, ou proposer un usage numérique et discuter ce qui manque pour estimer un bilan carbone.'
     }
   };
