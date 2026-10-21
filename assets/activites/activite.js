@@ -34,10 +34,10 @@
     var rows = '', i, L = filled ? F.lignes(st) : [], nr = Math.max(L.length, F.lignesVides || 3);
     for (i = 0; i < nr; i++) { rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>'; }
     var p1 = h1 + '<h2>Situation</h2><p>' + esc(F.situation) + '</p><p><b>Matériel :</b> ' + esc(F.materiel) + '</p>' +
-      '<h2>Ma prévision</h2><p>' + esc(F.prevision.consigne) + '</p>' + (filled && pv ? '<p>' + (pv.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : '') + esc(ch ? ch[1] : '') + ' — parce que ' + esc(pv.raison || '') + '</p>' : '<div class="line"></div><div class="line"></div>') +
+      '<h2>Ma prévision</h2><p>' + esc(F.prevision.consigne) + '</p>' + (filled && pv ? '<p>' + (pv.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : '') + esc(ch ? ch[1] : '') + (pv.nombre ? ' (' + esc(pv.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — parce que ' + esc(pv.raison || '') + '</p>' : '<div class="line"></div><div class="line"></div>') + (F.prevision.nombre && !filled ? '<p>' + esc(F.prevision.nombre.label) + ' (' + esc(F.prevision.nombre.unite) + ') : __________</p>' : '') +
       '<h2>Protocole</h2><ol>' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p>Variable modifiée : ' + esc(F.variable) + '. Conditions maintenues : ' + esc(F.maintenu) + '.</p>' +
       '<table><thead><tr>' + F.colonnes.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      (filled && st.essais.length ? '<p><i>Données simulées (modèle ' + esc(F.modele) + ').</i></p>' : '');
+      (filled && st.essais.length ? '<p><i>Données simulées (modèle ' + esc(F.modele) + ').</i></p>' : '') + (F.extraPrint ? '<h2>' + esc(F.extraPrint.titre) + '</h2><p>' + esc(F.extraPrint.consigne) + '</p><div class="box" style="height:' + (F.extraPrint.hauteur || 160) + 'pt"></div>' : '');
     var cf = st.confront, verdicts = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' };
     var tr = st.transfert;
     var p2 = '<div class="pb"></div>' + h1.split('<p>Nom')[0] + '<h2>Expliquer</h2>' +
@@ -104,7 +104,7 @@
       var pv = st.prevision;
       if (pv && !pv.edit) {
         var ch = F.prevision.choix.filter(function (c) { return c[0] === pv.choix; })[0];
-        h('div', { class: 'msg ok' }, panel, '<b>Prévision enregistrée à ' + hhmm(pv.ts) + '.</b><br>' + (pv.inconnu ? 'Je ne sais pas encore ; mon hypothèse : ' : '') + esc(ch[1]) + ' — parce que ' + esc(pv.raison) + (pv.revisions && pv.revisions.length ? '<br><i>' + pv.revisions.length + ' révision(s) conservée(s).</i>' : ''));
+        h('div', { class: 'msg ok' }, panel, '<b>Prévision enregistrée à ' + hhmm(pv.ts) + '.</b><br>' + (pv.inconnu ? 'Je ne sais pas encore ; mon hypothèse : ' : '') + esc(ch[1]) + (pv.nombre ? ' (' + esc(pv.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — parce que ' + esc(pv.raison) + (pv.revisions && pv.revisions.length ? '<br><i>' + pv.revisions.length + ' révision(s) conservée(s).</i>' : ''));
         var r = h('div', { class: 'row' }, panel);
         next('Passer à la manipulation ▸', 2, r);
         var rv = h('button', { class: 'btn', type: 'button', text: 'Réviser ma prévision (la première est conservée)' }, r);
@@ -114,15 +114,17 @@
       var cur0 = pv && pv.edit ? pv : null, inconnu = h('label', { class: 'opt' }, panel, '<input type="checkbox" id="pi"> <span>Je ne sais pas encore : je formule une hypothèse et je vais vérifier.</span>');
       var f = h('fieldset', { style: 'border:0;padding:0;margin:0' }, panel); h('legend', { class: 'noprint', style: 'font-weight:700' }, f, 'Sens de variation attendu');
       F.prevision.choix.forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="pc" value="' + c[0] + '"' + (cur0 && cur0.choix === c[0] ? ' checked' : '') + '><span>' + esc(c[1]) + '</span>'); });
+      var NB = F.prevision.nombre, nb = null;
+      if (NB) { h('label', { for: 'pn', text: NB.label + ' (' + NB.unite + ') :' }, panel); nb = h('input', { type: 'text', inputmode: 'decimal', id: 'pn', autocomplete: 'off', style: 'max-width:160px' }, panel); if (cur0 && cur0.nombre != null) nb.value = cur0.nombre; }
       h('label', { for: 'pr', text: 'Je justifie :' }, panel); var ta = h('textarea', { id: 'pr' }, panel); if (cur0) ta.value = cur0.raison;
       var msg = h('div', { class: 'msg bad', role: 'alert', hidden: '' }, panel);
       var b = h('button', { class: 'btn primary', type: 'button', text: 'Enregistrer ma prévision' }, panel);
       b.onclick = function () {
         var sel = panel.querySelector('input[name=pc]:checked');
-        if (!sel || ta.value.trim().length < 3) { msg.hidden = false; msg.textContent = 'Choisis une réponse et écris une justification, même courte.'; return; }
-        var neo = { choix: sel.value, raison: ta.value.trim(), inconnu: $('#pi').checked, ts: Date.now() };
-        if (cur0) { var init = cur0.initiale || { choix: cur0.choix, raison: cur0.raison, inconnu: cur0.inconnu, ts: cur0.ts }; neo = { choix: neo.choix, raison: neo.raison, inconnu: neo.inconnu, ts: neo.ts, initiale: init, revisions: (cur0.revisions || []).concat([{ choix: neo.choix, raison: neo.raison, ts: neo.ts }]) }; }
-        else { neo.initiale = { choix: neo.choix, raison: neo.raison, inconnu: neo.inconnu, ts: neo.ts }; neo.revisions = []; }
+        if (!sel || ta.value.trim().length < 3 || (nb && !isFinite(parseFloat(nb.value.replace(',', '.'))))) { msg.hidden = false; msg.textContent = 'Choisis une réponse et écris une justification, même courte.'; return; }
+        var neo = { choix: sel.value, raison: ta.value.trim(), inconnu: $('#pi').checked, ts: Date.now() }; if (nb) neo.nombre = nb.value.trim();
+        if (cur0) { var init = cur0.initiale || { choix: cur0.choix, raison: cur0.raison, inconnu: cur0.inconnu, ts: cur0.ts, nombre: cur0.nombre }; neo = { choix: neo.choix, raison: neo.raison, inconnu: neo.inconnu, nombre: neo.nombre, ts: neo.ts, initiale: init, revisions: (cur0.revisions || []).concat([{ choix: neo.choix, raison: neo.raison, ts: neo.ts }]) }; }
+        else { neo.initiale = { choix: neo.choix, raison: neo.raison, inconnu: neo.inconnu, nombre: neo.nombre, ts: neo.ts }; neo.revisions = []; }
         st.prevision = neo; save(KEY, st); view = 1; draw();
       };
     }
@@ -138,10 +140,12 @@
       h('p', { text: F.confrontation }, panel);
       var g = h('div', { class: 'grid2' }, panel), a = h('div', { class: 'card' }, g), b = h('div', { class: 'card' }, g);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
-      h('h3', { text: 'Ma prévision initiale' }, a); h('p', {}, a, (pv.initiale.inconnu ? '<i>Je ne savais pas encore ; hypothèse :</i> ' : '') + esc(ch[1]) + ' — parce que ' + esc(pv.initiale.raison));
+      h('h3', { text: 'Ma prévision initiale' }, a); h('p', {}, a, (pv.initiale.inconnu ? '<i>Je ne savais pas encore ; hypothèse :</i> ' : '') + esc(ch[1]) + (pv.initiale.nombre ? ' (' + esc(pv.initiale.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — parce que ' + esc(pv.initiale.raison));
       if (pv.revisions && pv.revisions.length) h('p', { style: 'color:var(--mist)' }, a, 'Révisée ' + pv.revisions.length + ' fois depuis.');
       h('h3', { text: 'Mes résultats (données simulées)' }, b);
       h('div', { style: 'overflow-x:auto' }, b, tableHTML(F, F.lignes(st)));
+      var dg = F.diagnostic && F.diagnostic(st);
+      if (dg && dg.length) h('div', { class: 'card' }, panel, '<h3 style="margin-top:0">Diagnostic de mes calculs (indicatif, non noté)</h3><ul>' + dg.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>');
       var cf = st.confront || {};
       var f = h('fieldset', { style: 'border:0;padding:0' }, panel); h('legend', { style: 'font-weight:700' }, f, 'Ma prévision est…');
       [['confirmee', 'confirmée'], ['infirmee', 'infirmée'], ['partielle', 'partiellement confirmée'], ['non', 'impossible à conclure avec ces essais']].forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="vd" value="' + c[0] + '"' + (cf.verdict === c[0] ? ' checked' : '') + '><span>' + c[1] + '</span>'); });
@@ -192,7 +196,7 @@
       h('h2', { text: 'Ma trace' }, panel);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
       h('div', { class: 'card' }, panel,
-        '<p><b>Prévision initiale :</b> ' + esc(ch[1]) + ' — ' + esc(pv.initiale.raison) + '</p>' +
+        '<p><b>Prévision initiale :</b> ' + esc(ch[1]) + (pv.initiale.nombre ? ' (' + esc(pv.initiale.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — ' + esc(pv.initiale.raison) + '</p>' +
         '<p><b>Essais :</b> ' + st.essais.map(F.resume).join(' · ') + ' <i>(données simulées)</i></p>' +
         '<p><b>Verdict :</b> ' + esc(st.confront.verdict) + ' — ' + esc(st.confront.preuve) + '</p>' +
         '<p><b>Ma conclusion :</b> ' + esc(st.conclusion) + '</p>' +

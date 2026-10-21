@@ -494,7 +494,7 @@ window.ACTIVITES = [
    "lecon:intensite",
    "lecon:court-circuit"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": true
  },
  {
@@ -661,7 +661,7 @@ window.ACTIVITES = [
   "ressources": [
    "simulation:vitesse-son"
   ],
-  "statut": "conception",
+  "statut": "disponible",
   "pilote": true
  },
  {
