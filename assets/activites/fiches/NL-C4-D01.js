@@ -108,12 +108,5 @@
         }
       ]
     },
-    prof: {
-      reference: 'Sans lumière issue d’une source, ni la carte ni rien dans la boîte n’est visible. Source allumée : la source est vue par trajet direct (source → œil) ; la carte est vue par diffusion (source → carte → œil). La carte est un objet diffusant, la lampe une source primaire. Transfert : la Lune diffuse la lumière solaire.',
-      attendus: ['Pas de lumière, pas de vision de la carte.', 'Trajets orientés vers l’œil.', 'Distinction source primaire / objet diffusant.', 'Application à la Lune.'],
-      erreurs: ['Penser que l’œil « envoie » quelque chose vers l’objet.', 'Dire que la carte blanche « brille » ou est une source.', 'Dessiner les flèches de l’œil vers l’objet.'],
-      limites: 'Modèle géométrique qualitatif : diffusion idéale, pas de réflexion spéculaire ni d’absorption chiffrée. Pas de situation « fluorescence ». Une réponse libre n’est pas validée automatiquement par des mots-clés.',
-      differenciation: 'Aide : schéma à compléter avec flèches fournies. Approfondissement : miroir et surface noire.'
-    }
   };
 })();
