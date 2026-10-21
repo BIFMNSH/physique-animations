@@ -27,6 +27,13 @@
   /* ---- programme : compétences, objectifs, évaluation ---- */
   var NIV = ['I', 'F', 'S', 'TB'], NIVTXT = { I: 'maîtrise insuffisante', F: 'maîtrise fragile', S: 'maîtrise satisfaisante', TB: 'très bonne maîtrise' };
   function comps(F) { var P = window.PROGRAMME, ped = F.pedagogie; if (!P || !ped) return []; return ped.competences.map(function (c) { var k = P.competences[c[0]]; return k ? { nom: k.nom, cap: k.cap[c[1]] || '', socle: k.socle } : null; }).filter(Boolean); }
+  function compsP(ped) { var P = window.PROGRAMME; if (!P || !ped) return []; return ped.competences.map(function (c) { var k = P.competences[c[0]]; return k ? { nom: k.nom, cap: k.cap[c[1]] || '', socle: k.socle } : null; }).filter(Boolean); }
+  function cadreHTML(ped, chapitre, compact) { // présentation : Thème / Chapitre / Compétence visée / à la fin je dois être capable de
+    var P = window.PROGRAMME, T = P && ped && P.themes[ped.theme]; if (!T) return '';
+    var CP = compsP(ped), n = ped.objectifs.length;
+    var caps = ped.objectifs.map(function (o, i) { var t = String(o.eleve || o.objectif).replace(/^Je sais /, '').replace(/[.;\s]+$/, ''); return '<li>' + esc(t.charAt(0).toUpperCase() + t.slice(1)) + (i < n - 1 ? ' ;' : '.') + '</li>'; }).join('');
+    return '<div class="cadre"><p class="th-nom">Thème : ' + esc(T.nom) + '</p><p class="ch">Chapitre : ' + esc(chapitre) + '</p><h3>Compétence' + (CP.length > 1 ? 's' : '') + ' visée' + (CP.length > 1 ? 's' : '') + '</h3>' + (compact ? '<p class="ch" style="font-weight:400">' + CP.map(function (c) { return esc(c.nom); }).join(' ; ') + '.</p>' : '<ul>' + CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + '</li>'; }).join('') + '</ul>') + '<h3>À la fin de cette partie, je dois être capable de :</h3><ul>' + caps + '</ul></div>';
+  }
   function themeNom(F) { var P = window.PROGRAMME, ped = F.pedagogie; return P && ped && P.themes[ped.theme] ? P.themes[ped.theme] : null; }
   var AEL = { non: 'pas encore', partie: 'en partie', oui: 'oui' };
 
@@ -45,7 +52,7 @@
     var ident = '<div class="sh-ident"><span>Nom : <i></i></span><span>Classe : <i></i></span><span>Date : <i></i></span></div>';
     var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
       '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
-    var CP = comps(F), compBox = CP.length ? '<div class="sh-comp"><b>Compétences travaillées</b> (programme du cycle 4)<ul>' + CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + ' <i>(domaine ' + esc(c.socle) + ' du socle)</i></li>'; }).join('') + '</ul></div>' : '';
+    var compBox = cadreHTML(F.pedagogie, F.chapitre, true);
     var p1 = '<div class="sh-page">' + head + ident + compBox +
       sec(1, 'Situation', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
       sec(2, 'Je prévois', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
@@ -63,7 +70,7 @@
         field('Je le justifie avec :', cf && cf.preuve, 2) + field('Ma conclusion personnelle :', st.conclusion, 3)) +
       sec(5, 'Je transfère', '<p>' + esc(T.q) + '</p>' + (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) + after +
       evalSec(F, st, filled) +
-      '<footer class="sh-foot">NOHOBA-Lab · ' + esc(F.id) + ' · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
+      '<footer class="sh-foot">NOHOBA-Lab · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
     if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
       '<section class="sh-sec sh-ref"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></section>' +
@@ -143,19 +150,11 @@
     function next(label, to, parent) { var b = h('button', { class: 'btn primary', type: 'button', text: label }, parent); b.onclick = function () { go(to); panel.focus(); }; return b; }
 
     function sSituation() {
+      var cd = cadreHTML(F.pedagogie, F.chapitre); if (cd) panel.insertAdjacentHTML('beforeend', cd);
       h('h2', { text: 'Situation-problème' }, panel);
       h('p', { text: F.situation }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
-      var CP = comps(F), T = themeNom(F);
-      if (CP.length) {
-        var wk = h('div', { class: 'card' }, panel); h('h3', { text: 'Ce que je travaille' }, wk);
-        h('p', { style: 'color:var(--mist);font-size:15px' }, wk, 'Programme du cycle 4 · ' + esc(T.nom));
-        h('p', {}, wk, '<b>Compétence' + (CP.length > 1 ? 's' : '') + ' :</b>');
-        h('ul', {}, wk, CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + '</li>'; }).join(''));
-        h('p', {}, wk, '<b>À la fin, je saurai :</b>');
-        h('ul', {}, wk, F.pedagogie.objectifs.map(function (o) { return '<li>' + esc(o.eleve.replace(/^Je sais /, '')) + '</li>'; }).join(''));
-      }
       var d = h('div', { style: 'text-align:center' }, panel); if (F.illustration) F.illustration(d);
       var r = h('div', { class: 'row' }, panel);
       next('Commencer : ma prévision ▸', 1, r);
@@ -322,5 +321,5 @@
     draw();
   }
 
-  window.Activite = { run: run, num: num, h: h, $: $, esc: esc };
+  window.Activite = { cadreHTML: cadreHTML, run: run, num: num, h: h, $: $, esc: esc };
 })();

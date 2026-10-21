@@ -29,14 +29,14 @@
   if (id && !A) { app.innerHTML = '<h1>Activité introuvable</h1><p><a href="./">Retour au catalogue</a></p>'; return; }
   if (A) {
     document.title = A.titre + ' · NOHOBA-Lab';
-    app.innerHTML = '<h1>' + esc(A.titre) + '</h1><p class="sub"><span class="badge">' + A.niveau + '</span><span class="badge">' + esc(A.chapitre) + '</span><span class="badge">' + A.id + '</span></p>';
+    app.innerHTML = '<h1>' + esc(A.titre) + '</h1><p class="sub"><span class="badge">' + A.niveau + '</span><span class="badge">' + esc(A.chapitre) + '</span></p>';
     if (A.statut !== 'disponible') {
       app.insertAdjacentHTML('beforeend', '<div class="card"><p><b>Cette activité est en conception.</b></p><p><b>Objectif :</b> ' + esc(A.objectif) + '</p><p>Ressources existantes liées : ' + (A.ressources.length ? esc(A.ressources.join(', ')) : 'aucune, à créer') + '.</p><p><a class="btn" href="./">◂ Retour au catalogue</a></p></div>');
       var PG = window.PEDAGOGIE_CATALOGUE && PEDAGOGIE_CATALOGUE[A.id], PR = window.PROGRAMME;
       if (PG && PR) {
         var cp = PG.competences.map(function (c) { var k = PR.competences[c[0]]; return '<li><b>' + esc(k.nom) + '</b> — ' + esc(k.cap[c[1]]) + ' <i>(domaine ' + esc(k.socle) + ' du socle)</i></li>'; }).join('');
         var ob = PG.objectifs.map(function (o) { return '<li><b>' + o.id + '.</b> ' + esc(o.objectif) + '<br><span class="sub">Savoir-faire : ' + o.savoirFaire.map(esc).join(' ; ') + '. Évaluation : ' + esc(o.indicateur) + ' (' + esc(o.preuve) + ')</span></li>'; }).join('');
-        app.insertAdjacentHTML('beforeend', '<div class="card"><h2>Compétences et objectifs prévus</h2><p class="sub">Programme du cycle 4 · ' + esc(PR.themes[PG.theme].nom) + ' · attendu : ' + esc(PR.themes[PG.theme].attendus[PG.attendu]) + '</p><p><b>Connaissance visée :</b> ' + esc(PG.connaissance) + '</p><p><b>Compétences travaillées :</b></p><ul>' + cp + '</ul><p><b>Objectifs, savoir-faire et évaluation :</b></p><ul>' + ob + '</ul><p class="sub">Rattachements proposés, à valider par un enseignant.</p></div>');
+        app.insertAdjacentHTML('beforeend', '<div class="card"><h2>Compétences et objectifs prévus</h2>' + Activite.cadreHTML(PG, A.chapitre) + '<p class="sub">Attendu du programme : ' + esc(PR.themes[PG.theme].attendus[PG.attendu]) + '</p><p><b>Connaissance visée :</b> ' + esc(PG.connaissance) + '</p><p><b>Compétences travaillées :</b></p><ul>' + cp + '</ul><p><b>Objectifs, savoir-faire et évaluation :</b></p><ul>' + ob + '</ul><p class="sub">Rattachements proposés, à valider par un enseignant.</p></div>');
       }
       return;
     }

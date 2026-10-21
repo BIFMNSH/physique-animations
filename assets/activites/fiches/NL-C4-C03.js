@@ -63,7 +63,7 @@
       'Pour que la lampe 2 reste alimentée quand S1 est ouvert, il faut un chemin pour la lampe 2 qui ne passe pas par S1.'
     ],
     synthese: 'Une lampe est allumée quand elle appartient à une boucle fermée avec la pile. Dans le montage où tout est sur une seule boucle, ouvrir un interrupteur coupe la boucle entière : les deux lampes s’éteignent. Avec une branche par lampe, chaque interrupteur coupe seulement sa branche : les lampes sont commandées indépendamment. Un interrupteur placé avant la séparation des branches commande tout le circuit.',
-    colonnes: ['Montage', 'Interrupteur général', 'S1', 'S2', 'Lampe 1', 'Lampe 2'], lignesVides: 6,
+    colonnes: ['Montage', 'Interrupteur général', 'S1', 'S2', 'Lampe 1', 'Lampe 2'], lignesVides: 5,
     lignes: function (st) { return st.essais.map(function (e) { return [(e.montage === 'serie' ? 'A' : 'B') + (e.gril ? ' (lampe 1 grillée)' : ''), e.g == null ? '—' : OF(e.g), OF(e.s1), OF(e.s2), AL(e.l1), AL(e.l2)]; }); },
     resume: function (e) { return 'Montage ' + (e.montage === 'serie' ? 'A' : 'B') + (e.gril ? ' (lampe 1 grillée)' : '') + (e.g == null ? '' : ', interrupteur général ' + OF(e.g)) + ' : S1 ' + OF(e.s1) + ', S2 ' + OF(e.s2) + ' → lampe 1 ' + AL(e.l1) + ', lampe 2 ' + AL(e.l2); },
     diagnostic: function (st) {
