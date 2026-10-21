@@ -102,20 +102,7 @@
       "theme": "C",
       "attendu": 2,
       "connaissance": "Loi d’additivité des intensités (circuit à deux mailles) ; mettre en relation les lois de l’électricité et les règles de sécurité dans ce domaine.",
-      "competences": [
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "ethique",
-          "securite"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ]
-      ],
+      "competences": [["demarche","mesure"]],
       "objectifs": [
         {
           "id": "O1",

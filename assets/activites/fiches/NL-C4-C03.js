@@ -89,20 +89,7 @@
       "theme": "C",
       "attendu": 2,
       "connaissance": "Exploiter les lois de l’électricité : dipôles en série, dipôles en dérivation ; élaborer et mettre en œuvre un protocole expérimental simple visant à réaliser un circuit électrique répondant à un cahier des charges.",
-      "competences": [
-        [
-          "concevoir",
-          "dispositif"
-        ],
-        [
-          "demarche",
-          "hypothese"
-        ],
-        [
-          "langages",
-          "passer"
-        ]
-      ],
+      "competences": [["concevoir","dispositif"]],
       "objectifs": [
         {
           "id": "O1",

@@ -68,20 +68,7 @@
       "theme": "B",
       "attendu": 0,
       "connaissance": "Mouvements uniformes et mouvements dont la vitesse varie au cours du temps en direction ou en valeur.",
-      "competences": [
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "langages",
-          "passer"
-        ]
-      ],
+      "competences": [["demarche","mesure"]],
       "objectifs": [
         {
           "id": "O1",

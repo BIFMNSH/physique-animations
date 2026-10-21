@@ -68,20 +68,7 @@
       "theme": "B",
       "attendu": 0,
       "connaissance": "Relativité du mouvement dans des cas simples (train qui démarre le long d’un quai) ; notion d’observateur immobile ou en mouvement.",
-      "competences": [
-        [
-          "demarche",
-          "modele"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "langages",
-          "ecrire"
-        ]
-      ],
+      "competences": [["demarche","modele"]],
       "objectifs": [
         {
           "id": "O1",

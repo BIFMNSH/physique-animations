@@ -98,20 +98,7 @@
       "theme": "B",
       "attendu": 0,
       "connaissance": "Utiliser la relation liant vitesse, distance et durée dans le cas d’un mouvement uniforme.",
-      "competences": [
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "langages",
-          "passer"
-        ]
-      ],
+      "competences": [["demarche","mesure"]],
       "objectifs": [
         {
           "id": "O1",

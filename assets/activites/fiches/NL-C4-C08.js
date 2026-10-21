@@ -79,20 +79,7 @@
       "theme": "C",
       "attendu": 0,
       "connaissance": "Utiliser la relation liant puissance, énergie et durée ; conduire un calcul de consommation d’énergie électrique relatif à une situation de la vie courante (puissance électrique P = U.I) ; l’évaluation d’un coût énergétique associé au numérique en est une illustration.",
-      "competences": [
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "ethique",
-          "reinvestir"
-        ]
-      ],
+      "competences": [["demarche","mesure"]],
       "objectifs": [
         {
           "id": "O1",

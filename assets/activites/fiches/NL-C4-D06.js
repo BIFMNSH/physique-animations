@@ -113,20 +113,7 @@
       "theme": "D",
       "attendu": 1,
       "connaissance": "Signaux sonores : relier la distance parcourue par un son à la durée de propagation ; mesurer une grandeur de manière indirecte (écho).",
-      "competences": [
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "modele"
-        ],
-        [
-          "langages",
-          "passer"
-        ]
-      ],
+      "competences": [["demarche","mesure"]],
       "objectifs": [
         {
           "id": "O1",

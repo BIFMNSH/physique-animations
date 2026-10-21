@@ -74,20 +74,7 @@
       "theme": "D",
       "attendu": 0,
       "connaissance": "Distinguer une source primaire (objet lumineux) d’un objet diffusant ; propagation rectiligne de la lumière.",
-      "competences": [
-        [
-          "demarche",
-          "hypothese"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "langages",
-          "passer"
-        ]
-      ],
+      "competences": [["demarche","hypothese"]],
       "objectifs": [
         {
           "id": "O1",

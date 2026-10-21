@@ -66,20 +66,7 @@
       "theme": "D",
       "attendu": 0,
       "connaissance": "Exploiter expérimentalement la propagation rectiligne de la lumière dans le vide et le modèle du rayon lumineux ; ombres ; mesures de distance.",
-      "competences": [
-        [
-          "demarche",
-          "hypothese"
-        ],
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "modele"
-        ]
-      ],
+      "competences": [["demarche","hypothese"]],
       "objectifs": [
         {
           "id": "O1",

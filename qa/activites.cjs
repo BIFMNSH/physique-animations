@@ -136,7 +136,7 @@ dispo.forEach(a => {
   ok(P.theme === a.theme, a.id + ' : thème cohérent avec le catalogue');
   ok(PR.themes[P.theme].attendus[P.attendu], a.id + ' : attendu de fin de cycle existant');
   ok(P.connaissance.length > 30, a.id + ' : connaissance du programme');
-  ok(P.competences.length >= 2 && P.competences.every(c => PR.competences[c[0]] && PR.competences[c[0]].cap[c[1]]), a.id + ' : compétences et capacités du programme');
+  ok(P.competences.length === 1 && P.competences.every(c => PR.competences[c[0]] && PR.competences[c[0]].cap[c[1]]), a.id + ' : une seule compétence, tirée du programme');
   ok(P.objectifs.length >= 3 && new Set(P.objectifs.map(o => o.id)).size === P.objectifs.length, a.id + ' : au moins trois objectifs distincts');
   P.objectifs.forEach(o => {
     ok(/^Je sais /.test(o.eleve) && !/\d/.test(o.eleve), a.id + ' ' + o.id + ' : énoncé élève sans donnée chiffrée');
@@ -150,7 +150,7 @@ const PC = ctx.window.PEDAGOGIE_CATALOGUE, conc = A.filter(a => a.statut !== 'di
 ok(conc.length === 32 && Object.keys(PC).length === 32 && conc.every(a => PC[a.id]), 'catalogue : 32 activités en conception, toutes renseignées');
 conc.forEach(a => { const P = PC[a.id];
   ok(P.theme === a.theme, a.id + ' (conception) : thème'); ok(PR.themes[P.theme].attendus[P.attendu], a.id + ' (conception) : attendu'); ok(P.connaissance.length > 30, a.id + ' (conception) : connaissance');
-  ok(P.competences.length >= 2 && P.competences.every(c => PR.competences[c[0]] && PR.competences[c[0]].cap[c[1]]), a.id + ' (conception) : compétences du programme');
+  ok(P.competences.length === 1 && P.competences.every(c => PR.competences[c[0]] && PR.competences[c[0]].cap[c[1]]), a.id + ' (conception) : une seule compétence du programme');
   ok(P.objectifs.length === 3 && new Set(P.objectifs.map(o => o.id)).size === 3, a.id + ' (conception) : trois objectifs');
   P.objectifs.forEach(o => { ok(/^Je sais /.test(o.eleve) && !/\d/.test(o.eleve), a.id + ' ' + o.id + ' (conception) : énoncé élève'); ok(o.savoirFaire.length >= 1 && o.indicateur.length > 15 && o.preuve.length > 3 && o.objectif.length > 15, a.id + ' ' + o.id + ' (conception) : savoir-faire, indicateur, preuve'); });
 });

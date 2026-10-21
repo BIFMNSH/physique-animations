@@ -75,20 +75,7 @@
       "theme": "B",
       "attendu": 0,
       "connaissance": "Vitesse : direction, sens et valeur ; mouvements rectilignes et circulaires.",
-      "competences": [
-        [
-          "demarche",
-          "modele"
-        ],
-        [
-          "langages",
-          "passer"
-        ],
-        [
-          "numerique",
-          "simul"
-        ]
-      ],
+      "competences": [["demarche","modele"]],
       "objectifs": [
         {
           "id": "O1",

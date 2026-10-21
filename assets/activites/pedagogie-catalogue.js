@@ -5,20 +5,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Concevoir et réaliser des expériences pour caractériser des mélanges ; miscibilité ; mélange homogène et hétérogène.",
-  "competences": [
-   [
-    "demarche",
-    "hypothese"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "outils",
-    "planifier"
-   ]
-  ],
+  "competences": [["demarche","hypothese"]],
   "objectifs": [
    {
     "id": "O1",
@@ -58,20 +45,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Estimer expérimentalement une valeur de solubilité dans l’eau.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "outils",
-    "planifier"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -112,20 +86,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Proposer et mettre en œuvre un protocole expérimental pour étudier les propriétés des changements d’état ; caractériser les changements d’état d’un corps pur ; exploiter la température de changement d’état.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -165,20 +126,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Conservation de la masse (mais non-conservation du volume) d’une substance lors d’un changement d’état.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "demarche",
-    "hypothese"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -218,20 +166,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Proposer et mettre en œuvre un protocole expérimental pour déterminer une masse volumique ; exploiter des mesures de masse volumique pour différencier des espèces chimiques (m = ρ.V).",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -271,20 +206,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Interpréter les changements d’état au niveau microscopique ; utilisation d’un modèle particulaire pour décrire les états de la matière et les transformations physiques.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "passer"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -323,20 +245,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 0,
   "connaissance": "Composition de l’air ; air et environnement (qualité, polluants, gaz à effet de serre).",
-  "competences": [
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "lire"
-   ],
-   [
-    "numerique",
-    "simul"
-   ]
-  ],
+  "competences": [["demarche","interpreter"]],
   "objectifs": [
    {
     "id": "O1",
@@ -376,20 +285,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 1,
   "connaissance": "Distinguer transformation chimique et mélange, transformation chimique et transformation physique ; conservation de la masse lors d’une transformation chimique ; identifier expérimentalement une transformation chimique.",
-  "competences": [
-   [
-    "demarche",
-    "hypothese"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "outils",
-    "planifier"
-   ]
-  ],
+  "competences": [["demarche","hypothese"]],
   "objectifs": [
    {
     "id": "O1",
@@ -429,20 +325,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 1,
   "connaissance": "Interpréter une formule chimique en termes atomiques ; utiliser une équation de réaction chimique fournie ; associer des symboles aux éléments à l’aide de la classification périodique ; interpréter une transformation chimique comme une redistribution des atomes.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "passer"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -481,20 +364,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 2,
   "connaissance": "Constituants de l’atome, structure interne d’un noyau atomique (nucléons : protons, neutrons), électrons ; ions.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "passer"
-   ],
-   [
-    "numerique",
-    "simul"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -534,20 +404,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 1,
   "connaissance": "Mettre en œuvre des tests caractéristiques d’espèces chimiques à partir d’une banque fournie ; identifier expérimentalement une transformation chimique.",
-  "competences": [
-   [
-    "demarche",
-    "hypothese"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "outils",
-    "planifier"
-   ]
-  ],
+  "competences": [["demarche","hypothese"]],
   "objectifs": [
    {
     "id": "O1",
@@ -586,20 +443,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 1,
   "connaissance": "Identifier le caractère acide ou basique d’une solution par mesure de pH ; associer le caractère acide ou basique à la présence d’ions H⁺ et OH⁻.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "ethique",
-    "securite"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -638,20 +482,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 1,
   "connaissance": "Réactions de corrosion d’un métal ; réactions acides-métaux ; raisonner à variables contrôlées.",
-  "competences": [
-   [
-    "demarche",
-    "hypothese"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "ethique",
-    "reinvestir"
-   ]
-  ],
+  "competences": [["demarche","hypothese"]],
   "objectifs": [
    {
     "id": "O1",
@@ -691,20 +522,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 1,
   "connaissance": "Identifier les gaz à effet de serre produits lors de transformations chimiques (combustions, corrosion) ; impact du réchauffement climatique sur les glaciers et la banquise ; variation de la masse volumique avec la température.",
-  "competences": [
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "ethique",
-    "reinvestir"
-   ],
-   [
-    "langages",
-    "lire"
-   ]
-  ],
+  "competences": [["demarche","interpreter"]],
   "objectifs": [
    {
     "id": "O1",
@@ -743,20 +561,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "A",
   "attendu": 2,
   "connaissance": "Décrire la structure de l’Univers et du système solaire ; aborder les différentes unités de distance et savoir les convertir ; comparer les ressources terrestres de certains éléments.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "lire"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -794,20 +599,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "B",
   "attendu": 1,
   "connaissance": "Identifier les actions mises en jeu et les modéliser par des forces ; force : direction, sens et valeur ; expérimenter des situations d’équilibre statique.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "passer"
-   ],
-   [
-    "demarche",
-    "mesure"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -847,20 +639,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "B",
   "attendu": 1,
   "connaissance": "Force de pesanteur et son expression P = mg ; pesanteur sur Terre et sur la Lune, différence entre poids et masse (unités).",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -901,20 +680,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "B",
   "attendu": 1,
   "connaissance": "Exploiter l’expression de la force de gravitation universelle (loi fournie) ; aborder qualitativement la notion d’interaction ; l’impesanteur n’est abordée que qualitativement.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -953,20 +719,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 2,
   "connaissance": "Élaborer et mettre en œuvre un protocole expérimental simple visant à réaliser un circuit électrique répondant à un cahier des charges.",
-  "competences": [
-   [
-    "concevoir",
-    "dispositif"
-   ],
-   [
-    "demarche",
-    "hypothese"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["concevoir","dispositif"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1005,20 +758,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 2,
   "connaissance": "Exploiter les lois de l’électricité : mesure de tension et d’intensité ; dipôles en série, dipôles en dérivation ; mettre en relation les lois de l’électricité et les règles de sécurité.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "ethique",
-    "securite"
-   ],
-   [
-    "outils",
-    "planifier"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1057,20 +797,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 2,
   "connaissance": "Exploiter les lois de l’électricité : l’intensité du courant est la même en tout point d’un circuit en série ; loi d’additivité des tensions ; loi d’additivité des intensités ; relation tension-courant (loi d’Ohm).",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "demarche",
-    "modele"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1108,20 +835,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 2,
   "connaissance": "Exploiter les lois de l’électricité : relation tension-courant (loi d’Ohm) ; établir une caractéristique U-I.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1162,20 +876,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 0,
   "connaissance": "Énergie cinétique (relation Ec = ½ mv²) ; conversion d’une forme d’énergie en une autre ; analyser une situation où, pour un système donné, les valeurs des transferts d’énergie entrants et sortants sont différentes.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1215,20 +916,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 0,
   "connaissance": "Identifier des sources, des transferts, des conversions et des formes d’énergie ; stockage d’énergie ; énergies dites renouvelables ; identifier un dispositif de conversion d’énergie dont le fonctionnement s’accompagne d’une émission de dioxyde de carbone.",
-  "competences": [
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "ethique",
-    "reinvestir"
-   ],
-   [
-    "langages",
-    "lire"
-   ]
-  ],
+  "competences": [["demarche","interpreter"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1266,20 +954,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 1,
   "connaissance": "Établir un bilan énergétique pour un système simple ; conversion d’énergie ; conservation de l’énergie ; unités d’énergie.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "ethique",
-    "reinvestir"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1317,20 +992,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "C",
   "attendu": 0,
   "connaissance": "Associer l’émission et l’absorption d’un rayonnement à un transfert d’énergie ; absorption du rayonnement terrestre par les gaz à effet de serre ; analyser un bilan qualitatif d’énergie pour le système Terre-atmosphère.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "lire"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1368,20 +1030,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "D",
   "attendu": 0,
   "connaissance": "Exploiter la propagation rectiligne de la lumière et le modèle du rayon lumineux ; réflexion de la lumière.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1419,20 +1068,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "D",
   "attendu": 0,
   "connaissance": "Décrire les conditions de propagation d’un son ; vitesse de propagation ; émission sonore et nécessité d’un milieu matériel.",
-  "competences": [
-   [
-    "demarche",
-    "hypothese"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "ecrire"
-   ]
-  ],
+  "competences": [["demarche","hypothese"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1470,20 +1106,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "D",
   "attendu": 1,
   "connaissance": "Utiliser l’unité « année-lumière » comme unité de distance ; lumière : sources, propagation, vitesse de propagation ; relation entre distance, vitesse et durée.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1522,20 +1145,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "D",
   "attendu": 0,
   "connaissance": "Notion de fréquence : sons audibles, infrasons et ultrasons ; la maîtrise de la notion de fréquence est un objectif de fin de cycle.",
-  "competences": [
-   [
-    "demarche",
-    "mesure"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "passer"
-   ]
-  ],
+  "competences": [["demarche","mesure"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1573,20 +1183,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "D",
   "attendu": 1,
   "connaissance": "Sensibiliser aux risques auditifs ; expliquer les fondements des règles de sécurité en acoustique.",
-  "competences": [
-   [
-    "ethique",
-    "securite"
-   ],
-   [
-    "demarche",
-    "interpreter"
-   ],
-   [
-    "langages",
-    "ecrire"
-   ]
-  ],
+  "competences": [["ethique","securite"]],
   "objectifs": [
    {
     "id": "O1",
@@ -1624,20 +1221,7 @@ window.PEDAGOGIE_CATALOGUE = {
   "theme": "D",
   "attendu": 0,
   "connaissance": "Signaux et informations : un signal permet d’émettre, de transporter une information ; signaux lumineux, sonores et électriques ; analogique et numérique.",
-  "competences": [
-   [
-    "demarche",
-    "modele"
-   ],
-   [
-    "langages",
-    "passer"
-   ],
-   [
-    "numerique",
-    "simul"
-   ]
-  ],
+  "competences": [["demarche","modele"]],
   "objectifs": [
    {
     "id": "O1",

@@ -71,20 +71,7 @@
       "theme": "C",
       "attendu": 0,
       "connaissance": "Identifier les différentes formes d’énergie ; établir un bilan énergétique pour un système simple (sources, transferts, conversion d’une forme d’énergie en une autre).",
-      "competences": [
-        [
-          "demarche",
-          "modele"
-        ],
-        [
-          "langages",
-          "passer"
-        ],
-        [
-          "ethique",
-          "reinvestir"
-        ]
-      ],
+      "competences": [["demarche","modele"]],
       "objectifs": [
         {
           "id": "O1",

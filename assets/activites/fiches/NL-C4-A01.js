@@ -77,20 +77,7 @@
       "theme": "A",
       "attendu": 0,
       "connaissance": "Caractériser les différents états de la matière (solide, liquide et gaz) à partir de leurs propriétés.",
-      "competences": [
-        [
-          "demarche",
-          "hypothese"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "langages",
-          "ecrire"
-        ]
-      ],
+      "competences": [["demarche","hypothese"]],
       "objectifs": [
         {
           "id": "O1",

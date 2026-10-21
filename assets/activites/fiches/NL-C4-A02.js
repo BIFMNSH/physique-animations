@@ -102,20 +102,7 @@
       "theme": "A",
       "attendu": 0,
       "connaissance": "Mesures de masse et de volume d’une substance (études quantitatives dès la classe de 5e) ; le quotient masse volumique n’est introduit qu’à partir de la classe de 4e.",
-      "competences": [
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ],
-        [
-          "outils",
-          "planifier"
-        ]
-      ],
+      "competences": [["demarche","mesure"]],
       "objectifs": [
         {
           "id": "O1",

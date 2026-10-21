@@ -104,20 +104,7 @@
       "theme": "A",
       "attendu": 1,
       "connaissance": "Conservation de la masse lors d’une transformation ; interpréter la dissolution comme une transformation physique sans perte de matière.",
-      "competences": [
-        [
-          "demarche",
-          "hypothese"
-        ],
-        [
-          "demarche",
-          "mesure"
-        ],
-        [
-          "demarche",
-          "interpreter"
-        ]
-      ],
+      "competences": [["demarche","hypothese"]],
       "objectifs": [
         {
           "id": "O1",
