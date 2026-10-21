@@ -212,7 +212,7 @@
       { q: 'Pour connaître la température d’un liquide, on utilise :', o: ['la main', 'un thermomètre', 'une balance', 'une règle'], a: 1, e: 'Le toucher nous trompe.' },
       { q: 'La glace fondante est à :', o: ['100 °C', '37 °C', '0 °C', '−18 °C'], a: 2, e: 'Repère 0 °C.' },
       { q: 'Pour lire un thermomètre, l’œil doit être :', o: ['au-dessus', 'en face du haut de la colonne', 'en dessous', 'n’importe où'], a: 1, e: 'Sinon la lecture est fausse.' },
-      { q: 'La température normale du corps humain est d’environ :', o: ['20 °C', '37 °C', '50 °C', '100 °C'], a: 1, e: 'Environ 37 °C.' },
+      { q: 'La température normale du corps humain est d’environ :', o: ['20 °C', '37 °C', '50 °C', '100 °C'], a: 1, e: 'La température normale du corps humain est d’environ 37 °C ; au-dessus de 38 °C, on parle de fièvre.' },
       { q: '−18 °C est une température :', o: ['positive', 'négative', 'nulle', 'impossible'], a: 1, e: 'Inférieure à 0 °C.' }
     ]
   });

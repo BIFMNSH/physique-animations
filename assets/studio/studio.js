@@ -286,6 +286,14 @@
   }
   var printTeacher = false;
   function printSheet(teacher) { printTeacher = teacher === true; try { window.print(); } finally { printTeacher = false; } }
+  function shuf(q) {
+    if (q._s) return q._s;
+    var idx = q.o.map(function (_, k) { return k; }), r = [];
+    while (idx.length) r.push(idx.splice(Math.floor(Math.random() * idx.length), 1)[0]);
+    var c = {}; for (var k in q) c[k] = q[k];
+    c.o = r.map(function (k) { return q.o[k]; }); c.a = r.indexOf(q.a);
+    return c;
+  }
   function quiz(stage, qs, title, onDone, next, onClose) {
     var m = h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Quiz' }, stage), i = 0, score = 0, closed = false;
     function close() { if (closed) return; closed = true; m.remove(); a11y.release(); onClose && onClose(); }
@@ -302,7 +310,7 @@
         if (ok) { sound('win'); confetti(stage); }
         a11y.focusFirst(); onDone && onDone(score, ok); return;
       }
-      var q = qs[i];
+      var q = shuf(qs[i]);
       box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center"><span class="kick">' + esc(title) + ' · question ' + (i + 1) + ' / ' + qs.length + '</span></div><h2>' + q.q + '</h2>';
       var g = h('div', { class: 'opts' }, box), fb = h('div', { class: 'msg', 'aria-live': 'polite' }, box), nx;
       q.o.forEach(function (t, j) {
@@ -311,7 +319,7 @@
           if (nx) return;
           var good = j === q.a; if (good) score++;
           g.querySelectorAll('button').forEach(function (x, k) { x.disabled = true; if (k === q.a) x.className = 'good'; else if (k === j) x.className = 'bad'; });
-          fb.className = 'msg ' + (good ? 'ok' : 'bad'); fb.innerHTML = '<b>' + (good ? 'Exact !' : 'Pas tout à fait.') + '</b> ' + q.e;
+          fb.className = 'msg ' + (good ? 'ok' : 'bad'); fb.innerHTML = '<b>' + (good ? 'Exact !' : 'Pas tout à fait.') + '</b> ' + (good ? '' : 'La bonne réponse est : <b>' + q.o[q.a] + '</b>. ') + q.e;
           sound(good ? 'ok' : 'bad');
           nx = h('button', { class: 'btn primary', style: 'align-self:flex-end' }, box, i + 1 < qs.length ? 'Question suivante →' : 'Voir mon score'); nx.onclick = function () { i++; show(); }; nx.focus();
         };
@@ -415,6 +423,7 @@
     };
     bClr.onclick = function () { if (pen) pen.g.clearRect(0, 0, pen.c.width, pen.c.height); };
     bFrz.onclick = function () { frozen = !frozen; app.classList.toggle('frozen', frozen); bFrz.setAttribute('aria-pressed', frozen); hush(); toast(frozen ? 'Écran figé' : 'Animation relancée'); };
+    try { if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { frozen = true; app.classList.add('frozen'); bFrz.setAttribute('aria-pressed', 'true'); setTimeout(function () { toast('Animations en pause (réglage « réduire les animations » de ton appareil). Clique sur Figer pour les relancer.'); }, 600); } } catch (e) {}
     function toast(t) { var d = h('div', { class: 'toast', role: 'status' }, stage, t); setTimeout(function () { d.remove(); }, 1800); }
 
     /* ---------- tiroir des réglages ---------- */
@@ -636,7 +645,7 @@
       if (t >= R.duration && !ended) { ended = true; play(false); flash(); }
     });
     function flash() {
-      var q = R.question, f = h('div', { class: 'flash', role: 'dialog', 'aria-label': 'Question flash' }, screen), b = h('div', { class: 'box' }, f);
+      var q = shuf(R.question), f = h('div', { class: 'flash', role: 'dialog', 'aria-label': 'Question flash' }, screen), b = h('div', { class: 'box' }, f);
       b.innerHTML = '<div style="display:flex;gap:14px;align-items:center">' + lumi(64, 'think') + '<div><span class="kick">Question flash</span><h2>' + q.q + '</h2></div></div>';
       var g = h('div', { class: 'opts' }, b), fb = h('div', { class: 'msg' }, b);
       if (SET.voice) speak('Question flash. ' + q.q, rate);
@@ -644,7 +653,7 @@
         var x = h('button', { type: 'button' }, g, o);
         x.onclick = function () {
           var ok = j === q.a; g.querySelectorAll('button').forEach(function (y, i) { y.disabled = true; if (i === q.a) y.className = 'good'; else if (i === j) y.className = 'bad'; });
-          fb.className = 'msg ' + (ok ? 'ok' : 'bad'); fb.innerHTML = '<b>' + (ok ? 'Bravo !' : 'Presque…') + '</b> ' + q.e; sound(ok ? 'ok' : 'bad');
+          fb.className = 'msg ' + (ok ? 'ok' : 'bad'); fb.innerHTML = '<b>' + (ok ? 'Bravo !' : 'Presque…') + '</b> ' + (ok ? '' : 'La bonne réponse est : <b>' + q.o[q.a] + '</b>. ') + q.e; sound(ok ? 'ok' : 'bad');
           ctx.done();
           var r = h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, b);
           h('button', { class: 'btn' }, r, 'Revoir la vidéo').onclick = function () { f.remove(); seek(0); play(true); };
@@ -761,7 +770,7 @@
       h('p', { style: 'margin:0;font-size:15px;color:var(--muted)' }, col, '100 points par mission réussie + 10 par seconde restante. 3 étoiles si tu réussis vite, sans indice. En équipes, chaque équipe joue à son tour le même nombre de missions.');
       var r = h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, col);
       h('button', { class: 'btn big primary' }, r, 'Jouer seul ▸').onclick = function () { begin(['Moi']); };
-      var tn = PROF.teams.slice(0, PROF.nTeams);
+      var tn = PROF.teams.slice(0, PROF.nTeams); if (PROF.nTeams > 1) { var nm = D.missions.length, kk = Math.max(1, Math.floor(nm / PROF.nTeams)), tt = kk * PROF.nTeams; h('p', { style: 'margin:0;font-size:13px;color:var(--muted)' }, col, 'En équipes : ' + kk + ' mission' + (kk > 1 ? 's' : '') + ' par équipe, soit ' + tt + ' sur ' + nm + (tt < nm ? ' (les ' + (nm - tt) + ' dernières ne sont pas jouées, pour que chaque équipe joue autant)' : tt > nm ? ' (certaines missions sont rejouées par une autre équipe)' : '') + '.'); }
       if (PROF.nTeams > 1) h('button', { class: 'btn big' }, r, 'Jouer en ' + PROF.nTeams + ' équipes').onclick = function () { begin(tn); };
       h('p', { style: 'margin:0;font-size:13px;color:var(--dim)' }, col, 'Les noms et le nombre d’équipes se règlent dans le mode enseignant (cadenas, en haut).');
     }

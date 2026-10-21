@@ -93,7 +93,7 @@
     var g5 = s('g', {}, G), cards = K.cards(g5, [
       ['La <b>masse</b> (kg) se mesure avec une <b>balance</b>', 'elle est la même partout : sur Terre comme sur la Lune.', '#5CFF9D'],
       ['Le <b>poids</b> (N) se mesure avec un <b>dynamomètre</b>', 'c’est une force : verticale, vers le bas, appliquée en G.', '#FF8A80'],
-      ['<b>P = m × g</b>', 'sur Terre, g ≈ 9,8 N/kg ; sur la Lune, g ≈ 1,6 N/kg.', '#FFC773']], [58.2, 62.6, 67]);
+      ['<b>P = m × g</b>', 'sur Terre, g ≈ 9,8 N/kg (arrondi à 10 N/kg dans d’autres leçons) ; sur la Lune, g ≈ 1,6 N/kg.', '#FFC773']], [58.2, 62.6, 67]);
     var bg = s('rect', { x: 0, y: 0, width: 900, height: 560, fill: 'var(--scene)', opacity: 0 }, G); G.insertBefore(bg, g5);
     var P1 = { m: 0.3, P: 2.94, l: 'terre' }, P2 = { m: 0.6, P: 5.88, l: 'terre' }, P3 = { m: 0.9, P: 8.82, l: 'terre' }, P4 = { m: 0.3, P: 0.48, l: 'lune' };
     function render(t) {
@@ -136,7 +136,7 @@
       { t: 41, ch: 3, html: '<b>P = m × g</b> ; sur Terre g ≈ 9,8 N/kg.' },
       { t: 57, ch: 5, html: 'Poids : vertical, vers le bas, appliqué au centre de gravité <b>G</b>.' }
     ],
-    question: { q: 'Un sac de 2 kg, sur Terre (g = 9,8 N/kg), a un poids de :', o: ['2 N', '19,6 N', '9,8 N', '4,9 N'], a: 1, e: 'P = 2 × 9,8 = 19,6 N.' },
+    question: { q: 'Un sac de 2 kg, sur Terre (g = 9,8 N/kg), a un poids de :', o: ['2 N', '19,6 N', '9,8 N', '4,9 N'], a: 1, e: 'P = 2 × 9,8 = 19,6 N. Avec l’arrondi g = 10 N/kg utilisé dans d’autres leçons, on trouverait 20 N : l’énoncé précise toujours la valeur de g à utiliser.' },
     scene: scene
   };
 
@@ -207,7 +207,7 @@
       'Caractéristiques du poids : point d’application = <b>centre de gravité G</b> ; direction = <b>verticale</b> ; sens = <b>vers le bas</b> ; valeur = m × g.'
     ],
     quiz: [
-      { q: 'Le poids d’un corps se mesure avec :', o: ['une balance', 'un dynamomètre', 'une éprouvette', 'un thermomètre'], a: 1, e: 'Un dynamomètre.' },
+      { q: 'Le poids d’un corps se mesure avec :', o: ['une balance', 'un dynamomètre', 'une éprouvette', 'un thermomètre'], a: 1, e: 'Le poids est une force : on le mesure avec un dynamomètre. La balance mesure la masse.' },
       { q: 'L’unité de poids est :', o: ['le kilogramme', 'le newton', 'le gramme', 'le N/kg'], a: 1, e: 'Le newton (N).' },
       { q: 'Une masse de 5 kg sur Terre (g = 10 N/kg) a un poids de :', o: ['5 N', '0,5 N', '50 N', '15 N'], a: 2, e: '5 × 10 = 50 N.' },
       { q: 'Quand on va sur la Lune :', o: ['la masse diminue', 'le poids diminue', 'les deux restent égaux', 'le poids augmente'], a: 1, e: 'g est plus faible : le poids diminue, la masse reste la même.' },

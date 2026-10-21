@@ -248,8 +248,8 @@
     ],
     quiz: [
       { q: 'La pression atmosphérique est due :', o: ['au Soleil', 'à l’air qui nous entoure', 'à l’eau', 'au vent seulement'], a: 1, e: 'Les molécules d’air frappent les objets.' },
-      { q: 'L’unité usuelle de la pression atmosphérique :', o: ['le degré', 'l’hectopascal', 'le volt', 'le mètre'], a: 1, e: 'hPa.' },
-      { q: 'L’appareil de mesure est :', o: ['le thermomètre', 'le baromètre', 'l’ampèremètre', 'la balance'], a: 1, e: 'Le baromètre.' },
+      { q: 'L’unité usuelle de la pression atmosphérique :', o: ['le degré', 'l’hectopascal', 'le volt', 'le mètre'], a: 1, e: 'On l’exprime en hectopascals (hPa) : 1 hPa = 100 Pa, et la pression normale vaut environ 1 013 hPa.' },
+      { q: 'L’appareil de mesure est :', o: ['le thermomètre', 'le baromètre', 'l’ampèremètre', 'la balance'], a: 1, e: 'Le baromètre mesure la pression atmosphérique ; le thermomètre mesure la température et l’ampèremètre l’intensité.' },
       { q: 'À Abidjan (bord de mer), la pression est voisine de :', o: ['1 013 hPa', '820 hPa', '315 hPa', '0 hPa'], a: 0, e: 'Niveau de la mer.' },
       { q: 'Un ballon fermé monté en altitude :', o: ['dégonfle', 'gonfle', 'ne change pas', 'devient plus lourd'], a: 1, e: 'La pression extérieure diminue.' }
     ]

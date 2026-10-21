@@ -227,8 +227,8 @@
       'Un <b>corps simple</b> est formé d’un seul type d’atome (O<sub>2</sub>, H<sub>2</sub>, N<sub>2</sub>) ; un <b>corps composé</b> de plusieurs types d’atomes (H<sub>2</sub>O, CO<sub>2</sub>).'
     ],
     quiz: [
-      { q: 'Le symbole de l’atome d’oxygène est :', o: ['Ox', 'O', 'Og', 'X'], a: 1, e: 'O.' },
-      { q: 'Dans les modèles, l’atome de carbone est :', o: ['rouge', 'blanc', 'noir', 'bleu'], a: 2, e: 'Noir.' },
+      { q: 'Le symbole de l’atome d’oxygène est :', o: ['Ox', 'O', 'Og', 'X'], a: 1, e: 'Le symbole de l’oxygène est la lettre O (majuscule). Quand il y a deux lettres, la seconde est en minuscule : Cl, Fe.' },
+      { q: 'Dans les modèles, l’atome de carbone est :', o: ['rouge', 'blanc', 'noir', 'bleu'], a: 2, e: 'Noir : dans les modèles moléculaires (code CPK), le carbone est noir, l’hydrogène blanc, l’oxygène rouge, l’azote bleu.' },
       { q: 'La molécule CH₄ contient :', o: ['1 C et 4 H', '4 C et 1 H', '1 C et 1 H', '5 C'], a: 0, e: 'L’indice 4 porte sur H.' },
       { q: 'Lequel est un corps composé ?', o: ['O₂', 'N₂', 'H₂O', 'H₂'], a: 2, e: 'H₂O contient deux types d’atomes.' },
       { q: 'Une molécule est :', o: ['un atome seul', 'un groupe d’atomes liés', 'un mélange', 'un ion'], a: 1, e: 'Des atomes liés entre eux.' }

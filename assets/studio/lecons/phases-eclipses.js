@@ -214,7 +214,7 @@
       { q: 'À la nouvelle lune, la Lune est :', o: ['entre le Soleil et la Terre', 'derrière la Terre', 'invisible car éteinte', 'à côté du Soleil'], a: 0, e: 'Sa face éclairée est tournée vers le Soleil, on voit sa face sombre.' },
       { q: 'Lors d’une éclipse de Soleil :', o: ['la Terre cache la Lune', 'la Lune cache le Soleil', 'le Soleil cache la Lune', 'la Lune devient rouge'], a: 1, e: 'La Lune passe devant le Soleil.' },
       { q: 'Une éclipse de Lune a lieu :', o: ['à la nouvelle lune', 'à la pleine lune', 'au premier quartier', 'chaque nuit'], a: 1, e: 'Soleil – Terre – Lune alignés : pleine lune.' },
-      { q: 'La durée d’une lunaison est d’environ :', o: ['1 jour', '7 jours', '29,5 jours', '1 an'], a: 2, e: 'Environ 29,5 jours.' }
+      { q: 'La durée d’une lunaison est d’environ :', o: ['1 jour', '7 jours', '29,5 jours', '1 an'], a: 2, e: 'Une lunaison (de nouvelle lune à nouvelle lune) dure environ 29,5 jours : c’est l’origine du mois.' }
     ]
   });
 })();

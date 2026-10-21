@@ -213,11 +213,11 @@
       'Expérience : la paille de fer humide qui rouille dans une éprouvette retournée sur l’eau consomme le dioxygène ; l’eau monte d’environ 1/5 du volume.'
     ],
     quiz: [
-      { q: 'L’air est :', o: ['un corps pur', 'un mélange de gaz', 'un liquide', 'du dioxygène pur'], a: 1, e: 'Un mélange.' },
-      { q: 'Le diazote représente environ :', o: ['1/5 de l’air', '4/5 de l’air', '1/2 de l’air', '1 % de l’air'], a: 1, e: 'Environ 78 %.' },
-      { q: 'Le gaz qui rallume une bûchette incandescente est :', o: ['le diazote', 'le dioxygène', 'l’argon', 'la vapeur d’eau'], a: 1, e: 'Le dioxygène.' },
+      { q: 'L’air est :', o: ['un corps pur', 'un mélange de gaz', 'un liquide', 'du dioxygène pur'], a: 1, e: 'L’air est un mélange (environ 78 % de diazote et 21 % de dioxygène) : on peut en séparer les gaz, ce qui n’est pas possible avec un corps pur.' },
+      { q: 'Le diazote représente environ :', o: ['1/5 de l’air', '4/5 de l’air', '1/2 de l’air', '1 % de l’air'], a: 1, e: 'Le diazote représente environ 78 % de l’air, soit à peu près les 4/5 ; le dioxygène, environ 21 %, soit 1/5.' },
+      { q: 'Le gaz qui rallume une bûchette incandescente est :', o: ['le diazote', 'le dioxygène', 'l’argon', 'la vapeur d’eau'], a: 1, e: 'Le dioxygène entretient la combustion : une bûchette incandescente s’y rallume. Le diazote, lui, l’éteint.' },
       { q: 'Dans l’expérience de la paille de fer, l’eau monte car :', o: ['l’eau s’évapore', 'le fer consomme le dioxygène', 'le diazote disparaît', 'il fait chaud'], a: 1, e: 'Le dioxygène est consommé.' },
-      { q: 'Sur 100 molécules d’air, combien de dioxygène environ ?', o: ['78', '21', '1', '50'], a: 1, e: 'Environ 21.' }
+      { q: 'Sur 100 molécules d’air, combien de dioxygène environ ?', o: ['78', '21', '1', '50'], a: 1, e: 'Le dioxygène représente environ 21 % de l’air : sur 100 molécules d’air, il y en a donc environ 21.' }
     ]
   });
 })();

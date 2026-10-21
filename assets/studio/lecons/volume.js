@@ -210,7 +210,7 @@
       '<b>1 L = 1 000 mL = 1 dm³</b> ; <b>1 mL = 1 cm³</b> ; 1 L = 10 dL = 100 cL.'
     ],
     quiz: [
-      { q: 'On mesure le volume d’un liquide avec :', o: ['une balance', 'une éprouvette graduée', 'un thermomètre', 'une règle'], a: 1, e: 'L’éprouvette graduée.' },
+      { q: 'On mesure le volume d’un liquide avec :', o: ['une balance', 'une éprouvette graduée', 'un thermomètre', 'une règle'], a: 1, e: 'L’éprouvette graduée donne le volume d’un liquide ; la balance mesure la masse.' },
       { q: 'On lit le volume :', o: ['en haut du ménisque', 'au bas du ménisque', 'au bord du verre', 'n’importe où'], a: 1, e: 'Au bas du ménisque.' },
       { q: '1 L est égal à :', o: ['100 mL', '1 000 mL', '10 mL', '10 000 mL'], a: 1, e: '1 L = 1 000 mL.' },
       { q: '1 mL est égal à :', o: ['1 dm³', '1 cm³', '1 m³', '10 cm³'], a: 1, e: '1 mL = 1 cm³.' },

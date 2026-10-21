@@ -197,11 +197,11 @@
       'Traversé par un courant, un conducteur ohmique s’échauffe : c’est l’<b>effet Joule</b> (radiateur, fer à repasser, chauffe-eau, fusible).'
     ],
     quiz: [
-      { q: 'L’unité de résistance est :', o: ['le volt', 'l’ampère', 'l’ohm', 'le watt'], a: 2, e: 'L’ohm (Ω).' },
+      { q: 'L’unité de résistance est :', o: ['le volt', 'l’ampère', 'l’ohm', 'le watt'], a: 2, e: 'La résistance s’exprime en ohms (Ω) ; U = R × I, donc 1 Ω = 1 V / 1 A.' },
       { q: 'La loi d’Ohm s’écrit :', o: ['U = R / I', 'U = R × I', 'I = R × U', 'R = U × I'], a: 1, e: 'U = R × I.' },
       { q: 'Une résistance de 1 kΩ sous 5 V est traversée par :', o: ['5 A', '0,5 A', '5 mA', '200 mA'], a: 2, e: 'I = 5 / 1 000 = 0,005 A = 5 mA.' },
       { q: 'Les bandes marron, noir, rouge indiquent :', o: ['102 Ω', '1 000 Ω', '100 Ω', '10 Ω'], a: 1, e: '10 × 100 = 1 000 Ω.' },
-      { q: 'L’échauffement d’un conducteur parcouru par un courant s’appelle :', o: ['effet Joule', 'effet Ohm', 'court-circuit', 'induction'], a: 0, e: 'L’effet Joule.' }
+      { q: 'L’échauffement d’un conducteur parcouru par un courant s’appelle :', o: ['effet Joule', 'effet Ohm', 'court-circuit', 'induction'], a: 0, e: 'C’est l’effet Joule : le passage du courant dans un conducteur le fait chauffer, comme dans un grille-pain.' }
     ]
   });
 })();

@@ -209,8 +209,8 @@
       'Masse et volume sont deux grandeurs différentes : 100 mL d’eau ont une masse de 100 g, 100 mL d’huile de 92 g.'
     ],
     quiz: [
-      { q: 'La masse se mesure avec :', o: ['une éprouvette', 'une balance', 'un thermomètre', 'un ampèremètre'], a: 1, e: 'Une balance.' },
-      { q: 'L’unité légale de masse est :', o: ['le gramme', 'le kilogramme', 'le litre', 'la tonne'], a: 1, e: 'Le kilogramme.' },
+      { q: 'La masse se mesure avec :', o: ['une éprouvette', 'une balance', 'un thermomètre', 'un ampèremètre'], a: 1, e: 'La masse se mesure avec une balance. Le dynamomètre, lui, mesure un poids (une force).' },
+      { q: 'L’unité légale de masse est :', o: ['le gramme', 'le kilogramme', 'le litre', 'la tonne'], a: 1, e: 'L’unité légale de masse (Système international) est le kilogramme (kg), et non le gramme.' },
       { q: '1 kg est égal à :', o: ['100 g', '1 000 g', '10 g', '10 000 g'], a: 1, e: '1 kg = 1 000 g.' },
       { q: 'La touche « tare » d’une balance électronique sert à :', o: ['éteindre la balance', 'remettre l’affichage à zéro', 'changer d’unité', 'doubler la masse'], a: 1, e: 'Elle remet à zéro.' },
       { q: 'À l’équilibre, avec 100 g + 20 g + 10 g, la masse de l’objet est :', o: ['120 g', '130 g', '110 g', '100 g'], a: 1, e: '100 + 20 + 10 = 130 g.' }

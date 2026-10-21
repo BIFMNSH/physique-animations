@@ -204,7 +204,7 @@
       'Une réduction s’accompagne toujours d’une oxydation : c’est une <b>oxydoréduction</b>. La métallurgie obtient les métaux par réduction de leurs minerais.'
     ],
     quiz: [
-      { q: 'Réduire un oxyde, c’est :', o: ['lui ajouter de l’oxygène', 'lui enlever son oxygène', 'le dissoudre', 'le refroidir'], a: 1, e: 'Lui enlever son oxygène.' },
+      { q: 'Réduire un oxyde, c’est :', o: ['lui ajouter de l’oxygène', 'lui enlever son oxygène', 'le dissoudre', 'le refroidir'], a: 1, e: 'Réduire un oxyde, c’est lui enlever son oxygène. L’autre réactif capte cet oxygène : il est oxydé, c’est le réducteur.' },
       { q: 'Lors du chauffage de CuO avec du carbone, le gaz formé :', o: ['rallume une bûchette', 'trouble l’eau de chaux', 'aboie à la flamme', 'est du dioxygène'], a: 1, e: 'C’est du dioxyde de carbone.' },
       { q: 'Dans Fe₂O₃ + 2 Al → 2 Fe + Al₂O₃, le réducteur est :', o: ['Fe₂O₃', 'Al', 'Fe', 'Al₂O₃'], a: 1, e: 'L’aluminium capte l’oxygène.' },
       { q: 'Le réducteur, au cours de la réaction :', o: ['est réduit', 'est oxydé', 'ne change pas', 'disparaît sans réagir'], a: 1, e: 'Il gagne de l’oxygène : il est oxydé.' },

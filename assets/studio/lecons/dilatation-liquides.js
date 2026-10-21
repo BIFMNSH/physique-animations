@@ -208,10 +208,10 @@
     ],
     quiz: [
       { q: 'Un liquide chauffé :', o: ['se contracte', 'se dilate', 'devient solide', 'ne change pas'], a: 1, e: 'Son volume augmente.' },
-      { q: 'Lequel se dilate le plus ?', o: ['l’eau', 'l’huile', 'l’alcool', 'ils se dilatent pareil'], a: 2, e: 'L’alcool.' },
+      { q: 'Lequel se dilate le plus ?', o: ['l’eau', 'l’huile', 'l’alcool', 'ils se dilatent pareil'], a: 2, e: 'Pour une même élévation de température, l’alcool se dilate plus que l’eau et bien plus que les solides ; c’est pourquoi il sert dans les thermomètres.' },
       { q: 'Pourquoi ne remplit-on pas une bouteille à ras bord ?', o: ['pour économiser', 'le liquide pourrait déborder en se dilatant', 'pour qu’elle soit plus légère', 'par habitude'], a: 1, e: 'Le liquide a besoin de place pour se dilater.' },
       { q: 'Dans un thermomètre, quand la température baisse, l’alcool :', o: ['monte', 'descend', 's’évapore', 'gèle aussitôt'], a: 1, e: 'Il se contracte.' },
-      { q: 'Les liquides se dilatent :', o: ['moins que les solides', 'plus que les solides', 'jamais', 'seulement au soleil'], a: 1, e: 'Plus que les solides.' }
+      { q: 'Les liquides se dilatent :', o: ['moins que les solides', 'plus que les solides', 'jamais', 'seulement au soleil'], a: 1, e: 'À même élévation de température, un liquide augmente plus de volume qu’un solide : les molécules sont moins serrées.' }
     ]
   });
 })();

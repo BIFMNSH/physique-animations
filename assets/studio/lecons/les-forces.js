@@ -212,7 +212,7 @@
     quiz: [
       { q: 'Une force peut :', o: ['seulement déformer', 'mettre en mouvement, modifier un mouvement ou déformer', 'seulement arrêter', 'changer la masse'], a: 1, e: 'Trois effets possibles.' },
       { q: 'Le poids est une force :', o: ['de contact', 'à distance', 'sans intensité', 'horizontale'], a: 1, e: 'L’attraction de la Terre agit à distance.' },
-      { q: 'L’intensité d’une force se mesure avec :', o: ['une balance', 'un dynamomètre', 'un thermomètre', 'une règle'], a: 1, e: 'Un dynamomètre.' },
+      { q: 'L’intensité d’une force se mesure avec :', o: ['une balance', 'un dynamomètre', 'un thermomètre', 'une règle'], a: 1, e: 'Une force est mesurée par un dynamomètre, en newtons (N) ; la balance mesure une masse, pas une force.' },
       { q: 'Laquelle n’est pas une caractéristique d’une force ?', o: ['le sens', 'la direction', 'la couleur', 'l’intensité'], a: 2, e: 'Point, direction, sens, intensité.' },
       { q: 'À l’échelle 1 cm ↔ 5 N, une force de 20 N mesure :', o: ['20 cm', '4 cm', '5 cm', '100 cm'], a: 1, e: '20 / 5 = 4 cm.' }
     ]

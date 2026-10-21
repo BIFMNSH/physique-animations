@@ -199,7 +199,7 @@
       { q: 'La vapeur d’eau est :', o: ['solide', 'liquide', 'gazeuse', 'visible'], a: 2, e: 'C’est l’état gazeux, invisible.' },
       { q: 'La solidification est le passage :', o: ['liquide → solide', 'solide → liquide', 'gaz → liquide', 'liquide → gaz'], a: 0, e: 'L’eau devient glace.' },
       { q: 'L’eau pure bout à :', o: ['0 °C', '37 °C', '100 °C', '50 °C'], a: 2, e: 'Au niveau de la mer.' },
-      { q: 'La buée sur une vitre froide vient de :', o: ['la fusion', 'la liquéfaction de la vapeur d’eau', 'la solidification', 'l’ébullition'], a: 1, e: 'La vapeur se liquéfie.' },
+      { q: 'La buée sur une vitre froide vient de :', o: ['la fusion', 'la liquéfaction de la vapeur d’eau', 'la solidification', 'l’ébullition'], a: 1, e: 'La vapeur d’eau de l’air se refroidit au contact de la vitre froide et se liquéfie en fines gouttelettes : la buée.' },
       { q: 'Quand la glace fond, sa masse :', o: ['augmente', 'diminue', 'reste la même', 'devient nulle'], a: 2, e: 'La masse se conserve.' }
     ]
   });

@@ -192,10 +192,10 @@
       '<b>Presbytie</b> : avec l’âge, le cristallin accommode moins ; on voit mal de près. Correction : lentille <b>convergente</b> (lunettes de lecture).'
     ],
     quiz: [
-      { q: 'Dans l’œil, le rôle de l’écran est joué par :', o: ['la cornée', 'le cristallin', 'la rétine', 'la pupille'], a: 2, e: 'La rétine.' },
-      { q: 'Un œil myope forme l’image d’un objet lointain :', o: ['sur la rétine', 'avant la rétine', 'derrière la rétine', 'nulle part'], a: 1, e: 'Avant la rétine.' },
-      { q: 'La myopie se corrige avec une lentille :', o: ['convergente', 'divergente', 'plane', 'colorée'], a: 1, e: 'Divergente.' },
-      { q: 'Les lunettes de lecture d’un presbyte sont :', o: ['divergentes', 'convergentes', 'teintées', 'sans vergence'], a: 1, e: 'Convergentes.' },
+      { q: 'Dans l’œil, le rôle de l’écran est joué par :', o: ['la cornée', 'le cristallin', 'la rétine', 'la pupille'], a: 2, e: 'La rétine joue le rôle d’écran : l’image s’y forme, puis le nerf optique la transmet au cerveau.' },
+      { q: 'Un œil myope forme l’image d’un objet lointain :', o: ['sur la rétine', 'avant la rétine', 'derrière la rétine', 'nulle part'], a: 1, e: 'L’œil myope est trop convergent : l’image d’un objet lointain se forme avant la rétine et paraît floue.' },
+      { q: 'La myopie se corrige avec une lentille :', o: ['convergente', 'divergente', 'plane', 'colorée'], a: 1, e: 'Une lentille divergente éloigne le point de convergence des rayons : l’image se forme alors sur la rétine.' },
+      { q: 'Les lunettes de lecture d’un presbyte sont :', o: ['divergentes', 'convergentes', 'teintées', 'sans vergence'], a: 1, e: 'Le presbyte voit mal de près : une lentille convergente aide son cristallin à faire converger les rayons sur la rétine.' },
       { q: 'L’accommodation est :', o: ['le changement de la pupille', 'la déformation du cristallin pour voir de près', 'la fatigue de l’œil', 'le port de lunettes'], a: 1, e: 'Le cristallin se bombe.' }
     ]
   });

@@ -220,7 +220,7 @@
     quiz: [
       { q: 'Lors de l’électrolyse de l’eau, le dihydrogène se forme :', o: ['à l’anode', 'à la cathode', 'dans les deux tubes', 'dans le générateur'], a: 1, e: 'À la cathode (−).' },
       { q: 'On ajoute de la soude à l’eau pour :', o: ['la colorer', 'la rendre conductrice', 'la chauffer', 'produire du dioxygène'], a: 1, e: 'L’eau pure conduit très mal.' },
-      { q: 'Le gaz qui rallume une bûchette incandescente est :', o: ['le dihydrogène', 'le dioxygène', 'la vapeur d’eau', 'le diazote'], a: 1, e: 'Le dioxygène.' },
+      { q: 'Le gaz qui rallume une bûchette incandescente est :', o: ['le dihydrogène', 'le dioxygène', 'la vapeur d’eau', 'le diazote'], a: 1, e: 'Le dioxygène entretient la combustion : une bûchette incandescente s’y rallume. Le dihydrogène, lui, produit une petite détonation.' },
       { q: 'L’équation de la synthèse de l’eau est :', o: ['2 H₂O → 2 H₂ + O₂', '2 H₂ + O₂ → 2 H₂O', 'H₂ + O → H₂O', 'H + O₂ → H₂O'], a: 1, e: '2 H₂ + O₂ → 2 H₂O.' },
       { q: 'Le sulfate de cuivre anhydre permet de reconnaître :', o: ['le dioxygène', 'l’eau', 'le dihydrogène', 'le carbone'], a: 1, e: 'Il passe du blanc au bleu.' }
     ]
