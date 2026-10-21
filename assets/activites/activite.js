@@ -28,11 +28,13 @@
   var NIV = ['I', 'F', 'S', 'TB'], NIVTXT = { I: 'maîtrise insuffisante', F: 'maîtrise fragile', S: 'maîtrise satisfaisante', TB: 'très bonne maîtrise' };
   function comps(F) { var P = window.PROGRAMME, ped = F.pedagogie; if (!P || !ped) return []; return ped.competences.map(function (c) { var k = P.competences[c[0]]; return k ? { nom: k.nom, cap: k.cap[c[1]] || '', socle: k.socle } : null; }).filter(Boolean); }
   function compsP(ped) { var P = window.PROGRAMME; if (!P || !ped) return []; return ped.competences.map(function (c) { var k = P.competences[c[0]]; return k ? { nom: k.nom, cap: k.cap[c[1]] || '', socle: k.socle } : null; }).filter(Boolean); }
-  function cadreHTML(ped, chapitre, compact) { // présentation : Thème / Chapitre / Compétence visée / à la fin je dois être capable de
+  function cadreHTML(ped, chapitre, id) { // Thème / Chapitre / Compétence visée / à la fin de cette partie, je dois être capable de
     var P = window.PROGRAMME, T = P && ped && P.themes[ped.theme]; if (!T) return '';
-    var CP = compsP(ped), n = ped.objectifs.length;
-    var caps = ped.objectifs.map(function (o, i) { var t = String(o.eleve || o.objectif).replace(/^Je sais /, '').replace(/[.;\s]+$/, ''); return '<li>' + esc(t.charAt(0).toUpperCase() + t.slice(1)) + (i < n - 1 ? ' ;' : '.') + '</li>'; }).join('');
-    return '<div class="cadre"><p class="th-nom">Thème : ' + esc(T.nom) + '</p><p class="ch">Chapitre : ' + esc(chapitre) + '</p><h3>Compétence' + (CP.length > 1 ? 's' : '') + ' visée' + (CP.length > 1 ? 's' : '') + '</h3>' + (compact ? '<p class="ch" style="font-weight:400">' + CP.map(function (c) { return esc(c.nom); }).join(' ; ') + '.</p>' : '<ul>' + CP.map(function (c) { return '<li><b>' + esc(c.nom) + '</b> — ' + esc(c.cap) + '</li>'; }).join('') + '</ul>') + '<h3>À la fin de cette partie, je dois être capable de :</h3><ul>' + caps + '</ul></div>';
+    var CP = compsP(ped), V = window.VISEE && window.VISEE[id], n, caps, visee = '';
+    if (V) { n = V.capable.length; caps = V.capable.map(function (t, i) { return '<li>' + esc(t) + (i < n - 1 ? ' ;' : '.') + '</li>'; }).join(''); visee = '<p class="vis">' + esc(V.visee) + '</p>'; }
+    else { n = ped.objectifs.length; caps = ped.objectifs.map(function (o, i) { var t = String(o.eleve || o.objectif).replace(/^Je sais /, '').replace(/[.;\s]+$/, ''); return '<li>' + esc(t.charAt(0).toUpperCase() + t.slice(1)) + (i < n - 1 ? ' ;' : '.') + '</li>'; }).join(''); }
+    var prog = CP.length ? '<p class="prog">Compétence du programme : <b>' + esc(CP[0].nom) + '</b> — ' + esc(CP[0].cap) + '</p>' : '';
+    return '<div class="cadre"><p class="th-nom">Thème : ' + esc(T.nom) + '</p><p class="ch">Chapitre : ' + esc(chapitre) + '</p><h3>Compétence visée</h3>' + visee + prog + '<h3>À la fin de cette partie, je dois être capable de :</h3><ul>' + caps + '</ul></div>';
   }
   function themeNom(F) { var P = window.PROGRAMME, ped = F.pedagogie; return P && ped && P.themes[ped.theme] ? P.themes[ped.theme] : null; }
   var AEL = { non: 'pas encore', partie: 'en partie', oui: 'oui' };
@@ -52,7 +54,7 @@
     var ident = '<div class="sh-ident"><span>Nom : <i></i></span><span>Classe : <i></i></span><span>Date : <i></i></span></div>';
     var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
       '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
-    var compBox = cadreHTML(F.pedagogie, F.chapitre);
+    var compBox = cadreHTML(F.pedagogie, F.chapitre, F.id);
     var p1 = '<div class="sh-page">' + head + ident + compBox +
       sec(1, 'Situation', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
       sec(2, 'Je prévois', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
@@ -150,7 +152,7 @@
     function next(label, to, parent) { var b = h('button', { class: 'btn primary', type: 'button', text: label }, parent); b.onclick = function () { go(to); panel.focus(); }; return b; }
 
     function sSituation() {
-      var cd = cadreHTML(F.pedagogie, F.chapitre); if (cd) panel.insertAdjacentHTML('beforeend', cd);
+      var cd = cadreHTML(F.pedagogie, F.chapitre, F.id); if (cd) panel.insertAdjacentHTML('beforeend', cd);
       h('h2', { text: 'Situation-problème' }, panel);
       h('p', { text: F.situation }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
