@@ -80,3 +80,8 @@ test('un rôle enseignant auto-déclaré sans pass prof ne suffit pas', async ()
   const r = await u.call('/api/activites/NL-C4-A04/corrige');
   assert.notEqual(r.status, 200);
 });
+
+test('un pass élève avec rôle enseignant ne donne pas le corrigé', async () => {
+  const u = await user(8, 'enseignant'); await pass(u.id, 'eleve', 'A');
+  assert.equal((await u.call('/api/activites/NL-C4-A04/corrige')).status, 403);
+});
