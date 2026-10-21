@@ -24,34 +24,65 @@
       (rows.length ? rows.map(function (r) { return '<tr>' + r.map(function (c, k) { return k ? '<td>' + esc(c) + '</td>' : '<th scope="row" style="font-weight:700">' + esc(c) + '</th>'; }).join('') + '</tr>'; }).join('') : '<tr><td colspan="' + F.colonnes.length + '" style="text-align:center;color:var(--mist)">Aucun essai pour l’instant</td></tr>') + '</tbody></table>';
   }
 
-  /* ---- impression ---- */
-  function printDoc(F, st, mode) { // mode : 'vierge' | 'remplie' | 'prof'
-    var P = $('#print'); P.innerHTML = '';
+  /* ---- fiche imprimable : même HTML à l'écran (aperçu) et à l'impression (A4, deux pages) ---- */
+  function sheetHTML(F, st, mode) { // mode : 'vierge' | 'remplie' | 'prof'
     var filled = mode !== 'vierge', prof = mode === 'prof';
-    var line = function (t, v) { return '<p><b>' + esc(t) + '</b> ' + (filled && v ? esc(v) : '') + '</p>' + (filled && v ? '' : '<div class="line"></div><div class="line"></div>'); };
-    var pv = st.prevision, ch = pv && F.prevision.choix.filter(function (c) { return c[0] === pv.choix; })[0];
-    var h1 = '<h1>' + esc(F.titre) + '</h1><p>' + esc(F.id) + ' · version ' + esc(F.version) + ' · niveau ' + esc(F.niveau) + ' · ' + (prof ? 'VERSION PROFESSEUR' : filled ? 'fiche remplie' : 'fiche vierge') + '</p><p>Nom : ____________ Classe : ______ Date : ________</p>';
-    var rows = '', i, L = filled ? F.lignes(st) : [], nr = Math.max(L.length, F.lignesVides || 3);
-    for (i = 0; i < nr; i++) { rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>'; }
-    var p1 = h1 + '<h2>Situation</h2><p>' + esc(F.situation) + '</p><p><b>Matériel :</b> ' + esc(F.materiel) + '</p>' +
-      '<h2>Ma prévision</h2><p>' + esc(F.prevision.consigne) + '</p>' + (filled && pv ? '<p>' + (pv.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : '') + esc(ch ? ch[1] : '') + (pv.nombre ? ' (' + esc(pv.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — parce que ' + esc(pv.raison || '') + '</p>' : '<div class="line"></div><div class="line"></div>') + (F.prevision.nombre && !filled ? '<p>' + esc(F.prevision.nombre.label) + ' (' + esc(F.prevision.nombre.unite) + ') : __________</p>' : '') +
-      '<h2>Protocole</h2><ol>' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p>Variable modifiée : ' + esc(F.variable) + '. Conditions maintenues : ' + esc(F.maintenu) + '.</p>' +
-      '<table><thead><tr>' + F.colonnes.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      (filled && st.essais.length ? '<p><i>Données simulées (modèle ' + esc(F.modele) + ').</i></p>' : '') + (F.extraPrint ? '<h2>' + esc(F.extraPrint.titre) + '</h2><p>' + esc(F.extraPrint.consigne) + '</p><div class="box" style="height:' + (F.extraPrint.hauteur || 160) + 'pt"></div>' : '');
-    var cf = st.confront, verdicts = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' };
-    var tr = st.transfert;
-    var p2 = '<div class="pb"></div>' + h1.split('<p>Nom')[0] + '<h2>Expliquer</h2>' +
-      line('Ma prévision initiale :', pv && (ch ? ch[1] : '')) +
-      line('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '') +
-      '<p><b>Ma prévision est :</b> ' + (filled && cf ? esc(verdicts[cf.verdict] || '') : '☐ confirmée ☐ infirmée ☐ partiellement confirmée ☐ non testée de façon concluante') + '</p>' +
-      line('Je le justifie avec :', cf && cf.preuve) + line('Ma conclusion personnelle :', st.conclusion) +
-      '<h2>Transfert</h2><p>' + esc(F.transfert.q) + '</p>' + (filled && tr ? '<p>Ma réponse : ' + esc(tr.rep) + ' — ' + esc(tr.just || '') + '</p>' : '<div class="line"></div><div class="line"></div>') +
-      '<p><b>Critère de réussite :</b> ' + esc(F.critere) + '</p>' +
-      (filled ? '<p><b>Aides utilisées :</b> ' + st.aides + '</p>' : '<p>Réussites observées : ______ Priorité de progression : ______ Aides utilisées : ______</p>');
+    var pv = filled && st.prevision, ini = pv && (pv.initiale || pv), ch = ini && F.prevision.choix.filter(function (c) { return c[0] === ini.choix; })[0];
+    var lines = function (n) { var s = '', i; for (i = 0; i < n; i++) s += '<div class="sh-line"></div>'; return s; };
+    var sec = function (n, t, body) { return '<section class="sh-sec"><h2><span class="sh-n">' + n + '</span>' + esc(t) + '</h2>' + body + '</section>'; };
+    var field = function (t, v, n) { return '<p class="sh-q"><b>' + esc(t) + '</b>' + (v ? ' ' + esc(v) : '') + '</p>' + (v ? '' : lines(n || 2)); };
+    var L = filled ? F.lignes(st) : [], nr = Math.max(L.length, F.lignesVides || 3), rows = '', i;
+    for (i = 0; i < nr; i++) rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>';
+    var tag = prof ? 'Version professeur' : filled ? 'Fiche remplie' : 'Fiche vierge';
+    var head = '<header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">' + tag + '</span></header>' +
+      '<h1>' + esc(F.titre) + '</h1><p class="sh-meta">' + esc(F.id) + ' · ' + esc(F.niveau) + ' · ' + esc(F.chapitre) + ' · version ' + esc(F.version) + '</p>';
+    var ident = '<div class="sh-ident"><span>Nom : <i></i></span><span>Classe : <i></i></span><span>Date : <i></i></span></div>';
+    var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
+      '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
+    var p1 = '<div class="sh-page">' + head + ident +
+      sec(1, 'Situation', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
+      sec(2, 'Je prévois', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
+      sec(3, 'Je manipule et je mesure', '<ol class="sh-prot">' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p class="sh-var"><b>Je fais varier :</b> ' + esc(F.variable) + '. <b>Je garde identique :</b> ' + esc(F.maintenu) + '.</p>' +
+        '<table class="sh-t"><thead><tr>' + F.colonnes.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table>' + (filled && st.essais.length ? '<p class="sh-note">Données simulées (modèle ' + esc(F.modele) + ').</p>' : '') +
+        (F.extraPrint ? '<p class="sh-q"><b>' + esc(F.extraPrint.titre) + ' :</b> ' + esc(F.extraPrint.consigne) + '</p><div class="sh-grid" style="height:' + (F.extraPrint.hauteur || 160) + 'px"></div>' : '')) +
+      '</div>';
+    var cf = st.confront, verd = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' }, tr = st.transfert;
+    var T = F.transfert, trOk = tr && (T.type === 'nombre' ? Math.abs(parseFloat(String(tr.rep).replace(',', '.')) - T.rep) <= (T.tol || 0) : tr.rep === T.rep);
+    var ac = st.autocorr, after = '';
+    if (filled && ac && (ac.note || (ac.coches && ac.coches.length))) after = sec('★', 'Après correction', '<p class="sh-q"><b>Points que j’ai vérifiés :</b> ' + (ac.coches || []).map(function (k) { return esc(F.prof.attendus[k] || ''); }).join(' ; ') + '</p>' + field('Ce que j’avais faux ou oublié, et ce que j’ai compris :', ac.note, 2));
+    var p2 = '<div class="sh-page">' + head.split('<h1>')[0] + '<h1 class="sh-h1b">' + esc(F.titre) + ' <small>(suite)</small></h1>' +
+      sec(4, 'Je conclus', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) + field('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
+        '<p class="sh-q"><b>Ma prévision est :</b> ' + (filled && cf ? esc(verd[cf.verdict] || '') : '☐ confirmée &nbsp; ☐ infirmée &nbsp; ☐ partiellement confirmée &nbsp; ☐ non testée de façon concluante') + '</p>' +
+        field('Je le justifie avec :', cf && cf.preuve, 2) + field('Ma conclusion personnelle :', st.conclusion, 3)) +
+      sec(5, 'Je transfère', '<p>' + esc(T.q) + '</p>' + (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) + after +
+      '<section class="sh-sec sh-eval"><h2><span class="sh-n">✓</span>Mon auto-évaluation</h2><p><b>Critère de réussite :</b> ' + esc(F.critere) + '</p><p>Je l’ai atteint : &nbsp; ☐ pas encore &nbsp; ☐ en partie &nbsp; ☐ oui' + (filled ? ' &nbsp;·&nbsp; Aides utilisées : ' + st.aides : ' &nbsp;·&nbsp; Aides utilisées : ____') + '</p><div class="sh-prof"><b>Avis du professeur :</b>' + lines(2) + '</div></section>' +
+      '<footer class="sh-foot">NOHOBA-Lab · ' + esc(F.id) + ' · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
-    if (prof) pr = '<div class="pb"></div><h1>Corrigé professeur — ' + esc(F.titre) + '</h1><div class="box"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></div><h2>Attendus</h2><ul>' + F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul><h2>Erreurs usuelles</h2><ul>' + F.prof.erreurs.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul><h2>Limites du modèle</h2><p>' + esc(F.prof.limites) + '</p><h2>Transfert</h2><p>' + esc(F.transfert.rep) + ' — ' + esc(F.transfert.expl) + '</p><h2>Différenciation</h2><p>' + esc(F.prof.differenciation) + '</p>';
-    P.innerHTML = p1 + p2 + pr;
+    if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
+      '<section class="sh-sec sh-ref"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></section>' +
+      sec('▸', 'Attendus', '<ul>' + F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') + sec('▸', 'Erreurs usuelles', '<ul>' + F.prof.erreurs.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') +
+      sec('▸', 'Limites du modèle', '<p>' + esc(F.prof.limites) + '</p>') + sec('▸', 'Différenciation', '<p>' + esc(F.prof.differenciation) + '</p>') + '</div>';
+    return '<div class="sheet">' + p1 + p2 + pr + '</div>';
+  }
+  function printDoc(F, st, mode) {
+    var P = $('#print'), t0 = document.title; P.innerHTML = sheetHTML(F, st, mode);
+    document.title = F.id + '-' + mode; var back = function () { document.title = t0; window.removeEventListener('afterprint', back); }; window.addEventListener('afterprint', back);
     window.print();
+  }
+  /* carte « Fiche à imprimer » : aperçu fidèle + Imprimer / Enregistrer en PDF */
+  function sheetCard(F, st, parent, modes, profMode) {
+    var c = h('div', { class: 'card noprint' }, parent); h('h3', { text: 'Fiche à imprimer' }, c);
+    var mode = modes[0], hasSel = modes.length > 1;
+    if (hasSel) { h('label', { for: 'shm', text: 'Version :' }, c); var sel = h('select', { id: 'shm' }, c, modes.map(function (m) { return '<option value="' + m + '">' + { vierge: 'Fiche vierge (à compléter au stylo)', remplie: 'Fiche remplie avec mon travail', prof: 'Version professeur (avec corrigé)' }[m] + '</option>'; }).join('')); }
+    var det = h('details', { class: 'sh-prev' }, c), sm = h('summary', { text: 'Voir l’aperçu de la fiche' }, det), pv = h('div', {}, det);
+    function paint() { pv.innerHTML = sheetHTML(F, st, mode); }
+    det.addEventListener('toggle', function () { if (det.open) paint(); });
+    if (hasSel) sel.onchange = function () { mode = sel.value; if (det.open) paint(); };
+    var row = h('div', { class: 'row' }, c), b1 = h('button', { class: 'btn primary', type: 'button', text: 'Imprimer' }, row), b2 = h('button', { class: 'btn', type: 'button', text: 'Enregistrer en PDF' }, row);
+    var msg = h('p', { class: 'msg', 'aria-live': 'polite', hidden: '' }, c);
+    b1.onclick = function () { msg.hidden = true; printDoc(F, st, mode); };
+    b2.onclick = function () { msg.hidden = false; msg.textContent = 'Dans la fenêtre qui s’ouvre, choisis « Enregistrer au format PDF » comme imprimante, puis valide.'; printDoc(F, st, mode); };
+    return c;
   }
 
   /* ---- application ---- */
@@ -95,7 +126,7 @@
       var d = h('div', { style: 'text-align:center' }, panel); if (F.illustration) F.illustration(d);
       var r = h('div', { class: 'row' }, panel);
       next('Commencer : ma prévision ▸', 1, r);
-      var v = h('button', { class: 'btn', type: 'button', text: 'Fiche vierge (imprimer)' }, r); v.onclick = function () { printDoc(F, st, 'vierge'); };
+      sheetCard(F, st, panel, ['vierge']);
     }
 
     function sPrevision() {
@@ -188,7 +219,24 @@
         var v = isNum ? inp.value.trim() : (panel.querySelector('input[name=tr]:checked') || {}).value;
         if (!v) return; st.transfert = { rep: v, just: tj.value.trim(), ts: Date.now() }; save(KEY, st); show();
       };
-      show();
+      var cor = h('div', {}, panel);
+      function corrige() {
+        cor.innerHTML = ''; if (!st.transfert) return;
+        var ac = st.autocorr || { coches: [], note: '' }, c = h('div', { class: 'card' }, cor);
+        h('h3', { text: 'Corrigé : je compare avec mon travail' }, c);
+        h('p', { style: 'color:var(--mist);font-size:15px' }, c, 'Tu as écrit ta conclusion et tenté le transfert : tu peux maintenant comparer ton travail avec la référence.');
+        h('div', { class: 'msg ok' }, c, '<b>Référence.</b> ' + esc(F.prof.reference));
+        h('h4', { text: 'Ce que ma fiche doit montrer (je coche ce que j’ai bien fait)' }, c);
+        var fs = h('fieldset', { style: 'border:0;padding:0;margin:0' }, c);
+        F.prof.attendus.forEach(function (a, k) { h('label', { class: 'opt' }, fs, '<input type="checkbox" data-k="' + k + '"' + (ac.coches.indexOf(k) >= 0 ? ' checked' : '') + '><span>' + esc(a) + '</span>'); });
+        h('h4', { text: 'Erreurs fréquentes : est-ce que je me reconnais ?' }, c);
+        h('ul', {}, c, F.prof.erreurs.map(function (e) { return '<li>' + esc(e) + '</li>'; }).join(''));
+        h('label', { for: 'ac', text: 'Ce que j’avais faux ou oublié, et ce que j’ai compris :' }, c); var ta = h('textarea', { id: 'ac' }, c); ta.value = ac.note || '';
+        var sv = h('button', { class: 'btn', type: 'button', text: 'Enregistrer mon auto-correction' }, c), ok = h('span', { 'aria-live': 'polite', style: 'margin-left:10px' }, c);
+        sv.onclick = function () { var cs = []; [].forEach.call(c.querySelectorAll('input[data-k]:checked'), function (i) { cs.push(Number(i.getAttribute('data-k'))); }); st.autocorr = { coches: cs, note: ta.value.trim(), ts: Date.now() }; save(KEY, st); ok.textContent = 'Enregistrée dans ma fiche.'; };
+      }
+      ck.addEventListener('click', function () { if (st.transfert) corrige(); });
+      show(); corrige();
       var r2 = h('div', { class: 'row' }, panel); next('Voir ma trace ▸', 5, r2);
     }
 
@@ -202,9 +250,7 @@
         '<p><b>Ma conclusion :</b> ' + esc(st.conclusion) + '</p>' +
         '<p><b>Aides utilisées :</b> ' + st.aides + '</p>' +
         '<p style="color:var(--mist);font-size:15px">Critère de réussite : ' + esc(F.critere) + '. Cette trace garde ta propre conclusion ; elle ne contient pas le corrigé. Ton travail est enregistré sur cet appareil seulement.</p>');
-      var r = h('div', { class: 'row' }, panel);
-      h('button', { class: 'btn primary', type: 'button', text: 'Imprimer ma fiche remplie' }, r).onclick = function () { printDoc(F, st, 'remplie'); };
-      h('button', { class: 'btn', type: 'button', text: 'Imprimer la fiche vierge' }, r).onclick = function () { printDoc(F, st, 'vierge'); };
+      sheetCard(F, st, panel, ['remplie', 'vierge']);
       var pf = h('div', { class: 'card' }, panel); h('h3', { text: 'Espace enseignant' }, pf);
       if (!profMode) {
         h('p', { style: 'color:var(--mist)' }, pf, 'Le corrigé et les attendus sont une ressource distincte de la trace élève.');
@@ -217,6 +263,7 @@
         h('p', {}, pf, '<b>Limites du modèle :</b> ' + esc(F.prof.limites));
         var rr = h('div', { class: 'row' }, pf);
         h('button', { class: 'btn primary', type: 'button', text: 'Imprimer la version professeur' }, rr).onclick = function () { printDoc(F, st, 'prof'); };
+        h('button', { class: 'btn', type: 'button', text: 'Enregistrer en PDF (version professeur)' }, rr).onclick = function () { printDoc(F, st, 'prof'); };
         h('button', { class: 'btn', type: 'button', text: 'Quitter le mode enseignant' }, rr).onclick = function () { profMode = false; draw(); };
       }
       var rs = h('div', { class: 'row' }, panel); var b = h('button', { class: 'btn', type: 'button', text: 'Recommencer l’activité (efface mon travail)' }, rs);

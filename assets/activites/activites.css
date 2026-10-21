@@ -45,15 +45,36 @@ table.t th:first-child,table.t td:first-child{text-align:left}
 svg .grain{transition:opacity .9s,transform .9s}
 @media(prefers-reduced-motion:reduce){svg *,.btn{transition:none!important;animation:none!important}}
 #print{display:none}
+/* fiche A4 : aperçu écran et impression partagent les mêmes règles */
+.sheet{color:#111;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet .sh-page{background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:22px 26px;margin:12px auto;max-width:760px;box-sizing:border-box}
+.sheet h1{font-size:22px;margin:6px 0 0;color:#111}.sheet .sh-h1b small{font-weight:400;font-size:13px;color:#555}
+.sheet .sh-meta{margin:2px 0 8px;color:#555;font-size:12.5px}
+.sheet .sh-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #C2410C;padding-bottom:5px;font-size:12px}
+.sheet .sh-brand{font-weight:800;letter-spacing:.02em;color:#C2410C}.sheet .sh-tag{border:1.5px solid #111;border-radius:5px;padding:1px 8px;font-weight:700}
+.sheet .sh-ident{display:flex;gap:14px;margin:8px 0 6px;font-size:13px}.sheet .sh-ident span{flex:1;display:flex;gap:6px;align-items:flex-end}.sheet .sh-ident i{flex:1;border-bottom:1px solid #111;height:16px}
+.sheet .sh-sec{margin:10px 0;break-inside:avoid}
+.sheet h2{display:flex;align-items:center;gap:8px;font-size:14.5px;margin:0 0 5px;padding:3px 6px;border-left:5px solid #C2410C;background:#f3f4f6;color:#111}
+.sheet .sh-n{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:#C2410C;color:#fff;font-size:13px}
+.sheet p{margin:3px 0}.sheet ul,.sheet ol{margin:3px 0 3px 18px;padding:0}
+.sheet .sh-choix{list-style:none;margin:3px 0}.sheet .sh-choix li{padding:1px 0}
+.sheet .sh-line{border-bottom:1px solid #444;height:23px}
+.sheet .sh-t{border-collapse:collapse;width:100%;margin:6px 0}.sheet .sh-t th{background:#f3f4f6;border:1px solid #111;padding:4px 5px;font-size:12px;text-align:left}.sheet .sh-t td{border:1px solid #111;height:28px;padding:3px 5px}
+.sheet .sh-grid{border:1.5px solid #111;margin:4px 0;background-image:linear-gradient(#d6dbe3 1px,transparent 1px),linear-gradient(90deg,#d6dbe3 1px,transparent 1px);background-size:16px 16px}
+.sheet .sh-note{font-size:11.5px;color:#555;font-style:italic}
+.sheet .sh-eval{border:1.5px solid #111;border-radius:6px;padding:6px 8px}.sheet .sh-eval h2{border-left:0;background:none;padding:0}
+.sheet .sh-prof{margin-top:6px}.sheet .sh-ref{border:1.5px solid #111;border-radius:6px;padding:6px 8px}
+.sheet .sh-foot{margin-top:10px;border-top:1px solid #999;padding-top:4px;font-size:11px;color:#555;text-align:center}
+.sh-prev summary{cursor:pointer;font-weight:700;padding:6px 0}.sh-prev .sheet{overflow-x:auto}
+@page{size:A4;margin:10mm}
 @media print{
-  body{background:#fff;color:#000;font-size:12pt}
-  .noprint,header.top,.tabs{display:none!important}
-  #print{display:block}
-  #print h1{font-size:20pt;margin:0 0 4pt}#print h2{font-size:13pt;margin:10pt 0 4pt}
-  #print .line{border-bottom:1px solid #000;height:20pt}
-  #print table{border-collapse:collapse;width:100%}#print th,#print td{border:1px solid #000;padding:6pt;height:22pt;text-align:left}
-  #print .pb{page-break-before:always}
-  #print .box{border:1px solid #000;padding:6pt;margin:4pt 0}
-  #print p{margin:3pt 0}
+  body{background:#fff!important;color:#000}
+  .noprint,header.top,.tabs,.skip{display:none!important}
+  #app,main,#panel{display:none!important}
+  #print{display:block!important}
+  .sheet{font-size:10pt;line-height:1.35}
+  .sheet .sh-page{border:0;border-radius:0;padding:0;margin:0;max-width:none;page-break-after:always;break-after:page}
+  .sheet .sh-page:last-child{page-break-after:auto;break-after:auto}
+  .sheet h1{font-size:17pt;margin:3pt 0 0}.sheet .sh-line{height:20pt}.sheet .sh-t td{height:23pt}.sheet .sh-sec{margin:6pt 0}.sheet h2{font-size:11pt}.sheet .sh-grid{height:130pt!important}.sheet .sh-meta{margin:1pt 0 4pt}
 }
 [hidden]{display:none!important}

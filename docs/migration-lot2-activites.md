@@ -17,3 +17,9 @@ Source : Dossier complet 4 thèmes. Même moteur et même contrat de fiche que l
 ## Contrôles
 `qa/activites.cjs` : 398 assertions (modèles, diagnostics, absence de réponse dans les textes élève). Parcours navigateur et axe WCAG A/AA, clair et sombre, 390 px. Les tableaux défilants sont désormais focalisables (région nommée) sur toutes les fiches.
 Service worker : `pc-v78`.
+
+## Suite (21/10/2026) — fiche A4 et corrigé élève
+- **Fiche imprimable** : aperçu fidèle à l'écran et impression partagent le même HTML/CSS ; A4, deux pages (situation, prévision avec cases à cocher, protocole, tableau, cadre quadrillé ; conclusion, transfert, auto-évaluation, avis du professeur). Boutons « Imprimer » et « Enregistrer en PDF » (même boîte d'impression du navigateur, avec consigne « Enregistrer au format PDF »). Contrôlé : 2 pages pour les 8 activités.
+- **Corrigé élève** : n'apparaît qu'après la conclusion personnelle ET une réponse au transfert. Référence, points à cocher, erreurs fréquentes, zone « ce que j'avais faux / compris » ; reprise dans une rubrique « Après correction » de la fiche remplie.
+- **Limite** : ce corrigé est encore chargé avec la fiche (JS public). Le verrouillage réel exige le branchement au serveur (`/api/activites/:id/corrige`), non fait. Le corrigé professeur (limites, différenciation) reste en mode enseignant.
+- Service worker `pc-v79`.
