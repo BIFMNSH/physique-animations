@@ -85,3 +85,14 @@ assert.ok(sharedCircuit.includes('function update(values)'),'composant circuit p
 assert.ok(modelSrc.includes('window.NohobaCircuit.create'),'ELE-07 utilise le composant réutilisable');
 assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').includes('../assets/shared/conductivite-circuit.js'),'script commun chargé avant ELE-07');
 console.log('Composant électrique : rendu mutualisable et intégration ELE-07 contrôlés statiquement.');
+
+const qualitativeSrc=fs.readFileSync(path.join(root,'assets/shared/conductivite-modele.js'),'utf8');
+const commonCtx={window:{}};vm.createContext(commonCtx);vm.runInContext(qualitativeSrc,commonCtx);
+for(const id of ['cuivre','acier','aluminium'])assert.equal(commonCtx.window.NohobaConductivite.evaluer({id,contact:true,pile:true}).allumee,true,'conducteur '+id);
+for(const id of ['plastique','bois'])assert.equal(commonCtx.window.NohobaConductivite.evaluer({id,contact:true,pile:true}).allumee,false,'isolant '+id);
+assert.equal(commonCtx.window.NohobaConductivite.evaluer({id:'cuivre',contact:false,pile:true}).valide,false,'contact ouvert non valide');
+assert.equal(commonCtx.window.NohobaConductivite.evaluer({id:'cuivre',contact:true,pile:false}).allumee,false,'pile défaillante');
+assert.ok(modelSrc.includes('window.NohobaConductivite.evaluer'),'ELE07 utilise modèle commun');
+assert.ok(fs.readFileSync(path.join(root,'assets/studio/lecons/circuit-electrique.js'),'utf8').includes('window.NohobaConductivite.evaluer'),'Studio utilise modèle commun');
+assert.ok(fs.readFileSync(path.join(root,'lecon/index.html'),'utf8').includes("l === 'circuit-electrique'"),'modèle chargé seulement pour Studio circuit');
+console.log('Mutualisation des règles de conductivité entre Studio et ELE-07 vérifiée.');
