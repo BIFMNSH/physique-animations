@@ -96,3 +96,11 @@ assert.ok(modelSrc.includes('window.NohobaConductivite.evaluer'),'ELE07 utilise 
 assert.ok(fs.readFileSync(path.join(root,'assets/studio/lecons/circuit-electrique.js'),'utf8').includes('window.NohobaConductivite.evaluer'),'Studio utilise modèle commun');
 assert.ok(fs.readFileSync(path.join(root,'lecon/index.html'),'utf8').includes("l === 'circuit-electrique'"),'modèle chargé seulement pour Studio circuit');
 console.log('Mutualisation des règles de conductivité entre Studio et ELE-07 vérifiée.');
+
+assert.equal(ele.theme,'Électricité','thème du programme ivoirien');
+assert.equal(ele.chapitre,'Le circuit électrique','chapitre');
+assert.ok(ele.competenceVisee.includes('conducteurs et isolants'),'compétence explicite');
+assert.equal(ele.objectifsPedagogiques.length,5,'cinq objectifs pédagogiques observables');
+assert.ok(engine.includes("F.competenceVisee"),'encadré pédagogique dans activité');
+assert.ok(engine.includes("compBox || pedagogiePrint"),'encadré pédagogique dans fiche imprimable');
+console.log('ELE-07 : thème, chapitre, compétence et objectifs, écran et impression.');
