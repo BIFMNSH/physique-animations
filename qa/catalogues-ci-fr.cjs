@@ -8,7 +8,7 @@ assert.equal(fr.length,48,'48 entrées France cycle 4');
 assert.equal(new Set(ci.map(x=>x.id)).size,70,'identifiants CI uniques');
 assert.equal(new Set(fr.map(x=>x.id)).size,48,'identifiants France uniques');
 assert.ok(ci.every(x=>x.programme==='CI'&&x.niveau==='6e'&&['conception','disponible'].includes(x.statut)&&x.id.startsWith('NL-CI-6E-')),'catalogue CI séparé');
-assert.deepEqual(ci.filter(x=>x.statut==='disponible').map(x=>x.id),['NL-CI-6E-ELE-07'],'seul pilote disponible');
+assert.equal(ci.filter(x=>x.statut==='disponible').map(x=>x.id).join(','),'NL-CI-6E-ELE-07','seul pilote disponible');
 assert.ok(fr.every(x=>['5e','4e','3e'].includes(x.niveau)),'niveaux du programme français');
 assert.ok(ci.every(x=>!fr.some(y=>y.id===x.id)),'espaces d’identifiants distincts');
 const totals={};for(const x of ci)totals[x.theme]=(totals[x.theme]||0)+1;
