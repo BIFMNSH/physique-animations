@@ -91,7 +91,7 @@
         '<p class="sh-q"><b>Réinvestir mes connaissances :</b> ' + esc(T.q) + '</p>' +
         (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) +
       sec(6, 'Communiquer', '<p class="sh-q"><b>Je présente la démarche :</b> problème, hypothèse, protocole, observations, interprétation et conclusion.</p>' +
-        field('Ce que je retiens de mon investigation :', filled ? st.conclusion : '', 2)) +
+        field('Ce que je retiens de mon investigation :', filled ? st.conclusion : '', 2) + (F.situationEvaluation?'<p class="sh-q"><b>Situation d’évaluation :</b> '+esc(F.situationEvaluation)+'</p>'+field('Ma réponse argumentée :',filled?st.evaluation:'',3):'')) +
       after + evalSec(F, st, filled) +
       '<footer class="sh-foot">NOHOBA-Lab · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
