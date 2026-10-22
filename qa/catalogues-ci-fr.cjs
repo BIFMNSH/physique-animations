@@ -17,3 +17,12 @@ assert.equal(totals['Grandeurs et mesures physiques'],10);
 assert.equal(totals['Air et combustions'],19);
 assert.equal(new Set(ci.map(x=>x.theme+'|'+x.lecon)).size,13);
 console.log('Catalogues vérifiés : 70 CI + 48 FR, 4 thèmes CI, 13 leçons CI.');
+
+const engine=fs.readFileSync(path.join(root,'assets/activites/activite.js'),'utf8');
+const scientific=['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'];
+const labels=engine.match(/var STEPS = \[([^\]]+)\]/);
+assert.ok(labels,'table des six opérations présente');
+for(const word of scientific)assert.ok(labels[1].includes("'"+word+"'"),'opération présente : '+word);
+assert.ok(engine.includes('[sSituation, sPrevision, sManip, sConfront, sBilan, sTrace][view]()'),'six contrôleurs historiques conservés');
+assert.ok(engine.includes("localStorage.setItem(key, JSON.stringify(st))"),'persistance historique conservée');
+console.log('Moteur pédagogique : six opérations scientifiques et contrôleurs historiques préservés.');
