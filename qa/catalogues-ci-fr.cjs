@@ -34,7 +34,7 @@ console.log('Impression : six rubriques scientifiques distinctes vérifiées sta
 const modelSrc=fs.readFileSync(path.join(root,'assets/activites/fiches/NL-CI-6E-ELE-07.js'),'utf8');
 const fnctx={window:{},Activite:{h(){},esc:x=>String(x)}};vm.createContext(fnctx);vm.runInContext(modelSrc,fnctx);
 const ele=fnctx.window.FICHE_CI_ELE07;assert.equal(ele.id,'NL-CI-6E-ELE-07');
-assert.equal(ele.colonnes.length,4);
+assert.equal(ele.colonnes.length,5,'tableau des essais avec observation élève');
 assert.ok(ele.manip&&ele.lignes&&ele.prevision&&ele.prof&&ele.aides);
 assert.ok(ele.protocole.length>=3);
 assert.ok(fs.existsSync(path.join(root,'activites-ci/index.html')));
