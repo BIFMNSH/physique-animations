@@ -60,7 +60,13 @@
     retroaction:'Cite au moins un matériau conducteur et un matériau isolant, et précise les observations utilisées.',
     transfert:{q:'La lampe reste éteinte avec un clou en acier mais l’un des fils est détaché. Peut-on conclure que l’acier est isolant ?',rep:'non',expl:'Non : la connexion ouverte empêche le courant de circuler. Il faut rétablir les contacts avant de tester le matériau.'},
     critere:'Classer correctement les matériaux testés et distinguer une observation d’une interprétation.',
-    essaisMin:2,manip:manip,
+    essaisMin:2,manip:manip,guidage:true,
+    grilleMaitrise:[
+      ['MI','Ne parvient pas à classer les matériaux sur la base d’essais valides.'],
+      ['MF','Classe certains matériaux mais sa justification reste incomplète.'],
+      ['MS','Classe un conducteur et un isolant en s’appuyant sur des observations valides.'],
+      ['TBM','Classe les matériaux, justifie ses choix et explique l’influence d’un contact défectueux.']
+    ],
     peutConfronter:st=>{
       const valides=st.essais.filter(e=>e.contact&&e.pile&&typeof e.observation==='string'&&e.observation.trim().length>=10);
       return valides.length>=2 && valides.some(e=>e.allumee) && valides.some(e=>!e.allumee);
