@@ -145,6 +145,7 @@
   /* ---- application ---- */
   function run(F, root) {
     var KEY = 'pc-act-' + F.id, st = load(KEY), profMode = false, view = st.step || 0, ctxNx = null;
+    if (!st.guidage) st.guidage = 'guide';
     function ctx() {
       return { st: function () { return st; }, key: KEY, F: F, h: h, $: $, num: num, esc: esc, tableHTML: tableHTML,
         save: function () { save(KEY, st); }, tabs: function () { drawTabs(); },
@@ -177,11 +178,21 @@
     function next(label, to, parent) { var b = h('button', { class: 'btn primary', type: 'button', text: label }, parent); b.onclick = function () { go(to); panel.focus(); }; return b; }
 
     function sSituation() {
+      if (F.guidage) {
+        var gcard = h('div', { class:'card' }, panel);
+        h('h3', { text:'Mon mode d’investigation' }, gcard);
+        var glabel = h('label', { for:'nl-guide', text:'Choisir le mode :' }, gcard);
+        var gs = h('select', { id:'nl-guide' }, gcard, '<option value="guide">Guidé — consignes et aides</option><option value="autonome">Autonome — je choisis ma stratégie</option>');
+        gs.value = st.guidage;
+        gs.onchange = function () { st.guidage = gs.value; save(KEY, st); };
+        h('p', { text:'Tu peux changer de mode sans perdre tes résultats.' }, gcard);
+      }
       var cd = cadreHTML(F.pedagogie, F.chapitre, F.id); if (cd) panel.insertAdjacentHTML('beforeend', cd);
       h('h2', { text: 'Problématiser · Situation-problème' }, panel);
       h('p', { text: F.situation }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
+      if(F.guidage) h('p', {text:'Mode '+(st.guidage==='autonome'?'autonome : prépare ton protocole.':'guidé : suis les consignes.')},panel);
       var d = h('div', { style: 'text-align:center' }, panel); if (F.illustration) F.illustration(d);
       var r = h('div', { class: 'row' }, panel);
       next('Commencer : ma prévision ▸', 1, r);
@@ -222,6 +233,7 @@
     function sManip() {
       h('h2', { text: 'Expérimenter / Investiguer' }, panel);
       h('p', {}, panel, '<b>Variable modifiée :</b> ' + esc(F.variable) + ' · <b>Maintenu :</b> ' + esc(F.maintenu));
+      if (F.guidage) h('p',{text:st.guidage==='autonome'?'Choisis les essais nécessaires pour vérifier ton hypothèse.':'Suis le protocole et note chaque observation avant de comparer.'},panel);
       F.manip(panel, ctx());
       var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !readyForAnalysis(); ctxNx = nx;
     }
@@ -261,6 +273,7 @@
       b.onclick = function () { if (t.value.trim().length < 5) { msg.hidden = false; msg.textContent = 'Écris ta conclusion en une phrase complète, avec au moins une valeur mesurée.'; return; } st.conclusion = t.value.trim(); save(KEY, st); drawTabs(); draw(); };
       if (!st.conclusion) return;
       h('div', { class: 'msg ok' }, panel, '<b>Synthèse scientifique.</b> ' + esc(F.synthese));
+      if (F.situationEvaluation) { h('h3',{text:'Situation d’évaluation'},panel);h('p',{text:F.situationEvaluation},panel);h('label',{for:'nl-eval',text:'Ma réponse argumentée :'},panel);var ev=h('textarea',{id:'nl-eval'},panel);ev.value=st.evaluation||'';var eb=h('button',{type:'button',class:'btn',text:'Enregistrer ma réponse'},panel);eb.onclick=function(){if(ev.value.trim().length<15)return;st.evaluation=ev.value.trim();save(KEY,st);}; }
       h('h3', { text: 'Transfert' }, panel); h('p', { text: F.transfert.q }, panel);
       var tr = st.transfert || {}, T = F.transfert, isNum = T.type === 'nombre';
       var f = h('fieldset', { style: 'border:0;padding:0' }, panel), inp = null;
@@ -307,6 +320,7 @@
         '<p><b>Essais :</b> ' + st.essais.map(function(e){ return esc(F.resume(e)); }).join(' · ') + ' <i>(données simulées)</i></p>' +
         '<p><b>Verdict :</b> ' + esc(st.confront.verdict) + ' — ' + esc(st.confront.preuve) + '</p>' +
         '<p><b>Ma conclusion :</b> ' + esc(st.conclusion) + '</p>' +
+        (F.situationEvaluation?'<p><b>Situation d’évaluation :</b> '+esc(st.evaluation||'À compléter')+'</p>':'') +
         '<p><b>Aides utilisées :</b> ' + st.aides + '</p>' +
         '<p style="color:var(--mist);font-size:15px">Critère de réussite : ' + esc(F.critere) + '. Cette trace garde ta propre conclusion ; elle ne contient pas le corrigé. Ton travail est enregistré sur cet appareil seulement.</p>');
       if (F.pedagogie) {
@@ -316,6 +330,7 @@
         var sv2 = h('button', { class: 'btn', type: 'button', text: 'Enregistrer mon auto-évaluation' }, ce), ok2 = h('span', { 'aria-live': 'polite', style: 'margin-left:10px' }, ce);
         sv2.onclick = function () { var r = {}; F.pedagogie.objectifs.forEach(function (o) { r[o.id] = panel.querySelector('#ae_' + o.id).value; }); st.autoeval = r; save(KEY, st); ok2.textContent = 'Enregistrée dans ma fiche.'; };
       }
+      if(F.grilleMaitrise){var gc=h('div',{class:'card'},panel);h('h3',{text:'Grille de maîtrise (repères pour l’enseignant)'},gc);h('div',{},gc,'<table class="t"><thead><tr><th>Niveau</th><th>Indicateur observable</th></tr></thead><tbody>'+F.grilleMaitrise.map(function(x){return '<tr><th>'+esc(x[0])+'</th><td>'+esc(x[1])+'</td></tr>';}).join('')+'</tbody></table>');}
       sheetCard(F, st, panel, ['remplie', 'vierge']);
       var pf = h('div', { class: 'card' }, panel); h('h3', { text: 'Espace enseignant' }, pf);
       if (!profMode) {
