@@ -83,11 +83,16 @@
     var ac = st.autocorr, after = '';
     if (filled && ac && (ac.note || (ac.coches && ac.coches.length))) after = sec('★', 'Après correction', '<p class="sh-q"><b>Points que j’ai vérifiés :</b> ' + (ac.coches || []).map(function (k) { return esc(F.prof.attendus[k] || ''); }).join(' ; ') + '</p>' + field('Ce que j’avais faux ou oublié, et ce que j’ai compris :', ac.note, 2));
     var p2 = '<div class="sh-page">' + head.split('<h1>')[0] + '<h1 class="sh-h1b">' + esc(F.titre) + ' <small>(suite)</small></h1>' +
-      sec(4, 'Analyser et interpréter, puis conclure', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) + field('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
+      sec(4, 'Analyser et interpréter', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) +
+        field('Résultats expérimentaux (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
         '<p class="sh-q"><b>Ma prévision est :</b> ' + (filled && cf ? esc(verd[cf.verdict] || '') : '☐ confirmée &nbsp; ☐ infirmée &nbsp; ☐ partiellement confirmée &nbsp; ☐ non testée de façon concluante') + '</p>' +
-        field('Je le justifie avec :', cf && cf.preuve, 2) + field('Ma conclusion personnelle :', st.conclusion, 3)) +
-      sec(5, 'Réinvestir les connaissances', '<p>' + esc(T.q) + '</p>' + (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) + after +
-      evalSec(F, st, filled) +
+        field('Je confronte et interprète les résultats :', cf && cf.preuve, 2) + field('Je précise ce que je modifie dans mon hypothèse :', cf && cf.modif, 2)) +
+      sec(5, 'Conclure', field('Ma conclusion personnelle argumentée :', st.conclusion, 3) +
+        '<p class="sh-q"><b>Réinvestir mes connaissances :</b> ' + esc(T.q) + '</p>' +
+        (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) +
+      sec(6, 'Communiquer', '<p class="sh-q"><b>Je présente la démarche :</b> problème, hypothèse, protocole, observations, interprétation et conclusion.</p>' +
+        field('Ce que je retiens de mon investigation :', filled ? st.conclusion : '', 2)) +
+      after + evalSec(F, st, filled) +
       '<footer class="sh-foot">NOHOBA-Lab · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
     if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
