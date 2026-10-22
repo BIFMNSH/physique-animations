@@ -64,3 +64,11 @@ assert.ok(engine.includes("st.guidage = gs.value"),'choix de guidage sauvegardé
 assert.ok(engine.includes("st.evaluation=ev.value.trim()"),'production d’évaluation sauvegardée');
 assert.ok(engine.includes("field('Ma réponse argumentée :',filled?st.evaluation:''"),'trace imprimable de l’évaluation');
 console.log('ELE-07 : modes différenciés, évaluation et indicateurs contrôlés.');
+
+const hubHTML=fs.readFileSync(path.join(root,'parcours-ci/index.html'),'utf8');
+assert.ok(hubHTML.includes('window.PROGRAMME'),'hub relié aux leçons 6e existantes');
+assert.ok(hubHTML.includes('NL-CI-6E-ELE-07'),'hub relié au pilote ELE-07');
+assert.ok(hubHTML.includes("../lecon/?l='+slug+'#sim"),'lien vers simulateur Studio existant');
+assert.ok(fs.readFileSync(path.join(root,'assets/studio/hub.js'),'utf8').includes('../parcours-ci/?l=circuit-electrique'),'hub accessible depuis accueil 6e');
+assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').includes('Retour à la leçon'),'retour depuis la fiche investigation');
+console.log('Hub de leçon : navigation 6e, Studio et ELE-07 contrôlée statiquement.');
