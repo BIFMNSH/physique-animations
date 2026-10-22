@@ -46,7 +46,16 @@
   }
   window.FICHE_CI_ELE07={
     id:'NL-CI-6E-ELE-07',version:'1.0',modele:'conductivite-qualitative-v1',
-    titre:'Quels matériaux laissent passer le courant électrique ?',niveau:'6e',chapitre:'Le circuit électrique',
+    titre:'Quels matériaux laissent passer le courant électrique ?',niveau:'6e',
+    theme:'Électricité',chapitre:'Le circuit électrique',
+    competenceVisee:'Identifier expérimentalement les matériaux conducteurs et isolants dans un circuit électrique simple, à partir d’observations réalisées dans des conditions contrôlées.',
+    objectifsPedagogiques:[
+      'Formuler une hypothèse sur le comportement électrique de différents matériaux.',
+      'Réaliser plusieurs essais en maintenant la pile et les connexions fonctionnelles.',
+      'Observer et consigner l’état de la lampe pour chaque matériau testé.',
+      'Comparer les résultats, distinguer conducteurs et isolants et justifier une conclusion.',
+      'Expliquer pourquoi un contact défectueux ne permet pas de classer un matériau.'
+    ],
     situationEvaluation:'Awa doit réparer une lampe de poche. Elle hésite entre un fil de cuivre et un morceau de plastique pour rétablir la connexion. Quel matériau choisir et pourquoi ?',
     objectif:'Distinguer expérimentalement conducteurs et isolants dans un circuit simple.',
     objectifEleve:'Identifier les matériaux qui permettent le passage du courant dans des conditions contrôlées.',
