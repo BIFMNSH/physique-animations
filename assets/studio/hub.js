@@ -3,6 +3,7 @@
   var S = window.Studio, P = S.progress, LV = document.documentElement.getAttribute('data-level') || '4e', PRG = window.PROGRAMME[LV] || [];
   var TH = PRG.map(function (t) { return { nm: t.nm, col: t.col, on: t.on, ic: t.ic, les: t.les.map(function (l) { return l.ready ? { t: l.t, id: LV + '-' + l.slug, href: '../lecon/?l=' + l.slug } : l.t; }) }; });
   function steps(id) { var p = P[id] || {}; return ['resume', 'sim', 'defi', 'quiz'].filter(function (k) { return p[k]; }).length; }
+  if(LV==='6e'){var hub=document.createElement('div');hub.style.cssText='margin:16px 0;padding:18px;border:1px solid var(--line,#536178);border-radius:16px;background:var(--card,#13243d)';hub.innerHTML='<b>Explorer une leçon, sa simulation et les activités associées</b><p style="margin:8px 0 12px">Un même espace pour comprendre et investiguer, en conservant les leçons Studio existantes.</p><a class="btn primary" href="../parcours-ci/?l=circuit-electrique">Ouvrir le hub pédagogique 6e →</a>';var themes=document.getElementById('themes');themes.parentNode.insertBefore(hub,themes);}
   var box = document.getElementById('themes');
   box.innerHTML = TH.map(function (t) {
     var avail = t.les.filter(function (l) { return typeof l === 'object'; }), done = avail.reduce(function (a, l) { return a + steps(l.id); }, 0), max = t.les.length * 4;
