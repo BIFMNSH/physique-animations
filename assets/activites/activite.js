@@ -66,7 +66,7 @@
     for (i = 0; i < nr; i++) rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>';
     var tag = prof ? 'Version professeur' : filled ? 'Fiche remplie' : 'Fiche vierge';
     var head = '<header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : 'Cycle 4 France') + '</span><span class="sh-tag">' + tag + '</span></header>' +
-      '<h1>' + esc(F.titre) + '</h1><p class="sh-meta">' + esc(F.id) + ' · ' + esc(F.niveau) + ' · ' + esc(F.chapitre) + ' · version ' + esc(F.version) + '</p>';
+      '<h1>' + esc(F.titre) + '</h1><p class="sh-meta">' + esc(F.niveau) + ' · ' + esc(F.chapitre) + ' · version ' + esc(F.version) + '</p>';
     var pedagogiePrint = F.theme || F.competenceVisee || F.objectifsPedagogiques
       ? '<div class="sh-q">' + (F.theme ? '<p><b>Thème :</b> '+esc(F.theme)+'</p>' : '')
       + (F.chapitre ? '<p><b>Chapitre :</b> '+esc(F.chapitre)+'</p>' : '')

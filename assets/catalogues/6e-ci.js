@@ -56,6 +56,17 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "type": "investigation"
   },
   {
+    "id": "NL-CI-6E-ELE-17",
+    "sourceId": "ELE-17",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Électricité",
+    "lecon": "Circuit électrique",
+    "titre": "Découvrir la notion de courant électrique",
+    "statut": "conception",
+    "type": "investigation"
+  },
+  {
     "id": "NL-CI-6E-ELE-06",
     "sourceId": "ELE-06",
     "programme": "CI",
@@ -250,6 +261,17 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Montrer l'existence de l'air",
+    "statut": "conception",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-MAT-26",
+    "sourceId": "MAT-26",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Propriétés physiques de la matière",
+    "lecon": "Gaz",
+    "titre": "Citer quelques gaz de la vie courante",
     "statut": "conception",
     "type": "investigation"
   },
@@ -635,6 +657,17 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Définir la réaction chimique",
+    "statut": "conception",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-CHI-20",
+    "sourceId": "CHI-20",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Air et combustions",
+    "lecon": "Combustions de solides et liquides",
+    "titre": "Écrire l’équation littérale d’une combustion",
     "statut": "conception",
     "type": "investigation"
   },

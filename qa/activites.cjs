@@ -184,7 +184,7 @@ ok(!/\b\d+([,.]\d+)? ?(g|cm|mL|ms|m\/s|W|Wh)\b/.test(JSON.stringify(VZ)), 'visé
 // notes enseignant : hors des fiches publiques, présentes dans les corrigés privés du serveur
 const fs2 = require('fs');
 A.filter(a => a.statut === 'disponible').forEach(a => {
-  const F = ctx.window['FICHE_' + a.id.slice(-3)], priv = JSON.parse(fs2.readFileSync('server/private/activites/' + a.id + '.json', 'utf8'));
+  const F = ctx.window['FICHE_' + a.id.slice(-3)], priv = JSON.parse(fs2.readFileSync(path.join(root, 'server/private/activites/' + a.id + '.json'), 'utf8'));
   ok(!('limites' in F.prof) && !('differenciation' in F.prof) && F.prof.reference && F.prof.attendus.length && F.prof.erreurs.length, a.id + ' : fiche publique sans notes enseignant');
   ok(priv.prof.limites.length > 30 && priv.prof.differenciation.length > 20, a.id + ' : notes enseignant dans le corrigé privé');
 });
