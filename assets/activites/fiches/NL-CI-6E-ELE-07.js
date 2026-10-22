@@ -24,6 +24,8 @@
     const svgHost=h('div',{style:'max-width:560px;margin:16px auto'},section);
     const out=h('p',{'aria-live':'polite'},section);
     const record=h('button',{type:'button',class:'btn primary',text:'Enregistrer mon observation'},section);
+    const observationLabel=h('label',{for:'ci-observation',text:'Mon observation (écris ce que tu vois, sans conclure) :'},section);
+    const observation=h('textarea',{id:'ci-observation',rows:'2',placeholder:'J’observe que la lampe…'},section);
     const msg=h('p',{class:'msg','aria-live':'polite'},section);
     const results=h('div',{class:'card'},panel);
     h('h3',{text:'Mes observations'},results);
@@ -36,30 +38,31 @@
     }
     function tablePaint(){table.innerHTML=X.tableHTML(window.FICHE_CI_ELE07,window.FICHE_CI_ELE07.lignes(st),'Observations simulées : vérifier les conditions de chaque essai.');}
     sel.onchange=visual;section.querySelector('#ci-contact').onchange=visual;section.querySelector('#ci-pile').onchange=visual;
-    record.onclick=function(){const m=MAT.find(x=>x.id===sel.value),contact=section.querySelector('#ci-contact').checked,pile=section.querySelector('#ci-pile').checked;X.addEssai({materiau:m.nom,id:m.id,contact:contact,pile:pile,allumee:resultat(m.id,contact,pile)});tablePaint();msg.textContent='Observation enregistrée : '+m.nom+'.';};
+    record.onclick=function(){const m=MAT.find(x=>x.id===sel.value),contact=section.querySelector('#ci-contact').checked,pile=section.querySelector('#ci-pile').checked;const note=observation.value.trim();if(note.length<10){msg.textContent='Décris ton observation en une phrase avant de l’enregistrer.';observation.focus();return;}X.addEssai({materiau:m.nom,id:m.id,contact:contact,pile:pile,allumee:resultat(m.id,contact,pile),observation:note});tablePaint();msg.textContent='Observation enregistrée : '+m.nom+'.';observation.value='';};
     h('button',{type:'button',class:'btn',text:'Besoin d’une aide ?'},panel).onclick=function(){msg.textContent=X.aide();};
     visual();tablePaint();
   }
   window.FICHE_CI_ELE07={
     id:'NL-CI-6E-ELE-07',version:'1.0',modele:'conductivite-qualitative-v1',
     titre:'Quels matériaux laissent passer le courant électrique ?',niveau:'6e',chapitre:'Le circuit électrique',
+    situationEvaluation:'Awa doit réparer une lampe de poche. Elle hésite entre un fil de cuivre et un morceau de plastique pour rétablir la connexion. Quel matériau choisir et pourquoi ?',
     objectif:'Distinguer expérimentalement conducteurs et isolants dans un circuit simple.',
     objectifEleve:'Identifier les matériaux qui permettent le passage du courant dans des conditions contrôlées.',
-    situation:'Une lampe doit fonctionner avec plusieurs objets disponibles : cuivre, acier, aluminium, plastique et bois sec. Lesquels peuvent compléter un circuit électrique et faire briller la lampe ?',
+    situation:'La lampe de poche d’Awa ne fonctionne plus parce qu’un fil de connexion est coupé. Elle dispose de cuivre, d’acier, d’aluminium, de plastique et de bois sec. Comment déterminer quels matériaux peuvent rétablir la connexion électrique ?',
     materiel:'Pile fictive 4,5 V, lampe, fils, échantillons de cinq matériaux, connexions virtuelles.',
-    prevision:{consigne:'Prévois quels types de matériaux permettront à la lampe de s’allumer. Justifie ta réponse.',choix:[['metaux','Les trois métaux devraient permettre l’allumage'],['tous','Tous les matériaux devraient permettre l’allumage'],['aucun','Aucun matériau ne devrait permettre l’allumage']]},
+    prevision:{consigne:'Avant les essais, choisis les matériaux qui devraient permettre à la lampe de s’allumer. Justifie ton hypothèse.',choix:[['metaux','Cuivre, acier et aluminium'],['tous','Tous les matériaux proposés'],['aucun','Aucun matériau proposé'],['isolants','Plastique et bois sec']]},
     protocole:['S’assurer que la pile est fonctionnelle et que les connexions sont correctes.','Insérer un matériau et noter l’état de la lampe.','Recommencer avec les autres matériaux sans changer le reste du circuit.','Pour comprendre une lampe éteinte, vérifier la pile et les connexions.'],
     variable:'Nature du matériau inséré',maintenu:'Même lampe, même pile fonctionnelle, connexions correctes',
-    colonnes:['Matériau','Contacts','Pile','Lampe'],lignesVides:5,
-    lignes:st=>st.essais.map(e=>[e.materiau,e.contact?'Corrects':'Ouverts',e.pile?'Fonctionnelle':'Défaillante',e.allumee?'Allumée':'Éteinte']),
+    colonnes:['Matériau','Contacts','Pile','Lampe','Mon observation'],lignesVides:5,
+    lignes:st=>st.essais.map(e=>[e.materiau,e.contact?'Corrects':'Ouverts',e.pile?'Fonctionnelle':'Défaillante',e.allumee?'Allumée':'Éteinte',e.observation||'—']),
     resume:e=>e.materiau+' : lampe '+(e.allumee?'allumée':'éteinte')+(e.contact&&e.pile?' (montage contrôlé)':' (montage non valide)'),
-    confrontation:'Compare tes observations aux prévisions. Appuie ton interprétation uniquement sur les essais réalisés avec une pile et des connexions fonctionnelles.',
+    confrontation:'1. Quels matériaux allument la lampe lorsque les connexions et la pile fonctionnent ? 2. Quels matériaux ne l’allument pas dans les mêmes conditions ? 3. Quel point commun remarques-tu parmi les matériaux conducteurs ? 4. Si la pile est défaillante, peut-on classer le matériau ? Compare ensuite ces observations à ton hypothèse initiale.',
     retroaction:'Cite au moins un matériau conducteur et un matériau isolant, et précise les observations utilisées.',
     transfert:{q:'La lampe reste éteinte avec un clou en acier mais l’un des fils est détaché. Peut-on conclure que l’acier est isolant ?',rep:'non',expl:'Non : la connexion ouverte empêche le courant de circuler. Il faut rétablir les contacts avant de tester le matériau.'},
     critere:'Classer correctement les matériaux testés et distinguer une observation d’une interprétation.',
     essaisMin:2,manip:manip,
     peutConfronter:st=>{
-      const valides=st.essais.filter(e=>e.contact&&e.pile);
+      const valides=st.essais.filter(e=>e.contact&&e.pile&&typeof e.observation==='string'&&e.observation.trim().length>=10);
       return valides.length>=2 && valides.some(e=>e.allumee) && valides.some(e=>!e.allumee);
     },
     aides:['Commence par vérifier la pile et les connexions avant de classer un matériau.','Une lampe allumée avec un matériau inséré indique que celui-ci laisse passer un courant suffisant.','Si la lampe est éteinte, vérifie d’abord le circuit ; compare les matériaux dans les mêmes conditions.'],
