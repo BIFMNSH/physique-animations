@@ -26,3 +26,6 @@ for(const word of scientific)assert.ok(labels[1].includes("'"+word+"'"),'opérat
 assert.ok(engine.includes('[sSituation, sPrevision, sManip, sConfront, sBilan, sTrace][view]()'),'six contrôleurs historiques conservés');
 assert.ok(engine.includes("localStorage.setItem(key, JSON.stringify(st))"),'persistance historique conservée');
 console.log('Moteur pédagogique : six opérations scientifiques et contrôleurs historiques préservés.');
+
+for(const [index,title] of scientific.entries())assert.ok(engine.includes("sec("+(index+1)+", '"+title+"'"),'rubrique imprimée '+(index+1)+' : '+title);
+console.log('Impression : six rubriques scientifiques distinctes vérifiées statiquement.');
