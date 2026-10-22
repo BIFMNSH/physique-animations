@@ -65,7 +65,7 @@
     var L = filled ? F.lignes(st) : [], nr = Math.max(L.length, F.lignesVides || 3), rows = '', i;
     for (i = 0; i < nr; i++) rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>';
     var tag = prof ? 'Version professeur' : filled ? 'Fiche remplie' : 'Fiche vierge';
-    var head = '<header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">' + tag + '</span></header>' +
+    var head = '<header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : 'Cycle 4 France') + '</span><span class="sh-tag">' + tag + '</span></header>' +
       '<h1>' + esc(F.titre) + '</h1><p class="sh-meta">' + esc(F.id) + ' · ' + esc(F.niveau) + ' · ' + esc(F.chapitre) + ' · version ' + esc(F.version) + '</p>';
     var ident = '<div class="sh-ident"><span>Nom : <i></i></span><span>Classe : <i></i></span><span>Date : <i></i></span></div>';
     var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
@@ -95,7 +95,7 @@
       after + evalSec(F, st, filled) +
       '<footer class="sh-foot">NOHOBA-Lab · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
-    if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · Activités du cycle 4</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
+    if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : 'Cycle 4 France') + '</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
       '<section class="sh-sec sh-ref"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></section>' +
       sec('▸', 'Attendus', '<ul>' + F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') + sec('▸', 'Erreurs usuelles', '<ul>' + F.prof.erreurs.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') +
       profPed(F) + privSecs(F, sec) + '</div>';
