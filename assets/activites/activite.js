@@ -148,12 +148,13 @@
     function ctx() {
       return { st: function () { return st; }, key: KEY, F: F, h: h, $: $, num: num, esc: esc, tableHTML: tableHTML,
         save: function () { save(KEY, st); }, tabs: function () { drawTabs(); },
-        addEssai: function (e) { e.ts = Date.now(); e.statut = 'simulé'; e.modele = F.modele; st.essais.push(e); save(KEY, st); drawTabs(); if (ctxNx) ctxNx.disabled = false; },
+        addEssai: function (e) { e.ts = Date.now(); e.statut = 'simulé'; e.modele = F.modele; st.essais.push(e); save(KEY, st); drawTabs(); if (ctxNx) ctxNx.disabled = !readyForAnalysis(); },
         aide: function () { var k = Math.min(st.aides, F.aides.length - 1); st.aides++; save(KEY, st); return F.aides[k]; } };
     }
+    function readyForAnalysis() { return F.peutConfronter ? F.peutConfronter(st) : st.essais.length > 0; }
     function reached() { // plus grand écran accessible
       if (!st.prevision) return 1;
-      if (!st.essais.length) return 2;
+      if (!readyForAnalysis()) return 2;
       if (!st.confront) return 3;
       if (!st.conclusion) return 4;
       return 5;
@@ -222,7 +223,7 @@
       h('h2', { text: 'Expérimenter / Investiguer' }, panel);
       h('p', {}, panel, '<b>Variable modifiée :</b> ' + esc(F.variable) + ' · <b>Maintenu :</b> ' + esc(F.maintenu));
       F.manip(panel, ctx());
-      var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !st.essais.length; ctxNx = nx;
+      var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !readyForAnalysis(); ctxNx = nx;
     }
     function sConfront() {
       h('h2', { text: 'Analyser et interpréter' }, panel);
@@ -303,7 +304,7 @@
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
       h('div', { class: 'card' }, panel,
         '<p><b>Prévision initiale :</b> ' + esc(ch[1]) + (pv.initiale.nombre ? ' (' + esc(pv.initiale.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — ' + esc(pv.initiale.raison) + '</p>' +
-        '<p><b>Essais :</b> ' + st.essais.map(F.resume).join(' · ') + ' <i>(données simulées)</i></p>' +
+        '<p><b>Essais :</b> ' + st.essais.map(function(e){ return esc(F.resume(e)); }).join(' · ') + ' <i>(données simulées)</i></p>' +
         '<p><b>Verdict :</b> ' + esc(st.confront.verdict) + ' — ' + esc(st.confront.preuve) + '</p>' +
         '<p><b>Ma conclusion :</b> ' + esc(st.conclusion) + '</p>' +
         '<p><b>Aides utilisées :</b> ' + st.aides + '</p>' +
