@@ -76,7 +76,7 @@
     var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
       '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
     var compBox = cadreHTML(F.pedagogie, F.chapitre, F.id);
-    var p1 = '<div class="sh-page">' + head + ident + compBox +
+    var p1 = '<div class="sh-page">' + head + ident + (compBox || pedagogiePrint) +
       sec(1, 'Problématiser', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
       sec(2, 'Émettre une hypothèse', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
       sec(3, 'Expérimenter / Investiguer', '<ol class="sh-prot">' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p class="sh-var"><b>Je fais varier :</b> ' + esc(F.variable) + '. <b>Je garde identique :</b> ' + esc(F.maintenu) + '.</p>' +
