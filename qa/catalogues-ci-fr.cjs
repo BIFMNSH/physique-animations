@@ -78,3 +78,10 @@ assert.ok(hubHTML.includes("document.createElement('optgroup')"),'sélecteur de 
 assert.ok(hubHTML.includes('prefers-reduced-motion'),'adaptation accessibilité animations');
 assert.ok(hubHTML.includes('max-width:750px'),'présentation mobile prévue');
 console.log('Ergonomie hub : navigation, regroupement, mobile et mouvements réduits couverts.');
+
+const sharedCircuit=fs.readFileSync(path.join(root,'assets/shared/conductivite-circuit.js'),'utf8');
+assert.ok(sharedCircuit.includes('window.NohobaCircuit'),'composant circuit commun exporté');
+assert.ok(sharedCircuit.includes('function update(values)'),'composant circuit pilotable par l’état expérimental');
+assert.ok(modelSrc.includes('window.NohobaCircuit.create'),'ELE-07 utilise le composant réutilisable');
+assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').includes('../assets/shared/conductivite-circuit.js'),'script commun chargé avant ELE-07');
+console.log('Composant électrique : rendu mutualisable et intégration ELE-07 contrôlés statiquement.');
