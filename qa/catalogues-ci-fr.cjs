@@ -55,3 +55,12 @@ assert.equal(ele.peutConfronter({essais:[valide('cuivre',true,true,true,''),vali
 assert.equal(ele.colonnes.length,5,'colonne observation élève');
 assert.ok(ele.situation.includes('Awa'),'situation contextualisée');
 console.log('ELE-07 : traces rédigées et problème contextualisé contrôlés.');
+
+assert.equal(ele.guidage,true,'deux modes prévus');
+assert.equal(ele.grilleMaitrise.length,4,'quatre niveaux de maîtrise');
+assert.equal(ele.grilleMaitrise.map(x=>x[0]).join(','),'MI,MF,MS,TBM','niveaux MI/MF/MS/TBM');
+assert.ok(ele.situationEvaluation.includes('Awa'),'évaluation contextualisée');
+assert.ok(engine.includes("st.guidage = gs.value"),'choix de guidage sauvegardé');
+assert.ok(engine.includes("st.evaluation=ev.value.trim()"),'production d’évaluation sauvegardée');
+assert.ok(engine.includes("field('Ma réponse argumentée :',filled?st.evaluation:''"),'trace imprimable de l’évaluation');
+console.log('ELE-07 : modes différenciés, évaluation et indicateurs contrôlés.');
