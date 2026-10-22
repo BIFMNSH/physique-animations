@@ -38,7 +38,8 @@
   var l = (/[?&]l=([a-z0-9-]+)/.exec(location.search) || [])[1] || 'tension-alternative', ok = null, lv0 = '4e';
   Object.keys(window.PROGRAMME).forEach(function (lv) { window.PROGRAMME[lv].forEach(function (th) { th.les.forEach(function (x) { if (x.slug === l && x.ready) { ok = x; lv0 = lv; } }); }); });
   if (!ok) { document.body.innerHTML = '<p style="padding:40px;font-size:20px;font-family:sans-serif">Cette leçon arrive bientôt. <a href="../' + lv0 + '/">Retour au parcours</a></p>'; return; }
-  var files = (ok.kit ? [].concat(ok.kit).map(function (k) { return '../assets/studio/kits/' + k + '.js'; }) : []).concat('../assets/studio/lecons/' + l + '.js');
+  var shared = l === 'circuit-electrique' ? ['../assets/shared/conductivite-modele.js'] : [];
+  var files = shared.concat(ok.kit ? [].concat(ok.kit).map(function (k) { return '../assets/studio/kits/' + k + '.js'; }) : []).concat('../assets/studio/lecons/' + l + '.js');
   (function next(i) {
     if (i >= files.length) return;
     var sc = document.createElement('script'); sc.src = files[i]; sc.onload = function () { next(i + 1); };
