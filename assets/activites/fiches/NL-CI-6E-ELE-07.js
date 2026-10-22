@@ -11,7 +11,7 @@
     {id:'plastique',nom:'Plastique',conducteur:false,couleur:'#6bb6e7'},
     {id:'bois',nom:'Bois sec',conducteur:false,couleur:'#b38b56'}
   ];
-  function resultat(id,contact,pile){const m=MAT.find(x=>x.id===id);return !!(m&&m.conducteur&&contact&&pile);}
+  function resultat(id,contact,pile){return window.NohobaConductivite.evaluer({id:id,contact:contact,pile:pile}).allumee;}
   function manip(panel,X){
     const st=X.st(),section=h('div',{class:'card'},panel);
     h('h3',{text:'Banc d’essai · pile de 4,5 V et lampe'},section);
