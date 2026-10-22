@@ -12,7 +12,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function num(x, d) { return Number(x).toFixed(d == null ? 1 : d).replace('.', ','); }
   function hhmm(ts) { var d = new Date(ts); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
-  var STEPS = ['Situation', 'Prévision', 'Manipulation', 'Confrontation', 'Bilan', 'Trace'];
+  var STEPS = ['Problématiser', 'Émettre une hypothèse', 'Expérimenter / Investiguer', 'Analyser et interpréter', 'Conclure', 'Communiquer'];
 
   function load(key) { try { var s = JSON.parse(localStorage.getItem(key)); if (s && s.v === 1) return s; } catch (e) {} return { v: 1, prevision: null, essais: [], confront: null, conclusion: '', transfert: null, aides: 0, step: 0 }; }
   function save(key, st) { try { localStorage.setItem(key, JSON.stringify(st)); } catch (e) {} }
@@ -72,9 +72,9 @@
       '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
     var compBox = cadreHTML(F.pedagogie, F.chapitre, F.id);
     var p1 = '<div class="sh-page">' + head + ident + compBox +
-      sec(1, 'Situation', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
-      sec(2, 'Je prévois', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
-      sec(3, 'Je manipule et je mesure', '<ol class="sh-prot">' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p class="sh-var"><b>Je fais varier :</b> ' + esc(F.variable) + '. <b>Je garde identique :</b> ' + esc(F.maintenu) + '.</p>' +
+      sec(1, 'Problématiser', '<p>' + esc(F.situation) + '</p><p class="sh-mat"><b>Matériel :</b> ' + esc(F.materiel) + '</p>') +
+      sec(2, 'Émettre une hypothèse', '<p>' + esc(F.prevision.consigne) + '</p>' + prev) +
+      sec(3, 'Expérimenter / Investiguer', '<ol class="sh-prot">' + F.protocole.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol><p class="sh-var"><b>Je fais varier :</b> ' + esc(F.variable) + '. <b>Je garde identique :</b> ' + esc(F.maintenu) + '.</p>' +
         '<table class="sh-t"><thead><tr>' + F.colonnes.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table>' + (filled && st.essais.length ? '<p class="sh-note">Données simulées (modèle ' + esc(F.modele) + ').</p>' : '') +
         (F.extraPrint ? '<p class="sh-q"><b>' + esc(F.extraPrint.titre) + ' :</b> ' + esc(F.extraPrint.consigne) + '</p><div class="sh-grid" style="height:' + (F.extraPrint.hauteur || 160) + 'px"></div>' : '')) +
       '</div>';
@@ -83,10 +83,10 @@
     var ac = st.autocorr, after = '';
     if (filled && ac && (ac.note || (ac.coches && ac.coches.length))) after = sec('★', 'Après correction', '<p class="sh-q"><b>Points que j’ai vérifiés :</b> ' + (ac.coches || []).map(function (k) { return esc(F.prof.attendus[k] || ''); }).join(' ; ') + '</p>' + field('Ce que j’avais faux ou oublié, et ce que j’ai compris :', ac.note, 2));
     var p2 = '<div class="sh-page">' + head.split('<h1>')[0] + '<h1 class="sh-h1b">' + esc(F.titre) + ' <small>(suite)</small></h1>' +
-      sec(4, 'Je conclus', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) + field('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
+      sec(4, 'Analyser et interpréter, puis conclure', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) + field('Mon résultat précis (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
         '<p class="sh-q"><b>Ma prévision est :</b> ' + (filled && cf ? esc(verd[cf.verdict] || '') : '☐ confirmée &nbsp; ☐ infirmée &nbsp; ☐ partiellement confirmée &nbsp; ☐ non testée de façon concluante') + '</p>' +
         field('Je le justifie avec :', cf && cf.preuve, 2) + field('Ma conclusion personnelle :', st.conclusion, 3)) +
-      sec(5, 'Je transfère', '<p>' + esc(T.q) + '</p>' + (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) + after +
+      sec(5, 'Réinvestir les connaissances', '<p>' + esc(T.q) + '</p>' + (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) + after +
       evalSec(F, st, filled) +
       '<footer class="sh-foot">NOHOBA-Lab · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
@@ -172,7 +172,7 @@
 
     function sSituation() {
       var cd = cadreHTML(F.pedagogie, F.chapitre, F.id); if (cd) panel.insertAdjacentHTML('beforeend', cd);
-      h('h2', { text: 'Situation-problème' }, panel);
+      h('h2', { text: 'Problématiser · Situation-problème' }, panel);
       h('p', { text: F.situation }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
@@ -183,7 +183,7 @@
     }
 
     function sPrevision() {
-      h('h2', { text: 'Ma prévision' }, panel);
+      h('h2', { text: 'Émettre une hypothèse' }, panel);
       h('p', { text: F.prevision.consigne }, panel);
       var pv = st.prevision;
       if (pv && !pv.edit) {
@@ -214,13 +214,13 @@
     }
 
     function sManip() {
-      h('h2', { text: 'Manipulation' }, panel);
+      h('h2', { text: 'Expérimenter / Investiguer' }, panel);
       h('p', {}, panel, '<b>Variable modifiée :</b> ' + esc(F.variable) + ' · <b>Maintenu :</b> ' + esc(F.maintenu));
       F.manip(panel, ctx());
       var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !st.essais.length; ctxNx = nx;
     }
     function sConfront() {
-      h('h2', { text: 'Confrontation' }, panel);
+      h('h2', { text: 'Analyser et interpréter' }, panel);
       h('p', { text: F.confrontation }, panel);
       var g = h('div', { class: 'grid2' }, panel), a = h('div', { class: 'card' }, g), b = h('div', { class: 'card' }, g);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
@@ -247,7 +247,7 @@
     }
 
     function sBilan() {
-      h('h2', { text: 'Bilan et transfert' }, panel);
+      h('h2', { text: 'Conclure · Bilan et transfert' }, panel);
       h('label', { for: 'cc', text: 'Ma conclusion personnelle (avant la synthèse) :' }, panel); var t = h('textarea', { id: 'cc' }, panel); t.value = st.conclusion || '';
       var msg = h('div', { class: 'msg bad', role: 'alert', hidden: '' }, panel);
       var r = h('div', { class: 'row' }, panel);
@@ -294,7 +294,7 @@
     }
 
     function sTrace() {
-      h('h2', { text: 'Ma trace' }, panel);
+      h('h2', { text: 'Communiquer · Ma trace' }, panel);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
       h('div', { class: 'card' }, panel,
         '<p><b>Prévision initiale :</b> ' + esc(ch[1]) + (pv.initiale.nombre ? ' (' + esc(pv.initiale.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — ' + esc(pv.initiale.raison) + '</p>' +
