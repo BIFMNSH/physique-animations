@@ -1,1 +1,10 @@
-{"name":"nohoba-lab-regression","private":true,"scripts":{"test":"node regression.cjs && node activites.cjs"},"devDependencies":{"jsdom":"26.1.0"}}
+{
+  "name": "nohoba-lab-regression",
+  "private": true,
+  "scripts": {
+    "test": "node regression.cjs && node activites.cjs && node catalogues-ci-fr.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}
