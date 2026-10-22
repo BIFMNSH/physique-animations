@@ -58,6 +58,10 @@
     transfert:{q:'La lampe reste éteinte avec un clou en acier mais l’un des fils est détaché. Peut-on conclure que l’acier est isolant ?',rep:'non',expl:'Non : la connexion ouverte empêche le courant de circuler. Il faut rétablir les contacts avant de tester le matériau.'},
     critere:'Classer correctement les matériaux testés et distinguer une observation d’une interprétation.',
     essaisMin:2,manip:manip,
+    peutConfronter:st=>{
+      const valides=st.essais.filter(e=>e.contact&&e.pile);
+      return valides.length>=2 && valides.some(e=>e.allumee) && valides.some(e=>!e.allumee);
+    },
     aides:['Commence par vérifier la pile et les connexions avant de classer un matériau.','Une lampe allumée avec un matériau inséré indique que celui-ci laisse passer un courant suffisant.','Si la lampe est éteinte, vérifie d’abord le circuit ; compare les matériaux dans les mêmes conditions.'],
     synthese:'Dans un circuit fermé et correctement alimenté, le cuivre, l’aluminium et l’acier sont conducteurs ; le plastique et le bois sec sont isolants dans les conditions de cette expérience. Une lampe éteinte ne suffit pas à conclure si le circuit présente un défaut.',
     prof:{reference:'Avec une pile fonctionnelle et de bons contacts, les métaux testés allument la lampe. Le bois sec et le plastique n’allument pas la lampe dans ce modèle.',attendus:['Hypothèse formulée avant l’essai.','Contrôle de la pile et des connexions.','Comparaison d’au moins un conducteur et un isolant.','Conclusion argumentée à partir des observations.'],erreurs:['Confondre lampe éteinte et preuve systématique d’isolation.','Supposer que tous les objets métalliques se comportent comme des isolants.','Changer simultanément plusieurs paramètres expérimentaux.']},
