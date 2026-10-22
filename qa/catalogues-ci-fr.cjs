@@ -72,3 +72,9 @@ assert.ok(hubHTML.includes("../lecon/?l='+slug+'#sim"),'lien vers simulateur Stu
 assert.ok(fs.readFileSync(path.join(root,'assets/studio/hub.js'),'utf8').includes('../parcours-ci/?l=circuit-electrique'),'hub accessible depuis accueil 6e');
 assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').includes('Retour à la leçon'),'retour depuis la fiche investigation');
 console.log('Hub de leçon : navigation 6e, Studio et ELE-07 contrôlée statiquement.');
+
+assert.ok(hubHTML.includes('class="quicknav"'),'navigation rapide du hub');
+assert.ok(hubHTML.includes("document.createElement('optgroup')"),'sélecteur de leçons par thème');
+assert.ok(hubHTML.includes('prefers-reduced-motion'),'adaptation accessibilité animations');
+assert.ok(hubHTML.includes('max-width:750px'),'présentation mobile prévue');
+console.log('Ergonomie hub : navigation, regroupement, mobile et mouvements réduits couverts.');
