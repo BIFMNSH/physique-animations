@@ -40,3 +40,13 @@ assert.ok(ele.protocole.length>=3);
 assert.ok(fs.existsSync(path.join(root,'activites-ci/index.html')));
 assert.ok(fs.readFileSync(path.join(root,'collections/index.html'),'utf8').includes('activites-ci/'));
 console.log('Pilote CI ELE-07 : structure et route présentes.');
+
+const valide=(id,contact,pile,allumee)=>({id,contact,pile,allumee});
+assert.equal(ele.peutConfronter({essais:[]}),false,'sans essai');
+assert.equal(ele.peutConfronter({essais:[valide('cuivre',true,true,true)]}),false,'un seul matériau');
+assert.equal(ele.peutConfronter({essais:[valide('cuivre',true,true,true),valide('plastique',true,true,false)]}),true,'comparaison valide');
+assert.equal(ele.peutConfronter({essais:[valide('cuivre',true,false,false),valide('plastique',true,true,false)]}),false,'pile défaillante exclue');
+assert.equal(ele.peutConfronter({essais:[valide('cuivre',false,true,false),valide('plastique',true,true,false)]}),false,'contact ouvert exclu');
+assert.ok(engine.includes('!readyForAnalysis()'),'blocage moteur avant analyse');
+assert.ok(engine.includes('esc(F.resume(e))'),'échappement des observations dans la trace');
+console.log('ELE-07 : conditions expérimentales et verrouillage de progression vérifiés.');
