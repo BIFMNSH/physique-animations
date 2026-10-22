@@ -55,7 +55,9 @@
     var listC = s('g', {}, F), lastKey = '';
     function step() {
       var T = st.t != null ? st.t : performance.now() / 1000, O = OBJ[st.obj];
-      var on = st.closed && st.linked && O.c, I = on ? O.k : 0;
+      var map={clou:'acier',cuivre:'cuivre',alu:'aluminium',plastique:'plastique',bois:'bois'};
+      var shared=window.NohobaConductivite&&map[st.obj]?window.NohobaConductivite.evaluer({id:map[st.obj],contact:st.closed&&st.linked,pile:true}):null;
+      var on=shared?shared.allumee:st.closed&&st.linked&&O.c, I=on?O.k:0;
       K1.set(st.closed); bat.set(4.5); lp.set(on ? O.k * 1.0 : 0);
       [wA, wB, wC, wD, wE].forEach(function (w) { w.flow(I, T); });
       loose.style.display = looseDot.style.display = gapM.style.display = st.linked ? 'none' : '';
