@@ -74,7 +74,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Distinguer les conducteurs et les isolants électriques",
-    "statut": "conception",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
