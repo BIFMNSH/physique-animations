@@ -10,6 +10,15 @@ var MATERIALS={
  plastique:{nom:'Plastique',conducteur:false,couleur:'#6bb6e7'},
  bois:{nom:'Bois sec',conducteur:false,couleur:'#b38b56'},
  graphite:{nom:'Graphite (mine de crayon)',conducteur:true,couleur:'#3a3f47'},
+ mine:{nom:'Mine de crayon',conducteur:true,couleur:'#3a3f47'},
+ clou:{nom:'Clou en fer',conducteur:true,couleur:'#8896a5'},
+ cle:{nom:'Clé',conducteur:true,couleur:'#f2b24c'},
+ piece:{nom:'Pièce de monnaie',conducteur:true,couleur:'#f7c948'},
+ couteau:{nom:'Couteau',conducteur:true,couleur:'#d3d7dd'},
+ fourchette:{nom:'Fourchette',conducteur:true,couleur:'#c9ced5'},
+ regle:{nom:'Règle en plastique',conducteur:false,couleur:'#6bb6e7'},
+ gomme:{nom:'Gomme',conducteur:false,couleur:'#5bb5f0'},
+ verre:{nom:'Tube en verre',conducteur:false,couleur:'#dff0f7'},
  air:{nom:'Air (espace vide)',conducteur:false,couleur:'#dbe7f5'}
 };
 function evaluate(o){

@@ -108,3 +108,32 @@ console.log('ELE-07 : thème, chapitre, compétence et objectifs, écran et impr
 
 assert.ok(!/esc\(F\.id\)\s*\+\s*' · '/.test(engine),'le code interne de la fiche ne s’imprime pas dans l’en-tête');
 console.log('Impression : aucun code interne dans l’en-tête de la fiche.');
+
+{
+const {JSDOM}=require('jsdom');
+const dom=new JSDOM('<div id="s"></div><div id="p"></div>',{runScripts:'outside-only'});
+const w=dom.window;
+w.eval(fs.readFileSync(path.join(root,'assets/shared/conductivite-modele.js'),'utf8'));
+w.eval(fs.readFileSync(path.join(root,'assets/shared/conductivite-circuit.js'),'utf8'));
+const NC=w.NohobaCircuit,M=w.NohobaConductivite.materiaux;
+assert.equal(NC.ordre.length,12,'douze objets dans la palette');
+assert.ok(NC.ordre.every(id=>M[id]),'chaque objet de la palette a une règle');
+const conducteurs=NC.ordre.filter(id=>M[id].conducteur);
+assert.ok(conducteurs.length>=6&&conducteurs.length<=8,'palette équilibrée entre conducteurs et isolants');
+assert.notEqual(NC.ordre.slice(0,6).filter(id=>M[id].conducteur).length,6,'palette mélangée, pas triée');
+const sc=NC.create(w.document.getElementById('s'));
+for(const id of NC.ordre){
+  const c=M[id].conducteur;
+  assert.equal(sc.update({id,contact:true,pile:true,conducteur:c}),c,'lampe '+id);
+  assert.equal(sc.update({id,contact:false,pile:true,conducteur:c}),false,'contact ouvert '+id);
+  assert.equal(sc.update({id,contact:true,pile:false,conducteur:c}),false,'pile défaillante '+id);
+}
+const picks=[];const pal=NC.palette(w.document.getElementById('p'),NC.ordre,id=>picks.push(id),'cle');
+const btns=w.document.querySelectorAll('#p button');
+assert.equal(btns.length,12,'douze boutons');
+assert.equal(btns[3].getAttribute('aria-pressed'),'true','objet sélectionné annoncé');
+btns[0].click();assert.equal(picks[0],NC.ordre[0],'clic sur un objet');
+assert.equal(btns[0].getAttribute('aria-pressed'),'true');
+assert.ok(!/conducteur|isolant/i.test(w.document.getElementById('p').textContent),'la palette ne donne pas la réponse');
+console.log('Table d’essai : douze objets, états de la lampe, accessibilité de la palette et absence de réponse vérifiés.');
+}
