@@ -10,6 +10,7 @@
     {id:'aluminium',nom:'Aluminium',conducteur:true,couleur:'#bec9d6'},
     {id:'plastique',nom:'Plastique',conducteur:false,couleur:'#6bb6e7'},
     {id:'bois',nom:'Bois sec',conducteur:false,couleur:'#b38b56'},
+    {id:'graphite',nom:'Graphite (mine de crayon)',conducteur:true,couleur:'#3a3f47'},
     {id:'air',nom:'Air (espace vide)',conducteur:false,couleur:'#dbe7f5'}
   ];
   function resultat(id,contact,pile){return window.NohobaConductivite.evaluer({id:id,contact:contact,pile:pile}).allumee;}
@@ -60,9 +61,9 @@
     situationEvaluation:'Awa doit réparer une lampe de poche. Elle hésite entre un fil de cuivre et un morceau de plastique pour rétablir la connexion. Quel matériau choisir et pourquoi ?',
     objectif:'Distinguer expérimentalement conducteurs et isolants dans un circuit simple.',
     objectifEleve:'Identifier les matériaux qui permettent le passage du courant dans des conditions contrôlées.',
-    situation:'La lampe de poche d’Awa ne fonctionne plus parce qu’un fil de connexion est coupé. Elle dispose de cuivre, d’acier, d’aluminium, de plastique et de bois sec, et elle peut aussi laisser un espace vide entre les deux fils. Comment déterminer quels matériaux peuvent rétablir la connexion électrique ?',
-    materiel:'Pile fictive 4,5 V, lampe, fils, échantillons de cinq matériaux et un espace d’air, connexions virtuelles.',
-    prevision:{consigne:'Avant les essais, choisis les matériaux qui devraient permettre à la lampe de s’allumer. Justifie ton hypothèse.',choix:[['metaux','Cuivre, acier et aluminium'],['tous','Tous les matériaux proposés'],['aucun','Aucun matériau proposé'],['isolants','Plastique et bois sec']]},
+    situation:'La lampe de poche d’Awa ne fonctionne plus parce qu’un fil de connexion est coupé. Elle dispose de cuivre, d’acier, d’aluminium, de graphite (une mine de crayon), de plastique et de bois sec, et elle peut aussi laisser un espace vide entre les deux fils. Comment déterminer quels matériaux peuvent rétablir la connexion électrique ?',
+    materiel:'Pile fictive 4,5 V, lampe, fils, échantillons de six matériaux et un espace d’air, connexions virtuelles.',
+    prevision:{consigne:'Avant les essais, choisis les matériaux qui devraient permettre à la lampe de s’allumer. Justifie ton hypothèse.',choix:[['metaux','Cuivre, acier, aluminium et graphite'],['tous','Tous les matériaux proposés'],['aucun','Aucun matériau proposé'],['isolants','Plastique et bois sec']]},
     protocole:['S’assurer que la pile est fonctionnelle et que les connexions sont correctes.','Insérer un matériau et noter l’état de la lampe.','Recommencer avec les autres matériaux sans changer le reste du circuit.','Pour comprendre une lampe éteinte, vérifier la pile et les connexions.'],
     variable:'Nature du matériau inséré',maintenu:'Même lampe, même pile fonctionnelle, connexions correctes',
     colonnes:['Matériau','Contacts','Pile','Lampe','Mon observation'],lignesVides:5,
@@ -84,8 +85,8 @@
       return valides.length>=2 && valides.some(e=>e.allumee) && valides.some(e=>!e.allumee);
     },
     aides:['Commence par vérifier la pile et les connexions avant de classer un matériau.','Une lampe allumée avec un matériau inséré indique que celui-ci laisse passer un courant suffisant.','Si la lampe est éteinte, vérifie d’abord le circuit ; compare les matériaux dans les mêmes conditions.'],
-    synthese:'Dans un circuit fermé et correctement alimenté, le cuivre, l’aluminium et l’acier sont conducteurs ; le plastique et le bois sec sont isolants dans les conditions de cette expérience. Une lampe éteinte ne suffit pas à conclure si le circuit présente un défaut.',
-    prof:{reference:'Avec une pile fonctionnelle et de bons contacts, les métaux testés allument la lampe. Le bois sec, le plastique et l’air n’allument pas la lampe dans ce modèle.',attendus:['Hypothèse formulée avant l’essai.','Contrôle de la pile et des connexions.','Comparaison d’au moins un conducteur et un isolant.','Conclusion argumentée à partir des observations.'],erreurs:['Confondre lampe éteinte et preuve systématique d’isolation.','Supposer que tous les objets métalliques se comportent comme des isolants.','Changer simultanément plusieurs paramètres expérimentaux.']},
+    synthese:'Dans un circuit fermé et correctement alimenté, le cuivre, l’aluminium, l’acier et le graphite sont conducteurs ; le plastique et le bois sec sont isolants dans les conditions de cette expérience. Une lampe éteinte ne suffit pas à conclure si le circuit présente un défaut.',
+    prof:{reference:'Avec une pile fonctionnelle et de bons contacts, les métaux et le graphite allument la lampe. Le bois sec, le plastique et l’air n’allument pas la lampe dans ce modèle.',attendus:['Hypothèse formulée avant l’essai.','Contrôle de la pile et des connexions.','Comparaison d’au moins un conducteur et un isolant.','Conclusion argumentée à partir des observations.'],erreurs:['Confondre lampe éteinte et preuve systématique d’isolation.','Supposer que tous les objets métalliques se comportent comme des isolants.','Changer simultanément plusieurs paramètres expérimentaux.']},
     diagnostic:st=>{const valid=st.essais.filter(e=>e.contact&&e.pile),types=new Set(valid.map(e=>e.allumee));return valid.length<2?['Réalise au moins deux essais avec des contacts corrects et une pile fonctionnelle.']:types.size<2?['Teste également un matériau de comportement différent, dans les mêmes conditions.']:['Tu disposes d’observations de matériaux conducteurs et isolants en conditions contrôlées.'];}
   };
 })();

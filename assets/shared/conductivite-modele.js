@@ -9,6 +9,7 @@ var MATERIALS={
  aluminium:{nom:'Aluminium',conducteur:true,couleur:'#bec9d6'},
  plastique:{nom:'Plastique',conducteur:false,couleur:'#6bb6e7'},
  bois:{nom:'Bois sec',conducteur:false,couleur:'#b38b56'},
+ graphite:{nom:'Graphite (mine de crayon)',conducteur:true,couleur:'#3a3f47'},
  air:{nom:'Air (espace vide)',conducteur:false,couleur:'#dbe7f5'}
 };
 function evaluate(o){
