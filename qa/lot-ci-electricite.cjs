@@ -1,0 +1,107 @@
+/* Lot pilote CI · circuit électrique (ELE-01 à 05 et ELE-17) : structure, règles physiques du modèle et conventions de présentation. */
+const fs=require('node:fs'),assert=require('node:assert/strict'),path=require('node:path'),{JSDOM}=require('jsdom');
+const root=path.resolve(__dirname,'..');
+const IDS=['01','02','03','04','05','17'];
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+function env(){
+  const dom=new JSDOM('<!doctype html><body><div id="app"></div></body>',{runScripts:'outside-only'});
+  const w=dom.window;w.eval(read('assets/shared/atelier-electrique.js'));w.eval(read('assets/activites/activite.js'));
+  for(const i of IDS)w.eval(read('assets/activites/fiches/NL-CI-6E-ELE-'+i+'.js'));
+  return w;
+}
+const w=env(),doc=w.document;
+function lancer(i){
+  const F=w['FICHE_CI_ELE'+i],panel=doc.createElement('div');doc.body.appendChild(panel);
+  const st={essais:[],prevision:null};
+  const X={st:()=>st,addEssai:e=>{st.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};
+  F.manip(panel,X);return {F,panel,st,X};
+}
+const choisir=(panel,name,val)=>{const r=panel.querySelector('input[name='+name+'][value='+val+']');r.checked=true;r.dispatchEvent(new w.Event('change',{bubbles:true}));};
+const label=(panel,k)=>(panel.querySelectorAll('svg')[k]||{getAttribute:()=>''}).getAttribute('aria-label')||'';
+
+/* structure commune */
+for(const i of IDS){
+  const F=w['FICHE_CI_ELE'+i];
+  assert.equal(F.id,'NL-CI-6E-ELE-'+i);assert.equal(F.niveau,'6e');assert.equal(F.theme,'Électricité');assert.equal(F.chapitre,'Le circuit électrique');
+  assert.ok(F.competenceVisee.length>20&&F.objectifsPedagogiques.length>=3,'cadre pédagogique '+i);
+  for(const k of ['situation','materiel','prevision','protocole','variable','colonnes','lignes','resume','confrontation','transfert','synthese','prof','aides','manip','peutConfronter','grilleMaitrise','situationEvaluation'])assert.ok(F[k],i+' : '+k);
+  assert.equal(F.grilleMaitrise.map(x=>x[0]).join(','),'MI,MF,MS,TBM');
+  assert.ok(F.prevision.choix.length===4,'quatre hypothèses '+i);
+  const txt=JSON.stringify(F);assert.ok(!/NL-C4|NL-CI-6E-ELE-\d\d ·|Programme du cycle 4/.test(txt.replace(F.id,'')),'aucun code interne affiché '+i);
+  const {panel}=lancer(i);
+  const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);
+  assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma normalisé présents '+i);
+  assert.ok(panel.querySelectorAll('svg').length>=2);
+}
+console.log('Lot CI : six fiches structurées, montage + schéma normalisé présents dans chaque expérience.');
+
+/* ELE-02 : pile cylindrique, contacts directs, deux bornes différentes */
+{const {panel}=lancer('02');
+  const cas=[['plus','moins',true],['moins','plus',true],['plus','plus',false],['moins','moins',false],['cote','moins',false],['plus','cote',false],['plus','rien',false]];
+  for(const [p,l,att] of cas){choisir(panel,'ci2-plot',p);choisir(panel,'ci2-lame',l);assert.ok(label(panel,0).includes(att?'brille':'éteinte'),'ELE-02 '+p+'/'+l);assert.ok(label(panel,1).includes(att?'fermé':'ouvert'),'schéma ELE-02 '+p+'/'+l);}
+  const src=read('assets/activites/fiches/NL-CI-6E-ELE-02.js');assert.ok(!/pinces? crocodile/.test(src),'ELE-02 sans fils à pinces');assert.ok(src.includes('Pas de fil de connexion')||src.includes('sans fil'),'consigne sans fil');
+  assert.ok(src.includes('pile cylindrique')||src.includes('Pile cylindrique'),'pile cylindrique');
+}
+/* ELE-03 : un fil au plot, l'autre au culot ; jamais au verre */
+{const {panel}=lancer('03');
+  const cas=[['plot','culot',true],['culot','plot',true],['verre','culot',false],['plot','verre',false],['plot','plot',false],['culot','culot',false],['libre','culot',false],['verre','verre',false]];
+  for(const [r,n,att] of cas){choisir(panel,'ci3-r',r);choisir(panel,'ci3-n',n);assert.ok(label(panel,0).includes(att?'brille':'éteinte'),'ELE-03 '+r+'/'+n);assert.ok(label(panel,1).includes(att?'fermée':'ouverte'),'schéma ELE-03 '+r+'/'+n);}
+}
+/* ELE-04 : en série, tout s'arrête dès qu'un élément manque */
+{const {panel}=lancer('04');
+  for(const [a,att] of [['complet',true],['pile',false],['ouvert',false],['sansinter',false],['lampe',false],['moteur',false]]){choisir(panel,'ci4-a',a);assert.ok(label(panel,0).includes(att?'brille':'ouvert'),'ELE-04 '+a);assert.ok(label(panel,1).includes(att?'fermée':'ouverte'),'schéma ELE-04 '+a);}
+}
+/* ELE-17 : grains qui circulent, boucle fermée ou ouverte */
+{const {panel}=lancer('17');
+  choisir(panel,'ci17-a','ferme');assert.ok(label(panel,0).includes('fermée')&&label(panel,0).includes('circulent'));
+  for(const a of ['inter','rouge','noir','pile']){choisir(panel,'ci17-a',a);assert.ok(label(panel,0).includes('ouverte')&&label(panel,0).includes('immobiles'),'ELE-17 '+a);}
+  assert.ok(!/sens du courant/i.test(read('assets/activites/fiches/NL-CI-6E-ELE-17.js').replace(/ne parle pas de sens/g,'')),'pas de sens conventionnel dans ELE-17');
+}
+/* ELE-01 : zones et étiquettes */
+{const {panel,st}=lancer('01'),map={1:'culot',2:'plus',3:'plot',4:'moins'};
+  for(const k of [1,2,3,4]){const s=panel.querySelector('#ci1-z'+k);s.value=map[k];}
+  [...panel.querySelectorAll('button')].find(b=>/Vérifier/.test(b.textContent)).click();
+  assert.equal(st.essais.length,4);assert.ok(st.essais.every(e=>e.ok),'quatre zones justes');
+  const F=w.FICHE_CI_ELE01;assert.equal(F.peutConfronter(st),true);assert.equal(F.peutConfronter({essais:[]}),false);
+}
+/* ELE-05 : schéma attendu, erreurs A/B/C, circuits en série */
+{const {panel,st,F}=lancer('05');
+  const set=(id,v)=>{panel.querySelector('#'+id).value=v;};
+  const verif=()=>[...panel.querySelectorAll('button')].find(b=>/Vérifier mon schéma/.test(b.textContent)).click();
+  /* schéma faux : polarités inversées, puis générateur, puis ordre */
+  set('ci5-pile','inversee');set('ci5-d','lampe');set('ci5-b','moteur');set('ci5-g','interOuvert');verif();assert.equal(st.essais.at(-1).ok,false);assert.ok(st.essais.at(-1).erreurs.some(x=>x.includes('polarités')));
+  set('ci5-pile','normale');set('ci5-b','generateur');verif();assert.ok(st.essais.at(-1).erreurs.some(x=>x.includes('symbole faux')));
+  set('ci5-b','lampe');set('ci5-d','moteur');verif();assert.ok(st.essais.at(-1).erreurs.some(x=>x.includes('ordre non respecté')));
+  /* schéma juste, ouvert puis fermé */
+  set('ci5-d','lampe');set('ci5-b','moteur');set('ci5-g','interOuvert');verif();assert.equal(st.essais.at(-1).ok,true);
+  const f=panel.querySelector('input[name=ci5-etat][value=ferme]');f.checked=true;f.dispatchEvent(new w.Event('change',{bubbles:true}));
+  set('ci5-g','interOuvert');verif();assert.equal(st.essais.at(-1).ok,false,'interrupteur ouvert refusé quand on demande fermé');
+  set('ci5-g','interFerme');verif();assert.equal(st.essais.at(-1).ok,true);
+  assert.equal(F.peutConfronter(st),false,'erreurs A/B/C et série encore à faire');
+  set('ci5-eA','ordre');set('ci5-eB','polarite');set('ci5-eC','symbole');
+  [...panel.querySelectorAll('button')].find(b=>/trois réponses/.test(b.textContent)).click();
+  assert.equal(st.essais.filter(e=>e.type==='erreur'&&e.ok).length,3,'A ordre, B polarités, C symbole');
+  set('ci5-diff','ordre');set('ci5-fonc','non');[...panel.querySelectorAll('button')].find(b=>b.textContent==='Vérifier').click();
+  assert.equal(st.essais.at(-1).ok,true);assert.equal(F.peutConfronter(st),true);
+  const t=panel.textContent;for(const s of ['Pile','Générateur','Fil de connexion','Interrupteur ouvert','Interrupteur fermé','Lampe','Moteur'])assert.ok(t.includes(s),'symbole '+s);
+  assert.ok(t.includes('Les 3 règles')&&t.includes('circuit en série'),'règles et vocabulaire');
+}
+console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées (ELE-01 à 05 et 17).');
+
+/* progression : chaque fiche demande un contraste d'observations avant l'analyse */
+for(const i of ['02','03','04','17']){const F=w['FICHE_CI_ELE'+i],o='observation décrite en une phrase';
+  assert.equal(F.peutConfronter({essais:[]}),false);
+  assert.equal(F.peutConfronter({essais:[{action:'complet',plot:'plus',lame:'moins',rouge:'plot',noir:'culot',allumee:true,observation:o},{action:'pile',allumee:false,observation:o},{action:'inter',allumee:false,observation:o}]}),i==='04'?false:true,'contraste '+i);}
+console.log('Lot CI : verrouillage de progression contrôlé.');
+
+/* présentation conforme au hub, au catalogue et à la page de collections */
+const cat=new JSDOM('',{runScripts:'outside-only'}).window;cat.eval(read('assets/catalogues/6e-ci.js'));
+const items=cat.NL_CATALOGUE_CI_6E;
+assert.equal(items.filter(x=>x.statut==='prototype').map(x=>x.sourceId).sort().join(','),'ELE-01,ELE-02,ELE-03,ELE-04,ELE-05,ELE-17');
+assert.equal(items.filter(x=>x.statut==='disponible').map(x=>x.sourceId).join(','),'ELE-07');
+const page=read('activites-ci/index.html');assert.ok(page.includes('atelier-electrique.js')&&page.includes('ELE-(0[1-57]|17)'),'page des activités générique');
+assert.ok(read('collections/index.html').includes('Ouvrir le prototype'),'collections : prototypes');
+assert.ok(read('parcours-ci/index.html').includes('Prototypes à valider'),'hub : prototypes');
+const eng=read('assets/activites/activite.js');assert.ok(eng.includes('À la fin de cette partie, je dois être capable de :'),'libellé « partie » à l’écran');
+console.log('Lot CI : catalogue, hub, collections et libellés contrôlés.');
+process.exit(0);

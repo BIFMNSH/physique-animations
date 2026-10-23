@@ -71,7 +71,7 @@
       ? '<div class="sh-q">' + (F.theme ? '<p><b>Thème :</b> '+esc(F.theme)+'</p>' : '')
       + (F.chapitre ? '<p><b>Chapitre :</b> '+esc(F.chapitre)+'</p>' : '')
       + (F.competenceVisee ? '<p><b>Compétence visée :</b> '+esc(F.competenceVisee)+'</p>' : '')
-      + (Array.isArray(F.objectifsPedagogiques) && F.objectifsPedagogiques.length ? '<p><b>Objectifs pédagogiques :</b></p><ul>'+F.objectifsPedagogiques.map(function(g){return '<li>'+esc(g)+'</li>';}).join('')+'</ul>' : '')+'</div>' : '';
+      + (Array.isArray(F.objectifsPedagogiques) && F.objectifsPedagogiques.length ? '<p><b>À la fin de cette partie, je dois être capable de :</b></p><ul>'+F.objectifsPedagogiques.map(function(g){return '<li>'+esc(g)+'</li>';}).join('')+'</ul>' : '')+'</div>' : '';
     var ident = '<div class="sh-ident"><span>Nom : <i></i></span><span>Classe : <i></i></span><span>Date : <i></i></span></div>';
     var prev = pv ? '<p class="sh-q">' + (ini.inconnu ? 'Je ne sais pas encore. Mon hypothèse : ' : 'Ma prévision : ') + esc(ch ? ch[1] : '') + (ini.nombre ? ' (' + esc(ini.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + '</p><p class="sh-q"><b>Parce que</b> ' + esc(ini.raison || '') + '</p>' :
       '<ul class="sh-choix">' + F.prevision.choix.map(function (c) { return '<li>☐ ' + esc(c[1]) + '</li>'; }).join('') + '</ul>' + (F.prevision.nombre ? '<p class="sh-q"><b>' + esc(F.prevision.nombre.label) + ' :</b> ______ ' + esc(F.prevision.nombre.unite) + '</p>' : '') + '<p class="sh-q"><b>Parce que…</b></p>' + lines(2);
@@ -198,7 +198,7 @@
         cd = '<div class="cadre">' + (F.theme ? '<p class="th-nom">Thème : ' + esc(F.theme) + '</p>' : '')
           + (F.chapitre ? '<p class="ch">Chapitre : ' + esc(F.chapitre) + '</p>' : '')
           + (F.competenceVisee ? '<h3>Compétence visée</h3><p class="vis">' + esc(F.competenceVisee) + '</p>' : '')
-          + (goals.length ? '<h3>À la fin de cette activité, je dois être capable de :</h3><ul>' + goals.map(function(g){return '<li>'+esc(g)+'</li>';}).join('') + '</ul>' : '') + '</div>';
+          + (goals.length ? '<h3>À la fin de cette partie, je dois être capable de :</h3><ul>' + goals.map(function(g){return '<li>'+esc(g)+'</li>';}).join('') + '</ul>' : '') + '</div>';
       }
       if (cd) panel.insertAdjacentHTML('beforeend', cd);
       h('h2', { text: 'Problématiser · Situation-problème' }, panel);

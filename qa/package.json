@@ -2,7 +2,7 @@
   "name": "nohoba-lab-regression",
   "private": true,
   "scripts": {
-    "test": "node regression.cjs && node activites.cjs && node catalogues-ci-fr.cjs"
+    "test": "node regression.cjs && node activites.cjs && node catalogues-ci-fr.cjs && node lot-ci-electricite.cjs"
   },
   "devDependencies": {
     "jsdom": "26.1.0"

@@ -1,4 +1,4 @@
-/* NohobaLab : référentiel initial du catalogue CI 6e. Les activités ne sont pas encore implémentées. */
+/* NohobaLab : référentiel initial du catalogue CI 6e. Statuts : conception, prototype (à valider), disponible. */
 window.NL_CATALOGUE_CI_6E = Object.freeze([
   {
     "id": "NL-CI-6E-ELE-01",
@@ -8,7 +8,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Identifier les bornes d'une pile et d'une lampe électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -19,7 +19,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Allumer une lampe électrique à l'aide d'une pile",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -30,7 +30,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Réaliser un circuit électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -41,7 +41,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Découvrir le rôle de chaque élément du circuit électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -52,7 +52,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Schématiser un circuit électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -63,7 +63,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Découvrir la notion de courant électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {

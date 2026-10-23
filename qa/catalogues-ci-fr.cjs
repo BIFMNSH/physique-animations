@@ -7,7 +7,7 @@ assert.equal(ci.length,73,'73 entrées Côte d’Ivoire');
 assert.equal(fr.length,48,'48 entrées France cycle 4');
 assert.equal(new Set(ci.map(x=>x.id)).size,73,'identifiants CI uniques');
 assert.equal(new Set(fr.map(x=>x.id)).size,48,'identifiants France uniques');
-assert.ok(ci.every(x=>x.programme==='CI'&&x.niveau==='6e'&&['conception','disponible'].includes(x.statut)&&x.id.startsWith('NL-CI-6E-')),'catalogue CI séparé');
+assert.ok(ci.every(x=>x.programme==='CI'&&x.niveau==='6e'&&['conception','prototype','disponible'].includes(x.statut)&&x.id.startsWith('NL-CI-6E-')),'catalogue CI séparé');
 assert.equal(ci.filter(x=>x.statut==='disponible').map(x=>x.id).join(','),'NL-CI-6E-ELE-07','seul pilote disponible');
 assert.ok(fr.every(x=>['5e','4e','3e'].includes(x.niveau)),'niveaux du programme français');
 assert.ok(ci.every(x=>!fr.some(y=>y.id===x.id)),'espaces d’identifiants distincts');
@@ -17,7 +17,7 @@ assert.equal(totals['Propriétés physiques de la matière'],26);
 assert.equal(totals['Grandeurs et mesures physiques'],10);
 assert.equal(totals['Air et combustions'],20);
 assert.equal(new Set(ci.map(x=>x.theme+'|'+x.lecon)).size,13);
-assert.ok(['ELE-17','MAT-26','CHI-20'].every(i=>ci.some(x=>x.sourceId===i&&x.statut==='conception')),'trois fiches complémentaires décidées');
+assert.ok(['MAT-26','CHI-20'].every(i=>ci.some(x=>x.sourceId===i&&x.statut==='conception'))&&ci.some(x=>x.sourceId==='ELE-17'),'trois fiches complémentaires décidées');
 console.log('Catalogues vérifiés : 73 CI + 48 FR, 4 thèmes CI, 13 leçons CI.');
 
 const engine=fs.readFileSync(path.join(root,'assets/activites/activite.js'),'utf8');
