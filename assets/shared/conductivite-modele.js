@@ -8,7 +8,8 @@ var MATERIALS={
  acier:{nom:'Acier',conducteur:true,couleur:'#8896a5'},
  aluminium:{nom:'Aluminium',conducteur:true,couleur:'#bec9d6'},
  plastique:{nom:'Plastique',conducteur:false,couleur:'#6bb6e7'},
- bois:{nom:'Bois sec',conducteur:false,couleur:'#b38b56'}
+ bois:{nom:'Bois sec',conducteur:false,couleur:'#b38b56'},
+ air:{nom:'Air (espace vide)',conducteur:false,couleur:'#dbe7f5'}
 };
 function evaluate(o){
  var p=o||{},m=MATERIALS[p.id]||null;

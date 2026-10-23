@@ -90,7 +90,7 @@ console.log('Composant électrique : rendu mutualisable et intégration ELE-07 c
 const qualitativeSrc=fs.readFileSync(path.join(root,'assets/shared/conductivite-modele.js'),'utf8');
 const commonCtx={window:{}};vm.createContext(commonCtx);vm.runInContext(qualitativeSrc,commonCtx);
 for(const id of ['cuivre','acier','aluminium'])assert.equal(commonCtx.window.NohobaConductivite.evaluer({id,contact:true,pile:true}).allumee,true,'conducteur '+id);
-for(const id of ['plastique','bois'])assert.equal(commonCtx.window.NohobaConductivite.evaluer({id,contact:true,pile:true}).allumee,false,'isolant '+id);
+for(const id of ['plastique','bois','air'])assert.equal(commonCtx.window.NohobaConductivite.evaluer({id,contact:true,pile:true}).allumee,false,'isolant '+id);
 assert.equal(commonCtx.window.NohobaConductivite.evaluer({id:'cuivre',contact:false,pile:true}).valide,false,'contact ouvert non valide');
 assert.equal(commonCtx.window.NohobaConductivite.evaluer({id:'cuivre',contact:true,pile:false}).allumee,false,'pile défaillante');
 assert.ok(modelSrc.includes('window.NohobaConductivite.evaluer'),'ELE07 utilise modèle commun');
