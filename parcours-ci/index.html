@@ -1,41 +1,166 @@
 <!doctype html>
-<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="fr" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
 <title>Hub pédagogique · 6e · NOHOBA-Lab</title>
 <meta name="description" content="Comprendre, manipuler et investiguer autour des leçons de physique-chimie de sixième, programme ivoirien.">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#13243d;background:#f5f8fe}*{box-sizing:border-box}body{margin:0}a{color:inherit}header{background:#112c51;color:white;padding:17px max(20px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}header a{text-decoration:none}header b{font-size:24px;letter-spacing:-1px}main{max-width:1180px;margin:auto;padding:28px 20px 60px}.muted{color:#51647e}.small{font-size:14px}.eyebrow{color:#087e74;font-size:13px;font-weight:750;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(26px,4vw,44px);margin:8px 0 12px}h2{font-size:23px;margin:0 0 8px}p{line-height:1.5}.hero{background:white;border:1px solid #dde7f4;border-radius:22px;padding:25px;margin-bottom:22px;display:flex;align-items:center;gap:22px;justify-content:space-between;flex-wrap:wrap}.hero select{padding:11px 14px;border:1px solid #a7b8cb;border-radius:10px;max-width:100%;font:inherit;color:#142843;background:white}.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:white;border:1px solid #dae4ef;border-radius:18px;padding:22px;min-width:0}.blue{border-top:6px solid #3681eb}.green{border-top:6px solid #18a077}.lab{margin-top:18px;border-top:6px solid #6960dd}.resources{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.tile{display:block;text-decoration:none;padding:18px;border:1px solid #d7e2f0;border-radius:14px;background:#f3f7fe;min-height:112px}.tile strong{display:block;margin-bottom:6px}.tile:hover,.btn:hover{outline:2px solid #4b87dd;outline-offset:1px}.btn{display:inline-block;text-decoration:none;background:#145dd1;color:white;padding:12px 17px;border-radius:11px;font-weight:750;margin-top:8px}.btn.greenbtn{background:#04785b}.path{list-style:none;padding:0;margin:18px 0}.path li{padding:11px 14px;margin-bottom:7px;border:1px solid #e4ecf4;border-radius:11px}.path b{color:#06785a} .note{background:#e9f7f1;border:1px solid #b9e2d2;border-radius:12px;padding:13px}footer{margin-top:20px;color:#62738a;font-size:13px}iframe{width:100%;height:580px;border:1px solid #dde7f3;border-radius:12px;background:#0b1324}button{font:inherit;cursor:pointer}.hide{display:none}@media(max-width:750px){.cols{grid-template-columns:1fr}.resources{grid-template-columns:1fr}main{padding:18px 12px 40px}.card{padding:17px}iframe{height:420px}}
-
-:focus-visible{outline:3px solid #f59e0b!important;outline-offset:3px}
-.skip{position:absolute;top:-100px;left:12px;background:#fff;color:#123;padding:12px;z-index:20}.skip:focus{top:10px}
-.hero>div:first-child{flex:1 1 410px}.hero>div:last-child{flex:1 1 290px;max-width:440px}.hero select{width:100%;margin-top:8px}
-.quicknav{display:flex;flex-wrap:wrap;gap:9px;margin:-4px 0 20px}.quicknav a{padding:10px 15px;background:white;border:1px solid #d5e0ee;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px}.quicknav a:hover{background:#e6f1ff}
-.step-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pill{border-radius:999px;padding:5px 11px;font-size:12px;font-weight:750;background:#e1edf9;color:#144b86}.pill.greenpill{background:#dbf5e8;color:#087151}.pill.pending{background:#fff2d8;color:#795300}
-.path{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.path li{margin:0;display:flex;gap:8px;align-items:center;font-size:14px}.path b{flex:0 0 auto;display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#e0f5e8}
-.tile{transition:background .15s,transform .15s}.tile:hover{background:#e7f0ff;transform:translateY(-1px)}.tile span{display:block}.tile em{display:block;font-style:normal;font-size:12px;font-weight:700;margin-top:9px;color:#20765d}
-.card h2{display:flex;align-items:center;gap:9px}.card h2:before{content:'';width:11px;height:11px;border-radius:50%;background:#3984e9}.green h2:before{background:#14a278}.lab h2:before{background:#7562da}
-.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:15px 0}.actions .btn{margin:0}
-@media(max-width:750px){.hero{padding:18px}.hero>div:last-child{max-width:none}.quicknav{position:sticky;top:0;background:#f5f8fe;padding:10px 0;z-index:3}.path{grid-template-columns:1fr}.tile{min-height:87px}.resources{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{padding:12px;font-size:14px}.small{font-size:13px}}
-@media(max-width:380px){.resources{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.tile{transition:none}.tile:hover{transform:none}}
+/* Chiffres sans zéro barré : les chiffres 0-9 sont servis par Bricolage Grotesque */
+@font-face{font-family:'Chiffres';font-style:normal;font-weight:100 600;font-display:swap;src:url(../assets/fonts/bricolage-grotesque-latin-600-normal.woff2) format("woff2");unicode-range:U+0030-0039}
+@font-face{font-family:'Chiffres';font-style:normal;font-weight:700 900;font-display:swap;src:url(../assets/fonts/bricolage-grotesque-latin-800-normal.woff2) format("woff2");unicode-range:U+0030-0039}
+:root{--bg:#0A111E;--panel:#111A2E;--panel2:#16213A;--line:#22304B;--line2:#2F4061;--text:#EEF2F8;--muted:#A9B4C7;--soft:#C9D2E0;--blue:#5CC8FF;--amber:#FFB547;--green:#3DD68C;--violet:#C4B5FD;--focus:#FFB547;--on-accent:#0A111E;--ok:#3DD68C;--accent:var(--blue);color-scheme:dark}
+:root[data-theme="light"]{--bg:#EEF2F7;--panel:#FFFFFF;--panel2:#F5F8FC;--line:#D5DDE8;--line2:#B9C5D6;--text:#142033;--muted:#55627A;--soft:#2F3C52;--blue:#0A6BAA;--amber:#A35400;--green:#127A45;--violet:#6D4FD6;--focus:#C76A00;--on-accent:#FFFFFF;--ok:#127A45;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 'Chiffres','Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}button{font:inherit;color:inherit}h1,h2,h3{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',sans-serif;font-weight:800;letter-spacing:-.015em;margin:0;text-wrap:balance}p{margin:0}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;top:-100px;left:12px;background:var(--panel);color:var(--text);padding:12px 16px;z-index:40;border:1px solid var(--line2);border-radius:8px}.skip:focus{top:10px}
+.muted{color:var(--muted)}.small{font-size:.875rem}
+/* --- barre supérieure --- */
+.top{position:sticky;top:0;z-index:30;height:60px;display:flex;align-items:center;gap:12px;padding:0 max(16px,calc((100vw - 1240px)/2));background:var(--bg);border-bottom:1px solid var(--line)}
+.top .back{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:19px;border:1px solid var(--line2);color:var(--soft);text-decoration:none;font-weight:700;font-size:.875rem;white-space:nowrap}
+.top .back:hover{border-color:var(--text);color:var(--text)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0;text-decoration:none}.brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.125rem;letter-spacing:-.01em}.brand span{color:var(--muted);font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .grow{flex:1}.top nav{display:flex;gap:4px}.top nav a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--soft);font-weight:700;font-size:.875rem}.top nav a:hover{background:var(--panel2);color:var(--text)}
+.theme{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:transparent;display:grid;place-items:center;cursor:pointer}.theme:hover{border-color:var(--text)}.theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:root[data-theme="light"] .theme .moon,:root:not([data-theme="light"]) .theme .sun{display:none}
+/* --- coque --- */
+.shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto;min-height:calc(100vh - 60px)}
+.side{border-right:1px solid var(--line);padding:28px 20px 40px 16px;position:sticky;top:60px;align-self:start;max-height:calc(100vh - 60px);overflow:auto}
+.side h2{font-size:.8125rem;color:var(--muted);font-family:inherit;font-weight:700;letter-spacing:0;padding:0 12px;margin-bottom:10px}
+.side h3{font-size:.8125rem;font-weight:700;letter-spacing:0;padding:16px 12px 6px;display:flex;align-items:center;gap:8px}.side h3 i{width:8px;height:8px;border-radius:50%;background:var(--tc)}
+.side ul{list-style:none;margin:0;padding:0}.side li a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;text-decoration:none;color:var(--soft);font-size:.9375rem;line-height:1.3}
+.side li a:hover{background:var(--panel2);color:var(--text)}.side li a[aria-current]{background:var(--panel2);color:var(--text);font-weight:700;box-shadow:inset 0 0 0 1px var(--line2)}
+.side li a .t{flex:1;min-width:0}.dots{display:flex;gap:3px;flex:0 0 auto}.dots i{width:6px;height:6px;border-radius:50%;background:var(--line2)}.dots i.on{background:var(--ok)}
+main{padding:28px clamp(16px,4vw,48px) 72px;min-width:0}
+/* --- sélecteur mobile --- */
+.switch{display:none;margin-bottom:20px}.switch label{display:block;font-size:.8125rem;font-weight:700;color:var(--muted);margin-bottom:6px}.switch select{width:100%;height:44px;padding:0 12px;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--text);font:inherit}
+/* --- en-tête de leçon --- */
+.lesson-head{padding:4px 0 26px;border-bottom:1px solid var(--line)}
+.lesson-head .thm{color:var(--accent);font-weight:800;font-size:1rem}
+.lesson-head .pos{color:var(--muted);font-size:.875rem;margin-left:10px;font-weight:400}
+.lesson-head h1{font-size:2.5rem;line-height:1.08;margin:8px 0 12px;max-width:20ch}
+.lesson-head .lead{color:var(--soft);max-width:62ch;font-size:1.0625rem}
+.status{display:flex;flex-wrap:wrap;gap:22px;margin-top:22px;align-items:flex-end}.status>div{display:flex;flex-direction:column;gap:4px}.status .k{font-size:.8125rem;color:var(--muted)}.status .v{font-weight:700;display:flex;align-items:center;gap:8px}.status .go{margin-left:auto}
+.bar{width:120px;height:4px;border-radius:2px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s cubic-bezier(.16,1,.3,1)}
+/* --- accès rapide --- */
+.quicknav{display:flex;gap:4px;padding:14px 0;margin:0 0 10px;border-bottom:1px solid var(--line)}.quicknav a{padding:8px 14px;border-radius:999px;text-decoration:none;color:var(--soft);font-weight:700;font-size:.875rem;border:1px solid transparent}.quicknav a:hover{background:var(--panel2);color:var(--text)}
+/* --- sections --- */
+section.part{padding:30px 0 10px}section.part+section.part{border-top:1px solid var(--line);margin-top:22px}
+.part-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}.part-head .n{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;background:var(--accent);color:var(--on-accent);margin-top:2px}
+.part-head h2{font-size:1.5rem;line-height:1.2}.part-head p{color:var(--muted);margin-top:4px;max-width:62ch}
+/* lignes du parcours Studio */
+.steps{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.steps li+li{border-top:1px solid var(--line)}.steps a{display:grid;grid-template-columns:44px 1fr auto 20px;align-items:center;gap:14px;padding:16px 18px;text-decoration:none;color:inherit;transition:background .15s}
+.steps a:hover{background:var(--panel2)}.steps .ic{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--panel2);color:var(--accent)}.steps a:hover .ic{background:var(--bg)}.steps .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.steps b{display:block;font-size:1rem}.steps span.d{display:block;color:var(--muted);font-size:.875rem}.steps .st{font-size:.8125rem;font-weight:700;color:var(--muted);white-space:nowrap}.steps .st.ok{color:var(--ok)}.steps .chev{color:var(--muted)}
+/* investigation */
+.feature{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:22px 22px 20px}
+.feature .tag{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--panel2);color:var(--ok);border:1px solid var(--line)}
+.feature h3{font-size:1.25rem;margin:12px 0 6px;letter-spacing:-.01em}.feature .code{color:var(--muted);font-weight:400}
+.feature p.cmp{color:var(--soft);max-width:60ch}
+.ops{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;counter-reset:op}
+.ops li{position:relative;padding:10px 0 0;font-size:.8125rem;line-height:1.25;color:var(--muted);border-top:2px solid var(--line)}.ops li.done{border-color:var(--accent);color:var(--text)}.ops li.cur{border-color:var(--accent);color:var(--text);font-weight:700}
+.ops li:before{counter-increment:op;content:counter(op);display:block;font-size:.75rem;font-weight:700;margin-bottom:2px;color:var(--muted)}.ops li.done:before,.ops li.cur:before{color:var(--accent)}
+.cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:20px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:10px;background:var(--accent);color:var(--on-accent);text-decoration:none;font-weight:800;transition:filter .15s}.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2)}.btn.ghost:hover{border-color:var(--text);filter:none}
+.cta .hint{color:var(--muted);font-size:.875rem;flex:1 1 240px}
+.sub{margin-top:26px}.sub h3{font-size:1rem;letter-spacing:0;display:flex;align-items:center;gap:10px;margin-bottom:10px}.sub h3 .count,.sub summary .count{font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-weight:700;font-size:.8125rem;color:var(--muted);background:var(--panel2);border-radius:999px;padding:2px 9px;border:1px solid var(--line)}
+.list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}.list li+li{border-top:1px solid var(--line)}
+.list a,.list .row{display:flex;align-items:center;gap:12px;padding:13px 16px;text-decoration:none;color:inherit}.list a:hover{background:var(--panel2)}
+.list .id{flex:0 0 auto;font-weight:700;font-size:.8125rem;color:var(--accent);min-width:54px}.list .t{flex:1;min-width:0}.list .meta{font-size:.8125rem;color:var(--muted);white-space:nowrap}.list .row .t{color:var(--muted)}
+details.sub summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:800;font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;margin-bottom:10px}details.sub summary::-webkit-details-marker{display:none}details.sub summary .chev{color:var(--muted);transition:transform .2s;display:inline-block}details.sub[open] summary .chev{transform:rotate(90deg)}
+.empty{border:1px dashed var(--line2);border-radius:12px;padding:22px;color:var(--muted);max-width:62ch}.empty b{color:var(--text);display:block;margin-bottom:4px}
+/* simulation */
+.simrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:22px}
+.simrow p{color:var(--soft);max-width:60ch}.simrow .sm{color:var(--muted);font-size:.875rem;margin-top:6px}
+/* pagination */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:40px}.pager a{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit;background:var(--panel)}.pager a:hover{border-color:var(--line2);background:var(--panel2)}.pager a.next{text-align:right;align-items:flex-end;grid-column:2}.pager .k{font-size:.8125rem;color:var(--muted)}.pager b{font-size:.9375rem}.pager a[hidden]{display:none}
+footer{margin-top:40px;color:var(--muted);font-size:.8125rem;max-width:70ch}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{display:none}.switch{display:block}.top nav{display:none}}
+@media(max-width:750px){main{padding-top:20px}.lesson-head h1{font-size:2rem}.status .go{margin-left:0;flex:1 1 100%}.status .go .btn{width:100%;justify-content:center}.quicknav{position:sticky;top:60px;z-index:20;background:var(--bg);overflow-x:auto;scrollbar-width:none}.quicknav a{white-space:nowrap}.steps a{grid-template-columns:40px 1fr 20px}.steps .st{grid-column:2;justify-self:start}.ops{grid-template-columns:repeat(3,minmax(0,1fr))}.simrow{grid-template-columns:1fr}.feature{padding:18px}.status{gap:16px}}
+@media(max-width:420px){.pager{grid-template-columns:1fr}.pager a.next{text-align:left;align-items:flex-start;grid-column:1}.brand span{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.steps a,.bar i,.btn,details.sub summary .chev{transition:none}}
 </style></head><body>
-<a class="skip" href="#comprendre">Aller au contenu principal</a><header><a href="../6e/"><b>NohobaLab</b> <span>· 6e Côte d’Ivoire</span></a><nav><a href="../6e/">Toutes les leçons</a> · <a href="../collections/">Collections</a></nav></header>
-<main><section class="hero"><div><div class="eyebrow">Hub pédagogique par leçon</div><h1 id="title">Le circuit électrique</h1><p class="muted" id="description">Comprendre, expérimenter et mener une investigation scientifique dans un même espace.</p></div><div><label for="lesson"><b>Changer de leçon</b></label><br><select id="lesson" aria-label="Choisir une leçon de sixième"></select></div></section>
-<nav class="quicknav" aria-label="Accès rapide"><a href="#comprendre">1 · Comprendre</a><a href="#investiguer">2 · Investiguer</a><a href="#labTitle">3 · Simulation</a></nav><div class="cols"><section class="card blue" aria-labelledby="comprendre"><h2 id="comprendre">Comprendre</h2><p class="muted">Résumé narré, simulation, défi et quiz du parcours Studio existant.</p><div class="resources" id="resources"></div></section>
-<section class="card green" aria-labelledby="investiguer"><h2 id="investiguer">Investiguer</h2><p class="muted">Résoudre une situation-problème en construisant des preuves.</p><div id="activity"></div></section></div>
-<section class="card lab" aria-labelledby="labTitle"><h2 id="labTitle">Simulation scientifique partagée</h2><p class="muted">La simulation Studio constitue la référence commune. Elle reste accessible depuis la leçon et depuis ce hub ; l'activité conserve pour l'instant son banc d'essai, à mutualiser dans une deuxième étape.</p><div id="labContent"></div></section>
-<footer>NOHOBA-Lab · Ressource pédagogique indépendante · Les activités non encore développées restent identifiées comme telles.</footer></main>
+<a class="skip" href="#comprendre">Aller au contenu principal</a>
+<header class="top"><a class="back" href="../6e/">← 6e</a><a class="brand" href="../"><b>NohobaLab</b><span>· 6e Côte d’Ivoire</span></a><div class="grow"></div><nav aria-label="Navigation"><a href="../6e/">Toutes les leçons</a><a href="../collections/">Collections</a></nav><button type="button" class="theme" id="themeBtn" aria-label="Basculer le thème clair ou sombre"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button></header>
+<div class="shell">
+<aside class="side"><h2>Leçons de sixième</h2><nav aria-label="Leçons" id="sideNav"></nav></aside>
+<main id="main">
+<div class="switch"><label for="lesson">Changer de leçon</label><select id="lesson" aria-label="Choisir une leçon de sixième"></select></div>
+<header class="lesson-head"><p><span class="thm" id="theme"></span><span class="pos" id="pos"></span></p><h1 id="title">Le circuit électrique</h1><p class="lead" id="description">Comprendre le phénomène, le manipuler, puis mener une investigation scientifique : trois temps dans un même espace.</p>
+<div class="status"><div><span class="k">Parcours Studio</span><span class="v" id="stStudio"></span></div><div><span class="k">Investigation</span><span class="v" id="stInv"></span></div><div class="go" id="go"></div></div></header>
+<nav class="quicknav" aria-label="Accès rapide"><a href="#comprendre">Comprendre</a><a href="#investiguer">Investiguer</a><a href="#simulation">Simulation</a></nav>
+<section class="part" aria-labelledby="comprendre"><div class="part-head"><span class="n" aria-hidden="true">1</span><div><h2 id="comprendre">Comprendre</h2><p>Le parcours Studio en quatre étapes : résumé narré, simulation, défi et quiz.</p></div></div><ol class="steps" id="resources"></ol></section>
+<section class="part" aria-labelledby="investiguer"><div class="part-head"><span class="n" aria-hidden="true">2</span><div><h2 id="investiguer">Investiguer</h2><p>Résoudre une situation-problème en construisant des preuves, en six opérations scientifiques.</p></div></div><div id="activity"></div></section>
+<section class="part" aria-labelledby="simulation"><div class="part-head"><span class="n" aria-hidden="true">3</span><div><h2 id="simulation">Simulation scientifique partagée</h2><p>La simulation Studio est la référence commune de la leçon et de l’investigation.</p></div></div><div id="labContent"></div></section>
+<nav class="pager" aria-label="Leçon précédente et suivante"><a id="prev" href="#"><span class="k">← Leçon précédente</span><b></b></a><a id="next" class="next" href="#"><span class="k">Leçon suivante →</span><b></b></a></nav>
+<footer>NOHOBA-Lab · Ressource pédagogique indépendante · Les activités non encore développées restent identifiées comme telles. Tes réponses sont conservées sur cet appareil uniquement.</footer>
+</main></div>
 <script src="../assets/studio/programme.js"></script>
+<script src="../assets/catalogues/6e-ci.js"></script>
 <script>
 (function(){
 'use strict';
-var prog=(window.PROGRAMME&&window.PROGRAMME['6e'])||[],lessons=[];
-prog.forEach(function(t){t.les.forEach(function(l){lessons.push({slug:l.slug,title:l.t,theme:t.nm,ready:l.ready});});});
-var sel=document.getElementById('lesson'),head=document.getElementById('title'),desc=document.getElementById('description'),resources=document.getElementById('resources'),activity=document.getElementById('activity'),labContent=document.getElementById('labContent');
-function link(href,label,text,done){var a=document.createElement('a');a.className='tile';a.href=href;var b=document.createElement('strong');b.textContent=label;var p=document.createElement('span');p.className='small muted';p.textContent=text;a.appendChild(b);a.appendChild(p);if(done){var e=document.createElement('em');e.textContent='Déjà réalisé';a.appendChild(e);}return a;}
-prog.forEach(function(t){var grp=document.createElement('optgroup');grp.label=t.nm;t.les.forEach(function(l){var o=document.createElement('option');o.value=l.slug;o.textContent=l.t;grp.appendChild(o);});sel.appendChild(grp);});
+var prog=(window.PROGRAMME&&window.PROGRAMME['6e'])||[],cat=window.NL_CATALOGUE_CI_6E||[],lessons=[];
+/* pilote validé : affiché même si le catalogue ne se charge pas */
+if(!cat.length)cat=[{id:'NL-CI-6E-ELE-07',sourceId:'ELE-07',lecon:'Circuit électrique',titre:'Conducteurs et isolants',statut:'disponible'}];
+prog.forEach(function(t){t.les.forEach(function(l){lessons.push({slug:l.slug,title:l.t,theme:t.nm,col:t.col,ready:l.ready});});});
+/* libellés de leçon du catalogue → slugs du programme */
+var SLUG={'Circuit électrique':'circuit-electrique','Commande d’un circuit':'commande-circuit','Court-circuit et protection':'court-circuit','Solides et liquides':'solides-liquides','Gaz':'les-gaz','Température d’un corps':'temperature','Changements d’état de l’eau':'changements-etat','Volume d’un liquide ou d’un solide':'volume','Masse d’un solide ou d’un liquide':'masse','Constituants de l’air':'constituants-air','Combustions de solides et liquides':'combustion-solide-liquide','Combustion de gaz':'combustion-gaz','Dangers des combustions':'dangers-combustions'};
+var STEPS=[['resume','Résumé narré','Comprendre l’essentiel en une minute','<path d="M5 4h14v16H5z"/><path d="M10 9l5 3-5 3z"/>'],['sim','Simulation','Manipuler les phénomènes et observer','<circle cx="12" cy="12" r="3"/><path d="M3 12h4M17 12h4M12 3v4M12 17v4"/>'],['defi','Défi','Réinvestir pour résoudre un problème','<path d="M6 3h12l-2 7H8z"/><path d="M12 10v7M8 21h8"/>'],['quiz','Quiz','Vérifier ce que je sais','<circle cx="12" cy="12" r="10"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.4"/><circle cx="12" cy="16.5" r=".6"/>']];
+var OPS=['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'];
+var $=function(id){return document.getElementById(id);};
+function el(tag,attrs,parent){var e=document.createElement(tag);for(var k in attrs){if(k==='text')e.textContent=attrs[k];else if(k==='html')e.innerHTML=attrs[k];else e.setAttribute(k,attrs[k]);}if(parent)parent.appendChild(e);return e;}
+function read(key){try{return JSON.parse(localStorage.getItem(key))||{};}catch(e){return {};}}
+function studioProg(slug){var p=read('pc-studio-prog')['6e-'+slug]||{};return STEPS.map(function(s){return !!p[s[0]];});}
+/* même règle d'avancement que le moteur d'activité (reached) ; 0 = jamais ouverte, 6 = conclusion rédigée */
+function actState(id){var st=read('pc-act-'+id);if(!Object.keys(st).length)return 0;if(!st.prevision)return 1;if(!(st.essais&&st.essais.length))return 2;if(!st.confront)return 3;if(!st.conclusion)return 4;return 6;}
+function acts(slug){return cat.filter(function(a){return SLUG[a.lecon]===slug;});}
+/* thème clair / sombre, partagé avec le Studio */
+$('themeBtn').addEventListener('click',function(){var r=document.documentElement,t=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',t);try{localStorage.setItem('pc-theme',t);var s=read('pc-studio');s.theme=t;localStorage.setItem('pc-studio',JSON.stringify(s));}catch(e){}});
+/* sélecteur (mobile) et liste latérale */
+var sel=$('lesson'),side=$('sideNav');
+prog.forEach(function(t){var grp=document.createElement('optgroup');grp.label=t.nm;t.les.forEach(function(l){el('option',{value:l.slug,text:l.t},grp);});sel.appendChild(grp);
+ var h=el('h3',{style:'--tc:'+t.col},side);el('i',{'aria-hidden':'true'},h);h.appendChild(document.createTextNode(t.nm));var ul=el('ul',{},side);
+ t.les.forEach(function(l){var li=el('li',{},ul),a=el('a',{href:'?l='+l.slug,'data-slug':l.slug},li);el('span',{class:'t',text:l.t},a);var d=el('span',{class:'dots','aria-hidden':'true'},a);for(var i=0;i<4;i++)el('i',{},d);});});
 var url=new URL(location.href),slug=url.searchParams.get('l')||'circuit-electrique';if(!lessons.some(function(x){return x.slug===slug;}))slug='circuit-electrique';
-function render(slug){var l=lessons.find(function(x){return x.slug===slug;});if(!l)return;sel.value=slug;head.textContent=l.title;document.title=l.title+' · Hub 6e · NOHOBA-Lab';desc.textContent=l.theme+' · Leçon de sixième · Comprendre et investiguer';resources.replaceChildren();[['Résumé narré','resume','Comprendre en environ une minute'],['Simulation','sim','Manipuler les phénomènes'],['Défi','defi','Réinvestir et résoudre'],['Quiz','quiz','Vérifier les acquis']].forEach(function(r){resources.appendChild(link('../lecon/?l='+slug+'#'+r[1],r[0],r[2],false));});activity.replaceChildren();var n=document.createElement('p');n.className='small muted';if(slug==='circuit-electrique'){n.textContent='Activité ELE-07 · Conducteurs et isolants · 6 opérations scientifiques';var st=document.createElement('span');st.className='pill greenpill';st.textContent='Disponible';activity.appendChild(st);activity.appendChild(n);var a=document.createElement('a');a.className='btn greenbtn';a.href='../activites-ci/?a=NL-CI-6E-ELE-07&lecon=circuit-electrique';a.textContent='Ouvrir l’investigation ELE-07 →';activity.appendChild(a);var ol=document.createElement('ol');ol.className='path';['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'].forEach(function(txt,i){var li=document.createElement('li'),b=document.createElement('b');b.textContent=(i+1)+' · ';li.appendChild(b);li.appendChild(document.createTextNode(txt));ol.appendChild(li);});activity.appendChild(ol);var hint=document.createElement('p');hint.className='small muted';hint.textContent='Tes observations sont conservées sur cet appareil. Le parcours Studio et l’investigation restent indépendants.';activity.appendChild(hint);var pt=document.createElement('h3');pt.textContent='Prototypes à valider · leçon « Circuit électrique »';activity.appendChild(pt);var pl=document.createElement('ul');pl.className='small';[['NL-CI-6E-ELE-01','ELE-01 · Identifier les bornes d’une pile et d’une lampe'],['NL-CI-6E-ELE-02','ELE-02 · Allumer une lampe à l’aide d’une pile'],['NL-CI-6E-ELE-03','ELE-03 · Réaliser un circuit électrique'],['NL-CI-6E-ELE-04','ELE-04 · Découvrir le rôle de chaque élément du circuit'],['NL-CI-6E-ELE-05','ELE-05 · Schématiser un circuit électrique'],['NL-CI-6E-ELE-17','ELE-17 · Découvrir la notion de courant électrique']].forEach(function(r){var li=document.createElement('li'),a2=document.createElement('a');a2.href='../activites-ci/?a='+r[0]+'&lecon=circuit-electrique';a2.textContent=r[1];li.appendChild(a2);li.appendChild(document.createTextNode(' — prototype'));pl.appendChild(li);});activity.appendChild(pl);}else{var d=document.createElement('div');d.className='note';d.setAttribute('role','status');d.textContent='Les ressources de la leçon sont disponibles. Les activités d’investigation associées seront ajoutées progressivement après validation.';activity.appendChild(d);}labContent.replaceChildren();var a=document.createElement('a');a.className='btn';a.href='../lecon/?l='+slug+'#sim';a.textContent='Manipuler la simulation de cette leçon →';labContent.appendChild(a);var p=document.createElement('p');p.className='small muted';p.textContent='Ouvre la simulation dans son espace d’origine : toutes les commandes et animations restent fonctionnelles.';labContent.appendChild(p);history.replaceState(null,'',location.pathname+'?l='+encodeURIComponent(slug));}
-sel.addEventListener('change',function(){render(sel.value);});render(slug);
+function render(slug){
+ var idx=lessons.findIndex(function(x){return x.slug===slug;}),l=lessons[idx];if(!l)return;
+ sel.value=slug;$('main').style.setProperty('--accent',l.col);document.title=l.title+' · Hub 6e · NOHOBA-Lab';
+ $('theme').textContent=l.theme;$('pos').textContent='Leçon '+(idx+1)+' sur '+lessons.length;$('title').textContent=l.title;
+ /* liste latérale : leçon courante et progression */
+ var sp=studioProg(slug);side.querySelectorAll('a').forEach(function(a){var s=a.getAttribute('data-slug');if(s===slug)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');var p=studioProg(s);a.querySelectorAll('.dots i').forEach(function(d,i){d.className=p[i]?'on':'';});});
+ var nDone=sp.filter(Boolean).length,stS=$('stStudio');stS.replaceChildren();stS.appendChild(document.createTextNode(nDone+' / 4 étapes'));var bar=el('span',{class:'bar','aria-hidden':'true'},stS);var fill=el('i',{},bar);requestAnimationFrame(function(){fill.style.width=(nDone*25)+'%';});
+ /* 1 · Comprendre */
+ var res=$('resources');res.replaceChildren();
+ STEPS.forEach(function(s,i){var li=el('li',{},res),a=el('a',{href:'../lecon/?l='+slug+'#'+s[0]},li);el('span',{class:'ic','aria-hidden':'true',html:'<svg viewBox="0 0 24 24">'+s[3]+'</svg>'},a);var tx=el('span',{},a);el('b',{text:s[1]},tx);el('span',{class:'d',text:s[2]},tx);el('span',{class:'st'+(sp[i]?' ok':''),text:sp[i]?'Déjà réalisé':'À faire'},a);el('span',{class:'chev','aria-hidden':'true',text:'›'},a);});
+ /* 2 · Investiguer */
+ var A=acts(slug),dispo=A.filter(function(a){return a.statut==='disponible';}),proto=A.filter(function(a){return a.statut==='prototype';}),conc=A.filter(function(a){return a.statut==='conception';});
+ $('stInv').textContent=A.length?[dispo.length+' disponible'+(dispo.length>1?'s':''),proto.length?proto.length+' prototype'+(proto.length>1?'s':''):'',conc.length?conc.length+' en conception':''].filter(Boolean).join(' · '):'Aucune activité pour l’instant';
+ var act=$('activity');act.replaceChildren();
+ if(dispo.length){dispo.forEach(function(a){var f=el('div',{class:'feature'},act);el('span',{class:'tag',text:'Disponible'},f);var h3=el('h3',{},f);h3.appendChild(document.createTextNode(a.titre+' '));el('span',{class:'code',text:'· '+a.sourceId},h3);el('p',{class:'cmp',text:'Une investigation complète en six opérations, avec une table d’essai à manipuler et un cahier d’investigation imprimable.'},f);
+  var state=actState(a.id),ol=el('ol',{class:'ops','aria-label':'Les six opérations scientifiques'},f);OPS.forEach(function(o,i){el('li',{class:i<state?'done':(i===state&&state>0?'cur':''),text:o},ol);});
+  var cta=el('div',{class:'cta'},f),href='../activites-ci/?a='+a.id+'&lecon='+slug;el('a',{class:'btn',href:href,text:state===0?'Commencer l’investigation':state>=6?'Revoir mon investigation':'Reprendre l’investigation'},cta);el('span',{class:'hint',text:state===0?'Tes réponses sont enregistrées sur cet appareil au fil des étapes.':state>=6?'Investigation terminée : conclusion rédigée.':'En cours · opération '+(state+1)+' sur 6.'},cta);});}
+ else{var em=el('div',{class:'empty'},act);el('b',{text:'Aucune investigation disponible pour cette leçon pour l’instant.'},em);el('p',{text:A.length?'Les activités ci-dessous sont en préparation. La simulation Studio reste accessible.':'Cette leçon ne comporte pas encore d’activité au catalogue.'},em);}
+ if(proto.length){var s1=el('div',{class:'sub'},act),h=el('h3',{},s1);h.appendChild(document.createTextNode('Prototypes à valider'));el('span',{class:'count',text:String(proto.length)},h);var ul=el('ul',{class:'list'},s1);proto.forEach(function(a){var li=el('li',{},ul),x=el('a',{href:'../activites-ci/?a='+a.id+'&lecon='+slug},li);el('span',{class:'id',text:a.sourceId},x);el('span',{class:'t',text:a.titre},x);var st=actState(a.id);el('span',{class:'meta',text:st>=6?'Terminée':st?'En cours':'Prototype'},x);});}
+ if(conc.length){var d=el('details',{class:'sub'},act),sm=el('summary',{},d);el('span',{class:'chev','aria-hidden':'true',text:'›'},sm);sm.appendChild(document.createTextNode('En conception'));el('span',{class:'count',text:String(conc.length)},sm);var ul2=el('ul',{class:'list'},d);conc.forEach(function(a){var li=el('li',{},ul2),r=el('div',{class:'row'},li);el('span',{class:'id',text:a.sourceId},r);el('span',{class:'t',text:a.titre},r);el('span',{class:'meta',text:'À venir'},r);});}
+ /* 3 · Simulation */
+ var lab=$('labContent');lab.replaceChildren();var row=el('div',{class:'simrow'},lab),tx=el('div',{},row);el('p',{text:'Ouvre la simulation dans son espace d’origine : toutes les commandes et animations restent fonctionnelles.'},tx);el('p',{class:'sm',text:'L’activité d’investigation garde pour l’instant son propre banc d’essai.'},tx);el('a',{class:'btn ghost',href:'../lecon/?l='+slug+'#sim',text:'Manipuler la simulation →'},row);
+ /* reprendre : première étape Studio non faite, sinon l'investigation disponible, sinon revoir */
+ var go=$('go');go.replaceChildren();var nextStep=STEPS.findIndex(function(s,i){return !sp[i];}),avail=dispo[0],aState=avail?actState(avail.id):6;
+ if(nextStep>=0)el('a',{class:'btn',href:'../lecon/?l='+slug+'#'+STEPS[nextStep][0],text:(nDone?'Reprendre : ':'Commencer : ')+STEPS[nextStep][1]+' →'},go);
+ else if(avail&&aState<6)el('a',{class:'btn',href:'../activites-ci/?a='+avail.id+'&lecon='+slug,text:(aState?'Reprendre':'Passer à')+' l’investigation →'},go);
+ else el('a',{class:'btn ghost',href:'../lecon/?l='+slug+'#resume',text:'Revoir la leçon →'},go);
+ /* précédente / suivante */
+ var pv=lessons[idx-1],nx=lessons[idx+1],P=$('prev'),N=$('next');P.hidden=!pv;N.hidden=!nx;if(pv){P.href='?l='+pv.slug;P.querySelector('b').textContent=pv.title;}if(nx){N.href='?l='+nx.slug;N.querySelector('b').textContent=nx.title;}
+}
+function go(s,push){slug=s;if(push){var u=new URL(location.href);u.searchParams.set('l',s);history.pushState({l:s},'',u);}render(s);}
+sel.addEventListener('change',function(){go(sel.value,true);window.scrollTo(0,0);});
+document.addEventListener('click',function(e){var a=e.target.closest('a[href^="?l="]');if(!a||e.metaKey||e.ctrlKey)return;e.preventDefault();go(new URL(a.href).searchParams.get('l'),true);if(!a.closest('.side'))window.scrollTo(0,0);});
+window.addEventListener('popstate',function(){render(new URL(location.href).searchParams.get('l')||'circuit-electrique');});
+window.addEventListener('pageshow',function(e){if(e.persisted)render(slug);});
+render(slug);
 })();
 </script></body></html>
