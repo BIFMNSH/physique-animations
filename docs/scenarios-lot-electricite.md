@@ -52,19 +52,19 @@ Garde-fous : limiter à la boucle unique (en série) ; ne pas généraliser à u
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Électricité** / Commande d'un circuit |
-| Compétence visée | Utiliser un bouton poussoir pour fermer le circuit seulement pendant l'appui. |
+| Compétence visée | Utiliser un bouton poussoir, ouvert ou fermé au repos, pour commander un circuit pendant l'appui. |
 | À la fin de cette partie, je dois être capable de | Réaliser le circuit ; décrire ce qui se passe pendant et après l'appui ; distinguer bouton poussoir et interrupteur. |
 
 | Opération | Scénario proposé |
 |---|---|
 | Problématiser | La sonnette de la maison d'Awa ne sonne que lorsqu'on appuie. Quel élément le permet ? |
 | Émettre une hypothèse | L'élève prévoit l'état de la lampe appui maintenu, puis après relâchement. |
-| Expérimenter / Investiguer | Appui maintenu, appui bref, relâchement ; comparaison avec un interrupteur dans le même circuit, seul l'élément de commande change. |
-| Analyser et interpréter | Le bouton ferme le circuit seulement pendant l'appui ; l'interrupteur garde sa position. |
+| Expérimenter / Investiguer | Appui maintenu, appui bref, relâchement, avec le bouton ouvert au repos puis fermé au repos ; comparaison avec un interrupteur dans le même circuit, seul l'élément de commande change. |
+| Analyser et interpréter | Bouton ouvert au repos : le circuit se ferme pendant l'appui. Bouton fermé au repos : il s'ouvre pendant l'appui. L'interrupteur, lui, garde sa position. |
 | Conclure | L'élève décrit la différence en une phrase. |
 | Communiquer | Deux schémas (appui / repos), tableau des observations imprimé. |
 
-Garde-fous : bouton « normalement ouvert » uniquement ; le contact de repos de l'élément réel est à confirmer sur le matériel ivoirien.
+Garde-fous : le programme prescrit les **deux versions** du bouton (ouvert et fermé au repos) et leurs symboles ; les deux sont traitées. Le contact de repos de l'élément réel reste à confirmer sur le matériel ivoirien.
 
 ## ELE-10 · Allumage alterné de deux lampes avec un commutateur
 
@@ -102,14 +102,14 @@ Garde-fous : ne pas confondre avec le va-et-vient (ELE-11) ; symbole du commutat
 | Conclure | L'élève formule : chaque commutateur peut allumer ou éteindre, quelle que soit la position de l'autre. |
 | Communiquer | Tableau des quatre combinaisons et schéma normalisé annotés. |
 
-Garde-fous : câblage en basse tension uniquement (4,5 V) ; l'installation d'une maison réelle relève d'un électricien. Le tableau est construit par l'élève, pas affiché d'avance.
+Garde-fous : le guide d'exécution précise que le va-et-vient n'est pas un organe de commande mais un circuit qui utilise deux commutateurs : la fiche vise aussi à le **reconnaître** sur un schéma. Câblage en basse tension uniquement (4,5 V) ; l'installation d'une maison réelle relève d'un électricien. Le tableau est construit par l'élève, pas affiché d'avance.
 
 ## ELE-12 · Définir un court-circuit
 
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Électricité** / Court-circuit et protection |
-| Compétence visée | Définir un court-circuit comme une liaison conductrice directe entre les bornes d'un générateur, sans récepteur. |
+| Compétence visée | Définir un court-circuit comme une liaison de très faible résistance entre deux points d'un circuit (bornes du générateur ou bornes d'un récepteur). |
 | À la fin de cette partie, je dois être capable de | Reconnaître un court-circuit sur un schéma ; décrire l'effet sur la lampe ; dire pourquoi c'est une situation à éviter. |
 
 | Opération | Scénario proposé |
@@ -121,7 +121,7 @@ Garde-fous : câblage en basse tension uniquement (4,5 V) ; l'installation d'une
 | Conclure | L'élève écrit la définition avec ses mots. |
 | Communiquer | Deux schémas annotés, un avec court-circuit, un sans. |
 
-Garde-fous : jamais de manipulation réelle ; échelle d'échauffement qualitative, sans valeur d'intensité (la valeur du Studio est une illustration).
+Garde-fous : l'élève investigue sur simulation ; échelle d'échauffement qualitative, sans valeur d'intensité (la valeur du Studio est une illustration). Le programme prescrit aussi, sous la conduite du professeur, un court-circuit d'une lampe par un fil et d'une pile de 9 V par de la paille de fer : à traiter comme **démonstration du professeur** hors de la fiche élève (écart signalé au registre).
 
 ## ELE-13 · Identifier les causes d'un court-circuit
 
@@ -136,11 +136,11 @@ Garde-fous : jamais de manipulation réelle ; échelle d'échauffement qualitati
 | Problématiser | Plusieurs incidents arrivent dans une maison. Lesquels créent un chemin direct entre les deux fils ? |
 | Émettre une hypothèse | L'élève classe d'abord six situations illustrées en « court-circuit » ou « pas de court-circuit ». |
 | Expérimenter / Investiguer | Chaque situation est testée en simulation ; l'élève relève ce qu'il observe. |
-| Analyser et interpréter | Un court-circuit apparaît quand un conducteur relie directement les deux fils ; un isolant ne le crée pas. |
+| Analyser et interpréter | Un court-circuit apparaît quand un conducteur relie directement les deux fils ; un isolant ne le crée pas. L'élève distingue ce contact accidentel d'une simple surcharge (trop d'appareils). |
 | Conclure | L'élève corrige son classement et énonce deux causes. |
 | Communiquer | Tableau des situations imprimé avec classement initial et corrigé. |
 
-Garde-fous : ne pas affirmer que « toute eau conduit » ; s'appuyer sur ELE-07 pour les liquides. Situations illustrées sans mise en scène de danger.
+Garde-fous : le guide demande seulement de faire identifier les causes, sans liste officielle : les six situations sont une proposition NohobaLab. Ne pas affirmer que « toute eau conduit » ; s'appuyer sur ELE-07 pour les liquides. Situations illustrées sans mise en scène de danger.
 
 ## ELE-14 · Découvrir les dangers d'un court-circuit
 
@@ -178,7 +178,7 @@ Garde-fous : ton factuel, non anxiogène ; **numéro des sapeurs-pompiers 180 à
 | Conclure | L'élève compare les deux protections en deux phrases. |
 | Communiquer | Tableau de comparaison fusible / disjoncteur imprimé. |
 
-Garde-fous : message explicite « ne jamais remplacer un fusible par un fil » ; calibre non chiffré dans la simulation ; aucune intervention sur une installation réelle (électricien agréé, CIE).
+Garde-fous : le guide ne détaille que la fusion du fusible et le rôle du disjoncteur, sans mécanisme : rester qualitatif et ne pas inventer de fonctionnement interne. Message explicite « ne jamais remplacer un fusible par un fil » ; calibre non chiffré dans la simulation ; aucune intervention sur une installation réelle (électricien agréé, CIE).
 
 ## ELE-16 · Identifier les causes d'une panne dans un circuit
 
@@ -197,7 +197,7 @@ Garde-fous : message explicite « ne jamais remplacer un fusible par un fil » ;
 | Conclure | L'élève écrit la cause trouvée et la méthode utilisée. |
 | Communiquer | Fiche de dépannage imprimée (causes testées, résultat de chaque test). |
 
-Garde-fous : pas de mesure au multimètre dans ce lot (à confirmer selon la progression) ; une seule cause cachée par circuit.
+Garde-fous : le programme prévoit de trouver la panne avec un testeur de continuité ou un circuit témoin, puis de remplacer l'élément défectueux : la simulation propose un circuit témoin et un testeur de continuité qualitatif (allumé / éteint), sans valeur chiffrée. Une seule cause cachée par circuit ; **jamais sur le secteur** (interdit par le guide).
 
 ---
 
@@ -205,15 +205,16 @@ Garde-fous : pas de mesure au multimètre dans ce lot (à confirmer selon la pro
 
 | Source | Ce qui est établi | Ce qui reste à vérifier |
 |---|---|---|
-| Catalogue éditorial NohobaLab | Les neuf intitulés figurent au catalogue CI. | Ils ne remplacent pas les documents officiels. |
-| [Programme éducatif et guide d'exécution MENA, 6e](https://apprendre.auf.org/wp-content/uploads/2021/08/13-Programme_Educatif_PC_6ieme.pdf) | Référence signalée dans le dossier de transmission. | Pages, habiletés et matériel de chaque notion, non lus ici : aucun numéro de page certifié. |
-| Manuel JD Éditions, spécimen | Structure et habiletés seulement ; consignes et figures originales. | Place de chaque notion dans la progression. |
-| 13 TP officiels DPFC | Référence identifiée. | Archive non vérifiée pour ce lot : confirmer les TP concernés et leur matériel. |
+| [Programme éducatif et guide d'exécution MENA, 6e](https://apprendre.auf.org/wp-content/uploads/2021/08/13-Programme_Educatif_PC_6ieme.pdf) | Lecture assistée du 24 octobre 2026 : « Commande d'un circuit » = programme p. 7-8, guide p. 17-18 ; « Court-circuit et protection » = programme p. 8, guide p. 19-20. Habiletés : réaliser et schématiser les circuits commandés (interrupteur, bouton poussoir ouvert et fermé au repos, commutateur, va-et-vient) ; définir court-circuit, causes, dangers, rôle du fusible et du disjoncteur ; identifier une panne et remplacer l'élément défectueux. | Numéros de page issus d'une lecture assistée : à confirmer sur le PDF. Le guide ne donne ni liste des causes, ni mécanisme du disjoncteur, ni câblage détaillé du va-et-vient. |
+| Dossier « Extraction des 70 activités » (23 octobre 2026) | Intitulés et scénarios éditoriaux NohobaLab ; pages 25 à 38 du manuel = « référence éditoriale antérieure » ; correspondance MENA marquée « à vérifier ». | Ces scénarios sont des adaptations, pas des textes officiels. |
+| Manuel JD Éditions | Structure et habiletés seulement ; consignes et figures originales. | Non fourni ici : pages citées par le dossier non revérifiées. |
+| 13 TP officiels DPFC | Archive annoncée par le dossier. | **Archive non reçue** (seuls deux documents Word ont été joints) : TP concernés et matériel à confirmer. |
 
 ### Décisions attendues du propriétaire
 
 1. Valider le découpage en neuf fiches et leur appui sur les leçons `commande-circuit` et `court-circuit` du Studio (réutilisation du modèle, sans reprendre ses valeurs d'illustration).
-2. Valider le contenu de ELE-14 (dangers) et ELE-15 (protections), ainsi que le numéro 180 avant publication.
+2. Valider ELE-14 (dangers) et ELE-15 (protections), ainsi que le numéro 180 avant publication.
 3. Décider si ELE-06 est construite avec ce lot ou séparément.
-4. Confirmer les références MENA, JD Éditions et TP, et la compatibilité du matériel réel.
-5. Après construction et recette, les fiches restent **prototype** jusqu'à votre validation explicite.
+4. Choisir pour ELE-12 : démonstration du professeur (court-circuit réel guidé, paille de fer) en complément de la simulation élève, ou simulation seule.
+5. Fournir l'archive des 13 TP DPFC pour confirmer les références.
+6. Après construction et recette, les fiches restent **prototype** jusqu'à votre validation explicite. Les corrigés ne seront pas placés dans les fichiers publics (consigne de la passation).
