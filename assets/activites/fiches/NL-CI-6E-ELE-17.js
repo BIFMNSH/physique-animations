@@ -9,15 +9,15 @@
   const ferme=a=>a==='ferme';
   function dessin(a){
     const A=window.NohobaAtelier,on=ferme(a);
-    const rFull='M78 58 C78 14 110 14 150 14 H408 V206 H360 V164',nFull='M344 139 H320 V218 H14 V60 C14 24 54 24 54 46 V58';
+    const rFull='M77.7 58.2 V14 H408 V206 H360 V158',nFull='M344 139 H320 V218 H14 V46 H54.3 V58.2';
     let s='';
     if(a==='pile')s+='<rect x="26" y="52" width="86" height="130" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+A.T(69,122,'pile retirée',13,'#8895A8',700);else s+=A.pile45(30,96,.9);
     s+=A.lampe(360,100,on,1);
-    s+=A.fil('M78 58 C78 14 110 14 150 14 H191','#E0342F')+A.fil('M239 14 H408 V206 H360 V'+(a==='rouge'?'190':'164'),'#E0342F');
-    s+=A.fil('M54 58 V46 C54 24 14 24 14 60 V218 H320 V'+(a==='noir'?'170':'139')+(a==='noir'?'':' H344'),'#2E3138');
+    s+=A.fil('M77.7 58.2 V14 H191','#E0342F')+A.fil('M239 14 H408 V206 H360 V'+(a==='rouge'?'190':'158'),'#E0342F');
+    s+=A.fil('M54.3 58.2 V46 H14 V218 H320 V'+(a==='noir'?'170':'139')+(a==='noir'?'':' H344'),'#2E3138');
     s+=A.interrupteur(215,14,a!=='inter');
     s+='<path data-w="r" d="'+rFull+'" fill="none" stroke="none"/><path data-w="n" d="'+nFull+'" fill="none" stroke="none"/><g data-g="m"></g>';
-    s+=A.broches([[360,a==='rouge'?190:164],[a==='noir'?320:344,a==='noir'?170:139]]);
+    s+=A.broches([[360,a==='rouge'?190:158],[a==='noir'?320:344,a==='noir'?170:139]]);
     return A.svg(s,'0 -26 460 290','Pile, interrupteur, lampe et fils avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
   }
   function manip(panel,X){

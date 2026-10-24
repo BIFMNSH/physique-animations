@@ -13,22 +13,21 @@
     const A=window.NohobaAtelier,on=allume(plot,lame),retourne=plot==='moins',cote=plot==='cote';
     const px=150,py=130; /* pile */
     let s='';
-    if(retourne)s+='<g transform="translate('+px+' '+(py+57)+') scale(1 -1) translate('+(-px)+' '+(-(py+57))+')">'+A.pileCyl(px,py,1)+'</g>';else s+=A.pileCyl(px,py,1);
+    if(retourne)s+='<g transform="translate('+px+' '+(py+52)+') scale(1 -1) translate('+(-px)+' '+(-(py+52))+')">'+A.pileCyl(px,py,1)+'</g>';else s+=A.pileCyl(px,py,1);
     /* positions des bornes selon l'orientation de la pile : haut y=py-10 ; bas y=py+114 */
     const haut={x:px,y:py-10},bas={x:px,y:py+114};
-    const spot={plus:retourne?bas:haut,moins:retourne?haut:bas,cote:{x:px-30,y:py+60}};
-    s+=A.pastille(px+88,haut.y+4,retourne?'borne −':'borne +')+A.pastille(px+88,bas.y,retourne?'borne +':'borne −');
-    let lx,ly,rot=0,culot;
-    if(cote){lx=px+80;ly=py+60;rot=90;culot={x:lx,y:ly-16};}
-    else if(retourne){lx=px;ly=py-70;culot={x:lx-16,y:ly+39};}
-    else{lx=px;ly=py-70;culot={x:lx-16,y:ly+39};}
+    const spot={plus:retourne?bas:haut,moins:retourne?haut:bas,cote:{x:px+30,y:py+60}};
+    s+=A.pastille(px-80,haut.y+4,retourne?'borne −':'borne +')+A.pastille(px-80,bas.y,retourne?'borne +':'borne −');
+    let lx,ly,culot;
+    if(cote){lx=px+88;ly=py+60;culot={x:lx-39,y:ly-16};}
+    else{lx=px;ly=py-68;culot={x:lx-16,y:ly+39};}
     if(cote)s+='<g transform="translate('+lx+' '+ly+') rotate(90) translate('+(-lx)+' '+(-ly)+')">'+A.lampe(lx,ly,on,1)+'</g>';else s+=A.lampe(lx,ly,on,1);
     /* lame métallique : du culot vers la cible */
-    let c0=cote?{x:lx+16,y:ly-26}:culot,d,t=spot[lame];
+    let c0=culot,d,t=spot[lame];
     const gold='#C99A1E';
     if(lame==='rien')d='M'+c0.x+' '+c0.y+' H'+(c0.x-46)+' V'+(c0.y+34);
-    else if(lame==='cote')d='M'+c0.x+' '+c0.y+' H'+(cote?c0.x+40:c0.x-60)+' V'+t.y+' H'+(cote?px+30+6:t.x+2);
-    else d='M'+c0.x+' '+c0.y+' H'+(cote?c0.x+60:c0.x-70)+' V'+(t.y+(t.y>py+60?10:-0))+' H'+t.x;
+    else if(lame==='cote')d='M'+c0.x+' '+c0.y+' H'+(cote?c0.x-8:px-44)+' V'+(py+120)+' H'+(px+44)+' V'+t.y+' H'+t.x;
+    else d='M'+c0.x+' '+c0.y+' H'+(cote?px+44:px-44)+' V'+t.y+' H'+t.x;
     s+='<path d="'+d+'" fill="none" stroke="#1B2540" stroke-opacity=".15" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" transform="translate(2 3)"/><path d="'+d+'" fill="none" stroke="'+gold+'" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>';
     return A.svg(s,'0 0 440 270','Pile cylindrique, lampe et lame métallique : '+(on?'la lampe brille':'la lampe est éteinte'));
   }

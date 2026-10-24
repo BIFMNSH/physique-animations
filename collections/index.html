@@ -1,6 +1,134 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Collections scientifiques · NOHOBA-Lab</title><meta name="description" content="Collections d'investigation scientifique : programme ivoirien de 6e et cycle 4 français."><style>
-:root{font-family:system-ui,sans-serif;color-scheme:light dark}body{margin:0;background:#101827;color:#f8fafc}header,main,footer{max-width:1120px;margin:auto;padding:22px}header{display:flex;gap:16px;justify-content:space-between;align-items:center}a{color:inherit}header a{font-size:14px}.intro{padding:30px 0}.eyebrow{color:#94e1dc;font-weight:650;font-size:13px}h1{font-size:clamp(28px,4vw,44px);margin:8px 0}p{line-height:1.5;color:#d3d9e5}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px}.card{background:#1d2a40;border:1px solid #43516a;border-radius:18px;padding:24px}.card h2{font-size:23px}.meta{font-size:14px;color:#bed2e3}.link{display:inline-block;background:#23a69a;color:#041b21;font-weight:750;padding:12px 16px;border-radius:12px;text-decoration:none}.link.secondary{background:#c0b0ff}.note{border-left:3px solid #6dd4ca;padding:10px 17px;margin-top:24px;background:#182437}.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}select,input{border:1px solid #8494ad;border-radius:10px;padding:10px;background:#142138;color:#fff;font:inherit}.item{padding:14px;border-top:1px solid #3a4b61}.item b{display:block}.item small{color:#b5c8dc}.tag{display:inline-block;background:#33475d;border-radius:6px;padding:3px 8px;font-size:12px}.sr{position:absolute;left:-9999px}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f9d85c;outline-offset:3px}
-</style></head><body><header><b>NOHOBA-Lab</b><nav><a href="../">Accueil</a> · <a href="../activites/">Activités françaises</a> · <a href="../6e/">Leçons de 6e</a></nav></header><main><section class="intro"><div class="eyebrow">COLLECTIONS · PHYSIQUE-CHIMIE</div><h1>Deux programmes. Une même démarche scientifique.</h1><p>Les collections restent distinctes, mais les activités suivent les six opérations : problématiser, émettre une hypothèse, expérimenter ou investiguer, analyser et interpréter, conclure, communiquer.</p></section><div class="cards"><section class="card"><div class="eyebrow">CÔTE D’IVOIRE · 6e</div><h2>70 activités au catalogue</h2><p>4 thèmes · 13 leçons · Catalogue éditorial initial. Une première investigation est disponible en prévisualisation ; les autres restent en conception.</p><a class="link" href="#ci">Explorer les 70 activités</a></section><section class="card"><div class="eyebrow">FRANCE · CYCLE 4</div><h2>48 activités au catalogue</h2><p>5e, 4e et 3e · 16 activités déclarées disponibles dans le dépôt, 32 en conception.</p><a class="link secondary" href="../activites/">Ouvrir le parcours existant</a></section></div><section id="ci" style="margin-top:34px"><h2>Catalogue ivoirien · 6e</h2><p id="count" aria-live="polite">70 activités référencées</p><div class="controls"><label for="theme">Thème</label><select id="theme"><option value="">Tous les thèmes</option></select><label for="find">Rechercher</label><input id="find" type="search" placeholder="Titre, notion, leçon…" aria-label="Rechercher dans les activités de sixième"></div><div class="card" id="entries" aria-live="polite"></div></section><aside class="note"><b>Statut de la collection 6e</b><p>Ces entrées structurent le futur catalogue. Aucun bouton ne présente une fiche en conception comme disponible. Les contenus pédagogiques et les simulations feront l’objet de recettes distinctes.</p></aside></main><footer><small>NOHOBA-Lab · Programmes français et ivoirien distingués.</small></footer><script src="../assets/catalogues/6e-ci.js"></script><script>
-(function(){'use strict';const items=window.NL_CATALOGUE_CI_6E||[],theme=document.getElementById('theme'),search=document.getElementById('find'),entries=document.getElementById('entries');const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));[...new Set(items.map(x=>x.theme))].forEach(t=>{const opt=document.createElement('option');opt.value=t;opt.textContent=t;theme.appendChild(opt)});function render(){const q=search.value.trim().toLocaleLowerCase('fr'),filtered=items.filter(x=>(!theme.value||x.theme===theme.value)&&(!q||(x.titre+' '+x.lecon+' '+x.theme+' '+x.sourceId).toLocaleLowerCase('fr').includes(q)));document.getElementById('count').textContent=filtered.length+' activité(s) sur '+items.length+' · '+items.filter(x=>x.statut==='disponible').length+' disponible(s)';entries.innerHTML=filtered.length?filtered.map(x=>'<article class="item"><small>'+esc(x.sourceId)+' · '+esc(x.lecon)+'</small><b>'+esc(x.titre)+'</b>'+(x.statut==='disponible'?'<a class="link" href="../activites-ci/?a='+encodeURIComponent(x.id)+'">Ouvrir l’activité</a>':x.statut==='prototype'?'<a class="link secondary" href="../activites-ci/?a='+encodeURIComponent(x.id)+'">Ouvrir le prototype</a> <span class="tag">Prototype à valider</span>':'<span class="tag">À intégrer</span>')+'</article>').join(''):'<p>Aucune activité correspondante.</p>';}theme.addEventListener('change',render);search.addEventListener('input',render);render()})();
-</script></body></html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');document.documentElement.setAttribute('data-theme',(p.theme||localStorage.getItem('pc-theme'))==='light'?'light':'dark')}catch(e){}</script>
+<title>Collections scientifiques · NOHOBA-Lab</title>
+<meta name="description" content="Collections d'investigation scientifique : programme ivoirien de 6e et cycle 4 français.">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/studio/studio.css">
+<link rel="stylesheet" href="../assets/shared/catalogue-parcours.css">
+</head>
+<body class="hubp catalogue-page">
+<main class="hub"><div class="hubin">
+  <header style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+    <a class="btn" href="../">← Accueil</a>
+    <b>NOHOBA-Lab</b>
+    <nav aria-label="Parcours" style="display:flex;gap:16px;flex-wrap:wrap;margin-left:auto"><a href="../6e/">Leçons de 6e</a><a href="../activites/">Activités françaises</a></nav>
+    <button class="btn" id="themeButton" type="button">Thème clair</button>
+  </header>
+  <section class="hero"><div>
+    <span style="color:var(--blue);font-weight:700">Collections scientifiques</span>
+    <h1>Deux programmes.<br>Une même démarche scientifique.</h1>
+    <p>Choisir une leçon, formuler une hypothèse, construire des preuves. Les collections ivoirienne et française restent distinctes ; les activités suivent les mêmes six opérations d’investigation.</p>
+  </div></section>
+  <div class="collection-choices">
+    <section>
+      <span style="color:var(--amber);font-weight:700">Côte d’Ivoire · 6e</span>
+      <h2 id="ciTotal">Catalogue ivoirien</h2>
+      <p id="ciSummary">Chargement du catalogue…</p>
+      <a class="btn primary" href="#ci">Explorer les activités →</a>
+    </section>
+    <section>
+      <span style="color:var(--violet);font-weight:700">France · Cycle 4</span>
+      <h2 id="frTotal">Catalogue français</h2>
+      <p id="frSummary">5e, 4e et 3e · un parcours distinct.</p>
+      <a class="btn" href="../activites/">Ouvrir le parcours français →</a>
+    </section>
+  </div>
+  <section id="ci" aria-labelledby="ciHeading">
+    <div class="collection-heading"><div><h2 id="ciHeading">Explorer par thème et par leçon</h2><p id="count" role="status" aria-live="polite"></p></div><button type="button" class="text-button" id="foldCollections" aria-controls="entries">Tout déplier</button></div>
+    <div class="filters">
+      <label for="theme">Thème<select id="theme"><option value="">Tous les thèmes</option></select></label>
+      <label for="find">Rechercher<input id="find" type="search" placeholder="Titre, notion, leçon…"></label>
+      <label for="status">État de développement<select id="status"><option value="">Tous les états</option><option value="disponible">Disponible</option><option value="prototype">Prototype à valider</option><option value="conception">En conception</option></select></label>
+    </div>
+    <div id="entries" class="themes"></div>
+    <noscript>Active JavaScript pour consulter et filtrer le catalogue.</noscript>
+  </section>
+  <aside class="catalogue-note">
+    <b>Développement et progression : deux repères différents</b>
+    <p>« Prototype » signifie que la fiche attend la validation du professeur. « Disponible » désigne une fiche validée. Les activités « En conception » ne sont pas encore manipulables.</p>
+    <p>La progression personnelle apparaît séparément, après l’ouverture d’une activité. Tes réponses restent sur cet appareil ; un parcours effectué ne certifie pas la justesse de tes réponses.</p>
+  </aside>
+  <footer class="catalogue-note"><small>NOHOBA-Lab · Ressource pédagogique indépendante, non officielle · Programmes français et ivoirien distingués.</small></footer>
+</div></main>
+<script src="../assets/studio/studio.js"></script>
+<script src="../assets/studio/programme.js"></script>
+<script src="../assets/catalogues/6e-ci.js"></script>
+<script src="../assets/activites/catalogue.js"></script>
+<script>
+(function(){
+  'use strict';
+  var items=window.NL_CATALOGUE_CI_6E,fr=window.ACTIVITES,S=window.Studio;
+  var $=function(id){return document.getElementById(id);},entries=$('entries'),theme=$('theme'),search=$('find'),status=$('status'),fold=$('foldCollections');
+  function el(tag,attrs,parent){var e=document.createElement(tag);Object.keys(attrs).forEach(function(k){if(k==='text')e.textContent=attrs[k];else e.setAttribute(k,attrs[k]);});if(parent)parent.appendChild(e);return e;}
+  var CHEVRON='<svg viewBox="0 0 16 16"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg>';
+  function chevron(parent){var c=el('span',{class:'catalogue-chevron','aria-hidden':'true'},parent);c.innerHTML=CHEVRON;}
+  function count(list,state){return list.filter(function(x){return x.statut===state;}).length;}
+  function plural(n,word){return n+' '+word+(n>1?'s':'');}
+  function stats(list){return [count(list,'disponible')?plural(count(list,'disponible'),'disponible'):'',count(list,'prototype')?plural(count(list,'prototype'),'prototype'):'',count(list,'conception')?count(list,'conception')+' en conception':''].filter(Boolean).join(' · ');}
+  function progressLabel(id){
+    var st=S.store('pc-act-'+id,{});
+    if(!Object.keys(st).length)return 'Mon parcours : pas encore exploré';
+    if(st.conclusion)return 'Mon parcours : bilan rédigé';
+    if(st.confront)return 'Mon parcours : analyse enregistrée';
+    if(Array.isArray(st.essais)&&st.essais.length)return 'Mon parcours : '+plural(st.essais.length,'essai')+' enregistré'+(st.essais.length>1?'s':'');
+    if(st.prevision)return 'Mon parcours : hypothèse enregistrée';
+    return 'Mon parcours : activité ouverte';
+  }
+  var tb=$('themeButton');
+  function paintTheme(){tb.textContent=S.settings.theme==='light'?'Thème sombre':'Thème clair';}
+  tb.onclick=function(){S.settings.theme=S.settings.theme==='light'?'dark':'light';S.applySettings();paintTheme();};
+  S.applySettings();paintTheme();
+  if(!Array.isArray(items)||!Array.isArray(fr)){
+    $('count').textContent='Impossible de charger les catalogues. Recharge la page pour réessayer.';
+    $('ciSummary').textContent='Catalogue indisponible.';fold.disabled=true;
+    console.error('NOHOBA-Lab : catalogue CI ou français non chargé.');return;
+  }
+  $('ciTotal').textContent=items.length+' activités au catalogue';
+  $('ciSummary').textContent=new Set(items.map(function(x){return x.theme;})).size+' thèmes · '+new Set(items.map(function(x){return x.lecon;})).size+' leçons · '+stats(items)+'.';
+  $('frTotal').textContent=fr.length+' activités au catalogue';
+  $('frSummary').textContent='5e, 4e et 3e · '+stats(fr)+'.';
+  var programme=window.PROGRAMME['6e'],themeNames={'Grandeurs et mesures physiques':'Mesure de grandeurs physiques','Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;}))),openThemes=new Map(),openLessons=new Map();
+  themes.forEach(function(t){el('option',{value:t,text:t},theme);});
+  function foldLabel(){var groups=Array.from(entries.querySelectorAll('details'));fold.disabled=!groups.length;fold.textContent=groups.every(function(d){return d.open;})?'Tout replier':'Tout déplier';}
+  fold.onclick=function(){var groups=Array.from(entries.querySelectorAll('details')),open=!groups.every(function(d){return d.open;});groups.forEach(function(d){d.open=open;});foldLabel();};
+  function render(){
+    var q=search.value.trim().toLocaleLowerCase('fr'),filtered=items.filter(function(x){return(!theme.value||x.theme===theme.value)&&(!status.value||x.statut===status.value)&&(!q||(x.titre+' '+x.lecon+' '+x.theme+' '+x.sourceId).toLocaleLowerCase('fr').includes(q));});
+    entries.replaceChildren();
+    $('count').textContent=plural(filtered.length,'activité')+' sur '+items.length+(filtered.length?' · '+stats(filtered):'');
+    if(!filtered.length){el('p',{class:'empty-result',text:'Aucun résultat. Essaie un autre mot ou retire un filtre.'},entries);foldLabel();return;}
+    themes.forEach(function(t,ti){
+      var list=filtered.filter(function(x){return x.theme===t;});if(!list.length)return;
+      var p=programme.find(function(x){return x.nm===(themeNames[t]||t);}),g=el('details',{class:'catalogue-group',style:'--tc:'+p.col},entries),sm=el('summary',{},g);
+      g.open=!!(q||theme.value||status.value)||(openThemes.has(t)?openThemes.get(t):ti===0);
+      var ic=el('span',{class:'catalogue-icon','aria-hidden':'true'},sm);ic.innerHTML='<svg viewBox="0 0 24 24">'+p.ic+'</svg>';
+      var title=el('span',{class:'group-title'},sm);el('b',{text:t},title);el('small',{text:list.length+' activités · '+stats(list)},title);chevron(sm);
+      g.addEventListener('toggle',function(){if(g.isConnected){openThemes.set(t,g.open);foldLabel();}});
+      var body=el('div',{class:'collection-lessons'},g);
+      Array.from(new Set(list.map(function(x){return x.lecon;}))).forEach(function(lesson){
+        var a=list.filter(function(x){return x.lecon===lesson;}),key=t+'|'+lesson,d=el('details',{class:'collection-lesson'},body),s=el('summary',{},d);
+        d.open=!!(q||status.value)||(openLessons.has(key)?openLessons.get(key):false);
+        chevron(s);el('span',{text:lesson},s);el('span',{class:'lesson-count',text:plural(a.length,'activité')+' · '+stats(a)},s);
+        d.addEventListener('toggle',function(){if(d.isConnected){openLessons.set(key,d.open);foldLabel();}});
+        var ul=el('ul',{class:'collection-activities'},d);
+        a.forEach(function(x){
+          var li=el('li',{},ul),tx=el('div',{class:'activity-title'},li);
+          el('b',{text:x.titre},tx);
+          if(x.statut!=='conception')el('small',{text:progressLabel(x.id)},tx);
+          el('span',{class:'state-tag '+(x.statut==='prototype'?'prototype':x.statut==='disponible'?'available':''),text:x.statut==='prototype'?'Prototype à valider':x.statut==='disponible'?'Disponible':'En conception · à venir'},li);
+          if(x.statut!=='conception')el('a',{class:'btn'+(x.statut==='disponible'?' primary':''),href:'../activites-ci/?a='+encodeURIComponent(x.id),text:x.statut==='prototype'?'Ouvrir le prototype →':'Ouvrir l’activité →'},li);
+        });
+      });
+    });
+    foldLabel();
+  }
+  theme.addEventListener('change',render);search.addEventListener('input',render);status.addEventListener('change',render);
+  window.addEventListener('pageshow',function(e){if(e.persisted)render();});
+  render();
+})();
+</script>
+</body></html>

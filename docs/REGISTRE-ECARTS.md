@@ -1,6 +1,6 @@
 # Registre des écarts · collection Côte d'Ivoire 6e
 
-Dernière mise à jour : 23 octobre 2026. Statuts : ouvert · accepté · corrigé.
+Dernière mise à jour : 24 octobre 2026. Statuts : ouvert · accepté · corrigé.
 
 | Fiche | Source | Écart | Décision | Statut |
 |---|---|---|---|---|
@@ -15,3 +15,8 @@ Dernière mise à jour : 23 octobre 2026. Statuts : ouvert · accepté · corrig
 | Général | Programme | Numéros de page issus d'une lecture assistée | À confirmer | ouvert |
 | Général | Manuel | Exemplaire spécimen : structure et habiletés seulement | Appliqué | accepté |
 | Serveur | Accès | Corrigés des fiches CI non protégés côté serveur (limites, différenciation) | Décision d'accès à prendre | ouvert |
+| ELE-02, ELE-03, ELE-04, ELE-05, ELE-17 | Dessins NohobaLab / conventions de montage | Des fils ou lames aboutissaient à côté des contacts ; un fil du montage en série traversait la pile ; retournement de la pile cylindrique décalé | Géométrie corrigée au niveau des contacts et de l'atelier commun ; tests ciblés ajoutés. Ne constitue pas une validation du matériel réel. | corrigé |
+| ELE-01 à ELE-05, ELE-17 | Moteur pédagogique NohobaLab | Les consignes communes exigeaient des valeurs mesurées pour des observations qualitatives ; une réponse d'évaluation trop courte échouait sans message | Consignes acceptant observations ou mesures ; erreurs et confirmations explicites ; six parcours complets testés avec reprise locale | corrigé |
+| ELE-06 | MENA / JD Éditions / TP DPFC | Scénario moteur + lampe proposé ; une observation ne démontre pas le choix du sens conventionnel | [Scénario original à valider](scenario-ele06.md). Pages, habileté, matériel et TP restent à vérifier sur les sources. Aucune construction ; statut conception conservé. | ouvert |
+| Général | Dossiers de transmission du 23 octobre 2026 | Les documents recensent 70 entrées éditoriales ; le catalogue courant en contient 73, dont trois compléments décidés | Compteurs des Collections calculés sur les données réelles ; ne pas présenter les entrées comme 73 TP officiels | corrigé |
+| ELE-01 à ELE-05, ELE-17 | Fiche imprimable NohobaLab | La version vierge conservait l'analyse et la conclusion de la fiche remplie ; le titre d'impression contenait un code interne | Réponses exclues en mode vierge, titre lisible ; tests des deux versions pour les six prototypes | corrigé |

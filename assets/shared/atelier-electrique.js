@@ -82,17 +82,17 @@ function montageSerie(o){
   var piece=o.pile!==false,lamp=o.lampe!==false,mot=o.moteur!==false,ix=o.inter||'ferme',coupe=!!o.filCoupe,
       on=piece&&lamp&&mot&&ix==='ferme'&&!coupe,s='';
   function absent(x,y,w,h,t){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+T(x+w/2,y+h/2+5,t,13,'#8895A8',700);}
-  /* fils (sous les objets) : − (64,112) → inter gauche (176,50) ; inter droite (224,50) → moteur gauche (330,66) ; moteur droite (390,66) → culot (454,219) ; plot (470,244) → + (88,112) */
-  s+=fil('M64 112 C64 70 110 52 176 50','#2E3138');
+  /* Fils routés hors des objets, du sommet des bornes aux contacts de la lampe. */
+  s+=fil('M64.3 112.2 V84 H22 V24 H152 V50 H176','#2E3138');
   s+=fil('M224 50 C270 50 290 66 330 66','#2E3138');
   s+=fil(coupe?'M390 66 C420 66 430 100 436 130':'M390 66 C430 66 430 219 454 219','#E0342F');
-  s+=fil('M88 112 C90 292 360 296 470 246','#E0342F');
+  s+=fil('M87.7 112.2 V84 H126 V284 H470 V238','#E0342F');
   if(piece)s+=pile45(40,150,.9);else s+=absent(30,100,90,120,'pile absente');
   if(ix==='absent')s+=absent(176,32,48,36,'');else s+=interrupteur(200,50,ix==='ferme');
   if(mot)s+=moteur(360,60,on);else s+=absent(322,28,76,52,'moteur absent');
   if(lamp)s+=lampe(470,180,on,1);else s+=absent(430,128,80,140,'lampe absente');
   s+=broches([[176,50],[224,50],[330,66],[390,66]]);
-  if(lamp)s+=broches([[454,219],[470,244]]);
+  if(lamp)s+=broches([[454,219],[470,238]]);
   return {svg:svg(s,'0 0 560 300','Montage en série : pile, interrupteur '+(ix==='ferme'?'fermé':ix==='ouvert'?'ouvert':'absent')+', moteur, lampe'+(on?' ; la lampe brille et le moteur tourne':' ; le circuit est ouvert')),allume:on};}
 window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,
   /* zone d'observation de l'élève + bouton d'enregistrement + messages */

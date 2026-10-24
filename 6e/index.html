@@ -26,9 +26,10 @@
 <meta name="theme-color" content="#0B1220">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/studio/studio.css">
+<link rel="stylesheet" href="../assets/shared/catalogue-parcours.css">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="hubp">
+<body class="hubp catalogue-page">
 <main class="hub">
 <div class="hubin">
   <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
@@ -46,12 +47,16 @@
   <section class="hero">
     <div style="flex:1 1 520px;display:flex;flex-direction:column;gap:10px;justify-content:center">
       <span class="kick">Physique-chimie · 6e · programme MENA</span>
-      <h1>Comprendre en 1 minute,<br>puis expérimenter.</h1>
+      <h1>Comprendre.<br>Expérimenter. Expliquer.</h1>
       <p>13 leçons de la progression officielle. Chacune aura un résumé vidéo narré, une simulation à manipuler, un défi à relever seul ou en équipes, et un quiz.</p>
     </div>
     <div class="greet" id="greet"></div>
   </section>
 
+  <div class="catalogue-tools">
+    <div><h2>Ton parcours par thème</h2><p id="programmeProgress"></p></div>
+    <button type="button" class="text-button" id="foldThemes" aria-controls="themes">Tout déplier</button>
+  </div>
   <section class="themes" id="themes" aria-label="Thèmes et leçons"></section>
 
   <section class="chips">

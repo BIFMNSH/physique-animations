@@ -83,16 +83,16 @@
         '<table class="sh-t"><thead><tr>' + F.colonnes.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table>' + (filled && st.essais.length ? '<p class="sh-note">Données simulées (modèle ' + esc(F.modele) + ').</p>' : '') +
         (F.extraPrint ? '<p class="sh-q"><b>' + esc(F.extraPrint.titre) + ' :</b> ' + esc(F.extraPrint.consigne) + '</p><div class="sh-grid" style="height:' + (F.extraPrint.hauteur || 160) + 'px"></div>' : '')) +
       '</div>';
-    var cf = st.confront, verd = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' }, tr = st.transfert;
+    var cf = filled && st.confront, verd = { confirmee: 'confirmée', infirmee: 'infirmée', partielle: 'partiellement confirmée', non: 'non testée de façon concluante' }, tr = filled && st.transfert;
     var T = F.transfert, trOk = tr && (T.type === 'nombre' ? Math.abs(parseFloat(String(tr.rep).replace(',', '.')) - T.rep) <= (T.tol || 0) : tr.rep === T.rep);
     var ac = st.autocorr, after = '';
     if (filled && ac && (ac.note || (ac.coches && ac.coches.length))) after = sec('★', 'Après correction', '<p class="sh-q"><b>Points que j’ai vérifiés :</b> ' + (ac.coches || []).map(function (k) { return esc(F.prof.attendus[k] || ''); }).join(' ; ') + '</p>' + field('Ce que j’avais faux ou oublié, et ce que j’ai compris :', ac.note, 2));
     var p2 = '<div class="sh-page">' + head.split('<h1>')[0] + '<h1 class="sh-h1b">' + esc(F.titre) + ' <small>(suite)</small></h1>' +
       sec(4, 'Analyser et interpréter', field('Ma prévision de départ :', pv && ch ? ch[1] : '', 1) +
-        field('Résultats expérimentaux (valeurs et unités) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
+        field('Résultats expérimentaux (observations ou mesures) :', filled && st.essais.length ? st.essais.map(F.resume).join(' ; ') : '', 2) +
         '<p class="sh-q"><b>Ma prévision est :</b> ' + (filled && cf ? esc(verd[cf.verdict] || '') : '☐ confirmée &nbsp; ☐ infirmée &nbsp; ☐ partiellement confirmée &nbsp; ☐ non testée de façon concluante') + '</p>' +
         field('Je confronte et interprète les résultats :', cf && cf.preuve, 2) + field('Je précise ce que je modifie dans mon hypothèse :', cf && cf.modif, 2)) +
-      sec(5, 'Conclure', field('Ma conclusion personnelle argumentée :', st.conclusion, 3) +
+      sec(5, 'Conclure', field('Ma conclusion personnelle argumentée :', filled ? st.conclusion : '', 3) +
         '<p class="sh-q"><b>Réinvestir mes connaissances :</b> ' + esc(T.q) + '</p>' +
         (filled && tr ? '<p class="sh-q"><b>Ma réponse :</b> ' + esc(tr.rep) + (T.unite ? ' ' + esc(T.unite) : '') + ' — ' + esc(tr.just || '') + '</p>' : '<p class="sh-q"><b>Ma réponse :</b> ____________ ' + (T.unite ? esc(T.unite) : '') + '</p>' + lines(2))) +
       sec(6, 'Communiquer', '<p class="sh-q"><b>Je présente la démarche :</b> problème, hypothèse, protocole, observations, interprétation et conclusion.</p>' +
@@ -126,7 +126,7 @@
   function printDoc(F, st, mode) {
     var go = function () {
       var P = $('#print'), t0 = document.title; P.innerHTML = sheetHTML(F, st, mode);
-      document.title = F.id + '-' + mode; var back = function () { document.title = t0; window.removeEventListener('afterprint', back); }; window.addEventListener('afterprint', back);
+      document.title = F.titre + ' - ' + mode; var back = function () { document.title = t0; window.removeEventListener('afterprint', back); }; window.addEventListener('afterprint', back);
       window.print();
     };
     if (mode === 'prof') privLoad(F).then(go); else go();
@@ -203,7 +203,7 @@
       if (cd) panel.insertAdjacentHTML('beforeend', cd);
       h('h2', { text: 'Problématiser · Situation-problème' }, panel);
       h('p', { text: F.situation }, panel);
-      h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
+      h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes observations ou tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
       if(F.guidage) h('p', {text:'Mode '+(st.guidage==='autonome'?'autonome : prépare ton protocole.':'guidé : suis les consignes.')},panel);
       var d = h('div', { style: 'text-align:center' }, panel); if (F.illustration) F.illustration(d);
@@ -226,7 +226,7 @@
         return;
       }
       var cur0 = pv && pv.edit ? pv : null, inconnu = h('label', { class: 'opt' }, panel, '<input type="checkbox" id="pi"> <span>Je ne sais pas encore : je formule une hypothèse et je vais vérifier.</span>');
-      var f = h('fieldset', { style: 'border:0;padding:0;margin:0' }, panel); h('legend', { class: 'noprint', style: 'font-weight:700' }, f, 'Sens de variation attendu');
+      var f = h('fieldset', { style: 'border:0;padding:0;margin:0' }, panel); h('legend', { class: 'noprint', style: 'font-weight:700' }, f, 'Mon hypothèse');
       F.prevision.choix.forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="pc" value="' + c[0] + '"' + (cur0 && cur0.choix === c[0] ? ' checked' : '') + '><span>' + esc(c[1]) + '</span>'); });
       var NB = F.prevision.nombre, nb = null;
       if (NB) { h('label', { for: 'pn', text: NB.label + ' (' + NB.unite + ') :' }, panel); nb = h('input', { type: 'text', inputmode: 'decimal', id: 'pn', autocomplete: 'off', style: 'max-width:160px' }, panel); if (cur0 && cur0.nombre != null) nb.value = cur0.nombre; }
@@ -271,7 +271,7 @@
       var ok = h('button', { class: 'btn primary', type: 'button', text: 'Enregistrer et passer au bilan ▸' }, r);
       ok.onclick = function () {
         var sel = panel.querySelector('input[name=vd]:checked');
-        if (!sel || t1.value.trim().length < 3) { msg.hidden = false; msg.textContent = 'Choisis un verdict et cite un résultat précis (avec ses valeurs).'; return; }
+        if (!sel || t1.value.trim().length < 3) { msg.hidden = false; msg.textContent = 'Choisis un verdict et cite une observation précise ou une valeur mesurée.'; return; }
         st.confront = { verdict: sel.value, preuve: t1.value.trim(), modif: t2.value.trim(), ts: Date.now() }; save(KEY, st); view = 4; st.step = 4; save(KEY, st); draw();
       };
       var back = h('button', { class: 'btn', type: 'button', text: '◂ Reprendre une expérience (mes essais sont conservés)' }, r); back.onclick = function () { go(2); };
@@ -283,10 +283,18 @@
       var msg = h('div', { class: 'msg bad', role: 'alert', hidden: '' }, panel);
       var r = h('div', { class: 'row' }, panel);
       var b = h('button', { class: 'btn primary', type: 'button', text: st.conclusion ? 'Mettre à jour ma conclusion' : 'Valider ma conclusion' }, r);
-      b.onclick = function () { if (t.value.trim().length < 5) { msg.hidden = false; msg.textContent = 'Écris ta conclusion en une phrase complète, avec au moins une valeur mesurée.'; return; } st.conclusion = t.value.trim(); save(KEY, st); drawTabs(); draw(); };
+      b.onclick = function () { if (t.value.trim().length < 5) { msg.hidden = false; msg.textContent = 'Écris ta conclusion en une phrase complète, appuyée sur tes observations ou tes mesures.'; return; } st.conclusion = t.value.trim(); save(KEY, st); drawTabs(); draw(); };
       if (!st.conclusion) return;
       h('div', { class: 'msg ok' }, panel, '<b>Synthèse scientifique.</b> ' + esc(F.synthese));
-      if (F.situationEvaluation) { h('h3',{text:'Situation d’évaluation'},panel);h('p',{text:F.situationEvaluation},panel);h('label',{for:'nl-eval',text:'Ma réponse argumentée :'},panel);var ev=h('textarea',{id:'nl-eval'},panel);ev.value=st.evaluation||'';var eb=h('button',{type:'button',class:'btn',text:'Enregistrer ma réponse'},panel);eb.onclick=function(){if(ev.value.trim().length<15)return;st.evaluation=ev.value.trim();save(KEY,st);}; }
+      if (F.situationEvaluation) {
+        h('h3',{text:'Situation d’évaluation'},panel);h('p',{text:F.situationEvaluation},panel);h('label',{for:'nl-eval',text:'Ma réponse argumentée :'},panel);
+        var ev=h('textarea',{id:'nl-eval'},panel);ev.value=st.evaluation||'';
+        var eb=h('button',{type:'button',class:'btn',text:'Enregistrer ma réponse'},panel),em=h('p',{class:'msg','aria-live':'polite'},panel);
+        eb.onclick=function(){
+          if(ev.value.trim().length<15){em.className='msg bad';em.textContent='Développe ta réponse argumentée (au moins 15 caractères).';ev.focus();return;}
+          st.evaluation=ev.value.trim();save(KEY,st);em.className='msg ok';em.textContent='Réponse enregistrée sur cet appareil.';
+        };
+      }
       h('h3', { text: 'Transfert' }, panel); h('p', { text: F.transfert.q }, panel);
       var tr = st.transfert || {}, T = F.transfert, isNum = T.type === 'nombre';
       var f = h('fieldset', { style: 'border:0;padding:0' }, panel), inp = null;
@@ -302,7 +310,7 @@
       var ck = h('button', { class: 'btn', type: 'button', text: 'Vérifier ma réponse' }, panel);
       ck.onclick = function () {
         var v = isNum ? inp.value.trim() : (panel.querySelector('input[name=tr]:checked') || {}).value;
-        if (!v) return; st.transfert = { rep: v, just: tj.value.trim(), ts: Date.now() }; save(KEY, st); show();
+        if (!v) { res.hidden = false; res.className = 'msg bad'; res.textContent = 'Choisis ou saisis une réponse avant de vérifier.'; return; } st.transfert = { rep: v, just: tj.value.trim(), ts: Date.now() }; save(KEY, st); show();
       };
       var cor = h('div', {}, panel);
       function corrige() {

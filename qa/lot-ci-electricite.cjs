@@ -4,8 +4,9 @@ const root=path.resolve(__dirname,'..');
 const IDS=['01','02','03','04','05','17'];
 const read=f=>fs.readFileSync(path.join(root,f),'utf8');
 function env(){
-  const dom=new JSDOM('<!doctype html><body><div id="app"></div></body>',{runScripts:'outside-only'});
-  const w=dom.window;w.eval(read('assets/shared/atelier-electrique.js'));w.eval(read('assets/activites/activite.js'));
+  const dom=new JSDOM('<!doctype html><body><div id="app"></div></body>',{url:'http://localhost/',runScripts:'outside-only'});
+  const w=dom.window;w.requestAnimationFrame=()=>0;w.matchMedia=()=>({matches:true});
+  w.eval(read('assets/shared/atelier-electrique.js'));w.eval(read('assets/activites/activite.js'));
   for(const i of IDS)w.eval(read('assets/activites/fiches/NL-CI-6E-ELE-'+i+'.js'));
   return w;
 }
@@ -39,6 +40,11 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
 {const {panel}=lancer('02');
   const cas=[['plus','moins',true],['moins','plus',true],['plus','plus',false],['moins','moins',false],['cote','moins',false],['plus','cote',false],['plus','rien',false]];
   for(const [p,l,att] of cas){choisir(panel,'ci2-plot',p);choisir(panel,'ci2-lame',l);assert.ok(label(panel,0).includes(att?'brille':'éteinte'),'ELE-02 '+p+'/'+l);assert.ok(label(panel,1).includes(att?'fermé':'ouvert'),'schéma ELE-02 '+p+'/'+l);}
+  for(const p of ['plus','moins','cote'])for(const l of ['plus','moins','cote','rien']){
+    choisir(panel,'ci2-plot',p);choisir(panel,'ci2-lame',l);
+    const on=(p==='plus'&&l==='moins')||(p==='moins'&&l==='plus');
+    assert.ok(label(panel,0).includes(on?'brille':'éteinte'),'ELE-02 toutes les combinaisons '+p+'/'+l);
+  }
   const src=read('assets/activites/fiches/NL-CI-6E-ELE-02.js');assert.ok(!/pinces? crocodile/.test(src),'ELE-02 sans fils à pinces');assert.ok(src.includes('Pas de fil de connexion')||src.includes('sans fil'),'consigne sans fil');
   assert.ok(src.includes('pile cylindrique')||src.includes('Pile cylindrique'),'pile cylindrique');
 }
@@ -46,6 +52,11 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
 {const {panel}=lancer('03');
   const cas=[['plot','culot',true],['culot','plot',true],['verre','culot',false],['plot','verre',false],['plot','plot',false],['culot','culot',false],['libre','culot',false],['verre','verre',false]];
   for(const [r,n,att] of cas){choisir(panel,'ci3-r',r);choisir(panel,'ci3-n',n);assert.ok(label(panel,0).includes(att?'brille':'éteinte'),'ELE-03 '+r+'/'+n);assert.ok(label(panel,1).includes(att?'fermée':'ouverte'),'schéma ELE-03 '+r+'/'+n);}
+  for(const r of ['plot','culot','verre','libre'])for(const n of ['plot','culot','verre','libre']){
+    choisir(panel,'ci3-r',r);choisir(panel,'ci3-n',n);
+    const on=(r==='plot'&&n==='culot')||(r==='culot'&&n==='plot');
+    assert.ok(label(panel,0).includes(on?'brille':'éteinte'),'ELE-03 toutes les combinaisons '+r+'/'+n);
+  }
 }
 /* ELE-04 : en série, tout s'arrête dès qu'un élément manque */
 {const {panel}=lancer('04');
@@ -87,6 +98,91 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
   assert.ok(t.includes('Les 3 règles')&&t.includes('circuit en série'),'règles et vocabulaire');
 }
 console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées (ELE-01 à 05 et 17).');
+
+/* Géométrie : les fils et les marqueurs aboutissent au vrai plot, pas sous la lampe. */
+{
+  const {panel}=lancer('03');
+  choisir(panel,'ci3-r','plot');choisir(panel,'ci3-n','culot');
+  const drawing=panel.querySelector('svg');
+  assert.ok([...drawing.querySelectorAll('path')].some(p=>/H360 V158$/.test(p.getAttribute('d'))),'ELE-03 fil vers le plot à y=158');
+  assert.ok(drawing.querySelector('circle[cx="360"][cy="158"]'),'ELE-03 marqueur du plot');
+  const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
+  assert.ok(serie.includes('H470 V238'),'ELE-04/05 fil vers le plot à y=238');
+  assert.ok(serie.includes('M87.7 112.2 V84 H126 V284'),'le fil sort de la borne sans traverser la pile');
+}
+
+/* Parcours complet des six fiches dans le moteur, avec saisies et reprise locale. */
+for(const i of IDS){
+  const win=env(),document=win.document,F=win['FICHE_CI_ELE'+i],app=document.getElementById('app'),key='pc-act-'+F.id;
+  const state=()=>JSON.parse(win.localStorage.getItem(key));
+  const button=text=>{
+    const b=[...app.querySelectorAll('button')].find(b=>text==='Vérifier'?b.textContent===text:b.textContent.startsWith(text));
+    assert.ok(b,'bouton '+text+' '+i);assert.equal(b.disabled,false,'bouton accessible '+text+' '+i);b.click();return b;
+  };
+  const radio=(name,value)=>{
+    const r=app.querySelector('input[name="'+name+'"][value="'+value+'"]');assert.ok(r,name+'/'+value);
+    r.checked=true;r.dispatchEvent(new win.Event('change',{bubbles:true}));
+  };
+  const set=(id,value)=>{const e=document.getElementById(id);assert.ok(e,id);e.value=value;};
+  win.Activite.run(F,app);
+  assert.ok(app.textContent.includes('observations ou tes mesures'),'consigne compatible avec les observations qualitatives '+i);
+  assert.equal(document.getElementById('tab2').disabled,true,'hypothèse requise '+i);
+  button('Commencer : ma prévision');button('Enregistrer ma prévision');
+  assert.ok(!state().prevision,'une hypothèse vide ne progresse pas '+i);
+  radio('pc',F.prevision.choix[0][0]);set('pr','Je propose cette hypothèse et je vais la vérifier.');
+  button('Enregistrer ma prévision');button('Passer à la manipulation');
+  assert.equal(document.getElementById('tab3').disabled,true,'essais requis '+i);
+  if(i==='01'){
+    for(const [zone,value] of Object.entries({1:'culot',2:'plus',3:'plot',4:'moins'}))set('ci1-z'+zone,value);
+    button('Vérifier mes étiquettes');
+  }else if(i==='05'){
+    for(const [id,value] of Object.entries({'ci5-pile':'normale','ci5-d':'lampe','ci5-b':'moteur','ci5-g':'interOuvert'}))set(id,value);
+    button('Vérifier mon schéma');radio('ci5-etat','ferme');set('ci5-g','interFerme');button('Vérifier mon schéma');
+    for(const [id,value] of Object.entries({'ci5-eA':'ordre','ci5-eB':'polarite','ci5-eC':'symbole'}))set(id,value);
+    button('Vérifier mes trois réponses');set('ci5-diff','ordre');set('ci5-fonc','non');button('Vérifier');
+  }else{
+    button('Enregistrer mon observation');assert.equal(state().essais.length,0,'observation vide refusée '+i);
+    const trials=i==='02'?[{plot:'plus',lame:'moins'},{plot:'plus',lame:'rien'},{plot:'moins',lame:'plus'}]:
+      i==='03'?[{r:'plot',n:'culot'},{r:'verre',n:'culot'},{r:'culot',n:'plot'}]:
+      i==='04'?[{a:'complet'},{a:'pile'},{a:'ouvert'},{a:'lampe'}]:[{a:'ferme'},{a:'inter'},{a:'rouge'}];
+    for(const trial of trials){
+      for(const [name,value] of Object.entries(trial))radio('ci'+Number(i)+'-'+name,value);
+      set('ci'+Number(i)+'-obs','Je décris ce que je vois sur la lampe et sur le montage.');
+      button('Enregistrer mon observation');
+    }
+  }
+  assert.ok(F.peutConfronter(state()),'contraste suffisant '+i);
+  const essais=state().essais.length;
+  button('J’ai assez d’essais');button('Enregistrer et passer au bilan');
+  assert.equal(state().confront,null,'analyse vide refusée '+i);
+  radio('vd','confirmee');set('pre','Je cite un essai précis et les contacts que j’ai observés.');
+  set('mod','Je confronte mon hypothèse avec les essais.');button('Enregistrer et passer au bilan');
+  button('Valider ma conclusion');
+  assert.ok(app.textContent.includes('appuyée sur tes observations'),'message qualitatif '+i);
+  set('cc','Je conclus à partir des contacts et des états observés dans mes essais.');button('Valider ma conclusion');
+  button('Enregistrer ma réponse');
+  assert.ok(app.textContent.includes('au moins 15 caractères'),'erreur d’évaluation explicite '+i);
+  set('nl-eval','Je justifie ma réponse à partir des observations du montage.');button('Enregistrer ma réponse');
+  assert.ok(app.textContent.includes('Réponse enregistrée'),'confirmation d’évaluation '+i);
+  button('Vérifier ma réponse');assert.ok(app.textContent.includes('Choisis ou saisis une réponse'),'transfert vide signalé '+i);
+  radio('tr',String(F.transfert.rep));set('tj','Je justifie mon choix avec le montage.');button('Vérifier ma réponse');
+  button('Voir ma trace');
+  assert.ok(app.textContent.includes('Communiquer · Ma trace')&&app.textContent.includes('Ma conclusion'),'trace accessible '+i);
+  assert.equal(state().essais.length,essais,'essais conservés '+i);
+  assert.ok(!/NL-CI|NL-C4/.test(app.textContent),'aucun code interne affiché '+i);
+  win.print=()=>{};button('Imprimer');
+  const print=document.getElementById('print');
+  assert.ok(print.textContent.includes('Je conclus à partir des contacts'),'conclusion dans la fiche remplie '+i);
+  assert.ok(print.querySelector('.sh-head')&&!/NL-CI|NL-C4/.test(print.querySelector('.sh-head').textContent),'en-tête élève sans code interne '+i);
+  assert.ok(!print.querySelector('.sh-ref'),'corrigé absent de la trace élève '+i);
+  set('shm','vierge');document.getElementById('shm').dispatchEvent(new win.Event('change'));button('Imprimer');
+  assert.ok(!print.textContent.includes('Je conclus à partir des contacts'),'réponses absentes de la fiche vierge '+i);
+  app.replaceChildren();win.Activite.run(F,app);
+  assert.ok(app.textContent.includes('Communiquer · Ma trace'),'reprise sur la trace '+i);
+  assert.equal(state().essais.length,essais);
+  win.close();
+}
+console.log('Lot CI : six parcours complets, saisies invalides, sauvegarde et reprise de la trace contrôlés.');
 
 /* progression : chaque fiche demande un contraste d'observations avant l'analyse */
 for(const i of ['02','03','04','17']){const F=w['FICHE_CI_ELE'+i],o='observation décrite en une phrase';

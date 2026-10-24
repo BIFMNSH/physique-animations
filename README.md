@@ -15,6 +15,7 @@ Les traces sont conservées dans le navigateur sous `pc-inquiry-<identifiant>`. 
 - `assets/studio/studio.js`, `studio.css` : moteur et interface des leçons.
 - `assets/studio/lecons/` : contenus et modèles des 53 leçons.
 - `assets/studio/programme.js` : parcours par niveau ; `lecon/?l=<slug>` : accès direct.
+- `6e/` et `collections/` : navigation pliable par thème et par leçon, styles partagés dans `assets/shared/catalogue-parcours.css`. Les leçons de 6e ouvrent leur hub `parcours-ci/` ; les autres niveaux conservent leur accès Studio direct. Les Collections distinguent développement (prototype, disponible, conception) et progression personnelle.
 - `assets/sim/` : 26 simulations complémentaires ; `simulateur/` : catalogue.
 - `bepc/`, `assets/bepc/sujets.js` : entraînement et autoévaluation.
 - `server/` : serveur distinct de comptes/paiements ; voir son README pour Railway.
