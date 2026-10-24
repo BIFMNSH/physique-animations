@@ -545,6 +545,8 @@
     applyProf();
     var first = (location.hash || '').slice(1);
     go(STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : (L.inquiry ? 'sim' : 'resume'));
+    if (first === 'quiz') go('quiz');
+    if (/[?&]imprimer=fiche\b/.test(location.search)) setTimeout(function () { printSheet(false); }, 400);
     fit(); setTimeout(fit, 50);
     if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('../sw.js').catch(function () {});
     window.Studio.stage = stage;

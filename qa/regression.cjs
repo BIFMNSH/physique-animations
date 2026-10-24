@@ -2,8 +2,8 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const root=path.resolve(__dirname,'..');let checks=0;
 function check(v,msg){assert(v,msg);checks++;}
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
-function setup(lesson,prof={},saved){
- const dom=new JSDOM('<html><body></body></html>',{url:'http://localhost/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;let frames=[],time=w.performance.now();
+function setup(lesson,prof={},saved,url='http://localhost/'){
+ const dom=new JSDOM('<html><body></body></html>',{url,runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;let frames=[],time=w.performance.now();
  w.requestAnimationFrame=f=>frames.push(f);w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({},{get:()=>()=>{}});w.SVGElement.prototype.getBBox=()=>({x:0,y:0,width:100,height:30});
  w.localStorage.setItem('pc-studio-prof',JSON.stringify(prof));if(saved)Object.entries(saved).forEach(([k,v])=>w.localStorage.setItem(k,v));
  const load=p=>w.eval(read(p));load('assets/studio/studio.js');load('assets/studio/programme.js');for(const k of ['elec','thermo','combustion'])load('assets/studio/kits/'+k+'.js');load('assets/studio/lecons/'+lesson+'.js');
@@ -32,5 +32,8 @@ const z=setup('association-lampes');try{z.btn('Parcours Révision').click();z.bt
 const persist=setup('association-lampes');let snapshot;
 try { const input=persist.w.document.querySelector('#inquiry-prediction');input.value='Prévision conservée';input.dispatchEvent(new persist.w.Event('input'));persist.btn('Enregistrer ma prévision').click();snapshot={...persist.w.localStorage}; } finally { persist.dom.window.close(); }
 const restored=setup('association-lampes',{},snapshot);try { check(restored.w.document.querySelector('#inquiry-prediction').value==='Prévision conservée','prediction survives reload');check(!restored.w.document.querySelector('.main').hidden,'started experiment survives reload'); } finally {restored.dom.window.close();}
+// Lien #quiz du hub : verrouillé tant que la démarche n'est pas terminée, ouvert ensuite.
+const lockedQ=setup('circuit-electrique',{},undefined,'http://localhost/#quiz');try{const d=lockedQ.w.document;check(!d.querySelector('.modal[aria-label="Quiz"]'),'#quiz : quiz fermé avant la démarche');check(d.querySelector('.toast')&&d.querySelector('.toast').textContent.includes('Complète ta démarche'),'#quiz : message explicatif');check(!d.querySelector('.main').hidden||d.querySelector('#inquiry-prediction'),'#quiz : retour sur la simulation');}finally{lockedQ.dom.window.close();}
+const openQ=setup('circuit-electrique',{},{'pc-inquiry-6e-circuit-electrique':JSON.stringify({prediction:'p',observation:'o',comparison:'c',conclusion:'b',started:true,complete:true})},'http://localhost/#quiz');try{check(!!openQ.w.document.querySelector('.modal[aria-label="Quiz"]'),'#quiz : quiz ouvert après la démarche');}finally{openQ.dom.window.close();}
 const redirect=JSON.parse(read('vercel.json')).redirects[0];check(redirect.has.some(h=>h.key==='accept'&&new RegExp(h.value).test('text/html')),'document redirect');check(!redirect.has.filter(h=>h.key==='accept').some(h=>new RegExp(h.value).test('*/*')),'assets not redirected');
 console.log(`${checks} assertions passed — 53 investigation flows, 79 configurations.`);

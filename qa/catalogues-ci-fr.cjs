@@ -72,6 +72,8 @@ assert.ok(hubHTML.includes('NL-CI-6E-ELE-07'),'hub relié au pilote ELE-07');
 assert.ok(hubHTML.includes("../lecon/?l='+slug+'#sim"),'lien vers simulateur Studio existant');
 assert.ok(fs.readFileSync(path.join(root,'assets/studio/hub.js'),'utf8').includes('../parcours-ci/?l=circuit-electrique'),'hub accessible depuis accueil 6e');
 assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').includes('Retour à la leçon'),'retour depuis la fiche investigation');
+assert.ok(hubHTML.includes('imprimer=fiche')&&fs.readFileSync(path.join(root,'assets/studio/studio.js'),'utf8').includes('imprimer=fiche'),'bouton Fiche : impression de la fiche élève');
+assert.ok(hubHTML.includes("pc-inquiry-6e-")&&hubHTML.includes('.tb-btn.locked'),'bouton Quiz verrouillé tant que la démarche n’est pas terminée');
 console.log('Hub de leçon : navigation 6e, Studio et ELE-07 contrôlée statiquement.');
 
 assert.ok(hubHTML.includes('class="quicknav"'),'navigation rapide du hub');

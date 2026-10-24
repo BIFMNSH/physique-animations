@@ -11,23 +11,28 @@
 @font-face{font-family:'Chiffres';font-style:normal;font-weight:700 900;font-display:swap;src:url(../assets/fonts/bricolage-grotesque-latin-800-normal.woff2) format("woff2");unicode-range:U+0030-0039}
 :root{--bg:#0A111E;--panel:#111A2E;--panel2:#16213A;--line:#22304B;--line2:#2F4061;--text:#EEF2F8;--muted:#A9B4C7;--soft:#C9D2E0;--blue:#5CC8FF;--amber:#FFB547;--green:#3DD68C;--violet:#C4B5FD;--focus:#FFB547;--on-accent:#0A111E;--ok:#3DD68C;--accent:var(--blue);color-scheme:dark}
 :root[data-theme="light"]{--bg:#EEF2F7;--panel:#FFFFFF;--panel2:#F5F8FC;--line:#D5DDE8;--line2:#B9C5D6;--text:#142033;--muted:#55627A;--soft:#2F3C52;--blue:#0A6BAA;--amber:#A35400;--green:#127A45;--violet:#6D4FD6;--focus:#C76A00;--on-accent:#FFFFFF;--ok:#127A45;color-scheme:light}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 'Chiffres','Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:64px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 'Chiffres','Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}button{font:inherit;color:inherit}h1,h2,h3{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',sans-serif;font-weight:800;letter-spacing:-.015em;margin:0;text-wrap:balance}p{margin:0}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
 .skip{position:absolute;top:-100px;left:12px;background:var(--panel);color:var(--text);padding:12px 16px;z-index:40;border:1px solid var(--line2);border-radius:8px}.skip:focus{top:10px}
 .muted{color:var(--muted)}.small{font-size:.875rem}
-/* --- barre supérieure --- */
-.top{position:sticky;top:0;z-index:30;height:60px;display:flex;align-items:center;gap:12px;padding:0 max(16px,calc((100vw - 1240px)/2));background:var(--bg);border-bottom:1px solid var(--line)}
-.top .back{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:19px;border:1px solid var(--line2);color:var(--soft);text-decoration:none;font-weight:700;font-size:.875rem;white-space:nowrap}
-.top .back:hover{border-color:var(--text);color:var(--text)}
-.brand{display:flex;align-items:baseline;gap:8px;min-width:0;text-decoration:none}.brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.125rem;letter-spacing:-.01em}.brand span{color:var(--muted);font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.top .grow{flex:1}.top nav{display:flex;gap:4px}.top nav a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--soft);font-weight:700;font-size:.875rem}.top nav a:hover{background:var(--panel2);color:var(--text)}
-.theme{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:transparent;display:grid;place-items:center;cursor:pointer}.theme:hover{border-color:var(--text)}.theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-:root[data-theme="light"] .theme .moon,:root:not([data-theme="light"]) .theme .sun{display:none}
+/* --- barre supérieure : même gabarit que les animations (assets/style.css .topbar) --- */
+.top{position:sticky;top:0;z-index:30;height:56px;display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .back{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:20px;border:1.5px solid var(--line2);color:var(--soft);text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap}
+.top .back:hover{border-color:var(--blue);color:var(--text)}
+.crumb{display:flex;align-items:baseline;gap:10px;min-width:0}.crumb .num{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;white-space:nowrap}.crumb .ttl{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .grow{flex:1}
+.tb-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;min-width:40px;padding:0 12px;border-radius:20px;border:1.5px solid var(--line2);background:transparent;color:var(--soft);text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.tb-btn:hover{border-color:var(--blue);color:var(--text)}.tb-btn svg{flex:0 0 auto}.tb-btn.locked{color:var(--muted);border-style:dashed}
+.top .keys{font-size:12px;color:var(--muted);white-space:nowrap}
+@media(max-width:1240px){.top .keys{display:none}}
+@media(max-width:820px){.top .lbl,.top .lbl-t,.crumb .num{display:none}}
+@media(max-width:560px){.top{padding:0 10px;gap:8px}.crumb .ttl{font-size:16px}}
 /* --- coque --- */
-.shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto;min-height:calc(100vh - 60px)}
-.side{border-right:1px solid var(--line);padding:28px 20px 40px 16px;position:sticky;top:60px;align-self:start;max-height:calc(100vh - 60px);overflow:auto}
+.shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto;min-height:calc(100vh - 56px)}
+.side{border-right:1px solid var(--line);padding:28px 20px 40px 16px;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}
 .side h2{font-size:.8125rem;color:var(--muted);font-family:inherit;font-weight:700;letter-spacing:0;padding:0 12px;margin-bottom:10px}
+.brand{display:flex;flex-direction:column;gap:2px;padding:0 12px 18px;margin-bottom:14px;border-bottom:1px solid var(--line);text-decoration:none}.brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.01em}.brand span{color:var(--muted);font-size:.875rem}
 .side h3{font-size:.8125rem;font-weight:700;letter-spacing:0;padding:16px 12px 6px;display:flex;align-items:center;gap:8px}.side h3 i{width:8px;height:8px;border-radius:50%;background:var(--tc)}
 .side ul{list-style:none;margin:0;padding:0}.side li a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;text-decoration:none;color:var(--soft);font-size:.9375rem;line-height:1.3}
 .side li a:hover{background:var(--panel2);color:var(--text)}.side li a[aria-current]{background:var(--panel2);color:var(--text);font-weight:700;box-shadow:inset 0 0 0 1px var(--line2)}
@@ -78,15 +83,15 @@ details.sub summary{cursor:pointer;list-style:none;display:flex;align-items:cent
 /* pagination */
 .pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:40px}.pager a{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit;background:var(--panel)}.pager a:hover{border-color:var(--line2);background:var(--panel2)}.pager a.next{text-align:right;align-items:flex-end;grid-column:2}.pager .k{font-size:.8125rem;color:var(--muted)}.pager b{font-size:.9375rem}.pager a[hidden]{display:none}
 footer{margin-top:40px;color:var(--muted);font-size:.8125rem;max-width:70ch}
-@media(max-width:900px){.shell{grid-template-columns:1fr}.side{display:none}.switch{display:block}.top nav{display:none}}
-@media(max-width:750px){main{padding-top:20px}.lesson-head h1{font-size:2rem}.status .go{margin-left:0;flex:1 1 100%}.status .go .btn{width:100%;justify-content:center}.quicknav{position:sticky;top:60px;z-index:20;background:var(--bg);overflow-x:auto;scrollbar-width:none}.quicknav a{white-space:nowrap}.steps a{grid-template-columns:40px 1fr 20px}.steps .st{grid-column:2;justify-self:start}.ops{grid-template-columns:repeat(3,minmax(0,1fr))}.simrow{grid-template-columns:1fr}.feature{padding:18px}.status{gap:16px}}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{display:none}.switch{display:block}}
+@media(max-width:750px){main{padding-top:20px}.lesson-head h1{font-size:2rem}.status .go{margin-left:0;flex:1 1 100%}.status .go .btn{width:100%;justify-content:center}.quicknav{position:sticky;top:56px;z-index:20;background:var(--bg);overflow-x:auto;scrollbar-width:none}.quicknav a{white-space:nowrap}.steps a{grid-template-columns:40px 1fr 20px}.steps .st{grid-column:2;justify-self:start}.ops{grid-template-columns:repeat(3,minmax(0,1fr))}.simrow{grid-template-columns:1fr}.feature{padding:18px}.status{gap:16px}}
 @media(max-width:420px){.pager{grid-template-columns:1fr}.pager a.next{text-align:left;align-items:flex-start;grid-column:1}.brand span{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.steps a,.bar i,.btn,details.sub summary .chev{transition:none}}
 </style></head><body>
 <a class="skip" href="#comprendre">Aller au contenu principal</a>
-<header class="top"><a class="back" href="../6e/">← 6e</a><a class="brand" href="../"><b>NohobaLab</b><span>· 6e Côte d’Ivoire</span></a><div class="grow"></div><nav aria-label="Navigation"><a href="../6e/">Toutes les leçons</a><a href="../collections/">Collections</a></nav><button type="button" class="theme" id="themeBtn" aria-label="Basculer le thème clair ou sombre"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button></header>
+<nav class="top" aria-label="Navigation"><a class="back" href="../6e/">← <span class="lbl-t">Leçons 6e</span></a><div class="crumb"><span class="num" id="crumbNum"></span><span class="ttl" id="crumbTtl"></span></div><div class="grow"></div><a class="tb-btn" id="btnFiche" href="../lecon/?l=circuit-electrique&imprimer=fiche" aria-label="Imprimer la fiche élève" title="Imprimer la fiche élève"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13M6.5 8.5h4M6.5 11h4"/></svg><span class="lbl">Fiche</span></a><a class="tb-btn" id="btnQuiz" href="../lecon/?l=circuit-electrique#quiz" aria-label="Quiz" title="Quiz"><span class="qi"></span><span class="lbl">Quiz</span></a><button type="button" class="tb-btn" id="themeBtn"></button></nav>
 <div class="shell">
-<aside class="side"><h2>Leçons de sixième</h2><nav aria-label="Leçons" id="sideNav"></nav></aside>
+<aside class="side"><a class="brand" href="../"><b>NohobaLab</b><span>6e Côte d’Ivoire</span></a><h2>Leçons de sixième</h2><nav aria-label="Leçons" id="sideNav"></nav></aside>
 <main id="main">
 <div class="switch"><label for="lesson">Changer de leçon</label><select id="lesson" aria-label="Choisir une leçon de sixième"></select></div>
 <header class="lesson-head"><p><span class="thm" id="theme"></span><span class="pos" id="pos"></span></p><h1 id="title">Le circuit électrique</h1><p class="lead" id="description">Comprendre le phénomène, le manipuler, puis mener une investigation scientifique : trois temps dans un même espace.</p>
@@ -118,8 +123,12 @@ function studioProg(slug){var p=read('pc-studio-prog')['6e-'+slug]||{};return ST
 /* même règle d'avancement que le moteur d'activité (reached) ; 0 = jamais ouverte, 6 = conclusion rédigée */
 function actState(id){var st=read('pc-act-'+id);if(!Object.keys(st).length)return 0;if(!st.prevision)return 1;if(!(st.essais&&st.essais.length))return 2;if(!st.confront)return 3;if(!st.conclusion)return 4;return 6;}
 function acts(slug){return cat.filter(function(a){return SLUG[a.lecon]===slug;});}
-/* thème clair / sombre, partagé avec le Studio */
-$('themeBtn').addEventListener('click',function(){var r=document.documentElement,t=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',t);try{localStorage.setItem('pc-theme',t);var s=read('pc-studio');s.theme=t;localStorage.setItem('pc-studio',JSON.stringify(s));}catch(e){}});
+/* thème clair / sombre, partagé avec le Studio et les animations (mêmes icônes que assets/player.js) */
+var QUIZ_ICON='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M6.2 6.2a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1v.6"/><circle cx="8" cy="11.6" r=".4" fill="currentColor"/></svg>',LOCK_ICON='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>';
+var ICON_SUN='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3.2"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M13 3l-1.1 1.1M4.1 11.9 3 13"/></svg>',ICON_MOON='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7Z" fill="currentColor"/></svg>';
+function paintTheme(){var light=document.documentElement.getAttribute('data-theme')==='light',b=$('themeBtn');b.innerHTML=light?ICON_MOON:ICON_SUN;b.setAttribute('aria-label',light?'Passer en thème sombre':'Passer en thème clair');b.title=b.getAttribute('aria-label');}
+$('themeBtn').addEventListener('click',function(){var r=document.documentElement,t=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',t);try{localStorage.setItem('pc-theme',t);var s=read('pc-studio');s.theme=t;localStorage.setItem('pc-studio',JSON.stringify(s));}catch(e){}paintTheme();});
+paintTheme();
 /* sélecteur (mobile) et liste latérale */
 var sel=$('lesson'),side=$('sideNav');
 prog.forEach(function(t){var grp=document.createElement('optgroup');grp.label=t.nm;t.les.forEach(function(l){el('option',{value:l.slug,text:l.t},grp);});sel.appendChild(grp);
@@ -130,12 +139,13 @@ function render(slug){
  var idx=lessons.findIndex(function(x){return x.slug===slug;}),l=lessons[idx];if(!l)return;
  sel.value=slug;$('main').style.setProperty('--accent',l.col);document.title=l.title+' · Hub 6e · NOHOBA-Lab';
  $('theme').textContent=l.theme;$('pos').textContent='Leçon '+(idx+1)+' sur '+lessons.length;$('title').textContent=l.title;
+ $('crumbNum').textContent=(idx+1)+' / '+lessons.length;$('crumbTtl').textContent=l.title;$('btnFiche').href='../lecon/?l='+slug+'&imprimer=fiche';$('btnQuiz').href='../lecon/?l='+slug+'#quiz';var qOpen=!!read('pc-inquiry-6e-'+slug).complete,qb=$('btnQuiz');qb.classList.toggle('locked',!qOpen);qb.querySelector('.qi').innerHTML=qOpen?QUIZ_ICON:LOCK_ICON;qb.setAttribute('aria-label',qOpen?'Quiz':'Quiz : disponible après ta démarche d’investigation');qb.title=qb.getAttribute('aria-label');
  /* liste latérale : leçon courante et progression */
  var sp=studioProg(slug);side.querySelectorAll('a').forEach(function(a){var s=a.getAttribute('data-slug');if(s===slug)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');var p=studioProg(s);a.querySelectorAll('.dots i').forEach(function(d,i){d.className=p[i]?'on':'';});});
  var nDone=sp.filter(Boolean).length,stS=$('stStudio');stS.replaceChildren();stS.appendChild(document.createTextNode(nDone+' / 4 étapes'));var bar=el('span',{class:'bar','aria-hidden':'true'},stS);var fill=el('i',{},bar);requestAnimationFrame(function(){fill.style.width=(nDone*25)+'%';});
  /* 1 · Comprendre */
  var res=$('resources');res.replaceChildren();
- STEPS.forEach(function(s,i){var li=el('li',{},res),a=el('a',{href:'../lecon/?l='+slug+'#'+s[0]},li);el('span',{class:'ic','aria-hidden':'true',html:'<svg viewBox="0 0 24 24">'+s[3]+'</svg>'},a);var tx=el('span',{},a);el('b',{text:s[1]},tx);el('span',{class:'d',text:s[2]},tx);el('span',{class:'st'+(sp[i]?' ok':''),text:sp[i]?'Déjà réalisé':'À faire'},a);el('span',{class:'chev','aria-hidden':'true',text:'›'},a);});
+ STEPS.forEach(function(s,i){var li=el('li',{},res),a=el('a',{href:'../lecon/?l='+slug+'#'+s[0]},li);el('span',{class:'ic','aria-hidden':'true',html:'<svg viewBox="0 0 24 24">'+s[3]+'</svg>'},a);var tx=el('span',{},a);el('b',{text:s[1]},tx);el('span',{class:'d',text:s[2]},tx);el('span',{class:'st'+(sp[i]?' ok':''),text:sp[i]?'Déjà réalisé':(i===3&&!qOpen?'Après l’investigation':'À faire')},a);el('span',{class:'chev','aria-hidden':'true',text:'›'},a);});
  /* 2 · Investiguer */
  var A=acts(slug),dispo=A.filter(function(a){return a.statut==='disponible';}),proto=A.filter(function(a){return a.statut==='prototype';}),conc=A.filter(function(a){return a.statut==='conception';});
  $('stInv').textContent=A.length?[dispo.length+' disponible'+(dispo.length>1?'s':''),proto.length?proto.length+' prototype'+(proto.length>1?'s':''):'',conc.length?conc.length+' en conception':''].filter(Boolean).join(' · '):'Aucune activité pour l’instant';
