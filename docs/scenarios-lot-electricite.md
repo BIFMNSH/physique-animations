@@ -205,16 +205,16 @@ Garde-fous : le programme prévoit de trouver la panne avec un testeur de contin
 
 | Source | Ce qui est établi | Ce qui reste à vérifier |
 |---|---|---|
-| [Programme éducatif et guide d'exécution MENA, 6e](https://apprendre.auf.org/wp-content/uploads/2021/08/13-Programme_Educatif_PC_6ieme.pdf) | Lecture assistée du 24 octobre 2026 : « Commande d'un circuit » = programme p. 7-8, guide p. 17-18 ; « Court-circuit et protection » = programme p. 8, guide p. 19-20. Habiletés : réaliser et schématiser les circuits commandés (interrupteur, bouton poussoir ouvert et fermé au repos, commutateur, va-et-vient) ; définir court-circuit, causes, dangers, rôle du fusible et du disjoncteur ; identifier une panne et remplacer l'élément défectueux. | Numéros de page issus d'une lecture assistée : à confirmer sur le PDF. Le guide ne donne ni liste des causes, ni mécanisme du disjoncteur, ni câblage détaillé du va-et-vient. |
+| [Programme éducatif et guide d'exécution MENA, 6e](https://apprendre.auf.org/wp-content/uploads/2021/08/13-Programme_Educatif_PC_6ieme.pdf) | Lecture assistée du 24 octobre 2026 : « Commande d'un circuit » = programme p. 7-8, guide p. 17-18 ; « Court-circuit et protection » = programme p. 8, guide p. 19-20. Habiletés : réaliser et schématiser les circuits commandés (interrupteur, bouton poussoir ouvert et fermé au repos, commutateur, va-et-vient) ; définir court-circuit, causes, dangers, rôle du fusible et du disjoncteur ; identifier une panne et remplacer l'élément défectueux. | Numéros de page confirmés exacts par le propriétaire le 25 octobre 2026. Le guide ne donne ni liste des causes, ni mécanisme du disjoncteur, ni câblage détaillé du va-et-vient. |
 | Dossier « Extraction des 70 activités » (23 octobre 2026) | Intitulés et scénarios éditoriaux NohobaLab ; pages 25 à 38 du manuel = « référence éditoriale antérieure » ; correspondance MENA marquée « à vérifier ». | Ces scénarios sont des adaptations, pas des textes officiels. |
 | Manuel JD Éditions | Structure et habiletés seulement ; consignes et figures originales. | Non fourni ici : pages citées par le dossier non revérifiées. |
-| 13 TP officiels DPFC | Archive annoncée par le dossier. | **Archive non reçue** (seuls deux documents Word ont été joints) : TP concernés et matériel à confirmer. |
+| 13 TP officiels DPFC | Archive reçue le 25 octobre 2026 (13 fiches enseignant SPO). | Fiche 3 : matériel du court-circuit confirmé (lampe 3,5 V et 6 V, piles 4,5 V et 9 V, paille de fer, testeur de continuité) ; ni protocole de sécurité ni liste de situations. |
 
 ### Décisions attendues du propriétaire
 
 1. Valider le découpage en neuf fiches et leur appui sur les leçons `commande-circuit` et `court-circuit` du Studio (réutilisation du modèle, sans reprendre ses valeurs d'illustration).
 2. Valider ELE-14 (dangers) et ELE-15 (protections), ainsi que le numéro 180 avant publication.
 3. Décider si ELE-06 est construite avec ce lot ou séparément.
-4. ~~Choix pour ELE-12~~ **Décidé** : simulation élève + démonstration facultative du professeur (court-circuit réel guidé, paille de fer). Reste à valider : le protocole de sécurité exact (type de pile, quantité, durée, équipement).
+4. ~~Choix pour ELE-12~~ **Décidé** : simulation élève + démonstration facultative du professeur (court-circuit réel guidé, paille de fer). Protocole de sécurité fixé le 25 octobre 2026 : [protocole-demo-ele12.md](protocole-demo-ele12.md).
 5. Fournir l'archive des 13 TP DPFC pour confirmer les références.
 6. Après construction et recette, les fiches restent **prototype** jusqu'à votre validation explicite. Les corrigés ne seront pas placés dans les fichiers publics (consigne de la passation).
