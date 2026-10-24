@@ -74,7 +74,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Découvrir le sens conventionnel du courant électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -96,7 +96,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser un circuit électrique commandé par un interrupteur simple",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -107,7 +107,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser un circuit électrique commandé par un bouton poussoir",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -118,7 +118,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser l'allumage alterné de deux lampes à l'aide d'un commutateur",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -129,7 +129,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser un montage va-et-vient",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -140,7 +140,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Définir un court-circuit",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -151,7 +151,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Identifier les causes d'un court-circuit",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -162,7 +162,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Découvrir les dangers d'un court-circuit",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -173,7 +173,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Découvrir le rôle du fusible et du disjoncteur dans une installation électrique domestique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -184,7 +184,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Identifier les causes d'une panne dans un circuit électrique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {

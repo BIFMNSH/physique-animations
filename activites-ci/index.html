@@ -14,12 +14,13 @@
 <script src="../assets/shared/conductivite-modele.js"></script>
 <script src="../assets/shared/conductivite-circuit.js"></script>
 <script src="../assets/shared/atelier-electrique.js"></script>
+<script src="../assets/shared/commande-protection.js"></script>
 <script src="../assets/catalogues/6e-ci.js"></script>
 <script src="../assets/activites/activite.js"></script>
 <script>
 (function(){
   var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-CI-6E-ELE-07';
-  if(!/^NL-CI-6E-ELE-(0[1-57]|17)$/.test(id)){
+  if(!/^NL-CI-6E-ELE-(0[1-9]|1[0-7])$/.test(id)){
     app.textContent='Cette activité n’existe pas ou est encore en conception.';return;
   }
   var catalogue=window.NL_CATALOGUE_CI_6E;

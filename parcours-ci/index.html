@@ -207,7 +207,7 @@ prog.forEach(function(t,ti){t.les.forEach(function(l){lessons.push({slug:l.slug,
 /* libellés de leçon du catalogue → slugs du programme */
 var SLUG={'Circuit électrique':'circuit-electrique','Commande d’un circuit':'commande-circuit','Court-circuit et protection':'court-circuit','Solides et liquides':'solides-liquides','Gaz':'les-gaz','Température d’un corps':'temperature','Changements d’état de l’eau':'changements-etat','Volume d’un liquide ou d’un solide':'volume','Masse d’un solide ou d’un liquide':'masse','Constituants de l’air':'constituants-air','Combustions de solides et liquides':'combustion-solide-liquide','Combustion de gaz':'combustion-gaz','Dangers des combustions':'dangers-combustions'};
 /* fiches existantes : même liste que activites-ci/index.html */
-var FICHES=/^NL-CI-6E-ELE-(0[1-57]|17)$/;
+var FICHES=/^NL-CI-6E-ELE-(0[1-9]|1[0-7])$/;
 var STEPS=[['resume','Résumé narré','Comprendre l’essentiel en une minute','<path d="M5 4h14v16H5z"/><path d="M10 9l5 3-5 3z"/>'],['sim','Simulation','Manipuler les phénomènes et observer','<circle cx="12" cy="12" r="3"/><path d="M3 12h4M17 12h4M12 3v4M12 17v4"/>'],['defi','Défi','Réinvestir pour résoudre un problème','<path d="M6 3h12l-2 7H8z"/><path d="M12 10v7M8 21h8"/>'],['quiz','Quiz','Vérifier ce que je sais','<circle cx="12" cy="12" r="10"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.4"/><circle cx="12" cy="16.5" r=".6"/>']];
 var OPS=['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'];
 var CHEV='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg>';
