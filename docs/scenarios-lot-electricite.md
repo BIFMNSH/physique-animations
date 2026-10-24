@@ -121,7 +121,7 @@ Garde-fous : le guide d'exécution précise que le va-et-vient n'est pas un orga
 | Conclure | L'élève écrit la définition avec ses mots. |
 | Communiquer | Deux schémas annotés, un avec court-circuit, un sans. |
 
-Garde-fous : l'élève investigue sur simulation ; échelle d'échauffement qualitative, sans valeur d'intensité (la valeur du Studio est une illustration). Le programme prescrit aussi, sous la conduite du professeur, un court-circuit d'une lampe par un fil et d'une pile de 9 V par de la paille de fer : à traiter comme **démonstration du professeur** hors de la fiche élève (écart signalé au registre).
+Garde-fous : l'élève investigue sur simulation ; échelle d'échauffement qualitative, sans valeur d'intensité (la valeur du Studio est une illustration). Le programme prescrit aussi, sous la conduite du professeur, un court-circuit d'une lampe par un fil et d'une pile de 9 V par de la paille de fer : **décision du 24 octobre 2026 : simulation pour l'élève + démonstration facultative du professeur**, décrite dans la fiche professeur, réalisée par le professeur seul après l'investigation de l'élève (protocole de sécurité à valider par le propriétaire).
 
 ## ELE-13 · Identifier les causes d'un court-circuit
 
@@ -215,6 +215,6 @@ Garde-fous : le programme prévoit de trouver la panne avec un testeur de contin
 1. Valider le découpage en neuf fiches et leur appui sur les leçons `commande-circuit` et `court-circuit` du Studio (réutilisation du modèle, sans reprendre ses valeurs d'illustration).
 2. Valider ELE-14 (dangers) et ELE-15 (protections), ainsi que le numéro 180 avant publication.
 3. Décider si ELE-06 est construite avec ce lot ou séparément.
-4. Choisir pour ELE-12 : démonstration du professeur (court-circuit réel guidé, paille de fer) en complément de la simulation élève, ou simulation seule.
+4. ~~Choix pour ELE-12~~ **Décidé** : simulation élève + démonstration facultative du professeur (court-circuit réel guidé, paille de fer). Reste à valider : le protocole de sécurité exact (type de pile, quantité, durée, équipement).
 5. Fournir l'archive des 13 TP DPFC pour confirmer les références.
 6. Après construction et recette, les fiches restent **prototype** jusqu'à votre validation explicite. Les corrigés ne seront pas placés dans les fichiers publics (consigne de la passation).
