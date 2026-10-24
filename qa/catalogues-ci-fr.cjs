@@ -77,7 +77,7 @@ assert.ok(hubHTML.includes("pc-inquiry-6e-")&&hubHTML.includes('.tb-btn.locked')
 console.log('Hub de leçon : navigation 6e, Studio et ELE-07 contrôlée statiquement.');
 
 assert.ok(hubHTML.includes('class="quicknav"'),'navigation rapide du hub');
-assert.ok(hubHTML.includes("document.createElement('optgroup')"),'sélecteur de leçons par thème');
+assert.ok(hubHTML.includes("el('details',{class:'tg'")&&hubHTML.includes('aria-controls="side"'),'leçons groupées par thème pliable, tiroir mobile');
 assert.ok(hubHTML.includes('prefers-reduced-motion'),'adaptation accessibilité animations');
 assert.ok(hubHTML.includes('max-width:750px'),'présentation mobile prévue');
 console.log('Ergonomie hub : navigation, regroupement, mobile et mouvements réduits couverts.');
