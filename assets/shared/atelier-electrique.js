@@ -1,16 +1,16 @@
 /* NohobaLab · atelier d'électricité (6e Côte d'Ivoire) : dessins originaux partagés par les activités du circuit électrique.
    Montage réaliste (pile 4,5 V, pile cylindrique, lampe, interrupteur, moteur) et schéma normalisé (symboles du document de classe).
-   Conventions : plot et culot de la lampe sont les deux contacts ; le verre est isolant ; la polarité est imprimée sur la pile. */
+   Conventions : plot et culot de la lampe sont les deux contacts ; le verre est isolant ; pile plate : lame courte +, lame longue − (signes aussi imprimés). */
 (function(){
 'use strict';
 var INK='#243049',OR='#F97316',FONT='Atkinson Hyperlegible,system-ui,sans-serif';
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function T(x,y,t,size,col,w,anchor){return '<text x="'+x+'" y="'+y+'" fill="'+(col||INK)+'" font-size="'+(size||13)+'" font-weight="'+(w||700)+'" text-anchor="'+(anchor||'middle')+'" font-family="'+FONT+'">'+esc(t)+'</text>';}
 function svg(inner,vb,label){return '<svg viewBox="'+vb+'" role="img" aria-label="'+esc(label)+'" style="display:block;width:100%;height:auto;border-radius:14px;background:#F7F8FB">'+inner+'</svg>';}
-/* pile plate 4,5 V : bornes de même taille, + et − imprimés sur le corps. Bornes en haut : − à x+27*sc, + à x+53*sc, sommet y-42*sc. */
+/* pile plate 4,5 V : lame courte = borne +, lame longue = borne − ; + et − aussi imprimés sur le corps. Accroches : − à x+27*sc, + à x+53*sc, hauteur y-42*sc (la lame − dépasse jusqu'à y-62*sc). */
 function pile45(x,y,sc,fail){sc=sc||1;
   var g='<g transform="translate('+x+' '+y+') scale('+sc+')"><ellipse cx="40" cy="108" rx="52" ry="7" fill="#1B2540" opacity=".2"/><rect x="0" y="0" width="80" height="104" rx="9" fill="#34457A"/><rect x="0" y="0" width="80" height="26" rx="9" fill="#5A6FA8"/><rect x="12" y="40" width="56" height="32" rx="6" fill="#F97316"/>'+T(40,63,'4,5 V',19,'#fff',800)
-  +'<rect x="21" y="-42" width="12" height="44" rx="2" fill="#E7B93C" stroke="#9A7A12"/><rect x="47" y="-42" width="12" height="44" rx="2" fill="#E7B93C" stroke="#9A7A12"/>'
+  +'<rect x="21" y="-62" width="12" height="64" rx="2" fill="#E7B93C" stroke="#9A7A12"/><rect x="47" y="-42" width="12" height="44" rx="2" fill="#E7B93C" stroke="#9A7A12"/>'
   +'<circle cx="27" cy="13" r="10" fill="#fff"/>'+T(27,21,'−',20,'#2B5EA8',800)+'<circle cx="53" cy="13" r="10" fill="#fff"/>'+T(53,21,'+',20,'#C03A2E',800);
   if(fail)g+='<rect x="0" y="0" width="80" height="104" rx="9" fill="#fff" opacity=".6"/>';
   return g+'</g>';}

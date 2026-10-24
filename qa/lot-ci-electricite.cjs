@@ -36,7 +36,7 @@ for(const i of IDS){
 }
 console.log('Lot CI : six fiches structurées, montage + schéma normalisé présents dans chaque expérience.');
 
-/* ELE-02 : pile cylindrique, contacts directs, deux bornes différentes */
+/* ELE-02 : pile cylindrique, plot posé et fil de connexion, deux bornes différentes */
 {const {panel}=lancer('02');
   const cas=[['plus','moins',true],['moins','plus',true],['plus','plus',false],['moins','moins',false],['cote','moins',false],['plus','cote',false],['plus','rien',false]];
   for(const [p,l,att] of cas){choisir(panel,'ci2-plot',p);choisir(panel,'ci2-lame',l);assert.ok(label(panel,0).includes(att?'brille':'éteinte'),'ELE-02 '+p+'/'+l);assert.ok(label(panel,1).includes(att?'fermé':'ouvert'),'schéma ELE-02 '+p+'/'+l);}
@@ -45,7 +45,7 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
     const on=(p==='plus'&&l==='moins')||(p==='moins'&&l==='plus');
     assert.ok(label(panel,0).includes(on?'brille':'éteinte'),'ELE-02 toutes les combinaisons '+p+'/'+l);
   }
-  const src=read('assets/activites/fiches/NL-CI-6E-ELE-02.js');assert.ok(!/pinces? crocodile/.test(src),'ELE-02 sans fils à pinces');assert.ok(src.includes('Pas de fil de connexion')||src.includes('sans fil'),'consigne sans fil');
+  const src=read('assets/activites/fiches/NL-CI-6E-ELE-02.js');assert.ok(!/lame métallique/.test(src),'ELE-02 : plus de lame métallique (JD p. 12, TP fiche 1)');assert.ok(/fil de connexion/.test(w.FICHE_CI_ELE02.materiel)&&/fil de connexion/.test(w.FICHE_CI_ELE02.synthese),'ELE-02 : culot relié par un fil de connexion');
   assert.ok(src.includes('pile cylindrique')||src.includes('Pile cylindrique'),'pile cylindrique');
 }
 /* ELE-03 : un fil au plot, l'autre au culot ; jamais au verre */
@@ -69,10 +69,11 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
   assert.ok(!/sens du courant/i.test(read('assets/activites/fiches/NL-CI-6E-ELE-17.js').replace(/ne parle pas de sens/g,'')),'pas de sens conventionnel dans ELE-17');
 }
 /* ELE-01 : zones et étiquettes */
-{const {panel,st}=lancer('01'),map={1:'culot',2:'plus',3:'plot',4:'moins'};
-  for(const k of [1,2,3,4]){const s=panel.querySelector('#ci1-z'+k);s.value=map[k];}
+{const {panel,st}=lancer('01'),map={1:'culot',2:'plus',3:'plot',4:'moins',5:'plus',6:'moins'};
+  for(const k of [1,2,3,4,5,6]){const s=panel.querySelector('#ci1-z'+k);s.value=map[k];}
   [...panel.querySelectorAll('button')].find(b=>/Vérifier/.test(b.textContent)).click();
-  assert.equal(st.essais.length,4);assert.ok(st.essais.every(e=>e.ok),'quatre zones justes');
+  assert.equal(st.essais.length,6);assert.ok(st.essais.every(e=>e.ok),'six zones justes');
+  assert.ok(/lame courte/.test(w.FICHE_CI_ELE01.synthese)&&/bouton/.test(w.FICHE_CI_ELE01.synthese),'ELE-01 : bornes selon la forme (lame courte +, bouton +)');
   const F=w.FICHE_CI_ELE01;assert.equal(F.peutConfronter(st),true);assert.equal(F.peutConfronter({essais:[]}),false);
 }
 /* ELE-05 : schéma attendu, erreurs A/B/C, circuits en série */
@@ -133,7 +134,7 @@ for(const i of IDS){
   button('Enregistrer ma prévision');button('Passer à la manipulation');
   assert.equal(document.getElementById('tab3').disabled,true,'essais requis '+i);
   if(i==='01'){
-    for(const [zone,value] of Object.entries({1:'culot',2:'plus',3:'plot',4:'moins'}))set('ci1-z'+zone,value);
+    for(const [zone,value] of Object.entries({1:'culot',2:'plus',3:'plot',4:'moins',5:'plus',6:'moins'}))set('ci1-z'+zone,value);
     button('Vérifier mes étiquettes');
   }else if(i==='05'){
     for(const [id,value] of Object.entries({'ci5-pile':'normale','ci5-d':'lampe','ci5-b':'moteur','ci5-g':'interOuvert'}))set(id,value);

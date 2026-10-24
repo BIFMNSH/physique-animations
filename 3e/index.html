@@ -26,10 +26,12 @@
 <meta name="theme-color" content="#0B1220">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/studio/studio.css">
+<link rel="stylesheet" href="../assets/shared/catalogue-parcours.css">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="hubp">
-<main class="hub">
+<body class="hubp catalogue-page">
+<a class="skip" href="#themesHeading">Aller aux leçons</a>
+<main class="hub" id="main">
 <div class="hubin">
   <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
     <a class="btn" href="../">← Accueil</a>
@@ -54,7 +56,12 @@
 
   <a href="../bepc/" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;text-decoration:none;color:var(--text);margin:0 0 18px;padding:16px 20px;border-radius:16px;border:1.5px solid #F97316;background:rgba(249,115,22,.1)"><span style="font:800 13px var(--f-body,sans-serif);background:#F97316;color:#1B0A00;border-radius:8px;padding:3px 9px">Nouveau</span><span style="flex:1 1 280px"><b style="font-size:19px">Sujets types du BEPC, corrigés</b><br><span style="color:var(--muted);font-size:15px">3 sujets complets, en entraînement ou en examen blanc de 2 heures, avec ta note sur 20.</span></span><span style="font-weight:700">S’entraîner</span></a>
 
-  <section class="themes" id="themes" aria-label="Thèmes et leçons"></section>
+  <div class="catalogue-tools">
+    <div><h2 id="themesHeading">Ton parcours par thème</h2><p id="programmeProgress"></p></div>
+    <button type="button" class="text-button" id="foldThemes" aria-controls="themes">Tout déplier</button>
+    <div class="meter" aria-hidden="true"><i id="programmeBar"></i></div>
+  </div>
+  <section class="themes" id="themes" aria-labelledby="themesHeading"></section>
 
   <section class="chips">
     <span class="kick">Dans chaque leçon</span>

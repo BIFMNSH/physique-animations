@@ -26,10 +26,12 @@
 <meta name="theme-color" content="#0B1220">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/studio/studio.css">
+<link rel="stylesheet" href="../assets/shared/catalogue-parcours.css">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="hubp">
-<main class="hub">
+<body class="hubp catalogue-page">
+<a class="skip" href="#themesHeading">Aller aux leçons</a>
+<main class="hub" id="main">
 <div class="hubin">
   <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
     <a class="btn" href="../">← Accueil</a>
@@ -52,7 +54,12 @@
     <div class="greet" id="greet"></div>
   </section>
 
-  <section class="themes" id="themes" aria-label="Thèmes et leçons"></section>
+  <div class="catalogue-tools">
+    <div><h2 id="themesHeading">Ton parcours par thème</h2><p id="programmeProgress"></p></div>
+    <button type="button" class="text-button" id="foldThemes" aria-controls="themes">Tout déplier</button>
+    <div class="meter" aria-hidden="true"><i id="programmeBar"></i></div>
+  </div>
+  <section class="themes" id="themes" aria-labelledby="themesHeading"></section>
 
   <section class="chips">
     <span class="kick">Dans chaque leçon</span>

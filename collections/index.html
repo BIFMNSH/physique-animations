@@ -12,7 +12,8 @@
 <link rel="stylesheet" href="../assets/shared/catalogue-parcours.css">
 </head>
 <body class="hubp catalogue-page">
-<main class="hub"><div class="hubin">
+<a class="skip" href="#ciHeading">Aller au catalogue</a>
+<main class="hub" id="main"><div class="hubin">
   <header style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
     <a class="btn" href="../">← Accueil</a>
     <b>NOHOBA-Lab</b>
@@ -40,7 +41,8 @@
   </div>
   <section id="ci" aria-labelledby="ciHeading">
     <div class="collection-heading"><div><h2 id="ciHeading">Explorer par thème et par leçon</h2><p id="count" role="status" aria-live="polite"></p></div><button type="button" class="text-button" id="foldCollections" aria-controls="entries">Tout déplier</button></div>
-    <div class="filters">
+    <ul class="status-counts" id="ciCounts" aria-label="Activités par état de développement"></ul>
+    <div class="filters sticky" role="search" aria-label="Filtrer le catalogue ivoirien">
       <label for="theme">Thème<select id="theme"><option value="">Tous les thèmes</option></select></label>
       <label for="find">Rechercher<input id="find" type="search" placeholder="Titre, notion, leçon…"></label>
       <label for="status">État de développement<select id="status"><option value="">Tous les états</option><option value="disponible">Disponible</option><option value="prototype">Prototype à valider</option><option value="conception">En conception</option></select></label>
@@ -70,6 +72,11 @@
   function count(list,state){return list.filter(function(x){return x.statut===state;}).length;}
   function plural(n,word){return n+' '+word+(n>1?'s':'');}
   function stats(list){return [count(list,'disponible')?plural(count(list,'disponible'),'disponible'):'',count(list,'prototype')?plural(count(list,'prototype'),'prototype'):'',count(list,'conception')?count(list,'conception')+' en conception':''].filter(Boolean).join(' · ');}
+  /* compteurs par état : pastilles et barre de répartition */
+  var STATES=[['disponible','available','disponible','disponibles'],['prototype','prototype','prototype','prototypes'],['conception','conception','en conception','en conception']];
+  function fillCounts(list,ul){ul.replaceChildren();STATES.forEach(function(s){var n=count(list,s[0]);if(n)el('li',{class:s[1],text:n+' '+(n>1?s[3]:s[2])},ul);});return ul;}
+  function counts(list,parent,label){return fillCounts(list,el('ul',{class:'status-counts','aria-label':label},parent));}
+  function bar(list,parent){var b=el('span',{class:'status-bar','aria-hidden':'true'},parent);STATES.slice(0,2).forEach(function(s){var n=count(list,s[0]);if(n)el('i',{class:s[1],style:'width:'+(n/list.length*100)+'%'},b);});return b;}
   function progressLabel(id){
     var st=S.store('pc-act-'+id,{});
     if(!Object.keys(st).length)return 'Mon parcours : pas encore exploré';
@@ -80,7 +87,7 @@
     return 'Mon parcours : activité ouverte';
   }
   var tb=$('themeButton');
-  function paintTheme(){tb.textContent=S.settings.theme==='light'?'Thème sombre':'Thème clair';}
+  function paintTheme(){var light=S.settings.theme==='light';tb.textContent=light?'Thème sombre':'Thème clair';tb.setAttribute('aria-label',light?'Passer en thème sombre':'Passer en thème clair');}
   tb.onclick=function(){S.settings.theme=S.settings.theme==='light'?'dark':'light';S.applySettings();paintTheme();};
   S.applySettings();paintTheme();
   if(!Array.isArray(items)||!Array.isArray(fr)){
@@ -92,28 +99,37 @@
   $('ciSummary').textContent=new Set(items.map(function(x){return x.theme;})).size+' thèmes · '+new Set(items.map(function(x){return x.lecon;})).size+' leçons · '+stats(items)+'.';
   $('frTotal').textContent=fr.length+' activités au catalogue';
   $('frSummary').textContent='5e, 4e et 3e · '+stats(fr)+'.';
-  var programme=window.PROGRAMME['6e'],themeNames={'Grandeurs et mesures physiques':'Mesure de grandeurs physiques','Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;}))),openThemes=new Map(),openLessons=new Map();
+  var programme=window.PROGRAMME['6e'],themeNames={'Grandeurs et mesures physiques':'Mesure de grandeurs physiques','Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;})));
+  /* volets ouverts (hors filtrage) : mémorisés sur cet appareil */
+  var UI_KEY='pc-collections-ui',UI=S.store(UI_KEY,{});UI.themes=UI.themes||{};UI.lessons=UI.lessons||{};
+  function saveUI(){try{localStorage.setItem(UI_KEY,JSON.stringify(UI));}catch(e){}}
+  var filtering=false;
   themes.forEach(function(t){el('option',{value:t,text:t},theme);});
-  function foldLabel(){var groups=Array.from(entries.querySelectorAll('details'));fold.disabled=!groups.length;fold.textContent=groups.every(function(d){return d.open;})?'Tout replier':'Tout déplier';}
+  function foldLabel(){var groups=Array.from(entries.querySelectorAll('details')),all=groups.length&&groups.every(function(d){return d.open;});fold.disabled=!groups.length;fold.textContent=all?'Tout replier':'Tout déplier';fold.setAttribute('aria-label',all?'Replier tous les thèmes et leçons':'Déplier tous les thèmes et leçons');fold.setAttribute('aria-expanded',String(!!all));}
   fold.onclick=function(){var groups=Array.from(entries.querySelectorAll('details')),open=!groups.every(function(d){return d.open;});groups.forEach(function(d){d.open=open;});foldLabel();};
+  function remember(d,store,key){d.addEventListener('toggle',function(){if(!d.isConnected)return;if(!filtering){store[key]=d.open;saveUI();}foldLabel();});}
   function render(){
     var q=search.value.trim().toLocaleLowerCase('fr'),filtered=items.filter(function(x){return(!theme.value||x.theme===theme.value)&&(!status.value||x.statut===status.value)&&(!q||(x.titre+' '+x.lecon+' '+x.theme+' '+x.sourceId).toLocaleLowerCase('fr').includes(q));});
+    filtering=!!(q||theme.value||status.value);
     entries.replaceChildren();
     $('count').textContent=plural(filtered.length,'activité')+' sur '+items.length+(filtered.length?' · '+stats(filtered):'');
+    fillCounts(filtered,$('ciCounts'));
     if(!filtered.length){el('p',{class:'empty-result',text:'Aucun résultat. Essaie un autre mot ou retire un filtre.'},entries);foldLabel();return;}
     themes.forEach(function(t,ti){
       var list=filtered.filter(function(x){return x.theme===t;});if(!list.length)return;
       var p=programme.find(function(x){return x.nm===(themeNames[t]||t);}),g=el('details',{class:'catalogue-group',style:'--tc:'+p.col},entries),sm=el('summary',{},g);
-      g.open=!!(q||theme.value||status.value)||(openThemes.has(t)?openThemes.get(t):ti===0);
+      g.open=filtering||(t in UI.themes?UI.themes[t]:ti===0);
       var ic=el('span',{class:'catalogue-icon','aria-hidden':'true'},sm);ic.innerHTML='<svg viewBox="0 0 24 24">'+p.ic+'</svg>';
-      var title=el('span',{class:'group-title'},sm);el('b',{text:t},title);el('small',{text:list.length+' activités · '+stats(list)},title);chevron(sm);
-      g.addEventListener('toggle',function(){if(g.isConnected){openThemes.set(t,g.open);foldLabel();}});
+      var lessons=Array.from(new Set(list.map(function(x){return x.lecon;})));
+      var title=el('span',{class:'group-title'},sm);el('b',{text:t},title);el('small',{text:plural(lessons.length,'leçon')+' · '+plural(list.length,'activité')},title);
+      var gp=el('span',{class:'group-progress status'},sm);counts(list,gp,'États des activités du thème');bar(list,gp);chevron(sm);
+      remember(g,UI.themes,t);
       var body=el('div',{class:'collection-lessons'},g);
-      Array.from(new Set(list.map(function(x){return x.lecon;}))).forEach(function(lesson){
+      lessons.forEach(function(lesson){
         var a=list.filter(function(x){return x.lecon===lesson;}),key=t+'|'+lesson,d=el('details',{class:'collection-lesson'},body),s=el('summary',{},d);
-        d.open=!!(q||status.value)||(openLessons.has(key)?openLessons.get(key):false);
-        chevron(s);el('span',{text:lesson},s);el('span',{class:'lesson-count',text:plural(a.length,'activité')+' · '+stats(a)},s);
-        d.addEventListener('toggle',function(){if(d.isConnected){openLessons.set(key,d.open);foldLabel();}});
+        d.open=filtering||(key in UI.lessons?UI.lessons[key]:false);
+        chevron(s);var lb=el('span',{class:'lesson-label'},s);el('span',{text:lesson},lb);el('small',{text:plural(a.length,'activité')},lb);counts(a,s,'États des activités de la leçon');
+        remember(d,UI.lessons,key);
         var ul=el('ul',{class:'collection-activities'},d);
         a.forEach(function(x){
           var li=el('li',{},ul),tx=el('div',{class:'activity-title'},li);
@@ -126,7 +142,10 @@
     });
     foldLabel();
   }
-  theme.addEventListener('change',render);search.addEventListener('input',render);status.addEventListener('change',render);
+  /* changement de filtre : transition douce si le navigateur la permet */
+  var reduce=window.matchMedia?matchMedia('(prefers-reduced-motion: reduce)'):{matches:true};
+  function rerender(){if(document.startViewTransition&&!reduce.matches)document.startViewTransition(render);else render();}
+  theme.addEventListener('change',rerender);search.addEventListener('input',render);status.addEventListener('change',rerender);
   window.addEventListener('pageshow',function(e){if(e.persisted)render();});
   render();
 })();

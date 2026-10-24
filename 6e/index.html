@@ -30,7 +30,8 @@
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="hubp catalogue-page">
-<main class="hub">
+<a class="skip" href="#themesHeading">Aller aux leçons</a>
+<main class="hub" id="main">
 <div class="hubin">
   <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
     <a class="btn" href="../">← Accueil</a>
@@ -54,10 +55,11 @@
   </section>
 
   <div class="catalogue-tools">
-    <div><h2>Ton parcours par thème</h2><p id="programmeProgress"></p></div>
+    <div><h2 id="themesHeading">Ton parcours par thème</h2><p id="programmeProgress"></p></div>
     <button type="button" class="text-button" id="foldThemes" aria-controls="themes">Tout déplier</button>
+    <div class="meter" aria-hidden="true"><i id="programmeBar"></i></div>
   </div>
-  <section class="themes" id="themes" aria-label="Thèmes et leçons"></section>
+  <section class="themes" id="themes" aria-labelledby="themesHeading"></section>
 
   <section class="chips">
     <span class="kick">Dans chaque leçon</span>
