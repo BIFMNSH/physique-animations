@@ -210,7 +210,80 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 @media (max-width:980px){.hero .wrap,.mission .wrap{grid-template-columns:1fr}.xp{grid-template-columns:1fr 1fr}.who{grid-template-columns:1fr;gap:28px}.top nav{display:none}}
 @media (max-width:560px){.xp{grid-template-columns:1fr}.xp a{min-height:0}section{padding:60px 0}.hero{padding-top:34px}.top .btn.sm.hideS{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero::before{transition:none}}
+
+/* ===== Accueil · premium éditorial (clair / sombre) ===== */
+:root[data-theme="light"]{--night:#F6F2EA;--deep:#FFFFFF;--ink:#0E162A;--mist:#505A70;--line:rgba(14,22,42,.14);--bg:linear-gradient(#F6F2EA,#F6F2EA);--bar:rgba(246,242,234,.88);--hover:#FBF8F2;--card:#FFFFFF;--nohoba:#B23A06;--nohoba-soft:#B23A06;--bench-bg:radial-gradient(circle at 50% 30%,#FFFFFF,#E9E2D3 78%)}
+:root[data-theme="dark"],:root:not([data-theme]){--bg:linear-gradient(#0A1226,#0A1226)}
+.hero{padding:44px 0 40px}
+.hero::before{background:radial-gradient(600px 380px at 78% 60%,var(--glow,rgba(63,191,106,.18)),transparent 70%)}
+.hero .wrap{display:block}
+.eyebrow{margin:0 0 14px;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--nohoba-soft)}
+.hero h1{font:800 clamp(24px,6.4vw,96px)/1.04 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;white-space:nowrap;margin:0 0 34px}
+.hero h1 em{font-style:normal;color:var(--nohoba)}
+.hero .cols{display:grid;grid-template-columns:1fr minmax(320px,.9fr);gap:48px;align-items:center}
+.hero .lead{font-size:clamp(19px,2.1vw,23px);color:var(--ink);max-width:520px}
+.hero .lead span{display:block;margin-top:10px;font-size:17px;color:var(--mist)}
+.rib{border-block:1px solid var(--line);background:var(--deep);overflow:hidden}
+.rib .rt{display:flex;width:max-content;animation:rib 46s linear infinite}
+.rib ul{display:flex;margin:0;padding:0;list-style:none}
+.rib li{padding:15px 0 15px 28px;font:700 14px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mist);white-space:nowrap}
+.rib li::after{content:"✦";margin-left:28px;color:var(--nohoba)}
+@keyframes rib{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.rib .rt{animation:none;width:auto;flex-wrap:wrap}.rib ul[aria-hidden]{display:none}}
+.layout{max-width:1440px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px);display:grid;grid-template-columns:330px minmax(0,1fr);gap:0 56px;align-items:start}
+.side{position:sticky;top:80px;align-self:start;margin-top:56px;display:flex;flex-direction:column;gap:20px;max-height:calc(100vh - 100px);overflow:auto;padding:2px}
+.side .lab{margin:0 0 10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.side nav ol{list-style:none;margin:0;padding:0}
+.side nav a{display:flex;align-items:center;gap:14px;min-height:48px;padding:0 14px;border-left:2px solid var(--line);text-decoration:none;font-weight:700;font-size:17px}
+.side nav a:hover{background:var(--card)}
+.side nav a[aria-current="true"]{border-left-color:var(--nohoba);background:var(--card)}
+.side nav a i{font:800 15px 'Bricolage Grotesque',sans-serif;font-style:normal;color:var(--nohoba-soft)}
+.side .box{padding:20px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.side .cls{gap:6px}.side .cls button{min-width:58px}
+.side .srch label{font:700 15px 'Atkinson Hyperlegible',sans-serif;margin:16px 0 8px}
+.side .srch input{min-height:46px;font-size:16px}
+.side .free2{font-size:15px}.side .free2 b{display:block;font:800 17px 'Bricolage Grotesque',sans-serif;margin-bottom:4px}
+.side .free2 a{display:inline-block;margin-top:10px;color:var(--nohoba-soft);font-weight:700}
+.col section{padding:64px 0 24px}
+.col h2{font-size:clamp(30px,3.6vw,46px);max-width:none}
+.col .sub{max-width:660px;margin-bottom:28px}
+.col .xp{grid-template-columns:repeat(2,1fr);border-radius:12px}
+.col .xp.an{grid-template-columns:repeat(3,1fr)}
+.col .xp a{min-height:0}
+.col .xp svg{height:150px}
+.vb{font-size:15px;color:var(--mist)}.vb b{color:var(--ink)}
+.steps{list-style:none;margin:0 0 10px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.steps li{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
+.steps b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--night);font-size:14px}
+.steps .sn{font:800 18px/1.2 'Bricolage Grotesque',sans-serif}
+.steps .sv{font-size:15px;color:var(--mist)}
+.steps .sl{margin-top:auto;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--nohoba-soft)}
+.cap{margin:0 0 30px;font-size:14px;color:var(--mist)}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.seg button{min-height:48px;padding:0 20px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--ink);color:var(--night);border-color:var(--ink)}
+.panel[hidden]{display:none}
+.more{margin:18px 0 0}
+.who{grid-template-columns:repeat(2,1fr);gap:32px 40px}
+.gar{margin:36px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px 40px}
+.gar li{padding-left:34px;position:relative}
+.gar li::before{content:"✓";position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:#F97316;color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.gar b{display:block}
+.mq{font:700 clamp(26px,3.2vw,42px)/1.14 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:0 0 22px}
+.col .mission{background:none}
+.col .stats{margin-top:36px}
+.final{padding:72px 0 80px;border-top:1px solid var(--line);margin-top:48px}
+.final .tools{justify-content:center;border-top:0;margin-top:26px;padding-top:0}
+.proj .side nav,.proj .side .srch,.proj .side .free2,.proj .rib{display:none}
+.proj .hero h1{font-size:clamp(24px,6.4vw,96px)}
+@media (max-width:1100px){.col .xp.an{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:980px){.hero .cols{grid-template-columns:1fr;gap:28px}.layout{display:block}.side{position:static;max-height:none;margin-top:28px}.side nav{display:none}.col section{padding-top:48px}}
+@media (max-width:640px){.col .xp,.col .xp.an,.who,.gar,.steps{grid-template-columns:1fr}}
+.hero .cols{align-items:start}
+.bench canvas{max-height:380px}
+@media (max-width:440px){.logo b{font-size:16px}.logo .mark{width:30px;height:30px}.top .btn.sm{padding:0 12px;font-size:14px}.top .wrap{gap:6px}}
 </style>
+
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "name": "NOHOBA-Lab", "alternateName": "NOHOBA Lab", "url": "https://lab.nohaba.com/", "inLanguage": "fr", "description": "Simulations d’expériences, cours et sujets types du BEPC de physique-chimie pour le collège (programme MENA, Côte d’Ivoire)."}, {"@type": "Organization", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/", "logo": "https://lab.nohaba.com/assets/brand/nohoba-icon.svg", "parentOrganization": {"@type": "Organization", "name": "NOHOBA", "url": "https://nohaba.com/"}, "areaServed": "CI"}, {"@type": "Course", "name": "Physique-chimie au collège, de la 6e à la 3e", "description": "53 leçons interactives de physique-chimie suivant le programme MENA de Côte d’Ivoire, avec résumés vidéo narrés, simulations, défis et quiz.", "inLanguage": "fr", "isAccessibleForFree": true, "provider": {"@type": "Organization", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "educationalLevel": "Collège (6e à 3e)", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT53M"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "XOF", "category": "Free"}}]}</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -218,26 +291,27 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 <header class="top">
   <div class="wrap">
     <a class="logo" href="./" aria-label="NOHOBA-Lab, accueil"><img class="mark" src="assets/brand/nohoba-icon.svg" alt="" width="34" height="34"><b>NOHOBA<span>-Lab</span></b></a>
-    <nav aria-label="Sections"><a href="#experiences">Expériences</a><a href="#animations">Animations</a><a href="#pour-qui">Pour qui</a><a href="lecons/">Leçons</a><a href="simulateur/">Simulateur</a><a href="bepc/">BEPC</a></nav>
+    <nav aria-label="Sections"><a href="lecons/">Leçons</a><a href="simulateur/">Simulateur</a><a href="bepc/">BEPC</a></nav>
     <button type="button" class="tsw" id="tsw" role="switch" aria-checked="true" aria-label="Mode sombre"><span class="lbl" aria-hidden="true">Mode sombre</span><span class="trk" aria-hidden="true"><span class="st on">ON</span><span class="st off">OFF</span></span></button>
     <a class="btn sm" href="connexion/" data-compte>Se connecter</a>
-    <a class="btn sm go hideS" href="#niveaux">Commencer</a>
+    <a class="btn sm go hideS" href="#ta-classe">Commencer</a>
   </div>
 </header>
 
 <main>
 <section class="hero" aria-labelledby="h">
   <div class="wrap">
+    <p class="eyebrow">Physique-chimie · de la 6e à la 3e · programme MENA</p>
+    <h1 id="h">Le labo, <em>dans ta poche.</em></h1>
+    <div class="cols">
     <div>
-      <h1 id="h">Le labo de <span style="white-space:nowrap">physique-chimie</span>, dans ta poche.</h1>
-      <p class="lead">Pas de salle de TP ? Ici, tu fais l’expérience toi-même : tu changes un réglage, tu observes, tu comprends. 53 leçons de la 6e au BEPC, sur téléphone ou projetées en classe.</p>
+      <p class="lead">Pas de salle de TP ? Change un réglage, observe, comprends.<span>53 leçons de la 6e au BEPC, sur téléphone ou projetées en classe.</span></p>
       <div class="ctas">
-        <a class="btn go" href="#niveaux">Choisir ma classe</a>
+        <a class="btn go" href="#ta-classe">Choisir ma classe</a>
         <a class="btn" href="simulateur/">Voir les 26 simulations</a>
       </div>
       <div class="free"><i>Gratuit</i>Tout est ouvert, sans compte, jusqu’au 31 décembre 2026.</div>
     </div>
-
     <div class="vit" id="vit">
       <div class="bench">
       <canvas id="lab" width="900" height="900" role="img" aria-label="Bécher contenant une solution et un indicateur coloré. Sa couleur change avec le pH choisi."></canvas>
@@ -263,151 +337,179 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
               </div>
     </div>
     </div>
-  </div>
-</section>
-
-<section id="animations" aria-labelledby="han" style="padding-top:20px">
-  <div class="wrap">
-    <h2 id="han">Les cinq animations, quand tu veux.</h2>
-    <p class="sub">Moins d’une minute chacune, pas à pas : tu avances à ton rythme. Idéal avant la manipulation, ou pour réviser.</p>
-    <div class="xp an">
-      <a href="metal/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g fill="#C88033"><circle cx="50" cy="35" r="11"/><circle cx="110" cy="35" r="11"/><circle cx="170" cy="35" r="11"/><circle cx="50" cy="95" r="11"/><circle cx="110" cy="95" r="11"/><circle cx="170" cy="95" r="11"/></g><g fill="#7FD3FF"><circle cx="80" cy="65" r="5"/><circle cx="140" cy="62" r="5"/><circle cx="200" cy="68" r="5"/><circle cx="25" cy="66" r="5"/></g><path d="M60 118h130" stroke="#F97316" stroke-width="3"/><path d="M190 118l-8-5m8 5l-8 5" stroke="#F97316" stroke-width="3" fill="none"/></svg>
-        <h3>Le courant électrique dans un métal</h3><p>Des électrons libres se déplacent entre les atomes.</p><span class="lv"><b>1</b>6 étapes · environ 40 s</span>
-      </a>
-      <a href="solutions/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="45" y="22" width="150" height="92" rx="8" fill="#2E9CDB" opacity=".22" stroke="#5F6E96" stroke-width="4"/><rect x="75" y="10" width="8" height="70" fill="#C8CFDB"/><rect x="157" y="10" width="8" height="70" fill="#C8CFDB"/><g font-family="sans-serif" font-weight="700" font-size="10" text-anchor="middle"><circle cx="100" cy="55" r="11" fill="#AB5CF2"/><text x="100" y="59" fill="#fff">Na⁺</text><circle cx="95" cy="92" r="11" fill="#AB5CF2"/><text x="95" y="96" fill="#fff">Na⁺</text><circle cx="140" cy="62" r="11" fill="#1FF01F"/><text x="140" y="66" fill="#0E162A">Cl⁻</text><circle cx="145" cy="95" r="11" fill="#1FF01F"/><text x="145" y="99" fill="#0E162A">Cl⁻</text></g></svg>
-        <h3>Le courant dans les solutions ioniques</h3><p>Les ions, positifs et négatifs, transportent le courant.</p><span class="lv"><b>2</b>8 étapes · environ 50 s</span>
-      </a>
-      <a href="atome/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g fill="none" stroke="#5F6E96" stroke-width="2"><ellipse cx="120" cy="65" rx="85" ry="32"/><ellipse cx="120" cy="65" rx="85" ry="32" transform="rotate(60 120 65)"/><ellipse cx="120" cy="65" rx="85" ry="32" transform="rotate(120 120 65)"/></g><circle cx="116" cy="62" r="9" fill="#E5383B"/><circle cx="126" cy="68" r="9" fill="#9AA3B5"/><circle cx="118" cy="73" r="9" fill="#E5383B"/><g fill="#7FD3FF"><circle cx="205" cy="65" r="5"/><circle cx="77" cy="28" r="5"/><circle cx="77" cy="102" r="5"/></g></svg>
-        <h3>L’atome et sa composition</h3><p>Noyau, protons, neutrons, électrons : qui est où ?</p><span class="lv"><b>3</b>5 étapes · environ 35 s</span>
-      </a>
-      <a href="ions/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g font-family="sans-serif" font-weight="700" font-size="12" text-anchor="middle"><circle cx="55" cy="65" r="26" fill="#AB5CF2"/><text x="55" y="70" fill="#fff">Na</text><path d="M95 65h30" stroke="#F97316" stroke-width="3"/><path d="M125 65l-8-5m8 5l-8 5" stroke="#F97316" stroke-width="3" fill="none"/><circle cx="165" cy="65" r="22" fill="#AB5CF2"/><text x="165" y="70" fill="#fff">Na⁺</text><circle cx="212" cy="40" r="6" fill="#7FD3FF"/></g></svg>
-        <h3>La formation des ions</h3><p>Un atome gagne ou perd des électrons et devient un ion.</p><span class="lv"><b>4</b>7 étapes · environ 50 s</span>
-      </a>
-      <a href="tests/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g stroke="#5F6E96" stroke-width="3" fill="none"><path d="M60 15v85a14 14 0 0 0 28 0V15"/><path d="M110 15v85a14 14 0 0 0 28 0V15"/><path d="M160 15v85a14 14 0 0 0 28 0V15"/></g><path d="M62 78h24v22a12 12 0 0 1-24 0z" fill="#3B82F6"/><path d="M112 78h24v22a12 12 0 0 1-24 0z" fill="#E8EEF9"/><path d="M162 78h24v22a12 12 0 0 1-24 0z" fill="#C2693A"/></svg>
-        <h3>Identifier des ions en solution</h3><p>Un réactif, un précipité : sa couleur donne l’ion.</p><span class="lv"><b>5</b>8 étapes · environ 55 s</span>
-      </a>
-      <a href="labo/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M95 12h50M105 12v38l-34 58a8 8 0 0 0 7 12h84a8 8 0 0 0 7-12L135 50V12" fill="none" stroke="#5F6E96" stroke-width="4"/><path d="M82 92h76l12 20a6 6 0 0 1-5 9H75a6 6 0 0 1-5-9z" fill="#F97316" opacity=".6"/></svg>
-        <h3>Labo virtuel</h3><p>Manipule librement et relève des défis : identifier des ions.</p><span class="lv">Manipulation libre et défis</span>
-      </a>
     </div>
   </div>
 </section>
 
-<section class="space" id="espace" aria-labelledby="he">
-  <div class="wrap"><div class="card">
-    <div>
-      <h2 id="he">Ta classe</h2>
-      <div class="cls" role="radiogroup" aria-label="Choisis ta classe">
-        <button type="button" role="radio" aria-checked="false" data-c="6e">6e</button><button type="button" role="radio" aria-checked="false" data-c="5e">5e</button><button type="button" role="radio" aria-checked="false" data-c="4e">4e</button><button type="button" role="radio" aria-checked="false" data-c="3e">3e</button>
-      </div>
-      <div class="next" id="next" aria-live="polite"><small>Choisis ta classe : on garde ton choix et on te propose la prochaine leçon.</small></div>
+<div class="rib" aria-label="Thèmes du programme"><div class="rt">
+  <ul><li>Électricité</li><li>Matière</li><li>Lumière</li><li>Mouvement</li><li>Énergie</li><li>Signaux</li></ul>
+  <ul aria-hidden="true"><li>Électricité</li><li>Matière</li><li>Lumière</li><li>Mouvement</li><li>Énergie</li><li>Signaux</li></ul>
+</div></div>
+
+<div class="layout">
+<aside class="side" aria-label="Navigation et ta classe">
+  <nav aria-label="Sur cette page">
+    <p class="lab">Sur cette page</p>
+    <ol>
+      <li><a href="#animations"><i>01</i>Animations</a></li>
+      <li><a href="#simulations"><i>02</i>Simulations et activités</a></li>
+      <li><a href="#pour-qui"><i>03</i>Pour qui</a></li>
+      <li><a href="#mission"><i>04</i>La mission</a></li>
+    </ol>
+  </nav>
+  <div class="box" id="ta-classe">
+    <p class="lab">Ta classe</p>
+    <div class="cls" role="radiogroup" aria-label="Choisis ta classe">
+      <button type="button" role="radio" aria-checked="false" data-c="6e">6e</button><button type="button" role="radio" aria-checked="false" data-c="5e">5e</button><button type="button" role="radio" aria-checked="false" data-c="4e">4e</button><button type="button" role="radio" aria-checked="false" data-c="3e">3e</button>
     </div>
+    <div class="next" id="next" aria-live="polite"><small>Choisis ta classe : on garde ton choix et on te propose la prochaine leçon.</small></div>
     <div class="srch">
       <label for="q">Cherche une leçon</label>
       <input id="q" type="search" placeholder="pH, circuit, vitesse, lentille…" autocomplete="off" aria-controls="res">
       <ul class="res" id="res" aria-live="polite"></ul>
     </div>
-    <div class="tools">
-      <button type="button" class="btn sm" id="proj" aria-pressed="false">Projeter en classe</button>
-      <button type="button" class="btn sm" id="inst">Installer sur l’écran d’accueil</button>
-      <span class="note" id="inote">Après la première visite, le site marche aussi sans connexion.</span>
-    </div>
-  </div></div>
+  </div>
+  <div class="box free2">
+    <b>Gratuit jusqu’au 31 décembre 2026</b>Sans compte, sans publicité. Parle-en à un camarade ou à tes parents.
+    <a href="https://wa.me/?text=NOHOBA-Lab%20%3A%20le%20labo%20de%20physique-chimie%20pour%20les%20coll%C3%A9giens%2C%20gratuit%20jusqu%E2%80%99au%2031%20d%C3%A9cembre%20%3A%20https%3A%2F%2Flab.nohaba.com%2F" rel="noopener">Partager sur WhatsApp →</a>
+  </div>
+</aside>
+
+<div class="col">
+<section id="animations" aria-labelledby="han">
+  <h2 id="han"><span style="color:var(--nohoba-soft)">01</span> Les cinq animations, quand tu veux.</h2>
+  <p class="sub">Moins d’une minute chacune, pas à pas : tu avances à ton rythme. Idéal avant la manipulation, ou pour réviser.</p>
+  <div class="xp an">
+<a href="metal/">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><g fill="#C88033"><circle cx="50" cy="35" r="11"/><circle cx="110" cy="35" r="11"/><circle cx="170" cy="35" r="11"/><circle cx="50" cy="95" r="11"/><circle cx="110" cy="95" r="11"/><circle cx="170" cy="95" r="11"/></g><g fill="#7FD3FF"><circle cx="80" cy="65" r="5"/><circle cx="140" cy="62" r="5"/><circle cx="200" cy="68" r="5"/><circle cx="25" cy="66" r="5"/></g><path d="M60 118h130" stroke="#F97316" stroke-width="3"/><path d="M190 118l-8-5m8 5l-8 5" stroke="#F97316" stroke-width="3" fill="none"/></svg>
+        <h3>Le courant électrique dans un métal</h3><p>Des électrons libres se déplacent entre les atomes.</p><span class="vb"><b>Tu vas :</b> Décrire · Identifier</span><span class="lv"><b>1</b>6 étapes · environ 40 s</span>
+      </a>
+<a href="solutions/">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="45" y="22" width="150" height="92" rx="8" fill="#2E9CDB" opacity=".22" stroke="#5F6E96" stroke-width="4"/><rect x="75" y="10" width="8" height="70" fill="#C8CFDB"/><rect x="157" y="10" width="8" height="70" fill="#C8CFDB"/><g font-family="sans-serif" font-weight="700" font-size="10" text-anchor="middle"><circle cx="100" cy="55" r="11" fill="#AB5CF2"/><text x="100" y="59" fill="#fff">Na⁺</text><circle cx="95" cy="92" r="11" fill="#AB5CF2"/><text x="95" y="96" fill="#fff">Na⁺</text><circle cx="140" cy="62" r="11" fill="#1FF01F"/><text x="140" y="66" fill="#0E162A">Cl⁻</text><circle cx="145" cy="95" r="11" fill="#1FF01F"/><text x="145" y="99" fill="#0E162A">Cl⁻</text></g></svg>
+        <h3>Le courant dans les solutions ioniques</h3><p>Les ions, positifs et négatifs, transportent le courant.</p><span class="vb"><b>Tu vas :</b> Expliquer · Comparer</span><span class="lv"><b>2</b>8 étapes · environ 50 s</span>
+      </a>
+<a href="atome/">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><g fill="none" stroke="#5F6E96" stroke-width="2"><ellipse cx="120" cy="65" rx="85" ry="32"/><ellipse cx="120" cy="65" rx="85" ry="32" transform="rotate(60 120 65)"/><ellipse cx="120" cy="65" rx="85" ry="32" transform="rotate(120 120 65)"/></g><circle cx="116" cy="62" r="9" fill="#E5383B"/><circle cx="126" cy="68" r="9" fill="#9AA3B5"/><circle cx="118" cy="73" r="9" fill="#E5383B"/><g fill="#7FD3FF"><circle cx="205" cy="65" r="5"/><circle cx="77" cy="28" r="5"/><circle cx="77" cy="102" r="5"/></g></svg>
+        <h3>L’atome et sa composition</h3><p>Noyau, protons, neutrons, électrons : qui est où ?</p><span class="vb"><b>Tu vas :</b> Identifier · Schématiser</span><span class="lv"><b>3</b>5 étapes · environ 35 s</span>
+      </a>
+<a href="ions/">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><g font-family="sans-serif" font-weight="700" font-size="12" text-anchor="middle"><circle cx="55" cy="65" r="26" fill="#AB5CF2"/><text x="55" y="70" fill="#fff">Na</text><path d="M95 65h30" stroke="#F97316" stroke-width="3"/><path d="M125 65l-8-5m8 5l-8 5" stroke="#F97316" stroke-width="3" fill="none"/><circle cx="165" cy="65" r="22" fill="#AB5CF2"/><text x="165" y="70" fill="#fff">Na⁺</text><circle cx="212" cy="40" r="6" fill="#7FD3FF"/></g></svg>
+        <h3>La formation des ions</h3><p>Un atome gagne ou perd des électrons et devient un ion.</p><span class="vb"><b>Tu vas :</b> Expliquer · Représenter</span><span class="lv"><b>4</b>7 étapes · environ 50 s</span>
+      </a>
+<a href="tests/">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><g stroke="#5F6E96" stroke-width="3" fill="none"><path d="M60 15v85a14 14 0 0 0 28 0V15"/><path d="M110 15v85a14 14 0 0 0 28 0V15"/><path d="M160 15v85a14 14 0 0 0 28 0V15"/></g><path d="M62 78h24v22a12 12 0 0 1-24 0z" fill="#3B82F6"/><path d="M112 78h24v22a12 12 0 0 1-24 0z" fill="#E8EEF9"/><path d="M162 78h24v22a12 12 0 0 1-24 0z" fill="#C2693A"/></svg>
+        <h3>Identifier des ions en solution</h3><p>Un réactif, un précipité : sa couleur donne l’ion.</p><span class="vb"><b>Tu vas :</b> Identifier · Distinguer</span><span class="lv"><b>5</b>8 étapes · environ 55 s</span>
+      </a>
+<a href="labo/">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M95 12h50M105 12v38l-34 58a8 8 0 0 0 7 12h84a8 8 0 0 0 7-12L135 50V12" fill="none" stroke="#5F6E96" stroke-width="4"/><path d="M82 92h76l12 20a6 6 0 0 1-5 9H75a6 6 0 0 1-5-9z" fill="#F97316" opacity=".6"/></svg>
+        <h3>Labo virtuel</h3><p>Manipule librement et relève des défis : identifier des ions.</p><span class="vb"><b>Tu vas :</b> Réaliser · Mettre en évidence</span><span class="lv">Manipulation libre et défis</span>
+      </a>
+  </div>
 </section>
 
-<section id="experiences" aria-labelledby="hx">
-  <div class="wrap">
-    <h2 id="hx">Des expériences qu’on fait, pas qu’on recopie.</h2>
-    <p class="sub">Chaque leçon propose une situation-problème, ta prévision, une manipulation, une confrontation aux résultats et un bilan. Un parcours Révision donne accès au résumé vidéo ; le chronomètre des défis est optionnel.</p>
+<section id="simulations" aria-labelledby="hs">
+  <span id="experiences"></span><span id="cycle4"></span>
+  <h2 id="hs"><span style="color:var(--nohoba-soft)">02</span> Simulations et activités.</h2>
+  <p class="sub">Chaque activité suit la démarche scientifique, en 6 temps. Tu cherches avant de recevoir la réponse.</p>
+  <ol class="steps" aria-label="Les 6 temps de la démarche scientifique">
+<li><b>1</b><span class="sn">Problématique</span><span class="sv">Observer · Identifier</span><span class="sl">Se souvenir</span></li>
+<li><b>2</b><span class="sn">Émettre une hypothèse</span><span class="sv">Prévoir · Proposer</span><span class="sl">Comprendre</span></li>
+<li><b>3</b><span class="sn">Expérimenter, investiguer ou analyser des documents</span><span class="sv">Réaliser · Mesurer</span><span class="sl">Appliquer</span></li>
+<li><b>4</b><span class="sn">Analyser et interpréter les résultats</span><span class="sv">Comparer · Interpréter</span><span class="sl">Analyser</span></li>
+<li><b>5</b><span class="sn">Conclure</span><span class="sv">Expliquer · Montrer</span><span class="sl">Évaluer</span></li>
+<li><b>6</b><span class="sn">Communiquer</span><span class="sv">Schématiser · Décrire</span><span class="sl">Créer</span></li>
+  </ol>
+  <p class="cap">Verbes issus du programme de cycle 4 (France) et du programme éducatif MENA (Côte d’Ivoire), classés selon la taxonomie de Bloom révisée par Anderson.</p>
+  <div class="seg" role="tablist" aria-label="Choisir le type de parcours">
+    <button type="button" role="tab" id="t-sim" aria-selected="true" aria-controls="p-sim">Simulations · 26</button>
+    <button type="button" role="tab" id="t-act" aria-selected="false" aria-controls="p-act" tabindex="-1">Activités d’investigation · cycle 4</button>
+  </div>
+  <div class="panel" role="tabpanel" id="p-sim" aria-labelledby="t-sim">
     <div class="xp">
-      <a href="lecon/?l=circuit-electrique">
+<a href="lecon/?l=circuit-electrique">
         <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="40" y="25" width="160" height="80" rx="10" fill="none" stroke="#5F6E96" stroke-width="4"/><circle cx="120" cy="25" r="16" fill="#FFD66B"/><circle cx="120" cy="25" r="30" fill="#FFD66B" opacity=".18"/><rect x="28" y="52" width="24" height="26" rx="4" fill="#F97316"/><g fill="#7FD3FF"><circle cx="70" cy="105" r="4"/><circle cx="110" cy="105" r="4"/><circle cx="150" cy="105" r="4"/><circle cx="200" cy="70" r="4"/></g></svg>
-        <h3>Allumer une lampe</h3><p>Construis le circuit, ouvre l’interrupteur, mesure l’intensité.</p><span class="lv">6e · Électricité</span>
+        <h3>Allumer une lampe</h3><p>Construis le circuit, ouvre l’interrupteur, mesure l’intensité.</p><span class="vb"><b>Tu vas :</b> Réaliser · Mesurer</span><span class="lv">6e · Électricité</span>
       </a>
-      <a href="lecon/?l=electrolyse-eau">
+<a href="lecon/?l=electrolyse-eau">
         <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M50 20h140v90a12 12 0 0 1-12 12H62a12 12 0 0 1-12-12z" fill="#2E9CDB" opacity=".22" stroke="#5F6E96" stroke-width="4"/><rect x="85" y="30" width="16" height="70" rx="4" fill="#C8CFDB"/><rect x="140" y="30" width="16" height="70" rx="4" fill="#C8CFDB"/><g fill="#fff" opacity=".85"><circle cx="93" cy="60" r="4"/><circle cx="96" cy="45" r="3"/><circle cx="148" cy="62" r="5"/><circle cx="145" cy="48" r="4"/><circle cx="150" cy="36" r="3"/></g></svg>
-        <h3>Décomposer l’eau</h3><p>Le courant sépare l’eau en dihydrogène et dioxygène : compte les volumes.</p><span class="lv">3e · Chimie</span>
+        <h3>Décomposer l’eau</h3><p>Le courant sépare l’eau en dihydrogène et dioxygène : compte les volumes.</p><span class="vb"><b>Tu vas :</b> Mesurer · Expliquer</span><span class="lv">3e · Chimie</span>
       </a>
-      <a href="lecon/?l=lentilles">
+<a href="lecon/?l=lentilles">
         <svg viewBox="0 0 240 130" aria-hidden="true"><line x1="10" y1="65" x2="230" y2="65" stroke="#5F6E96" stroke-width="2"/><path d="M120 15c14 20 14 80 0 100c-14-20-14-80 0-100z" fill="#7FD3FF" opacity=".35" stroke="#7FD3FF" stroke-width="3"/><g stroke="#FFD66B" stroke-width="3"><line x1="20" y1="35" x2="120" y2="35"/><line x1="120" y1="35" x2="200" y2="95"/><line x1="20" y1="35" x2="200" y2="95" opacity=".25"/></g><circle cx="170" cy="65" r="5" fill="#F97316"/></svg>
-        <h3>Former une image</h3><p>Déplace l’objet, trouve le foyer, corrige un œil myope.</p><span class="lv">3e · Optique</span>
+        <h3>Former une image</h3><p>Déplace l’objet, trouve le foyer, corrige un œil myope.</p><span class="vb"><b>Tu vas :</b> Schématiser · Prévoir</span><span class="lv">3e · Optique</span>
       </a>
-      <a href="lecon/?l=solutions-acides-basiques">
+<a href="lecon/?l=solutions-acides-basiques">
         <svg viewBox="0 0 240 130" aria-hidden="true"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#E5383B"/><stop offset=".5" stop-color="#3FBF6A"/><stop offset="1" stop-color="#8E3FD0"/></linearGradient></defs><rect x="20" y="52" width="200" height="22" rx="11" fill="url(#g)"/><g font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="16" fill="#EEF2FB"><text x="22" y="100">1</text><text x="114" y="100">7</text><text x="204" y="100">14</text></g><circle cx="120" cy="63" r="15" fill="#fff" stroke="#060A18" stroke-width="5"/></svg>
-        <h3>Mesurer le pH</h3><p>Vinaigre, eau de Javel, jus de citron : classe-les du plus acide au plus basique.</p><span class="lv">3e · Solutions</span>
+        <h3>Mesurer le pH</h3><p>Vinaigre, eau de Javel, jus de citron : classe-les du plus acide au plus basique.</p><span class="vb"><b>Tu vas :</b> Mesurer · Comparer</span><span class="lv">3e · Solutions</span>
       </a>
     </div>
+    <p class="more"><a class="btn" href="simulateur/">Voir les 26 simulations</a></p>
   </div>
-</section>
-
-<section id="cycle4" aria-labelledby="hc4" style="padding-top:20px">
-  <div class="wrap">
-    <h2 id="hc4">Nouveau : activités d’investigation du cycle 4.</h2>
-    <p class="sub">Pour les classes qui suivent le programme français (5e, 4e, 3e) : situation, prévision enregistrée avant le résultat, manipulation, confrontation, bilan, puis une trace à imprimer. Quatre activités pilotes sont ouvertes ; les autres arrivent. Le parcours Côte d’Ivoire reste inchangé.</p>
+  <div class="panel" role="tabpanel" id="p-act" aria-labelledby="t-act" hidden>
+    <p class="sub" style="margin-bottom:18px">Pour les classes qui suivent le programme français (5e, 4e, 3e) : situation, prévision enregistrée avant le résultat, manipulation, confrontation, bilan, puis une trace à imprimer.</p>
     <div class="xp">
-      <a href="activites/?a=NL-C4-A04"><h3>Le sachet disparu</h3><p>Le sucre se dissout : la masse du flacon fermé change-t-elle ?</p><span class="lv">5e · Dissolution</span></a>
-      <a href="activites/?a=NL-C4-B02"><h3>Deux robots, un rendez-vous</h3><p>Compare deux vitesses, prévois les temps, lance la course.</p><span class="lv">5e · Vitesse</span></a>
-      <a href="activites/?a=NL-C4-C06"><h3>Le panneau lumineux</h3><p>Quel module ajouter sans dépasser la limite de l’alimentation ?</p><span class="lv">4e · Intensité</span></a>
-      <a href="activites/?a=NL-C4-D06"><h3>La réserve sans contact</h3><p>Trouve la hauteur d’eau d’un réservoir avec la durée d’un écho.</p><span class="lv">3e · Signaux</span></a>
+      <a href="activites/?a=NL-C4-A04">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M80 14v30L52 96a10 10 0 0 0 9 15h118a10 10 0 0 0 9-15L160 44V14" fill="none" stroke="#5F6E96" stroke-width="3"/><path d="M66 82h108l10 17a6 6 0 0 1-5 9H61a6 6 0 0 1-5-9z" fill="#2E9CDB" opacity=".3"/><g fill="#fff" stroke="#5F6E96" stroke-width="2"><rect x="96" y="86" width="14" height="14" rx="2"/><rect x="118" y="92" width="11" height="11" rx="2" opacity=".7"/></g><g fill="#2E9CDB" opacity=".6"><circle cx="140" cy="94" r="2.5"/><circle cx="150" cy="88" r="2"/><circle cx="132" cy="100" r="2"/></g></svg>
+        <h3>Le sachet disparu</h3><p>Le sucre se dissout : la masse du flacon fermé change-t-elle ?</p><span class="vb"><b>Tu vas :</b> Prévoir · Expliquer</span><span class="lv">5e · Dissolution</span>
+      </a>
+      <a href="activites/?a=NL-C4-B02">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M14 100h212" stroke="#5F6E96" stroke-width="3"/><g fill="#F97316"><rect x="30" y="58" width="38" height="30" rx="8"/><circle cx="42" cy="95" r="7" fill="#5F6E96"/><circle cx="58" cy="95" r="7" fill="#5F6E96"/></g><g fill="#2E9CDB"><rect x="110" y="42" width="38" height="30" rx="8"/><circle cx="122" cy="79" r="7" fill="#5F6E96"/><circle cx="138" cy="79" r="7" fill="#5F6E96"/></g><path d="M76 72h24M100 72l-8-6m8 6l-8 6" stroke="#F97316" stroke-width="3" fill="none"/><path d="M190 30v76" stroke="#3FBF6A" stroke-width="4" stroke-dasharray="6 5"/><path d="M190 30h22l-6 8 6 8h-22" fill="#3FBF6A"/></svg>
+        <h3>Deux robots, un rendez-vous</h3><p>Compare deux vitesses, prévois les temps, lance la course.</p><span class="vb"><b>Tu vas :</b> Comparer · Calculer</span><span class="lv">5e · Vitesse</span>
+      </a>
+      <a href="activites/?a=NL-C4-C06">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="30" y="20" width="180" height="62" rx="8" fill="none" stroke="#5F6E96" stroke-width="3"/><g fill="#FFD66B"><circle cx="64" cy="51" r="11"/><circle cx="104" cy="51" r="11"/><circle cx="144" cy="51" r="11"/></g><circle cx="184" cy="51" r="11" fill="none" stroke="#5F6E96" stroke-width="3" stroke-dasharray="4 4"/><rect x="30" y="98" width="180" height="12" rx="6" fill="#5F6E96" opacity=".25"/><rect x="30" y="98" width="128" height="12" rx="6" fill="#F97316"/><path d="M190 90v28" stroke="#E5383B" stroke-width="3"/></svg>
+        <h3>Le panneau lumineux</h3><p>Quel module ajouter sans dépasser la limite de l’alimentation ?</p><span class="vb"><b>Tu vas :</b> Calculer · Décider</span><span class="lv">4e · Intensité</span>
+      </a>
+      <a href="activites/?a=NL-C4-D06">
+        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="60" y="30" width="120" height="86" rx="8" fill="none" stroke="#5F6E96" stroke-width="3"/><rect x="62" y="74" width="116" height="40" rx="6" fill="#2E9CDB" opacity=".35"/><rect x="108" y="12" width="24" height="14" rx="4" fill="#5F6E96"/><g fill="none" stroke="#F97316" stroke-width="3" stroke-linecap="round"><path d="M100 40a28 28 0 0 0 40 0"/><path d="M92 50a42 42 0 0 0 56 0" opacity=".7"/><path d="M84 60a56 56 0 0 0 72 0" opacity=".45"/></g></svg>
+        <h3>La réserve sans contact</h3><p>Trouve la hauteur d’eau d’un réservoir avec la durée d’un écho.</p><span class="vb"><b>Tu vas :</b> Mesurer · Déterminer</span><span class="lv">3e · Signaux</span>
+      </a>
     </div>
-    <p style="margin-top:18px"><a class="btn" href="activites/">Voir toutes les activités</a></p>
+    <p class="more"><a class="btn" href="activites/">Voir toutes les activités</a></p>
   </div>
 </section>
 
-<section id="pour-qui" aria-labelledby="hq" style="padding-top:20px">
-  <div class="wrap">
-    <h2 id="hq">Pensé pour la classe, utile à la maison.</h2>
-    <p class="sub">Suit la progression du programme du MENA (Côte d’Ivoire). Léger : une leçon ouverte reste disponible hors connexion.</p>
-    <div class="who">
-      <div style="--c:var(--ph9)"><h3>Élèves</h3><p>Réviser en manipulant, jusqu’au BEPC.</p><ul><li>Résumé vidéo d’une minute</li><li>Simulation à manipuler</li><li>Quiz corrigé et expliqué</li></ul></div>
-      <div style="--c:var(--nohoba)"><h3>Enseignants</h3><p>Faire la séance au vidéoprojecteur.</p><ul><li>Mode enseignant et outils de projection</li><li>Défis en équipes pour toute la classe</li><li>Fiches élèves et corrigés à imprimer</li></ul></div>
-      <div style="--c:var(--ph7)"><h3>Établissements</h3><p>Équiper tout le collège en une fois.</p><ul><li>Tous les enseignants de physique-chimie</li><li>Accès pour toutes les classes</li><li>Sans salle de TP ni matériel</li></ul></div>
-    </div>
+<section id="pour-qui" aria-labelledby="hq">
+  <span id="parents"></span>
+  <h2 id="hq"><span style="color:var(--nohoba-soft)">03</span> Pensé pour la classe, utile à la maison.</h2>
+  <p class="sub">Suit la progression du programme du MENA (Côte d’Ivoire). Léger : une leçon ouverte reste disponible hors connexion.</p>
+  <div class="who">
+    <div style="--c:var(--ph9)"><h3>Élèves</h3><p>Réviser en manipulant, jusqu’au BEPC.</p><ul><li>Résumé vidéo d’une minute</li><li>Simulation à manipuler</li><li>Quiz corrigé et expliqué</li></ul></div>
+    <div style="--c:var(--nohoba)"><h3>Enseignants</h3><p>Faire la séance au vidéoprojecteur.</p><ul><li>Mode enseignant et outils de projection</li><li>Défis en équipes pour toute la classe</li><li>Fiches élèves et corrigés à imprimer</li></ul></div>
+    <div style="--c:var(--ph6)"><h3>Parents</h3><p>Un outil pour réviser à la maison, sans rien payer ni rien installer.</p><ul><li>Pas de formulaire, pas de numéro de téléphone demandé</li><li>Les scores restent sur le téléphone</li></ul></div>
+    <div style="--c:var(--ph7)"><h3>Établissements</h3><p>Équiper tout le collège en une fois.</p><ul><li>Tous les enseignants de physique-chimie</li><li>Accès pour toutes les classes</li><li>Sans salle de TP ni matériel</li></ul></div>
   </div>
+  <ul class="gar">
+    <li><b>Gratuit, sans compte</b>Pas de formulaire à remplir.</li>
+    <li><b>Le programme officiel</b>De la 6e à la 3e, avec les sujets types du BEPC.</li>
+    <li><b>Sans publicité</b>Aucune donnée envoyée à des tiers.</li>
+    <li><b>Léger</b>Marche sur un petit téléphone, même hors connexion une fois ouvert.</li>
+  </ul>
 </section>
 
-<section class="mission" aria-labelledby="hm">
-  <div class="wrap">
-    <div>
-      <h2 id="hm" class="quote">« Maîtriser la matière, c’est améliorer les conditions de vie des êtres humains. »</h2>
-    </div>
-    <p class="by"><b>Le porteur du projet</b>Docteur en chimie physique de l’université Paris-Saclay, professeur de physique-chimie en France et chef de projet en rénovation énergétique. NOHOBA-Lab veut donner aux jeunes les moyens d’aimer la science.</p>
-  </div>
-  <div class="wrap" style="display:block">
-    <div class="stats"><div><b>53</b>leçons, de la 6e à la 3e</div><div><b>26</b>simulations d’expériences</div><div><b>4</b>niveaux du collège</div><div><b>0 F</b>jusqu’au 31 décembre</div></div>
-  </div>
+<section class="mission" id="mission" aria-labelledby="hm">
+  <p class="eyebrow" style="margin-top:0"><span style="color:var(--nohoba-soft)">04</span> · La mission</p>
+  <h2 id="hm" class="mq">« Maîtriser la matière, c’est améliorer les conditions de vie des êtres humains. »</h2>
+  <p class="by"><b>Le porteur du projet</b>Docteur en chimie physique de l’université Paris-Saclay, professeur de physique-chimie en France et chef de projet en rénovation énergétique. NOHOBA-Lab veut donner aux jeunes les moyens d’aimer la science.</p>
+  <div class="stats"><div><b>53</b>leçons, de la 6e à la 3e</div><div><b>26</b>simulations d’expériences</div><div><b>4</b>niveaux du collège</div><div><b>0 F</b>jusqu’au 31 décembre</div></div>
 </section>
-
-<section class="parents" id="parents" aria-labelledby="hp">
-  <div class="wrap">
-    <div>
-      <h2 id="hp">Pour les parents.</h2>
-      <p class="sub">Un outil pour réviser à la maison, comme en classe, sans rien payer ni rien installer.</p>
-      <a class="btn go" id="wa" href="https://wa.me/?text=NOHOBA-Lab%20%3A%20le%20labo%20de%20physique-chimie%20pour%20les%20coll%C3%A9giens%2C%20gratuit%20jusqu%E2%80%99au%2031%20d%C3%A9cembre%20%3A%20https%3A%2F%2Flab.nohaba.com%2F" rel="noopener">Partager sur WhatsApp</a>
-    </div>
-    <ul>
-      <li><b>Gratuit, sans compte</b>Pas de formulaire, pas de numéro de téléphone demandé à ton enfant.</li>
-      <li><b>Le programme officiel</b>De la 6e à la 3e, selon le programme MENA de Côte d’Ivoire, avec les sujets types du BEPC.</li>
-      <li><b>Sans publicité</b>Aucune pub, aucune donnée envoyée à des tiers : les scores restent sur le téléphone.</li>
-      <li><b>Léger</b>Marche sur un petit téléphone et fonctionne hors connexion une fois ouvert.</li>
-    </ul>
-  </div>
-</section>
+</div>
+</div>
 
 <section class="final" id="niveaux" aria-labelledby="hf">
+  <span id="espace"></span>
   <div class="wrap">
-    <h2 id="hf">En quelle classe es-tu ?</h2>
+    <h2 id="hf">Prêt pour ta première expérience ?</h2>
     <p class="sub">Choisis ton niveau et ouvre ta première leçon. Pas de compte à créer.</p>
     <div class="ctas">
       <a class="btn go" href="6e/">6e</a><a class="btn go" href="5e/">5e</a><a class="btn go" href="4e/">4e</a><a class="btn go" href="3e/">3e</a>
     </div>
     <p style="margin-top:22px;color:var(--mist)">En 3e ? Entraîne-toi aussi sur les <a href="bepc/" style="color:var(--nohoba-soft);font-weight:700">sujets types du BEPC corrigés</a>.</p>
+    <div class="tools">
+      <button type="button" class="btn sm" id="proj" aria-pressed="false">Projeter en classe</button>
+      <button type="button" class="btn sm" id="inst">Installer sur l’écran d’accueil</button>
+      <span class="note" id="inote">Après la première visite, le site marche aussi sans connexion.</span>
+    </div>
   </div>
 </section>
 </main>
@@ -586,6 +688,13 @@ b.addEventListener('click',function(){apply(r.getAttribute('data-theme')==='ligh
   }
 })();
 </script>
+<script>(function(){var L=document.querySelectorAll('.side nav a');if(!L.length||!('IntersectionObserver' in window))return;
+var m={};L.forEach(function(a){m[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){L.forEach(function(a){a.removeAttribute('aria-current');});m[e.target.id].setAttribute('aria-current','true');}});},{rootMargin:'-30% 0px -60% 0px'});
+Object.keys(m).forEach(function(id){var s=document.getElementById(id);if(s)io.observe(s);});})();
+(function(){var T=[].slice.call(document.querySelectorAll('.seg [role=tab]'));
+function sel(t){T.forEach(function(b){var on=b===t;b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;document.getElementById(b.getAttribute('aria-controls')).hidden=!on;});t.focus();}
+T.forEach(function(b,i){b.addEventListener('click',function(){sel(b);});b.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();sel(T[(i+(e.key==='ArrowRight'?1:T.length-1))%T.length]);}});});})();</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});</script>
 <script defer src="assets/compte.js"></script>
 </body>
