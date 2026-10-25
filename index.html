@@ -299,7 +299,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 .page{flex:1 1 0;min-width:0}
 .app .side{flex:0 0 var(--sw,288px);width:var(--sw,288px);position:sticky;top:0;align-self:flex-start;height:100vh;max-height:none;margin:0;padding:18px 14px;gap:18px;overflow-x:hidden;overflow-y:auto;border-right:1px solid var(--line);background:var(--deep);box-sizing:border-box}
 .app.shut{--sw:76px}
-.layout{display:block;max-width:1240px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
+.layout{display:block;max-width:1440px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
 .sbh{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .slogo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
 .slogo img{border-radius:9px;flex:none}.slogo b{font:800 19px 'Bricolage Grotesque',sans-serif;white-space:nowrap}.slogo b span{color:var(--nohoba)}
@@ -321,6 +321,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 
 /* Audit barre latérale */
 @supports (width:1cqw){.hero h1{font-size:clamp(22px,6.9cqw,96px)}.proj .hero h1{font-size:clamp(22px,6.9cqw,96px)}}
+.side .btn{white-space:normal;max-width:100%;min-width:0;text-align:center;line-height:1.25}
 .app .side .acct{position:sticky;bottom:0;background:var(--deep);box-shadow:0 -10px 12px -6px var(--deep)}
 .app.shut .side .tx{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .app.shut .side .lab,.app.shut .side .box{display:none}
