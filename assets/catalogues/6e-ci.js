@@ -195,7 +195,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Solides et liquides",
     "titre": "Découvrir les propriétés des solides",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -206,7 +206,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Solides et liquides",
     "titre": "Découvrir les propriétés des liquides",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -217,7 +217,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Solides et liquides",
     "titre": "Distinguer un solide compact d'un solide divisé",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -228,7 +228,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Solides et liquides",
     "titre": "Distinguer un solide divisé d'un liquide",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -239,7 +239,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Solides et liquides",
     "titre": "Découvrir quelques éléments de la verrerie de laboratoire",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -250,7 +250,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Solides et liquides",
     "titre": "Découvrir des pictogrammes",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -261,7 +261,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Montrer l'existence de l'air",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -272,7 +272,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Citer quelques gaz de la vie courante",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -283,7 +283,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Découvrir les propriétés des gaz",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -294,7 +294,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Définir la pression d'un gaz",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -305,7 +305,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Transvaser, recueillir et conserver un gaz",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -316,7 +316,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Gaz",
     "titre": "Appliquer les règles de sécurité",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -327,7 +327,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Découvrir la notion de température",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -338,7 +338,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Décrire un thermomètre de laboratoire",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -349,7 +349,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Repérer la température d'un corps",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -360,7 +360,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Repérer la température de la glace fondante et de l'eau bouillante",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -371,7 +371,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Décrire le thermomètre médical à liquide",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -382,7 +382,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Repérer la température du corps humain",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -393,7 +393,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Température d’un corps",
     "titre": "Découvrir d'autres types de thermomètres",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -404,7 +404,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Changements d’état de l’eau",
     "titre": "Réaliser la solidification de l'eau",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -415,7 +415,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Changements d’état de l’eau",
     "titre": "Réaliser la fusion de la glace",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -426,7 +426,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Changements d’état de l’eau",
     "titre": "Montrer la variation de volume de l’eau au cours de la solidification et de la fusion",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -437,7 +437,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Changements d’état de l’eau",
     "titre": "Montrer la conservation de la masse au cours de la fusion",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -447,8 +447,19 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "niveau": "6e",
     "theme": "Propriétés physiques de la matière",
     "lecon": "Changements d’état de l’eau",
-    "titre": "Réaliser la vaporisation de l’eau (évaporation et ébullition) et la condensation de la vapeur d’eau",
-    "statut": "prototype",
+    "titre": "Réaliser l’évaporation de l’eau",
+    "statut": "disponible",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-MAT-33",
+    "sourceId": "MAT-33",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Propriétés physiques de la matière",
+    "lecon": "Changements d’état de l’eau",
+    "titre": "Réaliser l’ébullition de l’eau et la condensation de la vapeur d’eau",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -459,7 +470,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Changements d’état de l’eau",
     "titre": "Expliquer le cycle de l'eau",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -800,7 +811,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Matériaux, tri et déchets",
     "titre": "Tester l’action d’un aimant sur des matériaux",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -811,7 +822,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Matériaux, tri et déchets",
     "titre": "Comparer la façon dont des matériaux transmettent la chaleur",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -822,7 +833,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Matériaux, tri et déchets",
     "titre": "Choisir un matériau selon ses propriétés",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -833,7 +844,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Matériaux, tri et déchets",
     "titre": "Comparer des plastiques : flottent-ils ou coulent-ils ?",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -844,7 +855,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Matériaux, tri et déchets",
     "titre": "Comparer la durée de décomposition de déchets",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -855,7 +866,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Propriétés physiques de la matière",
     "lecon": "Matériaux, tri et déchets",
     "titre": "Comprendre comment un centre de tri sépare les déchets",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   }
 ]);

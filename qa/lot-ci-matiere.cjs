@@ -3,7 +3,7 @@
 const fs=require('node:fs'),assert=require('node:assert/strict'),path=require('node:path'),{JSDOM}=require('jsdom');
 const root=path.resolve(__dirname,'..');
 const read=f=>fs.readFileSync(path.join(root,f),'utf8');
-const IDS=[];for(let n=1;n<=32;n++)if(n!==22)IDS.push(String(n).padStart(2,'0'));
+const IDS=[];for(let n=1;n<=33;n++)if(n!==22)IDS.push(String(n).padStart(2,'0'));
 const SHARED=['atelier-electrique','matiere-modele','matiere-dessins','matiere-scenes','matiere-ui'].map(x=>'assets/shared/'+x+'.js');
 function env(){
   const dom=new JSDOM('<!doctype html><body><div id="app"></div></body>',{url:'http://localhost/',runScripts:'outside-only'});
@@ -193,17 +193,18 @@ console.log('Lot Matière : '+IDS.length+' parcours complets (hypothèse, essais
 const cat=new JSDOM('',{runScripts:'outside-only'}).window;cat.eval(read('assets/catalogues/6e-ci.js'));
 const items=cat.NL_CATALOGUE_CI_6E;
 const mat=items.filter(x=>x.sourceId.startsWith('MAT-'));
-assert.equal(mat.length,31,'31 fiches Matière (25 du programme + 6 du parcours matériaux)');
+assert.equal(mat.length,32,'32 fiches Matière (26 du programme dont MAT-24 scindée en MAT-24 et MAT-33, + 6 du parcours matériaux)');
 assert.ok(!items.some(x=>x.sourceId==='MAT-22'),'MAT-22 fusionnée dans MAT-21');
-for(const i of IDS)assert.equal(items.find(x=>x.sourceId==='MAT-'+i).statut,'prototype','seul le propriétaire passe une fiche en disponible : MAT-'+i);
+for(const i of IDS)assert.equal(items.find(x=>x.sourceId==='MAT-'+i).statut,'disponible','fiche validée par le propriétaire le 25 octobre 2026 : MAT-'+i);
 assert.ok(mat.filter(x=>x.lecon==='Matériaux, tri et déchets').length===6,'six fiches du parcours matériaux');
 assert.ok(items.find(x=>x.sourceId==='MAT-21').titre.includes('solidification et de la fusion'));
-assert.ok(items.find(x=>x.sourceId==='MAT-24').titre.includes('évaporation')&&items.find(x=>x.sourceId==='MAT-24').titre.includes('condensation'));
+assert.equal(items.find(x=>x.sourceId==='MAT-24').titre,'Réaliser l’évaporation de l’eau','MAT-24 : évaporation seule');
+assert.ok(items.find(x=>x.sourceId==='MAT-33').titre.includes('ébullition')&&items.find(x=>x.sourceId==='MAT-33').titre.includes('condensation'),'MAT-33 : ébullition et condensation');
 const page=read('activites-ci/index.html');
 for(const f of SHARED.slice(1))assert.ok(page.includes(f.replace('assets/','../assets/')),'page des activités charge '+f);
-assert.ok(page.includes('MAT-(?:0[1-9]|[12][0-9]|3[0-2])'),'page des activités : identifiants MAT');
+assert.ok(page.includes('MAT-(?:0[1-9]|[12][0-9]|3[0-3])'),'page des activités : identifiants MAT');
 const hub=read('parcours-ci/index.html');
-assert.ok(hub.includes('MAT-(0[1-9]|[12][0-9]|3[0-2])')&&hub.includes('materiaux-tri-dechets')&&hub.includes('Matériaux, tri et déchets'),'hub : leçon locale du parcours matériaux');
+assert.ok(hub.includes('MAT-(0[1-9]|[12][0-9]|3[0-3])')&&hub.includes('materiaux-tri-dechets')&&hub.includes('Matériaux, tri et déchets'),'hub : leçon locale du parcours matériaux');
 const sw=read('sw.js');for(const f of SHARED)assert.ok(sw.includes(f.replace('assets/','./assets/')),'hors-ligne '+f);
 for(const i of IDS)assert.ok(sw.includes('NL-CI-6E-MAT-'+i+'.js'),'hors-ligne fiche MAT-'+i);
 assert.ok(!sw.includes('MAT-22'),'MAT-22 absente du cache');

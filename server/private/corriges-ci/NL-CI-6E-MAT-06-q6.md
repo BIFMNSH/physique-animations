@@ -25,9 +25,11 @@
 4. En attendant la collecte : garder le déchet fermé, à l'abri, hors de portée des enfants.
 5. Ne pas inventer de filière : si aucune collecte n'existe dans la commune, le dire honnêtement et demander conseil à l'établissement ou à la mairie.
 
-## À confirmer par le propriétaire (informations locales)
-- Quelle filière de collecte spécialisée (piles, emballages de produits phytosanitaires) existe réellement dans votre commune ? Le texte de la fiche reste volontairement générique : « adulte + filière disponible localement ».
-- Existence d'un recyclage du plastique et du métal près des élèves (sinon : poubelle ordinaire plutôt que la nature, formulation déjà prévue).
+## Filières locales : benchmark du 25 octobre 2026 (à vérifier avant de les citer aux élèves)
+- **Piles et déchets électroniques (Abidjan)** : opération de collecte et de recyclage menée par PARO-CI avec MTN Côte d'Ivoire, les mairies de Treichville, Koumassi et Cocody et plusieurs entreprises ; sept points de collecte (supermarchés, centres commerciaux, places) ; les piles et batteries usagées y sont acceptées. Lancée le 13 février 2019 pour un an : ce n'est pas la preuve d'un point de dépôt permanent aujourd'hui. Source : [Agence Ecofin](https://www.agenceecofin.com/operateur/1302-63971-mtn-cote-d-ivoire-2e-grande-operation-de-collecte-et-de-recyclage-de-dechets-d-equipements-electriques-et-electroniques-a-abidjan).
+- **Emballages vides de pesticides** : projet pilote de CropLife Côte d'Ivoire (atelier à Korhogo le 24 novembre 2022, collecte annoncée pour décembre 2022 avec les sociétés cotonnières) ; protocole signé le 12 juin 2023 pour trois ans avec COLIBA Africa, qui traite les emballages plastiques « triple rincés ». Aucun point de dépôt public n'est précisé. Sources : [CropLife CI](https://croplife-ci.com/our-news/protocole+d%E2%80%99accord+entre+croplife+cote+d%E2%80%99ivoire+et+coliba+africa+pour+le+recyclage+des+emballages+plastiques+vides+de+pesticides), [Abidjan.net](https://sports.abidjan.net/actualites/715145/des-acteurs-de-la-filiere-coton-a-korhogo-formes-a-la-collecte-des-emballages-des-pesticides).
+- **Conséquence pour la fiche** : le texte élève reste « un adulte + une filière de collecte disponible localement ». Pour les pesticides, la filière concerne d'abord les exploitants agricoles (cotonniers), pas les ménages : un adulte de la famille doit se renseigner auprès du fournisseur, de la coopérative ou de la mairie.
+- À compléter par vos contacts locaux (mairie, établissement, coopérative) : points de dépôt actuels de votre commune.
 
 ## Utilisation de la trace imprimable
 - Le bouton « Imprimer ma trace » produit : score (premier essai / réponses justes), la réponse de l'élève pour chaque déchet, le résultat, le retour expliqué, puis des lignes « Ce que je retiens ».

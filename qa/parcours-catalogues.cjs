@@ -16,7 +16,7 @@ function page(file,progress={}){
 const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'});
 const d=w.document,groups=[...d.querySelectorAll('.catalogue-group')];
 assert.equal(groups.length,4);
-assert.equal(d.querySelectorAll('.lesson-rail a').length,13);
+assert.equal(d.querySelectorAll('.lesson-rail a').length,14);
 assert.ok(d.querySelector('#programmeProgress').textContent.includes('6 / 52'));
 assert.equal(groups.filter(x=>x.open).length,1);
 assert.equal(d.querySelector('.rail-node.partial').style.getPropertyValue('--p'),'50%');
@@ -36,19 +36,19 @@ for(const level of ['5e','4e','3e']){
   other.close();
 }
 const c=page('collections/index.html'),cd=c.document;
-assert.ok(cd.getElementById('ciTotal').textContent.includes('78'));
+assert.ok(cd.getElementById('ciTotal').textContent.includes('79'));
 assert.ok(cd.getElementById('frTotal').textContent.includes('48'));
 assert.equal(cd.querySelectorAll('.catalogue-group').length,4);
 assert.equal(cd.querySelectorAll('.collection-lesson').length,14);
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,78);
-assert.equal(cd.querySelectorAll('.collection-activities a').length,48,'quarante-sept prototypes et un pilote manipulables');
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,79);
+assert.equal(cd.querySelectorAll('.collection-activities a').length,49,'seize prototypes et trente-trois fiches validées manipulables');
 assert.ok(!/NL-CI|NL-C4|ELE-\d{2}/.test(cd.body.textContent),'aucun code interne affiché dans Collections');
 c.localStorage.setItem('pc-act-NL-CI-6E-ELE-01',JSON.stringify({v:1,prevision:{choix:'signes'},essais:[]}));
 c.dispatchEvent(new c.PageTransitionEvent('pageshow',{persisted:true}));
 assert.ok(cd.body.textContent.includes('Mon parcours : hypothèse enregistrée'),'progression personnelle distincte et actualisée');
 function filter(id,value){const input=cd.getElementById(id);input.value=value;input.dispatchEvent(new c.Event(id==='find'?'input':'change',{bubbles:true}));}
 filter('status','prototype');
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,47);
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,16);
 assert.ok([...cd.querySelectorAll('details')].every(x=>x.open),'les résultats filtrés sont directement visibles');
 filter('find','lampe');
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,3);

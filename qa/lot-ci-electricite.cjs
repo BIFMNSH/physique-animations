@@ -195,7 +195,7 @@ console.log('Lot CI : verrouillage de progression contrôlé.');
 const cat=new JSDOM('',{runScripts:'outside-only'}).window;cat.eval(read('assets/catalogues/6e-ci.js'));
 const items=cat.NL_CATALOGUE_CI_6E;
 assert.equal(items.filter(x=>x.statut==='prototype'&&x.sourceId.startsWith('ELE')).map(x=>x.sourceId).sort().join(','),'ELE-01,ELE-02,ELE-03,ELE-04,ELE-05,ELE-06,ELE-08,ELE-09,ELE-10,ELE-11,ELE-12,ELE-13,ELE-14,ELE-15,ELE-16,ELE-17');
-assert.equal(items.filter(x=>x.statut==='disponible').map(x=>x.sourceId).join(','),'ELE-07');
+assert.equal(items.filter(x=>x.statut==='disponible'&&x.sourceId.startsWith('ELE')).map(x=>x.sourceId).join(','),'ELE-07');
 const page=read('activites-ci/index.html');assert.ok(page.includes('atelier-electrique.js')&&page.includes('ELE-(?:0[1-9]|1[0-7])'),'page des activités générique');
 assert.ok(read('collections/index.html').includes('Ouvrir le prototype'),'collections : prototypes');
 assert.ok(read('parcours-ci/index.html').includes('Prototypes à valider'),'hub : prototypes');

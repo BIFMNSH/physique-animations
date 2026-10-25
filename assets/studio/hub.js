@@ -4,6 +4,8 @@
   var S = window.Studio, P = S.progress, LV = document.documentElement.getAttribute('data-level') || '4e', PRG = window.PROGRAMME[LV] || [];
   var CI = LV === '6e', UI_KEY = 'pc-hub-' + LV + '-ui';
   var TH = PRG.map(function (t) { return { nm: t.nm, col: t.col, on: t.on, ic: t.ic, les: t.les.map(function (l) { return l.ready ? { t: l.t, slug: l.slug, id: LV + '-' + l.slug, href: (CI ? '../parcours-ci/?l=' : '../lecon/?l=') + l.slug } : l.t; }) }; });
+  /* parcours propre à la collection Côte d’Ivoire : sans étape Studio, hors du total de progression */
+  if (CI) TH.forEach(function (t) { if (t.nm === 'Propriétés physiques de la matière') t.les.push({ t: 'Matériaux, tri et déchets', slug: 'materiaux-tri-dechets', id: LV + '-materiaux-tri-dechets', href: '../parcours-ci/?l=materiaux-tri-dechets', local: true }); });
   var CHEV = '<svg viewBox="0 0 16 16"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg>';
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function plural(n, w) { return n + ' ' + w + (n > 1 ? 's' : ''); }
@@ -24,14 +26,14 @@
     if (lastChanged) { UI.last = P.last || ''; UI.themes['t' + lastTheme] = true; saveUI(); }
     var total = 0, max = 0;
     box.innerHTML = TH.map(function (t, ti) {
-      var avail = t.les.filter(function (l) { return typeof l === 'object'; }), done = avail.reduce(function (a, l) { return a + steps(l.id); }, 0), tmax = t.les.length * 4, finished = avail.filter(function (l) { return steps(l.id) === 4; }).length;
+      var avail = t.les.filter(function (l) { return typeof l === 'object'; }), done = avail.reduce(function (a, l) { return a + steps(l.id); }, 0), tmax = t.les.filter(function (l) { return !(l && l.local); }).length * 4, finished = avail.filter(function (l) { return steps(l.id) === 4; }).length;
       total += done; max += tmax;
       var open = ('t' + ti) in UI.themes ? UI.themes['t' + ti] : ti === lastTheme;
       var meta = plural(t.les.length, 'leçon') + (CI || avail.length === t.les.length ? '' : avail.length ? ' · ' + avail.length + ' en ligne' : ' · bientôt') + (done ? ' · ' + finished + ' terminée' + (finished > 1 ? 's' : '') : '');
       return '<details class="catalogue-group" data-ti="' + ti + '" style="--tc:' + t.col + '"' + (open ? ' open' : '') + '><summary><span class="catalogue-icon" aria-hidden="true"><svg viewBox="0 0 24 24">' + t.ic + '</svg></span><span class="group-title"><b>' + esc(t.nm) + '</b><small>' + meta + '</small></span><span class="group-progress">' + done + ' / ' + tmax + ' étapes Studio<span class="progress-track" aria-hidden="true"><i style="width:' + (done / tmax * 100) + '%"></i></span></span><span class="catalogue-chevron" aria-hidden="true">' + CHEV + '</span></summary><ul class="lesson-rail">' + t.les.map(function (l) {
         if (typeof l !== 'object') return '<li><div class="lesson-unready"><span class="rail-node" aria-hidden="true"></span><span class="lesson-name"><b>' + esc(l) + '</b></span><span class="lesson-state">' + (CI ? 'En préparation' : 'Bientôt') + '</span></div></li>';
         var n = steps(l.id), last = P.last === l.id;
-        return '<li><a class="les' + (last ? ' last' : '') + '" href="' + l.href + '"><span class="rail-node' + (n === 4 ? ' complete' : n ? ' partial' : '') + '" style="--p:' + (n * 25) + '%" aria-hidden="true"></span><span class="lesson-name"><b>' + esc(l.t) + (last ? '<span class="tag-last">Dernière ouverte</span>' : '') + '</b><small>' + (CI ? 'Leçon, simulation et investigations' : 'Résumé, simulation, défi et quiz') + '</small></span><span class="lesson-state' + (n === 4 ? ' done' : '') + '">' + (n === 4 ? 'Terminée · 4 / 4' : n ? n + ' / 4 étapes Studio' : 'Pas encore commencée') + '</span></a></li>';
+        return '<li><a class="les' + (last ? ' last' : '') + '" href="' + l.href + '"><span class="rail-node' + (n === 4 ? ' complete' : n ? ' partial' : '') + '" style="--p:' + (n * 25) + '%" aria-hidden="true"></span><span class="lesson-name"><b>' + esc(l.t) + (last ? '<span class="tag-last">Dernière ouverte</span>' : '') + '</b><small>' + (CI ? 'Leçon, simulation et investigations' : 'Résumé, simulation, défi et quiz') + '</small></span><span class="lesson-state' + (n === 4 ? ' done' : '') + '">' + (l.local ? 'Investigations' : n === 4 ? 'Terminée · 4 / 4' : n ? n + ' / 4 étapes Studio' : 'Pas encore commencée') + '</span></a></li>';
       }).join('') + '</ul></details>';
     }).join('');
     groups = Array.from(box.querySelectorAll('details.catalogue-group'));
