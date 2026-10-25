@@ -8,6 +8,7 @@ function page(file,progress={}){
   w.localStorage.setItem('pc-studio-prog',JSON.stringify(progress));
   for(const script of w.document.querySelectorAll('script')){
     const src=script.getAttribute('src');
+    if(/json/.test(script.getAttribute('type')||''))continue; // données structurées, pas du code
     if(src&&!src.startsWith('../assets/'))continue;
     w.eval(src?read(path.resolve(root,path.dirname(file),src)):script.textContent);
   }
