@@ -376,7 +376,7 @@
     var app = document.documentElement; app.classList.add('app');
     document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab'; var lh = document.getElementById('lh'); if (lh) lh.textContent = L.title + ' · ' + L.level;
     applySettings();
-    var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage' }, vp);
+    var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage', role: 'main' }, vp);
     var prog = PROG[L.id] = PROG[L.id] || {}; PROG.last = L.id; save('pc-studio-prog', PROG);
 
     /* barre du haut */
