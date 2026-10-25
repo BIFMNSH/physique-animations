@@ -1,0 +1,2 @@
+(function(){var t;try{t=localStorage.getItem('pc-theme');}catch(e){}if(t!=='light'&&t!=='dark')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';document.documentElement.setAttribute('data-theme',t);})();
+window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};

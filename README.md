@@ -26,7 +26,11 @@ Les traces sont conservées dans le navigateur sous `pc-inquiry-<identifiant>`. 
 
 Depuis la racine : `npm ci --prefix qa`, puis `npm test --prefix qa` (Node 24). Ces tests couvrent les parcours et invariants structurels ; ils ne remplacent pas la revue scientifique et les tests tactiles/visuels. Pour une prévisualisation : `python3 -m http.server 8765`, puis ouvrir `/lecon/?l=association-lampes`.
 
-L’interface Vercel n’a pas d’étape de build. Le domaine canonique est https://lab.nohaba.com/. La redirection de l’alias Vercel vise les requêtes HTML ; les ressources et le service worker restent accessibles sur leur origine pour éviter de casser des pages anciennes encore en cache. La CSP reste restrictive. Vérifier cette règle sur un déploiement de prévisualisation avant fusion, y compris une visite avec un ancien service worker installé.
+L’interface Vercel n’a pas d’étape de build. Le domaine canonique est https://lab.nohaba.com/. La redirection de l’alias Vercel vise les requêtes HTML ; les ressources et le service worker restent accessibles sur leur origine pour éviter de casser des pages anciennes encore en cache.
+
+L’accueil charge ses styles et scripts depuis `assets/accueil.css`, `assets/accueil-theme.js` (avant le rendu) et `assets/accueil.js` (différé). Sa CSP interdit les scripts exécutables inline ; les autres pages conservent temporairement leur politique compatible avec les simulations historiques. L’intégration en iframe est limitée à la même origine. Ne pas réintroduire de gestionnaires HTML `onclick` ou de scripts inline dans l’accueil.
+
+Les fichiers `.woff2` ont un cache immuable d’un an : changer leur nom si leurs octets changent. Les images de marque ont un cache d’une heure. Les CSS et JS non versionnés restent revalidés à chaque requête ; ne pas leur appliquer de cache long sans versionner leurs URL. Vérifier les en-têtes sur une prévisualisation Vercel avant fusion, y compris avec un ancien service worker installé ; le serveur Python local n’applique pas `vercel.json`.
 
 ## État de validation du programme
 
