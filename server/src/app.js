@@ -10,6 +10,7 @@ import { cfg, origins } from './config.js';
 import { accessFor, inFreePeriod, coversTheme, themeOfActivity } from './access.js';
 import { PLANS } from './plans.js';
 import { startPayment, settle, grant } from './pay.js';
+import { registerClassement, recordEvents } from './classement.js';
 
 const ROLES = ['eleve', 'enseignant', 'etablissement'];
 const LEVELS = ['6e', '5e', '4e', '3e'];
@@ -38,7 +39,7 @@ export function createApp() {
     if (c.req.path.startsWith('/api/auth/') || c.req.path === '/api/pay/notify') return next();
     return bodyLimit({ maxSize: 20 * 1024, onError: (cc) => cc.json({ error: 'Requête trop grande' }, 413) })(c, next);
   });
-  const PUBLIC = new Set(['/api/providers', '/api/plans', '/api/pay/notify']);
+  const PUBLIC = new Set(['/api/providers', '/api/plans', '/api/pay/notify', '/api/classement/consent/confirm', '/api/classement/consent/revoke']);
   app.use('/api/*', async (c, next) => {
     const p = c.req.path;
     if (p.startsWith('/api/auth/') || PUBLIC.has(p)) return next();
@@ -84,6 +85,7 @@ export function createApp() {
     // On fusionne : une étape terminée ne se « dé-termine » pas.
     await q(`insert into progress(user_id, lesson_id, steps) values($1,$2,$3)
              on conflict (user_id, lesson_id) do update set steps = progress.steps || excluded.steps, updated_at=now()`, [c.get('user').id, b.lessonId, JSON.stringify(steps)]);
+    await recordEvents(c.get('user').id, b.lessonId, steps); // les points sont décidés ici, jamais par l'appareil
     return c.json({ ok: true });
   });
 
@@ -136,6 +138,8 @@ export function createApp() {
     const r = await q('delete from class_member m using classe c where m.class_id=c.id and c.id=$1 and c.owner_id=$2 and m.user_id=$3', [Number(c.req.param('id')), u.id, c.req.param('uid')]);
     return c.json({ removed: r.rowCount });
   });
+
+  registerClassement(app, { fail, tooMany, ipOf });
 
   // ---------- Paiement ----------
   app.post('/api/pay/init', async (c) => {
