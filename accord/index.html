@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Accord d’un parent · NOHOBA-Lab</title>
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+body{margin:0;background:#F6F2EA;color:#0E162A;font:400 18px/1.55 'Atkinson Hyperlegible',system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:32px 20px}
+h1{font:800 clamp(28px,6vw,40px)/1.1 'Bricolage Grotesque',sans-serif;margin:0 0 12px}
+.btn{display:block;width:100%;min-height:52px;margin:12px 0 0;border-radius:14px;border:1.5px solid #B23A06;background:#B23A06;color:#fff;font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer}
+.btn.sec{background:transparent;color:#0E162A;border-color:#505A70}
+:focus-visible{outline:3px solid #0E162A;outline-offset:3px}
+#m{font-weight:700;min-height:28px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Accord d’un parent</h1>
+  <p>Votre enfant souhaite apparaître dans le classement de sa classe sur NOHOBA-Lab. Il y figurerait sous un <b>pseudo généré</b> (par exemple « Atome-Malin-42 »), <b>sans nom, sans photo, sans numéro</b>. Seuls les élèves de sa classe et son professeur le voient. Les points sont de la motivation : ils n’ont aucune valeur pour les documents de réussite.</p>
+  <p>Vous pouvez retirer votre accord à tout moment, avec ce même lien.</p>
+  <button type="button" class="btn" id="ok">Je donne mon accord</button>
+  <button type="button" class="btn sec" id="non">Je retire / je refuse</button>
+  <p id="m" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function(){
+  var API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:3000':'https://api.lab.nohaba.com';
+  var tok=location.hash.slice(1), m=document.getElementById('m');
+  if(tok.length<20){m.textContent='Ce lien est incomplet. Ouvrez le lien reçu par SMS.';document.getElementById('ok').disabled=document.getElementById('non').disabled=true;}
+  function go(act,txt){fetch(API+'/api/classement/consent/'+act,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:tok})})
+    .then(function(r){return r.json().catch(function(){return{};}).then(function(j){m.textContent=r.ok?txt:(j.error||'Une erreur est survenue.');});})
+    .catch(function(){m.textContent='Connexion impossible. Réessayez plus tard.';});}
+  document.getElementById('ok').onclick=function(){go('confirm','Merci. Votre accord est enregistré.');};
+  document.getElementById('non').onclick=function(){go('revoke','C’est noté : votre enfant n’apparaît pas dans le classement.');};
+})();
+</script>
+</body>
+</html>

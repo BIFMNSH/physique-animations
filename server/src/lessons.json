@@ -1,0 +1,143 @@
+{
+ "4e": [
+  {
+   "theme": "Optique",
+   "lessons": [
+    "sources-recepteurs",
+    "propagation-lumiere",
+    "phases-eclipses",
+    "lumiere-blanche"
+   ]
+  },
+  {
+   "theme": "Courants et tensions alternatifs",
+   "lessons": [
+    "aimant-bobine",
+    "tension-alternative",
+    "tension-sinusoidale",
+    "dangers-secteur",
+    "transfo-redressement"
+   ]
+  },
+  {
+   "theme": "Les ions",
+   "lessons": [
+    "atomes-ions",
+    "metal-ion"
+   ]
+  },
+  {
+   "theme": "Eau potable",
+   "lessons": [
+    "traitement-eau",
+    "qualite-eau"
+   ]
+  }
+ ],
+ "5e": [
+  {
+   "theme": "Électricité",
+   "lessons": [
+    "generateur-recepteur",
+    "association-lampes",
+    "piles-serie"
+   ]
+  },
+  {
+   "theme": "Mesure de grandeurs physiques",
+   "lessons": [
+    "intensite",
+    "tension",
+    "pression-atmospherique"
+   ]
+  },
+  {
+   "theme": "Mélanges et réactions chimiques",
+   "lessons": [
+    "melanges",
+    "atomes-molecules",
+    "combustion-carbone",
+    "combustion-soufre"
+   ]
+  },
+  {
+   "theme": "Propriétés physiques de la matière",
+   "lessons": [
+    "dilatation-solides",
+    "dilatation-liquides",
+    "dilatation-gaz"
+   ]
+  }
+ ],
+ "6e": [
+  {
+   "theme": "Électricité",
+   "lessons": [
+    "circuit-electrique",
+    "commande-circuit",
+    "court-circuit"
+   ]
+  },
+  {
+   "theme": "Propriétés physiques de la matière",
+   "lessons": [
+    "solides-liquides",
+    "les-gaz",
+    "temperature",
+    "changements-etat"
+   ]
+  },
+  {
+   "theme": "Les combustions",
+   "lessons": [
+    "constituants-air",
+    "combustion-solide-liquide",
+    "combustion-gaz",
+    "dangers-combustions"
+   ]
+  },
+  {
+   "theme": "Mesure de grandeurs physiques",
+   "lessons": [
+    "volume",
+    "masse"
+   ]
+  }
+ ],
+ "3e": [
+  {
+   "theme": "Mécanique",
+   "lessons": [
+    "masse-poids",
+    "les-forces",
+    "equilibre-deux-forces",
+    "travail-puissance",
+    "energie-mecanique"
+   ]
+  },
+  {
+   "theme": "Les réactions chimiques",
+   "lessons": [
+    "electrolyse-eau",
+    "alcanes",
+    "oxydation-corps-purs",
+    "reduction-oxydes",
+    "solutions-acides-basiques"
+   ]
+  },
+  {
+   "theme": "Optique",
+   "lessons": [
+    "lentilles",
+    "defauts-oeil"
+   ]
+  },
+  {
+   "theme": "Électricité",
+   "lessons": [
+    "puissance-energie-electriques",
+    "conducteur-ohmique"
+   ]
+  }
+ ]
+}

@@ -57,6 +57,19 @@ input[type=text]{min-height:48px;width:min(100%,460px);padding:0 14px;border-rad
 footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 48px;color:var(--mist);font-size:14px}
 @media (max-width:640px){.tri{grid-template-columns:1fr}.btn{width:100%}.btn+.btn{margin:10px 0 0}}
 @media print{header,.ctl,.btn{display:none}}
+.lvl,.opt,.lb2{margin:0 0 20px}
+.bar{height:14px;border-radius:999px;background:var(--hover);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc)}
+.bdg{list-style:none;margin:0 0 20px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.bdg li{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px;opacity:.85}
+.bdg li.got{border:2px solid var(--ok);opacity:1}.bdg li span{font-weight:700;color:var(--acc-txt)}.bdg small{color:var(--mist)}
+.opt form,.opt fieldset{border:0;padding:0;margin:12px 0}.opt label,.opt legend{display:block;font-weight:700;margin:0 0 6px}
+.opt .btn{margin:6px 8px 0 0}.opt input{min-height:48px;width:min(100%,320px);padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--deep);color:var(--ink);font:400 17px 'Atkinson Hyperlegible',sans-serif}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank li{display:grid;grid-template-columns:36px 1fr auto auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.rank li.me{border:2px solid var(--acc)}.rank .rk{font:800 18px 'Bricolage Grotesque',sans-serif}.rank .lv,.rank .pt{color:var(--mist);font-size:14px}.rank .pt{font-weight:700;color:var(--ink)}
+@media (max-width:640px){.rank li{grid-template-columns:30px 1fr auto}.rank .lv{display:none}}
+@media print{#gam{display:none}}
 </style>
 </head>
 <body>
@@ -106,6 +119,13 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 48px;colo
     <p class="msg" id="att-msg" role="status" aria-live="polite"></p>
   </section>
 
+  <section class="doc" id="gam" aria-labelledby="h-gam">
+    <h2 id="h-gam">Mon niveau et ma classe</h2>
+    <p class="note">Pour te motiver. Les points, niveaux et badges ne comptent pas dans le certificat ni dans l’attestation.</p>
+    <div id="gam-body"></div>
+    <p class="msg" id="gam-msg" role="status" aria-live="polite"></p>
+  </section>
+
   <p class="note"><b>Limite :</b> ta progression et ton nom sont enregistrés sur cet appareil. Les documents sont établis à partir de ces données et ne sont pas vérifiés par un tiers ; ils n’ont pas de valeur officielle.</p>
 </main>
 <footer><div class="wrap">NOHOBA-Lab · <a href="../lecons/">Toutes les leçons</a> · <a href="../confidentialite/">Confidentialité</a></div></footer>
@@ -115,5 +135,6 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0 48px;colo
 <script src="../assets/reussites/pdf.js"></script>
 <script defer src="../assets/compte.js"></script>
 <script src="../assets/reussites/page.js"></script>
+<script src="../assets/reussites/classement.js"></script>
 </body>
 </html>

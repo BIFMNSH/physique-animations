@@ -51,6 +51,25 @@ create table if not exists progress(
   updated_at timestamptz not null default now(),
   primary key(user_id, lesson_id)
 );
+create table if not exists progress_event(
+  id bigserial primary key,
+  user_id text not null references "user"(id) on delete cascade,
+  lesson_id text not null, step text not null check (step in ('resume','sim','defi','quiz')),
+  at timestamptz not null default now(),
+  unique(user_id, lesson_id, step)
+);
+create index if not exists progress_event_user_at on progress_event(user_id, at);
+create table if not exists leaderboard_profile(
+  user_id text primary key references "user"(id) on delete cascade,
+  pseudo text not null,
+  opt_in boolean not null default false,
+  under15 boolean,
+  consent_at timestamptz,
+  consent_hash text,
+  updated_at timestamptz not null default now()
+);
+create unique index if not exists leaderboard_pseudo on leaderboard_profile(lower(pseudo));
+create index if not exists leaderboard_consent on leaderboard_profile(consent_hash);
 `;
 
 // Crée les tables de Better Auth puis celles de l'application (idempotent).
