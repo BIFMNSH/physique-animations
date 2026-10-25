@@ -1,8 +1,8 @@
 # Scénarios à valider · lot Matière (MAT-01 à MAT-26)
 
-25 octobre 2026 · collection Côte d'Ivoire, 6e · thème « Propriétés physiques de la matière » · **En conception**.
+25 octobre 2026 (mise à jour le même jour : décisions du propriétaire et dossier de ressources MAT) · collection Côte d'Ivoire, 6e · thème « Propriétés physiques de la matière » · **En conception**.
 
-Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Appui : les fiches enseignant SPO 4 à 7 de l'archive TP DPFC reçue le 25 octobre 2026 (liquides, gaz, température, changements d'état), qui fixent le matériel, les habiletés et les résultats attendus. Les consignes, figures et formulations sont originales.
+Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Appui : les fiches enseignant SPO 4 à 7 de l'archive TP DPFC reçue le 25 octobre 2026 (liquides, gaz, température, changements d'état), qui fixent le matériel, les habiletés et les résultats attendus. Les consignes, figures et formulations sont originales. Le dossier de ressources `NohobaLab_Ressources_MAT_Pour_Claude.docx` (25 octobre 2026) enrichit MAT-06 et MAT-18 et propose des activités d'approfondissement : voir la dernière section.
 
 ## Vue d'ensemble
 
@@ -13,7 +13,7 @@ Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité 
 | MAT-03 | Solides et liquides | Distinguer un solide compact d'un solide divisé | — |
 | MAT-04 | Solides et liquides | Distinguer un solide divisé d'un liquide | fiche 4 (surface libre) |
 | MAT-05 | Solides et liquides | Reconnaître quelques éléments de la verrerie de laboratoire | fiches 4 à 7 (matériel) |
-| MAT-06 | Solides et liquides | Reconnaître des pictogrammes de danger | — |
+| MAT-06 | Solides et liquides | Associer chaque pictogramme de danger à son danger et à la conduite à tenir | ressources MAT (activité « Sécurité en chimie ») |
 | MAT-07 | Les gaz | Montrer l'existence de l'air | fiche 5 |
 | MAT-26 | Les gaz | Citer quelques gaz de la vie courante | — |
 | MAT-08 | Les gaz | Découvrir les propriétés des gaz | fiche 5, activité 1 |
@@ -26,11 +26,11 @@ Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité 
 | MAT-15 | Température d'un corps | Repérer la température de la glace fondante et de l'eau bouillante | fiche 6, activité 2 |
 | MAT-16 | Température d'un corps | Décrire le thermomètre médical à liquide | fiche 6 (matériel) |
 | MAT-17 | Température d'un corps | Repérer la température du corps humain | fiche 6, activité 3 |
-| MAT-18 | Température d'un corps | Reconnaître d'autres types de thermomètres | — |
+| MAT-18 | Température d'un corps | Associer un type de thermomètre à son usage | ressources MAT (types de thermomètres) |
 | MAT-19 | Changements d'état de l'eau | Réaliser la solidification de l'eau | fiche 7, activité 1 |
 | MAT-20 | Changements d'état de l'eau | Réaliser la fusion de la glace | fiche 7 |
-| MAT-21 | Changements d'état de l'eau | Montrer la variation de volume au cours de la solidification | — |
-| MAT-22 | Changements d'état de l'eau | Montrer la variation de volume au cours de la fusion | — |
+| MAT-21 | Changements d'état de l'eau | Montrer la variation de volume de l'eau au cours de la solidification et de la fusion | — (fiche fusionnée, voir MAT-21) |
+| ~~MAT-22~~ | Changements d'état de l'eau | Fusionnée dans MAT-21 (décision du 25 octobre 2026) | — |
 | MAT-23 | Changements d'état de l'eau | Montrer la conservation de la masse au cours de la fusion | fiche 7, activité 3 |
 | MAT-24 | Changements d'état de l'eau | Réaliser la vaporisation de l'eau et la condensation de la vapeur d'eau | fiche 7, activité 4 |
 | MAT-25 | Changements d'état de l'eau | Expliquer le cycle de l'eau | — |
@@ -44,6 +44,8 @@ Règles communes à tout le lot :
 - Une compétence par fiche ; présentation Thème / Chapitre / Compétence visée / « À la fin de cette partie, je dois être capable de ». Aucun code interne affiché à l'élève.
 - Statut `prototype` après construction, jusqu'à validation du propriétaire. Corrigés dans `prof.reference`, à passer côté serveur comme pour l'Électricité.
 - Ordre conseillé de construction et de parcours : verrerie (MAT-05) et masse (MES-05 à MES-07) avant MAT-23 ; thermomètre (MAT-13 à MAT-15) avant MAT-19 et MAT-20.
+- Pratiques scientifiques (collège) à chaque mesure : écrire la valeur avec son unité, préciser la précision de lecture, attendre la stabilisation, répéter une mesure douteuse, consigner dans un tableau. Les valeurs de la simulation sont signalées comme simulées.
+- Terminologie : « condensation » désigne le passage de la vapeur à l'état liquide (usage du programme MENA ; « liquéfaction » est donné comme synonyme). Sublimation et condensation solide : hors lot.
 
 ---
 
@@ -144,24 +146,48 @@ Garde-fous : le sable sec seulement. Réutilise le résultat de MAT-02 ; ne pas 
 
 Garde-fous : liste limitée au matériel des fiches TP 4 à 7 ; l'éprouvette graduée et la burette relèvent de MES-02. Verre non gradué = pas de lecture de volume.
 
-### MAT-06 · Reconnaître des pictogrammes de danger
+### MAT-06 · Associer chaque pictogramme de danger à son danger et à la conduite à tenir
 
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Propriétés physiques de la matière** / Solides et liquides |
-| Compétence visée | Associer un pictogramme de danger à sa signification. |
-| À la fin de cette partie, je dois être capable de | Reconnaître les pictogrammes les plus courants et dire quel comportement adopter devant chacun. |
+| Compétence visée | Associer un pictogramme de danger à son danger et à la conduite à tenir. |
+| À la fin de cette partie, je dois être capable de | Reconnaître les neuf pictogrammes ; lire l'étiquette d'un produit ménager ou de laboratoire et en tirer les précautions ; citer les équipements de protection à porter. |
 
-| Opération | Scénario proposé |
+| Opération | Scénario proposé (d'après les six questions du dossier, reformulées) |
 |---|---|
-| Problématiser | Trois flacons portent une étiquette : que faut-il faire ou ne pas faire ? |
-| Émettre une hypothèse | L'élève devine le sens de chaque pictogramme à partir de sa forme. |
-| Expérimenter / Investiguer | Association pictogramme / sens, puis mise en situation (que faire d'un flacon marqué « inflammable » près d'une flamme ?). |
-| Analyser et interpréter | La forme en losange et le dessin signalent un danger précis. |
-| Conclure | L'élève classe les pictogrammes et énonce une règle. |
-| Communiquer | Affiche de laboratoire de l'élève, imprimable. |
+| Problématiser | Awa et Kofi trouvent un désodorisant en aérosol, un produit anti-moustiques et deux flacons de laboratoire. Que signifient les dessins rouges sur les étiquettes ? |
+| Émettre une hypothèse | L'élève associe chaque pictogramme à un danger avant correction (association pictogramme / danger). |
+| Expérimenter / Investiguer | 1. Lire les étiquettes des quatre produits et relever les dangers. 2. Dire s'il est permis de verser l'anti-moustiques ou le sulfate de cuivre dans l'évier, et pourquoi. 3. Choisir les équipements de protection pour manipuler des pastilles de soude. |
+| Analyser et interpréter | Chaque pictogramme dit un danger précis ; certains produits en portent plusieurs ; le pictogramme « environnement » interdit l'évier et la nature. |
+| Conclure | L'élève énonce trois règles : lire l'étiquette avant usage, se protéger, ne pas jeter à l'évier. |
+| Communiquer | Jeu de paires (Memory) numérique et imprimable, puis trace élève imprimable ; prolongement à la maison : **observer** avec un adulte des emballages et lister leurs pictogrammes, **sans ouvrir ni manipuler** les produits. |
 
-Garde-fous : liste exacte des pictogrammes au programme à confirmer (voir décisions) ; dessins originaux conformes au système d'étiquetage en vigueur, sans reproduction d'une planche officielle. MAT-06 traite les produits de laboratoire ; CHI-19 traite les pictogrammes liés aux incendies, sans doublon d'exercices.
+**Les neuf pictogrammes à retenir** (dessins originaux NohobaLab conformes au système normalisé SGH ; libellé de la source conservé séparément pour la traçabilité)
+
+| N° | Nom affiché | Description accessible (texte alternatif) | Danger | Conduite à tenir | Libellé de la source |
+|---|---|---|---|---|---|
+| 1 | Explosif | Losange rouge, bombe qui éclate | Peut exploser | Tenir loin de la chaleur, des chocs, des flammes | Explosif |
+| 2 | Inflammable | Losange rouge, flamme | Peut s'enflammer | Tenir loin des flammes et des étincelles | Inflammable |
+| 3 | Corrosif | Losange rouge, liquide qui ronge une main et une surface | Ronge la peau, les yeux, certains matériaux | Gants et lunettes ; en cas de contact, rincer à l'eau et prévenir un adulte | Corrosif |
+| 4 | Toxique (danger mortel) | Losange rouge, tête de mort et os croisés | Empoisonne, parfois en très petite quantité | Ne pas respirer, avaler ni toucher ; manipuler seulement avec le professeur | Très toxique |
+| 5 | Comburant | Losange rouge, flamme au-dessus d'un cercle | Aggrave un incendie | Éloigner des produits inflammables | Comburant |
+| 6 | Gaz sous pression | Losange rouge, bouteille de gaz | Peut éclater sous la chaleur | Ne pas chauffer, ne pas jeter au feu, garder au frais | Sous pression |
+| 7 | Irritant ou nocif | Losange rouge, point d'exclamation | Irrite la peau, les yeux ou les voies respiratoires ; nocif en cas d'usage imprudent | Éviter le contact ; ne pas confondre avec la tête de mort | Toxique, nocif, irritant |
+| 8 | Danger grave pour la santé | Losange rouge, silhouette avec une étoile dans le torse | Effets graves à long terme (cancer et autres atteintes) | Ne pas respirer ni toucher ; produit réservé au professeur | Cancérogène |
+| 9 | Danger pour l'environnement | Losange rouge, arbre et poisson | Pollue l'eau et la nature | Jamais à l'évier ni dans la nature ; point de collecte | Polluant |
+
+Le contrôle visuel du 25 octobre 2026 confirme que les neuf recadrages du dossier correspondent à leur libellé, sans inversion.
+
+**Équipements de protection individuelle** (rubrique distincte, symboles bleus d'obligation, **non comptés** parmi les neuf pictogrammes) : blouse, lunettes, masque, gants. Pour les pastilles de soude : blouse, lunettes, gants ; le masque est à discuter avec le professeur (poussière).
+
+Garde-fous :
+- Libellés scientifiques : le n° 8 ne se réduit pas au « cancérogène » ; le n° 7 n'est pas la tête de mort ; « toxique » appartient au n° 4. Le libellé de la source pour le n° 7 est conservé tel quel dans le champ de traçabilité, pas dans l'affichage.
+- Les recadrages et le texte du dossier viennent d'un manuel du commerce : ils servent de référence, **jamais republiés**. Les pictogrammes sont redessinés (SVG avec `role="img"`), les étiquettes de produits et les consignes sont originales. Les liens externes du dossier ne sont pas repris et n'ont pas été consultés.
+- Contexte ivoirien : la date « depuis 2017 » et la réglementation française ne sont pas reprises ; produits proposés : insecticide en aérosol, eau de Javel, désodorisant, soude de laboratoire. Où jeter un produit usagé (question 6) : information locale à fournir (voir décisions) ; aucun lien externe.
+- Aucun produit réel manipulé par l'élève ; la recherche à la maison est une observation d'emballages.
+- MAT-06 traite les produits de laboratoire et ménagers ; CHI-19 traite les pictogrammes liés aux incendies, sans doublon d'exercices.
+- Recette : neuf pictogrammes distincts, quatre équipements séparés, aucune association inversée, textes alternatifs, lisibilité mobile, impression exploitable, correction professeur séparée (côté serveur).
 
 ---
 
@@ -241,7 +267,7 @@ Garde-fous : aucune valeur de pression ni de volume mesuré ; graduations de la 
 | Conclure | L'élève définit la pression comme la poussée du gaz sur les parois. |
 | Communiquer | Schéma de la seringue avec les poussées en flèches. |
 
-Garde-fous : le programme ne prescrit pas, à notre connaissance, de loi de Boyle ni d'unité en 6e : modèle qualitatif, sans pascal ni bar (à confirmer). Aucune formule.
+Garde-fous : **décidé le 25 octobre 2026** : la pression reste qualitative, sans unité (ni pascal, ni bar), sans loi de Boyle ni formule. Jauge « faible / moyenne / forte » seulement.
 
 ### MAT-10 · Transvaser, recueillir et conserver un gaz
 
@@ -321,7 +347,7 @@ Garde-fous : eau « chaude » = eau seulement agréablement chaude, jamais brûl
 | Conclure | L'élève décrit le thermomètre. |
 | Communiquer | Schéma légendé. |
 
-Garde-fous : valeur d'une graduation à confirmer sur le matériel ivoirien (1 °C supposé). Liquide non nommé comme mercure ; thermomètre fragile : ne jamais l'utiliser pour remuer.
+Garde-fous : **fixé le 25 octobre 2026** pour des élèves de collège : thermomètre de laboratoire de −10 °C à 110 °C, une graduation = 1 °C ; la valeur se lit à la graduation la plus proche et s'écrit avec l'unité (« 23 °C »), avec la mention « à 1 °C près ». Liquide non nommé comme mercure ; thermomètre fragile : ne jamais l'utiliser pour remuer.
 
 ### MAT-14 · Repérer la température d'un corps
 
@@ -378,7 +404,7 @@ Garde-fous : « environ 100 °C » au niveau de la mer ; ne pas affirmer 100 °C
 | Conclure | L'élève décrit le thermomètre médical. |
 | Communiquer | Schéma comparatif. |
 
-Garde-fous : échelle exacte du thermomètre médical ivoirien à confirmer sur le matériel. Pas de conseil médical. Hygiène : un thermomètre se nettoie avant d'être partagé.
+Garde-fous : **fixé le 25 octobre 2026** : échelle du thermomètre médical de la simulation de 35 °C à 42 °C, graduation 0,1 °C (lecture « à 0,1 °C près »). Pas de conseil médical. Hygiène : un thermomètre se nettoie avant d'être partagé.
 
 ### MAT-17 · Repérer la température du corps humain
 
@@ -399,24 +425,46 @@ Garde-fous : échelle exacte du thermomètre médical ivoirien à confirmer sur 
 
 Garde-fous : les relevés sont fictifs. Ne pas poser de diagnostic ni de seuil de fièvre ; ne pas présenter 38 °C comme normal ou anormal sans avis du professeur. En réel : thermomètres individuels ou désinfectés, élèves volontaires uniquement.
 
-### MAT-18 · Reconnaître d'autres types de thermomètres
+### MAT-18 · Associer un type de thermomètre à son usage
 
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Propriétés physiques de la matière** / Température d'un corps |
 | Compétence visée | Associer un type de thermomètre à son usage. |
-| À la fin de cette partie, je dois être capable de | Citer au moins trois types de thermomètres (à liquide, électronique, à infrarouge, de four ou de cuisine) et dire à quoi chacun sert. |
+| À la fin de cette partie, je dois être capable de | Reconnaître six types de thermomètres, choisir celui qui convient à une situation de mesure et lire une température avec la méthode adaptée. |
 
 | Opération | Scénario proposé |
 |---|---|
-| Problématiser | Pourquoi y a-t-il des thermomètres de formes différentes ? |
+| Problématiser | Pourquoi y a-t-il des thermomètres de formes si différentes (cuisine, météo, hôpital, usine) ? |
 | Émettre une hypothèse | L'élève associe cinq situations à un thermomètre avant correction. |
-| Expérimenter / Investiguer | Choix du thermomètre adapté pour : eau du bain, four, malade, air extérieur, congélateur. |
-| Analyser et interpréter | Chaque instrument est adapté à une plage et à un usage. |
-| Conclure | L'élève relie type et usage. |
-| Communiquer | Tableau type / usage / avantage. |
+| Expérimenter / Investiguer | Exercice d'association appareil / nom ; exercice de choix du thermomètre selon la situation (eau d'un bain, four, personne malade, air extérieur sur une journée, congélateur, surface brûlante à distance) ; entraînement à la lecture avec la fiche méthode. |
+| Analyser et interpréter | Chaque instrument est adapté à une plage de températures et à un usage ; certains mesurent sans contact. |
+| Conclure | L'élève relie type et usage et rédige les étapes de lecture. |
+| Communiquer | Tableau type / usage / précaution ; fiche méthode imprimable ; correction professeur séparée. |
 
-Garde-fous : liste de types à confirmer avec le programme (voir décisions). Pas de marque. Aucun fonctionnement interne (infrarouge) expliqué au-delà de « mesure sans contact ».
+**À reconnaître (six types, niveau collège)**
+
+| Type | Libellé anglais de la source | Usage retenu | Remarque |
+|---|---|---|---|
+| Thermomètre à liquide (alcool coloré) | Alcohol thermometer (le « Mercury thermometer » est cité comme élément de la source, jamais manipulé) | Laboratoire, température ambiante | Fragile ; lecture à hauteur d'œil |
+| Thermomètre numérique à sonde | Digital thermometer ; Probe thermometer | Cuisine, laboratoire, liquides | « Numérique » est un mode d'affichage, « à sonde » une forme : un thermomètre peut être les deux |
+| Thermomètre infrarouge | Infrared thermometer | Mesure sans contact d'une surface ou du front | Ne mesure pas à travers une vitre |
+| Thermomètre mural ou à cadran | Wall thermometer ; Bimetallic thermometers | Température de la pièce, de l'air | « Bilame » est le principe interne, hors niveau |
+| Thermomètre à minimum et à maximum | Minimum–maximum thermometer | Extrêmes de la journée (météo, serre) | |
+| Thermomètre médical | (hors image ; voir MAT-16) | Température du corps | Échelle 35 °C à 42 °C |
+
+**Approfondissement (lecture seule, hors évaluation)** : thermomètre à cristaux liquides (Liquid crystal thermometer), thermocouple (Thermocouple), sonde de température à résistance électrique (RTD), thermomètre à capillaire (Capillary thermometer), thermomètre pour gaz d'échappement (Exhaust gas thermometer), pyromètre (Pyrometer).
+
+**Traçabilité des quatorze intitulés de la source** (image « Types of thermometers », stock du commerce, filigrane et crédit conservés dans le dossier) : Mercury thermometer = à mercure ; Alcohol thermometer = à alcool ; Wall thermometer = mural ; Digital thermometer = numérique ; Liquid crystal thermometer = à cristaux liquides ; Pyrometer = pyromètre ; Minimum–maximum thermometer = à minimum et à maximum ; Infrared thermometer = infrarouge ; Probe thermometer = à sonde ; Thermocouple = thermocouple ; RTD = sonde à résistance électrique ; Exhaust gas thermometer = pour gaz d'échappement ; Capillary thermometer = à capillaire ; Bimetallic thermometers = à bilame.
+
+**Fiche méthode « Lire une température »** : 1. Choisir le thermomètre adapté. 2. Le placer (réservoir ou sonde dans le milieu, sans toucher le fond ni la paroi ; infrarouge : viser la surface). 3. Attendre que la valeur se stabilise. 4. Lire (liquide : œil à hauteur du sommet de la colonne ; numérique : valeur affichée). 5. Écrire la valeur avec l'unité et la précision (« 23 °C, à 1 °C près »). 6. Noter dans le tableau et recommencer si la valeur est douteuse.
+
+Garde-fous :
+- Les quatorze intitulés ne sont pas quatorze technologies indépendantes : l'image mélange principes de mesure, modes d'affichage, formes et usages. Cette fiche ne les présente pas comme tels.
+- **Pyromètre** : l'illustration associe « Pyrometer » à un appareil qui ressemble à un thermomètre médical numérique. L'association n'est pas reprise ; on ne nomme pas « pyromètre » le thermomètre médical dessiné. Le pyromètre, mesure à distance de très hautes températures, reste en approfondissement, sans visuel tant que l'association n'est pas vérifiée.
+- Aucun thermomètre à mercure à manipuler ; l'élève ne le voit que comme élément documentaire.
+- L'image fournie est un visuel de banque d'images : référence documentaire seulement, jamais republiée ; visuels originaux pour l'interface.
+- La fiche méthode « mesurer une température » du dossier (suivi de température, MAT-19 et MAT-20) se rattache à cette fiche.
 
 ---
 
@@ -460,43 +508,26 @@ Garde-fous : le mélange réfrigérant est plus froid que 0 °C ; la températur
 
 Garde-fous : valeur de 0 °C avec glace pure fondante ; la glace salée de MAT-19 fond plus bas : ne pas mélanger les deux situations. Durées de la simulation accélérées et signalées comme telles.
 
-### MAT-21 · Montrer la variation de volume au cours de la solidification
+### MAT-21 · Montrer la variation de volume de l'eau au cours de la solidification et de la fusion
+
+*Fiche fusionnée le 25 octobre 2026 : elle remplace MAT-21 et MAT-22.*
 
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Propriétés physiques de la matière** / Changements d'état de l'eau |
-| Compétence visée | Montrer que le volume de l'eau augmente quand elle gèle. |
-| À la fin de cette partie, je dois être capable de | Comparer les volumes avant et après solidification et en tirer une conséquence pratique. |
+| Compétence visée | Montrer que le volume de l'eau change quand elle change d'état entre liquide et solide. |
+| À la fin de cette partie, je dois être capable de | Dire que le volume de l'eau augmente quand elle gèle et diminue quand la glace fond ; citer une conséquence pratique. |
 
 | Opération | Scénario proposé |
 |---|---|
-| Problématiser | Une bouteille d'eau pleine mise au congélateur : que peut-il arriver ? |
-| Émettre une hypothèse | L'élève prévoit si le niveau montera, baissera ou restera identique. |
-| Expérimenter / Investiguer | Marquer le niveau d'eau d'un tube gradué ; simuler la solidification ; marquer le niveau de la glace. |
-| Analyser et interpréter | Le niveau monte : l'eau occupe plus de place sous forme de glace. |
+| Problématiser | Une bouteille d'eau pleine au congélateur : que peut-il arriver ? Et quand la glace fond ? |
+| Émettre une hypothèse | L'élève prévoit si le niveau montera, baissera ou restera identique, à la solidification puis à la fusion. |
+| Expérimenter / Investiguer | Marquer le niveau d'eau d'un tube gradué ; simuler la solidification et marquer le niveau de la glace ; simuler la fusion et marquer le nouveau niveau. |
+| Analyser et interpréter | Le niveau monte quand l'eau gèle, redescend quand la glace fond : variations de sens opposés pour un même changement d'état inversé. |
 | Conclure | L'élève conclut et cite un risque (bouteille déformée ou éclatée, conduite qui éclate). |
-| Communiquer | Schéma avant / après avec les deux niveaux. |
+| Communiquer | Schéma avant / après avec les trois niveaux. |
 
-Garde-fous : augmentation qualitative (« un peu plus de place »), sans pourcentage. En réel, récipient en plastique souple, jamais en verre fermé.
-
-### MAT-22 · Montrer la variation de volume au cours de la fusion
-
-| Repère | Proposition |
-|---|---|
-| Thème / Chapitre | **Propriétés physiques de la matière** / Changements d'état de l'eau |
-| Compétence visée | Montrer que le volume diminue quand la glace fond. |
-| À la fin de cette partie, je dois être capable de | Comparer le volume de la glace et celui de l'eau obtenue. |
-
-| Opération | Scénario proposé |
-|---|---|
-| Problématiser | Un glaçon qui fond dans un verre fait-il déborder le verre ? |
-| Émettre une hypothèse | L'élève prévoit le niveau après fusion. |
-| Expérimenter / Investiguer | Tube gradué rempli de glace jusqu'à un repère ; laisser fondre ; relever le nouveau niveau. |
-| Analyser et interpréter | Le niveau baisse après fusion : l'eau liquide occupe moins de place que la glace. |
-| Conclure | L'élève rapproche ce résultat de MAT-21 (fusion et solidification donnent des variations de sens opposés). |
-| Communiquer | Schéma comparatif. |
-
-Garde-fous : un glaçon flottant dans un verre d'eau ne fait pas déborder le verre en fondant : situation différente, non traitée ici pour éviter la confusion. Pas de valeur de masse volumique.
+Garde-fous : variation qualitative (« un peu plus de place »), sans pourcentage ni masse volumique. En réel, récipient en plastique souple, jamais en verre fermé. Un glaçon flottant dans un verre d'eau ne fait pas déborder le verre en fondant : situation différente, non traitée ici. Conséquences de la fusion des fiches : le catalogue passe de 73 à 72 entrées et le thème Matière de 26 à 25 fiches ; l'identifiant MAT-22 est retiré et non réattribué ; les compteurs, tests et libellés du hub sont à mettre à jour à la construction.
 
 ### MAT-23 · Montrer la conservation de la masse au cours de la fusion
 
@@ -511,30 +542,30 @@ Garde-fous : un glaçon flottant dans un verre d'eau ne fait pas déborder le ve
 | Problématiser | La glace fondue pèse-t-elle autant que la glace ? |
 | Émettre une hypothèse | L'élève note son hypothèse (plus, moins ou autant). |
 | Expérimenter / Investiguer | Peser le récipient avec la glace (m₁) puis, une fois fondue, le même récipient fermé avec l'eau (m₂) ; comparer. |
-| Analyser et interpréter | m₁ = m₂ : la masse ne change pas, même si le volume a changé (MAT-22). |
+| Analyser et interpréter | m₁ = m₂ : la masse ne change pas, même si le volume a changé (MAT-21). |
 | Conclure | L'élève énonce la conservation de la masse. |
 | Communiquer | Tableau m₁ / m₂ avec conclusion. |
 
 Garde-fous : valeurs de masse de la fiche TP (par exemple 50 g) = illustration, la balance est qualitative à l'égalité près ; récipient couvert pour éviter l'évaporation et la buée qui falsifieraient la pesée. Réutilise MES-06 et MES-07 pour la pesée.
 
-### MAT-24 · Réaliser la vaporisation de l'eau et la condensation de la vapeur d'eau
+### MAT-24 · Réaliser la vaporisation de l'eau (évaporation et ébullition) et la condensation de la vapeur d'eau
 
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Propriétés physiques de la matière** / Changements d'état de l'eau |
-| Compétence visée | Réaliser l'ébullition de l'eau et observer la condensation de la vapeur. |
-| À la fin de cette partie, je dois être capable de | Dire que l'eau qui bout passe de l'état liquide à l'état gazeux (vaporisation) à environ 100 °C, et que la vapeur se condense en gouttelettes sur une paroi froide. |
+| Compétence visée | Réaliser la vaporisation de l'eau, lente (évaporation) ou rapide (ébullition), et observer la condensation de la vapeur. |
+| À la fin de cette partie, je dois être capable de | Distinguer évaporation et ébullition ; dire que l'eau bout à environ 100 °C ; dire que la vapeur se condense en gouttelettes sur une paroi froide. |
 
 | Opération | Scénario proposé |
 |---|---|
-| Problématiser | Où va l'eau d'une casserole qui bout ? Que devient la vapeur sur un couvercle ? |
-| Émettre une hypothèse | L'élève prévoit la température de l'eau qui bout et ce qui apparaît sur une paroi froide. |
-| Expérimenter / Investiguer | Ballon à fond plat sur trépied, thermomètre, labogaz ; relever la température à l'ébullition ; placer une paroi froide (verre) au-dessus de la vapeur. |
-| Analyser et interpréter | La température reste voisine de 100 °C pendant l'ébullition ; des gouttelettes se déposent sur la paroi froide. |
-| Conclure | L'élève nomme vaporisation (ébullition) et condensation. |
-| Communiquer | Schéma légendé avec les états physiques. |
+| Problématiser | Le linge sèche sans bouillir ; l'eau de la casserole bout. Dans les deux cas, où va l'eau ? Que devient la vapeur sur un couvercle ? |
+| Émettre une hypothèse | L'élève prévoit : le niveau de deux soucoupes (au soleil, à l'ombre) après une journée ; la température de l'eau qui bout ; ce qui apparaît sur une paroi froide. |
+| Expérimenter / Investiguer | **Évaporation** : deux soucoupes d'eau, l'une au soleil, l'autre à l'ombre, niveau relevé plusieurs fois. **Ébullition** : ballon à fond plat sur trépied, thermomètre, labogaz, température à l'ébullition. **Condensation** : paroi froide (verre) au-dessus de la vapeur. |
+| Analyser et interpréter | L'évaporation est lente, se fait à la surface, sans bulles, à toute température, plus vite au chaud ; l'ébullition fait des bulles dans tout le liquide à environ 100 °C ; la vapeur se condense en gouttelettes sur la paroi froide. |
+| Conclure | L'élève nomme évaporation, ébullition (deux formes de vaporisation) et condensation. |
+| Communiquer | Schéma légendé avec les états physiques, tableau évaporation / ébullition. |
 
-Garde-fous : eau bouillante et flamme : simulation, ou démonstration par le professeur seul ; verre pyrex ; thermomètre qui ne touche pas le fond. Distinguer vapeur d'eau (gaz invisible) et « fumée » blanche (gouttelettes). Le vocabulaire d'évaporation à basse température n'est pas introduit sans accord du programme (voir décisions).
+Garde-fous : eau bouillante et flamme : simulation, ou démonstration par le professeur seul ; verre pyrex ; thermomètre qui ne touche pas le fond. Distinguer vapeur d'eau (gaz invisible) et « fumée » blanche (gouttelettes). **Décidé le 25 octobre 2026** : le mot « évaporation » est introduit. Si la fiche devenait trop dense pour 30 minutes, la proposition est de la scinder (évaporation d'un côté) : décision réservée au propriétaire.
 
 ### MAT-25 · Expliquer le cycle de l'eau
 
@@ -542,13 +573,13 @@ Garde-fous : eau bouillante et flamme : simulation, ou démonstration par le pro
 |---|---|
 | Thème / Chapitre | **Propriétés physiques de la matière** / Changements d'état de l'eau |
 | Compétence visée | Expliquer le cycle de l'eau avec les changements d'état. |
-| À la fin de cette partie, je dois être capable de | Ordonner les étapes du cycle (vaporisation, condensation, précipitations, retour à la mer ou au sol) et nommer l'état de l'eau à chaque étape. |
+| À la fin de cette partie, je dois être capable de | Ordonner les étapes du cycle (évaporation, condensation, précipitations, retour à la mer ou au sol) et nommer l'état de l'eau à chaque étape. |
 
 | Opération | Scénario proposé |
 |---|---|
 | Problématiser | D'où viennent les nuages, et où va la pluie ? |
 | Émettre une hypothèse | L'élève place les étapes dans un ordre de son choix avant correction. |
-| Expérimenter / Investiguer | Schéma du paysage (mer, soleil, nuages, pluie, rivière) à compléter ; relier chaque étape à une expérience de la leçon (MAT-24 pour la vaporisation et la condensation, MAT-19 pour la solidification). |
+| Expérimenter / Investiguer | Schéma du paysage (mer, soleil, nuages, pluie, rivière) à compléter ; relier chaque étape à une expérience de la leçon (MAT-24 pour l'évaporation et la condensation, MAT-19 pour la solidification). |
 | Analyser et interpréter | L'eau change d'état et circule en cycle, sans se perdre. |
 | Conclure | L'élève raconte le cycle en cinq phrases. |
 | Communiquer | Schéma du cycle de l'eau de l'élève, imprimable. |
@@ -557,21 +588,49 @@ Garde-fous : contexte ivoirien (lagune, saison des pluies) autorisé comme illus
 
 ---
 
+## Ressources complémentaires du dossier du 25 octobre 2026
+
+Le dossier apporte, en plus de MAT-06 et MAT-18 (intégrés ci-dessus), huit ressources sur les propriétés de la matière et six sur l'énergie. Ce sont des pages de manuel du commerce : elles servent de **référence**, sans republication des textes, figures ni liens. Aucun identifiant nouveau n'est créé ici.
+
+| Ressource | Contenu | Rattachement proposé | Remarques |
+|---|---|---|---|
+| 1 · Propriétés physiques des matériaux | Tri, conductivité thermique et électrique, aimants | Aucune fiche MAT ne couvre le sujet ; la conductivité électrique est déjà en ELE-07 | Candidat au parcours d'approfondissement (voir décisions) |
+| 2 · Diagnostic de début de chapitre | Trois questions : états, origine des matériaux, changements d'état | Test d'entrée de la leçon « Changements d'état de l'eau » (avant MAT-19) | Les questions 1 et 3 conviennent ; la question 2 relève du parcours matériaux |
+| 3 · Décomposition des matériaux | Durées de décomposition, pollution, protocole d'enfouissement | Parcours d'approfondissement | Durées = ordres de grandeur de la source ; protocole à confiner (jamais de plastique, verre ou métal dans la nature) |
+| 4 · Températures et changements d'état | Suivi de température d'un glaçon, tableau, graphique, palier | MAT-20 (fusion) et MAT-19 (solidification) ; fiche méthode rattachée à MAT-18 | Tableau vide de la source : en simulation, les valeurs sont produites et signalées comme simulées ; en réel, elles sont saisies par l'élève |
+| 5 · Cours et synthèse visuelle | Bilan du chapitre | Bilan de leçon après MAT-25 et fiches méthode (tester une propriété, mesurer une température, tracer un graphique, exploiter un palier) | Flashcards, schéma interactif et vidéo du dossier non fournis |
+| 6 · Glycérol et paraffine | Exercices d'interprétation d'un palier | Différenciation de MAT-20 : niveau 1 glycérol avec aides (palier à 18 °C selon le tableau), niveau 2 paraffine (palier à 50 °C selon le tableau) | La valeur de la paraffine n'est pas universelle |
+| 7 · Métaux et plastiques | Séparation magnétique, densités des plastiques, métaux et propriétés | Parcours d'approfondissement | Densité hors programme 6e à confirmer ; « la plupart des aciers » est conservé ; le chiffre de 79 % est à contextualiser ; exemples français (TGV) à remplacer |
+| 8 · Tri des déchets | Étapes du tri, trommel, recyclage | Parcours d'approfondissement, exercice bilan | « Poubelle jaune » propre à la France : à contextualiser |
+| 9 à 14 · Énergie, conversions, production d'électricité | Formes d'énergie, chaînes énergétiques, ressources | Hors lot Matière ; à garder pour un futur lot Énergie ou une extension Électricité | Non intégré ; exemple de production à Lille à remplacer |
+
+Vigilances de terminologie du dossier : le tableau de la ressource 4 nomme « condensation » le passage gaz → solide et « liquéfaction » gaz → liquide ; le lot suit l'usage MENA (condensation = vapeur → liquide) et laisse sublimation et condensation solide hors lot. Le diamant et le sel de la ressource 2 sont considérés dans le contexte du diagnostic (leur origine peut demander une précision).
+
+---
+
 ## Sources et points à confirmer
 
 | Source | Ce qui est établi | Ce qui reste à vérifier |
 |---|---|---|
-| 13 TP officiels DPFC | Archive reçue le 25 octobre 2026. Fiches 4 (liquides), 5 (gaz), 6 (température), 7 (changements d'état) lues : matériel, habiletés et résultats attendus utilisés comme appui. | Les fiches TP ne couvrent pas MAT-01, 03, 04 (en partie), 06, 09, 18, 21, 22, 25, 26 et la condensation de MAT-24 ; ces scénarios sont des propositions NohobaLab. |
-| [Programme éducatif et guide d'exécution MENA, 6e](https://apprendre.auf.org/wp-content/uploads/2021/08/13-Programme_Educatif_PC_6ieme.pdf) | Compétence 2 « Propriétés physiques de la matière », leçons 4 à 7 (solides et liquides ; gaz ; température ; changements d'état). | Numéros de page et contenus exacts de ces leçons : à relire avant construction (la lecture assistée d'octobre ne portait que sur l'Électricité). |
+| 13 TP officiels DPFC | Archive reçue le 25 octobre 2026. Fiches 4 (liquides), 5 (gaz), 6 (température), 7 (changements d'état) lues : matériel, habiletés et résultats attendus utilisés comme appui. | Les fiches TP ne couvrent pas MAT-01, 03, 04 (en partie), 06, 09, 18, 21, 25, 26 et la condensation de MAT-24 ; ces scénarios sont des propositions NohobaLab. |
+| [Programme éducatif et guide d'exécution MENA, 6e](https://apprendre.auf.org/wp-content/uploads/2021/08/13-Programme_Educatif_PC_6ieme.pdf) | Compétence 2 « Propriétés physiques de la matière », leçons 4 à 7 (solides et liquides ; gaz ; température ; changements d'état). | Pages et contenus exacts de ces leçons : à relire avant construction (la lecture assistée d'octobre ne portait que sur l'Électricité). |
+| Dossier « Ressources MAT » (25 octobre 2026) | Neuf pictogrammes et quatre équipements vérifiés visuellement, quatorze intitulés de thermomètres traduits, huit ressources matière et six ressources énergie transcrites. | Droits des visuels (manuel et banque d'images) : références seulement ; liens externes non consultés. |
 | Dossier « Extraction des 70 activités » (23 octobre 2026) | Intitulés des 26 fiches MAT du catalogue. | Correspondance MENA marquée « à vérifier ». |
 | Manuel JD Éditions | Structure et habiletés seulement ; consignes et figures originales. | Non fourni : aucune page citée ici. |
 
-### Décisions attendues du propriétaire
+### Décisions du propriétaire (25 octobre 2026)
 
-1. Valider le découpage en 26 fiches et l'ordre conseillé (verrerie et masse avant MAT-23, thermomètre avant MAT-19 et MAT-20).
-2. MAT-06 : liste des pictogrammes à retenir (inflammable, corrosif, toxique, comburant, explosif, nocif ou irritant, dangereux pour l'environnement ?).
-3. MAT-09 : confirmer que la pression reste qualitative (sans unité) en 6e.
-4. MAT-13 et MAT-16 : valeur d'une graduation du thermomètre de laboratoire et échelle du thermomètre médical du matériel ivoirien.
-5. MAT-18 : liste des types de thermomètres à citer.
-6. MAT-24 : introduire ou non le mot « évaporation » (changement d'état sans ébullition) ; MAT-21 et MAT-22 : confirmer que le programme les traite bien comme fiches séparées.
-7. Après construction et recette, les fiches restent **prototype** jusqu'à votre validation explicite ; les corrigés ne seront pas placés dans les fichiers publics.
+1. MAT-06 : neuf pictogrammes et quatre équipements séparés, enrichis par le dossier. **Décidé.**
+2. MAT-09 : pression qualitative, sans unité. **Décidé.**
+3. MAT-13 et MAT-16 : échelles adaptées au collège (laboratoire −10 à 110 °C au degré ; médical 35 à 42 °C au dixième). **Décidé** (valeurs de la simulation).
+4. MAT-18 : liste des types fixée à six à reconnaître, six en approfondissement. **Décidé** sur la base du dossier ; à relire.
+5. MAT-24 : le mot « évaporation » est introduit. **Décidé.**
+6. MAT-21 et MAT-22 : plus de fiches séparées, donc fusion en MAT-21 (lecture de la réponse « Non » : 25 fiches, catalogue à 72 entrées). **Appliqué ; à corriger si ce n'était pas l'intention.**
+
+### Décisions restantes
+
+1. Valider les 25 scénarios mis à jour et donner le feu vert à la construction du lot (fiches, simulations, catalogue, tests, une vérification visuelle, contrôle de conformité).
+2. Parcours d'approfondissement « Matériaux, tri et déchets » (ressources 1, 3, 7, 8) : créer ou non de nouvelles fiches, avec quels identifiants, et sans dépasser le programme 6e (densité notamment).
+3. MAT-06, question 6 : où jeter un produit usagé en Côte d'Ivoire (information locale à fournir).
+4. MAT-06 : masque ou non pour les pastilles de soude.
+5. Après construction et recette, les fiches restent **prototype** jusqu'à votre validation explicite ; les corrigés ne seront pas placés dans les fichiers publics.
