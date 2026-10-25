@@ -36,19 +36,19 @@ for(const level of ['5e','4e','3e']){
   other.close();
 }
 const c=page('collections/index.html'),cd=c.document;
-assert.ok(cd.getElementById('ciTotal').textContent.includes('73'));
+assert.ok(cd.getElementById('ciTotal').textContent.includes('78'));
 assert.ok(cd.getElementById('frTotal').textContent.includes('48'));
 assert.equal(cd.querySelectorAll('.catalogue-group').length,4);
-assert.equal(cd.querySelectorAll('.collection-lesson').length,13);
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,73);
-assert.equal(cd.querySelectorAll('.collection-activities a').length,17,'seize prototypes et un pilote manipulables');
+assert.equal(cd.querySelectorAll('.collection-lesson').length,14);
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,78);
+assert.equal(cd.querySelectorAll('.collection-activities a').length,48,'quarante-sept prototypes et un pilote manipulables');
 assert.ok(!/NL-CI|NL-C4|ELE-\d{2}/.test(cd.body.textContent),'aucun code interne affiché dans Collections');
 c.localStorage.setItem('pc-act-NL-CI-6E-ELE-01',JSON.stringify({v:1,prevision:{choix:'signes'},essais:[]}));
 c.dispatchEvent(new c.PageTransitionEvent('pageshow',{persisted:true}));
 assert.ok(cd.body.textContent.includes('Mon parcours : hypothèse enregistrée'),'progression personnelle distincte et actualisée');
 function filter(id,value){const input=cd.getElementById(id);input.value=value;input.dispatchEvent(new c.Event(id==='find'?'input':'change',{bubbles:true}));}
 filter('status','prototype');
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,16);
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,47);
 assert.ok([...cd.querySelectorAll('details')].every(x=>x.open),'les résultats filtrés sont directement visibles');
 filter('find','lampe');
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,3);

@@ -9,25 +9,31 @@
 <link rel="stylesheet" href="../assets/activites/activites.css">
 </head>
 <body>
-<header class="top noprint"><div class="wrap"><b>NOHOBA-Lab · 6e Côte d’Ivoire</b> <a class="btn" href="../parcours-ci/?l=circuit-electrique">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
+<header class="top noprint"><div class="wrap"><b>NOHOBA-Lab · 6e Côte d’Ivoire</b> <a class="btn" id="retour" href="../parcours-ci/?l=circuit-electrique">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
 <main class="wrap" id="app"><noscript>Activer JavaScript pour l'activité.</noscript></main>
 <script src="../assets/shared/conductivite-modele.js"></script>
 <script src="../assets/shared/conductivite-circuit.js"></script>
 <script src="../assets/shared/atelier-electrique.js"></script>
 <script src="../assets/shared/commande-protection.js"></script>
+<script src="../assets/shared/matiere-modele.js"></script>
+<script src="../assets/shared/matiere-dessins.js"></script>
+<script src="../assets/shared/matiere-scenes.js"></script>
+<script src="../assets/shared/matiere-ui.js"></script>
 <script src="../assets/catalogues/6e-ci.js"></script>
 <script src="../assets/activites/activite.js"></script>
 <script>
 (function(){
   var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-CI-6E-ELE-07';
-  if(!/^NL-CI-6E-ELE-(0[1-9]|1[0-7])$/.test(id)){
+  var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-2]))$/.exec(id);
+  if(!mid){
     app.textContent='Cette activité n’existe pas ou est encore en conception.';return;
   }
+  var lc=new URLSearchParams(location.search).get('lecon');if(lc&&/^[a-z0-9-]+$/.test(lc))document.getElementById('retour').href='../parcours-ci/?l='+lc;
   var catalogue=window.NL_CATALOGUE_CI_6E;
   if(!Array.isArray(catalogue)){app.textContent='Le catalogue n’a pas pu être chargé. Recharge la page pour réessayer.';return;}
   var entry=catalogue.find(function(a){return a.id===id;});
   if(!entry){app.textContent='Cette activité ne figure pas dans le catalogue.';return;}
-  var key='FICHE_CI_ELE'+id.slice(-2),s=document.createElement('script');
+  var key='FICHE_CI_'+id.slice(9,12)+id.slice(-2),s=document.createElement('script');
   s.src='../assets/activites/fiches/'+id+'.js';
   s.onerror=function(){app.textContent='L’activité n’a pas pu être chargée. Recharge la page pour réessayer.';};
   s.onload=function(){
@@ -35,7 +41,7 @@
     if(!f||!window.Activite){app.textContent='L’activité n’a pas pu être chargée.';return;}
     document.title=f.titre+' · NOHOBA-Lab';
     var t=document.createElement('h1');t.textContent=f.titre;app.appendChild(t);
-    var p=document.createElement('p');p.className='sub';p.textContent='6e · Programme ivoirien · Électricité · Investigation expérimentale';app.appendChild(p);
+    var p=document.createElement('p');p.className='sub';p.textContent='6e · Programme ivoirien · '+(entry.theme||'Sciences physiques')+' · Investigation expérimentale';app.appendChild(p);
     if(entry.statut==='prototype'){
       var note=document.createElement('p');note.className='msg noprint';
       note.textContent='Prototype à valider par le professeur. La simulation est manipulable ; son contenu peut encore évoluer.';
