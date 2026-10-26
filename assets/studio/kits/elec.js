@@ -235,7 +235,7 @@
     return { g: g, set: set, show: show, sock: sock, get cal() { return cal; } };
   }
   /* cordon de mesure entre deux points (courbe) */
-  function lead(G, col) { var p = s('path', { fill: 'none', stroke: col, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.95 }, G), e = s('circle', { r: 6, fill: col }, G); return { set: function (a, b) { var my = Math.max(a.y, b.y) + 60; p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' C' + a.x + ' ' + my + ' ' + b.x + ' ' + my + ' ' + b.x + ' ' + b.y); attr(e, { cx: b.x, cy: b.y }); }, show: function (v) { p.style.display = e.style.display = v ? '' : 'none'; } }; }
+  function lead(G, col) { var p = s('path', { fill: 'none', stroke: col, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.95 }, G), e = s('circle', { r: 6, fill: col }, G); return { set: function (a, b, rise) { if (rise) { p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' C' + a.x + ' ' + (a.y - rise) + ' ' + b.x + ' ' + (b.y + rise) + ' ' + b.x + ' ' + b.y); attr(e, { cx: b.x, cy: b.y }); return; } var my = Math.max(a.y, b.y) + 60; p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' C' + a.x + ' ' + my + ' ' + b.x + ' ' + my + ' ' + b.x + ' ' + b.y); attr(e, { cx: b.x, cy: b.y }); }, show: function (v) { p.style.display = e.style.display = v ? '' : 'none'; } }; }
   /* bouton-poussoir sur socle : deux douilles, bouton rouge ; ne ferme le circuit que pendant l'appui */
   function poussoir(G, x1, y, x2, o) {
     o = o || {}; var g = s('g', { style: 'cursor:pointer;touch-action:none', role: 'button', 'aria-label': 'Bouton-poussoir : maintenir appuyé pour fermer le circuit' }, G), mx = (x1 + x2) / 2;
