@@ -381,7 +381,9 @@
 
     /* barre du haut */
     var top = h('header', { class: 'top' }, stage);
-    h('a', { class: 'btn', href: L.back || '../4e/' }, top, '← Parcours');
+    /* 6e : retour à la page des quatre étapes de la leçon ; autres classes : retour à la liste des leçons */
+    var back6 = L.level === '6e' && /^6e-/.test(L.id || '');
+    h('a', { class: 'btn', href: back6 ? '../parcours-ci/?l=' + L.id.replace(/^6e-/, '') : (L.back || '../4e/') }, top, back6 ? '← Mes étapes' : '← Mes leçons');
     h('span', { class: 'lvl' }, top, L.level);
     var tt = h('div', { style: 'display:flex;flex-direction:column;min-width:0;max-width:330px' }, top, '<span class="kick">' + esc(L.theme) + '</span><span class="ttl">' + esc(L.title) + '</span>');
     h('div', { class: 'grow' }, top);
@@ -536,7 +538,10 @@
 
     /* mise à l'échelle */
     function fit() {
-      var w = window.innerWidth, hh = window.innerHeight, portrait = w < 900 && hh > w * 1.05;
+      /* téléphone : l'affichage portrait ne dépend pas de la hauteur de la fenêtre, qui chute quand le clavier s'ouvre
+         (sinon la page bascule en mode 1280 × 720 réduit et devient illisible). */
+      var w = window.innerWidth, hh = window.innerHeight, scr = window.screen || {}, devPortrait = !!(scr.orientation && /portrait/.test(scr.orientation.type || '')) || (scr.height > scr.width && w < 900);
+      var portrait = w < 900 && (hh > w * 1.05 || w < 700 || devPortrait);
       app.classList.toggle('portrait', portrait);
       document.body.style.overflow = portrait ? 'auto' : 'hidden';
       if (portrait) { stage.style.transform = 'none'; vp.style.height = ''; stage.parentNode.style.height = ''; }
@@ -560,7 +565,7 @@
     var sv = s('svg', { class: 'sv', viewBox: '0 0 900 560', role: 'img', 'aria-label': R.alt }, screen);
     var G = s('g', {}, sv);
     var subs = h('div', { class: 'subs', 'aria-live': 'polite' }, screen);
-    var lumiBox = h('div', { style: 'position:absolute;left:14px;bottom:10px;pointer-events:none' }, screen, lumi(58));
+    var lumiBox = h('div', { class: 'lumibox', style: 'position:absolute;left:14px;bottom:10px;pointer-events:none' }, screen, lumi(58));
     var scene = R.scene({ svg: sv, g: G, s: s, attr: attr, ease: ease, clamp: clamp, fmt: fmt, set: SET });
     zoomable(screen, sv, 900, 560, G).tools.classList.add('ztop');
 
