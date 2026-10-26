@@ -12,7 +12,7 @@ Propriétaire : docteur en chimie physique, professeur de physique-chimie. Répo
 
 ## Charte de contenu
 - Repères locaux : F CFA, B12, 220 V, CIE, noms et situations de Côte d'Ivoire (Awa, Kofi…).
-- Atomes en couleurs CPK. Zéros sans barre. Orange #F97316 avec texte blanc sur l'accueil.
+- Atomes en couleurs CPK. Zéros sans barre. Orange #C2410C avec texte blanc (contraste 5,2:1).
 - Une activité = une seule compétence.
 - Présentation d'une fiche : Thème (gras, couleur), Chapitre, Compétence visée, puis « À la fin de cette partie, je dois être capable de ».
 - Ne jamais afficher de code interne (NL-C4-…, NL-CI-…) ni « Programme du cycle 4 ». Les libellés ELE-07 etc. ne servent que dans le hub.

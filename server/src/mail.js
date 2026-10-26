@@ -8,7 +8,7 @@ const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 
 export async function sendMail(to, subject, text, buttonLabel, url) {
   if (!cfg.mail.key) { console.log(`[mail] à ${to} : ${subject}\n${text}\n${url}`); return; }
-  const html = `<div style="font-family:Arial,sans-serif;font-size:16px;color:#0E162A;max-width:480px"><p>${esc(text)}</p><p><a href="${esc(url)}" style="display:inline-block;background:#F97316;color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700">${esc(buttonLabel)}</a></p><p style="color:#46536B;font-size:14px">Si le bouton ne marche pas, copiez ce lien dans votre navigateur :<br>${esc(url)}</p><p style="color:#46536B;font-size:14px">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p></div>`;
+  const html = `<div style="font-family:Arial,sans-serif;font-size:16px;color:#0E162A;max-width:480px"><p>${esc(text)}</p><p><a href="${esc(url)}" style="display:inline-block;background:#C2410C;color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700">${esc(buttonLabel)}</a></p><p style="color:#46536B;font-size:14px">Si le bouton ne marche pas, copiez ce lien dans votre navigateur :<br>${esc(url)}</p><p style="color:#46536B;font-size:14px">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p></div>`;
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${cfg.mail.key}`, 'Content-Type': 'application/json' },

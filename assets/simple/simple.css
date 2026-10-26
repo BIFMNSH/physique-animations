@@ -4,13 +4,13 @@
 :root,[data-theme="dark"]{
   --bg:#0E1626;--panel:#16213A;--line:#2B3A57;--line2:#3B4E73;
   --text:#EEF2F8;--soft:#C9D2E0;--muted:#A9B4C7;
-  --go:#F97316;--on-go:#FFFFFF;--go-ink:#FFB547;
+  --go:#C2410C;--on-go:#FFFFFF;--go-ink:#FFB547;
   --t-amber:#FFB547;--t-blue:#5CC8FF;--t-green:#4ADE80;--t-violet:#B9A4FF;
   --focus:#FFB547;color-scheme:dark}
 [data-theme="light"]{
   --bg:#FFFFFF;--panel:#EEF2F7;--line:#CBD4E1;--line2:#AEB9CC;
   --text:#142033;--soft:#2F3C52;--muted:#55627A;
-  --go:#F97316;--on-go:#FFFFFF;--go-ink:#9A3412;
+  --go:#C2410C;--on-go:#FFFFFF;--go-ink:#9A3412;
   --t-amber:#9A5B00;--t-blue:#0A6BAA;--t-green:#15803D;--t-violet:#6D28D9;
   --focus:#C76A00;color-scheme:light}
 /* chiffres sans zéro barré : les chiffres 0-9 viennent de Bricolage Grotesque */
