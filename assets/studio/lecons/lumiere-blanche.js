@@ -149,6 +149,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Prisme', r: [230, 30, 610, 410] }, { n: 'Lampe', r: [0, 150, 230, 200] }],
     alt: 'Banc d’optique : lampe, fente, filtre, prisme et écran ; ou trois projecteurs rouge, vert et bleu superposés sur un écran',
     steps: [
       'Mode Analyse : retire puis remets le prisme. Qu’observes-tu sur l’écran ?',

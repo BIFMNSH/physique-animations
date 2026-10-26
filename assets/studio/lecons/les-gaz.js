@@ -142,6 +142,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Seringue', r: [40, 40, 500, 406] }, { n: 'Propriétés', r: [560, 22, 280, 424] }],
     alt: 'Trois expériences sur les gaz : une seringue bouchée dont on déplace le piston, deux flacons reliés par un robinet, et un ballon que l’on gonfle sur une balance ; loupe sur les particules à droite',
     steps: [
       'Seringue : pousse puis tire le piston. Que devient le volume de l’air ?',

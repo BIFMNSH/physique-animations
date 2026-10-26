@@ -144,6 +144,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Éprouvette', r: [60, 60, 480, 386] }, { n: 'Conversion', r: [560, 22, 280, 424] }],
     alt: 'Une éprouvette graduée de 100 mL avec une loupe sur le ménisque et un œil que l’on peut placer trop haut, au bon niveau ou trop bas ; un mode où l’on plonge un caillou, une clé ou une bille dans l’eau ; un mode unités avec un cube de 1 dm³ et une bouteille ; à droite, le tableau de conversion',
     steps: [
       'Éprouvette : règle le volume d’eau et place l’œil au bon niveau.',

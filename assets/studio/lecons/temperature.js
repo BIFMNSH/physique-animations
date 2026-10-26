@@ -140,6 +140,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Thermomètre', r: [180, 40, 360, 406] }, { n: 'Mesure', r: [560, 22, 280, 424] }],
     alt: 'Trois activités : l’expérience des trois bassines, un thermomètre plongé dans différents milieux (congélateur, glace fondante, eau du robinet, air d’Abidjan, corps humain, fièvre, eau bouillante) et la lecture d’un thermomètre avec la position de l’œil',
     steps: [
       'Bassines : place les mains dans le froid et le chaud, puis dans l’eau tiède. Que ressens-tu ?',

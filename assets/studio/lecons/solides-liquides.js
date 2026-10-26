@@ -136,6 +136,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Récipient', r: [40, 40, 500, 406] }, { n: 'Propriétés', r: [560, 22, 280, 424] }],
     alt: 'Paillasse : on choisit une matière (cube de bois, caillou, sable, sel, eau, huile, lait) et un récipient (bécher, verre à pied, éprouvette, assiette, bouteille), et on peut incliner le récipient ; une fiche indique les propriétés et une loupe montre les particules',
     steps: [
       'Place le cube puis le caillou dans différents récipients : changent-ils de forme ?',

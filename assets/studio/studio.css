@@ -30,6 +30,9 @@
   color-scheme:dark;
 }
 :root[data-cvd=on]{--blue:#56B4E9;--amber:#E69F00;--green:#F0E442;--violet:#CC79A7;--red:#D55E00;--trace:#F0E442;--nord:#D55E00;--sud:#0072B2}
+/* Thème clair : les simulations dessinées sur fond sombre sont inversées (teintes conservées) pour rester lisibles au soleil et sur petit écran. */
+:root[data-theme=light] .scene>svg.sv,:root[data-theme=light] .screen svg.sv{filter:invert(1) hue-rotate(180deg)}
+@media print{:root[data-theme=light] .scene>svg.sv,:root[data-theme=light] .screen svg.sv{filter:none}}
 :root[data-theme=light][data-cvd=on]{--blue:#0072B2;--amber:#B86E00;--green:#7A6F00;--red:#A63F00;--violet:#9B4F7E}
 
 *{box-sizing:border-box}
@@ -290,3 +293,51 @@ a.les:hover{background:var(--panel2);color:var(--text)}
 
 @page{size:A4;margin:14mm}
 @media print{#fiche{padding:0}#fiche h2,#fiche h3{break-after:avoid}#fiche li,#fiche .box{break-inside:avoid}}
+
+/* --- téléphone : résumé vidéo lisible --- */
+.app.portrait .player{padding:10px 12px 0}
+.app.portrait .screen{flex:none;display:flex;flex-direction:column;min-height:0;container-type:inline-size}
+.app.portrait .screen svg.sv{height:auto;aspect-ratio:900/560}
+/* sous-titres sous l'animation (et non par-dessus), taille proportionnée à l'écran ; bloc normal pour garder les espaces entre les mots */
+.app.portrait .subs{position:static;transform:none;max-width:none;width:100%;border-radius:0 0 17px 17px;padding:10px 12px;font-size:clamp(14px,calc(var(--sub,22px)*.68),19px);line-height:1.4;min-height:3.4em}
+.app.portrait .subs:empty{opacity:1}
+/* outils de zoom du résumé : masqués sur téléphone (le pincement reste possible) ; ceux de la simulation restent au-dessus de la scène */
+.app.portrait .screen>.ztools{display:none}
+/* mascotte : petite, dans le coin bas-droit de l'animation, jamais sur le texte */
+.app.portrait .lumibox{display:none}
+@supports (width:1cqw){.app.portrait .lumibox{display:block;left:auto!important;right:8px;bottom:auto!important;top:calc(62.2cqw - 50px)}.app.portrait .lumibox svg{width:42px;height:42px}}
+.app.portrait .pctl{padding-bottom:10px}
+
+/* --- téléphone : en-tête, zoom et mesures plus simples --- */
+.app.portrait .top{align-items:center}
+.app.portrait .top>.btn.icon{order:2}
+.app.portrait .top>.grow{order:1;flex:1}
+.app.portrait .top>div[style*="flex-direction:column"]{order:5;flex:1 0 100%;max-width:none!important}
+.app.portrait .ttl{white-space:normal;overflow:visible;text-overflow:clip}
+@media (max-width:699px){.app.portrait .top>.btn.icon[aria-label="Mode enseignant"],.app.portrait .top>.btn.icon[aria-label="Plein écran"]{display:none}}
+.app.portrait .scene>.ztools{align-self:flex-start;margin:6px 6px 0;padding:3px;border-radius:12px;gap:0}
+.app.portrait .scene>.ztools button{width:38px;height:38px}
+.app.portrait .scene>.ztools button[aria-label^="Loupe"]{display:none}
+.app.portrait .scene>.ztools .zv{min-width:48px;font-size:13px}
+.app.portrait .scene>.ztools .fit{width:auto;padding:0 8px;font-size:13px}
+.app.portrait .ro{padding:8px 10px}
+.app.portrait .ro .k{white-space:normal;overflow:visible;line-height:1.2}
+.app.portrait .ro .v{white-space:normal;overflow-wrap:anywhere;font-size:calc(19px*var(--fs));line-height:1.15}
+
+/* Agrandir (téléphone en portrait) : la scène occupe tout l'écran, tournée de 90° pour être lue en paysage.
+   En paysage réel, elle occupe simplement tout l'écran. */
+.ztools .bigbtn{display:none;width:auto;padding:0 10px;font:700 13px var(--f-body)}
+.app.portrait .scene>.ztools .bigbtn{display:inline-grid}
+html.has-big,html.has-big body{overflow:hidden}
+.app.portrait .scene.big{position:fixed;z-index:60;top:0;left:0;margin:0;border-radius:0;background:var(--bg);display:flex;flex-direction:column;
+  width:100vh;width:100dvh;height:100vw;height:100dvw;transform-origin:top left;transform:translateX(100vw) translateX(0) rotate(90deg);transform:translateX(100dvw) rotate(90deg)}
+.app.portrait .scene.big>svg{flex:1;min-height:0;width:100%;height:auto;max-height:none;aspect-ratio:auto}
+.app.portrait .scene.big>.ztools{order:2;align-self:stretch;justify-content:center;margin:0;border-radius:0}
+.app.portrait .scene.big>.ztools .bigbtn{background:var(--amber);color:var(--on-amber)}
+
+/* vue par panneau (téléphone en portrait) : choix de la partie de la scène à regarder */
+.scene>.panels{display:none}
+.app.portrait .scene>.panels{display:flex;order:-1;gap:6px;padding:6px 8px 2px;flex-wrap:wrap}
+.app.portrait .scene>.panels button{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--text);font:700 15px var(--f-body);cursor:pointer}
+.app.portrait .scene>.panels button[aria-pressed=true]{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.app.portrait .scene.big>.panels{display:none}

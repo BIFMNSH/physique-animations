@@ -53,6 +53,8 @@
   /* ---------- réglages (gardés sur l'appareil) ---------- */
   var SET = store('pc-studio', { fs: 1, speed: 1, theme: null, cvd: false, proj: false, tts: false, hints: true, sound: true, sub: 22, voice: true });
   if (!SET.theme) { try { SET.theme = localStorage.getItem('pc-theme') || 'dark'; } catch (e) { SET.theme = 'dark'; } }
+  /* Sur téléphone, fond clair par défaut (meilleure lisibilité) tant que l’élève n’a pas choisi lui-même un thème. */
+  try { if (!SET.themeSet && window.matchMedia && window.matchMedia('(max-width:700px)').matches) SET.theme = 'light'; } catch (e) {}
   var PROF = store('pc-studio-prof', { on: false, steps: { resume: true, sim: true, defi: true, quiz: true }, level: 'std', hideRes: false, corr: false, time: 60, timed: false, nTeams: 4, teams: ['Baobab', 'Lagune', 'Fromager', 'Savane', 'Iroko', 'Lagon'], board: true });
   var PROG = store('pc-studio-prog', {});
   var TEAMC = ['#FFB547', '#5CC8FF', '#3DD68C', '#C4B5FD', '#FF7A7A', '#F0E442'];
@@ -96,7 +98,7 @@
     u.lang = 'fr-FR'; if (voiceFr) u.voice = voiceFr;
     u.rate = clamp(rate || 1, 0.6, 1.6); u.pitch = 1.02;
     var done = false, stopped = false; function fin() { if (!done) { done = true; onend && onend(); } }
-    u.onend = fin; u.onerror = fin;
+    u.onend = fin; u.onerror = function (e) { if (e && e.error === 'not-allowed') vocalOk = false; fin(); };
     // garde-fou : certaines voix n'envoient jamais « fin »
     var guard = setTimeout(fin, 1500 + text.length * 95 / u.rate);
     u.addEventListener('end', function () { clearTimeout(guard); });
@@ -104,6 +106,18 @@
     return { stop: function () { done = true; stopped = true; clearTimeout(guard); synth.cancel(); } };
   }
   function hush() { if (synth) synth.cancel(); }
+  /* Sur téléphone (iOS, Android), la synthèse vocale ne parle que si elle a été « réveillée » par un geste de l'élève :
+     la lecture automatique du résumé (lancée par la boucle d'animation) restait muette. On la réveille au premier toucher,
+     avec une phrase vide, puis à chaque appui sur Lecture. */
+  var vocalOk = false;
+  function wakeVoice() {
+    if (!synth) return;
+    try {
+      var u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'fr-FR';
+      synth.speak(u); if (synth.paused) synth.resume(); vocalOk = true;
+    } catch (e) {}
+  }
+  ['pointerdown', 'touchend', 'click', 'keydown'].forEach(function (ev) { document.addEventListener(ev, function once() { if (!vocalOk) wakeVoice(); }, { passive: true, capture: true }); });
 
   /* ---------- sons ---------- */
   var actx = null;
@@ -141,8 +155,8 @@
   }
 
   /* ---------- zoom, déplacement, loupe et mini-carte d'une scène SVG ---------- */
-  function zoomable(box, svg, W, H, rootG) {
-    var z = 1, cx = W / 2, cy = H / 2, panMode = false, lensOn = false;
+  function zoomable(box, svg, W, H, rootG, panels) {
+    var z = 1, cx = W / 2, cy = H / 2, panMode = false, lensOn = false, bx = 0, by = 0, bw = W, bh = H;
     var tools = h('div', { class: 'ztools', role: 'toolbar', 'aria-label': 'Zoom' }, box);
     var bL = h('button', { 'aria-label': 'Loupe ×3', 'aria-pressed': 'false', title: 'Loupe ×3' }, tools, ICON.lens);
     var bH = h('button', { 'aria-label': 'Déplacer la vue', 'aria-pressed': 'false', title: 'Déplacer la vue' }, tools, ICON.hand);
@@ -150,6 +164,15 @@
     var zv = h('span', { class: 'zv', 'aria-live': 'polite' }, tools, '100 %');
     var bM = h('button', { 'aria-label': 'Dézoomer', title: 'Dézoomer' }, tools, '−');
     var bF = h('button', { class: 'fit', title: 'Vue entière' }, tools, 'Ajuster');
+    /* téléphone en portrait : la scène passe en plein écran, tournée en paysage, pour que les étiquettes deviennent lisibles */
+    var bBig = h('button', { class: 'bigbtn', type: 'button', 'aria-label': 'Agrandir la simulation', 'aria-pressed': 'false' }, tools, 'Agrandir');
+    function bigOff() { box.classList.remove('big'); document.documentElement.classList.remove('has-big'); bBig.textContent = 'Agrandir'; bBig.setAttribute('aria-pressed', 'false'); bBig.setAttribute('aria-label', 'Agrandir la simulation'); }
+    bBig.onclick = function () {
+      if (box.classList.contains('big')) { bigOff(); setTimeout(function () { box.dispatchEvent(new Event('panelsync')); }, 30); return; }
+      box.classList.add('big'); document.documentElement.classList.add('has-big');
+      bBig.textContent = 'Réduire'; bBig.setAttribute('aria-pressed', 'true'); bBig.setAttribute('aria-label', 'Réduire la simulation'); setTimeout(function () { box.dispatchEvent(new Event('panelsync')); }, 30);
+    };
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('big')) bigOff(); });
     var mm = h('div', { class: 'minimap', 'aria-hidden': 'true' }, box);
     var msv = s('svg', { viewBox: '0 0 ' + W + ' ' + H, preserveAspectRatio: 'xMidYMid meet' }, mm);
     var uid = 'z' + Math.random().toString(36).slice(2, 7);
@@ -165,8 +188,8 @@
     var lring = s('circle', { r: 78, fill: 'none', stroke: '#FFB547', 'stroke-width': 4 }, lens);
     var ltag = s('text', { 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 800, fill: '#FFB547', text: '×3' }, lens);
     function apply() {
-      z = clamp(z, 1, 4); var w = W / z, hh = H / z;
-      cx = clamp(cx, w / 2, W - w / 2); cy = clamp(cy, hh / 2, H - hh / 2);
+      z = clamp(z, 1, 4); var w = bw / z, hh = bh / z;
+      cx = clamp(cx, bx + w / 2, bx + bw - w / 2); cy = clamp(cy, by + hh / 2, by + bh - hh / 2);
       svg.setAttribute('viewBox', (cx - w / 2) + ' ' + (cy - hh / 2) + ' ' + w + ' ' + hh);
       zv.textContent = Math.round(z * 100) + ' %';
       mr.setAttribute('x', cx - w / 2); mr.setAttribute('y', cy - hh / 2); mr.setAttribute('width', w); mr.setAttribute('height', hh);
@@ -175,7 +198,7 @@
     function pt(e) { var p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
     function zoomAt(f, px, py) { var nz = clamp(z * f, 1, 4); if (px != null) { cx = px - (px - cx) * z / nz; cy = py - (py - cy) * z / nz; } z = nz; apply(); }
     bP.onclick = function () { zoomAt(1.25); }; bM.onclick = function () { zoomAt(0.8); };
-    bF.onclick = function () { z = 1; cx = W / 2; cy = H / 2; apply(); };
+    bF.onclick = function () { z = 1; cx = bx + bw / 2; cy = by + bh / 2; apply(); };
     bH.onclick = function () { panMode = !panMode; bH.setAttribute('aria-pressed', panMode); svg.style.cursor = panMode ? 'grab' : ''; };
     bL.onclick = function () { lensOn = !lensOn; bL.setAttribute('aria-pressed', lensOn); lens.style.display = 'none'; };
     box.addEventListener('wheel', function (e) { if (!e.ctrlKey && !e.altKey && z === 1 && Math.abs(e.deltaY) < 30) return; e.preventDefault(); var p = pt(e); zoomAt(e.deltaY < 0 ? 1.12 : 1 / 1.12, p.x, p.y); }, { passive: false });
@@ -191,7 +214,7 @@
       if (ptrs[e.pointerId]) ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
       var ids = Object.keys(ptrs);
       if (pinch && ids.length === 2) { var a = ptrs[ids[0]], b = ptrs[ids[1]]; z = pinch.z * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d; apply(); }
-      else if (drag) { var r = svg.getBoundingClientRect(), k = (W / z) / r.width; cx = drag.cx - (e.clientX - drag.x) * k; cy = drag.cy - (e.clientY - drag.y) * k; apply(); }
+      else if (drag) { var r = svg.getBoundingClientRect(), k = (bw / z) / r.width; cx = drag.cx - (e.clientX - drag.x) * k; cy = drag.cy - (e.clientY - drag.y) * k; apply(); }
       if (lensOn) {
         var p = pt(e), M = 3;
         lens.style.display = '';
@@ -206,7 +229,27 @@
     svg.addEventListener('pointerleave', function () { if (lensOn) lens.style.display = 'none'; });
     mm.addEventListener('pointerdown', function (e) { var r = mm.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * W; cy = (e.clientY - r.top) / r.height * H; apply(); });
     apply();
-    return { reset: function () { bF.onclick(); }, tools: tools, get z() { return z; } };
+    /* vue par panneau (téléphone en portrait) : la scène est recadrée sur une zone à la fois (montage, schéma, fiche…)
+       pour que les étiquettes restent lisibles ; le dessin d'origine n'est pas modifié et le rendu ordinateur non plus. */
+    var panNav = null, panB = [], panCur = 0, panOn = false;
+    if (panels && panels.length > 1) {
+      panNav = h('nav', { class: 'panels', 'aria-label': 'Parties de la scène' }, box);
+      panels.forEach(function (P, i) { var b = h('button', { type: 'button', 'aria-pressed': i === 0 }, panNav, esc(P.n)); b.onclick = function () { panCur = i; syncPanel(true); }; panB.push(b); });
+    }
+    function syncPanel(force) {
+      if (!panNav) return;
+      var app = box.closest && box.closest('.app'), want = !!(app && app.classList.contains('portrait')) && !box.classList.contains('big');
+      if (want === panOn && !force) return;
+      panOn = want;
+      panB.forEach(function (b, i) { b.setAttribute('aria-pressed', i === panCur); });
+      var r = want ? panels[panCur].r : [0, 0, W, H];
+      bx = r[0]; by = r[1]; bw = r[2]; bh = r[3]; z = 1; cx = bx + bw / 2; cy = by + bh / 2;
+      svg.style.height = want ? 'auto' : ''; svg.style.minHeight = want ? '0' : '';
+      apply();
+    }
+    function syncSoon() { requestAnimationFrame(function () { syncPanel(); }); }
+    if (panNav) { box.addEventListener('panelsync', function () { syncPanel(true); }); window.addEventListener('resize', syncSoon); setTimeout(syncPanel, 0); setTimeout(syncPanel, 500); }
+    return { reset: function () { bF.onclick(); }, tools: tools, sync: syncSoon, get z() { return z; } };
   }
 
   /* ---------- petit graphique SVG ---------- */
@@ -381,7 +424,9 @@
 
     /* barre du haut */
     var top = h('header', { class: 'top' }, stage);
-    h('a', { class: 'btn', href: L.back || '../4e/' }, top, '← Parcours');
+    /* 6e : retour à la page des quatre étapes de la leçon ; autres classes : retour à la liste des leçons */
+    var back6 = L.level === '6e' && /^6e-/.test(L.id || '');
+    h('a', { class: 'btn', href: back6 ? '../parcours-ci/?l=' + L.id.replace(/^6e-/, '') : (L.back || '../4e/') }, top, back6 ? '← Mes étapes' : '← Mes leçons');
     h('span', { class: 'lvl' }, top, L.level);
     var tt = h('div', { style: 'display:flex;flex-direction:column;min-width:0;max-width:330px' }, top, '<span class="kick">' + esc(L.theme) + '</span><span class="ttl">' + esc(L.title) + '</span>');
     h('div', { class: 'grow' }, top);
@@ -424,7 +469,7 @@
     bClr.onclick = function () { if (pen) pen.g.clearRect(0, 0, pen.c.width, pen.c.height); };
     bFrz.onclick = function () { frozen = !frozen; app.classList.toggle('frozen', frozen); bFrz.setAttribute('aria-pressed', frozen); hush(); toast(frozen ? 'Écran figé' : 'Animation relancée'); };
     try { if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { frozen = true; app.classList.add('frozen'); bFrz.setAttribute('aria-pressed', 'true'); setTimeout(function () { toast('Animations en pause (réglage « réduire les animations » de ton appareil). Clique sur Figer pour les relancer.'); }, 600); } } catch (e) {}
-    function toast(t) { var d = h('div', { class: 'toast', role: 'status' }, stage, t); setTimeout(function () { d.remove(); }, 1800); }
+    function toast(t, ms) { var d = h('div', { class: 'toast', role: 'status' }, stage, t); d.style.maxWidth = 'min(92%, 460px)'; d.style.textAlign = 'center'; if (ms) { d.style.cursor = 'pointer'; d.onclick = function () { d.remove(); }; } setTimeout(function () { d.remove(); }, ms || 1800); }
 
     /* ---------- tiroir des réglages ---------- */
     var dr = h('aside', { class: 'drawer', 'aria-label': 'Réglages d’affichage' }, stage);
@@ -445,7 +490,7 @@
       inp.oninput = function () { SET.speed = SP[+inp.value]; so(); applySettings(); }; so();
       h('div', { class: 'kick' }, db, 'Thème');
       var th = h('div', { class: 'th' }, db);
-      [['dark', 'Sombre', 'background:#0B1220;color:#EEF2F8'], ['light', 'Clair', 'background:#F4F7FB;color:#142033'], ['contrast', 'Contraste élevé', 'background:#000;color:#FFFF00']].forEach(function (t) { var b = h('button', { type: 'button', 'aria-pressed': SET.theme === t[0], style: t[2] }, th, t[1]); b.onclick = function () { SET.theme = t[0]; applySettings(); drawSettings(); }; });
+      [['dark', 'Sombre', 'background:#0B1220;color:#EEF2F8'], ['light', 'Clair', 'background:#F4F7FB;color:#142033'], ['contrast', 'Contraste élevé', 'background:#000;color:#FFFF00']].forEach(function (t) { var b = h('button', { type: 'button', 'aria-pressed': SET.theme === t[0], style: t[2] }, th, t[1]); b.onclick = function () { SET.theme = t[0]; SET.themeSet = true; applySettings(); drawSettings(); }; });
       var c = controls(db);
       c.toggle({ label: 'Couleurs adaptées aux daltoniens', value: SET.cvd, onChange: function (v) { SET.cvd = v; applySettings(); } });
       c.toggle({ label: 'Mode projection (traits épais)', value: SET.proj, onChange: function (v) { SET.proj = v; applySettings(); } });
@@ -501,7 +546,8 @@
     /* ---------- vues ---------- */
     var views = {}, cur = null, ctl = {};
     function go(name) {
-      if (L.inquiry && !revision && !inquiry.complete) { PROF.steps.sim = true; if (name !== 'sim') { toast('Complète ta démarche ou choisis le parcours Révision.'); name = 'sim'; } }
+      /* le résumé reste toujours ouvert (il aide à se lancer) ; le défi et le quiz attendent la démarche, avec un message qui dit quoi faire */
+      if (L.inquiry && !revision && !inquiry.complete) { PROF.steps.sim = true; if (name !== 'sim' && name !== 'resume') { toast('Fais d’abord l’étape « Investigation ». Si tu es bloqué, regarde le résumé ou manipule la simulation, puis reviens.', 7000); name = 'sim'; } }
       if (name === 'quiz' && !PROF.steps.quiz) { toast('Le quiz est désactivé par l’enseignant'); return; }
       if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k] && k !== 'quiz'; })[0]; name = nx || 'resume'; }
       if (name === 'quiz') {
@@ -535,7 +581,10 @@
 
     /* mise à l'échelle */
     function fit() {
-      var w = window.innerWidth, hh = window.innerHeight, portrait = w < 900 && hh > w * 1.05;
+      /* téléphone : l'affichage portrait ne dépend pas de la hauteur de la fenêtre, qui chute quand le clavier s'ouvre
+         (sinon la page bascule en mode 1280 × 720 réduit et devient illisible). */
+      var w = window.innerWidth, hh = window.innerHeight, scr = window.screen || {}, devPortrait = !!(scr.orientation && /portrait/.test(scr.orientation.type || '')) || (scr.height > scr.width && w < 900);
+      var portrait = w < 900 && (hh > w * 1.05 || w < 700 || devPortrait);
       app.classList.toggle('portrait', portrait);
       document.body.style.overflow = portrait ? 'auto' : 'hidden';
       if (portrait) { stage.style.transform = 'none'; vp.style.height = ''; stage.parentNode.style.height = ''; }
@@ -559,7 +608,7 @@
     var sv = s('svg', { class: 'sv', viewBox: '0 0 900 560', role: 'img', 'aria-label': R.alt }, screen);
     var G = s('g', {}, sv);
     var subs = h('div', { class: 'subs', 'aria-live': 'polite' }, screen);
-    var lumiBox = h('div', { style: 'position:absolute;left:14px;bottom:10px;pointer-events:none' }, screen, lumi(58));
+    var lumiBox = h('div', { class: 'lumibox', style: 'position:absolute;left:14px;bottom:10px;pointer-events:none' }, screen, lumi(58));
     var scene = R.scene({ svg: sv, g: G, s: s, attr: attr, ease: ease, clamp: clamp, fmt: fmt, set: SET });
     zoomable(screen, sv, 900, 560, G).tools.classList.add('ztop');
 
@@ -603,6 +652,7 @@
       render(true);
     }
     function play(on) {
+      if (on) { wakeVoice(); if (synth && synth.paused) synth.resume(); }
       playing = on; bPlay.innerHTML = on ? ICON.pause : ICON.play; bPlay.setAttribute('aria-label', on ? 'Pause' : 'Lecture');
       if (!on) stopVoice(); else { if (t >= R.duration - 0.01) seek(0); var k = segAt(t); if (k >= 0 && t - R.segs[k].t < R.segs[k].d * 0.5) spoken = k - 1; }
     }
@@ -701,6 +751,7 @@
       var begin = h('button', { class: 'btn primary' }, inquiryCard, state.started ? 'Prévision enregistrée' : 'Enregistrer ma prévision'); begin.disabled = state.started;
       var notice = h('p', { role: 'status' }, inquiryCard);
       begin.onclick = function () { if (!prediction.value.trim()) { notice.textContent = 'Formule une prévision et explique ton raisonnement.'; prediction.focus(); return; } state.started = true; persist(); prediction.readOnly = true; begin.disabled = true; begin.textContent = 'Prévision enregistrée'; inquiryCard.open = false; unlock(); cmdCard.querySelector('button,input,select')?.focus(); };
+      h('button', { class: 'btn sm' }, inquiryCard, 'Je ne sais pas encore : voir le résumé').onclick = function () { ctx.go('resume'); };
       h('button', { class: 'btn sm' }, inquiryCard, 'Parcours Révision').onclick = ctx.revise;
       comparisonCard = h('div', { class: 'card inquiry' }, panes.bilan, '<h3>4 · Confrontation aux résultats</h3><p>Ma prévision initiale :</p>');
       var initial = h('blockquote', {}, comparisonCard);
@@ -752,7 +803,7 @@
     var rr = h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:auto' }, panes.manip);
     h('button', { class: 'btn sm' }, rr, 'Tout remettre à zéro').onclick = function () { resets.forEach(function (f) { f(); }); api.say('Simulation remise à zéro.'); };
     unlock();
-    zoomable(box, sv, S.W, S.H, G).tools.classList.add('ztl');
+    var zm = zoomable(box, sv, S.W, S.H, G, S.panels); zm.tools.classList.add('ztl');
     function bilan() { var withheld = PROF.hideRes || (I && !state.complete && !ctx.revision()); retCard.hidden = withheld; bilCard.hidden = withheld; if (I) initial.textContent = state.prediction || 'Aucune prévision enregistrée.'; bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
     return { refresh: function () { unlock(); bilan(); }, enter: function () { unlock(); bilan(); if (SET.tts) speak((ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
   }

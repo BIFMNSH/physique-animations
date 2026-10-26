@@ -316,6 +316,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Alternateur', r: [20, 20, 440, 430] }, { n: 'Temps réel', r: [470, 22, 376, 360] }],
     alt: 'Montage : un aimant (à faire tourner par un moteur ou à déplacer à la main) devant une bobine reliée à un voltmètre à zéro central et à un oscilloscope',
     steps: [
       'Choisis « Aimant à la main » et fais glisser l’aimant vers la bobine, puis éloigne-le. Observe l’aiguille et l’oscilloscope.',

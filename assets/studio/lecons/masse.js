@@ -140,6 +140,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Balance', r: [40, 40, 500, 406] }, { n: 'Conversion', r: [560, 22, 280, 424] }],
     alt: 'Une balance de Roberval avec une orange, un savon ou un cahier et des masses marquées de 100, 50, 20, 10 et 5 g ; une balance électronique avec tare, un bécher et de l’eau ou de l’huile ; un mode unités avec un sachet de riz de 1 kg ; à droite, le tableau de conversion des masses',
     steps: [
       'Roberval : ajoute des masses marquées jusqu’à l’équilibre.',

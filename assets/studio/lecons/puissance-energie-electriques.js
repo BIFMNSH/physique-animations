@@ -130,6 +130,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Circuit', r: [40, 40, 500, 406] }, { n: 'Puissance', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : une lampe 6 V – 3 W alimentée par un générateur réglable, avec un ampèremètre et un voltmètre, dont on calcule la puissance P = U × I ; puis une maison avec six appareils que l’on allume ou éteint en cliquant, une durée d’utilisation, le calcul de la puissance totale, de l’énergie par jour et du prix mensuel, un compteur et un disjoncteur de 10 A',
     steps: [
       'Hypothèse : les appareils sont assimilés à des récepteurs résistifs. Pour un moteur ou un appareil électronique réel, le calcul en alternatif peut demander un facteur de puissance.',

@@ -2,10 +2,10 @@
 (function () {
   var S = window.Studio, s = S.s, attr = S.attr, fmt = S.fmt, K = S.kit, E = window.ElecKit;
   var BG = '#0F1729', U = 6, R1 = 20, R2 = 40, UN = 6;
-  /* points de mesure : [borne rouge (côté où entre le courant), borne COM] */
+  /* points de mesure : [borne rouge (côté où entre le courant), borne COM] — ce sont les douilles des modules */
   var PTS = {
-    serie: { G: { r: [343, 380], k: [227, 380], n: 'générateur' }, L1: { r: [208, 120], k: [152, 120], n: 'lampe L1' }, K: { r: [318, 120], k: [252, 120], n: 'interrupteur K' }, L2: { r: [418, 120], k: [362, 120], n: 'lampe L2' }, F: { r: [470, 320], k: [470, 180], n: 'un fil de connexion' } },
-    der: { G: { r: [223, 400], k: [127, 400], n: 'générateur' }, K: { r: [200, 110], k: [140, 110], n: 'interrupteur K' }, L1: { r: [280, 290], k: [280, 220], n: 'lampe L1' }, L2: { r: [420, 290], k: [420, 220], n: 'lampe L2' } }
+    serie: { G: { r: [338, 232], k: [242, 232], n: 'générateur' }, L1: { r: [162, 118], k: [118, 118], n: 'lampe L1' }, K: { r: [275, 118], k: [215, 118], n: 'interrupteur K' }, L2: { r: [407, 118], k: [363, 118], n: 'lampe L2' }, F: { r: [338, 232], k: [407, 118], n: 'un fil de connexion' } },
+    der: { G: { r: [278, 248], k: [182, 248], n: 'générateur' }, K: { r: [350, 248], k: [410, 248], n: 'interrupteur K' }, L1: { r: [308, 100], k: [272, 100], n: 'lampe L1' }, L2: { r: [308, 172], k: [272, 172], n: 'lampe L2' } }
   };
   function solve(st) {
     var o = {}, cl = st.closed && !st.wrong;
@@ -19,32 +19,65 @@
     s('rect', { x: 0, y: 0, width: 860, height: 470, fill: '#0A0F1A' }, G);
     s('rect', { x: 40, y: 50, width: 500, height: 396, rx: 22, fill: BG, stroke: '#1E2A44', 'stroke-width': 2 }, G);
     var C = s('g', {}, G), key = '', P = null;
+    function block(x, y0, y2) {
+      var g = s('g', { role: 'img', 'aria-label': 'Barrette de dérivation : trois douilles reliées entre elles' }, C);
+      s('rect', { x: x - 15, y: y0 - 16, width: 30, height: y2 - y0 + 32, rx: 6, fill: '#E9EEF6', stroke: '#9FB0C4', 'stroke-width': 2 }, g);
+      s('rect', { x: x - 3, y: y0 - 8, width: 6, height: y2 - y0 + 16, rx: 3, fill: '#B98A16', opacity: 0.8 }, g);
+      [y0, (y0 + y2) / 2, y2].forEach(function (yy) { s('circle', { cx: x, cy: yy, r: 7, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: x, cy: yy, r: 2.8, fill: '#2A2F38' }, g); });
+    }
     function build() {
-      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], L: [] };
+      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], L: [] }; C.setAttribute('transform', 'translate(0 ' + (st.mode === 'serie' ? -14 : -6) + ')');
+      var cab = function (A, dA, B, dB) { var g = s('g', {}, C), w = E.cable(g, A, dA, B, dB); w.g = g; P.w.push(w); return w; };
+      var tag = function (x, y, txt) { s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: txt }, C); };
       if (st.mode === 'serie') {
-        P.w.push(E.wire(C, 'M333 380 H470 V120 H100 V380 H237'));
-        s('rect', { x: 244, y: 104, width: 82, height: 26, fill: BG }, C);
-        P.K = E.switchK(C, 255, 120, 315, { closed: st.closed, onToggle: function (c) { st.closed = c; } });
-        P.L.push(E.lamp(C, 180, 120, { r: 22 })); P.L.push(E.lamp(C, 390, 120, { r: 22 }));
-        s('text', { x: 180, y: 172, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: 'L1' }, C); s('text', { x: 390, y: 172, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: 'L2' }, C);
-        P.bat = E.battery(C, 285, 380, { U: U });
-        P.gap = s('g', {}, C); s('rect', { x: 461, y: 228, width: 18, height: 44, fill: BG }, P.gap); E.dot(P.gap, 470, 228); E.dot(P.gap, 470, 272);
+        var Y = 118;
+        P.L.push(E.lamp(C, 140, Y, { r: 22 })); P.K = E.switchK(C, 215, Y, 275, { closed: st.closed, onToggle: function (c) { st.closed = c; } }); P.L.push(E.lamp(C, 385, Y, { r: 22 }));
+        tag(140, Y + 42, 'L1'); tag(385, Y + 42, 'L2');
+        P.bat = E.battery(C, 290, 232, { U: U });
+        cab([338, 232], 1, [407, Y], 1); cab([363, Y], -1, [275, Y], 1); cab([215, Y], -1, [162, Y], 1); cab([118, Y], -1, [242, 232], -1);
+        P.F = P.w[0];
       } else {
-        P.w.push(E.wire(C, 'M223 400 H420 M420 400 V110 M280 400 V110 M420 110 H100 V400 H127'));
-        s('rect', { x: 130, y: 94, width: 80, height: 26, fill: BG }, C);
-        P.K = E.switchK(C, 140, 110, 200, { closed: st.closed, onToggle: function (c) { st.closed = c; } });
-        P.L.push(E.lamp(C, 280, 255, { r: 22 })); P.L.push(E.lamp(C, 420, 255, { r: 22 }));
-        [[280, 110], [280, 400], [420, 110], [420, 400]].forEach(function (p) { E.dot(C, p[0], p[1]); });
-        s('text', { x: 316, y: 261, 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: 'L1' }, C); s('text', { x: 456, y: 261, 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: 'L2' }, C);
-        P.bat = E.battery(C, 175, 400, { U: U });
-        P.gap = s('g', {}, C);
+        P.L.push(E.lamp(C, 290, 100, { r: 18 })); P.L.push(E.lamp(C, 290, 172, { r: 18 })); tag(236, 88, 'L1'); tag(236, 160, 'L2');
+        block(110, 100, 172); block(470, 100, 172);
+        P.bat = E.battery(C, 230, 248, { U: U }); P.K = E.switchK(C, 350, 248, 410, { closed: st.closed, onToggle: function (c) { st.closed = c; } });
+        cab([272, 100], -1, [110, 100], 1); cab([272, 172], -1, [110, 172], 1); cab([110, 136], 1, [182, 248], -1);
+        cab([278, 248], 1, [350, 248], -1); cab([410, 248], 1, [470, 136], -1);
+        cab([470, 100], -1, [308, 100], 1); cab([470, 172], -1, [308, 172], 1);
       }
-      P.info = s('text', { x: st.mode === 'serie' ? 290 : 340, y: 434, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 800, fill: '#C9D2E3' }, C);
+      P.info = s('text', { x: 290, y: 290, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 800, fill: '#C9D2E3' }, C);
+    }
+    /* schéma normalisé (bandeau du bas) */
+    var SCH = s('g', {}, G), SG, sKey = '';
+    s('rect', { x: 56, y: 288, width: 290, height: 152, rx: 16, fill: '#F7F4EA', stroke: '#D9D2BC', 'stroke-width': 2 }, SCH); s('text', { x: 72, y: 310, 'font-size': 12, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
+    SG = s('g', {}, SCH);
+    function schema(V, sc) {
+      var k = [st.mode, st.el, st.meter, st.wrong, st.closed, sc, V.L1 > 0.3, V.L2 > 0.3].join(); if (k === sKey) return; sKey = k; while (SG.firstChild) SG.removeChild(SG.firstChild);
+      var ink = '#1E2430', X0 = 112, Ya = 344, Yb = 414, ym = (Ya + Yb) / 2, vm = st.meter && !st.wrong && !sc;
+      var path = function (d, dash) { s('path', { d: d, fill: 'none', stroke: ink, 'stroke-width': 2.2, 'stroke-linejoin': 'round', 'stroke-dasharray': dash || 'none' }, SG); };
+      var lab = function (x, y, txt) { s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 11.5, 'font-weight': 800, fill: ink, text: txt }, SG); };
+      var volt = function (cx, cy) { s('circle', { cx: cx, cy: cy, r: 11, fill: '#CFEFFF', stroke: ink, 'stroke-width': 2 }, SG); s('text', { x: cx, y: cy + 4.5, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: ink, text: 'V' }, SG); };
+      var hz = function (x1, x2, y, up) { var d = up ? -24 : 24; path('M' + x1 + ' ' + y + 'V' + (y + d) + 'H' + (x1 + 6) + 'M' + (x2 - 6) + ' ' + (y + d) + 'H' + x2 + 'V' + y, '4 3'); volt((x1 + x2) / 2, y + d); };
+      var vt = function (x, y1, y2, side) { var d = side * 26; path('M' + x + ' ' + y1 + 'H' + (x + d) + 'V' + (y1 + 8) + 'M' + (x + d) + ' ' + (y2 - 8) + 'V' + y2 + 'H' + x, '4 3'); volt(x + d, (y1 + y2) / 2); };
+      if (st.mode === 'serie') {
+        var X1 = 326;
+        path('M' + X0 + ' ' + Ya + 'H' + X1 + 'V' + Yb + 'H' + X0 + 'Z');
+        E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'L', 160, Ya, { on: V.L1 > 0.3 }); lab(160, Ya + 26, 'L1'); E.sym(SG, 'K', 225, Ya, { closed: st.closed }); lab(225, Ya - 11, 'K'); E.sym(SG, 'L', 290, Ya, { on: V.L2 > 0.3 }); lab(290, Ya + 26, 'L2');
+        if (vm) { if (st.el === 'G') vt(X0, ym - 24, ym + 24, -1); else if (st.el === 'L1') hz(146, 174, Ya, true); else if (st.el === 'K') hz(206, 244, Ya, true); else if (st.el === 'L2') hz(276, 304, Ya, true); else hz(306, 326, Ya, true); }
+        if (st.wrong) { s('rect', { x: X1 - 8, y: ym - 6, width: 16, height: 12, fill: '#F7F4EA' }, SG); volt(X1, ym); }
+      } else {
+        var xa = 232, xb = 296;
+        path('M' + X0 + ' ' + Ya + 'H' + xb + 'M' + X0 + ' ' + Yb + 'H' + xb + 'M' + xa + ' ' + Ya + 'V' + Yb + 'M' + xb + ' ' + Ya + 'V' + Yb + 'M' + X0 + ' ' + Ya + 'V' + Yb);
+        [[xa, Ya], [xa, Yb], [xb, Ya], [xb, Yb]].forEach(function (d) { s('circle', { cx: d[0], cy: d[1], r: 3.2, fill: ink }, SG); });
+        E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'K', 170, Ya, { closed: st.closed }); lab(170, Ya - 11, 'K');
+        E.sym(SG, 'L', xa, ym, { on: V.L1 > 0.3 }); lab(xa + 17, ym - 10, 'L1'); E.sym(SG, 'L', xb, ym, { on: V.L2 > 0.3 }); lab(xb - 18, ym - 10, 'L2');
+        if (vm) { if (st.el === 'G') vt(X0, ym - 24, ym + 24, -1); else if (st.el === 'K') hz(152, 188, Ya, true); else if (st.el === 'L1') vt(xa, Ya, Yb, -1); else vt(xb, Ya, Yb, 1); }
+      }
     }
     var MM = E.multimeter(G, 700, 40, { cal: st.cal, onDial: function (k) { st.cal = k; o.onDial && o.onDial(k); } });
     var LG = s('g', {}, G), red = E.lead(LG, '#FF5A4E'), blk = E.lead(LG, '#2A2F38');
     var mk = s('g', {}, G), mkR = s('rect', { rx: 10, fill: 'none', stroke: '#4FC3FF', 'stroke-width': 2.5, 'stroke-dasharray': '6 5' }, mk);
-    var warn = s('g', {}, G), wr = s('rect', { x: 110, y: 64, width: 360, height: 34, rx: 17, fill: '#FF5A4E' }, warn), wt = s('text', { x: 290, y: 86, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 900, fill: '#2A0805' }, warn);
+    var warn = s('g', {}, G), wr = s('rect', { x: 358, y: 300, width: 166, height: 70, rx: 14, fill: '#FF5A4E' }, warn), wt1 = s('text', { x: 441, y: 326, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn), wt2 = s('text', { x: 441, y: 346, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn), wt3 = s('text', { x: 441, y: 363, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn);
+    function warnText(txt) { var w = txt.split(' '), L = ['', '', ''], i = 0; w.forEach(function (x) { if ((L[i] + ' ' + x).length > 21 && i < 2 && L[i]) i++; L[i] = (L[i] ? L[i] + ' ' : '') + x; }); wt1.textContent = L[0]; wt2.textContent = L[1]; wt3.textContent = L[2]; }
     function step() {
       var T = st.t != null ? st.t : performance.now() / 1000;
       if (st.mode !== key) { key = st.mode; build(); if (!PTS[st.mode][st.el]) st.el = 'G'; }
@@ -57,16 +90,17 @@
       P.L[0].set(E.lampState(sc && st.el === 'L1' ? 0 : lit1, UN).b); P.L[1].set(E.lampState(sc && st.el === 'L2' ? 0 : lit2, UN).b);
       var flowing = (lit1 > 0.3 || lit2 > 0.3) || (sc && st.el !== 'K');
       P.w.forEach(function (w) { w.flow(flowing ? (sc ? 1.6 : 0.8) : 0, T); });
-      P.gap.style.display = st.wrong && st.mode === 'serie' ? '' : 'none';
-      var p = st.wrong && st.mode === 'serie' ? { r: [470, 272], k: [470, 228] } : PTS[st.mode][st.el];
+      if (P.F) P.F.g.style.display = st.wrong && st.mode === 'serie' ? 'none' : '';
+      var p = st.wrong && st.mode === 'serie' ? PTS.serie.F : PTS[st.mode][st.el];
       var a = { x: p.r[0], y: p.r[1] }, b = { x: p.k[0], y: p.k[1] }; if (st.rev) { var tmp = a; a = b; b = tmp; }
       var sockR = c.k === 'A10' ? MM.sock['10A'] : c.ty === 'A' ? MM.sock.mA : MM.sock.V;
       red.show(st.meter); blk.show(st.meter); MM.g.style.display = st.meter ? '' : 'none'; mk.style.display = st.meter && !st.wrong ? '' : 'none';
-      if (st.meter) { red.set(sockR, a); blk.set(MM.sock.COM, b); var x0 = Math.min(p.r[0], p.k[0]), x1 = Math.max(p.r[0], p.k[0]), y0 = Math.min(p.r[1], p.k[1]), y1 = Math.max(p.r[1], p.k[1]); attr(mkR, { x: x0 - 16, y: y0 - 34, width: x1 - x0 + 32, height: y1 - y0 + 68 }); }
+      if (st.meter) { var oy = st.mode === 'serie' ? -14 : -6; red.set(sockR, { x: a.x, y: a.y + oy }, 70); blk.set(MM.sock.COM, { x: b.x, y: b.y + oy }, 70); var x0 = Math.min(p.r[0], p.k[0]), x1 = Math.max(p.r[0], p.k[0]), y0 = Math.min(p.r[1], p.k[1]), y1 = Math.max(p.r[1], p.k[1]); attr(mkR, { x: x0 - 16, y: y0 - 34 + oy, width: x1 - x0 + 32, height: y1 - y0 + 68 }); }
+      schema(V, sc);
       var val = st.wrong && st.mode === 'serie' ? U * 0.999 : V[st.el];
       var M = st.meter ? MM.show((st.rev ? -1 : 1) * val, sc ? 'A' : 'V') : { st: 'off' };
       if (sc) M = { st: 'sc' };
-      warn.style.display = sc || st.wrong ? '' : 'none'; wt.textContent = sc ? 'Calibre ampère en dérivation : COURT-CIRCUIT !' : 'Voltmètre en série : les lampes s’éteignent';
+      warn.style.display = sc || st.wrong ? '' : 'none'; warnText(sc ? 'Calibre ampère en dérivation : COURT-CIRCUIT !' : 'Voltmètre en série : les lampes s’éteignent');
       P.info.textContent = !st.meter ? '' : M.st === 'off' ? 'Multimètre éteint : tourne le sélecteur.' : M.st === 'sc' ? 'Choisis un calibre en volts (V).' : M.st === 'wrongmode' ? 'Choisis un calibre en volts (V).' : M.st === 'over' ? 'Affichage « 1 » : calibre trop petit !' : 'U(' + (st.wrong ? 'voltmètre en série' : st.el) + ') = ' + M.txt + (st.rev ? ' (fils inversés)' : '');
       return { V: V, M: M, el: st.el, mode: st.mode, rev: st.rev, wrong: st.wrong, closed: st.closed, cal: st.cal };
     }
@@ -131,6 +165,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [40, 50, 500, 250] }, { n: 'Schéma', r: [56, 288, 290, 152] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
     alt: 'Circuit avec un générateur 6 V, un interrupteur et deux lampes en série ou en dérivation ; un multimètre en voltmètre est relié par des cordons aux bornes du dipôle choisi',
     steps: [
       'Mesure la tension aux bornes du générateur, puis de chaque lampe.',

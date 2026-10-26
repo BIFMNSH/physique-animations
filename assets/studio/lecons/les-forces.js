@@ -146,6 +146,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Force', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : les effets d’une force (une main pousse un chariot, un aimant courbe la trajectoire d’une bille, une main comprime un ressort) ; puis une caisse tirée par une corde avec dynamomètre, dont on règle l’intensité, l’angle et le point d’application, la force étant représentée par une flèche à l’échelle 1 cm pour 10 N',
     steps: [
       'Effets : lance chaque expérience et observe l’effet de la force.',

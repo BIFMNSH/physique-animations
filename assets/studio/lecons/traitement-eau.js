@@ -177,6 +177,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Station', r: [0, 60, 860, 280] }, { n: 'Analyses', r: [20, 340, 820, 120] }],
     alt: 'Station de traitement de l’eau : rivière, grille, décanteur, filtre à sable, chloration et château d’eau, avec des jauges de qualité et un indicateur de traitement du modèle',
     steps: [
       'Désactive toutes les étapes : que contient l’eau qui arrive au robinet ?',

@@ -142,6 +142,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Bilan', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : un tube contenant de l’oxyde de cuivre avec ou sans carbone, chauffé au bec Bunsen et relié à de l’eau de chaux ; puis l’aluminothermie, réaction entre l’oxyde de fer et l’aluminium allumée par un ruban de magnésium, dont le fer liquide soude deux rails ; à droite, l’équation, les atomes qui se réarrangent et les rôles d’oxydant et de réducteur',
     steps: [
       'Chauffe l’oxyde de cuivre seul : que se passe-t-il ?',

@@ -14,20 +14,27 @@
     gomme: { n: 'gomme', c: false, col: '#F2A0B4', k: 0 },
     papier: { n: 'papier', c: false, col: '#F2EBD3', k: 0 }
   };
-  var PARTS = [['G', 'la pile (générateur)', [285, 380, 64, 34]], ['L', 'la lampe (récepteur)', [200, 126, 36, 40]], ['K', 'l’interrupteur', [360, 112, 46, 30]], ['F', 'les fils de connexion', [100, 250, 22, 140]]];
+  var PARTS = [['G', 'la pile (générateur)', [290, 110, 66, 34]], ['L', 'la lampe (récepteur)', [130, 218, 46, 58]], ['K', 'l’interrupteur', [290, 370, 58, 30]], ['F', 'les fils de connexion', [76, 170, 24, 70]]];
+  /* montage de paillasse : pile en haut, lampe à gauche, objet testé à droite, interrupteur en bas, reliés par quatre câbles à fiches */
+  var CAB = { w1: 'M338 110 C415 110 470 150 470 216', w2: 'M470 284 C470 352 400 370 322 370', w3: 'M258 370 C190 370 152 330 152 230', w4: 'M108 230 C60 230 64 110 242 110' };
+  var CAB_LOOSE = 'M258 370 C215 370 196 346 182 312';
+  function bez(d, t) { var n = d.match(/-?\d*\.?\d+/g).map(Number), x0 = n[0], y0 = n[1], x1 = n[2], y1 = n[3], x2 = n[4], y2 = n[5], x3 = n[6], y3 = n[7], u = 1 - t;
+    return { x: u * u * u * x0 + 3 * u * u * t * x1 + 3 * u * t * t * x2 + t * t * t * x3, y: u * u * u * y0 + 3 * u * u * t * y1 + 3 * u * t * t * y2 + t * t * t * y3, dx: 3 * u * u * (x1 - x0) + 6 * u * t * (x2 - x1) + 3 * t * t * (x3 - x2), dy: 3 * u * u * (y1 - y0) + 6 * u * t * (y2 - y1) + 3 * t * t * (y3 - y2) }; }
 
   function Lab(G, o) {
     var st = Object.assign({ closed: true, linked: true, obj: 'cuivre', arrows: true, hl: null, tested: {}, t: null }, o || {});
     s('rect', { x: 0, y: 0, width: 860, height: 470, fill: '#0A0F1A' }, G);
     s('rect', { x: 40, y: 40, width: 500, height: 406, rx: 22, fill: BG, stroke: '#1E2A44', 'stroke-width': 2 }, G);
-    var wA = E.wire(G, 'M333 380 H470 V284'), wB = E.wire(G, 'M470 216 V120 H392'), wC = E.wire(G, 'M330 120 H222'), wD = E.wire(G, 'M178 120 H100 V300'), wE = E.wire(G, 'M100 300 V380 H237');
-    var gapM = s('rect', { x: 91, y: 290, width: 18, height: 40, fill: BG }, G), loose = s('path', { d: 'M100 330 l-30 20', stroke: '#C9D2E3', 'stroke-width': 3.5, 'stroke-linecap': 'round', fill: 'none' }, G), looseDot = s('circle', { cx: 70, cy: 350, r: 5, fill: '#FFB547' }, G);
-    s('rect', { x: 320, y: 104, width: 82, height: 26, fill: BG }, G);
-    var K1 = E.switchK(G, 330, 120, 390, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(); } });
-    var lp = E.lamp(G, 200, 120, { r: 22 });
-    var bat = E.battery(G, 285, 380, { U: 4.5 });
+    /* paillasse : plan de travail, ombres portées, puis les câbles et les modules */
+    s('rect', { x: 52, y: 52, width: 476, height: 378, rx: 16, fill: '#121C33' }, G);
+    var w1 = E.wire(G, CAB.w1), w2 = E.wire(G, CAB.w2), w3 = E.wire(G, CAB.w3), w4 = E.wire(G, CAB.w4), WS = [w1, w2, w3, w4];
+    var looseDot = s('circle', { cx: 152, cy: 230, r: 14, fill: 'none', stroke: '#FFB547', 'stroke-width': 3, 'stroke-dasharray': '5 4' }, G);
+    var K1 = E.switchK(G, 260, 370, 320, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(); } });
+    var lp = E.lamp(G, 130, 230, { r: 22 });
+    var bat = E.battery(G, 290, 110, { U: 4.5 });
+    G.appendChild(looseDot); /* repère « fil à rebrancher », au-dessus de la lampe */
     /* zone de test : deux pinces et l’objet */
-    s('rect', { x: 461, y: 216, width: 18, height: 68, fill: BG }, G);
+    s('ellipse', { cx: 470, cy: 256, rx: 30, ry: 8, fill: '#05080F', opacity: 0.35 }, G);
     var clipT = s('path', { d: 'M462 216 h16 l-4 10 h-8z', fill: '#E5484D' }, G), clipB = s('path', { d: 'M462 284 h16 l-4 -10 h-8z', fill: '#2A2F38', stroke: '#7D89A3' }, G);
     var objR = s('rect', { x: 462, y: 224, width: 16, height: 52, rx: 4 }, G);
     var objL = s('text', { x: 450, y: 254, 'text-anchor': 'end', 'font-size': 12, 'font-weight': 800, fill: '#C9D2E3' }, G);
@@ -52,20 +59,21 @@
     var F = s('g', {}, G); s('rect', { x: PX, y: 264, width: 280, height: 182, rx: 16, fill: '#0F1729', stroke: '#2B3A57', 'stroke-width': 2 }, F);
     var vb = s('rect', { x: PX + 18, y: 278, width: 244, height: 36, rx: 18 }, F), vt = s('text', { x: PX + 140, y: 302, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 900, fill: '#0B1220' }, F);
     s('text', { x: PX + 18, y: 336, 'font-size': 11, 'font-weight': 800, fill: '#3DD68C', text: 'CONDUCTEURS' }, F); s('text', { x: PX + 148, y: 336, 'font-size': 11, 'font-weight': 800, fill: '#FF8A80', text: 'ISOLANTS' }, F);
-    var listC = s('g', {}, F), lastKey = '';
+    var listC = s('g', {}, F), lastKey = '', lastLinked = true;
     function step() {
       var T = st.t != null ? st.t : performance.now() / 1000, O = OBJ[st.obj];
       var map={clou:'acier',cuivre:'cuivre',alu:'aluminium',plastique:'plastique',bois:'bois'};
       var shared=window.NohobaConductivite&&map[st.obj]?window.NohobaConductivite.evaluer({id:map[st.obj],contact:st.closed&&st.linked,pile:true}):null;
       var on=shared?shared.allumee:st.closed&&st.linked&&O.c, I=on?O.k:0;
       K1.set(st.closed); bat.set(4.5); lp.set(on ? O.k * 1.0 : 0);
-      [wA, wB, wC, wD, wE].forEach(function (w) { w.flow(I, T); });
-      loose.style.display = looseDot.style.display = gapM.style.display = st.linked ? 'none' : '';
+      WS.forEach(function (w) { w.flow(I, T); });
+      if (st.linked !== lastLinked) { lastLinked = st.linked; w3.set(st.linked ? CAB.w3 : CAB_LOOSE); }
+      looseDot.style.display = st.linked ? 'none' : '';
       objR.setAttribute('fill', O.col); objL.textContent = O.n;
       if (on) st.tested[st.obj] = true; else if (st.closed && st.linked && !O.c) st.tested[st.obj] = true;
       // flèches du sens conventionnel (+ → −, à l’extérieur de la pile)
-      var path = [[400, 380, 1, 0], [470, 340, 0, -1], [470, 170, 0, -1], [430, 120, -1, 0], [280, 120, -1, 0], [140, 120, -1, 0], [100, 200, 0, 1], [160, 380, 1, 0]];
-      AR.forEach(function (a, k) { var p = path[k]; a.style.display = on && st.arrows ? '' : 'none'; var x = p[0], y = p[1], dx = p[2], dy = p[3]; a.setAttribute('d', 'M' + (x + dx * 9) + ' ' + (y + dy * 9) + ' L' + (x - dx * 7 - dy * 7) + ' ' + (y - dy * 7 + dx * 7) + ' L' + (x - dx * 7 + dy * 7) + ' ' + (y - dy * 7 - dx * 7) + 'Z'); });
+      var path = []; [['w1', .35], ['w1', .72], ['w2', .4], ['w2', .8], ['w3', .35], ['w3', .75], ['w4', .3], ['w4', .7]].forEach(function (q) { var b = bez(CAB[q[0]], q[1]), L = Math.hypot(b.dx, b.dy) || 1; path.push([b.x, b.y, b.dx / L, b.dy / L]); });
+      AR.forEach(function (a, k) { var p = path[k]; a.style.display = on && st.arrows && !(k > 3 && k < 6 && !st.linked) ? '' : 'none'; var x = p[0], y = p[1], dx = p[2], dy = p[3]; a.setAttribute('d', 'M' + (x + dx * 9) + ' ' + (y + dy * 9) + ' L' + (x - dx * 7 - dy * 7) + ' ' + (y - dy * 7 + dx * 7) + ' L' + (x - dx * 7 + dy * 7) + ' ' + (y - dy * 7 - dx * 7) + 'Z'); });
       // mise en évidence d’un élément
       if (st.hl != null) { var hp = PARTS[st.hl][2]; attr(HL, { x: hp[0] - hp[2], y: hp[1] - hp[3], width: hp[2] * 2, height: hp[3] * 2 }); HL.style.display = ''; attr(HLt, { x: hp[0], y: hp[1] - hp[3] - 10 }); HLt.textContent = PARTS[st.hl][1]; HLt.style.display = ''; } else { HL.style.display = 'none'; HLt.style.display = 'none'; }
       msg.textContent = !st.linked ? 'Un fil est débranché : circuit ouvert' : !st.closed ? 'Interrupteur ouvert : circuit ouvert' : O.c ? 'Circuit fermé : la lampe brille' + (O.k < 1 ? ' (faiblement)' : '') : 'La lampe ne brille pas : ' + O.n + ' isolant(e)';
@@ -103,8 +111,8 @@
         if (t > 33 && t < 47) { st.obj = seq[Math.min(5, Math.floor((t - 33) / 2.3))]; } else st.obj = 'cuivre';
         if (t < 33) st.tested = {};
         lab.step();
-        tg.show(t, 14, 15.8, 290, 92, 'Interrupteur fermé : la lampe brille') || tg.show(t, 16.2, 19.4, 290, 92, 'Interrupteur ouvert : elle s’éteint') || tg.show(t, 24, 32.6, 290, 92, 'Sens du courant : du + vers le −') ||
-          tg.show(t, 34, 46.6, 290, 92, OBJ[st.obj].n + ' : ' + (OBJ[st.obj].c ? 'conducteur' : 'isolant')) || tg.show(t, 48, 55.6, 290, 92, 'Chaque élément a son symbole');
+        tg.show(t, 14, 15.8, 290, 66, 'Interrupteur fermé : la lampe brille') || tg.show(t, 16.2, 19.4, 290, 66, 'Interrupteur ouvert : elle s’éteint') || tg.show(t, 24, 32.6, 290, 66, 'Sens du courant : du + vers le −') ||
+          tg.show(t, 34, 46.6, 290, 92, OBJ[st.obj].n + ' : ' + (OBJ[st.obj].c ? 'conducteur' : 'isolant')) || tg.show(t, 48, 55.6, 290, 66, 'Chaque élément a son symbole');
       }
       bg.setAttribute('opacity', t > 55.8 ? 1 : 0);
       K.group(g5, t, 55.8, 99); cards(t);
@@ -141,6 +149,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [48, 48, 484, 392] }, { n: 'Schéma', r: [560, 22, 280, 230] }, { n: 'Mes objets', r: [560, 264, 280, 182] }],
     alt: 'Circuit avec une pile, une lampe, un interrupteur, des fils et une zone de test entre deux pinces où l’on place différents objets ; schéma normalisé et liste des conducteurs et isolants à droite',
     steps: [
       'Ouvre et ferme l’interrupteur (clique dessus) : que fait la lampe ?',

@@ -170,6 +170,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Feu', r: [40, 250, 500, 196] }, { n: 'Triangle du feu', r: [560, 22, 280, 424] }],
     alt: 'Trois activités : un feu de bois dont on retire le combustible, le dioxygène ou la chaleur ; trois feux (bois, huile, fuite de gaz) à éteindre avec de l’eau, un couvercle ou en fermant le robinet ; une chambre fermée avec un réchaud à charbon, un détecteur de monoxyde de carbone et une fenêtre ; le triangle du feu à droite',
     steps: [
       'Triangle : retire un côté du triangle. Que devient le feu ?',

@@ -158,6 +158,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Atomes', r: [40, 40, 500, 406] }, { n: 'Molécules', r: [560, 22, 280, 424] }],
     alt: 'Atelier de modèles moléculaires : on ajoute des atomes de carbone, hydrogène, azote, oxygène, soufre et chlore ; quand la composition correspond à une molécule connue, les atomes s’assemblent et la carte de la molécule s’affiche ; une collection compte les molécules découvertes',
     steps: [
       'Ajoute des atomes avec les boutons : quand ils forment une molécule connue, ils s’assemblent.',

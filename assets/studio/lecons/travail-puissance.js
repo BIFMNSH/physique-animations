@@ -133,6 +133,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Travail', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : un seau d’eau remonté d’un puits dont on règle la masse, la profondeur et la durée, avec le calcul du travail W = m g h et de la puissance P = W / t ; puis un chariot de ciment poussé sur une distance réglable, la force pouvant être motrice ou résistante',
     steps: [
       'Puits : remonte le seau et lis le travail fourni.',

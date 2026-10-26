@@ -152,6 +152,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Bilan', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : l’oxydation vive du fer, du cuivre, du carbone et du soufre, chacun réagissant avec le dioxygène avec ses observations propres et son équation-bilan, avec les atomes qui se réarrangent dans le panneau ; puis l’oxydation lente de trois clous placés dans l’air humide, dans de l’eau bouillie sous l’huile et dans l’air sec, au fil des jours',
     steps: [
       'Oxydation vive : choisis un corps simple et lance la réaction.',

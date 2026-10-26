@@ -198,7 +198,7 @@ assert.equal(items.filter(x=>x.statut==='prototype').map(x=>x.sourceId).sort().j
 assert.equal(items.filter(x=>x.statut==='disponible').map(x=>x.sourceId).join(','),'ELE-07');
 const page=read('activites-ci/index.html');assert.ok(page.includes('atelier-electrique.js')&&page.includes('ELE-(0[1-9]|1[0-7])'),'page des activités générique');
 assert.ok(read('collections/index.html').includes('Ouvrir le prototype'),'collections : prototypes');
-assert.ok(read('parcours-ci/index.html').includes('Prototypes à valider'),'hub : prototypes');
+assert.ok(read('parcours-ci/index.html').includes('../collections/')&&read('parcours-ci/index.html').includes('en test'),'page de leçon : prototypes réservés au prof (collections)');
 const eng=read('assets/activites/activite.js');assert.ok(eng.includes('À la fin de cette partie, je dois être capable de :'),'libellé « partie » à l’écran');
 console.log('Lot CI : catalogue, hub, collections et libellés contrôlés.');
 process.exit(0);

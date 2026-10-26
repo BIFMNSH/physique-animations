@@ -1,0 +1,79 @@
+/* Parcours élève simplifié (accueil et pages de classe).
+   Pensé pour les moins de 15 ans sur téléphone : une question par écran,
+   gros boutons, textes courts. Thèmes sombre et clair. */
+:root,[data-theme="dark"]{
+  --bg:#0E1626;--panel:#16213A;--line:#2B3A57;--line2:#3B4E73;
+  --text:#EEF2F8;--soft:#C9D2E0;--muted:#A9B4C7;
+  --go:#F97316;--on-go:#FFFFFF;--go-ink:#FFB547;
+  --t-amber:#FFB547;--t-blue:#5CC8FF;--t-green:#4ADE80;--t-violet:#B9A4FF;
+  --focus:#FFB547;color-scheme:dark}
+[data-theme="light"]{
+  --bg:#FFFFFF;--panel:#EEF2F7;--line:#CBD4E1;--line2:#AEB9CC;
+  --text:#142033;--soft:#2F3C52;--muted:#55627A;
+  --go:#F97316;--on-go:#FFFFFF;--go-ink:#9A3412;
+  --t-amber:#9A5B00;--t-blue:#0A6BAA;--t-green:#15803D;--t-violet:#6D28D9;
+  --focus:#C76A00;color-scheme:light}
+/* chiffres sans zéro barré : les chiffres 0-9 viennent de Bricolage Grotesque */
+@font-face{font-family:'Chiffres';font-style:normal;font-weight:100 600;font-display:swap;src:url(../fonts/bricolage-grotesque-latin-600-normal.woff2) format("woff2");unicode-range:U+0030-0039}
+@font-face{font-family:'Chiffres';font-style:normal;font-weight:700 900;font-display:swap;src:url(../fonts/bricolage-grotesque-latin-800-normal.woff2) format("woff2");unicode-range:U+0030-0039}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--text)}
+body{font:400 18px/1.45 'Chiffres','Atkinson Hyperlegible',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.sp-skip{position:absolute;left:-9999px}.sp-skip:focus{left:12px;top:12px;background:var(--panel);padding:10px 14px;border-radius:10px;z-index:9}
+.sp{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;width:100%;max-width:1120px;margin:0 auto;padding:20px 20px 28px;gap:24px}
+.sp-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sp-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 19px 'Bricolage Grotesque',sans-serif}
+.sp-logo img{width:36px;height:36px;border-radius:10px}
+.sp-logo span span{color:var(--go)}
+.sp-round{min-width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:transparent;color:var(--text);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 12px;font:700 16px inherit;font-family:inherit;text-decoration:none;cursor:pointer}
+.sp-round svg{width:20px;height:20px;flex-shrink:0}
+.sp-h1{margin:0;font:800 clamp(32px,9vw,46px)/1.05 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.sp-h2{margin:0;font:800 24px/1.15 'Bricolage Grotesque',sans-serif}
+.sp-lead{margin:0;color:var(--soft)}
+.sp-note{margin:0;font-size:15px;color:var(--muted)}
+.sp-main{flex:1;display:flex;flex-direction:column;gap:26px}
+.sp-home .sp-main{justify-content:center}
+.sp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sp-class{height:88px;border-radius:18px;background:var(--go);color:var(--on-go);text-decoration:none;display:flex;align-items:center;justify-content:center;font:800 34px 'Bricolage Grotesque',sans-serif}
+.sp-class.mine{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--go)}
+.sp-btn{min-height:56px;border-radius:28px;background:var(--go);color:var(--on-go);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;padding:0 24px;font-weight:700;font-size:19px;border:0;cursor:pointer;font-family:inherit}
+.sp-btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2)}
+.sp-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 18px;border-top:1px solid var(--line);padding-top:16px;font-size:16px}
+.sp-foot a{color:var(--soft);min-height:44px;display:inline-flex;align-items:center}
+.sp-legal{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;color:var(--muted)}
+.sp-legal a{color:inherit}
+/* reprise */
+.sp-resume{border-radius:20px;background:var(--panel);border:2px solid var(--go);padding:18px;display:flex;flex-direction:column;gap:10px;text-decoration:none}
+.sp-resume small{font-size:15px;color:var(--soft)}
+.sp-resume b{font:800 26px/1.1 'Bricolage Grotesque',sans-serif}
+.sp-resume .sp-btn{align-self:flex-start;margin-top:4px}
+.sp-bar{display:flex;gap:6px}
+.sp-bar i{height:8px;flex:1;border-radius:4px;background:var(--line2)}
+.sp-bar i.on{background:var(--go)}
+/* leçons */
+.sp-theme{display:flex;flex-direction:column;gap:10px}
+.sp-theme h2{margin:0;font:800 22px/1.2 'Bricolage Grotesque',sans-serif;color:var(--tc)}
+.sp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.sp-les{min-height:64px;border-radius:16px;background:var(--panel);padding:10px 16px;display:flex;align-items:center;gap:14px;text-decoration:none}
+.sp-les .n{width:36px;height:36px;border-radius:18px;border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;font:800 16px "Bricolage Grotesque",sans-serif;flex-shrink:0}
+.sp-les .t{flex:1;font-weight:700;font-size:18px;line-height:1.25}
+.sp-les .s{font-size:15px;font-weight:700;color:var(--muted);white-space:nowrap}
+.sp-les.cur .n{background:var(--go);border-color:var(--go);color:var(--on-go)}
+.sp-les.cur .s{color:var(--go-ink)}
+.sp-les.done .n{background:var(--line2);border-color:var(--line2)}
+.sp-les.done .s{color:var(--t-green)}
+.sp-les.soon{opacity:.7}
+@media (hover:hover){.sp-class:hover,.sp-btn:hover{filter:brightness(1.08)}.sp-les:hover{outline:2px solid var(--line2)}}
+@media (prefers-reduced-motion:no-preference){.sp-class,.sp-btn,.sp-les{transition:filter .15s,outline-color .15s}}
+/* écrans larges : toute la largeur utile */
+@media (min-width:760px){
+  .sp{padding:28px 32px 32px}
+  .sp-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .sp-class{height:120px;font-size:44px}
+  .sp-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sp-resume{max-width:620px}
+  #continuer{align-self:flex-start}
+}

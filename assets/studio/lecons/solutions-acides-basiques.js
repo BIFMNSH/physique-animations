@@ -128,6 +128,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Solution', r: [40, 40, 500, 406] }, { n: 'Échelle de pH', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : mesurer le pH de dix solutions de la vie courante (citron, vinaigre, jus de bissap, eau de pluie, eau pure, eau salée, eau savonneuse, eau de Javel, acide chlorhydrique, soude) avec un pH-mètre, du papier pH ou du bleu de bromothymol ; puis diluer un acide ou une base et suivre son pH ; à droite, l’échelle de pH colorée',
     steps: [
       'Mesure le pH de plusieurs solutions avec le pH-mètre.',

@@ -148,6 +148,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Éprouvette', r: [40, 40, 500, 406] }, { n: 'Composition', r: [560, 22, 280, 424] }],
     alt: 'Trois activités : une éprouvette d’air retournée sur l’eau avec de la paille de fer humide et un calendrier, une bûchette incandescente plongée dans un flacon de dioxygène, d’air ou de diazote, et 100 molécules d’air que l’on peut trier ; un diagramme de la composition de l’air à droite',
     steps: [
       'Paille de fer : fais passer les jours. De combien l’eau monte-t-elle ?',

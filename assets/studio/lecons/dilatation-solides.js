@@ -153,6 +153,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Mesures', r: [560, 22, 280, 424] }],
     alt: 'Trois expériences de dilatation des solides : boule et anneau de Gravesande, barre métallique chauffée qui pousse l’aiguille d’un cadran, rails au soleil avec ou sans joint de dilatation ; thermomètre et loupe sur les particules à droite',
     steps: [
       'Boule et anneau : lâche la boule à froid, puis chauffe-la et recommence.',

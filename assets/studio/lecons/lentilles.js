@@ -131,6 +131,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Optique', r: [40, 40, 500, 406] }, { n: 'Mesures', r: [560, 22, 280, 424] }],
     alt: 'Un banc d’optique avec une lentille convergente ou divergente de distance focale réglable ; en mode faisceau, des rayons parallèles venant du Soleil convergent au foyer ou divergent ; en mode image, un objet placé à une distance réglable et les rayons particuliers qui construisent son image, réelle sur un écran ou virtuelle ; à droite, la vergence et les caractéristiques de l’image',
     steps: [
       'Faisceau : compare une lentille convergente et une divergente.',

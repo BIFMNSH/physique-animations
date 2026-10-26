@@ -205,6 +205,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Test', r: [10, 20, 550, 430] }, { n: 'Fiche', r: [560, 22, 280, 424] }],
     alt: 'Laboratoire d’analyse de l’eau : six échantillons, une paillasse où l’on réalise un test (aspect, pH, ions, résidu sec, microbes) et une fiche d’analyse avec le verdict potable ou non',
     steps: [
       'Choisis un échantillon (clique sur une bouteille) et observe son aspect.',

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');document.documentElement.setAttribute('data-theme',p.theme==='light'?'light':'dark')}catch(e){}</script>
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}'),t=p.theme||localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
 <title>Physique-chimie 5e : cours, simulations et quiz (programme Côte d’Ivoire) · NOHOBA-Lab</title>
 <meta name="description" content="Physique-chimie 5e (programme MENA, Côte d’Ivoire) : chaque leçon a un résumé vidéo narré d’une minute, une simulation à manipuler, un défi chronométré en équipes et un quiz.">
 <link rel="canonical" href="https://lab.nohaba.com/5e/">
@@ -25,56 +25,34 @@
 <meta name="twitter:image:alt" content="NOHOBA-Lab : simulations de physique-chimie, de la 6e à la 3e">
 <meta name="theme-color" content="#0B1220">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
-<link rel="stylesheet" href="../assets/studio/studio.css">
-<link rel="stylesheet" href="../assets/shared/catalogue-parcours.css">
+<link rel="stylesheet" href="../assets/simple/simple.css">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="hubp catalogue-page">
-<a class="skip" href="#themesHeading">Aller aux leçons</a>
-<main class="hub" id="main">
-<div class="hubin">
-  <header style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <a class="btn" href="../">← Accueil</a>
-    <nav class="steps" aria-label="Niveaux">
-      <button type="button" data-go="../6e/">6e</button>
-      <button type="button" aria-current="step">5e</button>
-      <button type="button" data-go="../4e/">4e</button>
-      <button type="button" data-go="../3e/">3e</button>
-    </nav>
-    <div style="flex:1"></div>
-    <button class="btn" id="theme" type="button"></button>
-  </header>
-
-  <section class="hero">
-    <div style="flex:1 1 520px;display:flex;flex-direction:column;gap:10px;justify-content:center">
-      <span class="kick">Physique-chimie · 5e · programme MENA</span>
-      <h1>Comprendre en 1 minute,<br>puis expérimenter.</h1>
-      <p>13 leçons de la progression officielle. Chacune aura un résumé vidéo narré, une simulation à manipuler, un défi à relever seul ou en équipes, et un quiz.</p>
+<body>
+<a class="sp-skip" href="#lecons">Aller aux leçons</a>
+<div class="sp">
+  <header class="sp-top">
+    <a class="sp-round" href="../" aria-label="Changer de classe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span aria-hidden="true">Changer de classe</span></a>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button type="button" class="sp-round" data-sp-theme aria-label="Changer de thème"></button>
+      <span class="sp-class" style="height:44px;min-width:56px;border-radius:22px;font-size:20px;padding:0 14px">5e</span>
     </div>
-    <div class="greet" id="greet"></div>
-  </section>
-
-  <div class="catalogue-tools">
-    <div><h2 id="themesHeading">Ton parcours par thème</h2><p id="programmeProgress"></p></div>
-    <button type="button" class="text-button" id="foldThemes" aria-controls="themes">Tout déplier</button>
-    <div class="meter" aria-hidden="true"><i id="programmeBar"></i></div>
-  </div>
-  <section class="themes" id="themes" aria-labelledby="themesHeading"></section>
-
-  <section class="chips">
-    <span class="kick">Dans chaque leçon</span>
-    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--blue)" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Résumé vidéo · 1 min</span>
-    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.4" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>Simulation</span>
-    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>Défi chronométré</span>
-    <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2.4" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Fiche + quiz</span>
-    <span style="flex:1"></span>
-    <span style="font-size:14px;color:var(--muted)">Fonctionne sans réseau une fois ouverte</span>
-  </section>
+  </header>
+  <main class="sp-main" id="main">
+    <h1 class="sp-h1" style="font-size:clamp(28px,8vw,40px)">Physique-chimie 5e</h1>
+    <div id="reprise"></div>
+    <div id="lecons" style="display:flex;flex-direction:column;gap:26px"></div>
+  </main>
+  <footer style="display:flex;flex-direction:column;gap:14px">
+    <nav class="sp-foot" aria-label="Autres espaces">
+      <a href="../decouvrir/">Je suis prof ou parent</a>
+      <a href="../lecons/">Sommaire de toutes les leçons</a>
+    </nav>
+    <nav class="sp-legal" aria-label="Informations légales"><a href="../mentions-legales/">Mentions légales</a><a href="../confidentialite/">Confidentialité</a><a href="../credits/">Crédits</a></nav>
+  </footer>
 </div>
-<nav class="legal-links" aria-label="Informations légales" style="display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;margin:28px 0 8px;font-size:14px;color:var(--muted)"><a style="color:inherit" href="../lecons/">Toutes les leçons (sommaire)</a><a style="color:inherit" href="../mentions-legales/">Mentions légales</a><a style="color:inherit" href="../confidentialite/">Confidentialité et cookies (aucun cookie)</a><a style="color:inherit" href="../credits/">Crédits et licences</a><span>Ressource indépendante, non officielle · gratuite, sans inscription</span></nav>
-</main>
-<script src="../assets/studio/studio.js"></script>
 <script src="../assets/studio/programme.js"></script>
-<script src="../assets/studio/hub.js"></script>
+<script src="../assets/simple/simple.js"></script>
+<script src="../assets/simple/classe.js"></script>
 </body>
 </html>

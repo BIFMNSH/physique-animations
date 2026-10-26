@@ -132,6 +132,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Circuit', r: [40, 40, 500, 406] }, { n: 'Mesures', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : un circuit avec un générateur réglable de 0 à 12 V, un conducteur ohmique de 47, 100, 220 ou 470 Ω ou une lampe, un voltmètre et un ampèremètre ; chaque relevé place un point sur le graphique U = f(I) ; puis un conducteur ohmique dont on choisit les couleurs des bandes, avec le code des couleurs et un ohmmètre',
     steps: [
       'Choisis le conducteur de 100 Ω et relève U et I pour plusieurs tensions.',

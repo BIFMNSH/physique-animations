@@ -130,6 +130,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Œil', r: [40, 40, 500, 406] }, { n: 'Correction', r: [560, 22, 280, 424] }],
     alt: 'Un modèle d’œil avec cornée, cristallin et rétine ; on choisit un œil normal, myope, hypermétrope ou presbyte, un objet lointain ou un livre proche, et la vergence d’une lentille de correction ; les rayons tracés montrent où se forme l’image, sur, avant ou derrière la rétine, et une vignette montre si la vision est nette ou floue',
     steps: [
       'Œil normal : compare la vision de loin et de près.',
