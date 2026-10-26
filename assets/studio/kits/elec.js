@@ -8,11 +8,13 @@
   /* pile plate (ou générateur), horizontale : borne + à droite (ou à gauche si flip) */
   function battery(G, x, y, o) {
     o = o || {}; var w = o.w || 96, h = o.h || 46, g = s('g', { transform: 'translate(' + x + ' ' + y + ')' }, G);
+    s('ellipse', { cx: 0, cy: h / 2 + 4, rx: w / 2 + 8, ry: 7, fill: '#05080F', opacity: 0.4 }, g);
     var body = s('rect', { x: -w / 2, y: -h / 2, width: w, height: h, rx: 7, fill: o.gen ? '#2A3346' : '#1F2B44', stroke: '#5B6680', 'stroke-width': 2 }, g);
+    s('rect', { x: -w / 2 + 5, y: h / 2 - 9, width: w - 10, height: 3, rx: 1.5, fill: '#FFFFFF', opacity: 0.12 }, g);
     var band = s('rect', { x: -w / 2, y: -h / 2, width: w, height: 12, rx: 6, fill: o.col || '#FFB547' }, g);
     var lab = s('text', { x: 0, y: 12, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 900, fill: '#EEF2F8' }, g);
     var pl = s('text', { 'font-size': 18, 'font-weight': 900, fill: '#FF8A80', 'text-anchor': 'middle' }, g), mi = s('text', { 'font-size': 20, 'font-weight': 900, fill: '#80B8FF', 'text-anchor': 'middle' }, g);
-    var tp = s('rect', { y: -6, width: 10, height: 12, rx: 2, fill: '#C9D2E3' }, g), tm = s('rect', { y: -4, width: 8, height: 8, rx: 2, fill: '#C9D2E3' }, g);
+    var tp = s('rect', { y: -6, width: 10, height: 12, rx: 2, fill: '#D9B44A', stroke: '#8A6D12', 'stroke-width': 1 }, g), tm = s('rect', { y: -4, width: 8, height: 8, rx: 2, fill: '#D9B44A', stroke: '#8A6D12', 'stroke-width': 1 }, g);
     var cap = o.caption ? s('text', { x: 0, y: h / 2 + 18, 'text-anchor': 'middle', 'font-size': 12, fill: '#A9B4C7', text: o.caption }, g) : null;
     function set(U, flip) {
       lab.textContent = v(U); var sp = flip ? -1 : 1;
@@ -68,21 +70,76 @@
     return { g: g, set: set };
   }
 
-  /* fil (chemin SVG) + surcouche animée du courant */
+  /* câble de laboratoire : gaine colorée, fiches aux extrémités, coins arrondis ; le chemin reste décrit en M/H/V/L (Z pour une boucle).
+     Une surcouche animée montre le courant. o.col : couleur ; o.plugs === false : sans fiches. */
+  var WIRE_COLS = ['#D9423B', '#2B2F38'], WIRE_N = 0;
+  function parsePath(d) {
+    var tk = String(d).match(/[MHVLZ]|-?\d*\.?\d+/g) || [], i = 0, subs = [], cur = null, x = 0, y = 0, cmd = '';
+    while (i < tk.length) {
+      var t = tk[i];
+      if (/[MHVLZ]/.test(t)) { cmd = t; i++; if (cmd === 'Z') { if (cur) cur.closed = true; continue; } }
+      else if (cmd === 'M') cmd = 'L';
+      if (cmd === 'M' || cmd === 'L') { x = +tk[i]; y = +tk[i + 1]; i += 2; } else if (cmd === 'H') { x = +tk[i]; i++; } else if (cmd === 'V') { y = +tk[i]; i++; } else { i++; continue; }
+      if (cmd === 'M' || !cur) { cur = { pts: [], closed: false }; subs.push(cur); }
+      cur.pts.push([x, y]);
+    }
+    return subs.filter(function (u) { return u.pts.length > 1; });
+  }
+  function roundPath(subs, R) {
+    return subs.map(function (u) {
+      var P = u.pts, n = P.length, out = '', i;
+      function at(a, b, dist) { var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1; return [a[0] + dx / L * dist, a[1] + dy / L * dist]; }
+      function seg(a, b) { return Math.hypot(b[0] - a[0], b[1] - a[1]); }
+      function corner(i) { var p0 = P[(i - 1 + n) % n], p1 = P[i], p2 = P[(i + 1) % n], r = Math.min(R, seg(p0, p1) / 2, seg(p1, p2) / 2), A = at(p1, p0, r), B = at(p1, p2, r); return { A: A, B: B, p: p1 }; }
+      if (u.closed) { var c0 = corner(0); out = 'M' + c0.B[0] + ' ' + c0.B[1]; for (i = 1; i <= n; i++) { var c = corner(i % n); out += ' L' + c.A[0] + ' ' + c.A[1] + ' Q' + c.p[0] + ' ' + c.p[1] + ' ' + c.B[0] + ' ' + c.B[1]; } return out + ' Z'; }
+      out = 'M' + P[0][0] + ' ' + P[0][1];
+      for (i = 1; i < n - 1; i++) { var k = corner(i); out += ' L' + k.A[0] + ' ' + k.A[1] + ' Q' + k.p[0] + ' ' + k.p[1] + ' ' + k.B[0] + ' ' + k.B[1]; }
+      return out + ' L' + P[n - 1][0] + ' ' + P[n - 1][1];
+    }).join(' ');
+  }
   function wire(G, d, o) {
-    o = o || {}; var base = s('path', { d: d, fill: 'none', stroke: o.col || '#C9D2E3', 'stroke-width': o.w || 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, G);
-    var fl = s('path', { d: d, fill: 'none', stroke: '#FFE29A', 'stroke-width': (o.w || 3.5) - 0.5, 'stroke-dasharray': '3 15', 'stroke-linecap': 'round', opacity: 0 }, G);
-    return { base: base, fl: fl, flow: function (I, T) { fl.setAttribute('opacity', I > 0.01 ? Math.min(1, 0.4 + I) : 0); fl.setAttribute('stroke-dashoffset', -(T * 60 * Math.min(2, 0.4 + I))); }, set: function (dd) { base.setAttribute('d', dd); fl.setAttribute('d', dd); } };
+    o = o || {}; var col = o.col || WIRE_COLS[WIRE_N++ % 2], w = o.w || 5, R = o.round == null ? 16 : o.round;
+    var out = s('path', { fill: 'none', stroke: '#0A0F1A', 'stroke-opacity': 0.55, 'stroke-width': w + 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', transform: 'translate(1.5 3)' }, G);
+    var base = s('path', { fill: 'none', stroke: col, 'stroke-width': w, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, G);
+    var shine = s('path', { fill: 'none', stroke: '#FFFFFF', 'stroke-opacity': 0.22, 'stroke-width': 1.4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', transform: 'translate(0 -1.2)' }, G);
+    var fl = s('path', { fill: 'none', stroke: '#FFE29A', 'stroke-width': w - 1.5, 'stroke-dasharray': '3 15', 'stroke-linecap': 'round', opacity: 0 }, G);
+    var pg = s('g', {}, G);
+    function plug(pt, from) {
+      var dx = pt[0] - from[0], dy = pt[1] - from[1], a = Math.atan2(dy, dx) * 180 / Math.PI;
+      var g = s('g', { transform: 'translate(' + pt[0] + ' ' + pt[1] + ') rotate(' + a + ')' }, pg);
+      s('rect', { x: -15, y: -5.5, width: 14, height: 11, rx: 3, fill: col, stroke: '#0A0F1A', 'stroke-opacity': 0.5, 'stroke-width': 1 }, g);
+      s('rect', { x: -9, y: -5.5, width: 2.2, height: 11, fill: '#FFFFFF', opacity: 0.25 }, g);
+      s('rect', { x: -2, y: -2.6, width: 7, height: 5.2, rx: 1.5, fill: '#D9B44A', stroke: '#8A6D12', 'stroke-width': 0.8 }, g);
+    }
+    function draw(dd) {
+      if (/[CQ]/.test(dd)) {
+        /* câble courbe (un seul tracé M … C …) : pas d'arrondi, fiches orientées selon les tangentes aux extrémités */
+        out.setAttribute('d', dd); base.setAttribute('d', dd); shine.setAttribute('d', dd); fl.setAttribute('d', dd); pg.innerHTML = '';
+        var n = String(dd).match(/-?\d*\.?\d+/g).map(Number), m = n.length;
+        if (o.plugs !== false && m >= 8) { plug([n[0], n[1]], [n[2], n[3]]); plug([n[m - 2], n[m - 1]], [n[m - 4], n[m - 3]]); }
+        return;
+      }
+      var subs = parsePath(dd), dr = R > 0 ? roundPath(subs, R) : dd;
+      out.setAttribute('d', dr); base.setAttribute('d', dr); shine.setAttribute('d', dr); fl.setAttribute('d', dr);
+      pg.innerHTML = '';
+      if (o.plugs !== false) subs.forEach(function (u) { if (u.closed) return; var P = u.pts, n = P.length; plug(P[0], P[1]); plug(P[n - 1], P[n - 2]); });
+    }
+    draw(d);
+    return { base: base, fl: fl, flow: function (I, T) { fl.setAttribute('opacity', I > 0.01 ? Math.min(1, 0.4 + I) : 0); fl.setAttribute('stroke-dashoffset', -(T * 60 * Math.min(2, 0.4 + I))); }, set: draw };
   }
 
-  /* interrupteur entre (x1,y) et (x2,y) */
+  /* module interrupteur sur socle : deux douilles en (x1, y) et (x2, y) ; la lame pivote autour de la douille de gauche */
   function switchK(G, x1, y, x2, o) {
-    o = o || {}; var g = s('g', { style: 'cursor:pointer' }, G), closed = !!o.closed;
-    s('circle', { cx: x1, cy: y, r: 5, fill: '#EEF2F8' }, g); s('circle', { cx: x2, cy: y, r: 5, fill: '#EEF2F8' }, g);
-    var lev = s('line', { x1: x1, y1: y, stroke: '#EEF2F8', 'stroke-width': 4, 'stroke-linecap': 'round' }, g);
-    s('rect', { x: x1 - 10, y: y - 44, width: x2 - x1 + 20, height: 60, fill: 'transparent' }, g);
-    var lab = s('text', { x: (x1 + x2) / 2, y: y + 26, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label || 'K' }, g);
-    function set(c) { closed = c; var L = x2 - x1, a = c ? 0 : -32 * Math.PI / 180; attr(lev, { x2: x1 + L * Math.cos(a), y2: y + L * Math.sin(a) }); }
+    o = o || {}; var g = s('g', { style: 'cursor:pointer', role: 'button', 'aria-label': 'Interrupteur : cliquer pour ouvrir ou fermer' }, G), closed = !!o.closed;
+    s('ellipse', { cx: (x1 + x2) / 2, cy: y + 18, rx: (x2 - x1) / 2 + 26, ry: 6, fill: '#05080F', opacity: 0.35 }, g);
+    s('rect', { x: x1 - 20, y: y - 15, width: x2 - x1 + 40, height: 32, rx: 6, fill: '#C9D2E3' }, g);
+    s('rect', { x: x1 - 20, y: y - 15, width: x2 - x1 + 40, height: 28, rx: 6, fill: '#EEF2FA', stroke: '#9FB0C4', 'stroke-width': 1.5 }, g);
+    s('rect', { x: x1 - 15, y: y - 11, width: x2 - x1 + 30, height: 4, rx: 2, fill: '#FFFFFF', opacity: 0.8 }, g);
+    [x1, x2].forEach(function (cx) { s('circle', { cx: cx, cy: y, r: 7, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: cx, cy: y, r: 2.8, fill: '#2A2F38' }, g); });
+    var lev = s('line', { x1: x1, y1: y, stroke: '#B98A16', 'stroke-width': 5, 'stroke-linecap': 'round' }, g), knob = s('circle', { r: 6.5, fill: '#2A2F38', stroke: '#0A0F1A', 'stroke-width': 1 }, g);
+    s('rect', { x: x1 - 24, y: y - 48, width: x2 - x1 + 48, height: 74, fill: 'transparent' }, g);
+    var lab = s('text', { x: (x1 + x2) / 2, y: y + 33, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label || 'K' }, g);
+    function set(c) { closed = c; var L = x2 - x1, a = c ? 0 : -32 * Math.PI / 180, ex = x1 + L * Math.cos(a), ey = y + L * Math.sin(a); attr(lev, { x2: ex, y2: ey }); attr(knob, { cx: ex, cy: ey }); }
     g.addEventListener('click', function () { set(!closed); o.onToggle && o.onToggle(closed); });
     set(closed);
     return { g: g, set: set, get closed() { return closed; } };
