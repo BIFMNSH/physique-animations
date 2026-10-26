@@ -175,6 +175,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montagne', r: [40, 40, 500, 400] }, { n: 'Baromètre', r: [560, 24, 280, 422] }],
     alt: 'Trois expériences sur la pression atmosphérique : montée en altitude avec un baromètre et un ballon fermé, bouteille dont on pompe l’air, verre d’eau retourné avec ou sans carte ; un baromètre et une loupe sur les molécules d’air à droite',
     steps: [
       'Altitude : fais glisser le ballon vers le haut (ou utilise le curseur) et observe le baromètre et la taille du ballon.',

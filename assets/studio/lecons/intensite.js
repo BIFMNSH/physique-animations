@@ -127,6 +127,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Circuit', r: [40, 50, 500, 396] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
     alt: 'Circuit avec un générateur 3 V et deux lampes, en série ou en dérivation, et un multimètre utilisé en ampèremètre, relié par des cordons rouge et noir à la position choisie',
     steps: [
       'Choisis le calibre sur le multimètre (clique sur le sélecteur) et lis l’intensité.',

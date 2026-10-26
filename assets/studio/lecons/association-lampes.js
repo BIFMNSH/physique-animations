@@ -152,6 +152,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [40, 50, 500, 390] }, { n: 'Schéma', r: [560, 24, 280, 250] }, { n: 'Observations', r: [560, 290, 280, 156] }],
     alt: 'Circuit avec un générateur, un interrupteur et une, deux ou trois lampes montées en série ou en dérivation ; on clique sur une lampe pour la dévisser ; un schéma normalisé et des observations sont affichés à droite',
     steps: [
       'Monte 1, 2 puis 3 lampes en série : comment évolue l’éclat ?',

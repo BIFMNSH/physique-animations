@@ -137,6 +137,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Bain-marie', r: [40, 40, 500, 406] }, { n: 'Mesures', r: [560, 22, 280, 424] }],
     alt: 'Bain-marie chauffé ou refroidi par de la glace, contenant un ou trois ballons de liquide surmontés de tubes gradués, ou un thermomètre à alcool ; thermomètre et loupe sur les particules à droite',
     steps: [
       'Un seul ballon : chauffe puis refroidis le bain-marie et observe le niveau par rapport au repère.',

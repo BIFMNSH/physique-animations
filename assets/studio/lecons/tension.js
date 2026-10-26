@@ -131,6 +131,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Circuit', r: [40, 50, 500, 396] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
     alt: 'Circuit avec un générateur 6 V, un interrupteur et deux lampes en série ou en dérivation ; un multimètre en voltmètre est relié par des cordons aux bornes du dipôle choisi',
     steps: [
       'Mesure la tension aux bornes du générateur, puis de chaque lampe.',

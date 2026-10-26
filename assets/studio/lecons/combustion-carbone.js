@@ -146,6 +146,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Molécules', r: [560, 22, 280, 196] }, { n: 'Bilan', r: [560, 230, 280, 216] }],
     alt: 'Laboratoire : un bec Bunsen, un têt à combustion avec du charbon de bois et un flacon d’air ou de dioxygène ; on chauffe, on plonge, puis on teste le gaz formé à l’eau de chaux. Second mode : un réchaud à charbon dans une pièce avec une fenêtre réglable et un détecteur de monoxyde de carbone',
     steps: [
       'Chauffe le charbon sur la flamme jusqu’à ce qu’il soit incandescent.',

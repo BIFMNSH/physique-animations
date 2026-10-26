@@ -136,6 +136,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Ballon', r: [40, 40, 500, 406] }, { n: 'Mesures', r: [560, 22, 280, 424] }],
     alt: 'Trois expériences de dilatation des gaz : ballon de verre coiffé d’un ballon de baudruche dans un bain chaud ou glacé, ballon réchauffé par les mains dont l’air sort en bulles par un tube plongé dans l’eau, et comparaison de la dilatation d’un solide, d’un liquide et d’un gaz',
     steps: [
       'Ballon : chauffe puis refroidis le bain et observe le ballon de baudruche.',

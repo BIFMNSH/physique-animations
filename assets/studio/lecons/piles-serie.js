@@ -125,6 +125,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [40, 50, 500, 396] }, { n: 'Tension', r: [560, 24, 280, 422] }],
     alt: 'Circuit avec une lampe, un interrupteur et jusqu’à quatre piles en série que l’on peut ajouter, retirer ou retourner ; un voltmètre mesure la tension de l’association, affichée à droite avec un bilan',
     steps: [
       'Ajoute des piles de 1,5 V une à une : que mesure le voltmètre ?',

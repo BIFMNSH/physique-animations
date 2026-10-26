@@ -229,6 +229,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'À la loupe', r: [560, 22, 280, 424] }],
     alt: 'Paillasse de séparation : on choisit un mélange (eau et sable, eau boueuse, eau et huile, eau salée, eau sucrée, eau et alcool) et une technique (décantation, filtration, évaporation, distillation, ampoule à décanter) ; une loupe montre le mélange et un verdict indique si la séparation réussit',
     steps: [
       'Choisis un mélange et observe-le à la loupe : est-il homogène ou hétérogène ?',

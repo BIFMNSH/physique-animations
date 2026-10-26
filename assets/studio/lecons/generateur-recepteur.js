@@ -118,6 +118,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Circuit', r: [40, 50, 500, 390] }, { n: 'Indications', r: [548, 22, 294, 426] }],
     alt: 'Circuit en boucle : un générateur, un interrupteur K et un récepteur (lampe ou moteur) ; à droite, les indications du récepteur et la comparaison entre tension nominale et tension du générateur',
     steps: [
       'Lis les indications du récepteur : quelle est sa tension nominale ?',

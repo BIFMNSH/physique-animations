@@ -140,6 +140,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Molécules', r: [560, 22, 280, 196] }, { n: 'Bilan', r: [560, 230, 280, 216] }],
     alt: 'Laboratoire sous la hotte : un bec Bunsen, un têt à combustion avec du soufre et un flacon d’air ou de dioxygène ; deux tests (papier pH humide, permanganate de potassium). Second mode : une usine rejette du dioxyde de soufre et la pluie devient acide',
     steps: [
       'Chauffe le soufre : observe sa fusion puis sa flamme dans l’air.',
