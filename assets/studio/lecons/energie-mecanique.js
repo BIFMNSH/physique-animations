@@ -125,6 +125,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Énergies', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : une mangue qui tombe d’un manguier depuis une hauteur réglable, avec ou sans frottements de l’air, et les barres d’énergie potentielle, cinétique et mécanique ; puis une bille qui oscille sur une piste en U, avec ou sans frottements',
     steps: [
       'Chute : lâche la mangue et observe les barres d’énergie.',

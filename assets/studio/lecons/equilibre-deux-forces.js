@@ -133,6 +133,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Équilibre', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : une plaque légère tirée par deux fils reliés à des dynamomètres dont on règle les intensités, l’angle et le décalage du second fil, avec la liste des conditions d’équilibre cochées ou non ; puis une boule suspendue à un fil ou posée sur une table, avec son poids et la tension ou la réaction',
     steps: [
       'Plaque : règle F₂ égale à F₁. Que se passe-t-il ?',

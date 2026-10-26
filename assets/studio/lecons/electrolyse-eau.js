@@ -151,6 +151,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Électrolyse', r: [40, 40, 500, 406] }, { n: 'Molécules', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : un électrolyseur d’eau avec ou sans soude, dont on ferme le circuit ; les gaz s’accumulent dans deux tubes gradués et on peut tester chaque gaz avec une flamme ou une bûchette incandescente ; puis un eudiomètre contenant un mélange de dihydrogène et de dioxygène où l’on fait jaillir une étincelle, avec le test de l’eau au sulfate de cuivre anhydre ; à droite, les molécules qui se réarrangent',
     steps: [
       'Électrolyse : ferme le circuit et compare les volumes de gaz.',

@@ -200,6 +200,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [30, 30, 660, 420] }, { n: 'Dangers', r: [560, 22, 280, 100] }],
     alt: 'Une installation avec tableau électrique, prise de courant, machine à laver, fil de terre et une personne ; jauge du courant dans le corps',
     steps: [
       'Teste les bornes de la prise avec le tournevis testeur : laquelle est la phase ?',

@@ -162,6 +162,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [10, 25, 840, 140] }, { n: 'Oscillogramme', r: [50, 180, 730, 285] }],
     alt: 'Chaîne secteur, transformateur, redressement, lissage et téléphone, avec un oscilloscope à deux voies A et B',
     steps: [
       'Règle le nombre de spires N₂ du secondaire et observe la voie A : la tension est-elle plus petite que 220 V ?',

@@ -217,6 +217,7 @@
   }
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Mesures', r: [560, 22, 280, 424] }],
     alt: 'Une bobine reliée à un générateur et un interrupteur, ou un aimant droit, entourés de trois boussoles déplaçables et des lignes de champ',
     steps: [
       'Choisis « Aimant droit » : observe les boussoles A, B, C et les lignes de champ. Déplace une boussole autour de l’aimant.',

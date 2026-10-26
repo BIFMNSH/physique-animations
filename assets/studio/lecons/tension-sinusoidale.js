@@ -159,6 +159,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Fréquence', r: [30, 40, 280, 170] }, { n: 'Multimètre', r: [70, 250, 200, 190] }, { n: 'Courbe', r: [470, 22, 380, 370] }],
     alt: 'Un générateur basse fréquence ou une pile reliés à un multimètre et à un oscilloscope',
     steps: [
       'Compare la pile et le GBF sur l’oscilloscope : quelle tension est continue, laquelle est alternative ?',

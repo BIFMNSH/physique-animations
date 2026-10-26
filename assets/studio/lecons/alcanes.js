@@ -138,6 +138,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Molécules', r: [40, 40, 500, 406] }, { n: 'Les alcanes', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : construire les molécules des alcanes de 1 à 6 atomes de carbone, avec atomes de carbone noirs et d’hydrogène blancs, leur nom, leur formule, leur état et leur utilisation ; puis animer la combustion complète du méthane où les atomes se réarrangent ; à droite, l’équation équilibrée de la combustion de l’alcane choisi et le décompte des atomes',
     steps: [
       'Molécules : change le nombre d’atomes de carbone n.',

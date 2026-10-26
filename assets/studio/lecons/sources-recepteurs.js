@@ -191,6 +191,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Source', r: [0, 50, 330, 330] }, { n: 'Récepteur', r: [320, 50, 340, 330] }],
     alt: 'Banc gradué avec une lampe ou une bougie, un écran (verre, calque, planche) et un récepteur : luxmètre, cellule photovoltaïque, photorésistance ou œil',
     steps: [
       'Choisis un récepteur et allume la lampe : comment réagit-il ? Éteins-la.',

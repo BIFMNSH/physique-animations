@@ -149,6 +149,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Scène', r: [10, 20, 540, 430] }, { n: 'Écran', r: [500, 20, 350, 430] }],
     alt: 'Banc gradué : une source de lumière ponctuelle ou étendue, une balle opaque et un écran ; l’ombre et la pénombre sur l’écran',
     steps: [
       'Avec une source ponctuelle, déplace la balle (glisse-la) puis l’écran : comment varie la taille de l’ombre portée ?',

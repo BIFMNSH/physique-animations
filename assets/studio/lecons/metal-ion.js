@@ -219,6 +219,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Atomes', r: [560, 22, 280, 262] }, { n: 'Bilan', r: [560, 298, 280, 150] }],
     alt: 'Paillasse de chimie : tube d’acide avec du fer, bécher de sulfate de cuivre avec un clou, ou série de tubes à essais pour les tests à la soude ; loupe à l’échelle des atomes et bilan de la réaction',
     steps: [
       'Fer + acide : lance la réaction, puis approche une flamme et ajoute la soude. Qu’observes-tu ?',

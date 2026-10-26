@@ -212,6 +212,7 @@
   }
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Atomes', r: [40, 40, 500, 406] }, { n: 'Carte d’identité', r: [560, 22, 280, 424] }],
     alt: 'Constructeur d’atome : noyau de protons et neutrons, électrons en mouvement et carte d’identité ; ou cuve à électrolyse avec une solution, deux électrodes et une lampe',
     steps: [
       'Construis l’atome de ton choix : règle le nombre de protons (il fixe l’élément), de neutrons et d’électrons.',

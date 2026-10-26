@@ -143,6 +143,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Poids', r: [560, 22, 280, 424] }],
     alt: 'Un dynamomètre gradué de 0 à 10 newtons auquel on accroche une masse réglable, à côté d’une balance électronique ; on choisit la Terre, la Lune ou Mars ; un graphique du poids en fonction de la masse se construit à droite ; un second mode représente le poids d’une mangue, d’un ballon ou d’un sachet de riz par une flèche à l’échelle',
     steps: [
       'Accroche différentes masses et relève le poids.',

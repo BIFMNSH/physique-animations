@@ -143,6 +143,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Scène', r: [0, 10, 560, 450] }, { n: 'Vues', r: [628, 22, 222, 335] }],
     alt: 'Vue du dessus : le Soleil à gauche, la Terre et la Lune sur son orbite ; vue de la Lune depuis la Terre et vue de côté de l’orbite',
     steps: [
       'Fais tourner la Lune autour de la Terre (glisse-la ou utilise le curseur « Jour ») et observe ce qu’on voit depuis la Terre.',
