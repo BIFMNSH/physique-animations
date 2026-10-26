@@ -26,7 +26,7 @@
       [y0, (y0 + y2) / 2, y2].forEach(function (yy) { s('circle', { cx: x, cy: yy, r: 7, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: x, cy: yy, r: 2.8, fill: '#2A2F38' }, g); });
     }
     function build() {
-      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], L: [] };
+      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], L: [] }; C.setAttribute('transform', 'translate(0 ' + (st.mode === 'serie' ? -14 : -6) + ')');
       var cab = function (A, dA, B, dB) { var g = s('g', {}, C), w = E.cable(g, A, dA, B, dB); w.g = g; P.w.push(w); return w; };
       var tag = function (x, y, txt) { s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: txt }, C); };
       if (st.mode === 'serie') {
@@ -48,35 +48,36 @@
     }
     /* schéma normalisé (bandeau du bas) */
     var SCH = s('g', {}, G), SG, sKey = '';
-    s('rect', { x: 56, y: 300, width: 468, height: 108, rx: 14, fill: '#F7F4EA' }, SCH); s('text', { x: 72, y: 318, 'font-size': 11, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
+    s('rect', { x: 56, y: 288, width: 290, height: 152, rx: 16, fill: '#F7F4EA', stroke: '#D9D2BC', 'stroke-width': 2 }, SCH); s('text', { x: 72, y: 310, 'font-size': 12, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
     SG = s('g', {}, SCH);
     function schema(V, sc) {
       var k = [st.mode, st.el, st.meter, st.wrong, st.closed, sc, V.L1 > 0.3, V.L2 > 0.3].join(); if (k === sKey) return; sKey = k; while (SG.firstChild) SG.removeChild(SG.firstChild);
-      var ink = '#1E2430', X0 = 150, Ya = 340, Yb = 392, ym = (Ya + Yb) / 2, vm = st.meter && !st.wrong && !sc;
-      var path = function (d, dash) { s('path', { d: d, fill: 'none', stroke: ink, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-dasharray': dash || 'none' }, SG); };
-      var lab = function (x, y, txt) { s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 800, fill: ink, text: txt }, SG); };
-      var volt = function (cx, cy) { s('circle', { cx: cx, cy: cy, r: 10, fill: '#CFEFFF', stroke: ink, 'stroke-width': 2 }, SG); s('text', { x: cx, y: cy + 4.5, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: ink, text: 'V' }, SG); };
-      var hz = function (x1, x2, y, up) { var d = up ? -22 : 22; path('M' + x1 + ' ' + y + 'V' + (y + d) + 'H' + (x1 + 6) + 'M' + (x2 - 6) + ' ' + (y + d) + 'H' + x2 + 'V' + y, '4 3'); volt((x1 + x2) / 2, y + d); };
-      var vt = function (x, y1, y2, side) { var d = side * 24; path('M' + x + ' ' + y1 + 'H' + (x + d) + 'V' + (y1 + 8) + 'M' + (x + d) + ' ' + (y2 - 8) + 'V' + y2 + 'H' + x, '4 3'); volt(x + d, (y1 + y2) / 2); };
+      var ink = '#1E2430', X0 = 112, Ya = 344, Yb = 414, ym = (Ya + Yb) / 2, vm = st.meter && !st.wrong && !sc;
+      var path = function (d, dash) { s('path', { d: d, fill: 'none', stroke: ink, 'stroke-width': 2.2, 'stroke-linejoin': 'round', 'stroke-dasharray': dash || 'none' }, SG); };
+      var lab = function (x, y, txt) { s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 11.5, 'font-weight': 800, fill: ink, text: txt }, SG); };
+      var volt = function (cx, cy) { s('circle', { cx: cx, cy: cy, r: 11, fill: '#CFEFFF', stroke: ink, 'stroke-width': 2 }, SG); s('text', { x: cx, y: cy + 4.5, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: ink, text: 'V' }, SG); };
+      var hz = function (x1, x2, y, up) { var d = up ? -24 : 24; path('M' + x1 + ' ' + y + 'V' + (y + d) + 'H' + (x1 + 6) + 'M' + (x2 - 6) + ' ' + (y + d) + 'H' + x2 + 'V' + y, '4 3'); volt((x1 + x2) / 2, y + d); };
+      var vt = function (x, y1, y2, side) { var d = side * 26; path('M' + x + ' ' + y1 + 'H' + (x + d) + 'V' + (y1 + 8) + 'M' + (x + d) + ' ' + (y2 - 8) + 'V' + y2 + 'H' + x, '4 3'); volt(x + d, (y1 + y2) / 2); };
       if (st.mode === 'serie') {
-        var X1 = 440;
+        var X1 = 326;
         path('M' + X0 + ' ' + Ya + 'H' + X1 + 'V' + Yb + 'H' + X0 + 'Z');
-        E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'L', 210, Ya, { on: V.L1 > 0.3 }); lab(210, Ya - 15, 'L1'); E.sym(SG, 'K', 290, Ya, { closed: st.closed }); lab(290, Ya - 10, 'K'); E.sym(SG, 'L', 370, Ya, { on: V.L2 > 0.3 }); lab(370, Ya - 15, 'L2');
-        if (vm) { if (st.el === 'G') vt(X0, ym - 22, ym + 22, -1); else if (st.el === 'L1') hz(196, 224, Ya, true); else if (st.el === 'K') hz(272, 308, Ya, true); else if (st.el === 'L2') hz(356, 384, Ya, true); else hz(404, 436, Ya, true); }
-        if (st.wrong) { s('rect', { x: X1 - 7, y: ym - 5, width: 14, height: 10, fill: '#F7F4EA' }, SG); volt(X1, ym); }
+        E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'L', 160, Ya, { on: V.L1 > 0.3 }); lab(160, Ya + 26, 'L1'); E.sym(SG, 'K', 225, Ya, { closed: st.closed }); lab(225, Ya - 11, 'K'); E.sym(SG, 'L', 290, Ya, { on: V.L2 > 0.3 }); lab(290, Ya + 26, 'L2');
+        if (vm) { if (st.el === 'G') vt(X0, ym - 24, ym + 24, -1); else if (st.el === 'L1') hz(146, 174, Ya, true); else if (st.el === 'K') hz(206, 244, Ya, true); else if (st.el === 'L2') hz(276, 304, Ya, true); else hz(306, 326, Ya, true); }
+        if (st.wrong) { s('rect', { x: X1 - 8, y: ym - 6, width: 16, height: 12, fill: '#F7F4EA' }, SG); volt(X1, ym); }
       } else {
-        var xa = 270, xb = 350;
+        var xa = 232, xb = 296;
         path('M' + X0 + ' ' + Ya + 'H' + xb + 'M' + X0 + ' ' + Yb + 'H' + xb + 'M' + xa + ' ' + Ya + 'V' + Yb + 'M' + xb + ' ' + Ya + 'V' + Yb + 'M' + X0 + ' ' + Ya + 'V' + Yb);
-        [[xa, Ya], [xa, Yb], [xb, Ya], [xb, Yb]].forEach(function (d) { s('circle', { cx: d[0], cy: d[1], r: 3, fill: ink }, SG); });
-        E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'K', 205, Ya, { closed: st.closed }); lab(205, Ya - 10, 'K');
-        E.sym(SG, 'L', xa, ym, { on: V.L1 > 0.3 }); lab(xa + 18, ym - 8, 'L1'); E.sym(SG, 'L', xb, ym, { on: V.L2 > 0.3 }); lab(xb + 18, ym - 8, 'L2');
-        if (vm) { if (st.el === 'G') vt(X0, ym - 22, ym + 22, -1); else if (st.el === 'K') hz(188, 222, Ya, true); else if (st.el === 'L1') vt(xa, Ya, Yb, -1); else vt(xb, Ya, Yb, 1); }
+        [[xa, Ya], [xa, Yb], [xb, Ya], [xb, Yb]].forEach(function (d) { s('circle', { cx: d[0], cy: d[1], r: 3.2, fill: ink }, SG); });
+        E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'K', 170, Ya, { closed: st.closed }); lab(170, Ya - 11, 'K');
+        E.sym(SG, 'L', xa, ym, { on: V.L1 > 0.3 }); lab(xa + 17, ym - 10, 'L1'); E.sym(SG, 'L', xb, ym, { on: V.L2 > 0.3 }); lab(xb - 18, ym - 10, 'L2');
+        if (vm) { if (st.el === 'G') vt(X0, ym - 24, ym + 24, -1); else if (st.el === 'K') hz(152, 188, Ya, true); else if (st.el === 'L1') vt(xa, Ya, Yb, -1); else vt(xb, Ya, Yb, 1); }
       }
     }
     var MM = E.multimeter(G, 700, 40, { cal: st.cal, onDial: function (k) { st.cal = k; o.onDial && o.onDial(k); } });
     var LG = s('g', {}, G), red = E.lead(LG, '#FF5A4E'), blk = E.lead(LG, '#2A2F38');
     var mk = s('g', {}, G), mkR = s('rect', { rx: 10, fill: 'none', stroke: '#4FC3FF', 'stroke-width': 2.5, 'stroke-dasharray': '6 5' }, mk);
-    var warn = s('g', {}, G), wr = s('rect', { x: 90, y: 414, width: 400, height: 26, rx: 13, fill: '#FF5A4E' }, warn), wt = s('text', { x: 290, y: 432, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#2A0805' }, warn);
+    var warn = s('g', {}, G), wr = s('rect', { x: 358, y: 300, width: 166, height: 70, rx: 14, fill: '#FF5A4E' }, warn), wt1 = s('text', { x: 441, y: 326, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn), wt2 = s('text', { x: 441, y: 346, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn), wt3 = s('text', { x: 441, y: 363, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn);
+    function warnText(txt) { var w = txt.split(' '), L = ['', '', ''], i = 0; w.forEach(function (x) { if ((L[i] + ' ' + x).length > 21 && i < 2 && L[i]) i++; L[i] = (L[i] ? L[i] + ' ' : '') + x; }); wt1.textContent = L[0]; wt2.textContent = L[1]; wt3.textContent = L[2]; }
     function step() {
       var T = st.t != null ? st.t : performance.now() / 1000;
       if (st.mode !== key) { key = st.mode; build(); if (!PTS[st.mode][st.el]) st.el = 'G'; }
@@ -94,12 +95,12 @@
       var a = { x: p.r[0], y: p.r[1] }, b = { x: p.k[0], y: p.k[1] }; if (st.rev) { var tmp = a; a = b; b = tmp; }
       var sockR = c.k === 'A10' ? MM.sock['10A'] : c.ty === 'A' ? MM.sock.mA : MM.sock.V;
       red.show(st.meter); blk.show(st.meter); MM.g.style.display = st.meter ? '' : 'none'; mk.style.display = st.meter && !st.wrong ? '' : 'none';
-      if (st.meter) { red.set(sockR, a, 70); blk.set(MM.sock.COM, b, 70); var x0 = Math.min(p.r[0], p.k[0]), x1 = Math.max(p.r[0], p.k[0]), y0 = Math.min(p.r[1], p.k[1]), y1 = Math.max(p.r[1], p.k[1]); attr(mkR, { x: x0 - 16, y: y0 - 34, width: x1 - x0 + 32, height: y1 - y0 + 68 }); }
+      if (st.meter) { var oy = st.mode === 'serie' ? -14 : -6; red.set(sockR, { x: a.x, y: a.y + oy }, 70); blk.set(MM.sock.COM, { x: b.x, y: b.y + oy }, 70); var x0 = Math.min(p.r[0], p.k[0]), x1 = Math.max(p.r[0], p.k[0]), y0 = Math.min(p.r[1], p.k[1]), y1 = Math.max(p.r[1], p.k[1]); attr(mkR, { x: x0 - 16, y: y0 - 34 + oy, width: x1 - x0 + 32, height: y1 - y0 + 68 }); }
       schema(V, sc);
       var val = st.wrong && st.mode === 'serie' ? U * 0.999 : V[st.el];
       var M = st.meter ? MM.show((st.rev ? -1 : 1) * val, sc ? 'A' : 'V') : { st: 'off' };
       if (sc) M = { st: 'sc' };
-      warn.style.display = sc || st.wrong ? '' : 'none'; wt.textContent = sc ? 'Calibre ampère en dérivation : COURT-CIRCUIT !' : 'Voltmètre en série : les lampes s’éteignent';
+      warn.style.display = sc || st.wrong ? '' : 'none'; warnText(sc ? 'Calibre ampère en dérivation : COURT-CIRCUIT !' : 'Voltmètre en série : les lampes s’éteignent');
       P.info.textContent = !st.meter ? '' : M.st === 'off' ? 'Multimètre éteint : tourne le sélecteur.' : M.st === 'sc' ? 'Choisis un calibre en volts (V).' : M.st === 'wrongmode' ? 'Choisis un calibre en volts (V).' : M.st === 'over' ? 'Affichage « 1 » : calibre trop petit !' : 'U(' + (st.wrong ? 'voltmètre en série' : st.el) + ') = ' + M.txt + (st.rev ? ' (fils inversés)' : '');
       return { V: V, M: M, el: st.el, mode: st.mode, rev: st.rev, wrong: st.wrong, closed: st.closed, cal: st.cal };
     }
@@ -164,7 +165,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
-    panels: [{ n: 'Montage', r: [40, 50, 500, 250] }, { n: 'Schéma', r: [56, 300, 468, 140] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
+    panels: [{ n: 'Montage', r: [40, 50, 500, 250] }, { n: 'Schéma', r: [56, 288, 290, 152] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
     alt: 'Circuit avec un générateur 6 V, un interrupteur et deux lampes en série ou en dérivation ; un multimètre en voltmètre est relié par des cordons aux bornes du dipôle choisi',
     steps: [
       'Mesure la tension aux bornes du générateur, puis de chaque lampe.',

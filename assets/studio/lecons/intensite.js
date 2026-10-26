@@ -27,7 +27,7 @@
       [y0, (y0 + y2) / 2, y2].forEach(function (yy) { s('circle', { cx: x, cy: yy, r: 7, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: x, cy: yy, r: 2.8, fill: '#2A2F38' }, g); });
     }
     function build() {
-      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], L: [], slots: {} };
+      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], L: [], slots: {} }; C.setAttribute('transform', 'translate(0 ' + (st.mode === 'serie' ? -14 : -6) + ')');
       var cab = function (A, dA, B, dB) { var g = s('g', {}, C), w = E.cable(g, A, dA, B, dB); w.g = g; P.w.push(w); return w; };
       var tag = function (x, y, txt, col) { return s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: col || '#FFC773', text: txt }, C); };
       if (st.mode === 'serie') {
@@ -53,37 +53,38 @@
     }
     /* schéma normalisé (bandeau du bas) */
     var SCH = s('g', {}, G), SG, sKey = '';
-    s('rect', { x: 56, y: 300, width: 468, height: 108, rx: 14, fill: '#F7F4EA' }, SCH); s('text', { x: 72, y: 318, 'font-size': 11, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
+    s('rect', { x: 56, y: 288, width: 290, height: 152, rx: 16, fill: '#F7F4EA', stroke: '#D9D2BC', 'stroke-width': 2 }, SCH); s('text', { x: 72, y: 310, 'font-size': 12, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
     SG = s('g', {}, SCH);
     function schema(R) {
       var k = [st.mode, st.slot, st.meter, st.wrong, R.V1 > 0, R.V2 > 0].join(); if (k === sKey) return; sKey = k; while (SG.firstChild) SG.removeChild(SG.firstChild);
-      var ink = '#1E2430', X0 = 100, X1 = 400, Ya = 340, Yb = 392, ym = (Ya + Yb) / 2, am = st.meter && !st.wrong;
-      var path = function (d, dash) { s('path', { d: d, fill: 'none', stroke: ink, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-dasharray': dash || 'none' }, SG); };
-      var lab = function (x, y, txt, col, bg) { if (bg) s('rect', { x: x - 12, y: y - 11, width: 24, height: 15, fill: '#F7F4EA' }, SG); s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 800, fill: col || ink, text: txt }, SG); };
-      var amp = function (x, y) { s('circle', { cx: x, cy: y, r: 10, fill: '#FFE9A8', stroke: ink, 'stroke-width': 2 }, SG); s('text', { x: x, y: y + 4.5, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: ink, text: 'A' }, SG); };
-      var bypass = function (x1, x2, y, up) { var d = up ? -22 : 22; path('M' + x1 + ' ' + y + 'V' + (y + d) + 'H' + (x1 + 6) + 'M' + (x2 - 6) + ' ' + (y + d) + 'H' + x2 + 'V' + y, '4 3'); amp((x1 + x2) / 2, y + d); };
+      var ink = '#1E2430', X0 = 106, X1 = 320, Ya = 342, Yb = 414, ym = (Ya + Yb) / 2, am = st.meter && !st.wrong;
+      var path = function (d, dash) { s('path', { d: d, fill: 'none', stroke: ink, 'stroke-width': 2.2, 'stroke-linejoin': 'round', 'stroke-dasharray': dash || 'none' }, SG); };
+      var lab = function (x, y, txt, col, bg) { if (bg) s('rect', { x: x - 12, y: y - 11, width: 24, height: 15, fill: '#F7F4EA' }, SG); s('text', { x: x, y: y, 'text-anchor': 'middle', 'font-size': 11.5, 'font-weight': 800, fill: col || ink, text: txt }, SG); };
+      var amp = function (x, y) { s('circle', { cx: x, cy: y, r: 11, fill: '#FFE9A8', stroke: ink, 'stroke-width': 2 }, SG); s('text', { x: x, y: y + 4.5, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: ink, text: 'A' }, SG); };
+      var bypass = function (x1, x2, y, up) { var d = up ? -24 : 24; path('M' + x1 + ' ' + y + 'V' + (y + d) + 'H' + (x1 + 6) + 'M' + (x2 - 6) + ' ' + (y + d) + 'H' + x2 + 'V' + y, '4 3'); amp((x1 + x2) / 2, y + d); };
       if (st.mode === 'serie') {
         path('M' + X0 + ' ' + Ya + 'H' + X1 + 'V' + Yb + 'H' + X0 + 'Z');
-        E.sym(SG, 'L', 220, Ya, { on: R.V1 > 0 }); lab(220, Ya - 15, 'L1'); E.sym(SG, 'L', 330, Ya, { on: R.V2 > 0 }); lab(330, Ya - 15, 'L2');
-        E.sym(SG, 'G', 250, Yb, { flip: true, nolabel: true });
-        if (am) { var pos = { A: [X0, ym], B: [275, Ya], C: [X1, ym] }[st.slot]; amp(pos[0], pos[1]); }
-        [['A', X0 - 14, ym + 4], ['B', 275, Ya - 8], ['C', X1 + 14, ym + 4]].forEach(function (q) { if (!am || q[0] !== st.slot) lab(q[1], q[2], q[0], '#8A8576'); });
-        if (st.wrong) bypass(202, 238, Ya);
+        E.sym(SG, 'L', 170, Ya, { on: R.V1 > 0 }); lab(170, Ya - 16, 'L1'); E.sym(SG, 'L', 260, Ya, { on: R.V2 > 0 }); lab(260, Ya - 16, 'L2');
+        E.sym(SG, 'G', 215, Yb, { flip: true, nolabel: true });
+        if (am) { var pos = { A: [X0, ym], B: [215, Ya], C: [X1, ym] }[st.slot]; amp(pos[0], pos[1]); }
+        [['A', X0 - 14, ym + 4], ['B', 215, Ya - 9], ['C', X1 + 14, ym + 4]].forEach(function (q) { if (!am || q[0] !== st.slot) lab(q[1], q[2], q[0], '#8A8576'); });
+        if (st.wrong) bypass(150, 190, Ya);
       } else {
-        var y1 = Ya, y2 = Ya + 28;
+        var y1 = Ya, y2 = Ya + 32;
         path('M' + X0 + ' ' + y1 + 'H' + X1 + 'V' + Yb + 'H' + X0 + 'Z'); path('M' + X0 + ' ' + y2 + 'H' + X1);
-        s('circle', { cx: X0, cy: y2, r: 3, fill: ink }, SG); s('circle', { cx: X1, cy: y2, r: 3, fill: ink }, SG);
-        E.sym(SG, 'L', 250, y1, { on: R.V1 > 0 }); lab(278, y1 + 4, 'L1', null, true); E.sym(SG, 'L', 250, y2, { on: R.V2 > 0 }); lab(278, y2 + 4, 'L2', null, true);
-        E.sym(SG, 'G', 250, Yb, { flip: true, nolabel: true });
-        if (am) { var q2 = { P: [X1, (y2 + Yb) / 2], '1': [340, y1], '2': [340, y2] }[st.slot]; amp(q2[0], q2[1]); }
-        [['P', X1 + 14, (y2 + Yb) / 2 + 4], ['1', 340, y1 - 8], ['2', 340, y2 - 8]].forEach(function (q) { if (!am || q[0] !== st.slot) lab(q[1], q[2], q[0], '#8A8576'); });
-        if (st.wrong) bypass(228, 272, y1, true);
+        s('circle', { cx: X0, cy: y2, r: 3.2, fill: ink }, SG); s('circle', { cx: X1, cy: y2, r: 3.2, fill: ink }, SG);
+        E.sym(SG, 'L', 205, y1, { on: R.V1 > 0 }); lab(236, y1 + 4, 'L1', null, true); E.sym(SG, 'L', 205, y2, { on: R.V2 > 0 }); lab(236, y2 + 4, 'L2', null, true);
+        E.sym(SG, 'G', 215, Yb, { flip: true, nolabel: true });
+        if (am) { var q2 = { P: [X1, (y2 + Yb) / 2], '1': [276, y1], '2': [276, y2] }[st.slot]; amp(q2[0], q2[1]); }
+        [['P', X1 + 14, (y2 + Yb) / 2 + 4], ['1', 276, y1 - 9], ['2', 276, y2 - 9]].forEach(function (q) { if (!am || q[0] !== st.slot) lab(q[1], q[2], q[0], '#8A8576'); });
+        if (st.wrong) bypass(186, 224, y1, true);
       }
     }
     var MM = E.multimeter(G, 700, 40, { cal: st.cal, onDial: function (k) { st.cal = k; o.onDial && o.onDial(k); } });
     var LG = s('g', {}, G), red = E.lead(LG, '#FF5A4E'), blk = E.lead(LG, '#2A2F38');
     var blkOut = s('path', { fill: 'none', stroke: '#7D89A3', 'stroke-width': 1.5, 'stroke-dasharray': '2 3' }, LG);
-    var warn = s('g', {}, G), wr = s('rect', { x: 100, y: 414, width: 380, height: 26, rx: 13, fill: '#FF5A4E' }, warn), wt = s('text', { x: 290, y: 432, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#2A0805' }, warn);
+    var warn = s('g', {}, G), wr = s('rect', { x: 358, y: 300, width: 166, height: 70, rx: 14, fill: '#FF5A4E' }, warn), wt1 = s('text', { x: 441, y: 326, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn), wt2 = s('text', { x: 441, y: 346, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn), wt3 = s('text', { x: 441, y: 363, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 900, fill: '#2A0805' }, warn);
+    function warnText(txt) { var w = txt.split(' '), L = ['', '', ''], i = 0; w.forEach(function (x) { if ((L[i] + ' ' + x).length > 21 && i < 2 && L[i]) i++; L[i] = (L[i] ? L[i] + ' ' : '') + x; }); wt1.textContent = L[0]; wt2.textContent = L[1]; wt3.textContent = L[2]; }
     function step() {
       var T = st.t != null ? st.t : performance.now() / 1000, k = st.mode;
       if (k !== key) { key = k; build(); if (!SLOTS[st.mode][st.slot]) st.slot = st.mode === 'serie' ? 'B' : 'P'; }
@@ -96,9 +97,9 @@
       var a, b; if (st.wrong) { a = P.shunt[0]; b = P.shunt[1]; } else { a = z.up; b = z.dn; }
       if (st.rev) { var tmp = a; a = b; b = tmp; }
       red.show(st.meter); blk.show(st.meter); MM.g.style.display = st.meter ? '' : 'none';
-      if (st.meter) { red.set(sockR, a, 70); blk.set(MM.sock.COM, b, 70); }
+      if (st.meter) { var oy = st.mode === 'serie' ? -14 : -6; red.set(sockR, { x: a.x, y: a.y + oy }, 70); blk.set(MM.sock.COM, { x: b.x, y: b.y + oy }, 70); }
       var M = st.meter ? MM.show(R.meas, 'A') : { st: 'off' };
-      warn.style.display = R.sc || st.wrong ? '' : 'none'; wt.textContent = R.sc ? 'COURT-CIRCUIT ! Ampèremètre en dérivation' : 'Erreur : ampèremètre en dérivation sur L1';
+      warn.style.display = R.sc || st.wrong ? '' : 'none'; warnText(R.sc ? 'COURT-CIRCUIT ! Ampèremètre en dérivation' : 'Erreur : ampèremètre en dérivation sur L1');
       var msg = !st.meter ? '' : M.st === 'off' ? 'Multimètre éteint : tourne le sélecteur.' : M.st === 'wrongmode' ? 'Sélecteur sur « V » : choisis un calibre en A ou mA.' : M.st === 'over' ? 'Affichage « 1 » : calibre trop petit !' : 'I = ' + M.txt + (st.rev ? ' (fils inversés)' : '') + (st.wrong ? '' : ' · position ' + st.slot);
       P.info.textContent = msg;
       return { R: R, M: M, slot: st.slot, mode: st.mode, rev: st.rev, wrong: st.wrong, cal: st.cal };
@@ -166,7 +167,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
-    panels: [{ n: 'Montage', r: [40, 50, 500, 250] }, { n: 'Schéma', r: [56, 300, 468, 140] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
+    panels: [{ n: 'Montage', r: [40, 50, 500, 250] }, { n: 'Schéma', r: [56, 288, 290, 152] }, { n: 'Multimètre', r: [575, 25, 285, 410] }],
     alt: 'Circuit avec un générateur 3 V et deux lampes, en série ou en dérivation, et un multimètre utilisé en ampèremètre, relié par des cordons rouge et noir à la position choisie',
     steps: [
       'Choisis le calibre sur le multimètre (clique sur le sélecteur) et lis l’intensité.',
