@@ -287,8 +287,7 @@
         s('rect', { x: x - 10, y: y - 14, width: 20, height: 28, fill: bg }, g);
         s('line', { x1: x - 5 * f, y1: y - 14, x2: x - 5 * f, y2: y + 14, stroke: ink, 'stroke-width': 2 }, g);
         s('line', { x1: x + 5 * f, y1: y - 8, x2: x + 5 * f, y2: y + 8, stroke: ink, 'stroke-width': 5 }, g);
-        s('text', { x: x - 14 * f - (f < 0 ? 7 : 0), y: y - 17, 'font-size': 12, 'font-weight': 900, fill: ink, text: '+' }, g);
-        s('text', { x: x + 8 * f - (f < 0 ? 7 : 0), y: y - 17, 'font-size': 12, 'font-weight': 900, fill: ink, text: '−' }, g);
+        if (!o.nolabel) { s('text', { x: x - 14 * f - (f < 0 ? 7 : 0), y: y - 17, 'font-size': 12, 'font-weight': 900, fill: ink, text: '+' }, g); s('text', { x: x + 8 * f - (f < 0 ? 7 : 0), y: y - 17, 'font-size': 12, 'font-weight': 900, fill: ink, text: '−' }, g); }
       }
     }
     if (kind === 'K') { s('rect', { x: x - 14, y: y - 10, width: 28, height: 14, fill: bg }, g); s('circle', { cx: x - 12, cy: y, r: 2.5, fill: ink }, g); s('circle', { cx: x + 12, cy: y, r: 2.5, fill: ink }, g); s('line', { x1: x - 12, y1: y, x2: x + 12, y2: o.closed ? y : y - 10, stroke: ink, 'stroke-width': 2 }, g); }
