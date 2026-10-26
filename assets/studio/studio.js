@@ -374,9 +374,9 @@
     var inquiry = store('pc-inquiry-' + L.id, { prediction: '', observation: '', comparison: '', conclusion: '', started: false, complete: false });
     var revision = false;
     var app = document.documentElement; app.classList.add('app');
-    document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab';
+    document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab'; var lh = document.getElementById('lh'); if (lh) lh.textContent = L.title + ' · ' + L.level;
     applySettings();
-    var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage' }, vp);
+    var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage', role: 'main' }, vp);
     var prog = PROG[L.id] = PROG[L.id] || {}; PROG.last = L.id; save('pc-studio-prog', PROG);
 
     /* barre du haut */
@@ -506,7 +506,7 @@
       if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k] && k !== 'quiz'; })[0]; name = nx || 'resume'; }
       if (name === 'quiz') {
         var back = cur; hush(); if (back && ctl[back] && ctl[back].leave) ctl[back].leave();
-        quiz(stage, L.quiz, L.title, function (sc, ok) { if (ok) { prog.quiz = true; save('pc-studio-prog', PROG); paintSteps(); } }, nextLesson(L), function () { if (back && ctl[back] && ctl[back].resume) ctl[back].resume(); });
+        quiz(stage, L.quiz, L.title, function (sc, ok) { if (ok) { prog.quiz = true; save('pc-studio-prog', PROG); paintSteps(); sync('quiz'); } }, nextLesson(L), function () { if (back && ctl[back] && ctl[back].resume) ctl[back].resume(); });
         return;
       }
       hush();
@@ -516,7 +516,9 @@
       if (ctl[name].enter) ctl[name].enter();
       try { history.replaceState(null, '', '#' + name); } catch (e) {}
     }
-    function done(step) { if (!prog[step]) { prog[step] = true; save('pc-studio-prog', PROG); paintSteps(); } }
+    /* Si l'élève est connecté, l'étape terminée est signalée au serveur (qui décide seul des points). Silencieux en cas d'échec. */
+    function sync(step) { try { var C = window.NLCompte; if (!C || !C.connecte || !C.connecte()) return; var o = { lessonId: String(L.id).replace(L.level + '-', ''), steps: {} }; o.steps[step] = true; C.req('/api/progress', { method: 'PUT', body: o }).catch(function () {}); } catch (e) {} }
+    function done(step) { if (!prog[step]) { prog[step] = true; save('pc-studio-prog', PROG); paintSteps(); sync(step); } }
     ['resume', 'sim', 'defi'].forEach(function (k) { views[k] = h('section', { class: 'view' + (k === 'defi' ? ' defi' : ''), hidden: '', 'aria-label': k }, stage); });
 
     var BUILD = {
