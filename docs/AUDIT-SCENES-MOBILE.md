@@ -77,3 +77,13 @@ Colonne « Étiquettes » = nombre de textes visibles dans la scène ; « Plus p
 - `role="img"` et `aria-label` conservés ; couleurs CPK ; chiffres sans barre.
 - Glisser-déposer et commandes inchangés ; `cd qa && npm test` vert ; une capture à 360 px par scène.
 - Le rendu ordinateur (1280 × 720) ne change pas.
+
+## Mise à jour du 26/10/2026 (fin de refonte)
+
+- **Panneaux** : les 53 leçons (6e, 5e, 4e, 3e) déclarent leurs panneaux (scène, schéma, mesures, bilan…). Sur téléphone, un panneau s'affiche à la fois ; « Agrandir » tourne la scène en paysage. Contrôle : `qa/scenes-portrait.cjs`.
+- **Électricité (6e, 5e)** : montage réaliste et schéma normalisé (cartes encadrées) pour les 8 leçons du kit de lampes ; symbole de pile orienté commun (`E.sym`). Validées par le propriétaire.
+- **Fond clair sur téléphone** : sous 700 px, le thème clair est appliqué par défaut tant que l'élève n'a pas choisi de thème. Les simulations dessinées sur fond sombre sont inversées par un filtre CSS (teintes conservées). Le thème sombre et le contraste élevé restent disponibles dans les réglages. Filtre désactivé à l'impression.
+- **Reste à faire** :
+  - 4e/transfo-redressement : le panneau « Montage » est une bande large (cinq cartes côte à côte) donc petite sur téléphone ; à recomposer en colonne.
+  - Étiquettes encore petites sur les scènes denses (voir tableau) : recomposition par lots.
+  - Vérifier sur appareil réel la fluidité du filtre (animations) et le rendu des couleurs CPK en thème clair.

@@ -30,6 +30,9 @@
   color-scheme:dark;
 }
 :root[data-cvd=on]{--blue:#56B4E9;--amber:#E69F00;--green:#F0E442;--violet:#CC79A7;--red:#D55E00;--trace:#F0E442;--nord:#D55E00;--sud:#0072B2}
+/* Thème clair : les simulations dessinées sur fond sombre sont inversées (teintes conservées) pour rester lisibles au soleil et sur petit écran. */
+:root[data-theme=light] .scene>svg.sv,:root[data-theme=light] .screen svg.sv{filter:invert(1) hue-rotate(180deg)}
+@media print{:root[data-theme=light] .scene>svg.sv,:root[data-theme=light] .screen svg.sv{filter:none}}
 :root[data-theme=light][data-cvd=on]{--blue:#0072B2;--amber:#B86E00;--green:#7A6F00;--red:#A63F00;--violet:#9B4F7E}
 
 *{box-sizing:border-box}

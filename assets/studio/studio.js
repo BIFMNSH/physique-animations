@@ -53,6 +53,8 @@
   /* ---------- réglages (gardés sur l'appareil) ---------- */
   var SET = store('pc-studio', { fs: 1, speed: 1, theme: null, cvd: false, proj: false, tts: false, hints: true, sound: true, sub: 22, voice: true });
   if (!SET.theme) { try { SET.theme = localStorage.getItem('pc-theme') || 'dark'; } catch (e) { SET.theme = 'dark'; } }
+  /* Sur téléphone, fond clair par défaut (meilleure lisibilité) tant que l’élève n’a pas choisi lui-même un thème. */
+  try { if (!SET.themeSet && window.matchMedia && window.matchMedia('(max-width:700px)').matches) SET.theme = 'light'; } catch (e) {}
   var PROF = store('pc-studio-prof', { on: false, steps: { resume: true, sim: true, defi: true, quiz: true }, level: 'std', hideRes: false, corr: false, time: 60, timed: false, nTeams: 4, teams: ['Baobab', 'Lagune', 'Fromager', 'Savane', 'Iroko', 'Lagon'], board: true });
   var PROG = store('pc-studio-prog', {});
   var TEAMC = ['#FFB547', '#5CC8FF', '#3DD68C', '#C4B5FD', '#FF7A7A', '#F0E442'];
@@ -488,7 +490,7 @@
       inp.oninput = function () { SET.speed = SP[+inp.value]; so(); applySettings(); }; so();
       h('div', { class: 'kick' }, db, 'Thème');
       var th = h('div', { class: 'th' }, db);
-      [['dark', 'Sombre', 'background:#0B1220;color:#EEF2F8'], ['light', 'Clair', 'background:#F4F7FB;color:#142033'], ['contrast', 'Contraste élevé', 'background:#000;color:#FFFF00']].forEach(function (t) { var b = h('button', { type: 'button', 'aria-pressed': SET.theme === t[0], style: t[2] }, th, t[1]); b.onclick = function () { SET.theme = t[0]; applySettings(); drawSettings(); }; });
+      [['dark', 'Sombre', 'background:#0B1220;color:#EEF2F8'], ['light', 'Clair', 'background:#F4F7FB;color:#142033'], ['contrast', 'Contraste élevé', 'background:#000;color:#FFFF00']].forEach(function (t) { var b = h('button', { type: 'button', 'aria-pressed': SET.theme === t[0], style: t[2] }, th, t[1]); b.onclick = function () { SET.theme = t[0]; SET.themeSet = true; applySettings(); drawSettings(); }; });
       var c = controls(db);
       c.toggle({ label: 'Couleurs adaptées aux daltoniens', value: SET.cvd, onChange: function (v) { SET.cvd = v; applySettings(); } });
       c.toggle({ label: 'Mode projection (traits épais)', value: SET.proj, onChange: function (v) { SET.proj = v; applySettings(); } });
