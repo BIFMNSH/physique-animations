@@ -16,42 +16,60 @@
   function Lab(G, o) {
     var st = Object.assign({ U: 4.5, reg: false, rec: 'L6', closed: true, broken: false, t: null, onBurn: null }, o || {});
     s('rect', { x: 0, y: 0, width: 860, height: 470, fill: '#0A0F1A' }, G);
-    s('rect', { x: 40, y: 60, width: 480, height: 370, rx: 22, fill: '#0F1729', stroke: '#1E2A44', 'stroke-width': 2 }, G);
-    var w1 = E.wire(G, 'M343 370 H480 V120 H402'), w2 = E.wire(G, 'M358 120 H200'), w3 = E.wire(G, 'M140 120 H90 V370 H229');
-    var bat = E.battery(G, 285, 370, { U: st.U, caption: '' });
-    var K1 = E.switchK(G, 140, 120, 200, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(c); } });
-    var lp = E.lamp(G, 380, 120, { r: 24 }), mo = E.motor(G, 380, 120, { down: true });
-    var recL = s('text', { x: 380, y: 222, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: '#C9D2E3' }, G);
-    var genL = s('text', { x: 285, y: 412, 'text-anchor': 'middle', 'font-size': 12, fill: '#A9B4C7' }, G);
-    var heat = s('circle', { cx: 380, cy: 140, r: 50, fill: E.glow(G, '#FF5A4E'), opacity: 0 }, G); G.insertBefore(heat, mo.g);
+    s('rect', { x: 40, y: 60, width: 480, height: 380, rx: 22, fill: '#0F1729', stroke: '#1E2A44', 'stroke-width': 2 }, G);
+    var Y = 190, PX = 548, SCH, SG, sKey = '';
+    var cab = function (A, dA, B, dB) { return E.cable(G, A, dA, B, dB); };
+    var w1 = cab([338, 370], 1, [424, Y], 1), w2 = cab([376, Y], -1, [190, Y], 1), w3 = cab([130, Y], -1, [242, 370], -1);
+    var bat = E.battery(G, 290, 370, { U: st.U, caption: '' });
+    var K1 = E.switchK(G, 130, Y, 190, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(c); } });
+    var lp = E.lamp(G, 400, Y, { r: 24 });
+    /* moteur sur socle : deux douilles, hélice au-dessus */
+    var mg = s('g', { transform: 'translate(400 ' + Y + ')' }, G);
+    s('rect', { x: -37, y: -14.4, width: 74, height: 28.8, rx: 5, fill: '#E9EEF6', stroke: '#9FB0C4', 'stroke-width': 2 }, mg);
+    [-24, 24].forEach(function (dx) { s('circle', { cx: dx, cy: 0, r: 6.5, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, mg); s('circle', { cx: dx, cy: 0, r: 2.6, fill: '#2A2F38' }, mg); });
+    var mo = E.motor(mg, 0, -38, {}); mo.g.setAttribute('role', 'img'); mo.g.setAttribute('aria-label', 'Moteur sur socle : deux douilles');
+    var recL = s('text', { x: 400, y: Y + 42, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: '#C9D2E3' }, G);
+    var genL = s('text', { x: 290, y: 412, 'text-anchor': 'middle', 'font-size': 12, fill: '#A9B4C7' }, G);
+    var heat = s('circle', { cx: 400, cy: Y - 40, r: 50, fill: E.glow(G, '#FF5A4E'), opacity: 0 }, G); G.insertBefore(heat, mg);
+    /* schéma normalisé */
+    SCH = s('g', {}, G); s('rect', { x: PX, y: 22, width: 294, height: 150, rx: 16, fill: '#F7F4EA' }, SCH); s('text', { x: PX + 18, y: 46, 'font-size': 12, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
+    SG = s('g', {}, SCH);
+    function schema(R, on) {
+      var k = [st.rec, st.closed, on].join(); if (k === sKey) return; sKey = k; while (SG.firstChild) SG.removeChild(SG.firstChild);
+      var ink = '#1E2430', X0 = PX + 40, X1 = PX + 254, Y0 = 82, Y1 = 154, ym = (Y0 + Y1) / 2;
+      s('path', { d: 'M' + X0 + ' ' + Y0 + 'H' + X1 + 'V' + Y1 + 'H' + X0 + 'Z', fill: 'none', stroke: ink, 'stroke-width': 2, 'stroke-linejoin': 'round' }, SG);
+      E.sym(SG, 'G', X0, ym, { vert: true }); E.sym(SG, 'K', (X0 + X1) / 2, Y0, { closed: st.closed });
+      E.sym(SG, R.lamp ? 'L' : 'M', X1, ym, { on: on }); s('text', { x: X1 - 18, y: ym + 4, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 800, fill: ink, text: R.lamp ? 'lampe' : 'moteur' }, SG);
+      s('text', { x: (X0 + X1) / 2, y: Y0 - 10, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: ink, text: 'K' }, SG);
+    }
     // panneau : indications et comparaison
-    var PX = 548, P = s('g', {}, G);
-    s('rect', { x: PX, y: 22, width: 294, height: 426, rx: 18, fill: '#0F1729', stroke: '#2B3A57', 'stroke-width': 2 }, P);
-    s('text', { x: PX + 20, y: 50, 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: 'INDICATIONS DU RÉCEPTEUR' }, P);
-    s('circle', { cx: PX + 147, cy: 120, r: 54, fill: '#C9CDD6', stroke: '#8D96A8', 'stroke-width': 4 }, P);
-    s('circle', { cx: PX + 147, cy: 120, r: 46, fill: 'none', stroke: '#A8AEBA', 'stroke-width': 2, 'stroke-dasharray': '3 5' }, P);
-    var ind = s('text', { x: PX + 147, y: 127, 'text-anchor': 'middle', 'font-size': 19, 'font-weight': 900, fill: '#2A2F38' }, P);
-    s('path', { d: 'M' + (PX + 186) + ' 160 l26 26', stroke: '#8D96A8', 'stroke-width': 8, 'stroke-linecap': 'round' }, P);
-    var indSub = s('text', { x: PX + 147, y: 198, 'text-anchor': 'middle', 'font-size': 12, fill: '#A9B4C7' }, P);
-    s('text', { x: PX + 20, y: 236, 'font-size': 13, fill: '#C9D2E3', text: 'tension nominale' }, P); var tUn = s('text', { x: PX + 274, y: 236, 'text-anchor': 'end', 'font-size': 16, 'font-weight': 800, fill: '#3DD68C' }, P);
-    s('rect', { x: PX + 20, y: 246, width: 254, height: 12, rx: 6, fill: '#1A2540' }, P); var bUn = s('rect', { x: PX + 20, y: 246, height: 12, rx: 6, fill: '#3DD68C' }, P);
-    s('text', { x: PX + 20, y: 286, 'font-size': 13, fill: '#C9D2E3', text: 'tension du générateur' }, P); var tU = s('text', { x: PX + 274, y: 286, 'text-anchor': 'end', 'font-size': 16, 'font-weight': 800, fill: '#FFB547' }, P);
-    s('rect', { x: PX + 20, y: 296, width: 254, height: 12, rx: 6, fill: '#1A2540' }, P); var bU = s('rect', { x: PX + 20, y: 296, height: 12, rx: 6, fill: '#FFB547' }, P);
-    var vb = s('rect', { x: PX + 20, y: 330, width: 254, height: 44, rx: 22 }, P), vt = s('text', { x: PX + 147, y: 358, 'text-anchor': 'middle', 'font-size': 16, 'font-weight': 900, fill: '#0B1220' }, P);
-    var vs = s('text', { x: PX + 147, y: 400, 'text-anchor': 'middle', 'font-size': 13, fill: '#C9D2E3' }, P), vs2 = s('text', { x: PX + 147, y: 420, 'text-anchor': 'middle', 'font-size': 13, fill: '#C9D2E3' }, P);
+    var P = s('g', {}, G);
+    s('rect', { x: PX, y: 182, width: 294, height: 266, rx: 18, fill: '#0F1729', stroke: '#2B3A57', 'stroke-width': 2 }, P);
+    s('text', { x: PX + 20, y: 206, 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: 'INDICATIONS DU RÉCEPTEUR' }, P);
+    s('circle', { cx: PX + 147, cy: 250, r: 38, fill: '#C9CDD6', stroke: '#8D96A8', 'stroke-width': 4 }, P);
+    s('circle', { cx: PX + 147, cy: 250, r: 31, fill: 'none', stroke: '#A8AEBA', 'stroke-width': 2, 'stroke-dasharray': '3 5' }, P);
+    var ind = s('text', { x: PX + 147, y: 250, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 900, fill: '#2A2F38' }, P), ind2 = s('text', { x: PX + 147, y: 268, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 900, fill: '#2A2F38' }, P);
+    var indSub = s('text', { x: PX + 147, y: 304, 'text-anchor': 'middle', 'font-size': 11.5, fill: '#A9B4C7' }, P);
+    s('text', { x: PX + 20, y: 326, 'font-size': 12.5, fill: '#C9D2E3', text: 'tension nominale' }, P); var tUn = s('text', { x: PX + 274, y: 326, 'text-anchor': 'end', 'font-size': 15, 'font-weight': 800, fill: '#3DD68C' }, P);
+    s('rect', { x: PX + 20, y: 332, width: 254, height: 10, rx: 5, fill: '#1A2540' }, P); var bUn = s('rect', { x: PX + 20, y: 332, height: 10, rx: 5, fill: '#3DD68C' }, P);
+    s('text', { x: PX + 20, y: 362, 'font-size': 12.5, fill: '#C9D2E3', text: 'tension du générateur' }, P); var tU = s('text', { x: PX + 274, y: 362, 'text-anchor': 'end', 'font-size': 15, 'font-weight': 800, fill: '#FFB547' }, P);
+    s('rect', { x: PX + 20, y: 368, width: 254, height: 10, rx: 5, fill: '#1A2540' }, P); var bU = s('rect', { x: PX + 20, y: 368, height: 10, rx: 5, fill: '#FFB547' }, P);
+    var vb = s('rect', { x: PX + 20, y: 388, width: 254, height: 28, rx: 14 }, P), vt = s('text', { x: PX + 147, y: 407, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 900, fill: '#0B1220' }, P);
+    var vs = s('text', { x: PX + 147, y: 431, 'text-anchor': 'middle', 'font-size': 12, fill: '#C9D2E3' }, P), vs2 = s('text', { x: PX + 147, y: 443, 'text-anchor': 'middle', 'font-size': 12, fill: '#C9D2E3' }, P);
     var burnAt = null;
     function step() {
       var T = st.t != null ? st.t : performance.now() / 1000, R = REC[st.rec];
       bat.set(st.U); bat.band.setAttribute('fill', st.reg ? '#4FC3FF' : '#FFB547'); genL.textContent = st.reg ? 'générateur réglable' : gname(st.U);
       var Ueff = st.closed && !st.broken ? st.U : 0, ls = R.lamp ? E.lampState(st.U, R.Un) : motorState(st.U, R.Un);
       if (R.lamp && st.closed && ls.k === 'burn' && !st.broken) { if (burnAt == null) burnAt = T; if (T - burnAt > 0.5) { st.broken = true; burnAt = null; st.onBurn && st.onBurn(); } } else burnAt = null;
-      lp.g.style.display = R.lamp ? '' : 'none'; mo.g.style.display = R.lamp ? 'none' : '';
+      lp.g.style.display = R.lamp ? '' : 'none'; mg.style.display = R.lamp ? 'none' : '';
       var on = st.closed && !st.broken;
       if (R.lamp) lp.set(on ? (ls.k === 'burn' ? 2.2 : ls.b) : 0, st.broken); else mo.set(on ? Math.min(2, ls.r) : 0, st.t);
+      schema(R, on);
       heat.setAttribute('opacity', !R.lamp && on && ls.k === 'high' ? 0.4 + 0.3 * Math.sin(T * 8) : 0);
       var I = on && (ls.k !== 'off' || !R.lamp) ? Math.min(1.6, ls.r) : 0; [w1, w2, w3].forEach(function (w) { w.flow(I, T); });
       recL.textContent = R.n + (st.broken ? ' (grillée)' : '');
-      ind.textContent = R.ind; indSub.textContent = R.lamp ? 'inscrit sur le culot de la lampe' : 'inscrit sur le moteur';
+      var ip = R.ind.split(' – '); ind.textContent = ip.length > 1 ? ip[0] : ''; ind2.textContent = ip.length > 1 ? ip[1] : ip[0]; if (ip.length === 1) ind2.setAttribute('y', 261); else ind2.setAttribute('y', 268); indSub.textContent = R.lamp ? 'inscrit sur le culot de la lampe' : 'inscrit sur le moteur';
       tUn.textContent = E.v(R.Un); tU.textContent = E.v(st.U); attr(bUn, { width: 254 * R.Un / 12 }); attr(bU, { width: 254 * st.U / 12 });
       var k = st.broken ? 'burn' : !st.closed ? 'off' : ls.k, txt = st.broken ? 'LAMPE GRILLÉE' : !st.closed ? 'CIRCUIT OUVERT' : { off: 'RIEN NE SE PASSE', low: 'SOUS-TENSION', ok: 'GÉNÉRATEUR ADAPTÉ', high: 'SURTENSION', burn: 'FORTE SURTENSION' }[ls.k];
       vb.setAttribute('fill', KCOL[k]); vt.textContent = txt;
@@ -118,7 +136,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
-    panels: [{ n: 'Circuit', r: [40, 50, 500, 390] }, { n: 'Indications', r: [548, 22, 294, 426] }],
+    panels: [{ n: 'Circuit', r: [40, 50, 500, 390] }, { n: 'Schéma', r: [548, 22, 294, 150] }, { n: 'Indications', r: [548, 182, 294, 266] }],
     alt: 'Circuit en boucle : un générateur, un interrupteur K et un récepteur (lampe ou moteur) ; à droite, les indications du récepteur et la comparaison entre tension nominale et tension du générateur',
     steps: [
       'Lis les indications du récepteur : quelle est sa tension nominale ?',
