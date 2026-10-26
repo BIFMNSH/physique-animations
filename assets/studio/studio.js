@@ -153,8 +153,8 @@
   }
 
   /* ---------- zoom, déplacement, loupe et mini-carte d'une scène SVG ---------- */
-  function zoomable(box, svg, W, H, rootG) {
-    var z = 1, cx = W / 2, cy = H / 2, panMode = false, lensOn = false;
+  function zoomable(box, svg, W, H, rootG, panels) {
+    var z = 1, cx = W / 2, cy = H / 2, panMode = false, lensOn = false, bx = 0, by = 0, bw = W, bh = H;
     var tools = h('div', { class: 'ztools', role: 'toolbar', 'aria-label': 'Zoom' }, box);
     var bL = h('button', { 'aria-label': 'Loupe ×3', 'aria-pressed': 'false', title: 'Loupe ×3' }, tools, ICON.lens);
     var bH = h('button', { 'aria-label': 'Déplacer la vue', 'aria-pressed': 'false', title: 'Déplacer la vue' }, tools, ICON.hand);
@@ -166,9 +166,9 @@
     var bBig = h('button', { class: 'bigbtn', type: 'button', 'aria-label': 'Agrandir la simulation', 'aria-pressed': 'false' }, tools, 'Agrandir');
     function bigOff() { box.classList.remove('big'); document.documentElement.classList.remove('has-big'); bBig.textContent = 'Agrandir'; bBig.setAttribute('aria-pressed', 'false'); bBig.setAttribute('aria-label', 'Agrandir la simulation'); }
     bBig.onclick = function () {
-      if (box.classList.contains('big')) { bigOff(); return; }
+      if (box.classList.contains('big')) { bigOff(); setTimeout(function () { box.dispatchEvent(new Event('panelsync')); }, 30); return; }
       box.classList.add('big'); document.documentElement.classList.add('has-big');
-      bBig.textContent = 'Réduire'; bBig.setAttribute('aria-pressed', 'true'); bBig.setAttribute('aria-label', 'Réduire la simulation');
+      bBig.textContent = 'Réduire'; bBig.setAttribute('aria-pressed', 'true'); bBig.setAttribute('aria-label', 'Réduire la simulation'); setTimeout(function () { box.dispatchEvent(new Event('panelsync')); }, 30);
     };
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('big')) bigOff(); });
     var mm = h('div', { class: 'minimap', 'aria-hidden': 'true' }, box);
@@ -186,8 +186,8 @@
     var lring = s('circle', { r: 78, fill: 'none', stroke: '#FFB547', 'stroke-width': 4 }, lens);
     var ltag = s('text', { 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 800, fill: '#FFB547', text: '×3' }, lens);
     function apply() {
-      z = clamp(z, 1, 4); var w = W / z, hh = H / z;
-      cx = clamp(cx, w / 2, W - w / 2); cy = clamp(cy, hh / 2, H - hh / 2);
+      z = clamp(z, 1, 4); var w = bw / z, hh = bh / z;
+      cx = clamp(cx, bx + w / 2, bx + bw - w / 2); cy = clamp(cy, by + hh / 2, by + bh - hh / 2);
       svg.setAttribute('viewBox', (cx - w / 2) + ' ' + (cy - hh / 2) + ' ' + w + ' ' + hh);
       zv.textContent = Math.round(z * 100) + ' %';
       mr.setAttribute('x', cx - w / 2); mr.setAttribute('y', cy - hh / 2); mr.setAttribute('width', w); mr.setAttribute('height', hh);
@@ -196,7 +196,7 @@
     function pt(e) { var p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
     function zoomAt(f, px, py) { var nz = clamp(z * f, 1, 4); if (px != null) { cx = px - (px - cx) * z / nz; cy = py - (py - cy) * z / nz; } z = nz; apply(); }
     bP.onclick = function () { zoomAt(1.25); }; bM.onclick = function () { zoomAt(0.8); };
-    bF.onclick = function () { z = 1; cx = W / 2; cy = H / 2; apply(); };
+    bF.onclick = function () { z = 1; cx = bx + bw / 2; cy = by + bh / 2; apply(); };
     bH.onclick = function () { panMode = !panMode; bH.setAttribute('aria-pressed', panMode); svg.style.cursor = panMode ? 'grab' : ''; };
     bL.onclick = function () { lensOn = !lensOn; bL.setAttribute('aria-pressed', lensOn); lens.style.display = 'none'; };
     box.addEventListener('wheel', function (e) { if (!e.ctrlKey && !e.altKey && z === 1 && Math.abs(e.deltaY) < 30) return; e.preventDefault(); var p = pt(e); zoomAt(e.deltaY < 0 ? 1.12 : 1 / 1.12, p.x, p.y); }, { passive: false });
@@ -212,7 +212,7 @@
       if (ptrs[e.pointerId]) ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
       var ids = Object.keys(ptrs);
       if (pinch && ids.length === 2) { var a = ptrs[ids[0]], b = ptrs[ids[1]]; z = pinch.z * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d; apply(); }
-      else if (drag) { var r = svg.getBoundingClientRect(), k = (W / z) / r.width; cx = drag.cx - (e.clientX - drag.x) * k; cy = drag.cy - (e.clientY - drag.y) * k; apply(); }
+      else if (drag) { var r = svg.getBoundingClientRect(), k = (bw / z) / r.width; cx = drag.cx - (e.clientX - drag.x) * k; cy = drag.cy - (e.clientY - drag.y) * k; apply(); }
       if (lensOn) {
         var p = pt(e), M = 3;
         lens.style.display = '';
@@ -227,7 +227,27 @@
     svg.addEventListener('pointerleave', function () { if (lensOn) lens.style.display = 'none'; });
     mm.addEventListener('pointerdown', function (e) { var r = mm.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * W; cy = (e.clientY - r.top) / r.height * H; apply(); });
     apply();
-    return { reset: function () { bF.onclick(); }, tools: tools, get z() { return z; } };
+    /* vue par panneau (téléphone en portrait) : la scène est recadrée sur une zone à la fois (montage, schéma, fiche…)
+       pour que les étiquettes restent lisibles ; le dessin d'origine n'est pas modifié et le rendu ordinateur non plus. */
+    var panNav = null, panB = [], panCur = 0, panOn = false;
+    if (panels && panels.length > 1) {
+      panNav = h('nav', { class: 'panels', 'aria-label': 'Parties de la scène' }, box);
+      panels.forEach(function (P, i) { var b = h('button', { type: 'button', 'aria-pressed': i === 0 }, panNav, esc(P.n)); b.onclick = function () { panCur = i; syncPanel(true); }; panB.push(b); });
+    }
+    function syncPanel(force) {
+      if (!panNav) return;
+      var app = box.closest && box.closest('.app'), want = !!(app && app.classList.contains('portrait')) && !box.classList.contains('big');
+      if (want === panOn && !force) return;
+      panOn = want;
+      panB.forEach(function (b, i) { b.setAttribute('aria-pressed', i === panCur); });
+      var r = want ? panels[panCur].r : [0, 0, W, H];
+      bx = r[0]; by = r[1]; bw = r[2]; bh = r[3]; z = 1; cx = bx + bw / 2; cy = by + bh / 2;
+      svg.style.height = want ? 'auto' : ''; svg.style.minHeight = want ? '0' : '';
+      apply();
+    }
+    function syncSoon() { requestAnimationFrame(function () { syncPanel(); }); }
+    if (panNav) { box.addEventListener('panelsync', function () { syncPanel(true); }); window.addEventListener('resize', syncSoon); setTimeout(syncPanel, 0); setTimeout(syncPanel, 500); }
+    return { reset: function () { bF.onclick(); }, tools: tools, sync: syncSoon, get z() { return z; } };
   }
 
   /* ---------- petit graphique SVG ---------- */
@@ -781,7 +801,7 @@
     var rr = h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:auto' }, panes.manip);
     h('button', { class: 'btn sm' }, rr, 'Tout remettre à zéro').onclick = function () { resets.forEach(function (f) { f(); }); api.say('Simulation remise à zéro.'); };
     unlock();
-    zoomable(box, sv, S.W, S.H, G).tools.classList.add('ztl');
+    var zm = zoomable(box, sv, S.W, S.H, G, S.panels); zm.tools.classList.add('ztl');
     function bilan() { var withheld = PROF.hideRes || (I && !state.complete && !ctx.revision()); retCard.hidden = withheld; bilCard.hidden = withheld; if (I) initial.textContent = state.prediction || 'Aucune prévision enregistrée.'; bilCard.innerHTML = PROF.hideRes ? '<h3>Mon bilan</h3><p>Le bilan est masqué par l’enseignant : discutez-en ensemble.</p>' : '<h3>Mon bilan</h3>' + (model.bilan ? model.bilan() : ''); }
     return { refresh: function () { unlock(); bilan(); }, enter: function () { unlock(); bilan(); if (SET.tts) speak((ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).join(' '), 1); model.enter && model.enter(); }, leave: function () { model.leave && model.leave(); } };
   }

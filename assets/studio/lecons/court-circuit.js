@@ -137,6 +137,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [40, 40, 500, 406] }, { n: 'Intensité', r: [560, 22, 280, 424] }],
     alt: 'Circuit avec une pile, un interrupteur et deux lampes en série ; on peut poser un fil aux bornes de L1 ou de la pile et ajouter un fusible ou un disjoncteur ; à droite, l’intensité, l’échauffement et un diagnostic',
     steps: [
       'Pose un fil aux bornes de L1 : que deviennent L1 et L2 ?',

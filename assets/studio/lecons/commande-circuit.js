@@ -161,6 +161,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Montage', r: [60, 50, 440, 390] }, { n: 'Tableau', r: [560, 22, 280, 424] }],
     alt: 'Circuits de commande d’une lampe : interrupteur ou bouton-poussoir, deux interrupteurs en série ou en dérivation, montage va-et-vient d’escalier ; une table de vérité se remplit au fil des essais',
     steps: [
       'Clique sur l’interrupteur, puis sur le bouton-poussoir (maintiens appuyé) : compare.',

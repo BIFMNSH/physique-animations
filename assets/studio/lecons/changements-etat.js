@@ -130,6 +130,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [100, 40, 440, 406] }, { n: 'Graphique', r: [560, 22, 280, 424] }],
     alt: 'Bécher de glaçons sur une plaque chauffante ou un bac de glace, avec un thermomètre, une plaque froide optionnelle, la courbe de température au cours du temps et le schéma des changements d’état',
     steps: [
       'Chauffe la glace et observe la courbe de température : que se passe-t-il à 0 °C ?',

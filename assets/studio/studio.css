@@ -331,3 +331,10 @@ html.has-big,html.has-big body{overflow:hidden}
 .app.portrait .scene.big>svg{flex:1;min-height:0;width:100%;height:auto;max-height:none;aspect-ratio:auto}
 .app.portrait .scene.big>.ztools{order:2;align-self:stretch;justify-content:center;margin:0;border-radius:0}
 .app.portrait .scene.big>.ztools .bigbtn{background:var(--amber);color:var(--on-amber)}
+
+/* vue par panneau (téléphone en portrait) : choix de la partie de la scène à regarder */
+.scene>.panels{display:none}
+.app.portrait .scene>.panels{display:flex;order:-1;gap:6px;padding:6px 8px 2px;flex-wrap:wrap}
+.app.portrait .scene>.panels button{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--text);font:700 15px var(--f-body);cursor:pointer}
+.app.portrait .scene>.panels button[aria-pressed=true]{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.app.portrait .scene.big>.panels{display:none}

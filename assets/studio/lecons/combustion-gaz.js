@@ -145,6 +145,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Flamme', r: [40, 40, 500, 406] }, { n: 'Bilan', r: [560, 22, 280, 424] }],
     alt: 'Deux activités : un bec Bunsen dont on règle l’ouverture de la virole, avec une soucoupe que l’on place dans la flamme et une loupe sur les molécules de gaz et d’air ; une gazinière reliée à une bouteille de butane dont le brûleur peut être encrassé ; à droite, combustion complète et incomplète',
     steps: [
       'Bec Bunsen : virole fermée, observe la flamme.',

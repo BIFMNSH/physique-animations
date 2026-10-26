@@ -160,6 +160,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
+    panels: [{ n: 'Expérience', r: [40, 40, 500, 406] }, { n: 'Bilan', r: [560, 22, 280, 424] }],
     alt: 'Trois activités : une bougie que l’on recouvre d’une petite ou d’une grande cloche avec un chronomètre et la jauge de dioxygène ; un verre froid au-dessus d’une flamme et le test de l’eau de chaux sur deux flacons ; plusieurs combustibles solides et liquides qui brûlent ; le bilan de la combustion à droite',
     steps: [
       'Cloche : recouvre la bougie. Combien de temps brûle-t-elle ?',
