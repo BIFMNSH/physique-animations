@@ -17,31 +17,39 @@
     s('rect', { x: 0, y: 0, width: 860, height: 470, fill: '#0A0F1A' }, G);
     s('rect', { x: 40, y: 50, width: 500, height: 390, rx: 22, fill: BG, stroke: '#1E2A44', 'stroke-width': 2 }, G);
     var C = s('g', {}, G), key = '', parts = null;
-    function mask(x, y, w, h) { return s('rect', { x: x, y: y, width: w, height: h, fill: BG }, C); }
-    function build() {
-      while (C.firstChild) C.removeChild(C.firstChild);
-      var P = { wires: [], branch: [], lamps: [], holes: [] }, xs = POS[st.mode][st.n];
-      if (st.mode === 'serie') {
-        P.wires.push(E.wire(C, 'M100 120 H500 V380 H100 Z'));
-        xs.forEach(function (x, i) { var h = s('g', {}, C); s('rect', { x: x - 26, y: 112, width: 52, height: 16, fill: BG }, h); s('circle', { cx: x - 26, cy: 120, r: 4, fill: '#EEF2F8' }, h); s('circle', { cx: x + 26, cy: 120, r: 4, fill: '#EEF2F8' }, h); s('path', { d: 'M' + (x - 10) + ' 120 h20 v14 h-20z', fill: '#5B6680' }, h); P.holes.push(h); P.lamps.push(lampAt(x, 120, i)); });
-        mask(140, 372, 80, 16); P.K = E.switchK(C, 150, 380, 210, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(); } });
-        P.bat = E.battery(C, 360, 380, { U: st.U });
-      } else {
-        var xl = xs[xs.length - 1];
-        P.wires.push(E.wire(C, 'M100 110 H' + xl + ' M100 400 H' + xl + ' M100 110 V400'));
-        xs.forEach(function (x, i) { var w = E.wire(C, 'M' + x + ' 110 V400'); P.branch.push(w); E.dot(C, x, 110); E.dot(C, x, 400); var h = s('g', {}, C); s('rect', { x: x - 8, y: 222, width: 16, height: 56, fill: BG }, h); s('circle', { cx: x, cy: 222, r: 4, fill: '#EEF2F8' }, h); s('circle', { cx: x, cy: 278, r: 4, fill: '#EEF2F8' }, h); s('path', { d: 'M' + (x - 10) + ' 250 h20 v14 h-20z', fill: '#5B6680' }, h); P.holes.push(h); P.lamps.push(lampAt(x, 250, i)); });
-        mask(140, 102, 80, 16); P.K = E.switchK(C, 150, 110, 210, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(); } });
-        P.bat = E.battery(C, 170, 400, { U: st.U });
-      }
-      P.lab = s('text', { x: st.mode === 'serie' ? 290 : 380, y: 432, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: '#A9B4C7', text: st.mode === 'serie' ? 'lampes en série : une seule boucle' : 'lampes en dérivation : plusieurs boucles' }, C);
-      return P;
-    }
+    /* montage de paillasse : modules posés sur la table, reliés par des câbles à fiches.
+       En série : pile, lampes et interrupteur forment une boucle ; en dérivation : les lampes sont en colonne, les fiches des câbles
+       s'empilent sur leurs douilles (comme au laboratoire). */
+    var DER_Y = { 1: [250], 2: [185, 320], 3: [140, 250, 360] };
     function lampAt(x, y, i) {
-      var L = E.lamp(C, x, y, { r: 22 }), tag = s('text', { x: x, y: y + (st.mode === 'serie' ? 60 : 0), 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: 'L' + (i + 1) }, C);
-      if (st.mode === 'der') attr(tag, { x: x + 34, y: y + 5 });
-      var hit = s('circle', { cx: x, cy: y, r: 30, fill: 'transparent', style: 'cursor:pointer' }, C);
+      var L = E.lamp(C, x, y, { r: 22 }), tag = s('text', { x: x, y: y + 36, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 900, fill: '#FFC773', text: 'L' + (i + 1) }, C);
+      var hit = s('circle', { cx: x, cy: y - 33, r: 28, fill: 'transparent', style: 'cursor:pointer' }, C);
       hit.addEventListener('click', function () { st.removed[i] = !st.removed[i]; o.onUnscrew && o.onUnscrew(i, st.removed[i]); });
       return { L: L, tag: tag, hit: hit };
+    }
+    function build() {
+      while (C.firstChild) C.removeChild(C.firstChild);
+      var P = { wires: [], left: [], right: [], lamps: [] }, n = st.n, i, pos, cab;
+      s('rect', { x: 52, y: 62, width: 476, height: 366, rx: 16, fill: '#121C33' }, C);
+      if (st.mode === 'serie') {
+        pos = E.ring(n + 2, 290, 252, 185, 125);
+        var jk = pos.map(function (p, k) { var hw = k === 0 ? 48 : k === n + 1 ? 30 : 22; return { L: [p[0] - hw, p[1]], R: [p[0] + hw, p[1]] }; });
+        E.chain(jk).cables.forEach(function (c) { P.wires.push(E.cable(C, c.a, c.da, c.b, c.db)); });
+        P.bat = E.battery(C, pos[0][0], pos[0][1], { U: st.U });
+        for (i = 0; i < n; i++) P.lamps.push(lampAt(pos[i + 1][0], pos[i + 1][1], i));
+        P.K = E.switchK(C, pos[n + 1][0] - 30, pos[n + 1][1], pos[n + 1][0] + 30, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(); } });
+      } else {
+        var ys = DER_Y[n], LX = 395, bx = 190, by = 115, kx = 190, ky = 385;
+        P.wires.push(E.cable(C, [bx + 48, by], 1, [LX - 22, ys[0]], -1));
+        for (i = 0; i + 1 < n; i++) { P.left.push(E.cable(C, [LX - 22, ys[i]], -1, [LX - 22, ys[i + 1]], -1)); P.right.push(E.cable(C, [LX + 22, ys[i]], 1, [LX + 22, ys[i + 1]], 1)); }
+        P.wires.push(E.cable(C, [LX + 22, ys[n - 1]], 1, [kx + 30, ky], 1));
+        P.wires.push(E.cable(C, [kx - 30, ky], -1, [bx - 48, by], -1, { k: 45 }));
+        P.bat = E.battery(C, bx, by, { U: st.U });
+        for (i = 0; i < n; i++) P.lamps.push(lampAt(LX, ys[i], i));
+        P.K = E.switchK(C, kx - 30, ky, kx + 30, { closed: st.closed, onToggle: function (c) { st.closed = c; o.onToggle && o.onToggle(); } });
+      }
+      P.lab = s('text', { x: 290, y: 443, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: st.mode === 'serie' ? 'lampes en série : une seule boucle' : 'lampes en dérivation : plusieurs boucles' }, C);
+      return P;
     }
     /* schéma normalisé */
     var PX = 560, SC = s('g', {}, G);
@@ -80,10 +88,11 @@
       if (k !== key) { key = k; parts = build(); }
       parts.K.set(st.closed); parts.bat.set(st.U);
       var sol = solve(st);
-      parts.lamps.forEach(function (p, i) { var rm = st.removed[i]; p.L.g.style.display = rm ? 'none' : ''; parts.holes[i].style.display = rm ? '' : 'none'; p.L.set(sol.states[i].b); p.tag.setAttribute('opacity', rm ? 0.5 : 1); });
-      var anyI = sol.V.some(function (u) { return u > 0; });
+      parts.lamps.forEach(function (p, i) { var rm = st.removed[i]; p.L.unscrew(rm); p.L.set(rm ? 0 : sol.states[i].b); p.tag.setAttribute('opacity', rm ? 0.5 : 1); });
+      var anyI = sol.V.some(function (u) { return u > 0; }), lit = sol.V.map(function (u) { return u > 0; });
       parts.wires.forEach(function (w) { w.flow(anyI ? 0.8 : 0, T); });
-      parts.branch.forEach(function (w, i) { w.flow(sol.V[i] > 0 ? 0.8 : 0, T); });
+      parts.left.forEach(function (w, i) { w.flow(lit.slice(i + 1).some(Boolean) ? 0.8 : 0, T); });
+      parts.right.forEach(function (w, i) { w.flow(lit.slice(0, i + 1).some(Boolean) ? 0.8 : 0, T); });
       SC.style.display = st.schema ? '' : 'none';
       var sk = k + st.removed.join() + st.closed + sol.states.map(function (x) { return x.k; }).join(); if (sk !== schKey) { schKey = sk; schema(sol); }
       var nRm = st.removed.slice(0, st.n).filter(Boolean).length, b0 = sol.states.filter(function (x, i) { return !st.removed[i]; })[0];
@@ -114,8 +123,8 @@
         else if (t < 47) { st.mode = 'der'; st.n = 2; st.removed = [false, t > 39.5, false]; }
         else { st.mode = 'der'; st.n = 3; st.removed = [false, t > 51, false]; }
         lab.step();
-        tg.show(t, 1, 4.8, 290, 92, 'Une lampe seule : éclat normal') || tg.show(t, 6, 13.6, 290, 92, 'Deux lampes en série : elles brillent moins') || tg.show(t, 16.4, 22.4, 290, 92, 'L2 dévissée : tout s’éteint !') ||
-          tg.show(t, 26, 37.6, 290, 92, 'En dérivation : éclat normal pour chacune') || tg.show(t, 40, 46.6, 290, 92, 'L2 dévissée : L1 brille toujours') || tg.show(t, 48, 55.6, 290, 92, 'Chaque appareil a sa propre boucle');
+        tg.show(t, 1, 4.8, 290, 70, 'Une lampe seule : éclat normal') || tg.show(t, 6, 13.6, 290, 70, 'Deux lampes en série : elles brillent moins') || tg.show(t, 16.4, 22.4, 290, 70, 'L2 dévissée : tout s’éteint !') ||
+          tg.show(t, 26, 37.6, 290, 70, 'En dérivation : éclat normal pour chacune') || tg.show(t, 40, 46.6, 290, 70, 'L2 dévissée : L1 brille toujours') || tg.show(t, 48, 55.6, 290, 70, 'Chaque appareil a sa propre boucle');
       }
       bg.setAttribute('opacity', t > 55.8 ? 1 : 0);
       K.group(g5, t, 55.8, 99); cards(t);

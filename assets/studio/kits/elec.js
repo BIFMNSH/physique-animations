@@ -39,11 +39,13 @@
     /* douilles (contacts) */
     [-r, r].forEach(function (dx) { s('circle', { cx: dx, cy: 0, r: 6.5, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: dx, cy: 0, r: 2.6, fill: '#2A2F38' }, g); });
     /* culot et ampoule posés sur le socle */
-    s('rect', { x: -r * 0.36, y: -r * 0.6 - r * 0.5, width: r * 0.8, height: r * 0.5, rx: 3, fill: '#8D96A8', stroke: '#6B7480', 'stroke-width': 1.2 }, g);
-    var glass = s('circle', { cy: by, r: rg, fill: '#2A3346', stroke: '#C9D2E3', 'stroke-width': 2.5 }, g);
-    var f = rg / r, fg = s('g', { transform: 'translate(0 ' + by + ') scale(' + f + ')' }, g);
+    s('rect', { x: -r * 0.3, y: -r * 0.66, width: r * 0.6, height: r * 0.12, rx: 2, fill: '#2A2F38' }, g); /* douille vide, visible quand l'ampoule est dévissée */
+    var bulb = s('g', {}, g);
+    s('rect', { x: -r * 0.4, y: -r * 0.6 - r * 0.5, width: r * 0.8, height: r * 0.5, rx: 3, fill: '#8D96A8', stroke: '#6B7480', 'stroke-width': 1.2 }, bulb);
+    var glass = s('circle', { cy: by, r: rg, fill: '#2A3346', stroke: '#C9D2E3', 'stroke-width': 2.5 }, bulb);
+    var f = rg / r, fg = s('g', { transform: 'translate(0 ' + by + ') scale(' + f + ')' }, bulb);
     var fil = s('path', { d: 'M' + (-r * 0.45) + ' ' + (r * 0.5) + ' L' + (-r * 0.3) + ' ' + (-r * 0.15) + ' l' + (r * 0.15) + ' ' + (-r * 0.2) + ' l' + (r * 0.15) + ' ' + (r * 0.2) + ' l' + (r * 0.15) + ' ' + (-r * 0.2) + ' l' + (r * 0.15) + ' ' + (r * 0.2) + ' L' + (r * 0.45) + ' ' + (r * 0.5), fill: 'none', stroke: '#8D96A8', 'stroke-width': 2 / f, 'stroke-linejoin': 'round' }, fg);
-    var brk = s('path', { d: 'M-4 -6 l3 4 M4 -6 l-3 4', stroke: '#FF5A4E', 'stroke-width': 2.5, opacity: 0, transform: 'translate(0 ' + by + ')' }, g);
+    var brk = s('path', { d: 'M-4 -6 l3 4 M4 -6 l-3 4', stroke: '#FF5A4E', 'stroke-width': 2.5, opacity: 0, transform: 'translate(0 ' + by + ')' }, bulb);
     var lab = o.label ? s('text', { x: 0, y: by - rg - 8, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label }, g) : null;
     function set(b, broken) {
       b = Math.max(0, b || 0); var k = Math.min(1, b);
@@ -53,7 +55,8 @@
       brk.setAttribute('opacity', broken ? 1 : 0);
     }
     set(0);
-    return { g: g, set: set, lab: lab, r: r, contacts: [[x - r, y], [x + r, y]] };
+    function unscrew(on) { bulb.style.display = on ? 'none' : ''; halo.style.display = on ? 'none' : ''; }
+    return { g: g, set: set, lab: lab, r: r, unscrew: unscrew, contacts: [[x - r, y], [x + r, y]] };
   }
 
   /* moteur avec hélice */
@@ -126,6 +129,27 @@
     }
     draw(d);
     return { base: base, fl: fl, flow: function (I, T) { fl.setAttribute('opacity', I > 0.01 ? Math.min(1, 0.4 + I) : 0); fl.setAttribute('stroke-dashoffset', -(T * 60 * Math.min(2, 0.4 + I))); }, set: draw };
+  }
+
+  /* câble entre deux douilles : il part de chaque douille horizontalement (dA, dB = ±1) puis se courbe. */
+  function cable(G, A, dA, B, dB, o) {
+    var d = Math.hypot(B[0] - A[0], B[1] - A[1]), k = (o && o.k) || Math.max(34, Math.min(80, d * 0.4)), r = function (v) { return Math.round(v * 10) / 10; };
+    return wire(G, 'M' + r(A[0]) + ' ' + r(A[1]) + ' C' + r(A[0] + dA * k) + ' ' + r(A[1]) + ' ' + r(B[0] + dB * k) + ' ' + r(B[1]) + ' ' + r(B[0]) + ' ' + r(B[1]), o);
+  }
+  /* positions régulières sur une ellipse, dans le sens des aiguilles d'une montre, la première en haut */
+  function ring(m, cx, cy, rx, ry) { var P = []; for (var i = 0; i < m; i++) { var a = (-90 + i * 360 / m) * Math.PI / 180; P.push([cx + rx * Math.cos(a), cy + ry * Math.sin(a)]); } return P; }
+  /* boucle de modules à deux douilles : le premier (pile) sort par la droite (+) et revient par la gauche (−) ;
+     pour les autres, on choisit la douille d'entrée qui rend les câbles les plus courts. mods[i] = { L: [x, y], R: [x, y] }.
+     Renvoie les câbles { a, da, b, db, i } (i = module de départ) et la douille d'entrée de chaque module. */
+  function chain(mods) {
+    var m = mods.length, best = null, mask, i;
+    for (mask = 0; mask < (1 << (m - 1)); mask++) {
+      var inJ = ['L'], cost = 0; for (i = 1; i < m; i++) inJ.push((mask >> (i - 1)) & 1 ? 'R' : 'L');
+      for (i = 0; i < m; i++) { var oj = i === 0 ? 'R' : inJ[i] === 'L' ? 'R' : 'L', a = mods[i][oj], b = mods[(i + 1) % m][inJ[(i + 1) % m]]; var da = oj === 'L' ? -1 : 1, db = inJ[(i + 1) % m] === 'L' ? -1 : 1; cost += Math.hypot(a[0] - b[0], a[1] - b[1]) + ((b[0] - a[0]) * da < -4 ? 120 : 0) + ((a[0] - b[0]) * db < -4 ? 120 : 0); }
+      if (!best || cost < best.cost) best = { cost: cost, inJ: inJ };
+    }
+    var out = []; for (i = 0; i < m; i++) { var oj2 = i === 0 ? 'R' : best.inJ[i] === 'L' ? 'R' : 'L', j = (i + 1) % m, ij = best.inJ[j]; out.push({ a: mods[i][oj2], da: oj2 === 'L' ? -1 : 1, b: mods[j][ij], db: ij === 'L' ? -1 : 1, i: i }); }
+    return { cables: out, inJ: best.inJ };
   }
 
   /* module interrupteur sur socle : deux douilles en (x1, y) et (x2, y) ; la lame pivote autour de la douille de gauche */
@@ -212,5 +236,5 @@
   }
   /* cordon de mesure entre deux points (courbe) */
   function lead(G, col) { var p = s('path', { fill: 'none', stroke: col, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.95 }, G), e = s('circle', { r: 6, fill: col }, G); return { set: function (a, b) { var my = Math.max(a.y, b.y) + 60; p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' C' + a.x + ' ' + my + ' ' + b.x + ' ' + my + ' ' + b.x + ' ' + b.y); attr(e, { cx: b.x, cy: b.y }); }, show: function (v) { p.style.display = e.style.display = v ? '' : 'none'; } }; }
-  window.ElecKit = { glow: glow, battery: battery, lamp: lamp, motor: motor, wire: wire, switchK: switchK, meter: meter, dot: dot, lampState: lampState, v: v, multimeter: multimeter, lead: lead, CALS: CALS };
+  window.ElecKit = { cable: cable, ring: ring, chain: chain, glow: glow, battery: battery, lamp: lamp, motor: motor, wire: wire, switchK: switchK, meter: meter, dot: dot, lampState: lampState, v: v, multimeter: multimeter, lead: lead, CALS: CALS };
 })();
