@@ -13,28 +13,52 @@ function page(file,progress={}){
   }
   return w;
 }
+/* Pages de classe simplifiées : reprise, leçons par thème, classe mémorisée, thème. */
 const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'});
-const d=w.document,groups=[...d.querySelectorAll('.catalogue-group')];
-assert.equal(groups.length,4);
-assert.equal(d.querySelectorAll('.lesson-rail a').length,13);
-assert.ok(d.querySelector('#programmeProgress').textContent.includes('6 / 52'));
-assert.equal(groups.filter(x=>x.open).length,1);
-assert.equal(d.querySelector('.rail-node.partial').style.getPropertyValue('--p'),'50%');
-assert.equal(d.querySelectorAll('.rail-node.complete').length,1);
-for(const a of d.querySelectorAll('.lesson-rail a'))assert.ok(a.getAttribute('href').startsWith('../parcours-ci/?l='));
-d.getElementById('foldThemes').click();assert.ok(groups.every(g=>g.open));
-d.getElementById('foldThemes').click();assert.ok(groups.every(g=>!g.open));
-w.localStorage.setItem('pc-studio-prog',JSON.stringify({'6e-circuit-electrique':{resume:true,sim:true,defi:true,quiz:true}}));
+const d=w.document;
+assert.equal(d.querySelectorAll('.sp-theme').length,4,'quatre thèmes en 6e');
+assert.equal(d.querySelectorAll('#lecons a.sp-les').length,13,'treize leçons en 6e');
+for(const a of d.querySelectorAll('#lecons a.sp-les'))assert.ok(a.getAttribute('href').startsWith('../parcours-ci/?l='));
+const rep=d.querySelector('#reprise a.sp-resume');
+assert.ok(rep&&rep.textContent.includes('Le circuit électrique')&&rep.textContent.includes('Continuer'),'reprise de la dernière leçon');
+assert.equal(rep.getAttribute('href'),'../parcours-ci/?l=circuit-electrique');
+assert.equal(rep.querySelectorAll('.sp-bar i.on').length,2,'deux étapes sur quatre');
+assert.equal(d.querySelectorAll('.sp-les.done').length,1,'une leçon terminée');
+assert.equal(d.querySelector('.sp-les[aria-current="step"]').getAttribute('href'),'../parcours-ci/?l=circuit-electrique');
+assert.equal(w.localStorage.getItem('pc-classe'),'6e','classe mémorisée');
+assert.ok(!/NL-C|ELE-|Studio/.test(d.body.textContent),'aucun code interne ni jargon');
+w.localStorage.setItem('pc-studio-prog',JSON.stringify({'6e-circuit-electrique':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'}));
 w.dispatchEvent(new w.PageTransitionEvent('pageshow',{persisted:true}));
-assert.ok(d.querySelector('#programmeProgress').textContent.includes('4 / 52'),'progression actualisée au retour');
-d.getElementById('theme').click();assert.equal(d.documentElement.dataset.theme,'light');
+assert.ok(!d.querySelector('#reprise').textContent.includes('Le circuit électrique'),'leçon terminée : on passe à la suivante');
+d.querySelector('[data-sp-theme]').click();assert.equal(d.documentElement.dataset.theme,'light');
+assert.equal(w.localStorage.getItem('pc-theme'),'light');
 w.close();
 for(const level of ['5e','4e','3e']){
-  const other=page(level+'/index.html'),links=other.document.querySelectorAll('.les[href]');
+  const other=page(level+'/index.html'),links=other.document.querySelectorAll('#lecons a.sp-les');
   assert.ok(links.length>0);
   for(const a of links)assert.ok(a.getAttribute('href').startsWith('../lecon/?l='),'navigation Studio conservée '+level);
+  assert.ok(other.document.querySelector('#reprise .sp-btn').textContent.includes('Commencer'),'première visite : commencer '+level);
   other.close();
 }
+/* Accueil : une seule question, classe mémorisée proposée. */
+function home(store){
+  const hw=new JSDOM(read('index.html'),{url:'http://localhost/index.html',runScripts:'outside-only'}).window;
+  for(const[k,v]of Object.entries(store))hw.localStorage.setItem(k,v);
+  for(const s of hw.document.querySelectorAll('script')){const src=s.getAttribute('src');if(src&&src.startsWith('/'))continue;if(s.type==='application/ld+json')continue;hw.eval(src?read(src):s.textContent);}
+  return hw;
+}
+const h=home({}),hd=h.document;
+assert.equal(hd.querySelectorAll('.sp-class').length,4);
+assert.ok(hd.getElementById('continuer').hidden,'pas de reprise à la première visite');
+hd.querySelector('.sp-class[data-c="4e"]').dispatchEvent(new h.MouseEvent('click',{cancelable:true}));
+assert.equal(h.localStorage.getItem('pc-classe'),'4e','choix de classe mémorisé');
+h.close();
+const h2=home({'pc-classe':'5e'});
+const go=h2.document.getElementById('continuer');
+assert.ok(!go.hidden&&go.getAttribute('href')==='5e/'&&go.textContent.includes('5e'),'reprise de la classe mémorisée');
+assert.ok(h2.document.querySelector('.sp-class[data-c="5e"]').classList.contains('mine'));
+h2.close();
+assert.ok(fs.existsSync(path.join(root,'decouvrir/index.html')),'ancienne page d’accueil conservée pour profs et parents');
 const c=page('collections/index.html'),cd=c.document;
 assert.ok(cd.getElementById('ciTotal').textContent.includes('73'));
 assert.ok(cd.getElementById('frTotal').textContent.includes('48'));

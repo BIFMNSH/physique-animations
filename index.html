@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NOHOBA-Lab · Physique-chimie au collège : simulations, cours et BEPC (Côte d’Ivoire)</title>
 <meta name="description" content="Pas de salle de TP ? Avec NOHOBA-Lab, les collégiens font les expériences de physique-chimie sur leur téléphone : 53 leçons de la 6e au BEPC, simulations, défis et quiz. Gratuit jusqu’au 31 décembre 2026.">
-<meta name="theme-color" content="#060A18">
+<meta name="theme-color" content="#0E1626">
 <link rel="canonical" href="https://lab.nohaba.com/">
 <link rel="icon" href="assets/brand/nohoba-icon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -26,567 +26,54 @@
 
 <script>(function(){var t;try{t=localStorage.getItem('pc-theme');}catch(e){}if(t!=='light'&&t!=='dark')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<style>
-:root{
-  /* Charte graphite NOHOBA : fond #0E162A → #020719, champs #1A263A, filets #28354C, orange #FC9800 → #E37300, jaune #F6B301 */
-  color-scheme:dark;
-  --night:#0A1226; --deep:#101A30; --ink:#EEF2FB; --mist:#A4B0CC; --line:rgba(164,176,204,.18);
-  --bg:linear-gradient(135deg,#0E162A 0%,#0A1226 45%,#020719 100%);
-  --bar:rgba(10,18,38,.74); --hover:#1A263A; --card:rgba(255,255,255,.04);
-  --nohoba:#F97316; --nohoba-soft:#FFB27A; --yellow:#F6B301;
-  --orange-grad:#F97316;
-  --bench-bg:radial-gradient(circle at 50% 30%,#1A263A,#0A1226 70%);
-  --on-orange:#FFFFFF; --thumb-ring:#0A1226;
-  --ph1:#E5383B; --ph4:#F9A03F; --ph6:#E9D23B; --ph7:#3FBF6A; --ph9:#2E9CDB; --ph11:#4C5BD4; --ph13:#8E3FD0;
-}
-:root[data-theme="light"]{
-  color-scheme:light;
-  --night:#F4F6FB; --deep:#FFFFFF; --ink:#0E162A; --mist:#46536B; --line:rgba(14,22,42,.14);
-  --bg:linear-gradient(135deg,#FFFFFF 0%,#F4F6FB 55%,#E8EDF7 100%);
-  --bar:rgba(255,255,255,.78); --hover:#EEF2FA; --card:rgba(14,22,42,.04);
-  --nohoba:#B84F00; --nohoba-soft:#A34400; --yellow:#8A6410;
-  --bench-bg:radial-gradient(circle at 50% 30%,#FFFFFF,#DCE4F2 75%);
-  --thumb-ring:#FFFFFF;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg) fixed,var(--night);color:var(--ink);font:400 17px/1.55 'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(20px,3.5vw,56px)}
-
-/* Barre */
-.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:var(--bar);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
-.logo .mark{width:34px;height:34px;border-radius:9px;box-shadow:0 0 22px rgba(252,152,0,.4)}
-.logo b{white-space:nowrap;font:800 20px 'Bricolage Grotesque',sans-serif;letter-spacing:.03em}
-.logo b span{color:var(--nohoba)}
-.top nav{display:flex;gap:4px}
-.top nav a{white-space:nowrap;text-decoration:none;color:var(--mist);font-weight:700;font-size:15px;padding:10px 9px;border-radius:10px}
-.top nav a:hover{color:var(--ink)}
-.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;text-decoration:none;cursor:pointer;border:1.5px solid var(--line);color:var(--ink);background:var(--card)}
-.btn:hover{border-color:var(--mist)}
-.btn.go{background:var(--orange-grad);border-color:#F97316;color:var(--on-orange);box-shadow:0 10px 30px -8px rgba(249,115,22,.6)}
-.btn.go:hover{filter:brightness(1.07)}
-.btn.sm{min-height:42px;padding:0 16px;font-size:15px}
-
-/* Interrupteur thème : pastille arrondie ON / OFF */
-.tsw{display:inline-flex;align-items:center;gap:10px;background:none;border:0;padding:6px 2px;cursor:pointer;color:var(--mist);font:700 14px 'Atkinson Hyperlegible',sans-serif}
-.tsw .trk{position:relative;display:block;width:68px;height:34px;border-radius:999px;background:#C9D2E3;color:#3B4760;transition:background .25s}
-.tsw .trk::after{content:"";position:absolute;top:3px;left:3px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);transition:transform .25s}
-.tsw .st{position:absolute;top:0;bottom:0;display:flex;align-items:center;font:800 13px/1 'Bricolage Grotesque',sans-serif;letter-spacing:.04em}
-.tsw .on{left:11px;opacity:0}.tsw .off{right:9px}
-.tsw[aria-checked="true"] .trk{background:var(--orange-grad);color:#fff}
-.tsw[aria-checked="true"] .trk::after{transform:translateX(34px)}
-.tsw[aria-checked="true"] .on{opacity:1}.tsw[aria-checked="true"] .off{opacity:0}
-.tsw:hover .trk{filter:brightness(1.06)}
-@media (max-width:1180px){.tsw .lbl{display:none}}
-@media (max-width:560px){.tsw .lbl{display:none}.top .wrap{gap:8px}.logo b{font-size:18px}}
-@media (prefers-reduced-motion:reduce){.tsw .trk,.tsw .trk::after{transition:none}}
-
-/* Héros : le bécher */
-.hero{position:relative;padding:56px 0 40px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-20% -10% auto -10%;height:120%;background:radial-gradient(600px 380px at 78% 38%,var(--glow,rgba(63,191,106,.22)),transparent 70%),radial-gradient(500px 300px at 10% 0%,rgba(252,152,0,.14),transparent 70%);transition:background .6s;pointer-events:none}
-.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
-h1{font:800 clamp(40px,5.6vw,76px)/.98 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;margin:0 0 22px;text-wrap:balance}
-.lead{font-size:clamp(18px,2.1vw,21px);color:var(--mist);max-width:540px;margin:0 0 30px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.free{margin-top:26px;display:inline-flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;border-radius:14px;background:var(--orange-grad);color:#fff;border:1px solid #F97316;font-size:15px;font-weight:700;box-shadow:0 10px 30px -10px rgba(249,115,22,.5)}
-.free i{font-style:normal;font:800 14px 'Bricolage Grotesque',sans-serif;background:#fff;color:#C2410C;border-radius:9px;padding:4px 9px}
-
-.bench{position:relative;border-radius:28px;padding:18px 18px 16px;background:var(--card);border:1px solid var(--line);box-shadow:0 40px 120px -40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}
-.bench canvas{display:block;width:100%;aspect-ratio:1/1;max-height:460px;border-radius:20px;background:var(--bench-bg);touch-action:none}
-.bench .read{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:14px 4px 10px}
-.bench .ph{white-space:nowrap;font:800 44px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.bench .kind{text-align:right;font-weight:700;font-size:17px;padding:6px 12px;border-radius:10px;background:var(--card)}
-.bench label{display:block;font-size:14px;color:var(--mist);margin:0 4px 6px}
-.spectrum{-webkit-appearance:none;appearance:none;width:100%;height:16px;border-radius:9px;background:linear-gradient(90deg,var(--ph1),var(--ph4) 25%,var(--ph6) 42%,var(--ph7) 50%,var(--ph9) 66%,var(--ph11) 83%,var(--ph13));outline:none;margin:4px 0}
-.spectrum::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;border:4px solid var(--thumb-ring);box-shadow:0 0 0 2px var(--ink),0 6px 18px rgba(0,0,0,.35);cursor:grab}
-.spectrum::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--thumb-ring);box-shadow:0 0 0 2px var(--ink);cursor:grab}
-.spectrum:focus-visible{outline:3px solid var(--nohoba-soft);outline-offset:6px}
-.ends{display:flex;justify-content:space-between;font-size:13px;color:var(--mist);margin:4px 4px 0}
-.try{position:absolute;top:30px;left:30px;font-size:14px;font-weight:700;color:var(--ink);background:var(--bar);border:1px solid var(--line);border-radius:10px;padding:6px 10px;pointer-events:none;transition:opacity .4s}
-
-
-/* Vitrine : le bécher fait défiler les animations */
-.vit{position:relative}
-.reel{position:absolute;inset:0;z-index:3;border-radius:28px;background:var(--deep);padding:18px;display:flex;flex-direction:column;gap:10px}
-.reel[hidden]{display:none}
-.reel .sc{border-radius:20px;background:var(--bench-bg);flex:1;min-height:0;display:block;width:100%}
-.reel .rtop{display:flex;align-items:center;justify-content:space-between;gap:10px}.reel .tag{font:800 12px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.08em;color:#A34400;background:#FFE9D6;padding:5px 10px;border-radius:999px}[data-theme=dark] .reel .tag{color:#FDBA74;background:rgba(249,115,22,.18)}.reel .pz{font-size:13px;color:var(--mist)}
-.xp.an a.on{box-shadow:inset 0 0 0 3px #F97316;background:var(--hover)}
-.reel h3{font:800 clamp(20px,2.2vw,26px)/1.12 'Bricolage Grotesque',sans-serif;margin:0}
-.reel p{margin:0;color:var(--mist);font-size:15px}
-.reel .go2{align-self:flex-start}
-.bench{padding-bottom:62px}
-.tabs{position:absolute;right:16px;bottom:22px;z-index:5;display:flex;gap:0;align-items:center}
-.tabs button{position:relative;width:24px;height:24px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center}
-.tabs button::before{content:"";width:10px;height:10px;border-radius:5px;background:#C9D2E6;transition:width .2s}
-[data-theme=dark] .tabs button::before{background:#3A4766}
-.tabs button[aria-pressed="true"]{width:44px}
-.tabs button[aria-pressed="true"]::before{width:34px}
-.tabs button:focus-visible{outline:3px solid #F97316;outline-offset:1px;border-radius:12px}
-.tabs button i{position:absolute;left:5px;top:7px;height:10px;width:0;border-radius:5px;background:#F97316}
-.tabs button[aria-pressed="true"] i{animation:vfill var(--vdur,12s) linear forwards}
-.tabs.paused button i{animation-play-state:paused}
-.tabs.still button[aria-pressed="true"] i{animation:none;width:34px}
-@keyframes vfill{from{width:0}to{width:34px}}
-@media (max-width:560px){.bench{padding-bottom:70px}.reel{padding-bottom:70px}.tabs{left:0;right:0;justify-content:center;bottom:26px}}
-.xp.an{grid-template-columns:repeat(3,1fr)}
-.an a svg{height:150px}
-.an .lv b{font:800 14px 'Bricolage Grotesque',sans-serif;color:#fff;background:#0E162A;border-radius:50%;width:24px;height:24px;display:inline-grid;place-items:center;margin-right:8px}
-@media (max-width:980px){.xp.an{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.xp.an{grid-template-columns:1fr}.tabs .lab{display:none}}
-
-/* Ton espace */
-.space{padding:34px 0 8px}
-.space .card{border:1px solid var(--line);background:var(--card);border-radius:24px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:22px 32px}
-.space h2{font-size:clamp(22px,2.6vw,30px);margin:0 0 12px;max-width:none}
-.cls{display:flex;gap:8px;flex-wrap:wrap}
-.cls button{min-width:64px;min-height:48px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--deep);color:var(--ink);font:800 18px 'Bricolage Grotesque',sans-serif;cursor:pointer}
-.cls button[aria-checked="true"]{background:var(--orange-grad);border-color:#F97316;color:#fff}
-.next{margin-top:14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-.next small{color:var(--mist);font-size:14px}
-.bar{height:8px;width:100%;max-width:320px;border-radius:99px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:#F97316;width:0;border-radius:99px;transition:width .4s}
-.srch label{display:block;font:800 22px/1.2 'Bricolage Grotesque',sans-serif;margin:0 0 12px}
-.srch input{width:100%;min-height:52px;padding:0 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--deep);color:var(--ink);font:400 17px 'Atkinson Hyperlegible',sans-serif}
-.srch input::placeholder{color:var(--mist)}
-.res{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}
-.res a{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;background:var(--deep);border:1px solid var(--line)}
-.res a:hover,.res a:focus-visible{border-color:#F97316}
-.res small{color:var(--nohoba-soft);font-weight:700;white-space:nowrap}
-.tools{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding-top:16px;border-top:1px solid var(--line)}
-.tools .btn[aria-pressed="true"]{background:#F97316;border-color:#F97316;color:#fff}
-.tools span.note{color:var(--mist);font-size:14px}
-.parents .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-.parents ul{margin:0;padding:0;list-style:none;display:grid;gap:14px}
-.parents li{padding-left:34px;position:relative}
-.parents li::before{content:"✓";position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:#F97316;color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
-.parents li b{display:block}
-.proj{font-size:21px}
-.proj .top nav,.proj .free,.proj .parents,.proj .space .srch,.proj .tsw .lbl{display:none}
-.proj h1{font-size:clamp(48px,7vw,96px)}
-.proj .space .card{grid-template-columns:1fr}
-@media (max-width:980px){.space .card,.parents .wrap{grid-template-columns:1fr}}
-
-/* Expériences */
-section{padding:84px 0}
-h2{font:800 clamp(30px,4.2vw,52px)/1.02 'Bricolage Grotesque',sans-serif;letter-spacing:-.025em;margin:0 0 14px;max-width:760px}
-.sub{color:var(--mist);font-size:19px;max-width:640px;margin:0 0 40px}
-.xp{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--line)}
-.xp a{display:flex;flex-direction:column;gap:10px;padding:22px 20px 24px;background:var(--deep);text-decoration:none;min-height:300px;transition:background .25s}
-.xp a:hover{background:var(--hover)}
-#cycle4 .xp a{min-height:170px}
-.xp svg{width:100%;height:130px;margin-bottom:6px}
-.xp h3{font:800 22px/1.15 'Bricolage Grotesque',sans-serif;margin:0}
-.xp p{margin:0;color:var(--mist);font-size:15.5px}
-.xp .lv{margin-top:auto;font-size:14px;font-weight:700;color:var(--nohoba-soft)}
-
-/* Publics */
-.who{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
-.who h3{font:800 26px 'Bricolage Grotesque',sans-serif;margin:0 0 10px;padding-top:18px;border-top:3px solid var(--c)}
-.who p{margin:0 0 14px;color:var(--mist)}
-.who ul{margin:0;padding-left:18px;color:var(--ink);line-height:1.7}
-
-/* Mission */
-.mission{background:linear-gradient(180deg,transparent,var(--deep))}
-.mission .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:end}
-.quote{font:700 clamp(28px,3.6vw,46px)/1.12 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:0}
-.by{color:var(--mist);font-size:17px;margin:0}
-.by b{color:var(--ink);display:block;font-size:19px;margin-bottom:6px}
-.stats{display:flex;gap:36px;flex-wrap:wrap;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}
-.stats div{font-size:15px;color:var(--mist)}
-.stats b{display:block;font:800 40px 'Bricolage Grotesque',sans-serif;color:var(--ink);letter-spacing:-.02em}
-
-/* Appel final */
-.final{text-align:center}
-.final h2{margin:0 auto 14px}
-.final .sub{margin:0 auto 32px}
-.final .ctas{justify-content:center}
-footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--mist);font-size:14px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
-
-@media (max-width:980px){.hero .wrap,.mission .wrap{grid-template-columns:1fr}.xp{grid-template-columns:1fr 1fr}.who{grid-template-columns:1fr;gap:28px}.top nav{display:none}}
-@media (max-width:560px){.xp{grid-template-columns:1fr}.xp a{min-height:0}section{padding:60px 0}.hero{padding-top:34px}.top .btn.sm.hideS{display:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero::before{transition:none}}
-</style>
+<link rel="stylesheet" href="assets/simple/simple.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "name": "NOHOBA-Lab", "alternateName": "NOHOBA Lab", "url": "https://lab.nohaba.com/", "inLanguage": "fr", "description": "Simulations d’expériences, cours et sujets types du BEPC de physique-chimie pour le collège (programme MENA, Côte d’Ivoire)."}, {"@type": "Organization", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/", "logo": "https://lab.nohaba.com/assets/brand/nohoba-icon.svg", "parentOrganization": {"@type": "Organization", "name": "NOHOBA", "url": "https://nohaba.com/"}, "areaServed": "CI"}, {"@type": "Course", "name": "Physique-chimie au collège, de la 6e à la 3e", "description": "53 leçons interactives de physique-chimie suivant le programme MENA de Côte d’Ivoire, avec résumés vidéo narrés, simulations, défis et quiz.", "inLanguage": "fr", "isAccessibleForFree": true, "provider": {"@type": "Organization", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "educationalLevel": "Collège (6e à 3e)", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT53M"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "XOF", "category": "Free"}}]}</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="logo" href="./" aria-label="NOHOBA-Lab, accueil"><img class="mark" src="assets/brand/nohoba-icon.svg" alt="" width="34" height="34"><b>NOHOBA<span>-Lab</span></b></a>
-    <nav aria-label="Sections"><a href="#experiences">Expériences</a><a href="#animations">Animations</a><a href="#pour-qui">Pour qui</a><a href="lecons/">Leçons</a><a href="simulateur/">Simulateur</a><a href="bepc/">BEPC</a></nav>
-    <button type="button" class="tsw" id="tsw" role="switch" aria-checked="true" aria-label="Mode sombre"><span class="lbl" aria-hidden="true">Mode sombre</span><span class="trk" aria-hidden="true"><span class="st on">ON</span><span class="st off">OFF</span></span></button>
-    <a class="btn sm" href="connexion/" data-compte>Se connecter</a>
-    <a class="btn sm go hideS" href="#niveaux">Commencer</a>
-  </div>
-</header>
-
-<main>
-<section class="hero" aria-labelledby="h">
-  <div class="wrap">
-    <div>
-      <h1 id="h">Le labo de <span style="white-space:nowrap">physique-chimie</span>, dans ta poche.</h1>
-      <p class="lead">Pas de salle de TP ? Ici, tu fais l’expérience toi-même : tu changes un réglage, tu observes, tu comprends. 53 leçons de la 6e au BEPC, sur téléphone ou projetées en classe.</p>
-      <div class="ctas">
-        <a class="btn go" href="#niveaux">Choisir ma classe</a>
-        <a class="btn" href="simulateur/">Voir les 26 simulations</a>
-      </div>
-      <div class="free"><i>Gratuit</i>Tout est ouvert, sans compte, jusqu’au 31 décembre 2026.</div>
+<a class="sp-skip" href="#classes">Choisir ma classe</a>
+<div class="sp sp-home">
+  <header class="sp-top">
+    <a class="sp-logo" href="./" aria-label="NOHOBA-Lab, accueil"><img src="assets/brand/nohoba-icon.svg" alt=""><span>NOHOBA<span>-Lab</span></span></a>
+    <button type="button" class="sp-round" data-sp-theme aria-label="Changer de thème"></button>
+  </header>
+  <main class="sp-main" id="main">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h1 class="sp-h1">Fais tes expériences de physique-chimie sur ton téléphone.</h1>
+      <p class="sp-lead">Gratuit jusqu’au 31 décembre. Sans inscription.</p>
     </div>
-
-    <div class="vit" id="vit">
-      <div class="bench">
-      <canvas id="lab" width="900" height="900" role="img" aria-label="Bécher contenant une solution et un indicateur coloré. Sa couleur change avec le pH choisi."></canvas>
-      <span class="try" id="try" aria-hidden="true">Fais glisser le curseur</span>
-      <div class="read" aria-live="polite"><span class="ph" id="phv">pH 7</span><span class="kind" id="kind">neutre</span></div>
-      <label for="ph">Ajoute un acide ou une base, et regarde l’indicateur</label>
-      <input class="spectrum" id="ph" type="range" min="1" max="13" step="0.1" value="7" aria-valuetext="pH 7, solution neutre">
-      <div class="ends"><span>Acide (vinaigre, citron)</span><span>Basique (savon, soude)</span></div>
-      <div class="reel" id="reel" hidden role="group" aria-label="Animation à découvrir">
-        <div class="rtop"><span class="tag" id="rtag"></span><span class="pz">⏸ pause au survol</span></div>
-        <svg class="sc" id="rsc" viewBox="0 0 430 260" role="img" aria-hidden="true"></svg>
-        <h3 id="rtit"></h3>
-        <p id="rdes"></p>
-        <a class="btn go go2" id="rgo" href="animations/">Voir l’animation →</a>
-      </div>
-      <div class="tabs still" id="tabs" role="group" aria-label="Choisir ce que montre la vitrine">
-        <button type="button" data-i="0" aria-pressed="true" aria-label="Simulation du pH" title="Simulation du pH"><i></i></button>
-        <button type="button" data-i="1" aria-pressed="false" aria-label="Animation 1 : le courant dans un métal" title="Animation 1 : le courant dans un métal"><i></i></button>
-        <button type="button" data-i="2" aria-pressed="false" aria-label="Animation 2 : le courant dans les solutions ioniques" title="Animation 2 : le courant dans les solutions ioniques"><i></i></button>
-        <button type="button" data-i="3" aria-pressed="false" aria-label="Animation 3 : l’atome et sa composition" title="Animation 3 : l’atome et sa composition"><i></i></button>
-        <button type="button" data-i="4" aria-pressed="false" aria-label="Animation 4 : la formation des ions" title="Animation 4 : la formation des ions"><i></i></button>
-        <button type="button" data-i="5" aria-pressed="false" aria-label="Animation 5 : identifier des ions en solution" title="Animation 5 : identifier des ions en solution"><i></i></button>
-              </div>
-    </div>
-    </div>
-  </div>
-</section>
-
-<section id="animations" aria-labelledby="han" style="padding-top:20px">
-  <div class="wrap">
-    <h2 id="han">Les cinq animations, quand tu veux.</h2>
-    <p class="sub">Moins d’une minute chacune, pas à pas : tu avances à ton rythme. Idéal avant la manipulation, ou pour réviser.</p>
-    <div class="xp an">
-      <a href="metal/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g fill="#C88033"><circle cx="50" cy="35" r="11"/><circle cx="110" cy="35" r="11"/><circle cx="170" cy="35" r="11"/><circle cx="50" cy="95" r="11"/><circle cx="110" cy="95" r="11"/><circle cx="170" cy="95" r="11"/></g><g fill="#7FD3FF"><circle cx="80" cy="65" r="5"/><circle cx="140" cy="62" r="5"/><circle cx="200" cy="68" r="5"/><circle cx="25" cy="66" r="5"/></g><path d="M60 118h130" stroke="#F97316" stroke-width="3"/><path d="M190 118l-8-5m8 5l-8 5" stroke="#F97316" stroke-width="3" fill="none"/></svg>
-        <h3>Le courant électrique dans un métal</h3><p>Des électrons libres se déplacent entre les atomes.</p><span class="lv"><b>1</b>6 étapes · environ 40 s</span>
-      </a>
-      <a href="solutions/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="45" y="22" width="150" height="92" rx="8" fill="#2E9CDB" opacity=".22" stroke="#5F6E96" stroke-width="4"/><rect x="75" y="10" width="8" height="70" fill="#C8CFDB"/><rect x="157" y="10" width="8" height="70" fill="#C8CFDB"/><g font-family="sans-serif" font-weight="700" font-size="10" text-anchor="middle"><circle cx="100" cy="55" r="11" fill="#AB5CF2"/><text x="100" y="59" fill="#fff">Na⁺</text><circle cx="95" cy="92" r="11" fill="#AB5CF2"/><text x="95" y="96" fill="#fff">Na⁺</text><circle cx="140" cy="62" r="11" fill="#1FF01F"/><text x="140" y="66" fill="#0E162A">Cl⁻</text><circle cx="145" cy="95" r="11" fill="#1FF01F"/><text x="145" y="99" fill="#0E162A">Cl⁻</text></g></svg>
-        <h3>Le courant dans les solutions ioniques</h3><p>Les ions, positifs et négatifs, transportent le courant.</p><span class="lv"><b>2</b>8 étapes · environ 50 s</span>
-      </a>
-      <a href="atome/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g fill="none" stroke="#5F6E96" stroke-width="2"><ellipse cx="120" cy="65" rx="85" ry="32"/><ellipse cx="120" cy="65" rx="85" ry="32" transform="rotate(60 120 65)"/><ellipse cx="120" cy="65" rx="85" ry="32" transform="rotate(120 120 65)"/></g><circle cx="116" cy="62" r="9" fill="#E5383B"/><circle cx="126" cy="68" r="9" fill="#9AA3B5"/><circle cx="118" cy="73" r="9" fill="#E5383B"/><g fill="#7FD3FF"><circle cx="205" cy="65" r="5"/><circle cx="77" cy="28" r="5"/><circle cx="77" cy="102" r="5"/></g></svg>
-        <h3>L’atome et sa composition</h3><p>Noyau, protons, neutrons, électrons : qui est où ?</p><span class="lv"><b>3</b>5 étapes · environ 35 s</span>
-      </a>
-      <a href="ions/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g font-family="sans-serif" font-weight="700" font-size="12" text-anchor="middle"><circle cx="55" cy="65" r="26" fill="#AB5CF2"/><text x="55" y="70" fill="#fff">Na</text><path d="M95 65h30" stroke="#F97316" stroke-width="3"/><path d="M125 65l-8-5m8 5l-8 5" stroke="#F97316" stroke-width="3" fill="none"/><circle cx="165" cy="65" r="22" fill="#AB5CF2"/><text x="165" y="70" fill="#fff">Na⁺</text><circle cx="212" cy="40" r="6" fill="#7FD3FF"/></g></svg>
-        <h3>La formation des ions</h3><p>Un atome gagne ou perd des électrons et devient un ion.</p><span class="lv"><b>4</b>7 étapes · environ 50 s</span>
-      </a>
-      <a href="tests/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><g stroke="#5F6E96" stroke-width="3" fill="none"><path d="M60 15v85a14 14 0 0 0 28 0V15"/><path d="M110 15v85a14 14 0 0 0 28 0V15"/><path d="M160 15v85a14 14 0 0 0 28 0V15"/></g><path d="M62 78h24v22a12 12 0 0 1-24 0z" fill="#3B82F6"/><path d="M112 78h24v22a12 12 0 0 1-24 0z" fill="#E8EEF9"/><path d="M162 78h24v22a12 12 0 0 1-24 0z" fill="#C2693A"/></svg>
-        <h3>Identifier des ions en solution</h3><p>Un réactif, un précipité : sa couleur donne l’ion.</p><span class="lv"><b>5</b>8 étapes · environ 55 s</span>
-      </a>
-      <a href="labo/">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M95 12h50M105 12v38l-34 58a8 8 0 0 0 7 12h84a8 8 0 0 0 7-12L135 50V12" fill="none" stroke="#5F6E96" stroke-width="4"/><path d="M82 92h76l12 20a6 6 0 0 1-5 9H75a6 6 0 0 1-5-9z" fill="#F97316" opacity=".6"/></svg>
-        <h3>Labo virtuel</h3><p>Manipule librement et relève des défis : identifier des ions.</p><span class="lv">Manipulation libre et défis</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="space" id="espace" aria-labelledby="he">
-  <div class="wrap"><div class="card">
-    <div>
-      <h2 id="he">Ta classe</h2>
-      <div class="cls" role="radiogroup" aria-label="Choisis ta classe">
-        <button type="button" role="radio" aria-checked="false" data-c="6e">6e</button><button type="button" role="radio" aria-checked="false" data-c="5e">5e</button><button type="button" role="radio" aria-checked="false" data-c="4e">4e</button><button type="button" role="radio" aria-checked="false" data-c="3e">3e</button>
-      </div>
-      <div class="next" id="next" aria-live="polite"><small>Choisis ta classe : on garde ton choix et on te propose la prochaine leçon.</small></div>
-    </div>
-    <div class="srch">
-      <label for="q">Cherche une leçon</label>
-      <input id="q" type="search" placeholder="pH, circuit, vitesse, lentille…" autocomplete="off" aria-controls="res">
-      <ul class="res" id="res" aria-live="polite"></ul>
-    </div>
-    <div class="tools">
-      <button type="button" class="btn sm" id="proj" aria-pressed="false">Projeter en classe</button>
-      <button type="button" class="btn sm" id="inst">Installer sur l’écran d’accueil</button>
-      <span class="note" id="inote">Après la première visite, le site marche aussi sans connexion.</span>
-    </div>
-  </div></div>
-</section>
-
-<section id="experiences" aria-labelledby="hx">
-  <div class="wrap">
-    <h2 id="hx">Des expériences qu’on fait, pas qu’on recopie.</h2>
-    <p class="sub">Chaque leçon propose une situation-problème, ta prévision, une manipulation, une confrontation aux résultats et un bilan. Un parcours Révision donne accès au résumé vidéo ; le chronomètre des défis est optionnel.</p>
-    <div class="xp">
-      <a href="lecon/?l=circuit-electrique">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><rect x="40" y="25" width="160" height="80" rx="10" fill="none" stroke="#5F6E96" stroke-width="4"/><circle cx="120" cy="25" r="16" fill="#FFD66B"/><circle cx="120" cy="25" r="30" fill="#FFD66B" opacity=".18"/><rect x="28" y="52" width="24" height="26" rx="4" fill="#F97316"/><g fill="#7FD3FF"><circle cx="70" cy="105" r="4"/><circle cx="110" cy="105" r="4"/><circle cx="150" cy="105" r="4"/><circle cx="200" cy="70" r="4"/></g></svg>
-        <h3>Allumer une lampe</h3><p>Construis le circuit, ouvre l’interrupteur, mesure l’intensité.</p><span class="lv">6e · Électricité</span>
-      </a>
-      <a href="lecon/?l=electrolyse-eau">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M50 20h140v90a12 12 0 0 1-12 12H62a12 12 0 0 1-12-12z" fill="#2E9CDB" opacity=".22" stroke="#5F6E96" stroke-width="4"/><rect x="85" y="30" width="16" height="70" rx="4" fill="#C8CFDB"/><rect x="140" y="30" width="16" height="70" rx="4" fill="#C8CFDB"/><g fill="#fff" opacity=".85"><circle cx="93" cy="60" r="4"/><circle cx="96" cy="45" r="3"/><circle cx="148" cy="62" r="5"/><circle cx="145" cy="48" r="4"/><circle cx="150" cy="36" r="3"/></g></svg>
-        <h3>Décomposer l’eau</h3><p>Le courant sépare l’eau en dihydrogène et dioxygène : compte les volumes.</p><span class="lv">3e · Chimie</span>
-      </a>
-      <a href="lecon/?l=lentilles">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><line x1="10" y1="65" x2="230" y2="65" stroke="#5F6E96" stroke-width="2"/><path d="M120 15c14 20 14 80 0 100c-14-20-14-80 0-100z" fill="#7FD3FF" opacity=".35" stroke="#7FD3FF" stroke-width="3"/><g stroke="#FFD66B" stroke-width="3"><line x1="20" y1="35" x2="120" y2="35"/><line x1="120" y1="35" x2="200" y2="95"/><line x1="20" y1="35" x2="200" y2="95" opacity=".25"/></g><circle cx="170" cy="65" r="5" fill="#F97316"/></svg>
-        <h3>Former une image</h3><p>Déplace l’objet, trouve le foyer, corrige un œil myope.</p><span class="lv">3e · Optique</span>
-      </a>
-      <a href="lecon/?l=solutions-acides-basiques">
-        <svg viewBox="0 0 240 130" aria-hidden="true"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#E5383B"/><stop offset=".5" stop-color="#3FBF6A"/><stop offset="1" stop-color="#8E3FD0"/></linearGradient></defs><rect x="20" y="52" width="200" height="22" rx="11" fill="url(#g)"/><g font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="16" fill="#EEF2FB"><text x="22" y="100">1</text><text x="114" y="100">7</text><text x="204" y="100">14</text></g><circle cx="120" cy="63" r="15" fill="#fff" stroke="#060A18" stroke-width="5"/></svg>
-        <h3>Mesurer le pH</h3><p>Vinaigre, eau de Javel, jus de citron : classe-les du plus acide au plus basique.</p><span class="lv">3e · Solutions</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="cycle4" aria-labelledby="hc4" style="padding-top:20px">
-  <div class="wrap">
-    <h2 id="hc4">Nouveau : activités d’investigation du cycle 4.</h2>
-    <p class="sub">Pour les classes qui suivent le programme français (5e, 4e, 3e) : situation, prévision enregistrée avant le résultat, manipulation, confrontation, bilan, puis une trace à imprimer. Quatre activités pilotes sont ouvertes ; les autres arrivent. Le parcours Côte d’Ivoire reste inchangé.</p>
-    <div class="xp">
-      <a href="activites/?a=NL-C4-A04"><h3>Le sachet disparu</h3><p>Le sucre se dissout : la masse du flacon fermé change-t-elle ?</p><span class="lv">5e · Dissolution</span></a>
-      <a href="activites/?a=NL-C4-B02"><h3>Deux robots, un rendez-vous</h3><p>Compare deux vitesses, prévois les temps, lance la course.</p><span class="lv">5e · Vitesse</span></a>
-      <a href="activites/?a=NL-C4-C06"><h3>Le panneau lumineux</h3><p>Quel module ajouter sans dépasser la limite de l’alimentation ?</p><span class="lv">4e · Intensité</span></a>
-      <a href="activites/?a=NL-C4-D06"><h3>La réserve sans contact</h3><p>Trouve la hauteur d’eau d’un réservoir avec la durée d’un écho.</p><span class="lv">3e · Signaux</span></a>
-    </div>
-    <p style="margin-top:18px"><a class="btn" href="activites/">Voir toutes les activités</a></p>
-  </div>
-</section>
-
-<section id="pour-qui" aria-labelledby="hq" style="padding-top:20px">
-  <div class="wrap">
-    <h2 id="hq">Pensé pour la classe, utile à la maison.</h2>
-    <p class="sub">Suit la progression du programme du MENA (Côte d’Ivoire). Léger : une leçon ouverte reste disponible hors connexion.</p>
-    <div class="who">
-      <div style="--c:var(--ph9)"><h3>Élèves</h3><p>Réviser en manipulant, jusqu’au BEPC.</p><ul><li>Résumé vidéo d’une minute</li><li>Simulation à manipuler</li><li>Quiz corrigé et expliqué</li></ul></div>
-      <div style="--c:var(--nohoba)"><h3>Enseignants</h3><p>Faire la séance au vidéoprojecteur.</p><ul><li>Mode enseignant et outils de projection</li><li>Défis en équipes pour toute la classe</li><li>Fiches élèves et corrigés à imprimer</li></ul></div>
-      <div style="--c:var(--ph7)"><h3>Établissements</h3><p>Équiper tout le collège en une fois.</p><ul><li>Tous les enseignants de physique-chimie</li><li>Accès pour toutes les classes</li><li>Sans salle de TP ni matériel</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<section class="mission" aria-labelledby="hm">
-  <div class="wrap">
-    <div>
-      <h2 id="hm" class="quote">« Maîtriser la matière, c’est améliorer les conditions de vie des êtres humains. »</h2>
-    </div>
-    <p class="by"><b>Le porteur du projet</b>Docteur en chimie physique de l’université Paris-Saclay, professeur de physique-chimie en France et chef de projet en rénovation énergétique. NOHOBA-Lab veut donner aux jeunes les moyens d’aimer la science.</p>
-  </div>
-  <div class="wrap" style="display:block">
-    <div class="stats"><div><b>53</b>leçons, de la 6e à la 3e</div><div><b>26</b>simulations d’expériences</div><div><b>4</b>niveaux du collège</div><div><b>0 F</b>jusqu’au 31 décembre</div></div>
-  </div>
-</section>
-
-<section class="parents" id="parents" aria-labelledby="hp">
-  <div class="wrap">
-    <div>
-      <h2 id="hp">Pour les parents.</h2>
-      <p class="sub">Un outil pour réviser à la maison, comme en classe, sans rien payer ni rien installer.</p>
-      <a class="btn go" id="wa" href="https://wa.me/?text=NOHOBA-Lab%20%3A%20le%20labo%20de%20physique-chimie%20pour%20les%20coll%C3%A9giens%2C%20gratuit%20jusqu%E2%80%99au%2031%20d%C3%A9cembre%20%3A%20https%3A%2F%2Flab.nohaba.com%2F" rel="noopener">Partager sur WhatsApp</a>
-    </div>
-    <ul>
-      <li><b>Gratuit, sans compte</b>Pas de formulaire, pas de numéro de téléphone demandé à ton enfant.</li>
-      <li><b>Le programme officiel</b>De la 6e à la 3e, selon le programme MENA de Côte d’Ivoire, avec les sujets types du BEPC.</li>
-      <li><b>Sans publicité</b>Aucune pub, aucune donnée envoyée à des tiers : les scores restent sur le téléphone.</li>
-      <li><b>Léger</b>Marche sur un petit téléphone et fonctionne hors connexion une fois ouvert.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="final" id="niveaux" aria-labelledby="hf">
-  <div class="wrap">
-    <h2 id="hf">En quelle classe es-tu ?</h2>
-    <p class="sub">Choisis ton niveau et ouvre ta première leçon. Pas de compte à créer.</p>
-    <div class="ctas">
-      <a class="btn go" href="6e/">6e</a><a class="btn go" href="5e/">5e</a><a class="btn go" href="4e/">4e</a><a class="btn go" href="3e/">3e</a>
-    </div>
-    <p style="margin-top:22px;color:var(--mist)">En 3e ? Entraîne-toi aussi sur les <a href="bepc/" style="color:var(--nohoba-soft);font-weight:700">sujets types du BEPC corrigés</a>.</p>
-  </div>
-</section>
-</main>
-
-<footer><div class="wrap"><span>NOHOBA-Lab, une initiative NOHOBA</span><a href="lecons/">Toutes les leçons</a><a href="animations/">Animations et labo virtuel</a><a href="fiche/">Fiches élèves</a><a href="mentions-legales/">Mentions légales</a><a href="confidentialite/">Confidentialité</a><a href="credits/">Crédits et licences</a><span>Ressource indépendante, non officielle</span></div></footer>
-
-<script>
-(function(){
-  var cv=document.getElementById('lab'),cx=cv.getContext('2d'),inp=document.getElementById('ph'),
-      phv=document.getElementById('phv'),kind=document.getElementById('kind'),hint=document.getElementById('try'),
-      hero=document.querySelector('.hero');
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Indicateur universel (couleurs approchées)
-  var STOPS=[[1,[229,56,59]],[4,[249,160,63]],[6,[233,210,59]],[7,[63,191,106]],[9,[46,156,219]],[11,[76,91,212]],[13,[142,63,208]]];
-  function col(p){for(var i=0;i<STOPS.length-1;i++){var a=STOPS[i],b=STOPS[i+1];if(p<=b[0]){var t=(p-a[0])/(b[0]-a[0]);return a[1].map(function(v,k){return Math.round(v+(b[1][k]-v)*t);});}}return STOPS[STOPS.length-1][1];}
-  function kindOf(p){var r=Math.round(p*10)/10;return r<7?'acide':r>7?'basique':'neutre';}
-  var W=900,H=900,cur=7,target=7,parts=[],t0=performance.now(),touched=false;
-  // Bécher
-  var B={x:200,y:170,w:500,h:600,r:46};var level=0;
-  for(var i=0;i<44;i++)parts.push({x:B.x+50+Math.random()*(B.w-100),y:B.y+190+Math.random()*(B.h-240),vx:(Math.random()-.5)*1.1,vy:(Math.random()-.5)*1.1,s:Math.random()});
-  function rr(x,y,w,h,r){cx.beginPath();cx.moveTo(x,y);cx.lineTo(x,y+h-r);cx.quadraticCurveTo(x,y+h,x+r,y+h);cx.lineTo(x+w-r,y+h);cx.quadraticCurveTo(x+w,y+h,x+w,y+h-r);cx.lineTo(x+w,y);}
-  function draw(now){
-    var c=col(cur),rgb='rgb('+c+')',ra=function(a){return 'rgba('+c+','+a+')';};
-    cx.clearRect(0,0,W,H);
-    // halo
-    var g=cx.createRadialGradient(450,560,40,450,560,460);g.addColorStop(0,ra(.35));g.addColorStop(1,ra(0));cx.fillStyle=g;cx.fillRect(0,0,W,H);
-    // graduations
-    var LT=document.documentElement.getAttribute('data-theme')==='light';cx.strokeStyle=LT?'rgba(14,22,42,.35)':'rgba(164,176,204,.35)';cx.lineWidth=3;
-    for(var k=0;k<6;k++){var yy=B.y+B.h-90-k*80;cx.beginPath();cx.moveTo(B.x+B.w-70,yy);cx.lineTo(B.x+B.w-20,yy);cx.stroke();}
-    // liquide
-    var top=B.y+B.h-(B.h-150)*level, wave=reduce?0:Math.sin(now/600)*6;
-    cx.save();rr(B.x+8,B.y,B.w-16,B.h-8,B.r);cx.clip();
-    var lg=cx.createLinearGradient(0,top,0,B.y+B.h);lg.addColorStop(0,ra(.95));lg.addColorStop(1,'rgba('+c.map(function(v){return Math.round(v*.45);})+',.95)');
-    cx.fillStyle=lg;cx.beginPath();cx.moveTo(B.x,top+wave);
-    for(var x=0;x<=B.w;x+=20)cx.lineTo(B.x+x,top+Math.sin((x/90)+(reduce?0:now/500))*7);
-    cx.lineTo(B.x+B.w,B.y+B.h);cx.lineTo(B.x,B.y+B.h);cx.closePath();cx.fill();
-    // ions : H+ (acide) et HO- (base)
-    var acid=Math.max(0,7-cur)/6, base=Math.max(0,cur-7)/6;
-    parts.forEach(function(p,i){
-      if(!reduce){p.x+=p.vx+Math.sin(now/900+i)*.3;p.y+=p.vy+Math.cos(now/1100+i)*.3;var T=B.y+150;if(p.y<T+34){p.y=T+34;p.vy=Math.abs(p.vy);}if(p.y>B.y+B.h-40){p.y=B.y+B.h-40;p.vy=-Math.abs(p.vy);}if(p.x<B.x+40){p.x=B.x+40;p.vx=Math.abs(p.vx);}if(p.x>B.x+B.w-40){p.x=B.x+B.w-40;p.vx=-Math.abs(p.vx);}}
-      if(p.y<top+20)return;
-      var isA=i%2===0, a=isA?acid:base; if(a<.04&&p.s>.2)return;
-      var show=Math.max(Math.min(1,a*1.6),(p.s<.22)?.6:0);
-      cx.globalAlpha=Math.min(1,show*1.2);cx.fillStyle=LT?(isA?'#7A1F22':'#1F3F7A'):(isA?'#FFE0E0':'#DDEBFF');
-      cx.beginPath();cx.arc(p.x,p.y,isA?22:26,0,7);cx.fill();
-      if(show>.5){cx.fillStyle=LT?'#FFFFFF':'#0A1022';cx.font='800 24px Bricolage Grotesque, sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(isA?'H⁺':'HO⁻',p.x,p.y+1);}
-      cx.globalAlpha=1;});
-    // reflet
-    var sh=cx.createLinearGradient(B.x,0,B.x+B.w,0);sh.addColorStop(0,'rgba(255,255,255,.12)');sh.addColorStop(.18,'rgba(255,255,255,0)');sh.addColorStop(1,'rgba(255,255,255,.05)');cx.fillStyle=sh;cx.fillRect(B.x,B.y,B.w,B.h);
-    cx.restore();
-    // verre
-    cx.strokeStyle=LT?'rgba(30,45,80,.7)':'rgba(220,230,255,.75)';cx.lineWidth=7;rr(B.x+4,B.y,B.w-8,B.h-4,B.r);cx.stroke();
-    cx.beginPath();cx.moveTo(B.x-24,B.y);cx.lineTo(B.x+40,B.y);cx.moveTo(B.x+B.w-40,B.y);cx.lineTo(B.x+B.w+10,B.y);cx.stroke();
-  }
-  function setUI(){var r=Math.round(cur*10)/10,k=kindOf(cur);
-    phv.textContent='pH '+r.toLocaleString('fr-FR');kind.textContent=k==='neutre'?'neutre : ni acide ni basique':k;
-    var c=col(cur);var LT=document.documentElement.getAttribute('data-theme')==='light';phv.style.color=LT?'rgb('+c.map(function(v){return Math.round(v*.6);})+')':'rgb('+c+')';hero.style.setProperty('--glow','rgba('+c+',.24)');
-    inp.setAttribute('aria-valuetext','pH '+r.toLocaleString('fr-FR')+', solution '+k);}
-  inp.addEventListener('input',function(){target=parseFloat(inp.value);if(reduce)cur=target;if(!touched){touched=true;hint.style.opacity=0;}setUI();});
-  window.addEventListener('themechange',function(){setUI();draw(performance.now());});
-  // Glisser directement sur le bécher
-  function fromPointer(e){var r=cv.getBoundingClientRect();var p=1+12*Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));inp.value=p.toFixed(1);inp.dispatchEvent(new Event('input'));}
-  cv.addEventListener('pointerdown',function(e){cv.setPointerCapture(e.pointerId);fromPointer(e);cv.onpointermove=fromPointer;});
-  cv.addEventListener('pointerup',function(){cv.onpointermove=null;});
-  // Ouverture : le bécher se remplit, puis l'indicateur parcourt l'échelle une fois et revient au neutre
-  var intro=!reduce;
-  function frame(now){
-    var e=(now-t0)/1000;
-    if(intro){level=Math.min(1,e/1.1);level=1-Math.pow(1-level,3);
-      if(e>1.2&&e<3.4&&!touched){var u=(e-1.2)/2.2;target=7+6*Math.sin(u*Math.PI*2)*(1-u*.15);}
-      if(e>=3.4){intro=false;if(!touched)target=7;}}
-    else level=1;
-    cur+= (target-cur)*(reduce?1:.12);
-    setUI();draw(now);
-    if(!reduce||intro)requestAnimationFrame(frame);
-  }
-  if(reduce){level=1;setUI();draw(0);inp.addEventListener('input',function(){draw(0);});}
-  else requestAnimationFrame(frame);
-})();
-</script>
+    <a class="sp-btn" id="continuer" href="#" hidden></a>
+    <section style="display:flex;flex-direction:column;gap:14px" aria-labelledby="classes">
+      <h2 class="sp-h2" id="classes">En quelle classe es-tu ?</h2>
+      <nav class="sp-grid" aria-label="Classes">
+        <a class="sp-class" href="6e/" data-c="6e">6e</a>
+        <a class="sp-class" href="5e/" data-c="5e">5e</a>
+        <a class="sp-class" href="4e/" data-c="4e">4e</a>
+        <a class="sp-class" href="3e/" data-c="3e">3e</a>
+      </nav>
+      <p class="sp-note">Le site se souviendra de ta classe la prochaine fois.</p>
+    </section>
+  </main>
+  <footer style="display:flex;flex-direction:column;gap:14px">
+    <nav class="sp-foot" aria-label="Autres espaces">
+      <a href="decouvrir/">Je suis prof ou parent</a>
+      <a href="connexion/">Se connecter</a>
+    </nav>
+    <nav class="sp-legal" aria-label="Informations légales">
+      <a href="mentions-legales/">Mentions légales</a><a href="confidentialite/">Confidentialité</a><a href="credits/">Crédits</a>
+    </nav>
+  </footer>
+</div>
+<script src="assets/simple/simple.js"></script>
 <script>(function(){
-var SM=[["etat-eau","5e","Courbe de chauffage de l’eau","Matière"],["solubilite","5e","Dissoudre jusqu’à saturation","Matière"],["circuits-lampes","5e","Lampes en série et en dérivation","Électricité"],["vitesse","5e","Mesurer une vitesse","Mouvement"],["phases-lune","5e","Les phases de la Lune","Univers"],["masse-volumique","4e","Masse volumique","Matière"],["mouvement-bille","4e","Chronophotographie d’un mouvement","Mouvement"],["ressort","4e","Allongement d’un ressort","Mouvement"],["additivite","4e","Intensité et tension : les lois d’additivité","Électricité"],["ohm","4e","La loi d’Ohm","Électricité"],["miroir","4e","Réflexion de la lumière sur un miroir","Signaux"],["vitesse-son","4e","La vitesse du son","Signaux"],["ph","3e","Acide ou basique : le pH","Matière"],["poids-masse","3e","Poids et masse","Mouvement"],["energie-chute","3e","Énergie cinétique et énergie de position","Énergie"],["puissance-energie","3e","Puissance, énergie et coût","Énergie"],["effet-serre","3e","Un modèle de l’effet de serre","Énergie"],["force-vecteur","3e","Représenter une force","Mouvement"],["equilibre-2forces","3e","Équilibre d’un solide soumis à deux forces","Mouvement"],["travail-puissance","3e","Travail et puissance d’une force","Énergie"],["electrolyse-eau","3e","L’électrolyse de l’eau","Matière"],["alcanes","3e","Les alcanes et leur combustion","Matière"],["combustions","3e","Combustions dans le dioxygène","Matière"],["reduction-cuo","3e","Réduction de l’oxyde de cuivre","Matière"],["lentille-image","3e","Image donnée par une lentille convergente","Signaux"],["oeil","3e","L’œil et la correction de la vision","Signaux"]];
-var LS=[["sources-recepteurs","4e","Sources et récepteurs de lumière","Optique"],["propagation-lumiere","4e","Propagation de la lumière","Optique"],["phases-eclipses","4e","Les phases de la Lune et les éclipses","Optique"],["lumiere-blanche","4e","Analyse et synthèse de la lumière blanche","Optique"],["aimant-bobine","4e","Aimant et bobine","Courants et tensions alternatifs"],["tension-alternative","4e","Production d’une tension alternative","Courants et tensions alternatifs"],["tension-sinusoidale","4e","Tension alternative sinusoïdale","Courants et tensions alternatifs"],["dangers-secteur","4e","Dangers du courant du secteur","Courants et tensions alternatifs"],["transfo-redressement","4e","Transformation, redressement et lissage","Courants et tensions alternatifs"],["atomes-ions","4e","Atomes et ions","Les ions"],["metal-ion","4e","Transformation d’un métal en ion et inversement","Les ions"],["traitement-eau","4e","Traitement de l’eau","Eau potable"],["qualite-eau","4e","Qualité de l’eau","Eau potable"],["generateur-recepteur","5e","Adaptation d’un générateur à un récepteur","Électricité"],["association-lampes","5e","Association de lampes électriques","Électricité"],["piles-serie","5e","Association de piles en série","Électricité"],["intensite","5e","Intensité du courant électrique","Mesure de grandeurs physiques"],["tension","5e","Tension électrique","Mesure de grandeurs physiques"],["pression-atmospherique","5e","Pression atmosphérique","Mesure de grandeurs physiques"],["melanges","5e","Les mélanges","Mélanges et réactions chimiques"],["atomes-molecules","5e","Atomes et molécules","Mélanges et réactions chimiques"],["combustion-carbone","5e","Combustion du carbone","Mélanges et réactions chimiques"],["combustion-soufre","5e","Combustion du soufre","Mélanges et réactions chimiques"],["dilatation-solides","5e","Dilatation des solides","Propriétés physiques de la matière"],["dilatation-liquides","5e","Dilatation des liquides","Propriétés physiques de la matière"],["dilatation-gaz","5e","Dilatation des gaz","Propriétés physiques de la matière"],["circuit-electrique","6e","Le circuit électrique","Électricité"],["commande-circuit","6e","Commande d’un circuit électrique","Électricité"],["court-circuit","6e","Court-circuit et protection des installations électriques","Électricité"],["solides-liquides","6e","Solides et liquides","Propriétés physiques de la matière"],["les-gaz","6e","Les gaz","Propriétés physiques de la matière"],["temperature","6e","Température d’un corps","Propriétés physiques de la matière"],["changements-etat","6e","Les changements d’état de l’eau","Propriétés physiques de la matière"],["constituants-air","6e","Les constituants de l’air","Les combustions"],["combustion-solide-liquide","6e","Combustion d’un solide et d’un liquide","Les combustions"],["combustion-gaz","6e","Combustion d’un gaz : le butane","Les combustions"],["dangers-combustions","6e","Dangers des combustions","Les combustions"],["volume","6e","Volume d’un liquide et d’un solide","Mesure de grandeurs physiques"],["masse","6e","Masse d’un solide et d’un liquide","Mesure de grandeurs physiques"],["masse-poids","3e","Masse et poids d’un corps","Mécanique"],["les-forces","3e","Les forces","Mécanique"],["equilibre-deux-forces","3e","Équilibre d’un solide soumis à deux forces","Mécanique"],["travail-puissance","3e","Travail et puissance mécaniques","Mécanique"],["energie-mecanique","3e","Énergie mécanique","Mécanique"],["electrolyse-eau","3e","Électrolyse et synthèse de l’eau","Les réactions chimiques"],["alcanes","3e","Les alcanes","Les réactions chimiques"],["oxydation-corps-purs","3e","Oxydation des corps purs simples","Les réactions chimiques"],["reduction-oxydes","3e","Réduction des oxydes","Les réactions chimiques"],["solutions-acides-basiques","3e","Solutions acides, basiques et neutres","Les réactions chimiques"],["lentilles","3e","Les lentilles","Optique"],["defauts-oeil","3e","Les défauts de l’œil et leurs corrections","Optique"],["puissance-energie-electriques","3e","Puissance et énergie électriques","Électricité"],["conducteur-ohmique","3e","Le conducteur ohmique","Électricité"]];
-function g(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
-function norm(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
-var btns=document.querySelectorAll('.cls button'),nx=document.getElementById('next');
-function url(id){return 'lecon/?l='+id;}
-function paint(c){
-  btns.forEach(function(b){b.setAttribute('aria-checked',b.dataset.c===c?'true':'false');});
-  var P=g('pc-studio-prog')||{},last=P.last,out='';
-  var mine=LS.filter(function(x){return x[1]===c;}),done=mine.filter(function(x){return P[x[0]]&&P[x[0]].quiz;}).length;
-  var nxt=mine.filter(function(x){return !(P[x[0]]&&P[x[0]].quiz);})[0];
-  nx.textContent='';
-  function a(href,txt,cls){var e=document.createElement('a');e.href=href;e.className=cls;e.textContent=txt;nx.appendChild(e);}
-  function sm(t){var e=document.createElement('small');e.textContent=t;nx.appendChild(e);}
-  if(last){var L=LS.filter(function(x){return x[0]===last;})[0];if(L)a(url(L[0]),'Reprendre : '+L[2],'btn go');}
-  if(nxt&&(!last||nxt[0]!==last))a(url(nxt[0]),(last?'Prochaine leçon : ':'Commencer : ')+nxt[2],last?'btn':'btn go');
-  if(!nxt)sm('Bravo, tu as terminé toutes les leçons de '+c+' ! Essaie le BEPC ou une autre classe.');
-  sm(done+' sur '+mine.length+' leçons terminées en '+c);
-  var bar=document.createElement('div');bar.className='bar';bar.innerHTML='<i></i>';bar.firstChild.style.width=Math.round(100*done/mine.length)+'%';nx.appendChild(bar);
-}
-btns.forEach(function(b){b.addEventListener('click',function(){try{localStorage.setItem('nl-classe',b.dataset.c);}catch(e){}paint(b.dataset.c);});});
-var saved;try{saved=localStorage.getItem('nl-classe');}catch(e){}
-if(saved){paint(saved);}else{var P0=g('pc-studio-prog');if(P0&&P0.last){var L0=LS.filter(function(x){return x[0]===P0.last;})[0];if(L0)paint(L0[1]);}}
-// recherche
-var q=document.getElementById('q'),res=document.getElementById('res');
-q.addEventListener('input',function(){var t=norm(q.value.trim());res.textContent='';if(t.length<2)return;
-  function f(A,k){return A.filter(function(x){return (' '+norm(x[2]+' '+x[3]).replace(/[^a-z0-9]+/g,' ')).indexOf(' '+t)>-1;}).map(function(x){return [x,k];});}
-  var m=f(SM,1).concat(f(LS,0)).slice(0,8);
-  if(!m.length){var li=document.createElement('li');li.style.color='var(--mist)';li.textContent='Aucune leçon trouvée. Essaie un autre mot.';res.appendChild(li);return;}
-  m.forEach(function(y){var x=y[0],li=document.createElement('li'),a=document.createElement('a'),n=document.createElement('span'),s=document.createElement('small');a.href=y[1]?'simulateur/?s='+x[0]:url(x[0]);n.textContent=x[2];s.textContent=(y[1]?'Simulation · ':'Leçon · ')+x[1];a.appendChild(n);a.appendChild(s);li.appendChild(a);res.appendChild(li);});});
-// mode projection
-var pj=document.getElementById('proj');
-pj.addEventListener('click',function(){var on=document.body.classList.toggle('proj');pj.setAttribute('aria-pressed',on?'true':'false');pj.textContent=on?'Quitter la projection':'Projeter en classe';});
-// installation
-var dp=null,inst=document.getElementById('inst'),note=document.getElementById('inote');
-window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;});
-if(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)inst.style.display='none';
-inst.addEventListener('click',function(){if(dp){dp.prompt();dp=null;}else{note.textContent='Ouvre le menu de ton navigateur (⋮ ou Partager), puis « Ajouter à l’écran d’accueil ».';}});
+  var S=window.NohobaSimple;S.bindTheme();
+  var c=S.classe(),go=document.getElementById('continuer');
+  document.querySelectorAll('.sp-class').forEach(function(a){
+    a.addEventListener('click',function(){S.setClasse(a.getAttribute('data-c'));});
+    if(a.getAttribute('data-c')===c){a.classList.add('mine');a.setAttribute('aria-current','true');}
+  });
+  if(c){go.hidden=false;go.href=c+'/';go.textContent='Continuer en '+c+' →';}
 })();</script>
-<script>(function(){var b=document.getElementById('tsw'),r=document.documentElement,m=document.querySelector('meta[name="theme-color"]');
-function apply(t,save){r.setAttribute('data-theme',t);b.setAttribute('aria-checked',t==='dark'?'true':'false');if(m)m.setAttribute('content',t==='dark'?'#0A1226':'#F4F6FB');
-if(save){try{localStorage.setItem('pc-theme',t);}catch(e){}}window.dispatchEvent(new Event('themechange'));}
-apply(r.getAttribute('data-theme')==='light'?'light':'dark',false);
-b.addEventListener('click',function(){apply(r.getAttribute('data-theme')==='light'?'dark':'light',true);});})();</script>
-<script>
-(function(){
-  var vit=document.getElementById('vit');if(!vit)return;
-  var reel=document.getElementById('reel'),tabs=document.getElementById('tabs'),btns=tabs.querySelectorAll('button'),
-      sc=document.getElementById('rsc'),tag=document.getElementById('rtag'),tit=document.getElementById('rtit'),des=document.getElementById('rdes'),go=document.getElementById('rgo');
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var T='font-family="sans-serif" font-weight="700" text-anchor="middle"';
-  var D=[null,
-   {u:'metal/',t:'Le courant électrique dans un métal',d:'Des électrons libres se déplacent entre les atomes. 6 étapes · environ 40 s',
-    s:'<g fill="#C88033"><circle cx="90" cy="70" r="20"/><circle cx="215" cy="70" r="20"/><circle cx="340" cy="70" r="20"/><circle cx="90" cy="190" r="20"/><circle cx="215" cy="190" r="20"/><circle cx="340" cy="190" r="20"/></g><g fill="#7FD3FF"><circle cx="150" cy="130" r="8"/><circle cx="270" cy="125" r="8"/><circle cx="385" cy="135" r="8"/><circle cx="40" cy="132" r="8"/></g><path d="M80 238h270" stroke="#F97316" stroke-width="5"/><path d="M350 238l-14-9m14 9l-14 9" stroke="#F97316" stroke-width="5" fill="none"/>'},
-   {u:'solutions/',t:'Le courant dans les solutions ioniques',d:'Les ions, positifs et négatifs, transportent le courant. 8 étapes · environ 50 s',
-    s:'<rect x="85" y="50" width="260" height="170" rx="12" fill="#2E9CDB" opacity=".25" stroke="#5F6E96" stroke-width="4"/><rect x="135" y="20" width="12" height="130" fill="#C8CFDB"/><rect x="283" y="20" width="12" height="130" fill="#C8CFDB"/><g '+T+' font-size="13"><circle cx="175" cy="105" r="17" fill="#AB5CF2"/><text x="175" y="110" fill="#fff">Na⁺</text><circle cx="205" cy="180" r="17" fill="#AB5CF2"/><text x="205" y="185" fill="#fff">Na⁺</text><circle cx="250" cy="115" r="17" fill="#1FF01F"/><text x="250" y="120" fill="#0E162A">Cl⁻</text><circle cx="300" cy="185" r="17" fill="#1FF01F"/><text x="300" y="190" fill="#0E162A">Cl⁻</text></g>'},
-   {u:'atome/',t:'L’atome et sa composition',d:'Noyau, protons, neutrons, électrons : qui est où ? 5 étapes · environ 35 s',
-    s:'<g fill="none" stroke="#5F6E96" stroke-width="3"><ellipse cx="215" cy="130" rx="150" ry="55"/><ellipse cx="215" cy="130" rx="150" ry="55" transform="rotate(60 215 130)"/><ellipse cx="215" cy="130" rx="150" ry="55" transform="rotate(120 215 130)"/></g><circle cx="207" cy="124" r="15" fill="#E5383B"/><circle cx="224" cy="134" r="15" fill="#9AA3B5"/><circle cx="210" cy="142" r="15" fill="#E5383B"/><g fill="#7FD3FF"><circle cx="365" cy="130" r="8"/><circle cx="140" cy="68" r="8"/><circle cx="140" cy="192" r="8"/></g>'},
-   {u:'ions/',t:'La formation des ions',d:'Un atome gagne ou perd des électrons et devient un ion. 7 étapes · environ 50 s',
-    s:'<g '+T+' font-size="16"><circle cx="105" cy="130" r="48" fill="#AB5CF2"/><text x="105" y="136" fill="#fff">Na</text><path d="M175 130h60" stroke="#F97316" stroke-width="5"/><path d="M235 130l-14-9m14 9l-14 9" stroke="#F97316" stroke-width="5" fill="none"/><circle cx="305" cy="130" r="40" fill="#AB5CF2"/><text x="305" y="136" fill="#fff">Na⁺</text><circle cx="392" cy="85" r="10" fill="#7FD3FF"/></g>'},
-   {u:'tests/',t:'Identifier des ions en solution',d:'Un réactif, un précipité : sa couleur donne l’ion. 8 étapes · environ 55 s',
-    s:'<g stroke="#5F6E96" stroke-width="5" fill="none"><path d="M110 30v150a28 28 0 0 0 56 0V30"/><path d="M200 30v150a28 28 0 0 0 56 0V30"/><path d="M290 30v150a28 28 0 0 0 56 0V30"/></g><path d="M113 150h50v30a25 25 0 0 1-50 0z" fill="#3B82F6"/><path d="M203 150h50v30a25 25 0 0 1-50 0z" fill="#E8EEF9"/><path d="M293 150h50v30a25 25 0 0 1-50 0z" fill="#C2693A"/>'}
-  ];
-  var cur=0,timer=null,stopped=reduce,paused=false,DUR=12000,cycle=0;
-  function show(i){
-    cur=i;
-    var cards=document.querySelectorAll('.xp.an a');for(var c=0;c<cards.length;c++){cards[c].classList.toggle('on',c===i-1);}
-    for(var k=0;k<btns.length;k++){btns[k].setAttribute('aria-pressed',k===i?'true':'false');}
-    if(i===0){reel.hidden=true;}
-    else{var d=D[i];sc.innerHTML=d.s;tag.textContent='ANIMATION '+i+' SUR 5';tit.textContent=d.t;des.textContent=d.d;go.href=d.u;reel.hidden=false;}
-    // relance la barre de progression
-    tabs.classList.remove('still');var b=btns[i].querySelector('i');b.style.animation='none';void b.offsetWidth;b.style.animation='';
-    if(stopped)tabs.classList.add('still');
-  }
-  function arm(){clearTimeout(timer);if(stopped)return;timer=setTimeout(tick,DUR);}
-  function tick(){
-    if(stopped)return;
-    if(paused||document.hidden){arm();return;}
-    if(cur===5){stopped=true;show(0);return;}  // un seul tour, puis retour au pH
-    show(cur+1);arm();
-  }
-  function stop(){stopped=true;clearTimeout(timer);tabs.classList.add('still');}
-  tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;stop();show(+b.dataset.i);});
-  // pause au survol et au focus ; arrêt définitif dès qu'on touche au curseur ou à l'écran
-  vit.addEventListener('mouseenter',function(){paused=true;tabs.classList.add('paused');});
-  vit.addEventListener('mouseleave',function(){paused=false;tabs.classList.remove('paused');});
-  vit.addEventListener('focusin',function(){paused=true;tabs.classList.add('paused');});
-  vit.addEventListener('focusout',function(){paused=false;tabs.classList.remove('paused');});
-  vit.addEventListener('pointerdown',function(e){if(e.pointerType==='touch'||e.target.closest('.bench'))stop();});
-  document.getElementById('ph').addEventListener('input',stop);
-  if(!reduce){
-    // le premier changement n'arrive qu'après l'introduction du bécher
-    timer=setTimeout(function(){if(!stopped){show(1);arm();}},9000);
-    tabs.classList.add('still');
-  }
-})();
-</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});</script>
-<script defer src="assets/compte.js"></script>
 </body>
 </html>
