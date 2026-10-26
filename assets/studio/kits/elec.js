@@ -236,5 +236,65 @@
   }
   /* cordon de mesure entre deux points (courbe) */
   function lead(G, col) { var p = s('path', { fill: 'none', stroke: col, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.95 }, G), e = s('circle', { r: 6, fill: col }, G); return { set: function (a, b) { var my = Math.max(a.y, b.y) + 60; p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' C' + a.x + ' ' + my + ' ' + b.x + ' ' + my + ' ' + b.x + ' ' + b.y); attr(e, { cx: b.x, cy: b.y }); }, show: function (v) { p.style.display = e.style.display = v ? '' : 'none'; } }; }
-  window.ElecKit = { cable: cable, ring: ring, chain: chain, glow: glow, battery: battery, lamp: lamp, motor: motor, wire: wire, switchK: switchK, meter: meter, dot: dot, lampState: lampState, v: v, multimeter: multimeter, lead: lead, CALS: CALS };
+  /* bouton-poussoir sur socle : deux douilles, bouton rouge ; ne ferme le circuit que pendant l'appui */
+  function poussoir(G, x1, y, x2, o) {
+    o = o || {}; var g = s('g', { style: 'cursor:pointer;touch-action:none', role: 'button', 'aria-label': 'Bouton-poussoir : maintenir appuyé pour fermer le circuit' }, G), mx = (x1 + x2) / 2;
+    s('ellipse', { cx: mx, cy: y + 18, rx: (x2 - x1) / 2 + 26, ry: 6, fill: '#05080F', opacity: 0.35 }, g);
+    s('rect', { x: x1 - 20, y: y - 15, width: x2 - x1 + 40, height: 32, rx: 6, fill: '#C9D2E3' }, g);
+    s('rect', { x: x1 - 20, y: y - 15, width: x2 - x1 + 40, height: 28, rx: 6, fill: '#EEF2FA', stroke: '#9FB0C4', 'stroke-width': 1.5 }, g);
+    [x1, x2].forEach(function (cx) { s('circle', { cx: cx, cy: y, r: 7, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: cx, cy: y, r: 2.8, fill: '#2A2F38' }, g); });
+    var strip = s('rect', { x: mx - 12, y: y - 2, width: 24, height: 4, rx: 2, fill: '#B98A16' }, g);
+    var cap = s('g', {}, g); s('rect', { x: mx - 4, y: y - 22, width: 8, height: 14, fill: '#9FB0C4' }, cap); s('rect', { x: mx - 13, y: y - 32, width: 26, height: 12, rx: 5, fill: '#E5484D', stroke: '#8C1D22', 'stroke-width': 1.5 }, cap);
+    s('rect', { x: x1 - 24, y: y - 50, width: x2 - x1 + 48, height: 76, fill: 'transparent' }, g);
+    s('text', { x: mx, y: y + 33, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label || 'poussoir' }, g);
+    function set(p) { cap.setAttribute('transform', 'translate(0 ' + (p ? 8 : 0) + ')'); strip.setAttribute('fill', p ? '#FFC94D' : '#B98A16'); }
+    g.addEventListener('pointerdown', function (e) { try { g.setPointerCapture(e.pointerId); } catch (_) {} o.onDown && o.onDown(); });
+    g.addEventListener('pointerup', function () { o.onUp && o.onUp(); }); g.addEventListener('pointerleave', function () { o.onUp && o.onUp(); });
+    set(false);
+    return { g: g, set: set };
+  }
+  /* commutateur (va-et-vient) sur socle : borne commune et deux sorties a (haut) et b (bas) ; flip = commune à droite */
+  function vav(G, cx, cy, o) {
+    o = o || {}; var f = o.flip ? -1 : 1, g = s('g', { style: 'cursor:pointer', role: 'button', 'aria-label': 'Commutateur va-et-vient : cliquer pour changer de position' }, G);
+    var C = [cx - 32 * f, cy], A = [cx + 32 * f, cy - 17], B = [cx + 32 * f, cy + 17];
+    s('ellipse', { cx: cx, cy: cy + 40, rx: 58, ry: 6, fill: '#05080F', opacity: 0.35 }, g);
+    s('rect', { x: cx - 50, y: cy - 34, width: 100, height: 72, rx: 7, fill: '#C9D2E3' }, g);
+    s('rect', { x: cx - 50, y: cy - 34, width: 100, height: 68, rx: 7, fill: '#EEF2FA', stroke: '#9FB0C4', 'stroke-width': 1.5 }, g);
+    [C, A, B].forEach(function (p) { s('circle', { cx: p[0], cy: p[1], r: 7, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: p[0], cy: p[1], r: 2.8, fill: '#2A2F38' }, g); });
+    var lev = s('line', { x1: C[0], y1: C[1], stroke: '#B98A16', 'stroke-width': 5, 'stroke-linecap': 'round' }, g);
+    s('text', { x: cx, y: cy + 56, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label || '' }, g);
+    s('rect', { x: cx - 54, y: cy - 38, width: 108, height: 80, fill: 'transparent' }, g);
+    function set(pos) { var q = pos === 'a' ? A : B; attr(lev, { x2: C[0] + (q[0] - C[0]) * 0.9, y2: C[1] + (q[1] - C[1]) * 0.9 }); }
+    g.addEventListener('click', function () { o.onToggle && o.onToggle(); });
+    set('a');
+    return { g: g, set: set, C: C, A: A, B: B };
+  }
+  /* symboles normalisés pour les schémas (fond clair). kind : 'G' pile/générateur, 'L' lampe, 'K' interrupteur.
+     Pile : trait long fin = borne +, trait court épais = borne −. Le dessin se tourne avec le fil :
+     vert=false → fil horizontal (plaques verticales, + à gauche) ; vert=true → fil vertical (plaques horizontales, + en haut). */
+  function sym(G2, kind, x, y, o) {
+    o = o || {}; var ink = o.ink || '#1E2430', bg = o.bg || '#F7F4EA', g = s('g', {}, G2);
+    if (kind === 'L') { s('circle', { cx: x, cy: y, r: 11, fill: o.on ? '#FFE9A8' : bg, stroke: ink, 'stroke-width': 2 }, g); s('path', { d: 'M' + (x - 7.8) + ' ' + (y - 7.8) + 'l15.6 15.6M' + (x + 7.8) + ' ' + (y - 7.8) + 'l-15.6 15.6', stroke: ink, 'stroke-width': 2 }, g); }
+    if (kind === 'G') {
+      if (o.vert) {
+        s('rect', { x: x - 14, y: y - 10, width: 28, height: 20, fill: bg }, g);
+        s('line', { x1: x - 14, y1: y - 5, x2: x + 14, y2: y - 5, stroke: ink, 'stroke-width': 2 }, g);
+        s('line', { x1: x - 8, y1: y + 5, x2: x + 8, y2: y + 5, stroke: ink, 'stroke-width': 5 }, g);
+        s('text', { x: x + 18, y: y - 2, 'font-size': 12, 'font-weight': 900, fill: ink, text: '+' }, g);
+        s('text', { x: x + 18, y: y + 12, 'font-size': 12, 'font-weight': 900, fill: ink, text: '−' }, g);
+      } else {
+        var f = o.flip ? -1 : 1;
+        s('rect', { x: x - 10, y: y - 14, width: 20, height: 28, fill: bg }, g);
+        s('line', { x1: x - 5 * f, y1: y - 14, x2: x - 5 * f, y2: y + 14, stroke: ink, 'stroke-width': 2 }, g);
+        s('line', { x1: x + 5 * f, y1: y - 8, x2: x + 5 * f, y2: y + 8, stroke: ink, 'stroke-width': 5 }, g);
+        s('text', { x: x - 14 * f - (f < 0 ? 7 : 0), y: y - 17, 'font-size': 12, 'font-weight': 900, fill: ink, text: '+' }, g);
+        s('text', { x: x + 8 * f - (f < 0 ? 7 : 0), y: y - 17, 'font-size': 12, 'font-weight': 900, fill: ink, text: '−' }, g);
+      }
+    }
+    if (kind === 'K') { s('rect', { x: x - 14, y: y - 10, width: 28, height: 14, fill: bg }, g); s('circle', { cx: x - 12, cy: y, r: 2.5, fill: ink }, g); s('circle', { cx: x + 12, cy: y, r: 2.5, fill: ink }, g); s('line', { x1: x - 12, y1: y, x2: x + 12, y2: o.closed ? y : y - 10, stroke: ink, 'stroke-width': 2 }, g); }
+    if (kind === 'P') { s('rect', { x: x - 14, y: y - 18, width: 28, height: 22, fill: bg }, g); s('circle', { cx: x - 12, cy: y, r: 2.5, fill: ink }, g); s('circle', { cx: x + 12, cy: y, r: 2.5, fill: ink }, g); s('line', { x1: x - 12, y1: o.closed ? y : y - 3, x2: x + 12, y2: o.closed ? y : y - 3, stroke: ink, 'stroke-width': 2 }, g); s('path', { d: 'M' + x + ' ' + (o.closed ? y - 1 : y - 4) + 'V' + (y - 14) + 'M' + (x - 6) + ' ' + (y - 14) + 'H' + (x + 6), stroke: ink, 'stroke-width': 2 }, g); }
+    if (kind === 'V') { var f = o.flip ? -1 : 1, q = o.pos === 'b' ? 9 : -9; s('rect', { x: x - 16, y: y - 14, width: 32, height: 28, fill: bg }, g); [[x - 14 * f, y], [x + 14 * f, y - 9], [x + 14 * f, y + 9]].forEach(function (c) { s('circle', { cx: c[0], cy: c[1], r: 2.5, fill: ink }, g); }); s('line', { x1: x - 14 * f, y1: y, x2: x + 14 * f - 3 * f, y2: y + q * 0.85, stroke: ink, 'stroke-width': 2 }, g); }
+    return g;
+  }
+  window.ElecKit = { poussoir: poussoir, vav: vav, sym: sym, cable: cable, ring: ring, chain: chain, glow: glow, battery: battery, lamp: lamp, motor: motor, wire: wire, switchK: switchK, meter: meter, dot: dot, lampState: lampState, v: v, multimeter: multimeter, lead: lead, CALS: CALS };
 })();

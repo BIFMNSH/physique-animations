@@ -56,12 +56,7 @@
     s('rect', { x: PX, y: 24, width: 280, height: 250, rx: 16, fill: '#F7F4EA' }, SC);
     s('text', { x: PX + 18, y: 50, 'font-size': 12, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SC);
     var SG = s('g', {}, SC);
-    function sym(G2, kind, x, y, vert, extra) {
-      var ink = '#1E2430';
-      if (kind === 'L') { s('circle', { cx: x, cy: y, r: 11, fill: extra ? '#FFE9A8' : '#F7F4EA', stroke: ink, 'stroke-width': 2 }, G2); s('path', { d: 'M' + (x - 7.8) + ' ' + (y - 7.8) + 'l15.6 15.6M' + (x + 7.8) + ' ' + (y - 7.8) + 'l-15.6 15.6', stroke: ink, 'stroke-width': 2 }, G2); }
-      if (kind === 'G') { s('rect', { x: x - 10, y: y - 14, width: 20, height: 28, fill: '#F7F4EA' }, G2); s('line', { x1: x - 5, y1: y - 14, x2: x - 5, y2: y + 14, stroke: ink, 'stroke-width': 2 }, G2); s('line', { x1: x + 5, y1: y - 8, x2: x + 5, y2: y + 8, stroke: ink, 'stroke-width': 5 }, G2); s('text', { x: x - 14, y: y - 16, 'font-size': 11, 'font-weight': 900, fill: ink, text: '+' }, G2); }
-      if (kind === 'K') { s('rect', { x: x - 14, y: y - 10, width: 28, height: 14, fill: '#F7F4EA' }, G2); s('circle', { cx: x - 12, cy: y, r: 2.5, fill: ink }, G2); s('circle', { cx: x + 12, cy: y, r: 2.5, fill: ink }, G2); s('line', { x1: x - 12, y1: y, x2: x + 12, y2: extra ? y : y - 10, stroke: ink, 'stroke-width': 2 }, G2); }
-    }
+    function sym(G2, kind, x, y, vert, extra) { return E.sym(G2, kind, x, y, { vert: vert, on: kind === 'L' ? extra : false, closed: kind === 'K' ? extra : false }); }
     function schema(sol) {
       while (SG.firstChild) SG.removeChild(SG.firstChild);
       var ink = '#1E2430', x0 = PX + 40, x1 = PX + 240, y0 = 82, y1 = 240, n = st.n;
@@ -74,7 +69,7 @@
         var xl = xs[xs.length - 1];
         s('path', { d: 'M' + x0 + ' ' + y0 + 'H' + xl + 'M' + x0 + ' ' + y1 + 'H' + xl + 'M' + x0 + ' ' + y0 + 'V' + y1, fill: 'none', stroke: ink, 'stroke-width': 2 }, SG);
         xs.forEach(function (x, i) { s('line', { x1: x, y1: y0, x2: x, y2: y1, stroke: ink, 'stroke-width': 2 }, SG); s('circle', { cx: x, cy: y0, r: 3, fill: ink }, SG); s('circle', { cx: x, cy: y1, r: 3, fill: ink }, SG); if (st.removed[i]) s('rect', { x: x - 5, y: (y0 + y1) / 2 - 12, width: 10, height: 24, fill: '#F7F4EA' }, SG); else sym(SG, 'L', x, (y0 + y1) / 2, true, sol.states[i].k !== 'off'); s('text', { x: x + 16, y: (y0 + y1) / 2 + 4, 'font-size': 11, 'font-weight': 800, fill: ink, text: 'L' + (i + 1) }, SG); });
-        sym(SG, 'G', x0, (y0 + y1) / 2 + 30); sym(SG, 'K', x0 + 40, y0, false, st.closed);
+        sym(SG, 'G', x0, (y0 + y1) / 2 + 30, true); sym(SG, 'K', x0 + 40, y0, false, st.closed);
       }
     }
     /* observations */

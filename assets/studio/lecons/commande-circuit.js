@@ -8,64 +8,78 @@
     if (st.mode === 'der') return st.k1 || st.k2;
     return st.v1 === st.v2;
   }
-  /* commutateur va-et-vient : borne commune c, sorties a et b */
-  function vav(G, c, a, b, onT) {
-    var g = s('g', { style: 'cursor:pointer' }, G);
-    [c, a, b].forEach(function (p) { s('circle', { cx: p[0], cy: p[1], r: 5, fill: '#EEF2F8' }, g); });
-    var lev = s('line', { x1: c[0], y1: c[1], stroke: '#EEF2F8', 'stroke-width': 4, 'stroke-linecap': 'round' }, g);
-    s('rect', { x: Math.min(c[0], a[0]) - 14, y: a[1] - 16, width: Math.abs(a[0] - c[0]) + 28, height: b[1] - a[1] + 32, fill: 'transparent' }, g);
-    g.addEventListener('click', function () { onT && onT(); });
-    return { set: function (pos) { var p = pos === 'a' ? a : b; attr(lev, { x2: c[0] + (p[0] - c[0]) * 0.92, y2: c[1] + (p[1] - c[1]) * 0.92 }); } };
-  }
-
   function Lab(G, o) {
     var st = Object.assign({ mode: 'simple', btn: 'inter', k1: false, k2: false, press: false, v1: 'a', v2: 'b', seen: {}, t: null }, o || {});
     s('rect', { x: 0, y: 0, width: 860, height: 470, fill: '#0A0F1A' }, G);
     s('rect', { x: 40, y: 40, width: 500, height: 406, rx: 22, fill: BG, stroke: '#1E2A44', 'stroke-width': 2 }, G);
     var C = s('g', {}, G), key = '', P = null;
-    function mask(x, y, w, h) { s('rect', { x: x, y: y, width: w, height: h, fill: BG }, C); }
-    function pusher(x1, y, x2) {
-      var g = s('g', { style: 'cursor:pointer;touch-action:none' }, C); s('circle', { cx: x1, cy: y, r: 5, fill: '#EEF2F8' }, g); s('circle', { cx: x2, cy: y, r: 5, fill: '#EEF2F8' }, g);
-      var bar = s('line', { x1: x1 - 2, x2: x2 + 2, stroke: '#EEF2F8', 'stroke-width': 4, 'stroke-linecap': 'round' }, g), stem = s('line', { x1: (x1 + x2) / 2, x2: (x1 + x2) / 2, stroke: '#EEF2F8', 'stroke-width': 3 }, g), cap = s('rect', { x: (x1 + x2) / 2 - 14, width: 28, height: 10, rx: 4, fill: '#FFB547' }, g);
-      s('rect', { x: x1 - 10, y: y - 60, width: x2 - x1 + 20, height: 76, fill: 'transparent' }, g);
-      s('text', { x: (x1 + x2) / 2, y: y + 26, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: 'bouton-poussoir' }, g);
-      g.addEventListener('pointerdown', function (e) { st.press = true; try { g.setPointerCapture(e.pointerId); } catch (_) {} o.onTog && o.onTog(); }); g.addEventListener('pointerup', function () { st.press = false; }); g.addEventListener('pointerleave', function () { st.press = false; });
-      return { set: function (p) { var yb = p ? y : y - 16; attr(bar, { y1: yb, y2: yb }); attr(stem, { y1: yb - 20, y2: yb }); attr(cap, { y: yb - 30 }); } };
-    }
+    function tog() { o.onTog && o.onTog(); }
     function build() {
-      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [] };
-      var m = st.mode;
+      while (C.firstChild) C.removeChild(C.firstChild); P = { w: [], b1: [], b2: [] };
+      var m = st.mode, cab = function (a, da, b, db, k) { return E.cable(C, a, da, b, db, k ? { k: k } : undefined); };
+      var sw = function (x1, y, label, key) { return E.switchK(C, x1, y, x1 + 60, { label: label, onToggle: function (c) { st[key] = c; tog(); } }); };
       if (m === 'simple') {
-        P.w.push(E.wire(C, 'M333 380 H470 V120 H100 V380 H237')); mask(150, 104, 80, 30);
-        if (st.btn === 'poussoir') P.push = pusher(160, 120, 220); else P.K1 = E.switchK(C, 160, 120, 220, { label: 'interrupteur', onToggle: function (c) { st.k1 = c; o.onTog && o.onTog(); } });
-        P.L = E.lamp(C, 340, 120, { r: 24 });
+        var K = st.btn === 'poussoir' ? E.poussoir(C, 140, 170, 200, { label: 'bouton-poussoir', onDown: function () { st.press = true; tog(); }, onUp: function () { st.press = false; } }) : sw(140, 170, 'interrupteur', 'k1');
+        if (st.btn === 'poussoir') P.push = K; else P.K1 = K;
+        P.L = E.lamp(C, 400, 170, { r: 24 });
+        P.w.push(cab([338, 360], 1, [424, 170], 1), cab([376, 170], -1, [200, 170], 1), cab([140, 170], -1, [242, 360], -1));
       } else if (m === 'serie') {
-        P.w.push(E.wire(C, 'M333 380 H470 V120 H100 V380 H237')); mask(120, 104, 80, 30); mask(380, 104, 80, 30);
-        P.K1 = E.switchK(C, 130, 120, 190, { label: 'K1', onToggle: function (c) { st.k1 = c; o.onTog && o.onTog(); } }); P.K2 = E.switchK(C, 390, 120, 450, { label: 'K2', onToggle: function (c) { st.k2 = c; o.onTog && o.onTog(); } });
-        P.L = E.lamp(C, 290, 120, { r: 24 });
+        P.K1 = sw(110, 170, 'K1', 'k1'); P.L = E.lamp(C, 290, 170, { r: 24 }); P.K2 = sw(410, 170, 'K2', 'k2');
+        P.w.push(cab([338, 360], 1, [470, 170], 1), cab([410, 170], -1, [314, 170], 1), cab([266, 170], -1, [170, 170], 1), cab([110, 170], -1, [242, 360], -1));
       } else if (m === 'der') {
-        P.w.push(E.wire(C, 'M333 380 H470 V130 H270 M130 130 H100 V380 H237 M130 90 V170 M270 90 V170 M130 90 H150 M210 90 H270 M130 170 H150 M210 170 H270'));
-        [[130, 130], [270, 130]].forEach(function (p) { E.dot(C, p[0], p[1]); });
-        P.K1 = E.switchK(C, 150, 90, 210, { label: 'K1', onToggle: function (c) { st.k1 = c; o.onTog && o.onTog(); } }); P.K2 = E.switchK(C, 150, 170, 210, { label: 'K2', onToggle: function (c) { st.k2 = c; o.onTog && o.onTog(); } });
-        P.L = E.lamp(C, 380, 130, { r: 24 });
+        P.K1 = sw(120, 120, 'K1', 'k1'); P.K2 = sw(120, 230, 'K2', 'k2'); P.L = E.lamp(C, 400, 175, { r: 24 });
+        P.b1.push(cab([180, 120], 1, [376, 175], -1), cab([120, 120], -1, [120, 230], -1)); P.b2.push(cab([180, 230], 1, [376, 175], -1));
+        P.w.push(cab([120, 230], -1, [242, 360], -1), cab([338, 360], 1, [424, 175], 1));
       } else {
-        P.w.push(E.wire(C, 'M333 400 H470 V130 H440 M130 130 H100 V400 H237'));
-        P.nA = E.wire(C, 'M190 96 H380'); P.nB = E.wire(C, 'M190 164 H380');
-        P.V1 = vav(C, [130, 130], [190, 96], [190, 164], function () { st.v1 = st.v1 === 'a' ? 'b' : 'a'; o.onTog && o.onTog(); });
-        P.V2 = vav(C, [440, 130], [380, 96], [380, 164], function () { st.v2 = st.v2 === 'a' ? 'b' : 'a'; o.onTog && o.onTog(); });
-        mask(88, 236, 24, 64); P.L = E.lamp(C, 100, 268, { r: 22 });
-        s('text', { x: 160, y: 205, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: 'en bas de l’escalier' }, C); s('text', { x: 410, y: 205, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: 'en haut de l’escalier' }, C);
-        s('path', { d: 'M180 360 h40 v-24 h40 v-24 h40 v-24 h40 v-24 h40', fill: 'none', stroke: '#5B6680', 'stroke-width': 6 }, C);
+        P.V1 = E.vav(C, 140, 190, { label: 'en bas de l’escalier', onToggle: function () { st.v1 = st.v1 === 'a' ? 'b' : 'a'; tog(); } });
+        P.V2 = E.vav(C, 440, 190, { flip: true, label: 'en haut de l’escalier', onToggle: function () { st.v2 = st.v2 === 'a' ? 'b' : 'a'; tog(); } });
+        P.nA = cab(P.V1.A, 1, P.V2.A, -1); P.nB = cab(P.V1.B, 1, P.V2.B, -1);
+        P.L = E.lamp(C, 170, 360, { r: 22 });
+        P.w.push(cab(P.V2.C, 1, [438, 360], 1), cab([342, 360], -1, [192, 360], 1), cab([148, 360], -1, P.V1.C, -1));
       }
-      P.bat = E.battery(C, 285, m === 'vav' ? 400 : 380, { U: 4.5 });
-      P.msg = s('text', { x: 290, y: m === 'vav' ? 440 : 428, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 800, fill: '#C9D2E3' }, C);
+      P.bat = E.battery(C, m === 'vav' ? 390 : 290, 360, { U: 4.5 });
+      P.msg = s('text', { x: 290, y: 434, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 800, fill: '#C9D2E3' }, C);
+    }
+    /* schéma normalisé */
+    var PX = 560, SCH = s('g', {}, G);
+    s('rect', { x: PX, y: 22, width: 280, height: 172, rx: 16, fill: '#F7F4EA' }, SCH);
+    s('text', { x: PX + 18, y: 46, 'font-size': 12, 'font-weight': 900, fill: '#3A3426', text: 'SCHÉMA NORMALISÉ' }, SCH);
+    var SG = s('g', {}, SCH), sKey = '';
+    function schema(on) {
+      var k = st.mode + st.btn + st.k1 + st.k2 + st.press + st.v1 + st.v2 + on; if (k === sKey) return; sKey = k;
+      while (SG.firstChild) SG.removeChild(SG.firstChild);
+      var ink = '#1E2430', X0 = PX + 34, X1 = PX + 246, Y0 = 70, Y1 = 166, ym = (Y0 + Y1) / 2, m = st.mode;
+      var path = function (d) { s('path', { d: d, fill: 'none', stroke: ink, 'stroke-width': 2, 'stroke-linejoin': 'round' }, SG); };
+      var dot = function (x, y) { s('circle', { cx: x, cy: y, r: 3.2, fill: ink }, SG); };
+      var lab = function (x, y, txt, anc) { s('text', { x: x, y: y, 'text-anchor': anc || 'middle', 'font-size': 11, 'font-weight': 800, fill: ink, text: txt }, SG); };
+      if (m === 'simple' || m === 'serie') {
+        path('M' + X0 + ' ' + Y0 + 'H' + X1 + 'V' + Y1 + 'H' + X0 + 'Z');
+        E.sym(SG, 'G', X0, ym, { vert: true });
+        if (m === 'simple') {
+          if (st.btn === 'poussoir') E.sym(SG, 'P', (X0 + X1) / 2, Y0, { closed: st.press }); else E.sym(SG, 'K', (X0 + X1) / 2, Y0, { closed: st.k1 });
+          E.sym(SG, 'L', X1, ym, { on: on }); lab(X1 - 18, ym + 4, 'L', 'end');
+        } else {
+          E.sym(SG, 'K', X0 + 52, Y0, { closed: st.k1 }); lab(X0 + 52, Y0 - 10, 'K1'); E.sym(SG, 'L', (X0 + X1) / 2, Y0, { on: on }); lab((X0 + X1) / 2, Y0 - 16, 'L'); E.sym(SG, 'K', X1 - 52, Y0, { closed: st.k2 }); lab(X1 - 52, Y0 - 10, 'K2');
+        }
+      } else if (m === 'der') {
+        var A = X0 + 50, B = X0 + 150, y2 = ym - 4;
+        path('M' + X0 + ' ' + Y0 + 'H' + X1 + 'V' + Y1 + 'H' + X0 + 'Z'); path('M' + A + ' ' + Y0 + 'V' + y2 + 'H' + B + 'V' + Y0);
+        E.sym(SG, 'G', X0, ym + 8, { vert: true }); E.sym(SG, 'K', (A + B) / 2, Y0, { closed: st.k1 }); lab((A + B) / 2, Y0 - 10, 'K1'); E.sym(SG, 'K', (A + B) / 2, y2, { closed: st.k2 }); lab((A + B) / 2, y2 - 10, 'K2');
+        dot(A, Y0); dot(B, Y0); E.sym(SG, 'L', X1, ym + 8, { on: on }); lab(X1 - 18, ym + 12, 'L', 'end');
+      } else {
+        var Ax = X0 + 46, Bx = X1 - 46, yc = Y0 + 34;
+        path('M' + (Ax + 14) + ' ' + (yc - 9) + 'H' + (Bx - 14) + 'M' + (Ax + 14) + ' ' + (yc + 9) + 'H' + (Bx - 14));
+        path('M' + (Ax - 14) + ' ' + yc + 'H' + X0 + 'V' + Y1 + 'H' + X1 + 'V' + yc + 'H' + (Bx + 14));
+        E.sym(SG, 'V', Ax, yc, { pos: st.v1 }); E.sym(SG, 'V', Bx, yc, { pos: st.v2, flip: true });
+        E.sym(SG, 'L', X0, (yc + Y1) / 2 + 4, { on: on }); lab(X0 + 16, (yc + Y1) / 2 + 8, 'L', 'start'); E.sym(SG, 'G', (X0 + X1) / 2, Y1, { flip: true });
+      }
     }
     /* table de vérité */
-    var PX = 560, T = s('g', {}, G);
-    s('rect', { x: PX, y: 22, width: 280, height: 424, rx: 18, fill: '#0F1729', stroke: '#2B3A57', 'stroke-width': 2 }, T);
-    var tT = s('text', { x: PX + 20, y: 50, 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7' }, T), TB = s('g', {}, T);
-    var rule = [0, 1, 2].map(function (k) { return s('text', { x: PX + 140, y: 360 + k * 20, 'text-anchor': 'middle', 'font-size': 12.5, fill: '#C9D2E3' }, T); });
-    var prog = s('text', { x: PX + 140, y: 428, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#FFC773' }, T);
+    var T = s('g', {}, G);
+    s('rect', { x: PX, y: 204, width: 280, height: 190, rx: 16, fill: '#0F1729', stroke: '#2B3A57', 'stroke-width': 2 }, T);
+    var tT = s('text', { x: PX + 20, y: 228, 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7' }, T), TB = s('g', {}, T);
+    s('rect', { x: PX, y: 402, width: 280, height: 44, rx: 14, fill: '#141E33', stroke: '#2B3A57', 'stroke-width': 1.5 }, T);
+    var rule = [0, 1].map(function (k) { return s('text', { x: PX + 140, y: 420 + k * 16, 'text-anchor': 'middle', 'font-size': 12, fill: '#C9D2E3' }, T); });
     var tKey = '';
     function rows() {
       var m = st.mode;
@@ -76,15 +90,15 @@
     function curKey() { var m = st.mode; if (m === 'simple') return st.btn === 'poussoir' ? (st.press ? 'p' : 'r') : (st.k1 ? 'f' : 'o'); if (m === 'vav') return st.v1 + st.v2; return (st.k1 ? 1 : 0) + '' + (st.k2 ? 1 : 0); }
     function drawTable() {
       while (TB.firstChild) TB.removeChild(TB.firstChild);
-      var R = rows(), cols = st.mode === 'simple' ? [st.btn === 'poussoir' ? 'Bouton' : 'Interrupteur'] : st.mode === 'vav' ? ['En bas', 'En haut'] : ['K1', 'K2'], ck = curKey(), y = 80;
+      var R = rows(), cols = st.mode === 'simple' ? [st.btn === 'poussoir' ? 'Bouton' : 'Interrupteur'] : st.mode === 'vav' ? ['En bas', 'En haut'] : ['K1', 'K2'], ck = curKey(), y = 248;
       cols.concat(['Lampe']).forEach(function (h, i, arr) { s('text', { x: PX + 20 + i * (240 / arr.length) + 120 / arr.length, y: y, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 900, fill: '#EEF2F8', text: h }, TB); });
       R.forEach(function (r, j) {
-        var yy = y + 18 + j * 50, seen = st.seen[st.mode + st.btn + r.k], cur = r.k === ck, n = cols.length + 1;
-        s('rect', { x: PX + 16, y: yy, width: 248, height: 42, rx: 10, fill: cur ? '#22304D' : '#141E33', stroke: cur ? '#FFB547' : '#2B3A57', 'stroke-width': cur ? 2.5 : 1.5 }, TB);
-        r.c.forEach(function (v, i) { s('text', { x: PX + 20 + i * (240 / n) + 120 / n, y: yy + 26, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700, fill: '#C9D2E3', text: v }, TB); });
+        var yy = y + 8 + j * 34, seen = st.seen[st.mode + st.btn + r.k], cur = r.k === ck, n = cols.length + 1;
+        s('rect', { x: PX + 16, y: yy, width: 248, height: 28, rx: 8, fill: cur ? '#22304D' : '#141E33', stroke: cur ? '#FFB547' : '#2B3A57', 'stroke-width': cur ? 2.5 : 1.5 }, TB);
+        r.c.forEach(function (v, i) { s('text', { x: PX + 20 + i * (240 / n) + 120 / n, y: yy + 19, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 700, fill: '#C9D2E3', text: v }, TB); });
         var lx = PX + 20 + cols.length * (240 / n) + 120 / n;
-        if (seen) { s('circle', { cx: lx, cy: yy + 21, r: 11, fill: r.on ? '#FFD27A' : '#2A3346', stroke: '#C9D2E3', 'stroke-width': 2 }, TB);  }
-        else s('text', { x: lx, y: yy + 26, 'text-anchor': 'middle', 'font-size': 16, 'font-weight': 900, fill: '#5B6680', text: '?' }, TB);
+        if (seen) { s('circle', { cx: lx, cy: yy + 14, r: 9, fill: r.on ? '#FFD27A' : '#2A3346', stroke: '#C9D2E3', 'stroke-width': 2 }, TB);  }
+        else s('text', { x: lx, y: yy + 20, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 900, fill: '#5B6680', text: '?' }, TB);
       });
     }
     function step() {
@@ -93,13 +107,13 @@
       var on = lit(st);
       if (P.K1) P.K1.set(st.k1); if (P.K2) P.K2.set(st.k2); if (P.push) P.push.set(st.press); if (P.V1) { P.V1.set(st.v1); P.V2.set(st.v2); }
       P.L.set(on ? 1 : 0); P.bat.set(4.5);
-      P.w.forEach(function (w) { w.flow(on ? 0.8 : 0, Tm); }); if (P.nA) { P.nA.flow(on && st.v1 === 'a' ? 0.8 : 0, Tm); P.nB.flow(on && st.v1 === 'b' ? 0.8 : 0, Tm); }
+      P.w.forEach(function (w) { w.flow(on ? 0.8 : 0, Tm); }); P.b1.forEach(function (w) { w.flow(on && st.k1 ? 0.8 : 0, Tm); }); P.b2.forEach(function (w) { w.flow(on && st.k2 ? 0.8 : 0, Tm); }); schema(on); if (P.nA) { P.nA.flow(on && st.v1 === 'a' ? 0.8 : 0, Tm); P.nB.flow(on && st.v1 === 'b' ? 0.8 : 0, Tm); }
       st.seen[m + st.btn + curKey()] = true;
       var tk = m + st.btn + curKey() + Object.keys(st.seen).length; if (tk !== tKey) { tKey = tk; drawTable(); }
       tT.textContent = m === 'simple' ? (st.btn === 'poussoir' ? 'LE BOUTON-POUSSOIR' : 'L’INTERRUPTEUR') : m === 'serie' ? 'DEUX INTERRUPTEURS EN SÉRIE' : m === 'der' ? 'DEUX INTERRUPTEURS EN DÉRIVATION' : 'LE MONTAGE VA-ET-VIENT';
-      var RL = { simple: st.btn === 'poussoir' ? ['La lampe ne brille que pendant', 'qu’on appuie (sonnette).', ''] : ['L’interrupteur garde sa position :', 'ouvert, la lampe est éteinte ;', 'fermé, elle est allumée.'], serie: ['La lampe ne s’allume que si', 'K1 ET K2 sont fermés.', '(sécurité : double commande)'], der: ['La lampe s’allume si', 'K1 OU K2 est fermé.', ''], vav: ['On allume ou on éteint', 'depuis deux endroits différents', '(escalier, couloir).'] }[m];
+      var RL = { simple: st.btn === 'poussoir' ? ['La lampe ne brille que pendant', 'qu’on appuie (sonnette).'] : ['L’interrupteur garde sa position :', 'ouvert = éteinte ; fermé = allumée.'], serie: ['Allumée seulement si K1 ET K2', 'sont fermés (double commande).'], der: ['Allumée si K1 OU K2 est fermé :', 'un seul chemin suffit.'], vav: ['On allume ou on éteint depuis', 'deux endroits (escalier, couloir).'] }[m];
       rule.forEach(function (r, i) { r.textContent = RL[i]; });
-      var R = rows(), ns = R.filter(function (r) { return st.seen[m + st.btn + r.k]; }).length; prog.textContent = 'cases découvertes : ' + ns + ' / ' + R.length;
+      var R = rows(), ns = R.filter(function (r) { return st.seen[m + st.btn + r.k]; }).length;
       P.msg.textContent = on ? 'La lampe est allumée' : 'La lampe est éteinte';
       return { on: on, k1: st.k1, k2: st.k2, v1: st.v1, v2: st.v2, press: st.press, done: ns === R.length, ns: ns };
     }
@@ -161,7 +175,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
-    panels: [{ n: 'Montage', r: [60, 50, 440, 390] }, { n: 'Tableau', r: [560, 22, 280, 424] }],
+    panels: [{ n: 'Montage', r: [50, 50, 460, 390] }, { n: 'Schéma', r: [560, 22, 280, 172] }, { n: 'Tableau', r: [560, 204, 280, 242] }],
     alt: 'Circuits de commande d’une lampe : interrupteur ou bouton-poussoir, deux interrupteurs en série ou en dérivation, montage va-et-vient d’escalier ; une table de vérité se remplit au fil des essais',
     steps: [
       'Clique sur l’interrupteur, puis sur le bouton-poussoir (maintiens appuyé) : compare.',
