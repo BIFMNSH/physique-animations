@@ -179,8 +179,8 @@ const cat=new JSDOM('',{runScripts:'outside-only'}).window;cat.eval(read('assets
 const items=cat.NL_CATALOGUE_CI_6E;
 for(const i of IDS)assert.equal(items.find(x=>x.sourceId==='ELE-'+i).statut,'prototype','prototype ELE-'+i);
 assert.equal(items.find(x=>x.sourceId==='ELE-07').statut,'disponible');
-const page=read('activites-ci/index.html');assert.ok(page.includes('commande-protection.js')&&page.includes('ELE-(0[1-9]|1[0-7])'));
-assert.ok(read('assets/simple/etapes-ci.js').includes('ELE-(0[1-9]|1[0-7])'),'page de leçon : mêmes fiches que activites-ci');
+const page=read('activites-ci/index.html');assert.ok(page.includes('commande-protection.js')&&page.includes('ELE-(?:0[1-9]|1[0-7])'));
+assert.ok(read('assets/simple/etapes-ci.js').includes('ELE-(?:0[1-9]|1[0-7])'),'page de leçon : mêmes fiches que activites-ci');
 const sw=read('sw.js');for(const f of ['commande-protection.js','atelier-electrique.js','conductivite-modele.js','conductivite-circuit.js'])assert.ok(sw.includes(f),'hors-ligne '+f);
 for(let n=1;n<=17;n++)assert.ok(sw.includes('NL-CI-6E-ELE-'+String(n).padStart(2,'0')+'.js'),'hors-ligne fiche '+n);
 console.log('Lot commande : catalogue, pages et cache hors-ligne contrôlés.');

@@ -77,16 +77,19 @@ var $=function(id){return document.getElementById(id);};
 var TC={'var(--amber)':'var(--t-amber)','var(--blue)':'var(--t-blue)','var(--green)':'var(--t-green)','var(--violet)':'var(--t-violet)'};
 var LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-var lessons=[];((window.PROGRAMME&&window.PROGRAMME['6e'])||[]).forEach(function(t){t.les.forEach(function(l){lessons.push({slug:l.slug,title:l.t,theme:t.nm,col:t.col});});});
+var lessons=[],LOCAL=window.NohobaEtapesCI.LOCAL;((window.PROGRAMME&&window.PROGRAMME['6e'])||[]).forEach(function(t){t.les.forEach(function(l){lessons.push({slug:l.slug,title:l.t,theme:t.nm,col:t.col});});
+  /* parcours propre à la collection Côte d’Ivoire, à la fin du thème Matière */
+  if(t.nm==='Propriétés physiques de la matière')lessons.push({slug:LOCAL,title:'Matériaux, tri et déchets',theme:t.nm,col:t.col,local:true});});
 var slug=new URL(location.href).searchParams.get('l')||'circuit-electrique';
 if(!lessons.some(function(x){return x.slug===slug;}))slug='circuit-electrique';
 function render(){
   var idx=lessons.findIndex(function(x){return x.slug===slug;}),l=lessons[idx],R=window.NohobaEtapesCI.etapes(slug);
   document.title=l.title+' · 6e · NOHOBA-Lab';
   $('theme').textContent=l.theme;$('theme').style.setProperty('--tc',TC[l.col]||'var(--soft)');$('title').textContent=l.title;
-  var bar='';for(var i=0;i<4;i++)bar+='<i'+(i<R.done?' class="on"':'')+'></i>';$('bar').innerHTML=bar;
-  $('bar').setAttribute('role','img');$('bar').setAttribute('aria-label',R.done+' étape'+(R.done>1?'s':'')+' sur 4 terminée'+(R.done>1?'s':''));
-  $('count').textContent=R.done===4?'Leçon terminée. Bravo !':R.done+' étape'+(R.done>1?'s':'')+' sur 4';
+  var T4=R.local?R.list.length:4,U=R.local?'investigation':'étape';
+  var bar='';for(var i=0;i<T4;i++)bar+='<i'+(i<R.done?' class="on"':'')+'></i>';$('bar').innerHTML=bar;
+  $('bar').setAttribute('role','img');$('bar').setAttribute('aria-label',R.done+' '+U+(R.done>1?'s':'')+' sur '+T4+' terminée'+(R.done>1?'s':''));
+  $('count').textContent=(T4&&R.done===T4)?(R.local?'Parcours terminé. Bravo !':'Leçon terminée. Bravo !'):R.done+' '+U+(R.done>1?'s':'')+' sur '+T4;
   var nx=lessons[idx+1],go=$('go');
   if(R.next){go.href=R.next.href;go.textContent=(R.next.started?'Continuer':'Commencer')+' : '+R.next.mot+' →';}
   else if(nx){go.href='?l='+nx.slug;go.textContent='Leçon suivante →';}
@@ -96,7 +99,7 @@ function render(){
     var cls=e.done?'done':e.gated?'gated':(R.next&&R.next.k===e.k?'next':'');
     var st=e.done?'Fait ✓':e.gated?'Après Essaie':(R.next&&R.next.k===e.k?(e.started?'En cours':'À toi'):'');
     var inner='<span class="n" aria-hidden="true">'+e.n+'</span><span class="tx"><b>'+e.mot+'</b><span>'+esc(e.d)+'</span></span>'+(st?'<span class="st">'+st+'</span>':'');
-    var label='Étape '+e.n+' : '+e.mot+(e.done?', faite':e.gated?', à faire après Essaie':'');
+    var label=(R.local?'':'Étape '+e.n+' : ')+e.mot+(e.done?', faite':e.gated?', à faire après Essaie':'');
     return '<li>'+(e.gated?'<button type="button" class="ls-step '+cls+'" data-aide="'+e.k+'" aria-label="'+label+'">'+inner+'</button>':'<a class="ls-step '+cls+'" href="'+e.href+'" aria-label="'+label+'"'+(cls==='next'?' aria-current="step"':'')+'>'+inner+'</a>')+'</li>';
   }).join('');
   /* étape pas encore possible : un message dit quoi faire, au lieu d'un cadenas */
@@ -108,6 +111,8 @@ function render(){
   var b=$('bonus');b.hidden=!R.defiBonus||R.defiBonus.locked;if(R.defiBonus){b.href=R.defiBonus.href;b.textContent=R.defiBonus.done?'Bonus : le défi chronométré (fait ✓)':'Bonus : le défi chronométré →';}
   var pv=lessons[idx-1],P=$('prev'),N=$('next');P.hidden=!pv;N.hidden=!nx;
   if(pv){P.href='?l='+pv.slug;P.querySelector('b').textContent=pv.title;}if(nx){N.href='?l='+nx.slug;N.querySelector('b').textContent=nx.title;}
+  $('etapes').textContent=R.local?'Les investigations':'Les 4 étapes';
+  $('ordre').hidden=!!R.local;$('fiche').hidden=!!R.local;
   var oth=R.ordre==='regarde'?'essaie':'regarde',O=$('ordre');O.href='?l='+slug+'&ordre='+oth;O.textContent=R.ordre==='regarde'?'Étapes : version B (Regarde d’abord) · passer à A':'Étapes : version A (Essaie d’abord) · passer à B';
   $('fiche').href='../lecon/?l='+slug+'&imprimer=fiche';
   var A=window.NohobaEtapesCI.activites(slug).filter(function(a){return a.statut==='prototype';}),T=$('tests');

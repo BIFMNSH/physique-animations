@@ -15,10 +15,10 @@ function page(file,progress={},extra={}){
   return w;
 }
 /* Pages de classe simplifiées : reprise, leçons par thème, classe mémorisée, thème. */
-const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'},{'pc-inquiry-6e-circuit-electrique':{started:true,complete:true},'pc-inquiry-6e-les-gaz':{started:true,complete:true}});
+const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'},{'pc-inquiry-6e-circuit-electrique':{started:true,complete:true},'pc-inquiry-6e-les-gaz':{started:true,complete:true},'pc-act-NL-CI-6E-MAT-07':{prevision:'x',essais:[1],confront:'x',conclusion:'x'}});
 const d=w.document;
 assert.equal(d.querySelectorAll('.sp-theme').length,4,'quatre thèmes en 6e');
-assert.equal(d.querySelectorAll('#lecons a.sp-les').length,13,'treize leçons en 6e');
+assert.equal(d.querySelectorAll('#lecons a.sp-les').length,14,'quatorze leçons en 6e (dont le parcours Matériaux)');
 for(const a of d.querySelectorAll('#lecons a.sp-les'))assert.ok(a.getAttribute('href').startsWith('../parcours-ci/?l='));
 const rep=d.querySelector('#reprise a.sp-resume');
 assert.ok(rep&&rep.textContent.includes('Le circuit électrique')&&rep.textContent.includes('Continuer'),'reprise de la dernière leçon');
@@ -105,8 +105,8 @@ assert.ok(ld.getElementById('go').textContent.includes('Enquête'),'action suiva
 assert.ok(!ld.getElementById('bonus').hidden,'défi proposé en bonus');
 assert.equal(ld.getElementById('prev').hidden,true);assert.ok(ld.getElementById('next').textContent.includes('Commande'));
 lw.close();
-/* Leçon sans investigation validée : le défi attend la démarche, avec le même message. */
-{const lw2=new JSDOM(read('parcours-ci/index.html'),{url:'http://localhost/parcours-ci/?l=les-gaz',runScripts:'outside-only'}).window;lw2.requestAnimationFrame=()=>0;
+/* Leçon sans investigation validée (Grandeurs et mesures : encore en conception) : le défi attend la démarche, avec le même message. */
+{const lw2=new JSDOM(read('parcours-ci/index.html'),{url:'http://localhost/parcours-ci/?l=masse',runScripts:'outside-only'}).window;lw2.requestAnimationFrame=()=>0;
 for(const s of lw2.document.querySelectorAll('script')){const src=s.getAttribute('src');lw2.eval(src?read(path.resolve(root,'parcours-ci',src)):s.textContent);}
 assert.deepEqual([...lw2.document.querySelectorAll('[data-aide]')].map(b=>b.querySelector('b').textContent),['Enquête','Vérifie'],'défi et quiz attendent la démarche');lw2.close();}
 const w6=page('6e/index.html',{});
@@ -118,12 +118,12 @@ w6.close();
 console.log('Page de leçon 6e : étapes, verrou de la démarche, action unique et reprise contrôlés.');
 assert.ok(fs.existsSync(path.join(root,'decouvrir/index.html')),'ancienne page d’accueil conservée pour profs et parents');
 const c=page('collections/index.html'),cd=c.document;
-assert.ok(cd.getElementById('ciTotal').textContent.includes('73'));
+assert.ok(cd.getElementById('ciTotal').textContent.includes('79'));
 assert.ok(cd.getElementById('frTotal').textContent.includes('48'));
 assert.equal(cd.querySelectorAll('.catalogue-group').length,4);
-assert.equal(cd.querySelectorAll('.collection-lesson').length,13);
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,73);
-assert.equal(cd.querySelectorAll('.collection-activities a').length,17,'seize prototypes et un pilote manipulables');
+assert.equal(cd.querySelectorAll('.collection-lesson').length,14);
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,79);
+assert.equal(cd.querySelectorAll('.collection-activities a').length,49,'seize prototypes et trente-trois fiches validées manipulables');
 assert.ok(!/NL-CI|NL-C4|ELE-\d{2}/.test(cd.body.textContent),'aucun code interne affiché dans Collections');
 c.localStorage.setItem('pc-act-NL-CI-6E-ELE-01',JSON.stringify({v:1,prevision:{choix:'signes'},essais:[]}));
 c.dispatchEvent(new c.PageTransitionEvent('pageshow',{persisted:true}));
