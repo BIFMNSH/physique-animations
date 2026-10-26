@@ -141,7 +141,7 @@
   /* ================== SIMULATION ================== */
   var SIM = {
     W: 860, H: 470,
-    panels: [{ n: 'Montage', r: [60, 90, 440, 350] }, { n: 'Schéma', r: [560, 22, 280, 230] }, { n: 'Mes objets', r: [560, 264, 280, 182] }],
+    panels: [{ n: 'Montage', r: [60, 55, 440, 385] }, { n: 'Schéma', r: [560, 22, 280, 230] }, { n: 'Mes objets', r: [560, 264, 280, 182] }],
     alt: 'Circuit avec une pile, une lampe, un interrupteur, des fils et une zone de test entre deux pinces où l’on place différents objets ; schéma normalisé et liste des conducteurs et isolants à droite',
     steps: [
       'Ouvre et ferme l’interrupteur (clique dessus) : que fait la lampe ?',

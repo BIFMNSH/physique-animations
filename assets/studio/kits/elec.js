@@ -23,15 +23,26 @@
     return { g: g, set: set, body: body, band: band, cap: cap, w: w, h: h };
   }
 
-  /* lampe à incandescence vue de face : b = éclat (0 → 1 normal → >1 trop fort), broken = filament coupé */
+  /* module lampe sur socle (comme au laboratoire) : le verre est isolant, il ne reçoit aucun fil.
+     Les deux contacts sont les douilles du socle, en (−r, 0) et (+r, 0) : c'est là que chaque fil doit arriver.
+     Le symbole normalisé de la lampe est imprimé sur le socle. b = éclat (0 → 1 normal → >1 trop fort), broken = filament coupé */
   function lamp(G, x, y, o) {
-    o = o || {}; var r = o.r || 22, g = s('g', { transform: 'translate(' + x + ' ' + y + ')' }, G);
-    var halo = s('circle', { r: r * 4.2, fill: glow(G, '#FFD27A'), opacity: 0 }, g);
-    var glass = s('circle', { r: r, fill: '#2A3346', stroke: '#C9D2E3', 'stroke-width': 2.5 }, g);
-    var fil = s('path', { d: 'M' + (-r * 0.45) + ' ' + (r * 0.5) + ' L' + (-r * 0.3) + ' ' + (-r * 0.15) + ' l' + (r * 0.15) + ' ' + (-r * 0.2) + ' l' + (r * 0.15) + ' ' + (r * 0.2) + ' l' + (r * 0.15) + ' ' + (-r * 0.2) + ' l' + (r * 0.15) + ' ' + (r * 0.2) + ' L' + (r * 0.45) + ' ' + (r * 0.5), fill: 'none', stroke: '#8D96A8', 'stroke-width': 2, 'stroke-linejoin': 'round' }, g);
-    var brk = s('path', { d: 'M-4 -6 l3 4 M4 -6 l-3 4', stroke: '#FF5A4E', 'stroke-width': 2.5, opacity: 0 }, g);
-    s('rect', { x: -r * 0.55, y: r * 0.85, width: r * 1.1, height: r * 0.7, rx: 3, fill: '#8D96A8' }, g);
-    var lab = o.label ? s('text', { x: 0, y: -r - 10, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label }, g) : null;
+    o = o || {}; var r = o.r || 22, rg = r * 0.86, by = -r * 1.5, g = s('g', { transform: 'translate(' + x + ' ' + y + ')', role: 'img', 'aria-label': 'Lampe sur socle : deux douilles, le verre est isolant' }, G);
+    var halo = s('circle', { cy: by, r: r * 4.2, fill: glow(G, '#FFD27A'), opacity: 0 }, g);
+    /* socle (plaque isolante) et symbole imprimé */
+    s('rect', { x: -r - 13, y: -r * 0.6, width: 2 * r + 26, height: r * 1.2, rx: 5, fill: '#E9EEF6', stroke: '#9FB0C4', 'stroke-width': 2 }, g);
+    s('path', { d: 'M' + (-r) + ' 0 H' + (-r * 0.42) + ' M' + (r * 0.42) + ' 0 H' + r, stroke: '#3A4660', 'stroke-width': 1.6, fill: 'none' }, g);
+    s('circle', { r: r * 0.42, fill: '#fff', stroke: '#3A4660', 'stroke-width': 1.8 }, g);
+    s('path', { d: 'M' + (-r * 0.3) + ' ' + (-r * 0.3) + ' L' + (r * 0.3) + ' ' + (r * 0.3) + ' M' + (r * 0.3) + ' ' + (-r * 0.3) + ' L' + (-r * 0.3) + ' ' + (r * 0.3), stroke: '#3A4660', 'stroke-width': 1.8 }, g);
+    /* douilles (contacts) */
+    [-r, r].forEach(function (dx) { s('circle', { cx: dx, cy: 0, r: 6.5, fill: '#C9CED8', stroke: '#6B7480', 'stroke-width': 1.6 }, g); s('circle', { cx: dx, cy: 0, r: 2.6, fill: '#2A2F38' }, g); });
+    /* culot et ampoule posés sur le socle */
+    s('rect', { x: -r * 0.36, y: -r * 0.6 - r * 0.5, width: r * 0.8, height: r * 0.5, rx: 3, fill: '#8D96A8', stroke: '#6B7480', 'stroke-width': 1.2 }, g);
+    var glass = s('circle', { cy: by, r: rg, fill: '#2A3346', stroke: '#C9D2E3', 'stroke-width': 2.5 }, g);
+    var f = rg / r, fg = s('g', { transform: 'translate(0 ' + by + ') scale(' + f + ')' }, g);
+    var fil = s('path', { d: 'M' + (-r * 0.45) + ' ' + (r * 0.5) + ' L' + (-r * 0.3) + ' ' + (-r * 0.15) + ' l' + (r * 0.15) + ' ' + (-r * 0.2) + ' l' + (r * 0.15) + ' ' + (r * 0.2) + ' l' + (r * 0.15) + ' ' + (-r * 0.2) + ' l' + (r * 0.15) + ' ' + (r * 0.2) + ' L' + (r * 0.45) + ' ' + (r * 0.5), fill: 'none', stroke: '#8D96A8', 'stroke-width': 2 / f, 'stroke-linejoin': 'round' }, fg);
+    var brk = s('path', { d: 'M-4 -6 l3 4 M4 -6 l-3 4', stroke: '#FF5A4E', 'stroke-width': 2.5, opacity: 0, transform: 'translate(0 ' + by + ')' }, g);
+    var lab = o.label ? s('text', { x: 0, y: by - rg - 8, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#A9B4C7', text: o.label }, g) : null;
     function set(b, broken) {
       b = Math.max(0, b || 0); var k = Math.min(1, b);
       halo.setAttribute('opacity', broken ? 0 : Math.min(1, b * 0.9)); halo.setAttribute('r', r * (2.4 + 2.4 * Math.min(1.6, b)));
@@ -40,7 +51,7 @@
       brk.setAttribute('opacity', broken ? 1 : 0);
     }
     set(0);
-    return { g: g, set: set, lab: lab, r: r };
+    return { g: g, set: set, lab: lab, r: r, contacts: [[x - r, y], [x + r, y]] };
   }
 
   /* moteur avec hélice */
