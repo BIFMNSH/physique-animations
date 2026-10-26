@@ -320,3 +320,14 @@ a.les:hover{background:var(--panel2);color:var(--text)}
 .app.portrait .ro{padding:8px 10px}
 .app.portrait .ro .k{white-space:normal;overflow:visible;line-height:1.2}
 .app.portrait .ro .v{white-space:normal;overflow-wrap:anywhere;font-size:calc(19px*var(--fs));line-height:1.15}
+
+/* Agrandir (téléphone en portrait) : la scène occupe tout l'écran, tournée de 90° pour être lue en paysage.
+   En paysage réel, elle occupe simplement tout l'écran. */
+.ztools .bigbtn{display:none;width:auto;padding:0 10px;font:700 13px var(--f-body)}
+.app.portrait .scene>.ztools .bigbtn{display:inline-grid}
+html.has-big,html.has-big body{overflow:hidden}
+.app.portrait .scene.big{position:fixed;z-index:60;top:0;left:0;margin:0;border-radius:0;background:var(--bg);display:flex;flex-direction:column;
+  width:100vh;width:100dvh;height:100vw;height:100dvw;transform-origin:top left;transform:translateX(100vw) translateX(0) rotate(90deg);transform:translateX(100dvw) rotate(90deg)}
+.app.portrait .scene.big>svg{flex:1;min-height:0;width:100%;height:auto;max-height:none;aspect-ratio:auto}
+.app.portrait .scene.big>.ztools{order:2;align-self:stretch;justify-content:center;margin:0;border-radius:0}
+.app.portrait .scene.big>.ztools .bigbtn{background:var(--amber);color:var(--on-amber)}

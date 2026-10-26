@@ -96,7 +96,7 @@
     u.lang = 'fr-FR'; if (voiceFr) u.voice = voiceFr;
     u.rate = clamp(rate || 1, 0.6, 1.6); u.pitch = 1.02;
     var done = false, stopped = false; function fin() { if (!done) { done = true; onend && onend(); } }
-    u.onend = fin; u.onerror = fin;
+    u.onend = fin; u.onerror = function (e) { if (e && e.error === 'not-allowed') vocalOk = false; fin(); };
     // garde-fou : certaines voix n'envoient jamais « fin »
     var guard = setTimeout(fin, 1500 + text.length * 95 / u.rate);
     u.addEventListener('end', function () { clearTimeout(guard); });
@@ -104,6 +104,18 @@
     return { stop: function () { done = true; stopped = true; clearTimeout(guard); synth.cancel(); } };
   }
   function hush() { if (synth) synth.cancel(); }
+  /* Sur téléphone (iOS, Android), la synthèse vocale ne parle que si elle a été « réveillée » par un geste de l'élève :
+     la lecture automatique du résumé (lancée par la boucle d'animation) restait muette. On la réveille au premier toucher,
+     avec une phrase vide, puis à chaque appui sur Lecture. */
+  var vocalOk = false;
+  function wakeVoice() {
+    if (!synth) return;
+    try {
+      var u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'fr-FR';
+      synth.speak(u); if (synth.paused) synth.resume(); vocalOk = true;
+    } catch (e) {}
+  }
+  ['pointerdown', 'touchend', 'click', 'keydown'].forEach(function (ev) { document.addEventListener(ev, function once() { if (!vocalOk) wakeVoice(); }, { passive: true, capture: true }); });
 
   /* ---------- sons ---------- */
   var actx = null;
@@ -150,6 +162,15 @@
     var zv = h('span', { class: 'zv', 'aria-live': 'polite' }, tools, '100 %');
     var bM = h('button', { 'aria-label': 'Dézoomer', title: 'Dézoomer' }, tools, '−');
     var bF = h('button', { class: 'fit', title: 'Vue entière' }, tools, 'Ajuster');
+    /* téléphone en portrait : la scène passe en plein écran, tournée en paysage, pour que les étiquettes deviennent lisibles */
+    var bBig = h('button', { class: 'bigbtn', type: 'button', 'aria-label': 'Agrandir la simulation', 'aria-pressed': 'false' }, tools, 'Agrandir');
+    function bigOff() { box.classList.remove('big'); document.documentElement.classList.remove('has-big'); bBig.textContent = 'Agrandir'; bBig.setAttribute('aria-pressed', 'false'); bBig.setAttribute('aria-label', 'Agrandir la simulation'); }
+    bBig.onclick = function () {
+      if (box.classList.contains('big')) { bigOff(); return; }
+      box.classList.add('big'); document.documentElement.classList.add('has-big');
+      bBig.textContent = 'Réduire'; bBig.setAttribute('aria-pressed', 'true'); bBig.setAttribute('aria-label', 'Réduire la simulation');
+    };
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('big')) bigOff(); });
     var mm = h('div', { class: 'minimap', 'aria-hidden': 'true' }, box);
     var msv = s('svg', { viewBox: '0 0 ' + W + ' ' + H, preserveAspectRatio: 'xMidYMid meet' }, mm);
     var uid = 'z' + Math.random().toString(36).slice(2, 7);
@@ -609,6 +630,7 @@
       render(true);
     }
     function play(on) {
+      if (on) { wakeVoice(); if (synth && synth.paused) synth.resume(); }
       playing = on; bPlay.innerHTML = on ? ICON.pause : ICON.play; bPlay.setAttribute('aria-label', on ? 'Pause' : 'Lecture');
       if (!on) stopVoice(); else { if (t >= R.duration - 0.01) seek(0); var k = segAt(t); if (k >= 0 && t - R.segs[k].t < R.segs[k].d * 0.5) spoken = k - 1; }
     }
