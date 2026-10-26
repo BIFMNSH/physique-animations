@@ -75,6 +75,10 @@ assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').incl
 assert.ok(hubHTML.includes('imprimer=fiche')&&fs.readFileSync(path.join(root,'assets/studio/studio.js'),'utf8').includes('imprimer=fiche'),'impression de la fiche élève (espace prof)');
 assert.ok(etapesJS.includes("pc-inquiry-6e-"),'étapes 2 à 4 fermées tant que la démarche n’est pas terminée');
 assert.ok(!/ELE-\d|NL-CI|Studio|Prototype/.test(hubHTML.replace(/<script[\s\S]*?<\/script>/g,'')),'aucun code interne ni jargon à l’écran');
+const studioSrc=fs.readFileSync(path.join(root,'assets/studio/studio.js'),'utf8');
+assert.ok(studioSrc.includes("name !== 'sim' && name !== 'resume'"),'moteur : le résumé reste ouvert avant la démarche');
+assert.ok(studioSrc.includes('regarde le résumé ou manipule la simulation, puis reviens'),'moteur : message clair si défi ou quiz trop tôt');
+assert.ok(studioSrc.includes('Je ne sais pas encore : voir le résumé'),'moteur : sortie « je ne sais pas encore » dans la prévision');
 console.log('Page de leçon 6e : quatre étapes, liens Studio et ELE-07 contrôlés statiquement.');
 
 const sharedCircuit=fs.readFileSync(path.join(root,'assets/shared/conductivite-circuit.js'),'utf8');

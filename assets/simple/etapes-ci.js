@@ -18,18 +18,19 @@
   function etapes(slug) {
     var p = read('pc-studio-prog')['6e-' + slug] || {}, inq = read('pc-inquiry-6e-' + slug), L = '../lecon/?l=' + slug;
     var open = !!inq.complete, act = enquete(slug), a = act ? actState(act.id) : 0;
-    var E = [
-      { k: 'essaie', mot: 'Essaie', d: 'Fais ta prévision, puis manipule la simulation.', href: L + '#sim', done: open, started: !!inq.started },
-      { k: 'regarde', mot: 'Regarde', d: 'Le résumé en vidéo, en une minute.', href: L + '#resume', done: !!p.resume },
-      act
-        ? { k: 'enquete', mot: 'Enquête', d: act.titre + ' : mène ton investigation.', href: '../activites-ci/?a=' + act.id + '&lecon=' + slug, done: a >= 6, started: a > 0, act: act }
-        : { k: 'enquete', mot: 'Enquête', d: 'Relève le défi : utilise ce que tu as appris.', href: L + '#defi', done: !!p.defi },
-      { k: 'verifie', mot: 'Vérifie', d: 'Le quiz : vérifie ce que tu sais.', href: L + '#quiz', done: !!p.quiz }
-    ];
-    /* le moteur garde les étapes 2 à 4 fermées tant que la démarche n'est pas finie ; l'enquête en six opérations n'en dépend pas */
-    E.forEach(function (e, i) { e.n = i + 1; e.locked = i > 0 && !open && !e.done && !e.act; });
-    var next = E.filter(function (e) { return !e.done && !e.locked; })[0] || null;
-    return { list: E, done: E.filter(function (e) { return e.done; }).length, next: next, defiBonus: act ? { href: L + '#defi', done: !!p.defi, locked: !open } : null };
+    var essaie = { k: 'essaie', mot: 'Essaie', d: 'Fais ta prévision, puis manipule la simulation.', href: L + '#sim', done: open, started: !!inq.started };
+    var regarde = { k: 'regarde', mot: 'Regarde', d: 'Le résumé en vidéo, en une minute.', href: L + '#resume', done: !!p.resume };
+    var enq = act
+      ? { k: 'enquete', mot: 'Enquête', d: act.titre + ' : mène ton investigation.', href: '../activites-ci/?a=' + act.id + '&lecon=' + slug, done: a >= 6, started: a > 0, act: act }
+      : { k: 'enquete', mot: 'Enquête', d: 'Relève le défi : utilise ce que tu as appris.', href: L + '#defi', done: !!p.defi };
+    var verifie = { k: 'verifie', mot: 'Vérifie', d: 'Le quiz : vérifie ce que tu sais.', href: L + '#quiz', done: !!p.quiz };
+    var ordre = window.NohobaSimple ? window.NohobaSimple.ordre() : 'essaie';
+    var E = ordre === 'regarde' ? [regarde, essaie, enq, verifie] : [essaie, regarde, enq, verifie];
+    /* seuls le quiz et le défi attendent la démarche (comme le moteur) ; le résumé et l'enquête en six opérations restent ouverts.
+       Une étape « à venir » reste cliquable : elle affiche un message qui dit quoi faire (pas de cadenas). */
+    E.forEach(function (e, i) { e.n = i + 1; e.gated = (e.k === 'verifie' || (e.k === 'enquete' && !e.act)) && !open && !e.done; });
+    var next = E.filter(function (e) { return !e.done && !e.gated; })[0] || null;
+    return { ordre: ordre, list: E, done: E.filter(function (e) { return e.done; }).length, next: next, defiBonus: act ? { href: L + '#defi', done: !!p.defi, locked: !open } : null };
   }
   window.NohobaEtapesCI = { etapes: etapes, activites: activites };
 })();

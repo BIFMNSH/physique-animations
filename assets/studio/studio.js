@@ -424,7 +424,7 @@
     bClr.onclick = function () { if (pen) pen.g.clearRect(0, 0, pen.c.width, pen.c.height); };
     bFrz.onclick = function () { frozen = !frozen; app.classList.toggle('frozen', frozen); bFrz.setAttribute('aria-pressed', frozen); hush(); toast(frozen ? 'Écran figé' : 'Animation relancée'); };
     try { if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { frozen = true; app.classList.add('frozen'); bFrz.setAttribute('aria-pressed', 'true'); setTimeout(function () { toast('Animations en pause (réglage « réduire les animations » de ton appareil). Clique sur Figer pour les relancer.'); }, 600); } } catch (e) {}
-    function toast(t) { var d = h('div', { class: 'toast', role: 'status' }, stage, t); setTimeout(function () { d.remove(); }, 1800); }
+    function toast(t, ms) { var d = h('div', { class: 'toast', role: 'status' }, stage, t); d.style.maxWidth = 'min(92%, 460px)'; d.style.textAlign = 'center'; if (ms) { d.style.cursor = 'pointer'; d.onclick = function () { d.remove(); }; } setTimeout(function () { d.remove(); }, ms || 1800); }
 
     /* ---------- tiroir des réglages ---------- */
     var dr = h('aside', { class: 'drawer', 'aria-label': 'Réglages d’affichage' }, stage);
@@ -501,7 +501,8 @@
     /* ---------- vues ---------- */
     var views = {}, cur = null, ctl = {};
     function go(name) {
-      if (L.inquiry && !revision && !inquiry.complete) { PROF.steps.sim = true; if (name !== 'sim') { toast('Complète ta démarche ou choisis le parcours Révision.'); name = 'sim'; } }
+      /* le résumé reste toujours ouvert (il aide à se lancer) ; le défi et le quiz attendent la démarche, avec un message qui dit quoi faire */
+      if (L.inquiry && !revision && !inquiry.complete) { PROF.steps.sim = true; if (name !== 'sim' && name !== 'resume') { toast('Fais d’abord l’étape « Investigation ». Si tu es bloqué, regarde le résumé ou manipule la simulation, puis reviens.', 7000); name = 'sim'; } }
       if (name === 'quiz' && !PROF.steps.quiz) { toast('Le quiz est désactivé par l’enseignant'); return; }
       if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k] && k !== 'quiz'; })[0]; name = nx || 'resume'; }
       if (name === 'quiz') {
@@ -701,6 +702,7 @@
       var begin = h('button', { class: 'btn primary' }, inquiryCard, state.started ? 'Prévision enregistrée' : 'Enregistrer ma prévision'); begin.disabled = state.started;
       var notice = h('p', { role: 'status' }, inquiryCard);
       begin.onclick = function () { if (!prediction.value.trim()) { notice.textContent = 'Formule une prévision et explique ton raisonnement.'; prediction.focus(); return; } state.started = true; persist(); prediction.readOnly = true; begin.disabled = true; begin.textContent = 'Prévision enregistrée'; inquiryCard.open = false; unlock(); cmdCard.querySelector('button,input,select')?.focus(); };
+      h('button', { class: 'btn sm' }, inquiryCard, 'Je ne sais pas encore : voir le résumé').onclick = function () { ctx.go('resume'); };
       h('button', { class: 'btn sm' }, inquiryCard, 'Parcours Révision').onclick = ctx.revise;
       comparisonCard = h('div', { class: 'card inquiry' }, panes.bilan, '<h3>4 · Confrontation aux résultats</h3><p>Ma prévision initiale :</p>');
       var initial = h('blockquote', {}, comparisonCard);

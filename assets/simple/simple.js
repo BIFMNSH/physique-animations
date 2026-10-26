@@ -11,6 +11,14 @@
       set('pc-theme', t);
       try { var p = JSON.parse(get('pc-studio') || '{}'); p.theme = t; set('pc-studio', JSON.stringify(p)); } catch (e) {}
     },
+    /* ordre des étapes d'une leçon, pour comparer deux versions avec des élèves :
+       « essaie » (A, par défaut : prévision avant le résumé) ou « regarde » (B : résumé d'abord).
+       ?ordre=regarde ou ?ordre=essaie sur n'importe quelle page ; mémorisé sur l'appareil (« pc-ordre »). */
+    ordre: function () {
+      var m = /[?&]ordre=(essaie|regarde)/.exec(location.search);
+      if (m) { set('pc-ordre', m[1]); return m[1]; }
+      return get('pc-ordre') === 'regarde' ? 'regarde' : 'essaie';
+    },
     classe: function () { var c = get('pc-classe'); return /^[3-6]e$/.test(c || '') ? c : null; },
     setClasse: function (c) { if (/^[3-6]e$/.test(c)) set('pc-classe', c); },
     /* bouton de thème : <button data-sp-theme> */
@@ -28,4 +36,5 @@
     }
   };
   window.NohobaSimple = NohobaSimple;
+  NohobaSimple.ordre(); /* mémorise ?ordre=… dès l'arrivée sur n'importe quelle page */
 })();

@@ -22,9 +22,13 @@
 .ls-step.next .st{color:var(--go-ink)}
 .ls-step.done .n{background:var(--line2);border-color:var(--line2)}
 .ls-step.done .st{color:var(--t-green)}
-.ls-step.locked{opacity:.62}
-.ls-step.locked .tx span{color:var(--muted)}
-.ls-step svg{width:18px;height:18px;vertical-align:-3px}
+.ls-step.gated{opacity:.8}
+.ls-step.gated .tx span{color:var(--muted)}
+button.ls-step{width:100%;font:inherit;text-align:left;border:0;cursor:pointer}
+.ls-aide{border-radius:18px;background:var(--panel);border:2px solid var(--go);padding:16px;display:flex;flex-direction:column;gap:12px}
+.ls-aide p{margin:0;font-size:18px;font-weight:700}
+.ls-aide div{display:flex;flex-wrap:wrap;gap:10px}
+.ls-aide .sp-btn{min-height:48px;font-size:17px;padding:0 18px}
 .ls-bonus{font-size:16px;color:var(--soft);min-height:44px;display:inline-flex;align-items:center}
 .ls-pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .ls-pager a{border-radius:16px;border:1px solid var(--line);padding:12px 14px;text-decoration:none;display:flex;flex-direction:column;gap:2px;min-height:64px}
@@ -52,12 +56,13 @@
     <section aria-labelledby="etapes" style="display:flex;flex-direction:column;gap:12px">
       <h2 class="sp-h2" id="etapes">Les 4 étapes</h2>
       <ol class="ls-steps" id="steps"></ol>
+      <div class="ls-aide" id="aide" role="status" tabindex="-1" hidden></div>
       <a class="ls-bonus" id="bonus" href="#" hidden></a>
     </section>
     <nav class="ls-pager" aria-label="Autres leçons"><a id="prev" href="#" hidden><small>← Leçon d’avant</small><b></b></a><a id="next" class="nx" href="#" hidden><small>Leçon suivante →</small><b></b></a></nav>
   </main>
   <footer style="display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:14px">
-    <nav class="ls-prof" aria-label="Pour le professeur"><span>Pour le prof :</span><a id="fiche" href="#">Imprimer la fiche</a><a id="tests" href="../collections/" hidden></a></nav>
+    <nav class="ls-prof" aria-label="Pour le professeur"><span>Pour le prof :</span><a id="fiche" href="#">Imprimer la fiche</a><a id="tests" href="../collections/" hidden></a><a id="ordre" href="#"></a></nav>
     <p class="sp-note">Tes réponses restent sur cet appareil.</p>
   </footer>
 </div>
@@ -86,16 +91,24 @@ function render(){
   if(R.next){go.href=R.next.href;go.textContent=(R.next.started?'Continuer':'Commencer')+' : '+R.next.mot+' →';}
   else if(nx){go.href='?l='+nx.slug;go.textContent='Leçon suivante →';}
   else{go.href='../6e/';go.textContent='Revenir à mes leçons';}
+  var AIDE=$('aide');AIDE.hidden=true;
   $('steps').innerHTML=R.list.map(function(e){
-    var cls=e.done?'done':e.locked?'locked':(R.next&&R.next.k===e.k?'next':'');
-    var st=e.done?'Fait ✓':e.locked?LOCK+' Après l’étape 1':(R.next&&R.next.k===e.k?(e.started?'En cours':'À toi'):'');
+    var cls=e.done?'done':e.gated?'gated':(R.next&&R.next.k===e.k?'next':'');
+    var st=e.done?'Fait ✓':e.gated?'Après Essaie':(R.next&&R.next.k===e.k?(e.started?'En cours':'À toi'):'');
     var inner='<span class="n" aria-hidden="true">'+e.n+'</span><span class="tx"><b>'+e.mot+'</b><span>'+esc(e.d)+'</span></span>'+(st?'<span class="st">'+st+'</span>':'');
-    var label='Étape '+e.n+' : '+e.mot+(e.done?', faite':e.locked?', disponible après l’étape 1':'');
-    return '<li>'+(e.locked?'<div class="ls-step '+cls+'" aria-label="'+label+'">'+inner+'</div>':'<a class="ls-step '+cls+'" href="'+e.href+'" aria-label="'+label+'"'+(cls==='next'?' aria-current="step"':'')+'>'+inner+'</a>')+'</li>';
+    var label='Étape '+e.n+' : '+e.mot+(e.done?', faite':e.gated?', à faire après Essaie':'');
+    return '<li>'+(e.gated?'<button type="button" class="ls-step '+cls+'" data-aide="'+e.k+'" aria-label="'+label+'">'+inner+'</button>':'<a class="ls-step '+cls+'" href="'+e.href+'" aria-label="'+label+'"'+(cls==='next'?' aria-current="step"':'')+'>'+inner+'</a>')+'</li>';
   }).join('');
+  /* étape pas encore possible : un message dit quoi faire, au lieu d'un cadenas */
+  var ES=R.list.filter(function(e){return e.k==='essaie';})[0],RG=R.list.filter(function(e){return e.k==='regarde';})[0];
+  [].forEach.call(document.querySelectorAll('[data-aide]'),function(btn){btn.onclick=function(){
+    AIDE.innerHTML='<p>Fais d’abord <b>Essaie</b>. Si tu es bloqué, regarde le résumé ou manipule la simulation, puis reviens ici.</p><div><a class="sp-btn" href="'+ES.href+'">Aller à Essaie</a><a class="sp-btn ghost" href="'+RG.href+'">Regarder le résumé</a><button type="button" class="sp-btn ghost" id="aideOk">Compris</button></div>';
+    AIDE.hidden=false;AIDE.focus();AIDE.scrollIntoView({block:'nearest'});$('aideOk').onclick=function(){AIDE.hidden=true;btn.focus();};
+  };});
   var b=$('bonus');b.hidden=!R.defiBonus||R.defiBonus.locked;if(R.defiBonus){b.href=R.defiBonus.href;b.textContent=R.defiBonus.done?'Bonus : le défi chronométré (fait ✓)':'Bonus : le défi chronométré →';}
   var pv=lessons[idx-1],P=$('prev'),N=$('next');P.hidden=!pv;N.hidden=!nx;
   if(pv){P.href='?l='+pv.slug;P.querySelector('b').textContent=pv.title;}if(nx){N.href='?l='+nx.slug;N.querySelector('b').textContent=nx.title;}
+  var oth=R.ordre==='regarde'?'essaie':'regarde',O=$('ordre');O.href='?l='+slug+'&ordre='+oth;O.textContent=R.ordre==='regarde'?'Étapes : version B (Regarde d’abord) · passer à A':'Étapes : version A (Essaie d’abord) · passer à B';
   $('fiche').href='../lecon/?l='+slug+'&imprimer=fiche';
   var A=window.NohobaEtapesCI.activites(slug).filter(function(a){return a.statut==='prototype';}),T=$('tests');
   T.hidden=!A.length;T.textContent=A.length+' activité'+(A.length>1?'s':'')+' en test';
