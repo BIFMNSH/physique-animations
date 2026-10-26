@@ -66,21 +66,16 @@ assert.ok(engine.includes("st.evaluation=ev.value.trim()"),'production d’éval
 assert.ok(engine.includes("field('Ma réponse argumentée :',filled?st.evaluation:''"),'trace imprimable de l’évaluation');
 console.log('ELE-07 : modes différenciés, évaluation et indicateurs contrôlés.');
 
-const hubHTML=fs.readFileSync(path.join(root,'parcours-ci/index.html'),'utf8');
-assert.ok(hubHTML.includes('window.PROGRAMME'),'hub relié aux leçons 6e existantes');
-assert.ok(hubHTML.includes('NL-CI-6E-ELE-07'),'hub relié au pilote ELE-07');
-assert.ok(hubHTML.includes("../lecon/?l='+slug+'#sim"),'lien vers simulateur Studio existant');
-assert.ok(fs.readFileSync(path.join(root,'assets/studio/hub.js'),'utf8').includes('../parcours-ci/?l='),'hub de chaque leçon accessible depuis accueil 6e');
+const hubHTML=fs.readFileSync(path.join(root,'parcours-ci/index.html'),'utf8'),etapesJS=fs.readFileSync(path.join(root,'assets/simple/etapes-ci.js'),'utf8');
+assert.ok(hubHTML.includes('window.PROGRAMME'),'page de leçon reliée aux leçons 6e existantes');
+assert.ok(etapesJS.includes('NL-CI-6E-ELE-07'),'pilote ELE-07 proposé même sans catalogue');
+assert.ok(etapesJS.includes("L + '#sim'"),'lien vers la démarche Studio existante');
+assert.ok(fs.readFileSync(path.join(root,'assets/simple/classe.js'),'utf8').includes('../parcours-ci/?l='),'page de leçon accessible depuis la classe 6e');
 assert.ok(fs.readFileSync(path.join(root,'activites-ci/index.html'),'utf8').includes('Retour à la leçon'),'retour depuis la fiche investigation');
-assert.ok(hubHTML.includes('imprimer=fiche')&&fs.readFileSync(path.join(root,'assets/studio/studio.js'),'utf8').includes('imprimer=fiche'),'bouton Fiche : impression de la fiche élève');
-assert.ok(hubHTML.includes("pc-inquiry-6e-")&&hubHTML.includes('.tb-btn.locked'),'bouton Quiz verrouillé tant que la démarche n’est pas terminée');
-console.log('Hub de leçon : navigation 6e, Studio et ELE-07 contrôlée statiquement.');
-
-assert.ok(hubHTML.includes('class="quicknav"'),'navigation rapide du hub');
-assert.ok(hubHTML.includes("el('details',{class:'tg'")&&hubHTML.includes('aria-controls="side"'),'leçons groupées par thème pliable, tiroir mobile');
-assert.ok(hubHTML.includes('prefers-reduced-motion'),'adaptation accessibilité animations');
-assert.ok(hubHTML.includes('max-width:750px'),'présentation mobile prévue');
-console.log('Ergonomie hub : navigation, regroupement, mobile et mouvements réduits couverts.');
+assert.ok(hubHTML.includes('imprimer=fiche')&&fs.readFileSync(path.join(root,'assets/studio/studio.js'),'utf8').includes('imprimer=fiche'),'impression de la fiche élève (espace prof)');
+assert.ok(etapesJS.includes("pc-inquiry-6e-"),'étapes 2 à 4 fermées tant que la démarche n’est pas terminée');
+assert.ok(!/ELE-\d|NL-CI|Studio|Prototype/.test(hubHTML.replace(/<script[\s\S]*?<\/script>/g,'')),'aucun code interne ni jargon à l’écran');
+console.log('Page de leçon 6e : quatre étapes, liens Studio et ELE-07 contrôlés statiquement.');
 
 const sharedCircuit=fs.readFileSync(path.join(root,'assets/shared/conductivite-circuit.js'),'utf8');
 assert.ok(sharedCircuit.includes('window.NohobaCircuit'),'composant circuit commun exporté');

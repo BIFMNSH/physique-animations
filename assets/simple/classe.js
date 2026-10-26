@@ -13,17 +13,21 @@
 
   function render() {
     var P = prog();
-    function steps(slug) { var p = P[LV + '-' + slug] || {}; return STEPS.filter(function (k) { return p[k]; }).length; }
+    /* 6e : mêmes quatre étapes que la page de leçon (Essaie, Regarde, Enquête, Vérifie) */
+    var ECI = CI && window.NohobaEtapesCI;
+    function steps(slug) { if (ECI) return ECI.etapes(slug).done; var p = P[LV + '-' + slug] || {}; return STEPS.filter(function (k) { return p[k]; }).length; }
     var ready = [];
     PRG.forEach(function (t) { t.les.forEach(function (l) { if (l.ready) ready.push(l); }); });
     /* leçon à reprendre : la dernière ouverte si elle n'est pas finie, sinon la première pas finie */
     var cur = ready.filter(function (l) { return LV + '-' + l.slug === P.last; })[0];
+    /* 6e : une leçon déjà commencée (démarche ou enquête) compte comme « en cours » même sans étape Studio terminée */
+    if (!cur && ECI) cur = ready.filter(function (l) { var e = ECI.etapes(l.slug); return e.done > 0 && e.done < 4 || e.list.some(function (x) { return x.started; }); })[0];
     if (!cur || steps(cur.slug) === 4) cur = ready.filter(function (l) { return steps(l.slug) < 4; })[0] || null;
 
     var box = document.getElementById('reprise');
     if (cur) {
-      var n = steps(cur.slug);
-      box.innerHTML = '<a class="sp-resume" href="' + href(cur.slug) + '"><small>' + (n ? 'Tu t’es arrêté ici' : 'Commence par cette leçon') + '</small><b>' + esc(cur.t) + '</b>' + bar(n) + '<span class="sp-btn">' + (n ? 'Continuer →' : 'Commencer →') + '</span></a>';
+      var n = steps(cur.slug), started = n || ECI && ECI.etapes(cur.slug).list.some(function (x) { return x.started; });
+      box.innerHTML = '<a class="sp-resume" href="' + href(cur.slug) + '"><small>' + (started ? 'Tu t’es arrêté ici' : 'Commence par cette leçon') + '</small><b>' + esc(cur.t) + '</b>' + bar(n) + '<span class="sp-btn">' + (started ? 'Continuer →' : 'Commencer →') + '</span></a>';
     } else if (ready.length) {
       box.innerHTML = '<div class="sp-resume"><b>Bravo, tout est terminé !</b><small>Tu peux refaire n’importe quelle leçon ci-dessous.</small></div>';
     } else box.innerHTML = '';

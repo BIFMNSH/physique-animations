@@ -13,10 +13,13 @@
   --go:#F97316;--on-go:#FFFFFF;--go-ink:#9A3412;
   --t-amber:#9A5B00;--t-blue:#0A6BAA;--t-green:#15803D;--t-violet:#6D28D9;
   --focus:#C76A00;color-scheme:light}
+/* chiffres sans zéro barré : les chiffres 0-9 viennent de Bricolage Grotesque */
+@font-face{font-family:'Chiffres';font-style:normal;font-weight:100 600;font-display:swap;src:url(../fonts/bricolage-grotesque-latin-600-normal.woff2) format("woff2");unicode-range:U+0030-0039}
+@font-face{font-family:'Chiffres';font-style:normal;font-weight:700 900;font-display:swap;src:url(../fonts/bricolage-grotesque-latin-800-normal.woff2) format("woff2");unicode-range:U+0030-0039}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0;background:var(--bg);color:var(--text)}
-body{font:400 18px/1.45 'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{font:400 18px/1.45 'Chiffres','Atkinson Hyperlegible',system-ui,sans-serif;-webkit-text-size-adjust:100%}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .sp-skip{position:absolute;left:-9999px}.sp-skip:focus{left:12px;top:12px;background:var(--panel);padding:10px 14px;border-radius:10px;z-index:9}
