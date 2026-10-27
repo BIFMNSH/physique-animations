@@ -28,7 +28,7 @@
 <div class="auth">
   <aside class="side">
     <a class="brand" href="../" style="font:800 18px 'Bricolage Grotesque',sans-serif;color:var(--text);text-decoration:none"><img src="../assets/brand/nohoba-icon.svg" alt="" width="30" height="30" style="vertical-align:-8px;margin-right:8px;border-radius:8px">NOHOBA<span style="color:var(--amber)">-Lab</span></a>
-    <h1 id="sideT">Content de vous revoir.</h1>
+    <h1 id="sideT">Votre espace pour progresser.</h1>
     <p id="sideP">Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.</p>
     <ul>
       <li>53 leçons de la 6e à la 3e</li>
@@ -44,7 +44,9 @@
 
       <!-- Visiteur : connexion -->
       <section id="vLogin">
-        <h2>Se connecter ou créer un compte</h2>
+        <h2>Connectez-vous à votre espace</h2>
+        <p class="hint">Un compte gratuit pour retrouver votre progression et rejoindre votre classe.</p>
+        <button type="button" class="btn" id="bRetry" hidden>Réessayer la connexion au service</button>
         <div id="socialRow" hidden>
           <p class="small" style="margin:0 0 8px;font-weight:700;color:var(--text)">Continuer avec</p>
           <div class="social" role="group" aria-label="Continuer avec un compte existant" id="social"></div>
@@ -59,7 +61,7 @@
           <p class="small" style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 0"><a href="?mode=creer" id="lBascule">Créer un compte avec une adresse e-mail</a><a href="?mode=oubli" id="lOubli">Mot de passe oublié ?</a></p>
         </form>
         <div class="or" id="orTel" hidden>ou avec un numéro de téléphone</div>
-        <form id="fTel" novalidate>
+        <form id="fTel" novalidate hidden>
           <p class="hint">Un code à 6 chiffres vous est envoyé par SMS. Élève : vous pouvez utiliser le numéro d’un parent.</p>
           <div class="field">
             <label for="tel">Numéro de téléphone</label>
@@ -72,14 +74,16 @@
             <div class="err" id="errOtp" aria-live="polite"></div>
           </div>
           <button class="btn primary block" type="submit" id="bTel">Recevoir mon code par SMS</button>
+          <div id="otpActions" hidden><button type="button" class="btn sm" id="bResend">Renvoyer le code</button> <button type="button" class="btn sm" id="bChange">Modifier le numéro</button><p class="small" id="resendHint"></p></div>
           <p class="msg" id="mTel" role="status" aria-live="polite"></p>
         </form>
-        <p class="small" style="margin-top:18px">Pas encore de pass ? <a href="../abonnement/#offres">Voir les offres</a> · <a href="../3e/">Essayer sans compte</a></p>
+        <p style="margin-top:20px"><a class="btn block" href="../collections/">Continuer sans compte</a></p>
+        <p class="small">Votre téléphone ou votre e-mail sert à vous identifier. <a href="../confidentialite/">Confidentialité et données personnelles</a></p>
       </section>
 
       <!-- Connecté : profil, classe -->
       <section id="vCompte" hidden>
-        <h2 id="hello">Mon compte</h2>
+        <h2 id="hello" tabindex="-1">Mon compte</h2>
         <form id="fProfil" novalidate hidden>
           <p class="hint">Dites-nous qui vous êtes. On ne demande que le prénom et la classe.</p>
           <fieldset style="border:none;padding:0;margin:0 0 12px"><legend class="small" style="font-weight:700;color:var(--text)">Je suis</legend>
@@ -125,7 +129,7 @@
         <p class="msg" id="mDel" role="status" aria-live="polite"></p>
       </section>
 
-      <div class="note"><b>Établissements :</b> un collège passe par le compte de ses enseignants ; le pass établissement est proposé sur devis : <a href="mailto:testnohoba@gmail.com?subject=Devis%20NOHOBA-Lab%20pour%20un%20%C3%A9tablissement&body=Bonjour%2C%0A%0ANom%20de%20l%E2%80%99%C3%A9tablissement%20%3A%0AVille%20%3A%0ANombre%20de%20classes%20de%20coll%C3%A8ge%20%3A%0AT%C3%A9l%C3%A9phone%20du%20responsable%20%3A%0A%0AMerci.">écrivez-nous</a> (testnohoba@gmail.com).<br>Mineurs : Google, Apple, Facebook et X exigent un âge minimum (13 ans en général). Pour un élève plus jeune, ou de moins de 15 ans, c’est un parent qui crée le compte et paie le pass. On ne demande que le prénom et la classe.</div>
+      <details class="note"><summary>Parents et établissements</summary><p>Pour un jeune élève, un parent accompagne la création du compte. Le profil pédagogique contient le prénom et le niveau ; le téléphone ou l’e-mail sert à la connexion.</p><p>Établissements : <a href="mailto:testnohoba@gmail.com">contactez-nous</a> pour organiser l’accès de vos classes.</p></details>
     </div>
   </main>
 </div>
@@ -135,7 +139,7 @@
   var $=function(i){return document.getElementById(i);}, C=null;
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function show(id,on){$(id).hidden=!on;}
-  function say(id,m){$(id).textContent=m||'';}
+  function say(id,m){$(id).textContent=m||'';var fields={errTel:'tel',errOtp:'otp',errMail:'mail',errMdp:'mdp',errC:'codeC'};if(fields[id])$(fields[id]).setAttribute('aria-invalid',m?'true':'false');}
   var NOM={google:'Google',apple:'Apple',facebook:'Facebook',twitter:'X'};
   var SIDE={eleve:['Content de vous revoir.','Retrouvez vos leçons, vos simulations et votre progression jusqu’au BEPC.'],prof:['Votre classe vous attend.','Mode enseignant, défis en équipes, fiches et corrigés : tout est prêt pour la séance.']};
   var q=new URLSearchParams(location.search),o=q.get('offre'),du=q.get('duree')||'an';
@@ -148,22 +152,48 @@
     if(ind==='225'){v=v.replace(/^225/,'');return /^(01|05|07)\d{8}$/.test(v)?'+225'+v:null;}
     return /^[67]\d{8}$/.test(v)?'+33'+v:null;}
   var tel=$('tel');tel.addEventListener('input',function(){var d=tel.value.replace(/\D/g,'').slice(0,10);tel.value=d.replace(/(\d{2})(?=\d)/g,'$1 ');});
-  var numero=null;
+  var numero=null,resendAt=0,smsBusy=false;
+  function unavailable(){['fMail','fTel','socialRow','orMail','orTel'].forEach(function(id){show(id,false);});show('bRetry',true);say('mTop','La connexion est momentanément indisponible. Vous pouvez continuer sans compte.');}
+  $('bRetry').onclick=ready;
 
   function ready(){
     C=window.NLCompte;
-    if(!C){say('mTop','Le service de comptes est momentanément indisponible. Le site reste utilisable sans compte.');return;}
+    if(!C){unavailable();return;}
+    show('bRetry',false);say('mTop','Vérification des moyens de connexion…');
     C.providers().then(function(p){
       var ks=Object.keys(NOM).filter(function(k){return p.providers&&p.providers[k];});
-      var mailOn=!!(p.providers&&p.providers.email);
-      if(mailOn){show('fMail',true);show('orMail',ks.length>0);modeMail(RESET?'reset':q.get('reset')?'forgot':'in');if(q.get('reset')&&!RESET)say('mMail','Ce lien a expiré. Demandez-en un nouveau.');}
-      show('orTel',ks.length>0||mailOn);
-      if(ks.length){show('socialRow',true);$('social').innerHTML=ks.map(function(k){return '<button type="button" class="sbtn" data-p="'+k+'"><span class="si" aria-hidden="true">'+NOM[k].charAt(0)+'</span>'+NOM[k]+'</button>';}).join('');
-        document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){say('mTop','Redirection vers '+NOM[b.dataset.p]+'…');
-          C.req('/api/auth/sign-in/social',{method:'POST',body:{provider:b.dataset.p,callbackURL:location.origin+'/connexion/'}}).then(function(r){C.marquer();if(r&&r.url)location.href=r.url;else say('mTop','Connexion indisponible pour le moment.');}).catch(function(e){say('mTop',e.message);});};});}
-    }).catch(function(){say('mTop','Le service de comptes n’est pas joignable pour le moment. Le site reste utilisable sans compte.');});
+      var mailOn=!!(p.providers&&p.providers.email),smsOn=!!(p.providers&&p.providers.sms);
+      show('fMail',mailOn);show('fTel',smsOn);show('socialRow',ks.length>0);
+      say('mTop',ks.length||mailOn||smsOn?'':'Les moyens de connexion sont en cours de configuration. Continuez sans compte.');
+      if(mailOn){show('fMail',true);show('orMail',ks.length>0);modeMail(RESET?'reset':q.get('reset')||q.get('mode')==='oubli'?'forgot':q.get('mode')==='creer'?'up':'in');if(q.get('reset')&&!RESET)say('mMail','Ce lien a expiré. Demandez-en un nouveau.');}
+      show('orTel',smsOn&&(ks.length>0||mailOn));
+      if(ks.length){show('socialRow',true);$('social').innerHTML=ks.map(function(k){return '<button type="button" class="sbtn" data-p="'+k+'">Continuer avec '+NOM[k]+'</button>';}).join('');
+        var socialBusy=false;
+        document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){
+          if(socialBusy)return;socialBusy=true;
+          var label=b.textContent;
+          document.querySelectorAll('.sbtn').forEach(function(el){el.disabled=true;});
+          b.setAttribute('aria-busy','true');b.textContent='Connexion à '+NOM[b.dataset.p]+'…';
+          say('mTop','Redirection vers '+NOM[b.dataset.p]+'…');
+          C.req('/api/auth/sign-in/social',{method:'POST',body:{
+            provider:b.dataset.p,callbackURL:location.origin+'/connexion/',
+            errorCallbackURL:location.origin+'/connexion/?error=oauth'
+          }}).then(function(r){
+            if(!r||!r.url)throw new Error('OAUTH_UNAVAILABLE');
+            var target=new URL(r.url);
+            if(target.protocol!=='https:')throw new Error('OAUTH_UNAVAILABLE');
+            location.assign(target.href);
+          }).catch(function(){
+            say('mTop','La connexion avec '+NOM[b.dataset.p]+' n’a pas abouti. Réessayez ou choisissez une autre méthode.');
+            socialBusy=false;b.textContent=label;b.removeAttribute('aria-busy');
+            document.querySelectorAll('.sbtn').forEach(function(el){el.disabled=false;});
+            b.focus();
+          });
+        };});
+      }
+    }).catch(unavailable);
     if(q.get('verifie'))C.marquer();
-    if(C.connecte())C.me().then(compte).catch(function(e){if(e.status===401)localStorage.removeItem('nl-compte');});
+    C.me().then(function(m){C.marquer();compte(m);}).catch(function(e){if(e.status===401)C.oublier();});
   }
 
   // --- E-mail : connexion, création de compte, mot de passe oublié, nouveau mot de passe ---
@@ -199,25 +229,42 @@
       .catch(function(er){say('mMail',errM(er));if(er.code==='EMAIL_NOT_VERIFIED')C.req('/api/auth/send-verification-email',{method:'POST',body:{email:em,callbackURL:back}}).then(function(){say('mMail',errM(er)+' Nous venons de renvoyer le lien.');}).catch(function(){});}).then(done);
   };
 
-  // --- Téléphone : envoi puis vérification du code ---
-  $('fTel').onsubmit=function(e){e.preventDefault();
-    if(!C)return;var n=telOk($('ind').value,tel.value);say('errTel',n?'':($('ind').value==='225'?'Entrez un numéro mobile à 10 chiffres (01, 05 ou 07), par exemple 07 12 34 56 78.':'Entrez un mobile français à 9 chiffres, par exemple 6 12 34 56 78.'));
-    if(!n){tel.focus();return;}
-    if($('otpRow').hidden){
-      $('bTel').disabled=true;
-      C.req('/api/auth/phone-number/send-otp',{method:'POST',body:{phoneNumber:n}}).then(function(){numero=n;show('otpRow',true);$('bTel').textContent='Me connecter';say('mTel','Un code à 6 chiffres vient d’être envoyé au '+n+'. Il est valable 5 minutes.');$('otp').focus();})
-        .catch(function(er){say('mTel',er.status===429?'Trop de demandes : attendez une minute.':'Le SMS n’a pas pu être envoyé. Vérifiez le numéro et réessayez.');}).then(function(){$('bTel').disabled=false;});
-      return;}
-    var c=$('otp').value.replace(/\D/g,'');say('errOtp',c.length===6?'':'Le code contient 6 chiffres.');if(c.length!==6)return;
-    $('bTel').disabled=true;
-    C.req('/api/auth/phone-number/verify',{method:'POST',body:{phoneNumber:numero||n,code:c}}).then(function(){C.marquer();return C.me();}).then(function(m){say('mTel','');compte(m);})
-      .catch(function(er){say('errOtp','Code incorrect ou expiré. Après 3 essais, demandez un nouveau code.');}).then(function(){$('bTel').disabled=false;});
+  // --- Téléphone : envoi, renvoi et vérification ---
+  function resendState(){
+    var left=Math.max(0,Math.ceil((resendAt-Date.now())/1000));
+    $('bResend').disabled=smsBusy||left>0;
+    say('resendHint',left?'Nouveau code possible dans '+left+' s.':'Vous pouvez demander un nouveau code.');
+  }
+  setInterval(function(){if(numero)resendState();},1000);
+  function sendCode(n){
+    if(smsBusy)return;
+    smsBusy=true;$('bTel').disabled=true;$('bChange').disabled=true;resendState();
+    C.req('/api/auth/phone-number/send-otp',{method:'POST',body:{phoneNumber:n}}).then(function(){
+      numero=n;resendAt=Date.now()+60000;tel.disabled=true;$('ind').disabled=true;
+      show('otpRow',true);show('otpActions',true);$('otp').value='';say('errOtp','');
+      $('bTel').textContent='Me connecter';say('mTel','Code demandé au '+n+'. Il est valable 5 minutes.');$('otp').focus();
+    }).catch(function(er){if(er.status===429)resendAt=Date.now()+60000;say('mTel',er.status===429?'Trop de demandes : attendez une minute.':'Le SMS n’a pas pu être envoyé. Réessayez dans un instant.');})
+      .finally(function(){smsBusy=false;$('bTel').disabled=false;$('bChange').disabled=false;resendState();});
+  }
+  $('bResend').onclick=function(){if(numero&&Date.now()>=resendAt)sendCode(numero);};
+  $('bChange').onclick=function(){
+    if(smsBusy)return;numero=null;tel.disabled=false;$('ind').disabled=false;
+    show('otpRow',false);show('otpActions',false);$('otp').value='';say('errOtp','');say('mTel','');
+    $('bTel').textContent='Recevoir mon code par SMS';tel.focus();
+  };
+  $('fTel').onsubmit=function(e){e.preventDefault();if(!C||smsBusy)return;
+    if(!numero){var n=telOk($('ind').value,tel.value);say('errTel',n?'':'Entrez un numéro mobile valide pour le pays sélectionné.');if(!n){tel.focus();return;}sendCode(n);return;}
+    var c=$('otp').value.trim();say('errOtp',/^\d{6}$/.test(c)?'':'Le code contient 6 chiffres.');if(!/^\d{6}$/.test(c)){$('otp').focus();return;}
+    smsBusy=true;$('bTel').disabled=true;$('bChange').disabled=true;resendState();
+    C.req('/api/auth/phone-number/verify',{method:'POST',body:{phoneNumber:numero,code:c}}).then(function(){C.marquer();return C.me();}).then(function(m){say('mTel','');compte(m);})
+      .catch(function(er){say('errOtp',er.status===429?'Trop de tentatives. Attendez une minute.':'Code incorrect ou expiré. Vous pouvez demander un nouveau code.');$('otp').focus();})
+      .finally(function(){smsBusy=false;$('bTel').disabled=false;$('bChange').disabled=false;resendState();});
   };
 
   // --- Compte ---
   var ME=null;
   function compte(m){
-    ME=m;show('vLogin',false);show('vCompte',true);
+    ME=m;show('vLogin',false);show('vCompte',true);$('hello').focus();
     var nom=(m.profile&&m.profile.display_name)||(m.user&&m.user.name)||'';
     $('hello').textContent=nom&&!/^Élève \d+$/.test(nom)?'Bonjour '+nom:'Mon compte';
     var p=m.profile||{};
@@ -251,3 +298,4 @@
 </script>
 </body>
 </html>
+

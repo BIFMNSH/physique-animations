@@ -26,11 +26,15 @@ function tooMany(key, max, windowMs) {
 const ipOf = (c) => (c.req.header('x-forwarded-for') || '').split(',')[0].trim() || 'local';
 
 export function createApp() {
-  const app = new Hono();
+  const app = new Hono({ strict: false });
   app.use('*', secureHeaders());
+  app.use('/api/*', async (c, next) => { c.header('Cache-Control', 'private, no-store'); await next(); });
   app.use('/api/*', cors({ origin: (o) => (origins().includes(o) ? o : null), credentials: true, allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], maxAge: 600 }));
 
-  app.get('/health', (c) => c.json({ ok: true }));
+  app.get('/health', async (c) => {
+    try { await q('select 1'); return c.json({ ok: true, database: 'ready' }); }
+    catch { return c.json({ ok: false, database: 'unavailable' }, 503); }
+  });
   app.all('/api/auth/*', (c) => auth.handler(c.req.raw));
 
   // Tout le reste exige un corps JSON court et, sauf exceptions, une session.
@@ -40,7 +44,7 @@ export function createApp() {
   });
   const PUBLIC = new Set(['/api/providers', '/api/plans', '/api/pay/notify']);
   app.use('/api/*', async (c, next) => {
-    const p = c.req.path;
+    const p = c.req.path.replace(/\/+$/, '');
     if (p.startsWith('/api/auth/') || PUBLIC.has(p)) return next();
     const s = await auth.api.getSession({ headers: c.req.raw.headers });
     if (!s) return fail(c, 401, 'Connexion requise');
@@ -202,3 +206,4 @@ export function createApp() {
   app.notFound((c) => c.json({ error: 'Introuvable' }, 404));
   return app;
 }
+

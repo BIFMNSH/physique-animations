@@ -1,0 +1,41 @@
+name: Connexion et PostgreSQL
+on:
+  push:
+    branches: [feat/connexion-railway]
+  pull_request:
+    paths: ['connexion/**', 'assets/compte.js', 'server/**', 'qa/connexion.cjs', '.github/workflows/auth-tests.yml']
+permissions:
+  contents: read
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: pgtest
+          POSTGRES_PASSWORD: test-only-password
+          POSTGRES_DB: nl_test
+        ports: ['5544:5432']
+        options: >-
+          --health-cmd "pg_isready -U pgtest -d nl_test"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm ci
+        working-directory: server
+      - run: node --test --test-concurrency=1 test/*.test.js
+        working-directory: server
+        env:
+          DATABASE_URL: postgres://pgtest:test-only-password@127.0.0.1:5544/nl_test
+      - run: npm ci
+        working-directory: qa
+      - run: npm run test:connexion
+        working-directory: qa
+      - run: npm test
+        working-directory: qa

@@ -2,7 +2,8 @@
   "name": "nohoba-lab-regression",
   "private": true,
   "scripts": {
-    "test": "node regression.cjs && node activites.cjs && node catalogues-ci-fr.cjs && node lot-ci-electricite.cjs && node lot-ci-commande.cjs && node lot-ci-matiere.cjs && node lot-ci-energie.cjs && node lecon-moments.cjs && node seo.cjs && node parcours-catalogues.cjs && node scenes-portrait.cjs"
+    "test": "node regression.cjs && node activites.cjs && node catalogues-ci-fr.cjs && node lot-ci-electricite.cjs && node lot-ci-commande.cjs && node lot-ci-matiere.cjs && node lot-ci-energie.cjs && node lecon-moments.cjs && node seo.cjs && node parcours-catalogues.cjs && node scenes-portrait.cjs",
+    "test:connexion": "node connexion.cjs"
   },
   "devDependencies": {
     "jsdom": "26.1.0"
