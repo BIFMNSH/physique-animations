@@ -63,6 +63,7 @@ export const authOptions = {
     },
   },
   advanced: {
+    skipTrailingSlashes: true, // Le proxy Vercel conserve les URL avec slash final.
     useSecureCookies: cfg.prod,
     ipAddress: { ipAddressHeaders: ['x-forwarded-for'] },
     ...(cfg.cookieDomain ? { crossSubDomainCookies: { enabled: true, domain: cfg.cookieDomain } } : {}),

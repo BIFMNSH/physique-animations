@@ -8,3 +8,12 @@ test('health confirme la connexion PostgreSQL', async () => {
   assert.equal(r.status, 200);
   assert.deepEqual(await r.json(), { ok: true, database: 'ready' });
 });
+
+test('proxy : slash final et réponses non mises en cache', async () => {
+  const r = await T.app.request('/api/providers/');
+  assert.equal(r.status, 200);
+  assert.match(r.headers.get('cache-control'), /no-store/);
+  const session = await T.app.request('/api/auth/get-session/');
+  assert.equal(session.status, 200);
+  assert.equal(await session.json(), null);
+});

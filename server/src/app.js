@@ -26,8 +26,9 @@ function tooMany(key, max, windowMs) {
 const ipOf = (c) => (c.req.header('x-forwarded-for') || '').split(',')[0].trim() || 'local';
 
 export function createApp() {
-  const app = new Hono();
+  const app = new Hono({ strict: false });
   app.use('*', secureHeaders());
+  app.use('/api/*', async (c, next) => { c.header('Cache-Control', 'private, no-store'); await next(); });
   app.use('/api/*', cors({ origin: (o) => (origins().includes(o) ? o : null), credentials: true, allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], maxAge: 600 }));
 
   app.get('/health', async (c) => {
@@ -43,7 +44,7 @@ export function createApp() {
   });
   const PUBLIC = new Set(['/api/providers', '/api/plans', '/api/pay/notify']);
   app.use('/api/*', async (c, next) => {
-    const p = c.req.path;
+    const p = c.req.path.replace(/\/+$/, '');
     if (p.startsWith('/api/auth/') || PUBLIC.has(p)) return next();
     const s = await auth.api.getSession({ headers: c.req.raw.headers });
     if (!s) return fail(c, 401, 'Connexion requise');
