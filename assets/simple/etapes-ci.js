@@ -3,11 +3,13 @@
    L'ordre suit le moteur Studio : tant que la démarche n'est pas terminée (« pc-inquiry-6e-<slug> ».complete),
    le résumé, le défi et le quiz renvoient à la démarche. Tout est lu sur l'appareil ; rien n'est envoyé. */
 (function () {
-  var SLUG = { 'Matériaux, tri et déchets': 'materiaux-tri-dechets', 'Circuit électrique': 'circuit-electrique', 'Commande d’un circuit': 'commande-circuit', 'Court-circuit et protection': 'court-circuit', 'Solides et liquides': 'solides-liquides', 'Gaz': 'les-gaz', 'Température d’un corps': 'temperature', 'Changements d’état de l’eau': 'changements-etat', 'Volume d’un liquide ou d’un solide': 'volume', 'Masse d’un solide ou d’un liquide': 'masse', 'Constituants de l’air': 'constituants-air', 'Combustions de solides et liquides': 'combustion-solide-liquide', 'Combustion de gaz': 'combustion-gaz', 'Dangers des combustions': 'dangers-combustions' };
+  var SLUG = { 'L’énergie du circuit': 'energie-circuit', 'Produire de l’énergie électrique': 'energie-circuit', 'Matériaux, tri et déchets': 'materiaux-tri-dechets', 'Circuit électrique': 'circuit-electrique', 'Commande d’un circuit': 'commande-circuit', 'Court-circuit et protection': 'court-circuit', 'Solides et liquides': 'solides-liquides', 'Gaz': 'les-gaz', 'Température d’un corps': 'temperature', 'Changements d’état de l’eau': 'changements-etat', 'Volume d’un liquide ou d’un solide': 'volume', 'Masse d’un solide ou d’un liquide': 'masse', 'Constituants de l’air': 'constituants-air', 'Combustions de solides et liquides': 'combustion-solide-liquide', 'Combustion de gaz': 'combustion-gaz', 'Dangers des combustions': 'dangers-combustions' };
   /* fiches existantes : même liste que activites-ci/index.html */
-  var FICHES = /^NL-CI-6E-(?:ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3]))$/;
+  var FICHES = /^NL-CI-6E-(?:ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10))$/;
   /* parcours propre à la collection Côte d’Ivoire : pas de leçon Studio, seulement des investigations */
-  var LOCAL = 'materiaux-tri-dechets';
+  var LOCAL = 'materiaux-tri-dechets', ENERGIE = 'energie-circuit', LOCALS = [LOCAL, ENERGIE];
+  /* « Pour aller plus loin » : le parcours Énergie (hors programme officiel) n'apparaît côté élève qu'une fois au moins une fiche validée par le professeur */
+  function energieActif() { return activites(ENERGIE).some(function (a) { return a.statut === 'disponible' && FICHES.test(a.id); }); }
   function read(k) { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } }
   /* même règle d'avancement que le moteur d'activité : 0 = jamais ouverte, 6 = conclusion rédigée */
   function actState(id) { var st = read('pc-act-' + id); if (!Object.keys(st).length) return 0; if (!st.prevision) return 1; if (!(st.essais && st.essais.length)) return 2; if (!st.confront) return 3; if (!st.conclusion) return 4; return 6; }
@@ -34,7 +36,7 @@
   }
 
   function etapes(slug) {
-    if (slug === LOCAL) return etapesLocal(slug);
+    if (LOCALS.indexOf(slug) >= 0) return etapesLocal(slug);
     var p = read('pc-studio-prog')['6e-' + slug] || {}, inq = read('pc-inquiry-6e-' + slug), L = '../lecon/?l=' + slug;
     var open = !!inq.complete, E1 = enquete(slug), act = E1 && E1.act;
     var essaie = { k: 'essaie', mot: 'Essaie', d: 'Fais ta prévision, puis manipule la simulation.', href: L + '#sim', done: open, started: !!inq.started };
@@ -51,5 +53,5 @@
     var next = E.filter(function (e) { return !e.done && !e.gated; })[0] || null;
     return { ordre: ordre, list: E, done: E.filter(function (e) { return e.done; }).length, next: next, defiBonus: act ? { href: L + '#defi', done: !!p.defi, locked: !open } : null };
   }
-  window.NohobaEtapesCI = { etapes: etapes, activites: activites, LOCAL: LOCAL };
+  window.NohobaEtapesCI = { etapes: etapes, activites: activites, LOCAL: LOCAL, ENERGIE: ENERGIE, LOCALS: LOCALS, energieActif: energieActif };
 })();

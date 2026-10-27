@@ -80,6 +80,8 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;
 var lessons=[],LOCAL=window.NohobaEtapesCI.LOCAL;((window.PROGRAMME&&window.PROGRAMME['6e'])||[]).forEach(function(t){t.les.forEach(function(l){lessons.push({slug:l.slug,title:l.t,theme:t.nm,col:t.col});});
   /* parcours propre à la collection Côte d’Ivoire, à la fin du thème Matière */
   if(t.nm==='Propriétés physiques de la matière')lessons.push({slug:LOCAL,title:'Matériaux, tri et déchets',theme:t.nm,col:t.col,local:true});});
+/* « Pour aller plus loin » : parcours Énergie, visible quand une fiche est validée */
+if(window.NohobaEtapesCI.energieActif())lessons.push({slug:window.NohobaEtapesCI.ENERGIE,title:'L’énergie du circuit',theme:'Pour aller plus loin',col:'var(--amber)',local:true});
 var slug=new URL(location.href).searchParams.get('l')||'circuit-electrique';
 if(!lessons.some(function(x){return x.slug===slug;}))slug='circuit-electrique';
 function render(){

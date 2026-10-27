@@ -23,7 +23,7 @@
   M.bloc=function(panel,X,cfg){
     var h=H(),st=X.st(),sec=h('div',{class:'card'},panel),pre='m'+cfg.n+'-';
     h('h3',{text:cfg.titre},sec);h('p',{text:cfg.intro},sec);
-    var fig=A.paire(sec,h);
+    var fig=A.paire(sec,h),ex=cfg.extra?h('div',{'aria-live':'polite'},sec):null;
     cfg.controles.forEach(function(c){
       var f=h('fieldset',{style:'border:0;padding:0;margin:8px 0;min-width:0;display:flex;flex-wrap:wrap;gap:8px'},sec);
       h('legend',{style:'font-weight:700;width:100%;float:left'},f,E(c.legende));
@@ -34,7 +34,7 @@
     var table=h('div',{style:'overflow-x:auto;max-width:100%'},res);
     function vals(){var v={};cfg.controles.forEach(function(c){var r=sec.querySelector('input[name="'+pre+c.cle+'"]:checked');v[c.cle]=r?r.value:c.items[0][0];});return v;}
     var cur=null;
-    function maj(){cur=cfg.render(vals());fig.montage(cur.montage);fig.schema(cur.schema);S.out.textContent=cur.txt;}
+    function maj(){cur=cfg.render(vals());fig.montage(cur.montage);fig.schema(cur.schema);if(ex)ex.innerHTML=cur.extra||'';S.out.textContent=cur.txt;}
     function paint(){var F=cfg.F();table.innerHTML=X.tableHTML(F,F.lignes(st),cfg.legendeTable||'Mes essais.');}
     sec.addEventListener('change',maj);
     S.btn.onclick=function(){
