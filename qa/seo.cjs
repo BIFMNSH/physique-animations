@@ -11,4 +11,7 @@ for(const lv of['3e','4e','5e','6e']){const t=read(lv+'/index.html');assert.ok(m
 const walk=d=>fs.readdirSync(path.join(root,d),{withFileTypes:true}).flatMap(e=>e.isDirectory()&&!['node_modules','qa','docs','server','.git','assets'].includes(e.name)?walk(path.join(d,e.name)):/\.html$/.test(e.name)?[path.join(d,e.name)]:[]);
 for(const f of walk('.')){const t=read(f),c=/<link rel="canonical" href="([^"]*)"/.exec(t),o=/<meta property="og:url" content="([^"]*)"/.exec(t);if(c&&o)assert.equal(o[1],c[1],f+' : og:url = canonical');if(/noindex/.test(t)&&c&&f!=='activites/index.html'&&f!=='lecon/index.html')continue;}
 assert.ok(!/rel="canonical"/.test(read('lecon/index.html')),'page noindex sans canonical');
+for(const f of walk('.')){for(const m of read(f).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g))JSON.parse(m[1]);}
+for(const f of['3e','4e','5e','6e','lecons','credits','mentions-legales','confidentialite','a-propos'])assert.ok(/BreadcrumbList/.test(read(f+'/index.html')),f+' : fil d’Ariane');
+assert.ok(/mailto:/.test(read('a-propos/index.html'))&&/a-propos/.test(read('sitemap.xml'))&&/a-propos/.test(read('6e/index.html')),'page À propos et contact liée et dans le sitemap');
 console.log('SEO : en-têtes anti-clickjacking, 404, longueurs, og:url et canonical contrôlés.');
