@@ -9,6 +9,7 @@ function page(file,progress={},extra={}){
   for(const[k,v]of Object.entries(extra))w.localStorage.setItem(k,JSON.stringify(v));
   for(const script of w.document.querySelectorAll('script')){
     const src=script.getAttribute('src');
+    if(/json/.test(script.getAttribute('type')||''))continue; // données structurées, pas du code
     if(src&&!src.startsWith('../assets/'))continue;
     w.eval(src?read(path.resolve(root,path.dirname(file),src)):script.textContent);
   }
@@ -66,7 +67,7 @@ function lecon(store,query=''){
   const lw=new JSDOM(read('parcours-ci/index.html'),{url:'http://localhost/parcours-ci/?l=circuit-electrique'+query,runScripts:'outside-only'}).window;
   lw.requestAnimationFrame=()=>0;lw.HTMLElement.prototype.scrollIntoView=()=>{};
   for(const[k,v]of Object.entries(store))lw.localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
-  for(const s of lw.document.querySelectorAll('script')){const src=s.getAttribute('src');lw.eval(src?read(path.resolve(root,'parcours-ci',src)):s.textContent);}
+  for(const s of lw.document.querySelectorAll('script')){const src=s.getAttribute('src');if(s.type==='application/ld+json')continue;lw.eval(src?read(path.resolve(root,'parcours-ci',src)):s.textContent);}
   return lw;
 }
 /* Version A (par défaut) : Essaie d'abord. */
@@ -107,7 +108,7 @@ assert.equal(ld.getElementById('prev').hidden,true);assert.ok(ld.getElementById(
 lw.close();
 /* Leçon sans investigation validée (Grandeurs et mesures : encore en conception) : le défi attend la démarche, avec le même message. */
 {const lw2=new JSDOM(read('parcours-ci/index.html'),{url:'http://localhost/parcours-ci/?l=masse',runScripts:'outside-only'}).window;lw2.requestAnimationFrame=()=>0;
-for(const s of lw2.document.querySelectorAll('script')){const src=s.getAttribute('src');lw2.eval(src?read(path.resolve(root,'parcours-ci',src)):s.textContent);}
+for(const s of lw2.document.querySelectorAll('script')){const src=s.getAttribute('src');if(s.type==='application/ld+json')continue;lw2.eval(src?read(path.resolve(root,'parcours-ci',src)):s.textContent);}
 assert.deepEqual([...lw2.document.querySelectorAll('[data-aide]')].map(b=>b.querySelector('b').textContent),['Enquête','Vérifie'],'défi et quiz attendent la démarche');lw2.close();}
 const w6=page('6e/index.html',{});
 w6.localStorage.setItem('pc-inquiry-6e-commande-circuit',JSON.stringify({started:true}));
