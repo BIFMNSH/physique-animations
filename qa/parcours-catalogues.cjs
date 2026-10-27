@@ -19,13 +19,14 @@ const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e
 const d=w.document;
 assert.equal(d.querySelectorAll('.sp-theme').length,5,'quatre thèmes du programme et « Pour aller plus loin » en 6e');
 assert.equal(d.querySelectorAll('#lecons a.sp-les').length,15,'quinze leçons en 6e (dont les parcours Matériaux et Énergie)');
-for(const a of d.querySelectorAll('#lecons a.sp-les'))assert.ok(a.getAttribute('href').startsWith('../parcours-ci/?l='));
+for(const a of d.querySelectorAll('#lecons a.sp-les')){const h=a.getAttribute('href'),loc=/\?l=(materiaux-tri-dechets|energie-circuit)$/.test(h);assert.ok(h.startsWith(loc?'../parcours-ci/?l=':'../lecon-ci/?l='),'leçons en neuf moments ; parcours d’investigations à part : '+h);}
 const rep=d.querySelector('#reprise a.sp-resume');
 assert.ok(rep&&rep.textContent.includes('Le circuit électrique')&&rep.textContent.includes('Continuer'),'reprise de la dernière leçon');
-assert.equal(rep.getAttribute('href'),'../parcours-ci/?l=circuit-electrique');
-assert.equal(rep.querySelectorAll('.sp-bar i.on').length,2,'deux étapes sur quatre');
+assert.equal(rep.getAttribute('href'),'../lecon-ci/?l=circuit-electrique');
+assert.equal(rep.querySelectorAll('.sp-bar i').length,9,'neuf moments');
+assert.equal(rep.querySelectorAll('.sp-bar i.on').length,8,'huit moments faits : seul le défi reste');
 assert.equal(d.querySelectorAll('.sp-les.done').length,1,'une leçon terminée');
-assert.equal(d.querySelector('.sp-les[aria-current="step"]').getAttribute('href'),'../parcours-ci/?l=circuit-electrique');
+assert.equal(d.querySelector('.sp-les[aria-current="step"]').getAttribute('href'),'../lecon-ci/?l=circuit-electrique');
 assert.equal(w.localStorage.getItem('pc-classe'),'6e','classe mémorisée');
 assert.ok(!/NL-C|ELE-|Studio/.test(d.body.textContent),'aucun code interne ni jargon');
 w.localStorage.setItem('pc-studio-prog',JSON.stringify({'6e-circuit-electrique':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'}));

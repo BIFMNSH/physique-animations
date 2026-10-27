@@ -341,3 +341,8 @@ html.has-big,html.has-big body{overflow:hidden}
 .app.portrait .scene>.panels button{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--text);font:700 15px var(--f-body);cursor:pointer}
 .app.portrait .scene>.panels button[aria-pressed=true]{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
 .app.portrait .scene.big>.panels{display:none}
+
+/* mode intégré : le lecteur en moments fournit la barre et les boutons */
+.app.embed .view{top:0}
+.app.embed .drawer{top:0}
+.app.embed:not(.portrait) .viewport{display:flex;align-items:center;justify-content:center}
