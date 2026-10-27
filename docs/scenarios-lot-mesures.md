@@ -2,26 +2,27 @@
 
 27 octobre 2026 (mise à jour le même jour : confrontation au programme MENA) · collection Côte d'Ivoire, 6e · thème « Grandeurs et mesures physiques » · **En conception**.
 
-Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Les titres et l'ordre viennent du catalogue (`assets/catalogues/6e-ci.js`). **Sources lues** : programme éducatif et guide d'exécution de Physique-Chimie 6e (DPFC, édition APPRENDRE), compétence 3 « Mesure de grandeurs physiques » : programme p. 11, progression p. 15, guide p. 27-28 (lecture assistée, pages à confirmer) ; dossier « Extraction des 70 activités » du 23 octobre 2026, qui donne les pages du manuel JD (p. 95 à 108, non vérifiées sur le manuel). **Pas encore lus** : l'archive des 13 TP DPFC et le manuel JD lui-même. Les consignes, figures et formulations sont originales.
+Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Les titres et l'ordre viennent du catalogue (`assets/catalogues/6e-ci.js`). **Sources lues** : programme éducatif et guide d'exécution de Physique-Chimie 6e (DPFC, édition APPRENDRE), compétence 3 « Mesure de grandeurs physiques » : programme p. 11, progression p. 15, guide p. 27-28 (lecture assistée, pages à confirmer) ; dossier « Extraction des 70 activités » du 23 octobre 2026, qui donne les pages du manuel JD (p. 95 à 108, non vérifiées sur le manuel). **Archive des 13 TP DPFC** (reçue le 27 octobre 2026) : fiche enseignant 12 « Volume d'un liquide et d'un solide » et fiche 13 « Masse d'un solide et d'un liquide », lues (texte et figures). **Pas encore lu** : le manuel JD lui-même. Les consignes, figures et formulations sont originales.
 
 ## Vue d'ensemble
 
-| Fiche | Leçon | Compétence visée (une seule) | Appui (programme MENA · manuel JD) |
+| Fiche | Leçon | Compétence visée (une seule) | Appui (programme MENA · TP DPFC · manuel JD) |
 |---|---|---|---|
 | MES-01 | Volume d'un liquide ou d'un solide | Distinguer le volume d'un corps et la capacité d'un récipient, et utiliser leurs unités | prog. p. 11 ; guide p. 27 · JD p. 95 |
-| MES-02 | Volume d'un liquide ou d'un solide | Mesurer le volume d'un liquide avec une éprouvette graduée | prog. p. 11 ; guide p. 27 · JD p. 96 |
-| MES-03 | Volume d'un liquide ou d'un solide | Mesurer le volume d'un solide insoluble par déplacement d'eau | prog. p. 11 ; guide p. 27 · JD p. 96-97 |
+| MES-02 | Volume d'un liquide ou d'un solide | Mesurer le volume d'un liquide avec une éprouvette graduée | prog. p. 11 ; guide p. 27 · TP 12, activités 1 et 2 · JD p. 96 |
+| MES-03 | Volume d'un liquide ou d'un solide | Mesurer le volume d'un solide insoluble par déplacement d'eau | prog. p. 11 ; guide p. 27 · TP 12, activité 3 · JD p. 96-97 |
 | MES-04 | Volume d'un liquide ou d'un solide | Calculer le volume d'un cube ou d'un pavé à partir de ses dimensions | prog. p. 11 ; guide p. 27 · JD p. 97 |
 | MES-05 | Masse d'un solide ou d'un liquide | Définir la masse d'un corps et citer ses unités | prog. p. 11 ; guide p. 28 · JD p. 104 |
 | MES-06 | Masse d'un solide ou d'un liquide | Expliquer le principe de la simple pesée avec une balance à plateaux | prog. p. 11 (balance Roberval) ; guide p. 28 · JD p. 104-105 |
-| MES-07 | Masse d'un solide ou d'un liquide | Mesurer la masse d'un solide par simple pesée | prog. p. 11 ; guide p. 28 · JD p. 105-106 |
-| MES-08 | Masse d'un solide ou d'un liquide | Mesurer la masse d'un liquide par différence de deux pesées | prog. p. 11 ; guide p. 28 · JD p. 106 |
-| MES-09 | Masse d'un solide ou d'un liquide | Mesurer une masse par double pesée et la comparer à la simple pesée | prog. p. 11 ; guide p. 28 · JD p. 107 |
+| MES-07 | Masse d'un solide ou d'un liquide | Mesurer la masse d'un solide par simple pesée | prog. p. 11 ; guide p. 28 · TP 13, activité 3 · JD p. 105-106 |
+| MES-08 | Masse d'un solide ou d'un liquide | Mesurer la masse d'un liquide par différence de deux pesées | prog. p. 11 ; guide p. 28 · TP 13, activité 1 · JD p. 106 |
+| MES-09 | Masse d'un solide ou d'un liquide | Mesurer une masse par double pesée et la comparer à la simple pesée | prog. p. 11 ; guide p. 28 · TP 13, activités 2 et 4 · JD p. 107 |
 | MES-10 | Masse d'un solide ou d'un liquide | Associer un type de balance à son usage et à sa précision | prog. p. 11 ; guide p. 28 · JD p. 108 |
 
 Règles communes à tout le lot :
 - **Intitulés officiels** : le programme nomme le thème « Mesure de grandeurs physiques » et les leçons « Volume d'un liquide et d'un solide » et « Masse d'un solide et d'un liquide » ; le catalogue écrit « Grandeurs et mesures physiques » (écart signalé au registre). Progression : 2 séances par leçon (semaines 18 à 21), puis évaluation et remédiation.
 - **Situations du programme** reprises comme fil rouge (formulation originale) : une séance de TP où l'on mesure le volume d'eau, d'huile, d'un dé et d'un morceau de pâte à modeler ; la préparation d'un gâteau où l'on pèse farine, beurre, levure et lait.
+- **TP DPFC** : 30 minutes par TP, groupes avec un responsable, matériel manipulé avec précaution. Les TP 12 et 13 ne couvrent ni MES-01, ni MES-04, ni MES-05, ni MES-06, ni MES-10 : ces fiches s'appuient sur le programme et le guide seulement.
 - **Matériel du guide** : éprouvette graduée, cristallisoir, flacon, bécher, ballon à fond plat, eau colorée, sable, pâte à modeler, solides de formes variées, balance Roberval, boîte de masses marquées, balance électronique, boîte d'allumettes. Le guide recommande la pâte à modeler pour limiter la casse de la verrerie.
 - **Paillasse virtuelle partagée** avec le lot Matière : mêmes bécher, cuve et balance électronique (`matiere-dessins.js`). Nouveaux dessins communs à créer : éprouvettes graduées (100 mL et 250 mL), verre mesureur de cuisine, règle graduée, cubes unités, **balance de Roberval** et boîte de masses marquées avec pince.
 - Chaque expérience montre le montage réaliste et son schéma côte à côte (éprouvette vue de face avec zoom sur le ménisque ; balance avec le fléau, les plateaux et l'aiguille).
@@ -67,12 +68,12 @@ Garde-fous : la capacité écrite sur une étiquette est une capacité nominale 
 |---|---|
 | Problématiser | Kofi doit prélever 60 mL d'eau pour une expérience. Bécher, verre mesureur ou éprouvette : lequel choisir, et comment lire juste ? |
 | Émettre une hypothèse | L'élève prévoit la lecture pour trois positions de l'œil (au-dessus, au niveau, en dessous du ménisque). |
-| Expérimenter / Investiguer | Trouver la valeur d'une graduation (compter les intervalles entre deux nombres) ; verser ; déplacer l'œil avec un curseur ; zoom sur le ménisque ; mesurer le même liquide dans le bécher, le verre mesureur et l'éprouvette. |
-| Analyser et interpréter | Seule la visée horizontale au bas du ménisque donne la bonne valeur ; l'éprouvette, plus étroite et finement graduée, est plus précise que le bécher. |
+| Expérimenter / Investiguer | Panneau de lecture (comme au TP 12) : deux éprouvettes, l'une graduée en cm³, l'autre en mL, avec des valeurs de division différentes ; l'élève relève l'unité, trouve la valeur d'une division à partir de dix divisions, puis lit les volumes. Ensuite : verser ; déplacer l'œil avec un curseur ; zoom sur le ménisque ; mesurer le même liquide dans le bécher, le verre mesureur et l'éprouvette. |
+| Analyser et interpréter | On ne lit un volume qu'après avoir trouvé la valeur d'une division ; seule la visée horizontale au bas du ménisque donne la bonne valeur ; l'éprouvette, plus étroite et finement graduée, est plus précise que le bécher. |
 | Conclure | L'élève écrit la méthode en quatre étapes. |
 | Communiquer | Fiche méthode et carnet de mesures (valeur, unité, valeur d'une graduation), imprimables. |
 
-Garde-fous : eau colorée seulement ; ménisque concave (eau). Les graduations du bécher sont indicatives, ce qui reste cohérent avec MAT-05 (« pas gradué pour mesurer précisément »). Lecture arrondie à la graduation la plus proche. Contrairement à MAT-02, le ménisque est ici dessiné.
+Garde-fous : eau colorée seulement ; ménisque concave (eau). Panneaux de lecture redessinés, avec des valeurs différentes de celles du TP. Les graduations du bécher sont indicatives, ce qui reste cohérent avec MAT-05 (« pas gradué pour mesurer précisément »). Lecture arrondie à la graduation la plus proche. Contrairement à MAT-02, le ménisque est ici dessiné.
 
 ### MES-03 · Mesurer le volume d'un solide à l'aide d'un récipient gradué
 
@@ -166,7 +167,7 @@ Garde-fous : masses marquées prises à la pince ; aucun liquide versé directem
 |---|---|
 | Problématiser | Pour le gâteau, il faut 50 g de beurre. Et combien pèsent ce morceau de savon, cette pile, ce caillou ? |
 | Émettre une hypothèse | L'élève estime chaque masse « à la main » avant la pesée. |
-| Expérimenter / Investiguer | Pesée guidée par la méthode des masses décroissantes : si le plateau des masses descend, on retire la dernière masse posée et on essaie la suivante. Trois objets. Puis fabriquer des « masses divisionnaires » avec des allumettes (on pèse un lot d'allumettes pour connaître la masse d'une seule), comme le propose le guide. |
+| Expérimenter / Investiguer | Comme au TP 13 : équilibrer d'abord la balance à vide, poser le solide (un bloc de bois, une mangue), puis rééquilibrer. Pesée guidée par la méthode des masses décroissantes : si le plateau des masses descend, on retire la dernière masse posée et on essaie la suivante. Trois objets. Puis fabriquer des « masses divisionnaires » avec des allumettes (on pèse un lot d'allumettes pour connaître la masse d'une seule), comme le propose le guide. |
 | Analyser et interpréter | La masse est la somme des masses marquées ; la précision est la plus petite masse de la boîte ; l'estimation à la main est comparée à la mesure. |
 | Conclure | L'élève écrit la méthode. |
 | Communiquer | Carnet de pesée imprimable (objet, masses posées, masse, précision). |
@@ -185,7 +186,7 @@ Garde-fous : valeurs simulées ; objet propre et sec ; un objet plus lourd que l
 |---|---|
 | Problématiser | La recette demande du lait, mais on ne peut pas verser un liquide sur le plateau. Comment connaître la masse de 100 mL d'eau ou de lait ? |
 | Émettre une hypothèse | L'élève propose une méthode avant de manipuler. |
-| Expérimenter / Investiguer | Peser le bécher vide (m₁) ; mesurer 100 mL d'eau à l'éprouvette (MES-02) et les verser ; peser (m₂). Recommencer avec 100 mL d'huile. |
+| Expérimenter / Investiguer | Comme au TP 13 (activité 1), avec la balance Roberval : équilibrer le bécher vide avec des masses marquées (m₁) ; y verser 100 mL d'eau mesurés à l'éprouvette (MES-02) ; rééquilibrer (m₂). Recommencer avec 100 mL d'huile. |
 | Analyser et interpréter | m = m₂ − m₁ ; deux liquides de même volume n'ont pas la même masse. |
 | Conclure | L'élève écrit la méthode et la formule. |
 | Communiquer | Tableau m₁ / m₂ / m pour les deux liquides. |
@@ -204,12 +205,12 @@ Garde-fous : ici m₂ > m₁ toujours (le liquide s'ajoute) ; récipient sec à 
 |---|---|
 | Problématiser | La balance de la classe a un bras légèrement plus long : la simple pesée donne une masse fausse. Comment peser juste quand même ? |
 | Émettre une hypothèse | L'élève prévoit si la simple pesée sur cette balance donne trop ou pas assez. |
-| Expérimenter / Investiguer | Simple pesée sur la balance déréglée : valeur fausse. Puis double pesée du même solide, puis d'un liquide dans un flacon (le flacon fait partie de la tare) : **équilibre 1**, le solide et des masses m₁ sur le plateau gauche, une tare (godet de sable) sur le plateau droit ; **équilibre 2**, on retire le solide et on le remplace par des masses jusqu'à rétablir l'équilibre : masse totale m₂ sur le plateau gauche. |
+| Expérimenter / Investiguer | Simple pesée sur la balance déréglée : valeur fausse. Puis double pesée, comme au TP 13 (activité 4) : **équilibre 1**, le solide (une mangue) et des masses m₁ sur un plateau, une tare sur l'autre ; **équilibre 2**, on retire le solide et on rééquilibre avec des masses seules, m₂ ; m = m₂ − m₁. Enfin un liquide (TP 13, activité 2) : bocal plein et masses m₁ face à la tare ; on vide le bocal, on le remet sur le même plateau et on rééquilibre (m₂) ; la masse du liquide est m₂ − m₁. |
 | Analyser et interpréter | Face à la même tare, le solide a été remplacé par des masses marquées à la même place : m = m₂ − m₁, quelle que soit la longueur des bras. Si m₁ = 0, m = m₂. |
 | Conclure | L'élève écrit la méthode et la formule. |
 | Communiquer | Tableau des deux équilibres ; tableau comparatif simple pesée / double pesée (nombre d'équilibres, rôle de la tare, justesse sur une balance déréglée). |
 
-Garde-fous : **convention m = m₂ − m₁ à valider** (registre des écarts, entrée ouverte) : m₁ = masses ajoutées avec le solide au premier équilibre, m₂ = masses seules au second ; m₂ ≥ m₁. L'inégalité des bras est exagérée et signalée comme un modèle ; aucune notion de moment de force. On dit « déréglée », jamais « truquée ».
+Garde-fous : convention conforme au TP 13 pour le solide : m = m₂ − m₁ (m₁ = masses posées avec l'objet, m₂ = masses seules ou avec le récipient vide ; m₂ ≥ m₁). **Écart du TP 13, activité 2** : la fiche officielle écrit m = m₁ − m₂ pour le liquide, alors que sa propre figure montre plus de masses au second équilibre (m₂ > m₁), ce qui donnerait une masse négative. La fiche NohobaLab écrit m₂ − m₁, comme pour le solide (à valider). L'inégalité des bras est exagérée et signalée comme un modèle ; aucune notion de moment de force. On dit « déréglée », jamais « truquée ».
 
 ### MES-10 · Découvrir d'autres types de balances
 
@@ -234,11 +235,11 @@ Garde-fous : dessins génériques, sans marque. Portées et précisions données
 
 ## Points à confirmer avant construction
 
-1. **TP DPFC et manuel JD** : l'archive des 13 TP et le manuel ne sont toujours pas lus pour ce lot. Le programme ne cite pas de fiche TP pour les mesures : merci de joindre l'archive pour vérifier si l'une d'elles couvre le volume ou la masse.
-2. **Double pesée (MES-09)** : le programme demande la double pesée d'un solide **ou d'un liquide** et sa comparaison avec la simple pesée, sans donner de formule. Valider la convention m = m₂ − m₁ décrite ci-dessus, ou la méthode de Borda seule (m = m₂).
+1. **Double pesée d'un liquide (MES-09)** : le TP 13 (activité 2) écrit m = m₁ − m₂, en contradiction avec sa figure. Valider la correction m = m₂ − m₁, la même formule que pour le solide.
+2. **Manuel JD** : toujours non lu ; les pages 95 à 108 viennent du dossier d'extraction. Le lien Lelivrescolaire (manuel français de Sciences et technologie 6e) ne montre que le sommaire sans JavaScript : son contenu n'a pas pu être lu, et un manuel du commerce ne servirait que d'inspiration, jamais de source de texte ou de figure.
 3. **MES-03** : solide qui flotte en constat seulement, sans méthode du lest ni vase à trop-plein ?
 4. **MES-04** : le programme dit « solide géométrique simple » sans préciser. Cube et pavé seulement, ou cylindre aussi ?
-5. **Intitulé du thème** : garder « Grandeurs et mesures physiques » dans le catalogue, ou reprendre l'intitulé du programme « Mesure de grandeurs physiques » ?
-6. **Matériel** : composition de la boîte de masses et éprouvettes disponibles dans les collèges (proposition : boîte de 1 g à 200 g, éprouvettes de 100 mL et 250 mL).
+5. **Intitulé du thème** : garder « Grandeurs et mesures physiques » dans le catalogue, ou reprendre l'intitulé officiel « Mesure de grandeurs physiques » (programme et TP) ?
+6. **Matériel** : composition de la boîte de masses (proposition : 1 g à 200 g). Les TP utilisent des éprouvettes graduées en cm³ et en mL, sans capacité précisée.
 
-Point réglé par le programme : le pèse-personne est cité par le guide, il reste dans MES-10.
+Points réglés par les sources : le pèse-personne est cité par le guide (il reste dans MES-10) ; la convention de double pesée d'un solide est celle du TP 13.
