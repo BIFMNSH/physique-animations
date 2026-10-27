@@ -11,6 +11,7 @@
 - [Classe de 3e](https://lab.nohaba.com/3e/)
 
 ## Informations
+- [À propos et contact](https://lab.nohaba.com/a-propos/)
 - [Mentions légales](https://lab.nohaba.com/mentions-legales/)
 - [Confidentialité](https://lab.nohaba.com/confidentialite/)
 - [Crédits](https://lab.nohaba.com/credits/)
