@@ -15,7 +15,7 @@ function page(file,progress={},extra={}){
   return w;
 }
 /* Pages de classe simplifiées : reprise, leçons par thème, classe mémorisée, thème. */
-const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'},{'pc-inquiry-6e-circuit-electrique':{started:true,complete:true},'pc-inquiry-6e-les-gaz':{started:true,complete:true},'pc-act-NL-CI-6E-MAT-07':{prevision:'x',essais:[1],confront:'x',conclusion:'x'}});
+const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'},{'pc-inquiry-6e-circuit-electrique':{started:true,complete:true},'pc-inquiry-6e-les-gaz':{started:true,complete:true},'pc-act-NL-CI-6E-MAT-07':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-26':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-08':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-09':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-10':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-11':{prevision:'x',essais:[1],confront:'x',conclusion:'x'}});
 const d=w.document;
 assert.equal(d.querySelectorAll('.sp-theme').length,4,'quatre thèmes en 6e');
 assert.equal(d.querySelectorAll('#lecons a.sp-les').length,14,'quatorze leçons en 6e (dont le parcours Matériaux)');
@@ -29,7 +29,7 @@ assert.equal(d.querySelector('.sp-les[aria-current="step"]').getAttribute('href'
 assert.equal(w.localStorage.getItem('pc-classe'),'6e','classe mémorisée');
 assert.ok(!/NL-C|ELE-|Studio/.test(d.body.textContent),'aucun code interne ni jargon');
 w.localStorage.setItem('pc-studio-prog',JSON.stringify({'6e-circuit-electrique':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'}));
-w.localStorage.setItem('pc-act-NL-CI-6E-ELE-07',JSON.stringify({prevision:'x',essais:[1],confront:'x',conclusion:'x'}));
+for(let n=1;n<=17;n++)w.localStorage.setItem('pc-act-NL-CI-6E-ELE-'+String(n).padStart(2,'0'),JSON.stringify({prevision:'x',essais:[1],confront:'x',conclusion:'x'}));
 w.dispatchEvent(new w.PageTransitionEvent('pageshow',{persisted:true}));
 assert.ok(!d.querySelector('#reprise').textContent.includes('Le circuit électrique'),'leçon terminée : on passe à la suivante');
 d.querySelector('[data-sp-theme]').click();assert.equal(d.documentElement.dataset.theme,'light');
@@ -77,14 +77,14 @@ assert.ok(ld.getElementById('go').textContent.includes('Essaie')&&ld.getElementB
 assert.equal(ld.querySelectorAll('.ls-step.gated').length,1,'seul le quiz attend la démarche');
 assert.equal(ld.querySelector('.ls-step.gated').tagName,'BUTTON','étape à venir : bouton avec message, pas de cadenas');
 assert.ok(ld.querySelector('a.ls-step[href*="#resume"]'),'le résumé reste toujours ouvert');
-assert.ok(ld.querySelector('a.ls-step[href^="../activites-ci/?a=NL-CI-6E-ELE-07"]'),'Enquête : investigation validée ELE-07');
+assert.ok(ld.querySelector('a.ls-step[href^="../activites-ci/?a=NL-CI-6E-ELE-01"]')&&ld.querySelector('a.ls-step[href^="../activites-ci/?a=NL-CI-6E-ELE-01"]').textContent.includes('Investigation 1 sur 8'),'Enquête : première des huit investigations validées');
 assert.ok(ld.getElementById('aide').hidden,'message caché au départ');
 ld.querySelector('[data-aide]').dispatchEvent(new lw.MouseEvent('click',{bubbles:true}));
 assert.ok(!ld.getElementById('aide').hidden&&ld.getElementById('aide').textContent.includes('regarde le résumé ou manipule la simulation'),'message : regarder le résumé ou manipuler, puis revenir');
 assert.ok(ld.querySelector('#aide a[href$="#sim"]')&&ld.querySelector('#aide a[href$="#resume"]'),'message : deux chemins proposés');
 ld.getElementById('aideOk').click();assert.ok(ld.getElementById('aide').hidden,'message refermé par « Compris »');
 assert.equal(ld.querySelectorAll('.sp-bar i.on').length,0);
-assert.ok(!ld.getElementById('tests').hidden&&ld.getElementById('tests').textContent.includes('7'),'prototypes accessibles au prof seulement');
+assert.ok(ld.getElementById('tests').hidden,'plus aucun prototype d’Électricité : lien « en test » masqué');
 assert.ok(ld.getElementById('ordre').getAttribute('href').endsWith('ordre=regarde'),'lien prof vers la version B');
 assert.ok(!/ELE-\d|NL-CI|Studio/.test(ld.querySelector('main').textContent),'aucun code interne à l’écran');
 lw.close();
@@ -123,14 +123,14 @@ assert.ok(cd.getElementById('frTotal').textContent.includes('48'));
 assert.equal(cd.querySelectorAll('.catalogue-group').length,4);
 assert.equal(cd.querySelectorAll('.collection-lesson').length,14);
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,79);
-assert.equal(cd.querySelectorAll('.collection-activities a').length,49,'seize prototypes et trente-trois fiches validées manipulables');
+assert.equal(cd.querySelectorAll('.collection-activities a').length,49,'quarante-neuf fiches validées manipulables (17 Électricité, 32 Matière)');
 assert.ok(!/NL-CI|NL-C4|ELE-\d{2}/.test(cd.body.textContent),'aucun code interne affiché dans Collections');
 c.localStorage.setItem('pc-act-NL-CI-6E-ELE-01',JSON.stringify({v:1,prevision:{choix:'signes'},essais:[]}));
 c.dispatchEvent(new c.PageTransitionEvent('pageshow',{persisted:true}));
 assert.ok(cd.body.textContent.includes('Mon parcours : hypothèse enregistrée'),'progression personnelle distincte et actualisée');
 function filter(id,value){const input=cd.getElementById(id);input.value=value;input.dispatchEvent(new c.Event(id==='find'?'input':'change',{bubbles:true}));}
-filter('status','prototype');
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,16);
+filter('status','disponible');
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,49);
 assert.ok([...cd.querySelectorAll('details')].every(x=>x.open),'les résultats filtrés sont directement visibles');
 filter('find','lampe');
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,3);
