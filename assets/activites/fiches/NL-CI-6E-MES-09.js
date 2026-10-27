@@ -31,7 +31,7 @@
       verifier:(v,s)=>{const r=Q().verifierDouble(v.quoi,s.m1,s.m2,s.m);return {juste:r.juste,retour:r.retour,essai:{quoi:v.quoi,m:r.attendu.m}};},
       attendu:v=>{const m1=Q().massesEquilibre(v.quoi==='liquide'?'liq1':'eq1'),m2=Q().massesEquilibre(v.quoi==='liquide'?'liq2':'eq2');return {m1:m1,m2:m2,m:m2-m1};}});
     M().tri(panel,X,{id:'mes09comp',titre:'Je compare la simple pesée et la double pesée',intro:'Je complète le tableau comparatif.',legende:'Je choisis',cats:[['x','x']],
-      items:COMP.map(c=>({id:c.id,label:c.q,options:c.options,juste:c.juste,pourquoi:c.pourquoi,aide:'Repense à tes résultats sur la balance déréglée.'}))});
+      items:COMP.map((c,k)=>({id:c.id,label:c.q,options:Q().place(c.options,c.juste,k+1),juste:c.juste,pourquoi:c.pourquoi,aide:'Repense à tes résultats sur la balance déréglée.'}))});
   }
   window.FICHE_CI_MES09={
     id:'NL-CI-6E-MES-09',version:'0.9',modele:'double-pesee-v1',
@@ -42,7 +42,7 @@
     objectif:'Peser juste avec une balance déréglée.',objectifEleve:'Savoir faire une double pesée.',
     situation:'Au marché, Aya accompagne sa mère chez le boucher : la viande pesée ne semble pas avoir la masse demandée. La balance est peut-être déréglée, avec un bras un peu plus long que l’autre. Comment peser juste quand même ?',
     materiel:'Simulation : une balance de Roberval déréglée (bras gauche plus long, exagéré), une tare (sachet de sable de 440 g), une boîte de masses marquées, une mangue, un bocal d’eau.',
-    prevision:{consigne:'Avant les pesées, choisis ce que donne la simple pesée de la mangue, posée à gauche, sur cette balance déréglée. Justifie ton hypothèse.',choix:[['trop','Une masse trop grande'],['pas_assez','Une masse trop petite'],['juste','La bonne masse'],['rien','Aucun équilibre n’est possible']]},
+    prevision:{consigne:'Avant les pesées, choisis ce que donne la simple pesée de la mangue, posée à gauche, sur cette balance déréglée. Justifie ton hypothèse.',choix:[['pas_assez','Une masse trop petite'],['trop','Une masse trop grande'],['juste','La bonne masse'],['rien','Aucun équilibre n’est possible']]},
     protocole:['Faire une simple pesée de la mangue sur la balance déréglée.','Équilibre 1 : la mangue et des masses m₁ sur un plateau, la tare sur l’autre.','Équilibre 2 : retirer la mangue et rééquilibrer avec des masses seules m₂.','Calculer m = m₂ − m₁.','Recommencer avec un bocal d’eau : plein puis vidé.'],
     variable:'L’étape de pesée',maintenu:'La même tare, à la même place, sur la même balance',
     colonnes:['Étape','Masses posées','Résultat','Verdict'],lignesVides:6,

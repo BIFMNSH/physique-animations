@@ -11,7 +11,7 @@
       intro:'Je pose chaque objet sur la balance électronique. Quand je découpe la pâte, je rassemble tous les morceaux sur le plateau. Valeurs simulées.',
       controles:[{cle:'obj',legende:'Ce que je pose sur la balance',items:Q().TRANSFOS}],
       saisie:'J’observe que la balance indique…',legendeTable:'Mes pesées (valeurs simulées).',F:()=>window.FICHE_CI_MES05,
-      render:v=>{const r=Q().masseObjet(v.obj),sc=Q().scene.masse5(v);return {montage:sc.montage,schema:sc.schema,txt:r.txt+' (valeur simulée)',essai:{obj:v.obj,m:r.m}};}});
+      render:v=>{const r=Q().masseObjet(v.obj),sc=Q().scene.masse5(v);return {montage:sc.montage,schema:sc.schema,txt:Q().sim(r.txt),essai:{obj:v.obj,m:r.m}};}});
     M().tri(panel,X,{id:'mes05conv',titre:'Je convertis des masses',intro:'Pour chaque égalité, je choisis la bonne valeur.',legende:'Je choisis',cats:[['x','x']],
       items:CONV().map(c=>({id:c.id,label:c.q,options:c.options,juste:c.juste,pourquoi:c.pourquoi,aide:'kg, hg, dag, g, dg, cg, mg : on passe d’une unité à la suivante en multipliant par 10. Et 1 t = 10 q = 1 000 kg.'}))});
     M().tri(panel,X,{id:'mes05ordre',titre:'Je range des objets du quotidien par masse',intro:'Pour chaque objet, je choisis l’ordre de grandeur de sa masse.',legende:'Sa masse est',cats:Q().ORDRES,
@@ -26,7 +26,7 @@
     objectif:'Définir la masse et utiliser ses unités.',objectifEleve:'Savoir ce qu’est la masse et dans quelle unité on l’exprime.',
     situation:'À la maison, Awa prépare un gâteau : la recette indique 250 g de farine. Que mesure-t-on avec la balance ? Et si l’on aplatit une boule de pâte à modeler, ou qu’on la coupe en morceaux, sa masse change-t-elle ?',
     materiel:'Simulation : une balance électronique, une boule de pâte à modeler, un kilogramme de coton, un kilogramme de fer.',
-    prevision:{consigne:'Question de départ : qu’est-ce qui a la plus grande masse, un kilogramme de coton ou un kilogramme de fer ? Justifie ton hypothèse.',choix:[['egal','Ils ont la même masse'],['fer','Le kilogramme de fer'],['coton','Le kilogramme de coton, il est plus gros'],['inconnu','On ne peut pas savoir sans balance']]},
+    prevision:{consigne:'Question de départ : qu’est-ce qui a la plus grande masse, un kilogramme de coton ou un kilogramme de fer ? Justifie ton hypothèse.',choix:[['fer','Le kilogramme de fer'],['egal','Ils ont la même masse'],['coton','Le kilogramme de coton, il est plus gros'],['inconnu','On ne peut pas savoir sans balance']]},
     protocole:['Peser la boule de pâte.','L’aplatir en galette et la peser.','La couper en quatre morceaux, tous posés sur le plateau, et peser.','Peser le kilogramme de coton puis le kilogramme de fer.','Convertir des masses et ranger des objets par masse.'],
     variable:'La forme de la pâte, puis la matière',maintenu:'La même balance ; aucune matière perdue',
     colonnes:['Ce que je pèse','Masse lue','Mon observation ou résultat'],lignesVides:6,

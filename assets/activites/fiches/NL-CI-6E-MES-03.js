@@ -42,7 +42,7 @@
     objectif:'Mesurer le volume d’un solide de forme quelconque.',objectifEleve:'Savoir mesurer le volume d’un caillou avec une éprouvette.',
     situation:'En TP, la classe doit trouver le volume d’un caillou et d’un morceau de pâte à modeler, dont la forme n’est pas régulière : on ne peut pas mesurer leurs côtés avec une règle. Comment faire ?',
     materiel:'Simulation : une éprouvette de 100 mL, de l’eau, un caillou, de la pâte à modeler, une clé, un morceau de sucre, un bouchon de liège.',
-    prevision:{consigne:'Avant les essais, choisis ce que devient le niveau de l’eau quand on plonge le caillou au fond de l’éprouvette. Justifie ton hypothèse.',choix:[['monte','Le niveau monte'],['baisse','Le niveau baisse'],['reste','Le niveau ne change pas'],['deborde','L’eau déborde toujours']]},
+    prevision:{consigne:'Avant les essais, choisis ce que devient le niveau de l’eau quand on plonge le caillou au fond de l’éprouvette. Justifie ton hypothèse.',choix:[['baisse','Le niveau baisse'],['reste','Le niveau ne change pas'],['deborde','L’eau déborde toujours'],['monte','Le niveau monte']]},
     protocole:['Verser de l’eau dans l’éprouvette et lire V₁.','Incliner l’éprouvette et faire glisser le solide le long de la paroi.','Lire V₂ quand le solide est au fond et l’eau immobile.','Calculer V = V₂ − V₁.','Changer la forme de la pâte et recommencer.','Diagnostiquer les cas ratés.'],
     variable:'Le solide plongé',maintenu:'La même éprouvette et le même volume d’eau V₁',
     colonnes:['Solide','V₁ / V₂ / V','Résultat'],lignesVides:6,

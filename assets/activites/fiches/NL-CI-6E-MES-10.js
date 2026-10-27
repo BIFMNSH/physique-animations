@@ -17,7 +17,7 @@
       intro:'Je pèse le lait du gâteau sans calcul : je pose le bécher, j’appuie sur « tare », puis je verse le lait. Valeurs simulées.',
       controles:[{cle:'etape',legende:'L’étape',items:Q().TARE_ETAPES}],
       saisie:'J’observe que l’écran affiche…',legendeTable:'Mes essais.',F:()=>window.FICHE_CI_MES10,
-      render:v=>{const t=Q().affichageTare(v.etape),sc=Q().scene.tare(v);return {montage:sc.montage,schema:sc.schema,txt:t.txt+' (valeur simulée)',essai:{etape:v.etape,affiche:t.affiche}};}});
+      render:v=>{const t=Q().affichageTare(v.etape),sc=Q().scene.tare(v);return {montage:sc.montage,schema:sc.schema,txt:Q().sim(t.txt),essai:{etape:v.etape,affiche:t.affiche}};}});
     Q().mesure(panel,X,{id:'mes10lait',titre:'Je note la masse du lait',intro:'Après la tare et le versement des 100 mL de lait, je lis directement la masse du lait.',
       champs:[{cle:'m',label:'Masse du lait',unite:'g'}],F:()=>window.FICHE_CI_MES10,legendeTable:'Ma mesure.',
       render:()=>Object.assign(Q().scene.tare({etape:'lait'}),{txt:'Lis l’écran.'}),
@@ -33,7 +33,7 @@
     objectif:'Choisir la balance adaptée à une pesée.',objectifEleve:'Savoir choisir une balance selon ce que je pèse.',
     situation:'Quelle balance utiliser pour une lettre, le lait du gâteau, un enfant à l’infirmerie, un régime de bananes au champ, la viande chez le boucher ou un grumier chargé de bois ? Kofi et Awa font l’inventaire des balances qu’ils connaissent.',
     materiel:'Simulation : six balances dessinées, une balance électronique avec la touche « tare », un bécher, du lait.',
-    prevision:{consigne:'Avant les essais, choisis la balance qui convient pour peser un grumier chargé de bois. Justifie ton hypothèse.',choix:[['pont','Un pont-bascule'],['electronique','Une balance électronique de laboratoire'],['romaine','Une balance romaine'],['lettre','Un pèse-lettre']]},
+    prevision:{consigne:'Avant les essais, choisis la balance qui convient pour peser un grumier chargé de bois. Justifie ton hypothèse.',choix:[['electronique','Une balance électronique de laboratoire'],['romaine','Une balance romaine'],['pont','Un pont-bascule'],['lettre','Un pèse-lettre']]},
     protocole:['Observer les six balances, leur portée et leur précision.','Associer chaque situation à une balance.','Poser un bécher sur la balance électronique et lire l’écran.','Appuyer sur « tare », verser le lait et lire sa masse.'],
     variable:'La situation de pesée, puis l’étape de la tare',maintenu:'Le même bécher et le même lait',
     colonnes:['Situation ou étape','Mon choix ou ma lecture','Verdict ou observation'],lignesVides:8,
@@ -41,7 +41,7 @@
     resume:e=>e.tri?'association '+(e.juste?'juste':'à revoir'):e.etape?lib(Q().TARE_ETAPES,e.etape).toLowerCase()+' : '+e.affiche+' g':'masse du lait : '+e.saisies.m+' g',
     confrontation:'1. Quelle balance pour chaque situation, et pourquoi ? 2. Que fait la touche « tare » ? 3. Pourquoi évite-t-elle le calcul m₂ − m₁ ? Compare ensuite à ton hypothèse.',
     retroaction:'Cite une association et la portée qui la justifie.',
-    transfert:{q:'Awa doit peser 200 g de farine au gramme près. Quelle balance choisit-elle ?',rep:'electronique',options:[['electronique','Une balance électronique'],['pese_personne','Un pèse-personne'],['pont','Un pont-bascule']],expl:'La balance électronique a une portée suffisante (environ 1 kg) et une précision de 1 g ou mieux.'},
+    transfert:{q:'Awa doit peser 200 g de farine au gramme près. Quelle balance choisit-elle ?',rep:'electronique',options:[['pese_personne','Un pèse-personne'],['electronique','Une balance électronique'],['pont','Un pont-bascule']],expl:'La balance électronique a une portée suffisante (environ 1 kg) et une précision de 1 g ou mieux.'},
     critere:'Associer les six situations à la bonne balance et utiliser la tare.',
     essaisMin:4,manip:manip,guidage:true,
     grilleMaitrise:[['MI','Associe au hasard.'],['MF','Associe sans parler de portée ni de précision.'],['MS','Associe et justifie par la portée.'],['TBM','Associe, justifie par la portée et la précision, et explique la tare.']],

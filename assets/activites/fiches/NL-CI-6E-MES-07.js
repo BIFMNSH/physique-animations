@@ -4,7 +4,7 @@
 (function(){
   'use strict';
   const Q=()=>window.NohobaMesures;
-  const SIT=[['vide','À vide (rien sur les plateaux)'],['beurre','Le beurre du gâteau'],['bois','Un bloc de bois'],['mangue','Une mangue'],['savon','Un morceau de savon'],['pile','Une pile'],['caillou','Le caillou de MES-03'],['allumettes','100 allumettes'],['riz25','Un sac de riz de 25 kg']];
+  const SIT=[['vide','À vide (rien sur les plateaux)'],['beurre','Le beurre du gâteau'],['bois','Un bloc de bois'],['mangue','Une mangue'],['savon','Un morceau de savon'],['pile','Une pile'],['caillou','Le caillou déjà plongé dans l’éprouvette'],['allumettes','100 allumettes'],['riz25','Un sac de riz de 25 kg']];
   const lib=(l,k)=>(l.filter(x=>x[0]===k)[0]||['',k])[1];
   function manip(panel,X){
     Q().atelierPesee(panel,X,{id:'mes07',titre:'Atelier · je pèse un solide par simple pesée',
@@ -28,7 +28,7 @@
     objectif:'Peser un solide avec une balance de Roberval.',objectifEleve:'Savoir peser un solide par simple pesée.',
     situation:'Pour le gâteau, il faut 50 g de beurre. Awa et Kofi veulent aussi connaître la masse d’un bloc de bois, d’une mangue, d’un morceau de savon, d’une pile et d’un caillou. Ils ont une balance de Roberval et une boîte de masses marquées.',
     materiel:'Simulation : une balance de Roberval (portée 1 kg), une boîte de masses marquées de 1 g à 200 g et sa pince, des objets du quotidien, 100 allumettes.',
-    prevision:{consigne:'Avant de peser, choisis comment poser les masses marquées, puis estime « à la main » la masse du bloc de bois. Justifie ton hypothèse.',choix:[['decroissant','De la plus grande masse qui convient à la plus petite'],['petites','D’abord les plus petites masses'],['hasard','Au hasard, jusqu’à l’équilibre'],['toutes','Toutes les masses d’un coup']],nombre:{label:'Mon estimation de la masse du bloc de bois',unite:'g'}},
+    prevision:{consigne:'Avant de peser, choisis comment poser les masses marquées, puis estime « à la main » la masse du bloc de bois. Justifie ton hypothèse.',choix:[['petites','D’abord les plus petites masses'],['hasard','Au hasard, jusqu’à l’équilibre'],['toutes','Toutes les masses d’un coup'],['decroissant','De la plus grande masse qui convient à la plus petite']],nombre:{label:'Mon estimation de la masse du bloc de bois',unite:'g'}},
     protocole:['Vérifier l’équilibre à vide.','Poser l’objet sur le plateau de gauche.','Poser la plus grande masse marquée qui convient sur le plateau de droite.','Si le plateau des masses descend, retirer la dernière masse et essayer la suivante ; sinon, ajouter une masse plus petite.','À l’équilibre, additionner les masses posées.'],
     variable:'L’objet pesé',maintenu:'La même balance et la même boîte de masses',
     colonnes:['Objet','Masses posées','Masse (simulée)','Verdict'],lignesVides:6,

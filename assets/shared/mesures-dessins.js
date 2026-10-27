@@ -50,23 +50,24 @@
   /* ---------- zoom sur le ménisque, vu de profil, avec l'œil et la ligne de visée ----------
      (x,y) = coin haut gauche du cadre ; o : {id, V, oeil:'haut'|'niveau'|'bas', mode, w, h} */
   D.zoom=function(x,y,o){
-    o=o||{};var e=Q.EPROUVETTES[o.id||'A'],m=o.mode,w=o.w||210,h=o.h||200,d=Q.division(e.id),pxd=14,cy=y+h/2,V=Q.lecture(e.id,o.V,'niveau').vrai;
-    var yv=function(v){return cy-(v-V)/d*pxd;},s='',id='zm'+(++uid);
+    o=o||{};var e=Q.EPROUVETTES[o.id||'A'],m=o.mode,w=o.w||210,h=o.h||200,d=Q.division(e.id),pxd=Math.min(14,(h/2-14)/(e.divisions/2+1)),cy=y+h/2,V=Q.lecture(e.id,o.V,'niveau').vrai;
+    /* le zoom est centré entre les deux nombres écrits qui encadrent le volume : on voit toujours un nombre au-dessous et un au-dessus */
+    var Vc=(Math.floor(V/e.ecart+1e-9)+0.5)*e.ecart,yv=function(v){return cy-(v-Vc)/d*pxd;},ym=yv(V),s='',id='zm'+(++uid);
     s+='<clipPath id="'+id+'"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10"/></clipPath>';
     s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10" fill="'+(real(m)?'#FFFFFF':'none')+'" stroke="'+INK+'" stroke-width="2"/>';
     var xl=x+18,xr=x+104,g='';
     /* liquide avec ménisque concave (bords relevés) */
-    g+='<path d="M'+xl+' '+(cy-12)+' Q'+((xl+xr)/2)+' '+(cy+12)+' '+xr+' '+(cy-12)+' V'+(y+h)+' H'+xl+' Z" fill="'+liq(m)+'"'+(real(m)?' opacity=".7"':'')+'/>';
-    g+='<path d="M'+xl+' '+(cy-12)+' Q'+((xl+xr)/2)+' '+(cy+12)+' '+xr+' '+(cy-12)+'" fill="none" stroke="'+(real(m)?'#2D7CB8':INK)+'" stroke-width="2.5"/>';
+    g+='<path d="M'+xl+' '+n(ym-12)+' Q'+((xl+xr)/2)+' '+n(ym+12)+' '+xr+' '+n(ym-12)+' V'+(y+h)+' H'+xl+' Z" fill="'+liq(m)+'"'+(real(m)?' opacity=".7"':'')+'/>';
+    g+='<path d="M'+xl+' '+n(ym-12)+' Q'+((xl+xr)/2)+' '+n(ym+12)+' '+xr+' '+n(ym-12)+'" fill="none" stroke="'+(real(m)?'#2D7CB8':INK)+'" stroke-width="2.5"/>';
     g+='<path d="M'+xl+' '+y+' V'+(y+h)+' M'+xr+' '+y+' V'+(y+h)+'" stroke="'+bord(m)+'" stroke-width="3"/>';
     /* graduations sur la paroi tournée vers l'œil */
-    for(var k=-8;k<=8;k++){var v=V+k*d,yy=yv(v);if(yy<y+4||yy>y+h-4)continue;var maj=Math.abs(v/e.ecart-Math.round(v/e.ecart))<1e-6,mid=!maj&&Math.abs(v/(e.ecart/2)-Math.round(v/(e.ecart/2)))<1e-6&&e.divisions%2===0;
+    for(var k=-Math.ceil(e.divisions/2+2);k<=Math.ceil(e.divisions/2+2);k++){var v=Vc+k*d,yy=yv(v);if(yy<y+4||yy>y+h-4)continue;var maj=Math.abs(v/e.ecart-Math.round(v/e.ecart))<1e-6,mid=!maj&&Math.abs(v/(e.ecart/2)-Math.round(v/(e.ecart/2)))<1e-6&&e.divisions%2===0;
       g+='<line x1="'+xr+'" y1="'+n(yy)+'" x2="'+(xr-(maj?22:mid?15:9))+'" y2="'+n(yy)+'" stroke="'+INK+'" stroke-width="'+(maj?2.2:1.3)+'"/>';
       if(maj)g+=T(xr-26,yy+5,Q.fr(v),13,INK,800,'end');}
     s+='<g clip-path="url(#'+id+')">'+g+'</g>';
     /* œil et ligne de visée vers le bas du ménisque */
-    var oeil=o.oeil||'niveau',mx=(xl+xr)/2,my=cy,ex=x+w-26,dec=oeil==='haut'?2:oeil==='bas'?-2:0,yi=my-dec*pxd,t=(xr-ex)/(mx-ex),ey=dec?(yi-my*t)/(1-t):my;
-    if(oeil){
+    var oeil=o.oeil||'niveau',mx=(xl+xr)/2,my=ym,ex=x+w-26,dec=oeil==='haut'?2:oeil==='bas'?-2:0,yi=my-dec*pxd,t=(xr-ex)/(mx-ex),ey=dec?(yi-my*t)/(1-t):my;
+    if(oeil&&!o.sansOeil){
       s+='<line x1="'+n(ex)+'" y1="'+n(ey)+'" x2="'+mx+'" y2="'+my+'" stroke="'+(dec?'#D6221C':'#1B7F3B')+'" stroke-width="2" stroke-dasharray="5 4"/>';
       s+='<ellipse cx="'+n(ex)+'" cy="'+n(ey)+'" rx="13" ry="8" fill="'+(real(m)?'#fff':'none')+'" stroke="'+INK+'" stroke-width="2"/><circle cx="'+n(ex-5)+'" cy="'+n(ey)+'" r="4.5" fill="'+INK+'"/>';
       if(dec)s+='<circle cx="'+xr+'" cy="'+n(yi)+'" r="4" fill="#D6221C"/>';
@@ -214,7 +215,7 @@
       return out;}
     var mg=o.cote==='gauche'?o.masses:[],md=o.cote==='gauche'?[]:o.masses;
     s+=charger(Lx,Ly,o.gauche,mg)+charger(Rx,Ry,o.droite,md);
-    if(m==='schema'&&!o.sansLegende){s+=T(x+70,yp-70,'aiguille',11,INK,700,'start')+T(x,y+16,'socle',11,INK,700)+T(n(Lx),n(Ly+22),'plateau',11,INK,700)+T(x+44,n(yp+20),'fléau',11,INK,700,'start')+T(x,yp-76,'repère',11,'#1B7F3B',800);}
+    if(m==='schema'&&!o.sansLegende){s+=T(x+70,yp-70,'aiguille',11,INK,700,'start')+T(x,y+16,'socle',11,INK,700)+T(n(Lx-54),n(Ly-30),'plateau',11,INK,700,'end')+T(x+44,n(yp+20),'fléau',11,INK,700,'start')+T(x,yp-76,'repère',11,'#1B7F3B',800);}
     if(b[0]!==b[1])s+=T(n((Lx+x)/2),n((Ly+yp)/2+22),'bras plus long',10,'#D6221C',800);
     return s;
   };

@@ -10,6 +10,10 @@
   function nombre(s){if(typeof s==='number')return s;var t=String(s==null?'':s).trim().replace(/\s/g,'').replace(',','.');return t===''||!/^[-+]?\d*\.?\d+$/.test(t)?NaN:parseFloat(t);}
   function egal(a,b,tol){return isFinite(a)&&Math.abs(a-b)<=(tol||1e-9);}
   Q.fr=fr;Q.nombre=nombre;Q.egal=egal;
+  /* phrase suivie de la mention « (valeur simulée) », sans double point */
+  /* place la bonne réponse au rang k (modulo le nombre d'options), pour qu'elle ne soit pas toujours la première */
+  Q.place=function(options,juste,k){var o=options.slice(),i=o.map(function(x){return x[0];}).indexOf(juste);if(i<0)return o;var j=o.splice(i,1)[0];o.splice(k%options.length,0,j);return o;};
+  Q.sim=function(t,pl){return String(t).replace(/\.\s*$/,'')+' ('+(pl?'valeurs simulées':'valeur simulée')+').';};
   function trouve(l,id,quoi){var x=l.filter(function(e){return e.id===id;})[0];if(!x)throw new Error((quoi||'élément')+' inconnu : '+id);return x;}
 
   /* ---------- MES-01 · unités de volume et de capacité ---------- */
@@ -40,6 +44,8 @@
     {id:'c4',q:'50 cm³ = … mL',juste:'50',options:[['50','50 mL'],['5','5 mL'],['500','500 mL']],pourquoi:'1 cm³ = 1 mL, donc 50 cm³ = 50 mL.'},
     {id:'c5',q:'Un bidon de 5 L = … dm³',juste:'5',options:[['5','5 dm³'],['500','500 dm³'],['0,5','0,5 dm³']],pourquoi:'1 L = 1 dm³, donc 5 L = 5 dm³.'}
   ];
+
+  Q.CONVERSIONS_VOL.forEach(function(c,k){c.options=Q.place(c.options,c.juste,k+1);});
 
   /* ---------- MES-02 · lire une éprouvette graduée ---------- */
   /* écart entre deux nombres écrits, nombre de divisions entre ces nombres, capacité */
@@ -178,6 +184,7 @@
     {id:'m4',q:'350 g = … kg',juste:'0,35',options:[['0,35','0,35 kg'],['3,5','3,5 kg'],['35','35 kg']],pourquoi:'1 g = 0,001 kg, donc 350 g = 0,35 kg.'},
     {id:'m5',q:'250 mg = … g',juste:'0,25',options:[['0,25','0,25 g'],['25','25 g'],['2,5','2,5 g']],pourquoi:'1 g = 1 000 mg, donc 250 mg = 0,25 g.'}
   ];
+  Q.CONVERSIONS_MASSE.forEach(function(c,k){c.options=Q.place(c.options,c.juste,k+2);});
   Q.ORDRES=[['mg','Moins de 1 g'],['g','Entre 1 g et 1 kg'],['kg','Entre 1 kg et 100 kg'],['q','100 kg ou plus']];
   Q.OBJETS_MASSE=[
     {id:'riz',nom:'Un grain de riz',juste:'mg',pourquoi:'Un grain de riz a une masse de quelques centièmes de gramme : moins de 1 g.'},
@@ -218,7 +225,7 @@
     mangue:{nom:'une mangue',m:300},
     savon:{nom:'un morceau de savon',m:125},
     pile:{nom:'une pile',m:23},
-    caillou:{nom:'le caillou de MES-03',m:58},
+    caillou:{nom:'le caillou déjà plongé dans l’éprouvette',m:58},
     allumettes:{nom:'100 allumettes',m:10},
     riz25:{nom:'un sac de riz de 25 kg',m:25000},
     becher_vide:{nom:'le bécher vide',m:74},
@@ -269,12 +276,12 @@
 
   /* ---------- MES-10 · types de balances ---------- */
   Q.BALANCES=[
-    {id:'pese_lettre',nom:'Pèse-lettre',usage:'une lettre ou un petit colis',portee:'environ 500 g',precision:'quelques grammes'},
-    {id:'monoplateau',nom:'Balance monoplateau du commerce',usage:'la viande ou les légumes au marché',portee:'environ 15 kg',precision:'environ 5 g'},
-    {id:'pese_personne',nom:'Pèse-personne',usage:'une personne à l’infirmerie',portee:'environ 150 kg',precision:'environ 100 g'},
-    {id:'romaine',nom:'Balance romaine',usage:'un régime de bananes ou un sac au champ',portee:'environ 100 kg',precision:'environ 500 g'},
-    {id:'electronique',nom:'Balance électronique',usage:'les pesées du laboratoire et le lait du gâteau',portee:'environ 1 kg',precision:'0,1 g ou 1 g'},
-    {id:'pont_bascule',nom:'Pont-bascule',usage:'un grumier chargé de bois',portee:'plusieurs dizaines de tonnes',precision:'environ 10 kg'}
+    {id:'pese_lettre',nom:'Pèse-lettre',usage:'une lettre ou un petit colis',portee:'environ 500 g',precision:'quelques grammes'},
+    {id:'monoplateau',nom:'Balance monoplateau du commerce',usage:'la viande ou les légumes au marché',portee:'environ 15 kg',precision:'environ 5 g'},
+    {id:'pese_personne',nom:'Pèse-personne',usage:'une personne à l’infirmerie',portee:'environ 150 kg',precision:'environ 100 g'},
+    {id:'romaine',nom:'Balance romaine',usage:'un régime de bananes ou un sac au champ',portee:'environ 100 kg',precision:'environ 500 g'},
+    {id:'electronique',nom:'Balance électronique',usage:'les pesées du laboratoire et le lait du gâteau',portee:'environ 1 kg',precision:'0,1 g ou 1 g'},
+    {id:'pont_bascule',nom:'Pont-bascule',usage:'un grumier chargé de bois',portee:'plusieurs dizaines de tonnes',precision:'environ 10 kg'}
   ];
   Q.SITUATIONS_BALANCE=[
     {id:'lettre',txt:'Peser une lettre avant de la poster',juste:'pese_lettre'},

@@ -24,7 +24,7 @@
       saisie:'J’observe que le plateau … descend et que l’aiguille…',legendeTable:'Mes essais.',F:()=>window.FICHE_CI_MES06,
       render:v=>{const e=Q().equilibre(Q().charge(v.g).m,Number(v.d)),sc=Q().scene.principe(v);return {montage:sc.montage,schema:sc.schema,txt:e.txt,essai:{g:v.g,d:Number(v.d),penche:e.penche,equilibre:e.equilibre}};}});
     M().tri(panel,X,{id:'mes06regles',titre:'Les règles d’une bonne pesée',intro:'Je complète chaque règle.',legende:'Je choisis',cats:[['x','x']],
-      items:REGLES.map(r=>({id:r.id,label:r.q,options:r.options,juste:r.juste,pourquoi:r.pourquoi,aide:'Pense à la précision et au soin du matériel.'}))});
+      items:REGLES.map((r,k)=>({id:r.id,label:r.q,options:Q().place(r.options,r.juste,k+1),juste:r.juste,pourquoi:r.pourquoi,aide:'Pense à la précision et au soin du matériel.'}))});
   }
   window.FICHE_CI_MES06={
     id:'NL-CI-6E-MES-06',version:'0.9',modele:'roberval-principe-v1',
@@ -35,7 +35,7 @@
     objectif:'Expliquer comment une balance à plateaux mesure une masse.',objectifEleve:'Savoir expliquer le principe de la simple pesée.',
     situation:'En classe, Kofi découvre une balance de Roberval : elle n’a pas d’écran. Comment une balance sans écran peut-elle « donner » une masse ?',
     materiel:'Simulation : une balance de Roberval, une boîte de 100 g, une boîte de masses marquées (1 g à 200 g) et sa pince.',
-    prevision:{consigne:'Avant les essais, choisis ce qui se passe quand on pose un objet sur le plateau de gauche seulement. Justifie ton hypothèse.',choix:[['gauche','Le plateau de gauche descend'],['droite','Le plateau de droite descend'],['rien','Rien ne bouge'],['deux','Les deux plateaux descendent']]},
+    prevision:{consigne:'Avant les essais, choisis ce qui se passe quand on pose un objet sur le plateau de gauche seulement. Justifie ton hypothèse.',choix:[['droite','Le plateau de droite descend'],['rien','Rien ne bouge'],['gauche','Le plateau de gauche descend'],['deux','Les deux plateaux descendent']]},
     protocole:['Nommer les parties de la balance.','Vérifier l’équilibre à vide : aiguille sur le repère.','Poser la boîte à gauche et observer.','Poser des masses marquées à droite avec la pince, jusqu’à l’équilibre.','Énoncer le principe.'],
     variable:'Les charges posées sur les plateaux',maintenu:'La même balance, réglée',
     colonnes:['Plateau de gauche','Plateau de droite','Mon observation ou résultat'],lignesVides:6,

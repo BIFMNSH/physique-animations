@@ -59,6 +59,7 @@ button.ls-step{width:100%;font:inherit;text-align:left;border:0;cursor:pointer}
       <ol class="ls-steps" id="steps"></ol>
       <div class="ls-aide" id="aide" role="status" tabindex="-1" hidden></div>
       <a class="ls-bonus" id="bonus" href="#" hidden></a>
+      <a class="ls-bonus" id="bilanLien" href="#" hidden>L’essentiel de la leçon : le bilan →</a>
     </section>
     <nav class="ls-pager" aria-label="Autres leçons"><a id="prev" href="#" hidden><small>← Leçon d’avant</small><b></b></a><a id="next" class="nx" href="#" hidden><small>Leçon suivante →</small><b></b></a></nav>
   </main>
@@ -118,6 +119,8 @@ function render(){
   $('ordre').hidden=!!R.local;$('fiche').hidden=!!R.local;
   var oth=R.ordre==='regarde'?'essaie':'regarde',O=$('ordre');O.href='?l='+slug+'&ordre='+oth;O.textContent=R.ordre==='regarde'?'Étapes : version B (Regarde d’abord) · passer à A':'Étapes : version A (Essaie d’abord) · passer à B';
   $('fiche').href='../lecon/?l='+slug+'&imprimer=fiche';
+  /* bilans « L’essentiel » : la page du bilan s’ouvre quand les investigations de la leçon sont terminées */
+  var BL=$('bilanLien');BL.hidden=!{volume:1,masse:1}[slug];BL.href='../bilan-ci/?l='+slug;
   var A=window.NohobaEtapesCI.activites(slug).filter(function(a){return a.statut==='prototype';}),T=$('tests');
   T.hidden=!A.length;T.textContent=A.length+' activité'+(A.length>1?'s':'')+' en test';
 }

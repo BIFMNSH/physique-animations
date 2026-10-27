@@ -101,6 +101,7 @@ function parcours(i){
   radio('pc',F.prevision.choix[0][0]);set('pr','Je propose cette hypothèse et je vais la vérifier.');if(F.prevision.nombre)set('pn','120');
   button('Enregistrer ma prévision');button('Passer à la manipulation');
   assert.equal(document.getElementById('tab3').disabled,true,'essais requis '+i);
+  assert.ok(!/NL-CI|NL-C4|\b(ELE|MAT|MES|ENE|CHI)-\d\d/.test(app.textContent),'aucun code interne affiché pendant la manipulation '+i);
   /* contrôles accessibles */
   assert.ok([...app.querySelectorAll('input[type=radio],input[type=checkbox]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'étiquettes et légendes '+i);
   assert.ok([...app.querySelectorAll('select,input[type=text],textarea')].every(s=>s.id&&app.querySelector('label[for="'+s.id+'"]')),'champs étiquetés '+i);
@@ -224,4 +225,35 @@ for(const i of IDS)assert.ok(sw.includes('NL-CI-6E-MES-'+i+'.js'),'hors-ligne fi
 for(const f of fs.readdirSync(path.join(root,'assets/activites/fiches')).filter(x=>/MES/.test(x)))assert.ok(!/JD [ÉE]ditions|page\s*\d+\s*du manuel|Lelivrescolaire/i.test(read('assets/activites/fiches/'+f)),'aucune reprise de manuel dans '+f);
 assert.ok(fs.existsSync(path.join(root,'server/private/corriges-ci/NL-CI-6E-MES.md')),'notes enseignant du lot rédigées hors des fichiers publics');
 console.log('Lot Mesures : catalogue (prototypes, intitulés officiels), pages, hub et cache hors-ligne contrôlés.');
+
+/* ---------- bilans « L'essentiel » ---------- */
+function bilan(slug,store){
+  const dom=new JSDOM(read('bilan-ci/index.html'),{url:'http://localhost/bilan-ci/?l='+slug,runScripts:'outside-only'}),b=dom.window;b.requestAnimationFrame=()=>0;b.print=()=>{b.__imprime=true;};
+  for(const [k,v] of Object.entries(store||{}))b.localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+  for(const s of b.document.querySelectorAll('script')){const src=s.getAttribute('src');if(s.type==='application/ld+json')continue;b.eval(src?read(path.relative(root,path.resolve(root,'bilan-ci',src))):s.textContent);}
+  return b;
+}
+for(const [slug,n] of [['volume',4],['masse',7]]){
+  let b=bilan(slug),d=b.document;
+  assert.equal(d.getElementById('gate').hidden,false,'bilan fermé avant les investigations '+slug);assert.equal(d.getElementById('bilan').hidden,true);
+  assert.equal(d.querySelectorAll('#gateList li').length,n,'liste des investigations de la leçon '+slug);
+  assert.ok(d.getElementById('gateTxt').textContent.startsWith('0 investigation'),'progression affichée '+slug);
+  assert.ok(!/Je dois savoir|Je vérifie/.test(d.getElementById('main').textContent.replace(d.getElementById('gate').textContent,'')),'aucune réponse visible avant l’investigation '+slug);
+  /* action du professeur : confirmation en deux temps */
+  const pb=d.getElementById('prof');pb.click();assert.equal(d.getElementById('bilan').hidden,true,'confirmation demandée');pb.click();
+  assert.equal(d.getElementById('bilan').hidden,false,'bilan affiché par le professeur '+slug);
+  const t=d.getElementById('bilan').textContent;
+  for(const h of ['Je dois savoir','Je dois savoir faire','En image','Conversions courantes','Mots-clés','Je vérifie'])assert.ok(t.includes(h),'rubrique '+h+' '+slug);
+  assert.equal(d.querySelectorAll('.bl-cartes details').length,5,'cinq cartes recto verso '+slug);
+  assert.ok([...d.querySelectorAll('#bilan svg')].every(s=>s.getAttribute('role')==='img'&&s.getAttribute('aria-label')&&!/NaN|undefined/.test(s.outerHTML)),'schéma de synthèse nommé '+slug);
+  assert.ok(!/NL-CI|NL-C4|MES-\d\d/.test(t),'aucun code interne affiché '+slug);assert.ok(!/densit|masse volumique/i.test(t),'ni densité ni masse volumique '+slug);
+  assert.ok([...d.querySelectorAll('#bilan a.bl-fiche')].every(a=>/activites-ci\/\?a=NL-CI-6E-MES-\d\d&lecon=/.test(a.getAttribute('href'))&&a.textContent.length>8),'chaque point renvoie à sa fiche par son titre '+slug);
+  d.getElementById('imprimer').click();assert.ok(b.__imprime,'impression A4 '+slug);
+  d.getElementById('masquer').click();assert.equal(d.getElementById('bilan').hidden,true,'le professeur peut masquer de nouveau '+slug);b.close();
+  /* toutes les investigations terminées : le bilan s'ouvre seul */
+  const st={};for(const e of items.filter(x=>x.lecon===(slug==='volume'?'Volume d’un liquide et d’un solide':'Masse d’un solide et d’un liquide')))st['pc-act-'+e.id]={v:1,conclusion:'Ma conclusion.'};
+  b=bilan(slug,st);assert.equal(b.document.getElementById('bilan').hidden,false,'bilan ouvert après les investigations '+slug);b.close();
+}
+assert.ok(read('parcours-ci/index.html').includes("'../bilan-ci/?l='+slug")&&sw.includes('./bilan-ci/')&&sw.includes('./assets/simple/bilans-ci.js'),'bilan relié au hub et disponible hors ligne');
+console.log('Lot Mesures : bilans « L’essentiel » (fermés avant l’enquête, action du professeur, six rubriques, cinq cartes, impression, hors-ligne) contrôlés.');
 process.exit(0);

@@ -23,7 +23,7 @@
       intro:'Je vérifie que les cylindres ont le même volume (déplacement d’eau, avec un lest pour le bois qui flotte), puis je les pèse. Valeurs simulées.',
       controles:[{cle:'cyl',legende:'Le cylindre',items:CYL()}],
       saisie:'J’observe que ce cylindre a un volume de … et une masse de …',legendeTable:'Mes mesures.',F:()=>window.FICHE_CI_MES11,
-      render:v=>{const c=Q().cylindre(v.cyl),sc=Q().scene.cylindre({id:v.cyl});return {montage:sc.montage,schema:sc.schema,txt:c.txt+' (valeurs simulées)',essai:{groupe:'solides',cyl:v.cyl,V:c.V,m:c.m}};}});
+      render:v=>{const c=Q().cylindre(v.cyl),sc=Q().scene.cylindre({id:v.cyl});return {montage:sc.montage,schema:sc.schema,txt:Q().sim(c.txt,true),essai:{groupe:'solides',cyl:v.cyl,V:c.V,m:c.m}};}});
     M().bloc(g1,X,{n:212,titre:'Groupe 1 · même masse, même volume ?',
       intro:'J’équilibre 100 g de coton face à 100 g d’écrous sur la balance de Roberval.',
       controles:[{cle:'vue',legende:'L’expérience',items:[['coton_ecrous','100 g de coton face à 100 g d’écrous']]}],
@@ -33,12 +33,12 @@
       intro:'Je pèse 1, 2 puis 3 jetons et je mesure leur volume par déplacement d’eau.',
       controles:[{cle:'n',legende:'Nombre de jetons',items:[['1','1 jeton'],['2','2 jetons'],['3','3 jetons']]}],
       saisie:'J’observe que, avec deux fois plus de jetons…',legendeTable:'Mes mesures.',F:()=>window.FICHE_CI_MES11,
-      render:v=>{const j=Q().jetons(Number(v.n)),sc=Q().scene.jetons(v);return {montage:sc.montage,schema:sc.schema,txt:j.txt+' (valeurs simulées)',essai:{groupe:'solides',jetons:j.n,V:j.V,m:j.m}};}});
+      render:v=>{const j=Q().jetons(Number(v.n)),sc=Q().scene.jetons(v);return {montage:sc.montage,schema:sc.schema,txt:Q().sim(j.txt,true),essai:{groupe:'solides',jetons:j.n,V:j.V,m:j.m}};}});
     M().bloc(g2,X,{n:214,titre:'Groupe 2 · 10 mL puis 20 mL de chaque liquide',
-      intro:'Je pose l’éprouvette sur la balance électronique, j’appuie sur « tare », puis je verse 10 mL, puis 20 mL de liquide. L’eau de Javel diluée et le vinaigre restent en simulation (pictogrammes, voir MAT-06). Valeurs simulées.',
+      intro:'Je pose l’éprouvette sur la balance électronique, j’appuie sur « tare », puis je verse 10 mL, puis 20 mL de liquide. L’eau de Javel diluée et le vinaigre restent fermés, en simulation : regarde leurs pictogrammes de danger. Valeurs simulées.',
       controles:[{cle:'liq',legende:'Le liquide',items:LIQ()},{cle:'V',legende:'Le volume versé',items:[['10','10 mL'],['20','20 mL']]}],
       saisie:'J’observe que la balance tarée affiche…',legendeTable:'Mes mesures.',F:()=>window.FICHE_CI_MES11,
-      render:v=>{const r=Q().liquideMV(v.liq,Number(v.V)),sc=Q().scene.liquide(v);return {montage:sc.montage,schema:sc.schema,txt:r.txt+' (valeur simulée)',essai:{groupe:'liquides',liq:v.liq,V:r.V,m:r.m}};}});
+      render:v=>{const r=Q().liquideMV(v.liq,Number(v.V)),sc=Q().scene.liquide(v);return {montage:sc.montage,schema:sc.schema,txt:Q().sim(r.txt),essai:{groupe:'liquides',liq:v.liq,V:r.V,m:r.m}};}});
     Q().mesure(panel,X,{id:'mes11prev',titre:'Pour tous · je prévois une masse avec un tableau de proportionnalité',
       intro:'Pour une même matière, si la quantité est multipliée par un nombre, la masse est multipliée par le même nombre. Je cherche ce nombre, puis je calcule.',
       controles:[{cle:'p',legende:'Ce que je prévois',items:PREV()}],
@@ -65,7 +65,7 @@
     objectif:'Relier la masse et le volume d’une même matière.',objectifEleve:'Savoir prévoir une masse à partir d’un volume, pour une même matière.',
     situation:'Awa et Kofi aident leur oncle à déménager. Dans le magasin, ils trouvent un sac de jetons d’awalé en laiton, tous pareils, et des bidons de liquides ménagers et alimentaires de capacités différentes. Pour préparer les cartons, ils se demandent : peut-on prévoir la masse d’un objet ou d’un liquide en connaissant son volume ?',
     materiel:'Simulation : cinq cylindres de même taille (PVC, bois, aluminium, fer, laiton), une éprouvette et un lest, une balance de Roberval, du coton et des écrous, des jetons de laiton, une balance électronique avec tare, cinq liquides (eau, huile, sirop, vinaigre, eau de Javel diluée).',
-    prevision:{consigne:'Avant les essais : cinq cylindres de même taille, en PVC, bois, aluminium, fer et laiton, ont-ils la même masse ? Justifie ton hypothèse (« car… »).',choix:[['non','Non : à volume égal, la masse dépend de la matière'],['oui','Oui, puisqu’ils ont le même volume'],['bois','Le bois a la plus grande masse, car c’est une matière naturelle'],['taille','Seule la taille compte pour la masse']]},
+    prevision:{consigne:'Avant les essais : cinq cylindres de même taille, en PVC, bois, aluminium, fer et laiton, ont-ils la même masse ? Justifie ton hypothèse (« car… »).',choix:[['oui','Oui, puisqu’ils ont le même volume'],['bois','Le bois a la plus grande masse, car c’est une matière naturelle'],['taille','Seule la taille compte pour la masse'],['non','Non : à volume égal, la masse dépend de la matière']]},
     protocole:['Groupe 1 : vérifier que les cylindres ont le même volume, puis les peser ; équilibrer 100 g de coton et 100 g d’écrous ; peser 1, 2, 3 jetons et mesurer leur volume.','Groupe 2 : tarer l’éprouvette, verser 10 mL puis 20 mL de chaque liquide et relever la masse.','Pour tous : prévoir une masse avec un tableau de proportionnalité.'],
     variable:'La matière, puis la quantité d’une même matière',maintenu:'Le même volume (cylindres) ou la même matière (jetons, un liquide)',
     colonnes:['Ce que je mesure','Volume','Masse (simulée)','Mon observation ou verdict'],lignesVides:8,

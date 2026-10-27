@@ -12,10 +12,10 @@
     {id:'biberon',q:'Volume de lait dans le biberon',juste:'120',options:[['120','120 mL'],['12','12 mL'],['102','102 mL']],pourquoi:'Entre 100 et 150 il y a 5 divisions : une division vaut 10 mL. Le lait arrive 2 divisions au-dessus de 100 : 120 mL.'},
     {id:'seringue',q:'Volume de sirop dans la seringue',juste:'3,4',options:[['3,4','3,4 mL'],['3,2','3,2 mL'],['34','34 mL']],pourquoi:'Entre 2 et 4 il y a 10 divisions : une division vaut 0,2 mL. Le joint du piston est 7 divisions au-dessus de 2 : 2 + 1,4 = 3,4 mL.'}
   ];
-  function svgDepart(id){const D=Q().dessin,V=id==='biberon'?120:3.4;return D.vue(D.eprouvette(62,236,{id:id,V:V,mode:'montage',H:170}).svg,(id==='biberon'?'Biberon gradué contenant du lait':'Seringue graduée contenant du sirop')+' (valeur simulée)','0 0 150 250');}
+  function svgDepart(id){const D=Q().dessin,V=id==='biberon'?120:3.4;return D.vue(D.eprouvette(62,236,{id:id,V:V,mode:'montage',H:170,liq:id==='biberon'?'#F1EEE4':'#B2443A'}).svg,(id==='biberon'?'Biberon gradué contenant du lait':'Seringue graduée contenant du sirop')+' (valeur simulée)','0 0 150 250');}
   function manip(panel,X){
     M().tri(panel,X,{id:'mes02depart',titre:'Test de départ · je lis deux récipients gradués',intro:'Avant de manipuler, je lis le volume dans un biberon et dans une seringue. Leurs graduations ne sont pas les mêmes.',legende:'Je lis',cats:[['x','x']],
-      items:DEPART().map(d=>({id:d.id,label:d.q,svg:svgDepart(d.id),options:d.options,juste:d.juste,pourquoi:d.pourquoi,aide:'Cherche d’abord combien vaut une division : écart entre deux nombres écrits, divisé par le nombre de divisions.'}))});
+      items:DEPART().map((d,k)=>({id:d.id,label:d.q,svg:svgDepart(d.id),options:Q().place(d.options,d.juste,k+1),juste:d.juste,pourquoi:d.pourquoi,aide:'Cherche d’abord combien vaut une division : écart entre deux nombres écrits, divisé par le nombre de divisions.'}))});
     Q().mesure(panel,X,{id:'mes02lect',titre:'Atelier 1 · je lis une éprouvette graduée',
       intro:'Comme au panneau de lecture du TP : je relève l’unité, je trouve la valeur d’une division à partir des divisions entre deux nombres écrits, puis je lis le volume au bas du ménisque. Valeurs simulées.',
       controles:[{cle:'ep',legende:'L’éprouvette',items:EP},{cle:'niv',legende:'Le liquide',items:NIV}],
@@ -34,7 +34,7 @@
       intro:'Kofi a prélevé un peu d’eau colorée (63 mL, valeur simulée). Je la mesure dans trois récipients gradués.',
       controles:[{cle:'rec',legende:'Le récipient',items:Q().RECIPIENTS_GRADUES.map(r=>[r.id,r.nom])}],
       saisie:'J’observe que, dans ce récipient, je peux lire…',legendeTable:'Mes essais.',F:()=>window.FICHE_CI_MES02,
-      render:v=>{const r=Q().mesureRecipient(v.rec),sc=Q().scene.recipients(v);return {montage:sc.montage,schema:sc.schema,txt:r.txt+' (valeur simulée)',essai:{atelier:'recipient',rec:v.rec,pas:r.pas,min:r.min,max:r.max,valeur:r.valeur}};}});
+      render:v=>{const r=Q().mesureRecipient(v.rec),sc=Q().scene.recipients(v);return {montage:sc.montage,schema:sc.schema,txt:Q().sim(r.txt),essai:{atelier:'recipient',rec:v.rec,pas:r.pas,min:r.min,max:r.max,valeur:r.valeur}};}});
   }
   function ligne(e){
     if(e.mesure)return ['Lecture · '+lib(EP,e.ep),'1 division = '+Q().fr(e.division)+' ; lu : '+e.saisies.volume,e.juste?'Juste':'À revoir'];
@@ -51,7 +51,7 @@
     objectif:'Lire juste le volume d’un liquide dans une éprouvette graduée.',objectifEleve:'Savoir lire le volume d’un liquide dans une éprouvette.',
     situation:'En salle de TP, Kofi doit prélever 60 mL d’eau pour une expérience. Bécher, verre mesureur ou éprouvette : lequel choisir, et comment lire juste ?',
     materiel:'Simulation : une éprouvette de 100 mL graduée en mL, une éprouvette de 250 cm³ graduée en cm³, un bécher, un verre mesureur, un biberon et une seringue gradués, de l’eau colorée.',
-    prevision:{consigne:'Avant les essais, choisis où placer ton œil pour lire juste. Justifie ton hypothèse.',choix:[['niveau','À la hauteur du bas du ménisque'],['haut','Au-dessus, pour bien voir la surface du liquide'],['bas','En dessous du liquide'],['importe','Peu importe : la lecture est toujours la même']]},
+    prevision:{consigne:'Avant les essais, choisis où placer ton œil pour lire juste. Justifie ton hypothèse.',choix:[['haut','Au-dessus, pour bien voir la surface du liquide'],['bas','En dessous du liquide'],['niveau','À la hauteur du bas du ménisque'],['importe','Peu importe : la lecture est toujours la même']]},
     protocole:['Poser l’éprouvette sur la paillasse horizontale.','Repérer l’unité, puis la valeur d’une division.','Placer l’œil à la hauteur du bas du ménisque.','Lire le volume et l’écrire avec son unité.','Comparer la lecture dans le bécher, le verre mesureur et l’éprouvette.'],
     variable:'La position de l’œil, puis le récipient gradué',maintenu:'Le même liquide et le même volume',
     colonnes:['Ce que je fais','Ce que je lis','Mon observation ou résultat'],lignesVides:6,

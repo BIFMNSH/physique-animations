@@ -9,7 +9,7 @@
   const lib=(l,k)=>(l.filter(x=>x[0]===k)[0]||['',k])[1];
   function manip(panel,X){
     Q().atelierPesee(panel,X,{id:'mes08',titre:'Atelier 1 · je pèse le bécher vide, puis avec le liquide',
-      intro:'Le bécher est sur le plateau de gauche ; je verse 100 mL de liquide mesurés à l’éprouvette (MES-02), jamais sur le plateau. Je pose les masses marquées à droite jusqu’à l’équilibre. Valeurs simulées.',
+      intro:'Le bécher est sur le plateau de gauche ; je verse 100 mL de liquide mesurés à l’éprouvette, jamais sur le plateau. Je pose les masses marquées à droite jusqu’à l’équilibre. Valeurs simulées.',
       legende:'Ce que je pèse',situations:SIT.map(s=>({id:s[0],label:s[1],gauche:[s[0]],droite:[],cote:'droite'})),
       F:()=>window.FICHE_CI_MES08,legendeTable:'Mes pesées (valeurs simulées).',
       retour:(S,m)=>Q().charge(S.id).nom.charAt(0).toUpperCase()+Q().charge(S.id).nom.slice(1)+' : '+m+' g.'});

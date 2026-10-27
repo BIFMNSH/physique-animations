@@ -74,6 +74,7 @@
       fig.montage(D.vue(D.sol('montage',240)+D.roberval(230,240,Object.assign({mode:'montage'},o)),lab));
       fig.schema(D.vue(D.sol('schema',240)+D.roberval(230,240,Object.assign({mode:'schema'},o)),lab));
       etat.textContent=(ms.length?'Masses posées : '+ms.join(' g, ')+' g.':'Aucune masse posée.')+(r.depasse?'':' '+r.eq.txt);
+      if(!ms.length&&!r.depasse&&!r.eq.equilibre&&r.eq.penche!==(S.cote||'droite'))r.conseil='Pose d’abord la plus grande masse marquée qui ne fait pas descendre le plateau des masses.';
       conseil.className='msg'+(r.eq.equilibre&&!r.depasse?' ok':'');conseil.textContent=r.depasse?r.conseil:(ms.length||S.gauche.length||S.droite.length?r.conseil:'Équilibre à vide : l’aiguille est sur le repère. La balance est prête.');
     }
     function paint(){var F=cfg.F();table.innerHTML=X.tableHTML(F,F.lignes(st),cfg.legendeTable||'Mes pesées.');}

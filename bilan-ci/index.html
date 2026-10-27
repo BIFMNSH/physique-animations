@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
+<title>L’essentiel · 6e · NOHOBA-Lab</title>
+<meta name="description" content="Le bilan d’une leçon de physique-chimie de sixième, programme ivoirien : ce qu’il faut savoir et savoir faire.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/simple/simple.css">
+<style>
+.bl-theme{margin:0;font-weight:700;font-size:16px;color:var(--t-green)}
+.bl-card{border-radius:18px;background:var(--panel);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.bl-card h2{margin:0;font:800 22px/1.2 'Bricolage Grotesque',sans-serif}
+.bl-card h3{margin:0;font:800 18px/1.25 'Bricolage Grotesque',sans-serif}
+.bl-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.bl-list a,.bl-fiche{color:var(--soft);font-size:15px}
+.bl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.bl-faire{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.bl-faire ol{margin:0;padding-left:20px}
+.bl-fig{background:#F7F8FB;border-radius:14px;padding:6px;max-width:720px}
+.bl-mots{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.bl-mots li{border:1px solid var(--line2);border-radius:999px;padding:4px 12px;font-size:15px}
+.bl-cartes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.bl-cartes details{border:1px solid var(--line2);border-radius:14px;padding:12px 14px;background:var(--bg)}
+.bl-cartes summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.bl-cartes p{margin:8px 0 0;color:var(--t-green);font-weight:700}
+.bl-gate{border:2px solid var(--go)}
+.bl-row{display:flex;flex-wrap:wrap;gap:10px}
+.bl-row .sp-btn{min-height:48px;font-size:17px}
+.bl-print{display:none}
+.bl-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px}
+@media print{
+  @page{size:A4;margin:10mm}
+  html,body{background:#fff!important;color:#111!important}
+  body{font-size:9.5pt;line-height:1.25}
+  .noprint,.sp-top,.sp-skip{display:none!important}
+  .sp{padding:0;gap:4px;min-height:0}
+  .sp-main{gap:5px}
+  #bilan{gap:5px!important}
+  .bl-print{display:flex;justify-content:space-between;font-size:8.5pt;border-bottom:1px solid #999;padding-bottom:2px;margin:0}
+  h1{font-size:15pt!important;margin:0;line-height:1.1}
+  .bl-theme{color:#111;font-size:9pt}
+  .bl-card{background:#fff;border:1px solid #bbb;padding:5px 8px;gap:3px;break-inside:avoid;border-radius:6px}
+  .bl-card h2{font-size:11pt}.bl-card h3{font-size:9.5pt}
+  .bl-list{gap:1px;padding-left:14px}.bl-list a,.bl-fiche{color:#555;font-size:7.5pt;text-decoration:none}
+  .bl-two{grid-template-columns:3fr 2fr;gap:5px}
+  .bl-grid{grid-template-columns:repeat(var(--n,3),1fr);gap:5px}
+  .bl-faire{padding:4px 6px;border-color:#bbb;gap:2px}
+  .bl-faire ol{padding-left:14px}
+  .bl-fig{max-width:160mm;margin:0 auto;padding:0}
+  .bl-mots{gap:3px}.bl-mots li{font-size:8pt;padding:1px 6px}
+  .bl-cartes{grid-template-columns:repeat(5,1fr);gap:4px}
+  .bl-cartes details{padding:3px 5px;background:#fff;border-color:#bbb}
+  .bl-cartes summary{min-height:0;font-size:8pt;list-style:none}
+  .bl-cartes summary::-webkit-details-marker{display:none}
+  .bl-cartes p{display:none}
+  .bl-rep{display:block;transform:rotate(180deg);font-size:7.5pt;color:#444;border:0;text-align:center}
+}
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "L’essentiel · 6e · NOHOBA-Lab", "url": "https://lab.nohaba.com/bilan-ci/", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "description": "Le bilan d’une leçon de physique-chimie de sixième, programme ivoirien."}</script>
+</head>
+<body>
+<a class="sp-skip" href="#main">Aller au bilan</a>
+<div class="sp">
+  <header class="sp-top">
+    <a class="sp-round" id="retour" href="../parcours-ci/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Ma leçon</a>
+    <button type="button" class="sp-round" data-sp-theme aria-label="Changer de thème"></button>
+  </header>
+  <main class="sp-main" id="main">
+    <p class="bl-print"><span>NOHOBA-Lab · 6e Côte d’Ivoire</span><span>L’essentiel</span></p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <p class="bl-theme" id="theme"></p>
+      <h1 class="sp-h1" id="title" style="font-size:clamp(28px,7.5vw,40px)">L’essentiel</h1>
+    </div>
+    <section class="bl-card bl-gate noprint" id="gate" aria-labelledby="gateT" hidden>
+      <h2 id="gateT">Termine d’abord les investigations</h2>
+      <p style="margin:0" id="gateTxt"></p>
+      <ul class="bl-list" id="gateList"></ul>
+      <p class="sp-note">Le bilan s’ouvre quand toutes les investigations de la leçon sont terminées, pour ne pas donner les réponses avant ton enquête.</p>
+      <div class="bl-row"><button type="button" class="sp-btn ghost" id="prof">Je suis le professeur : afficher le bilan</button></div>
+    </section>
+    <div id="bilan" hidden style="display:flex;flex-direction:column;gap:14px"></div>
+    <p class="sp-note noprint">Tes réponses restent sur cet appareil.</p>
+  </main>
+</div>
+<script src="../assets/shared/atelier-electrique.js"></script>
+<script src="../assets/shared/matiere-modele.js"></script>
+<script src="../assets/shared/matiere-dessins.js"></script>
+<script src="../assets/shared/mesures-modele.js"></script>
+<script src="../assets/shared/mesures-dessins.js"></script>
+<script src="../assets/catalogues/6e-ci.js"></script>
+<script src="../assets/simple/simple.js"></script>
+<script src="../assets/simple/bilans-ci.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function read(k){try{return JSON.parse(localStorage.getItem(k))||{};}catch(e){return {};}}
+function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function put(k,v){try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){}}
+var B=window.NohobaBilansCI,slug=new URL(location.href).searchParams.get('l');
+if(!B[slug])slug='volume';
+var L=B[slug],cat=window.NL_CATALOGUE_CI_6E||[];
+var fiches=cat.filter(function(a){return a.lecon===L.lecon&&a.statut!=='conception';});
+function titre(nn){var a=cat.filter(function(x){return x.sourceId==='MES-'+nn;})[0];return a?a.titre.replace(/'/g,'’'):'';}
+function lien(nn){return '../activites-ci/?a=NL-CI-6E-MES-'+nn+'&lecon='+slug;}
+/* même règle que le moteur : une investigation est terminée quand la conclusion est rédigée */
+function fini(id){var st=read('pc-act-'+id);return !!st.conclusion;}
+document.title='L’essentiel · '+L.lecon+' · 6e · NOHOBA-Lab';
+$('theme').textContent=L.theme;$('title').textContent='L’essentiel · '+L.lecon;
+$('retour').href='../parcours-ci/?l='+slug;
+function contenu(){
+  var h='';
+  h+='<div class="bl-two"><section class="bl-card" aria-labelledby="s1"><h2 id="s1">Je dois savoir</h2><ul class="bl-list">'+L.savoir.map(function(x){return '<li>'+esc(x[0])+' <a class="bl-fiche" href="'+lien(x[1])+'">→ '+esc(titre(x[1]))+'</a></li>';}).join('')+'</ul></section>';
+  h+='<section class="bl-card" aria-labelledby="s5"><h2 id="s5">Conversions courantes</h2><ul class="bl-list">'+L.conversions.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
+  h+='<h3>Mots-clés</h3><ul class="bl-mots">'+L.mots.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></section></div>';
+  h+='<section class="bl-card" aria-labelledby="s3"><h2 id="s3">En image</h2><div class="bl-fig">'+L.image()+'</div></section>';
+  h+='<section class="bl-card" aria-labelledby="s2"><h2 id="s2">Je dois savoir faire</h2><div class="bl-grid" style="--n:'+L.faire.length+'">'+L.faire.map(function(f){return '<div class="bl-faire"><h3>'+esc(f[0])+'</h3><ol>'+f[1].map(function(e){return '<li>'+esc(e)+'</li>';}).join('')+'</ol><a class="bl-fiche" href="'+lien(f[2])+'">→ '+esc(titre(f[2]))+'</a></div>';}).join('')+'</div></section>';
+  h+='<section class="bl-card" aria-labelledby="s4"><h2 id="s4">Je vérifie</h2><p class="sp-note noprint" style="margin:0">Je réponds dans ma tête, puis je retourne la carte.</p><div class="bl-cartes">'+L.verifie.map(function(q,i){return '<details><summary>'+(i+1)+'. '+esc(q[0])+'</summary><p>'+esc(q[1])+'</p></details>';}).join('')+'</div>';
+  h+='<p class="bl-print bl-rep">Réponses : '+L.verifie.map(function(q,i){return (i+1)+'. '+esc(q[1]);}).join(' · ')+'</p></section>';
+  h+='<div class="bl-row noprint"><button type="button" class="sp-btn" id="imprimer">Imprimer le bilan (une page A4)</button>'+(get('pc-bilan-prof-'+slug)==='1'?'<button type="button" class="sp-btn ghost" id="masquer">Masquer de nouveau (professeur)</button>':'')+'</div>';
+  return h;
+}
+function render(){
+  var faits=fiches.filter(function(a){return fini(a.id);}).length,prof=get('pc-bilan-prof-'+slug)==='1',ouvert=prof||(fiches.length>0&&faits===fiches.length);
+  $('gate').hidden=ouvert;$('bilan').hidden=!ouvert;
+  if(!ouvert){
+    $('gateTxt').textContent=faits+' investigation'+(faits>1?'s':'')+' terminée'+(faits>1?'s':'')+' sur '+fiches.length+'.';
+    $('gateList').innerHTML=fiches.map(function(a){return '<li><a href="../activites-ci/?a='+encodeURIComponent(a.id)+'&lecon='+slug+'">'+esc(a.titre.replace(/'/g,'’'))+'</a>'+(fini(a.id)?' · terminée ✓':'')+'</li>';}).join('');
+    return;
+  }
+  $('bilan').innerHTML=contenu();
+  $('imprimer').onclick=function(){window.print();};
+  if($('masquer'))$('masquer').onclick=function(){put('pc-bilan-prof-'+slug,null);render();};
+}
+var pb=$('prof');pb.onclick=function(){
+  if(!pb.dataset.sure){pb.dataset.sure='1';pb.textContent='Confirmer : afficher le bilan sur cet appareil';return;}
+  put('pc-bilan-prof-'+slug,'1');delete pb.dataset.sure;pb.textContent='Je suis le professeur : afficher le bilan';render();$('title').focus&&$('title').setAttribute('tabindex','-1');$('title').focus();
+};
+window.NohobaSimple.bindTheme();
+render();
+window.addEventListener('pageshow',function(e){if(e.persisted)render();});
+})();
+</script>
+</body></html>

@@ -46,11 +46,19 @@
     if(id==='caillou_long')return '<path d="M'+(x-8)+' 222 L'+(x-10)+' 140 L'+(x+2)+' 132 L'+(x+10)+' 146 L'+(x+8)+' 222 Z" fill="'+(m==='schema'?'none':'#8E949D')+'" stroke="'+INK+'" stroke-width="2"/>';
     return '<path d="M'+(x-12)+' 222 L'+(x-14)+' 208 L'+(x-4)+' 198 L'+(x+10)+' 202 L'+(x+13)+' 216 L'+(x+8)+' 222 Z" fill="'+(m==='schema'?'none':'#8E949D')+'" stroke="'+INK+'" stroke-width="2"/>';
   }
-  S.deplacement=pair(function(v){var s=Q.SOLIDES.filter(function(x){return x.id===v.solide;})[0],d=Q.deplacement(v.solide);return 'Montage : éprouvette avant ('+d.V1+' mL) et après avoir plongé '+s.nom+' ('+d.V2+' mL)';},function(v,m){
-    var d=Q.deplacement(v.solide),s=D.sol(m,236),a=D.eprouvette(120,236,{id:'A',V:d.V1,mode:m,H:180}),b=D.eprouvette(320,236,{id:'A',V:d.V2,mode:m,H:180});
-    s+=a.svg+b.svg+dansEprouvette(v.solide,320,b.py(d.V2),m,'apres');
-    s+=T(196,92,'Avant : V₁',13,INK,800)+T(400,92,'Après : V₂',13,INK,800)+D.fleche(176,130,268,130,INK,2.5);
-    return s+leg(m,230,250,'même éprouvette, lecture au bas du ménisque');});
+  /* éprouvette et loupe sur le ménisque (sans œil), pour lire à la division près */
+  function eprZoom(x,id,V,m,extra){
+    var e=D.eprouvette(x,236,{id:id,V:V,mode:m,H:186,W:30}),yv=e.py(V),s=e.svg+(extra?extra(e):'');
+    s+='<rect x="'+(x-21)+'" y="'+(yv-12)+'" width="42" height="24" fill="none" stroke="#C2410C" stroke-width="2" stroke-dasharray="4 3"/>';
+    s+='<line x1="'+(x+21)+'" y1="'+(yv-12)+'" x2="'+(x+52)+'" y2="56" stroke="#C2410C" stroke-width="1.4"/><line x1="'+(x+21)+'" y1="'+(yv+12)+'" x2="'+(x+52)+'" y2="206" stroke="#C2410C" stroke-width="1.4"/>';
+    return s+D.zoom(x+52,56,{id:id,V:V,mode:m,w:118,h:150,sansOeil:true});
+  }
+  S.eprZoom=eprZoom;
+  S.deplacement=pair(function(v){var s=Q.SOLIDES.filter(function(x){return x.id===v.solide;})[0],d=Q.deplacement(v.solide);return 'Montage : éprouvette avant de plonger '+s.nom+', puis après, avec une loupe sur le ménisque';},function(v,m){
+    var d=Q.deplacement(v.solide),s=D.sol(m,236,10,450);
+    s+=eprZoom(40,'A',d.V1,m)+eprZoom(270,'A',d.V2,m,function(e){return dansEprouvette(v.solide,270,e.py(d.V2),m,'apres');});
+    s+=T(110,26,'Avant : V₁',13,INK,800)+T(340,26,'Après : V₂',13,INK,800);
+    return s+leg(m,230,252,'même éprouvette, lecture au bas du ménisque');});
 
   /* MES-03 · pour aller plus loin */
   S.plusLoin=pair(function(v){return 'Montage : '+Q.PLUS_LOIN.filter(function(x){return x[0]===v.exp;})[0][1];},function(v,m){
@@ -69,21 +77,23 @@
     return s+T(230,252,'Pour aller plus loin · valeurs simulées',11,INK,400);});
 
   /* MES-04 · solide de forme simple, posé contre la règle pour chaque dimension */
-  S.forme=pair(function(v){var f=Q.forme(v.id);return 'Montage : '+f.nom+' et trois mesures à la règle graduée';},function(v,m){
-    var f=Q.forme(v.id),s='',px=f.type==='cylindre'&&f.d>6?11:16,col={cube:'#C99A5B',pave:'#9AA2AD',allumettes:'#E7D7B0',cylindre:'#9AA2AD',conserve:'#B9C2D0'}[v.id]||'#9AA2AD';
-    if(f.type==='cube')s+=D.pave(30,200,f.a,f.a,f.a,22,{mode:m,col:col});
-    else if(f.type==='pave')s+=D.pave(24,200,f.L,f.l,f.h,22,{mode:m,col:col});
-    else s+=D.cylindre(100,214,f.d,f.h,f.d>6?14:22,{mode:m,col:col,conserve:v.id==='conserve'});
-    var dims=Q.dimensions(v.id),y0=46,pxr=f.type==='cylindre'&&f.d>6?20:28,Lr=f.type==='cylindre'&&f.d>6?10:6;
-    dims.forEach(function(d,i){s+=D.regle(248,y0+i*72,Lr,pxr,{mode:m,barre:d[2],col:col,titre:''})+T(248+Lr*pxr/2,y0+i*72-22,d[1],12,INK,800);});
+  S.forme=pair(function(v){var f=Q.forme(v.id);return 'Montage : '+f.nom+' et ses dimensions mesurées à la règle graduée';},function(v,m){
+    var f=Q.forme(v.id),s='',col={cube:'#C99A5B',pave:'#9AA2AD',allumettes:'#E7D7B0',cylindre:'#9AA2AD',conserve:'#B9C2D0'}[v.id]||'#9AA2AD';
+    /* l'objet en petit, en haut à gauche ; une grande règle par dimension */
+    if(f.type==='cube')s+=D.pave(24,74,f.a,f.a,f.a,14,{mode:m,col:col});
+    else if(f.type==='pave')s+=D.pave(18,74,f.L,f.l,f.h,12,{mode:m,col:col});
+    else s+=D.cylindre(60,80,f.d,f.h,f.d>6?5.6:10,{mode:m,col:col,conserve:v.id==='conserve'});
+    var dims=Q.dimensions(v.id),Lr=f.type==='cylindre'&&f.d>6?10:6,pxr=Math.floor(330/Lr),y0=dims.length===3?100:dims.length===2?130:160,dy=dims.length===3?54:66;
+    s+=T(290,30,f.type==='cylindre'?'r = diamètre ÷ 2':'toutes les mesures en cm',12,INK,700);
+    dims.forEach(function(d,i){var y=y0+i*dy;s+=D.regle(110,y,Lr,pxr,{mode:m,barre:d[2],col:col})+T(100,y+20,d[1],12,INK,800,'end');});
     return s;});
   S.cubes=pair(function(v){return 'Montage : pavé 4 × 3 × 2 rempli de '+Q.cubesPave(v.couches).total+' cubes de 1 cm³';},function(v,m){
     var r=Q.cubesPave(v.couches),s=D.sol(m,232)+D.cubesUnites(80,226,v.couches,40,{mode:m});
     return s+T(370,110,r.total+' cubes',22,INK,800)+T(370,136,'de 1 cm³',13,INK,700);});
   S.controleEau=pair(function(v){var f=Q.forme(v.id);return 'Montage : contrôle par l’eau du volume de '+f.nom;},function(v,m){
-    var c=Q.controleEau(v.id),s=D.sol(m,236),a=D.eprouvette(120,236,{id:'B',V:c.V1,mode:m,H:180}),b=D.eprouvette(320,236,{id:'B',V:c.V2,mode:m,H:180});
-    s+=a.svg+b.svg+(v.id==='pave'?D.pave(306,222,1.4,1,1,20,{mode:m}):'<rect x="312" y="196" width="16" height="26" fill="'+(m==='schema'?'none':'#9AA2AD')+'" stroke="'+INK+'" stroke-width="2"/>');
-    return s+T(200,92,'V₁ = '+c.V1+' cm³',13,INK,800)+T(404,92,'V₂ = '+c.V2+' cm³',13,INK,800)+sim();});
+    var c=Q.controleEau(v.id),s=D.sol(m,236,10,450);
+    s+=eprZoom(40,'B',c.V1,m)+eprZoom(270,'B',c.V2,m,function(){return v.id==='pave'?D.pave(258,222,1.2,1,1,18,{mode:m}):'<rect x="263" y="194" width="14" height="28" fill="'+(m==='schema'?'none':'#9AA2AD')+'" stroke="'+INK+'" stroke-width="2"/>';});
+    return s+T(110,26,'Avant : V₁',13,INK,800)+T(340,26,'Après : V₂',13,INK,800)+sim();});
 
   /* MES-05 · balance électronique : forme de la pâte, coton et fer */
   S.masse5=pair(function(v){var r=Q.masseObjet(v.obj);return 'Montage : balance électronique indiquant '+r.m+' g (valeur simulée)';},function(v,m){
