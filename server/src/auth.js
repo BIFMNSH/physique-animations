@@ -2,7 +2,7 @@ import { betterAuth } from 'better-auth';
 import { phoneNumber } from 'better-auth/plugins';
 import { pool } from './db.js';
 import { cfg, origins } from './config.js';
-import { sendSms, otpText } from './sms.js';
+import { sendSms, otpText, smsReady } from './sms.js';
 import { mailReady, verifyMail, resetMail } from './mail.js';
 
 const social = {};
@@ -11,7 +11,7 @@ if (cfg.facebook.id && cfg.facebook.secret) social.facebook = { clientId: cfg.fa
 if (cfg.twitter.id && cfg.twitter.secret) social.twitter = { clientId: cfg.twitter.id, clientSecret: cfg.twitter.secret };
 if (cfg.apple.id && cfg.apple.secret) social.apple = { clientId: cfg.apple.id, clientSecret: cfg.apple.secret };
 
-export const providers = () => ({ ...Object.fromEntries(Object.keys(social).map((k) => [k, true])), sms: true, email: mailReady() });
+export const providers = () => ({ ...Object.fromEntries(Object.keys(social).map((k) => [k, true])), sms: smsReady(), email: mailReady() });
 
 export const authOptions = {
   appName: 'NOHOBA-Lab',
@@ -35,7 +35,7 @@ export const authOptions = {
     sendVerificationEmail: ({ user, url }) => { verifyMail(user, url).catch((err) => console.error('[mail]', err.message)); },
   },
   plugins: [
-    phoneNumber({
+    ...(smsReady() ? [phoneNumber({
       otpLength: 6,
       expiresIn: 300,
       allowedAttempts: 3,
@@ -46,7 +46,7 @@ export const authOptions = {
         getTempEmail: (n) => `${n.replace(/\D/g, '')}@sms.invalid`,
         getTempName: (n) => `Élève ${n.slice(-4)}`,
       },
-    }),
+    })] : []),
   ],
   rateLimit: {
     enabled: true,
@@ -70,3 +70,4 @@ export const authOptions = {
 };
 
 export const auth = betterAuth(authOptions);
+

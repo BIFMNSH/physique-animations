@@ -2,7 +2,7 @@ import pg from 'pg';
 import { getMigrations } from 'better-auth/db/migration';
 import { cfg } from './config.js';
 
-export const pool = new pg.Pool({ connectionString: cfg.databaseUrl, max: 10, ssl: process.env.DATABASE_SSL === '1' ? { rejectUnauthorized: false } : undefined });
+export const pool = new pg.Pool({ connectionString: cfg.databaseUrl, max: 10, connectionTimeoutMillis: 5000, statement_timeout: 10000, ssl: process.env.DATABASE_SSL === '1' ? { rejectUnauthorized: false } : undefined });
 export const q = (text, params) => pool.query(text, params);
 
 const APP_SCHEMA = `
@@ -59,3 +59,4 @@ export async function migrate(authOptions) {
   await runMigrations();
   await q(APP_SCHEMA);
 }
+

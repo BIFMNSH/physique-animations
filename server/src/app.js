@@ -30,7 +30,10 @@ export function createApp() {
   app.use('*', secureHeaders());
   app.use('/api/*', cors({ origin: (o) => (origins().includes(o) ? o : null), credentials: true, allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], maxAge: 600 }));
 
-  app.get('/health', (c) => c.json({ ok: true }));
+  app.get('/health', async (c) => {
+    try { await q('select 1'); return c.json({ ok: true, database: 'ready' }); }
+    catch { return c.json({ ok: false, database: 'unavailable' }, 503); }
+  });
   app.all('/api/auth/*', (c) => auth.handler(c.req.raw));
 
   // Tout le reste exige un corps JSON court et, sauf exceptions, une session.
@@ -202,3 +205,4 @@ export function createApp() {
   app.notFound((c) => c.json({ error: 'Introuvable' }, 404));
   return app;
 }
+

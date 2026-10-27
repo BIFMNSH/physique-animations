@@ -112,3 +112,13 @@ section.blk p.sub{color:var(--soft);font-size:17px;line-height:1.5;margin:0 0 28
 .sbtn:hover{border-color:var(--blue)}
 .sbtn .si{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--panel);font:800 15px 'Bricolage Grotesque',sans-serif;flex-shrink:0}
 @media (max-width:420px){.social{grid-template-columns:1fr}}
+
+
+/* Connexion : retour d’état et actions accessibles. */
+.btn:disabled{opacity:.55;cursor:wait}
+.btn:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+#bRetry{margin-bottom:18px}
+#otpActions{margin-top:12px}
+#otpActions[hidden]{display:none}
+.auth summary{cursor:pointer;font-weight:700}
+@media(max-width:760px){.auth .side p{font-size:16px}.auth .main{padding-top:24px}.box h2{font-size:25px}}

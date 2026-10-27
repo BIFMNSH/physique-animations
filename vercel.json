@@ -75,5 +75,11 @@
       "destination": "https://lab.nohaba.com/:path*",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://nohoba-lab-api-recette.up.railway.app/api/:path*"
+    }
   ]
 }

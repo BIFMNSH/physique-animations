@@ -31,9 +31,12 @@ export function checkConfig() {
   const problems = [];
   if (!cfg.databaseUrl) problems.push('DATABASE_URL manquant');
   if (cfg.secret.length < 32) problems.push('BETTER_AUTH_SECRET doit faire au moins 32 caractères (openssl rand -base64 32)');
+  if (cfg.prod && !/^https:\/\//.test(cfg.apiUrl)) problems.push('BETTER_AUTH_URL doit utiliser HTTPS en production');
+  if (cfg.prod && !/^https:\/\//.test(cfg.siteUrl)) problems.push('SITE_URL doit utiliser HTTPS en production');
   if (cfg.prod && cfg.payMode === 'mock') problems.push('PAY_MODE=mock est interdit en production');
   if (cfg.payMode === 'cinetpay' && !(cfg.cinetpay.apiKey && cfg.cinetpay.siteId)) problems.push('CINETPAY_API_KEY et CINETPAY_SITE_ID requis');
   return problems;
 }
 
 export const origins = () => [cfg.siteUrl, ...cfg.extraOrigins, ...(cfg.prod ? [] : ['http://localhost:8765', 'http://127.0.0.1:8765'])];
+
