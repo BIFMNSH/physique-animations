@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maquette · deux autres dispositions · NOHOBA-Lab</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/simple/simple.css">
+<style>
+body{padding:20px}
+h2.t{font:800 24px 'Bricolage Grotesque',sans-serif;text-align:center;margin:30px 0 4px}
+.cap{font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);text-align:center;margin:0 0 14px}
+.maq{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;align-items:flex-start}
+.tel{width:390px;max-width:100%;border:1px solid var(--line2);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+.q{font:800 25px/1.2 'Bricolage Grotesque',sans-serif;margin:0}
+.ctx{font-size:18px;line-height:1.4;margin:0;color:var(--soft)}
+.zone{border:1px dashed var(--line2);border-radius:14px;min-height:80px;padding:10px 12px;color:var(--muted);font-size:17px}
+/* B : le chemin */
+.chem{list-style:none;margin:0;padding:0 0 0 6px;position:relative;display:flex;flex-direction:column;gap:0}
+.chem li{display:flex;gap:14px;align-items:center;min-height:46px;font-size:17px;position:relative}
+.chem li::before{content:'';position:absolute;left:12px;top:-23px;height:46px;width:3px;background:var(--line2)}
+.chem li:first-child::before{display:none}
+.chem .pt{width:28px;height:28px;border-radius:14px;border:3px solid var(--line2);background:var(--bg);flex-shrink:0;z-index:1;display:flex;align-items:center;justify-content:center;font:800 13px sans-serif}
+.chem .fait .pt{background:var(--line2)}.chem .fait{color:var(--muted)}
+.chem .ici .pt{background:var(--go);border-color:var(--go);color:#fff}.chem .ici{font-weight:800;font-size:19px}
+.chem .fut{color:var(--muted)}
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 4px 40px}
+.fork span{border:1px solid var(--line2);border-radius:12px;padding:6px 8px;font-size:15px;text-align:center}
+.fork .on{border-color:var(--go);outline:1px solid var(--go)}
+.act{border-radius:18px;background:var(--panel);padding:14px;display:flex;flex-direction:column;gap:10px}
+/* C : le carnet */
+.carn{display:flex;flex-direction:column;gap:10px}
+.mom{border-radius:16px;background:var(--panel);padding:12px 14px}
+.mom.fait{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.mom.fait b{font-size:16px;color:var(--muted);display:block}
+.mom.fait span{font-size:17px}
+.mom.fait .ok{color:var(--t-green,#86EFAC);font-weight:800}
+.mom.cur{outline:2px solid var(--go);display:flex;flex-direction:column;gap:10px}
+.mom.cur h3{margin:0;font:800 22px 'Bricolage Grotesque',sans-serif}
+.mom.fut{color:var(--muted);font-size:17px;opacity:.8}
+.bar{position:sticky;bottom:0}
+</style></head>
+<body>
+<h1 class="sp-h1" style="text-align:center;font-size:28px;margin:0 0 4px">Deux autres dispositions</h1>
+<p class="cap">Même parcours, mêmes étapes. La disposition A (un moment par écran) reste celle déjà envoyée.</p>
+
+<h2 class="t">B · Le chemin</h2>
+<p class="cap">L’élève voit tout son parcours en une colonne (avec la bifurcation) ; le moment en cours est dessous.</p>
+<div class="maq">
+ <section class="tel" aria-label="B, écran 1 : situation">
+  <header class="sp-top"><a class="sp-round" href="#">‹ Ma leçon</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <h1 class="q" style="font-size:22px">La lampe reste éteinte</h1>
+  <ol class="chem" aria-label="Mon chemin">
+   <li class="ici"><span class="pt">1</span>Situation-problème</li>
+   <li class="fut"><span class="pt">2</span>J’analyse et je réponds</li>
+   <li class="fut"><span class="pt">3</span>Mon hypothèse</li>
+   <li class="fut"><span class="pt">4</span>La manipulation</li>
+   <li class="fut"><span class="pt">5</span>J’observe et j’analyse</li>
+   <li class="fut"><span class="pt">6</span>Je confronte</li>
+   <li class="fut"><span class="pt">7</span>Mon bilan</li>
+   <li class="fut"><span class="pt">8</span>Bilan scientifique</li>
+   <li class="fut"><span class="pt">9</span>Défi</li>
+  </ol>
+  <div class="act"><p class="ctx">Awa relie une lampe à une pile : elle ne s’allume pas. Que se passe-t-il ?</p><a class="sp-btn" href="#">J’analyse et je réponds →</a></div>
+ </section>
+ <section class="tel" aria-label="B, écran 2 : analyse">
+  <header class="sp-top"><a class="sp-round" href="#">‹ Ma leçon</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <h1 class="q" style="font-size:22px">La lampe reste éteinte</h1>
+  <ol class="chem" aria-label="Mon chemin">
+   <li class="fait"><span class="pt">✓</span>Situation-problème</li>
+   <li class="ici"><span class="pt">2</span>J’analyse et je réponds</li>
+  </ol>
+  <div class="fork"><span class="on">Je propose une réponse</span><span>J’ai besoin d’aide (vidéo)</span></div>
+  <ol class="chem" start="3" aria-label="Suite du chemin">
+   <li class="fut"><span class="pt">3</span>Mon hypothèse</li><li class="fut"><span class="pt">…</span>5 autres moments</li>
+  </ol>
+  <div class="act"><div class="zone">J’écris ce que je pense…</div><a class="sp-btn" href="#">Je continue →</a></div>
+ </section>
+</div>
+
+<h2 class="t">C · Le carnet</h2>
+<p class="cap">Une seule page qui se remplit : ce que l’élève a déjà fait se replie en une ligne, le moment en cours est ouvert, la suite attend.</p>
+<div class="maq">
+ <section class="tel" aria-label="C, écran 1 : hypothèse">
+  <header class="sp-top"><a class="sp-round" href="#">‹ Ma leçon</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <h1 class="q" style="font-size:22px">La lampe reste éteinte</h1>
+  <div class="carn">
+   <div class="mom fait"><div><b>Situation</b><span>La lampe reste éteinte</span></div><span class="ok">✓</span></div>
+   <div class="mom fait"><div><b>Ma réponse</b><span>« Le circuit n’est pas fermé »</span></div><span class="ok">✓</span></div>
+   <div class="mom cur"><h3>Mon hypothèse</h3><p class="ctx" style="margin:0">Que va-t-il se passer si je ferme l’interrupteur ?</p><div class="zone">Je pense que…</div><a class="sp-btn" href="#">Je réalise la manipulation →</a></div>
+   <div class="mom fut">Manipulation</div><div class="mom fut">Observations et confrontation</div><div class="mom fut">Mon bilan</div><div class="mom fut">Bilan scientifique · Défi</div>
+  </div>
+ </section>
+ <section class="tel" aria-label="C, écran 2 : confrontation">
+  <header class="sp-top"><a class="sp-round" href="#">‹ Ma leçon</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <h1 class="q" style="font-size:22px">La lampe reste éteinte</h1>
+  <div class="carn">
+   <div class="mom fait"><div><b>Mon hypothèse</b><span>« La lampe s’allume si je ferme »</span></div><span class="ok">✓</span></div>
+   <div class="mom fait"><div><b>Manipulation</b><span>3 essais enregistrés</span></div><span class="ok">✓</span></div>
+   <div class="mom cur"><h3>Je confronte</h3><p class="ctx" style="margin:0">Mon hypothèse était : « La lampe s’allume si je ferme ». Les essais disent-ils la même chose ?</p><div class="zone">Oui, parce que…</div><a class="sp-btn" href="#">Je rédige mon bilan →</a></div>
+   <div class="mom fut">Mon bilan</div><div class="mom fut">Bilan scientifique · Défi</div>
+  </div>
+ </section>
+</div>
+<p class="cap" style="margin-top:24px"><b>A</b> : un moment par écran, très épuré. <b>B</b> : on voit toujours tout le chemin. <b>C</b> : l’élève relit ses propres réponses en montant dans la page.</p>
+</body></html>
