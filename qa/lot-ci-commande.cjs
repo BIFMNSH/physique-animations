@@ -177,7 +177,7 @@ console.log('Lot commande : dix parcours complets, saisies invalides, sauvegarde
 /* ---------- catalogue, pages, hors-ligne ---------- */
 const cat=new JSDOM('',{runScripts:'outside-only'}).window;cat.eval(read('assets/catalogues/6e-ci.js'));
 const items=cat.NL_CATALOGUE_CI_6E;
-for(const i of IDS)assert.equal(items.find(x=>x.sourceId==='ELE-'+i).statut,'prototype','prototype ELE-'+i);
+for(const i of IDS)assert.equal(items.find(x=>x.sourceId==='ELE-'+i).statut,'disponible','validée par le propriétaire : ELE-'+i);
 assert.equal(items.find(x=>x.sourceId==='ELE-07').statut,'disponible');
 const page=read('activites-ci/index.html');assert.ok(page.includes('commande-protection.js')&&page.includes('ELE-(?:0[1-9]|1[0-7])'));
 assert.ok(read('assets/simple/etapes-ci.js').includes('ELE-(?:0[1-9]|1[0-7])'),'page de leçon : mêmes fiches que activites-ci');

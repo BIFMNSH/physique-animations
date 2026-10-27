@@ -14,8 +14,14 @@
   /* pilote validé : proposé même si le catalogue ne se charge pas */
   var PILOTE = [{ id: 'NL-CI-6E-ELE-07', sourceId: 'ELE-07', lecon: 'Circuit électrique', titre: 'Conducteurs et isolants', statut: 'disponible' }];
   function activites(slug) { var c = window.NL_CATALOGUE_CI_6E; return (c && c.length ? c : PILOTE).filter(function (a) { return SLUG[a.lecon] === slug; }); }
-  /* une seule investigation est proposée à l'élève : la première validée par le professeur */
-  function enquete(slug) { return activites(slug).filter(function (a) { return a.statut === 'disponible' && FICHES.test(a.id); })[0] || null; }
+  /* investigations validées par le professeur pour la leçon, dans l'ordre du catalogue */
+  function enquetes(slug) { return activites(slug).filter(function (a) { return a.statut === 'disponible' && FICHES.test(a.id); }); }
+  /* l'étape « Enquête » enchaîne les investigations : la première pas terminée, et l'étape est faite quand toutes le sont */
+  function enquete(slug) {
+    var A = enquetes(slug); if (!A.length) return null;
+    var S = A.map(function (a) { return actState(a.id); }), i = S.findIndex(function (x) { return x < 6; });
+    return { act: A[i < 0 ? 0 : i], rang: (i < 0 ? A.length : i + 1), total: A.length, done: i < 0, started: S.some(function (x) { return x > 0; }) };
+  }
 
   /* parcours local : une étape par investigation validée, dans l'ordre du catalogue */
   function etapesLocal(slug) {
@@ -30,11 +36,11 @@
   function etapes(slug) {
     if (slug === LOCAL) return etapesLocal(slug);
     var p = read('pc-studio-prog')['6e-' + slug] || {}, inq = read('pc-inquiry-6e-' + slug), L = '../lecon/?l=' + slug;
-    var open = !!inq.complete, act = enquete(slug), a = act ? actState(act.id) : 0;
+    var open = !!inq.complete, E1 = enquete(slug), act = E1 && E1.act;
     var essaie = { k: 'essaie', mot: 'Essaie', d: 'Fais ta prévision, puis manipule la simulation.', href: L + '#sim', done: open, started: !!inq.started };
     var regarde = { k: 'regarde', mot: 'Regarde', d: 'Le résumé en vidéo, en une minute.', href: L + '#resume', done: !!p.resume };
     var enq = act
-      ? { k: 'enquete', mot: 'Enquête', d: act.titre + ' : mène ton investigation.', href: '../activites-ci/?a=' + act.id + '&lecon=' + slug, done: a >= 6, started: a > 0, act: act }
+      ? { k: 'enquete', mot: 'Enquête', d: (E1.total > 1 ? 'Investigation ' + E1.rang + ' sur ' + E1.total + ' : ' : '') + act.titre + '.', href: '../activites-ci/?a=' + act.id + '&lecon=' + slug, done: E1.done, started: E1.started, act: act }
       : { k: 'enquete', mot: 'Enquête', d: 'Relève le défi : utilise ce que tu as appris.', href: L + '#defi', done: !!p.defi };
     var verifie = { k: 'verifie', mot: 'Vérifie', d: 'Le quiz : vérifie ce que tu sais.', href: L + '#quiz', done: !!p.quiz };
     var ordre = window.NohobaSimple ? window.NohobaSimple.ordre() : 'essaie';

@@ -8,7 +8,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Identifier les bornes d'une pile et d'une lampe électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -19,7 +19,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Allumer une lampe électrique à l'aide d'une pile",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -30,7 +30,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Réaliser un circuit électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -41,7 +41,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Découvrir le rôle de chaque élément du circuit électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -52,7 +52,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Schématiser un circuit électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -63,7 +63,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Découvrir la notion de courant électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -74,7 +74,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Circuit électrique",
     "titre": "Découvrir le sens conventionnel du courant électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -96,7 +96,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser un circuit électrique commandé par un interrupteur simple",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -107,7 +107,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser un circuit électrique commandé par un bouton poussoir",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -118,7 +118,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser l'allumage alterné de deux lampes à l'aide d'un commutateur",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -129,7 +129,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Commande d’un circuit",
     "titre": "Réaliser un montage va-et-vient",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -140,7 +140,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Définir un court-circuit",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -151,7 +151,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Identifier les causes d'un court-circuit",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -162,7 +162,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Découvrir les dangers d'un court-circuit",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -173,7 +173,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Découvrir le rôle du fusible et du disjoncteur dans une installation électrique domestique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -184,7 +184,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Électricité",
     "lecon": "Court-circuit et protection",
     "titre": "Identifier les causes d'une panne dans un circuit électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
