@@ -18,7 +18,7 @@ Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité 
 | MES-08 | Masse d'un solide et d'un liquide | Mesurer la masse d'un liquide par différence de deux pesées | prog. p. 11 ; guide p. 28 · TP 13, activité 1 · JD p. 106-107 |
 | MES-09 | Masse d'un solide et d'un liquide | Mesurer une masse par double pesée et la comparer à la simple pesée | prog. p. 11 ; guide p. 28 · TP 13, activités 2 et 4 · JD p. 107-108 |
 | MES-10 | Masse d'un solide et d'un liquide | Associer un type de balance à son usage et à sa précision | prog. p. 11 ; guide p. 28 · JD p. 108 |
-| MES-11 | Masse d'un solide et d'un liquide | Comparer la masse et le volume d'objets pour montrer que ce sont deux grandeurs différentes | ajout du 27 octobre 2026 (idée du propriétaire) ; inspiration Lelivrescolaire ch. 2 |
+| MES-11 | Masse d'un solide et d'un liquide | Établir la relation entre la masse et le volume d'un objet | ajout du 27 octobre 2026 (idée du propriétaire) ; inspiration Lelivrescolaire ch. 2 |
 
 Règles communes à tout le lot :
 - **Intitulés officiels** (décision du 27 octobre 2026) : thème « Mesure de grandeurs physiques », leçons « Volume d'un liquide et d'un solide » et « Masse d'un solide et d'un liquide », comme le programme, les TP et le manuel. Le catalogue sera renommé à la construction. Progression : 2 séances par leçon (semaines 18 à 21), puis évaluation et remédiation.
@@ -242,24 +242,47 @@ Garde-fous : convention conforme au TP 13 pour le solide : m = m₂ − m₁ (m�
 
 Garde-fous : dessins génériques, sans marque. Portées et précisions données comme ordres de grandeur. La liste suit le guide (pèse-lettre, pèse-personne, balance romaine, balance monoplateau) et le manuel (balance électronique, pont-bascule). Le pèse-personne est gardé, sans parler de force en 6e ; le peson n'est pas proposé. Les photos du manuel ne sont pas reprises : dessins originaux.
 
-### MES-11 · Comparer la masse et le volume de quelques objets
+### MES-11 · Relation entre masse et volume
 
 | Repère | Proposition |
 |---|---|
 | Thème / Chapitre | **Mesure de grandeurs physiques** / Masse d'un solide et d'un liquide |
-| Compétence visée | Comparer la masse et le volume d'objets pour montrer que ce sont deux grandeurs différentes. |
-| À la fin de cette partie, je dois être capable de | Dire que des objets de même volume peuvent avoir des masses différentes ; que des objets de même masse peuvent avoir des volumes différents ; que pour une même matière, la masse double quand le volume double ; employer « plus lourd » au sens de « de plus grande masse » et préciser « à volume égal ». |
+| Compétence visée | Établir la relation entre la masse et le volume d'un objet. |
+| À la fin de cette partie, je dois être capable de | Dire que des objets de même volume mais de matières différentes ont des masses différentes, et que des objets de même masse peuvent avoir des volumes différents ; dire que, pour une même matière, la masse et le volume sont proportionnels (volume multiplié par 2, masse multipliée par 2) ; prévoir la masse d'un objet d'une matière connue à partir de son volume avec un tableau de proportionnalité. |
+
+La fiche suit deux parcours au choix du professeur (différenciation), avec la même conclusion : **groupe 1, les solides** ; **groupe 2, les liquides**.
 
 | Opération | Scénario proposé |
 |---|---|
-| Problématiser | Kofi aide à charger un camion : deux sacs de même taille, l'un de coton, l'autre de sable, n'ont pas du tout la même masse ; et un petit sac de riz pèse autant qu'un grand sac de feuilles de manioc. Le volume d'un objet permet-il de connaître sa masse ? |
-| Émettre une hypothèse | L'élève range cinq cylindres de même taille (bois, PVC, aluminium, fer, laiton) du plus léger au plus lourd, puis prévoit si 100 g de coton et 100 g d'écrous occupent la même place. Hypothèse enregistrée avec « car… ». |
-| Expérimenter / Investiguer | **Même volume, masses différentes** : vérifier que les cinq cylindres ont le même volume (calcul de MES-04 ou déplacement d'eau de MES-03, le bois avec le lest), puis peser chacun ; même essai avec trois bouteilles de 1,5 L remplies d'eau, d'huile et de sable sec. **Même masse, volumes différents** : équilibrer la balance Roberval avec 100 g de coton d'un côté, 100 g d'écrous de l'autre, puis comparer leurs volumes (le coton remplit un bécher, les écrous en occupent le fond). **Une seule matière** : peser une, deux, puis trois boulettes de pâte à modeler identiques et mesurer leur volume. |
-| Analyser et interpréter | À volume égal, la masse dépend de la matière ; à masse égale, le volume dépend de la matière ; pour une même matière, masse et volume augmentent ensemble (deux fois plus de volume, deux fois plus de masse). On ne peut donc pas déduire la masse du seul volume sans connaître la matière. |
-| Conclure | L'élève répond à la question de départ et corrige son classement. |
-| Communiquer | Deux tableaux (objet, volume, masse) : « même volume » et « même masse » ; tableau des boulettes ; phrase-bilan. Fiche imprimable. |
+| Problématiser | Awa et Kofi aident leur oncle à déménager. Dans le magasin, ils trouvent un sac de jetons d'awalé (ou de pions) en laiton, tous pareils, et des bidons de liquides ménagers et alimentaires de capacités différentes. Pour préparer les cartons, ils se demandent : **peut-on prévoir la masse d'un objet ou d'un liquide en connaissant son volume ?** |
+| Émettre une hypothèse | Solides : l'élève range cinq cylindres de même taille (PVC, bois, aluminium, fer, laiton) du plus léger au plus lourd. Liquides : il prévoit lequel de deux bidons de 2 L (eau de Javel diluée, vinaigre) ou de deux bouteilles (huile 1 L, sirop 0,75 L) est le plus lourd. Hypothèse enregistrée avec « car… ». |
+| Expérimenter / Investiguer | **Solides** : vérifier le même volume des cylindres (déplacement d'eau de MES-03, lest pour le bois) et les peser ; puis équilibrer 100 g de coton face à 100 g d'écrous (même masse, volumes différents) ; enfin peser 1, 2, 3 jetons de laiton identiques et mesurer leur volume. **Liquides** : sur la balance électronique, poser l'éprouvette, **tarer**, verser 10 mL puis 20 mL de chaque liquide et relever la masse. |
+| Analyser et interpréter | À volume égal, la masse dépend de la matière ; à masse égale, le volume dépend de la matière. Pour une même matière, quand le volume est multiplié par 2 (ou 3), la masse est multipliée par 2 (ou 3) : masse et volume sont proportionnels. Le tableau de proportionnalité permet de passer de 1 jeton à 12 jetons, ou de 10 mL à 2 L. |
+| Conclure | L'élève répond à la question : oui, si l'on connaît la matière et la masse d'un volume de référence ; non, si l'on ne connaît que le volume. Il calcule la masse du sac de jetons et la masse de chaque bidon. |
+| Communiquer | Tableaux « même volume » et « même masse » ; tableaux de proportionnalité (volume / masse, avec la flèche « × 12 » ou « × 200 ») ; phrase-bilan. Fiche imprimable. |
 
-Garde-fous : **ni « masse volumique » ni « densité »** (hors programme de 6e) ; aucun rapport masse/volume calculé, seulement des comparaisons et le doublement. Valeurs simulées réalistes, données comme illustrations. Vocabulaire surveillé : « le fer est plus lourd que le bois » est faux sans « à volume égal ». Le bois flotte : son volume vient du calcul ou de la méthode du lest. Sable sec seulement ; coton tassé de la même façon d'un essai à l'autre. Réutilise les dessins communs (éprouvette, balance Roberval, balance électronique).
+Garde-fous : **ni « masse volumique » ni « densité »** ; on ne calcule jamais de quotient masse ÷ volume, seulement des coefficients multiplicateurs entiers, dans un tableau de proportionnalité (outil vu en mathématiques). La proportionnalité vaut **pour une même matière** : le dire à chaque fois. Valeurs simulées réalistes, données comme illustrations (par exemple 1 jeton de laiton = 6 cm³ et environ 51 g ; 10 mL d'huile ≈ 9 g). Liquides ménagers : eau de Javel **diluée** et vinaigre restent fermés ou en simulation, avec leurs pictogrammes (lien MAT-06) ; aucun alcool à brûler (inflammable). Vocabulaire surveillé : « le fer est plus lourd que le bois » est faux sans « à volume égal ». Tarer : remettre la balance à zéro avec le récipient posé (lien MES-10).
+
+## Bilans de leçon · « L'essentiel »
+
+Un bilan par leçon, à la fin du parcours (hub `parcours-ci/`, onglet de la leçon), imprimable sur une page A4 et consultable hors ligne. Il ne s'affiche à l'élève qu'**après** les fiches de la leçon (ou sur action du professeur), pour ne pas donner les réponses avant l'investigation. Structure commune aux deux bilans :
+- **Je dois savoir** : les définitions et résultats, chacun relié à sa fiche (« voir MES-03 »).
+- **Je dois savoir faire** : les gestes de mesure, sous forme de méthode en étapes, chacun relié à sa fiche.
+- **En image** : un schéma original de synthèse.
+- **Conversions courantes** et **mots-clés**.
+- **Je vérifie** : cinq questions rapides (cartes recto verso) pour s'autoévaluer.
+
+### Leçon 1 · Volume d'un liquide et d'un solide
+- Je dois savoir : le volume est l'espace occupé par un corps (m³) ; la capacité est le volume de liquide qu'un récipient peut contenir (L) ; 1 L = 1 dm³ ; 1 mL = 1 cm³ ; 1 m³ = 1 000 L.
+- Je dois savoir faire : lire une éprouvette (valeur d'une division, œil au bas du ménisque) ; mesurer un solide par déplacement d'eau (V = V₂ − V₁) ; calculer le volume d'un cube, d'un pavé, d'un cylindre.
+- En image : trois éprouvettes côte à côte, pour un liquide, pour un solide, pour un gaz recueilli sur l'eau.
+
+### Leçon 2 · Masse d'un solide et d'un liquide
+- Je dois savoir : la masse se mesure avec une balance (kg) ; elle ne change pas quand on déforme l'objet ; simple pesée et double pesée ; plusieurs balances selon la portée et la précision ; pour une même matière, masse et volume sont proportionnels.
+- Je dois savoir faire : simple pesée d'un solide ; masse d'un liquide (m = m₂ − m₁, ou balance tarée) ; double pesée (m = m₂ − m₁) ; prévoir une masse avec un tableau de proportionnalité.
+- En image : la balance Roberval à l'équilibre ; la pesée d'un liquide avec la tare en quatre étapes ; une boule puis deux boules identiques (volume × 2, masse × 2).
+
+Garde-fous : textes et schémas originaux (la mise en page « Je dois savoir / Je dois savoir faire » est une structure courante, sans reprise du manuel). Le bilan ne remplace pas la conclusion que l'élève rédige dans chaque fiche. Même modèle à prévoir ensuite pour les leçons Électricité et Matière déjà construites (à décider).
 
 ---
 
@@ -275,4 +298,5 @@ Garde-fous : **ni « masse volumique » ni « densité »** (hors programme de 6
 
 - **Le tableau lui-même**, pour lancer la construction des dix fiches.
 - Interprétation proposée de « aller au-delà » (MES-03) : les prolongements ci-dessus, facultatifs. À corriger si tu pensais à autre chose.
-- MES-11, nouvelle fiche ajoutée à ta demande (relation masse-volume sans masse volumique).
+- MES-11 « Relation entre masse et volume », avec ses deux parcours (solides, liquides) et la proportionnalité pour une même matière.
+- Les deux bilans « L'essentiel » (leçon volume, leçon masse), et s'il faut le même modèle pour les autres leçons.
