@@ -414,16 +414,20 @@
 
   /* ================== LA LEÇON ================== */
   function start(L) {
+    /* lecteur « moments » : il lit la configuration de la leçon sans construire l'interface Studio */
+    if (window.__momentsCapture) { window.__momentsCapture(L); return; }
     var inquiry = store('pc-inquiry-' + L.id, { prediction: '', observation: '', comparison: '', conclusion: '', started: false, complete: false });
     var revision = false;
-    var app = document.documentElement; app.classList.add('app');
+    /* mode intégré (?embed=resume|sim|defi) : un seul écran Studio, sans barre du haut, dans le lecteur en moments */
+    var EMBED = (/[?&]embed=(resume|sim|defi)\b/.exec(location.search) || [])[1] || null;
+    var app = document.documentElement; app.classList.add('app'); if (EMBED) app.classList.add('embed');
     document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab';
     applySettings();
     var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage' }, vp);
     var prog = PROG[L.id] = PROG[L.id] || {}; PROG.last = L.id; save('pc-studio-prog', PROG);
 
     /* barre du haut */
-    var top = h('header', { class: 'top' }, stage);
+    var top = h('header', { class: 'top' }, stage); if (EMBED) top.hidden = true;
     /* 6e : retour à la page des quatre étapes de la leçon ; autres classes : retour à la liste des leçons */
     var back6 = L.level === '6e' && /^6e-/.test(L.id || '');
     h('a', { class: 'btn', href: back6 ? '../parcours-ci/?l=' + L.id.replace(/^6e-/, '') : (L.back || '../4e/') }, top, back6 ? '← Mes étapes' : '← Mes leçons');
@@ -547,7 +551,7 @@
     var views = {}, cur = null, ctl = {};
     function go(name) {
       /* le résumé reste toujours ouvert (il aide à se lancer) ; le défi et le quiz attendent la démarche, avec un message qui dit quoi faire */
-      if (L.inquiry && !revision && !inquiry.complete) { PROF.steps.sim = true; if (name !== 'sim' && name !== 'resume') { toast('Fais d’abord l’étape « Investigation ». Si tu es bloqué, regarde le résumé ou manipule la simulation, puis reviens.', 7000); name = 'sim'; } }
+      if (L.inquiry && !revision && !inquiry.complete && !EMBED) { PROF.steps.sim = true; if (name !== 'sim' && name !== 'resume') { toast('Fais d’abord l’étape « Investigation ». Si tu es bloqué, regarde le résumé ou manipule la simulation, puis reviens.', 7000); name = 'sim'; } }
       if (name === 'quiz' && !PROF.steps.quiz) { toast('Le quiz est désactivé par l’enseignant'); return; }
       if (!PROF.steps[name] && name !== 'quiz') { var nx = STEPS.map(function (x) { return x[0]; }).filter(function (k) { return PROF.steps[k] && k !== 'quiz'; })[0]; name = nx || 'resume'; }
       if (name === 'quiz') {
@@ -562,12 +566,12 @@
       if (ctl[name].enter) ctl[name].enter();
       try { history.replaceState(null, '', '#' + name); } catch (e) {}
     }
-    function done(step) { if (!prog[step]) { prog[step] = true; save('pc-studio-prog', PROG); paintSteps(); } }
+    function done(step) { if (!prog[step]) { prog[step] = true; save('pc-studio-prog', PROG); paintSteps(); } if (EMBED) { try { parent.postMessage({ nohoba: 'studio-done', step: step }, location.origin); } catch (e) {} } }
     ['resume', 'sim', 'defi'].forEach(function (k) { views[k] = h('section', { class: 'view' + (k === 'defi' ? ' defi' : ''), hidden: '', 'aria-label': k }, stage); });
 
     var BUILD = {
       resume: function (root) { return buildResume(root, L.resume, { stage: stage, done: function () { done('resume'); }, go: go }); },
-      sim: function (root) { return buildSim(root, L.sim, { stage: stage, done: function () { done('sim'); }, go: go, L: L, inquiry: inquiry, revision: function () { return revision; }, revise: function () { revision = true; go('resume'); } }); },
+      sim: function (root) { return buildSim(root, L.sim, { embed: !!EMBED, stage: stage, done: function () { done('sim'); }, go: go, L: L, inquiry: inquiry, revision: function () { return revision; }, revise: function () { revision = true; go('resume'); } }); },
       defi: function (root) { return buildDefi(root, L.defi, { stage: stage, done: function () { done('defi'); }, go: go, L: L }); }
     };
 
@@ -593,12 +597,18 @@
     window.addEventListener('resize', fit); document.addEventListener('fullscreenchange', fit);
     applyProf();
     var first = (location.hash || '').slice(1);
-    go(STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : (L.inquiry ? 'sim' : 'resume'));
-    if (first === 'quiz') go('quiz');
+    go(EMBED || (STEPS.some(function (x) { return x[0] === first; }) && first !== 'quiz' ? first : (L.inquiry ? 'sim' : 'resume')));
+    if (first === 'quiz' && !EMBED) go('quiz');
     if (/[?&]imprimer=fiche\b/.test(location.search)) setTimeout(function () { printSheet(false); }, 400);
     fit(); setTimeout(fit, 50);
     if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('../sw.js').catch(function () {});
     window.Studio.stage = stage;
+    /* mode intégré : le lecteur reçoit la hauteur du contenu (affichage portrait) pour ajuster le cadre */
+    if (EMBED) {
+      var sendH = function () { try { parent.postMessage({ nohoba: 'studio-h', h: Math.ceil(document.documentElement.scrollHeight) }, location.origin); } catch (e) {} };
+      if (window.ResizeObserver) new ResizeObserver(sendH).observe(document.body);
+      window.addEventListener('resize', sendH); setTimeout(sendH, 300);
+    }
   }
 
   /* ================== RÉSUMÉ VIDÉO NARRÉ ================== */
@@ -768,6 +778,7 @@
         state.complete = true; persist(); feedback.textContent = 'Trace enregistrée. Compare ton explication au bilan scientifique ; cet outil ne valide pas automatiquement sa justesse.'; bilan();
       };
     }
+    if (ctx.embed && I) { inquiryCard.hidden = true; comparisonCard.hidden = true; tabB.bilan.hidden = true; }
     var cons = h('details', { class: 'card', open: '' }, panes.manip, '<summary class="kick" style="cursor:pointer">Consigne</summary><ol style="margin-top:8px">' + (ctx.L.inquiry && ctx.L.inquiry.steps || S.steps).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>');
     var cmdCard = h('div', { class: 'card' }, panes.manip, '<h3>Commandes</h3>');
     var msg = h('div', { class: 'msg', 'aria-live': 'polite' }, panes.manip);
@@ -794,7 +805,7 @@
     var model = S.build(api);
     function unlock() {
       if (!I) return;
-      var locked = !state.started && !ctx.revision();
+      var locked = !state.started && !ctx.revision() && !ctx.embed;
       main.hidden = locked; cmdCard.hidden = locked; cons.hidden = locked; msg.hidden = locked; if (rr) rr.hidden = locked; root.classList.toggle('inquiry-start', locked);
       initial.textContent = state.prediction || 'Aucune prévision enregistrée.';
       tabB.mes.disabled = locked; tabB.bilan.disabled = locked;

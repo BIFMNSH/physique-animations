@@ -13,25 +13,28 @@
   var TC = { 'var(--amber)': 'var(--t-amber)', 'var(--blue)': 'var(--t-blue)', 'var(--green)': 'var(--t-green)', 'var(--violet)': 'var(--t-violet)' };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function prog() { try { return JSON.parse(localStorage.getItem('pc-studio-prog') || '{}') || {}; } catch (e) { return {}; } }
-  function href(slug) { return (CI ? '../parcours-ci/?l=' : '../lecon/?l=') + slug; }
-  function bar(n) { var h = ''; for (var i = 0; i < 4; i++) h += '<i' + (i < n ? ' class="on"' : '') + '></i>'; return '<span class="sp-bar" role="img" aria-label="' + n + ' étape' + (n > 1 ? 's' : '') + ' sur 4">' + h + '</span>'; }
+  /* 6e : neuf moments par leçon (lecon-ci/) ; les parcours d'investigations locaux gardent leur page */
+  var MOM = CI && window.NohobaMoments, TOT = MOM ? MOM.N : 4;
+  function href(slug, local) { return (CI ? (local ? '../parcours-ci/?l=' : '../lecon-ci/?l=') : '../lecon/?l=') + slug; }
+  function bar(n) { var h = ''; for (var i = 0; i < TOT; i++) h += '<i' + (i < n ? ' class="on"' : '') + '></i>'; return '<span class="sp-bar" role="img" aria-label="' + n + (MOM ? ' moment' : ' étape') + (n > 1 ? 's' : '') + ' sur ' + TOT + '">' + h + '</span>'; }
 
   function render() {
     var P = prog();
     /* 6e : mêmes quatre étapes que la page de leçon (Essaie, Regarde, Enquête, Vérifie) */
     var ECI = CI && window.NohobaEtapesCI;
-    function steps(slug) { if (ECI) return ECI.etapes(slug).done; var p = P[LV + '-' + slug] || {}; return STEPS.filter(function (k) { return p[k]; }).length; }
+    function steps(slug) { if (MOM) return MOM.faits(slug); if (ECI) return ECI.etapes(slug).done; var p = P[LV + '-' + slug] || {}; return STEPS.filter(function (k) { return p[k]; }).length; }
     var ready = [];
     PRG.forEach(function (t) { t.les.forEach(function (l) { if (l.ready && !l.local) ready.push(l); }); });
     /* leçon à reprendre : la dernière ouverte si elle n'est pas finie, sinon la première pas finie */
     var cur = ready.filter(function (l) { return LV + '-' + l.slug === P.last; })[0];
     /* 6e : une leçon déjà commencée (démarche ou enquête) compte comme « en cours » même sans étape Studio terminée */
-    if (!cur && ECI) cur = ready.filter(function (l) { var e = ECI.etapes(l.slug); return e.done > 0 && e.done < 4 || e.list.some(function (x) { return x.started; }); })[0];
-    if (!cur || steps(cur.slug) === 4) cur = ready.filter(function (l) { return steps(l.slug) < 4; })[0] || null;
+    if (!cur && MOM) cur = ready.filter(function (l) { return MOM.commence(l.slug) && MOM.faits(l.slug) < TOT; })[0];
+    else if (!cur && ECI) cur = ready.filter(function (l) { var e = ECI.etapes(l.slug); return e.done > 0 && e.done < 4 || e.list.some(function (x) { return x.started; }); })[0];
+    if (!cur || steps(cur.slug) === TOT) cur = ready.filter(function (l) { return steps(l.slug) < TOT; })[0] || null;
 
     var box = document.getElementById('reprise');
     if (cur) {
-      var n = steps(cur.slug), started = n || ECI && ECI.etapes(cur.slug).list.some(function (x) { return x.started; });
+      var n = steps(cur.slug), started = n || (MOM ? MOM.commence(cur.slug) : ECI && ECI.etapes(cur.slug).list.some(function (x) { return x.started; }));
       box.innerHTML = '<a class="sp-resume" href="' + href(cur.slug) + '"><small>' + (started ? 'Tu t’es arrêté ici' : 'Commence par cette leçon') + '</small><b>' + esc(cur.t) + '</b>' + bar(n) + '<span class="sp-btn">' + (started ? 'Continuer →' : 'Commencer →') + '</span></a>';
     } else if (ready.length) {
       box.innerHTML = '<div class="sp-resume"><b>Bravo, tout est terminé !</b><small>Tu peux refaire n’importe quelle leçon ci-dessous.</small></div>';
@@ -45,9 +48,9 @@
         if (l.local) {
           /* parcours d'investigations : une ligne, hors de la progression des leçons */
           var R = ECI && ECI.etapes(l.slug), tot = R ? R.list.length : 0, fin = R ? R.done : 0, ok = tot && fin === tot;
-          return '<li><a class="sp-les' + (ok ? ' done' : '') + '" href="' + href(l.slug) + '"><span class="n" aria-hidden="true">' + num + '</span><span class="t">' + esc(l.t) + '</span>' + (tot ? '<span class="s">' + (ok ? 'Terminé ✓' : fin + ' / ' + tot) + '</span>' : '') + '</a></li>';
+          return '<li><a class="sp-les' + (ok ? ' done' : '') + '" href="' + href(l.slug, true) + '"><span class="n" aria-hidden="true">' + num + '</span><span class="t">' + esc(l.t) + '</span>' + (tot ? '<span class="s">' + (ok ? 'Terminé ✓' : fin + ' / ' + tot) + '</span>' : '') + '</a></li>';
         }
-        var n = steps(l.slug), isCur = cur && cur.slug === l.slug, done = n === 4;
+        var n = steps(l.slug), isCur = cur && cur.slug === l.slug, done = n === TOT;
         var state = done ? 'Terminée ✓' : isCur && n ? 'En cours' : '';
         return '<li><a class="sp-les' + (done ? ' done' : isCur ? ' cur' : '') + '" href="' + href(l.slug) + '"' + (isCur ? ' aria-current="step"' : '') + '><span class="n" aria-hidden="true">' + num + '</span><span class="t">' + esc(l.t) + '</span>' + (state ? '<span class="s">' + state + '</span>' : '') + '</a></li>';
       }).join('') + '</ol></section>';

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
+<title>Leçon de 6e · NOHOBA-Lab</title>
+<meta name="description" content="Une leçon de physique-chimie de sixième en neuf moments : de la situation-problème au défi.">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/simple/simple.css">
+<link rel="stylesheet" href="../assets/simple/moments.css">
+</head>
+<body>
+<a class="sp-skip" href="#main">Aller au moment</a>
+<div class="sp mo">
+  <header class="sp-top">
+    <a class="sp-round" href="../6e/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Mes leçons</a>
+    <button type="button" class="sp-round" data-sp-theme aria-label="Changer de thème"></button>
+  </header>
+  <main class="sp-main mo-main" id="main">
+    <div class="mo-lede"><p class="mo-theme" id="mo-theme"></p><p class="mo-lecon" id="mo-lecon"></p></div>
+    <div class="mo-prog"><span class="sp-bar" id="mo-bar" role="img" aria-label="Moment 1 sur 9"></span><span class="sp-note" id="mo-count" aria-live="polite">Moment 1 sur 9</span></div>
+    <div class="mo-grid" id="mo-grid">
+      <section id="mo-top" class="mo-top" aria-live="polite"></section>
+      <div id="hosts" class="mo-hosts" hidden></div>
+      <section id="mo-bottom" class="mo-bottom"></section>
+    </div>
+    <button type="button" class="mo-prev" id="mo-prev" hidden>← Moment précédent</button>
+  </main>
+  <footer class="mo-foot"><p class="sp-note">Tes réponses restent sur cet appareil.</p></footer>
+</div>
+<script src="../assets/studio/studio.js"></script>
+<script src="../assets/studio/programme.js"></script>
+<script src="../assets/simple/simple.js"></script>
+<script src="../assets/simple/moments-prog.js"></script>
+<script src="../assets/simple/moments.js"></script>
+</body></html>
