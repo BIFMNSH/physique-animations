@@ -1,6 +1,6 @@
 # Scénarios à valider · lot Mesure de grandeurs physiques (MES-01 à MES-11)
 
-27 octobre 2026 (mises à jour le même jour : programme MENA, TP DPFC 12 et 13, manuel JD, décisions du propriétaire) · collection Côte d'Ivoire, 6e · thème « Mesure de grandeurs physiques » · **En conception**.
+27 octobre 2026 (mises à jour le même jour : programme MENA, TP DPFC 12 et 13, manuel JD, décisions du propriétaire) · collection Côte d'Ivoire, 6e · thème « Mesure de grandeurs physiques » · **Scénarios validés par le propriétaire le 27 octobre 2026** (onze fiches et deux bilans) ; construction à faire.
 
 Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Les titres et l'ordre viennent du catalogue (`assets/catalogues/6e-ci.js`). **Sources lues** : programme éducatif et guide d'exécution de Physique-Chimie 6e (DPFC, édition APPRENDRE), compétence 3 « Mesure de grandeurs physiques » : programme p. 11, progression p. 15, guide p. 27-28 (lecture assistée, pages à confirmer) ; dossier « Extraction des 70 activités » du 23 octobre 2026. **Archive des 13 TP DPFC** (reçue le 27 octobre 2026) : fiche enseignant 12 « Volume d'un liquide et d'un solide » et fiche 13 « Masse d'un solide et d'un liquide », lues (texte et figures). **Manuel JD Éditions 6e** (collection Atome, exemplaire spécimen reçu le 27 octobre 2026) : leçon 1 « Volume d'un liquide et d'un solide » p. 93 à 98 et leçon 2 « Masse d'un solide et d'un liquide » p. 102 à 109, lues sur les pages rendues en image (numéros du manuel ; page du PDF = page du manuel + 2). Le manuel sert pour la structure et les habiletés seulement. **Inspiration complémentaire** : manuel français Lelivrescolaire *Sciences et technologie 6e*, chapitre 2 « Masse et volume » (p. 32 à 41, consulté le 27 octobre 2026) ; programme français, non ivoirien : idées de situations seulement, aucun texte ni figure repris. Les consignes, figures et formulations sont originales.
 
@@ -294,9 +294,6 @@ Garde-fous : textes et schémas originaux (la mise en page « Je dois savoir / J
 4. Intitulé du thème : « Mesure de grandeurs physiques ». Validé.
 5. Boîte de masses de 1 g à 200 g. Validé.
 
-## Reste à valider
+## Suite
 
-- **Le tableau lui-même**, pour lancer la construction des dix fiches.
-- Interprétation proposée de « aller au-delà » (MES-03) : les prolongements ci-dessus, facultatifs. À corriger si tu pensais à autre chose.
-- MES-11 « Relation entre masse et volume », avec ses deux parcours (solides, liquides) et la proportionnalité pour une même matière.
-- Les deux bilans « L'essentiel » (leçon volume, leçon masse), et s'il faut le même modèle pour les autres leçons.
+Scénarios validés le 27 octobre 2026. Construction des onze fiches et des deux bilans dans une nouvelle conversation (skill `nohoba-nouvelle-activite`), statut `prototype` jusqu'à validation.
