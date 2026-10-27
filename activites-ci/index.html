@@ -22,12 +22,16 @@
 <script src="../assets/shared/matiere-scenes.js"></script>
 <script src="../assets/shared/matiere-ui.js"></script>
 <script src="../assets/shared/energie-modele.js"></script>
+<script src="../assets/shared/mesures-modele.js"></script>
+<script src="../assets/shared/mesures-dessins.js"></script>
+<script src="../assets/shared/mesures-scenes.js"></script>
+<script src="../assets/shared/mesures-ui.js"></script>
 <script src="../assets/catalogues/6e-ci.js"></script>
 <script src="../assets/activites/activite.js"></script>
 <script>
 (function(){
   var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-CI-6E-ELE-07';
-  var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10))$/.exec(id);
+  var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01]))$/.exec(id);
   if(!mid){
     app.textContent='Cette activité n’existe pas ou est encore en conception.';return;
   }
