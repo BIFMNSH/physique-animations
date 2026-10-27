@@ -877,7 +877,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Reconnaître les effets du courant électrique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -888,7 +888,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Reconnaître des formes d'énergie",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -899,7 +899,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Décrire le transfert d'énergie d'une pile vers une lampe",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -910,7 +910,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Décrire la conversion d'énergie dans une lampe",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -921,7 +921,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Construire la chaîne énergétique pile–lampe (niveau 1)",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -932,7 +932,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Faire fonctionner une lampe avec une cellule photovoltaïque",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -943,7 +943,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "L’énergie du circuit",
     "titre": "Construire la chaîne énergétique d'un panneau photovoltaïque (niveau 2)",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -954,7 +954,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "Produire de l’énergie électrique",
     "titre": "Comparer des ressources d'énergie",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -965,7 +965,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "Produire de l’énergie électrique",
     "titre": "Choisir une installation de production d'électricité",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   },
   {
@@ -976,7 +976,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Énergie",
     "lecon": "Produire de l’énergie électrique",
     "titre": "Bilan : construire une chaîne énergétique",
-    "statut": "prototype",
+    "statut": "disponible",
     "type": "investigation"
   }
 ]);

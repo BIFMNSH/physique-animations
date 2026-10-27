@@ -17,8 +17,8 @@ function page(file,progress={},extra={}){
 /* Pages de classe simplifiées : reprise, leçons par thème, classe mémorisée, thème. */
 const w=page('6e/index.html',{'6e-circuit-electrique':{resume:true,sim:true},'6e-les-gaz':{resume:true,sim:true,defi:true,quiz:true},last:'6e-circuit-electrique'},{'pc-inquiry-6e-circuit-electrique':{started:true,complete:true},'pc-inquiry-6e-les-gaz':{started:true,complete:true},'pc-act-NL-CI-6E-MAT-07':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-26':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-08':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-09':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-10':{prevision:'x',essais:[1],confront:'x',conclusion:'x'},'pc-act-NL-CI-6E-MAT-11':{prevision:'x',essais:[1],confront:'x',conclusion:'x'}});
 const d=w.document;
-assert.equal(d.querySelectorAll('.sp-theme').length,4,'quatre thèmes en 6e');
-assert.equal(d.querySelectorAll('#lecons a.sp-les').length,14,'quatorze leçons en 6e (dont le parcours Matériaux)');
+assert.equal(d.querySelectorAll('.sp-theme').length,5,'quatre thèmes du programme et « Pour aller plus loin » en 6e');
+assert.equal(d.querySelectorAll('#lecons a.sp-les').length,15,'quinze leçons en 6e (dont les parcours Matériaux et Énergie)');
 for(const a of d.querySelectorAll('#lecons a.sp-les'))assert.ok(a.getAttribute('href').startsWith('../parcours-ci/?l='));
 const rep=d.querySelector('#reprise a.sp-resume');
 assert.ok(rep&&rep.textContent.includes('Le circuit électrique')&&rep.textContent.includes('Continuer'),'reprise de la dernière leçon');
@@ -123,17 +123,17 @@ assert.ok(cd.getElementById('frTotal').textContent.includes('48'));
 assert.equal(cd.querySelectorAll('.catalogue-group').length,5);
 assert.equal(cd.querySelectorAll('.collection-lesson').length,16);
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,89);
-assert.equal(cd.querySelectorAll('.collection-activities a').length,59,'cinquante-neuf fiches manipulables (17 Électricité, 32 Matière validées ; 10 Énergie en prototype)');
+assert.equal(cd.querySelectorAll('.collection-activities a').length,59,'cinquante-neuf fiches validées manipulables (17 Électricité, 32 Matière, 10 Énergie)');
 assert.ok(!/NL-CI|NL-C4|(ELE|ENE)-\d{2}/.test(cd.body.textContent),'aucun code interne affiché dans Collections');
 c.localStorage.setItem('pc-act-NL-CI-6E-ELE-01',JSON.stringify({v:1,prevision:{choix:'signes'},essais:[]}));
 c.dispatchEvent(new c.PageTransitionEvent('pageshow',{persisted:true}));
 assert.ok(cd.body.textContent.includes('Mon parcours : hypothèse enregistrée'),'progression personnelle distincte et actualisée');
 function filter(id,value){const input=cd.getElementById(id);input.value=value;input.dispatchEvent(new c.Event(id==='find'?'input':'change',{bubbles:true}));}
 filter('status','disponible');
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,49);
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,59);
 assert.ok([...cd.querySelectorAll('details')].every(x=>x.open),'les résultats filtrés sont directement visibles');
 filter('find','lampe');
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,3);
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,7);
 filter('find','introuvablexyz');
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,0);
 assert.ok(cd.getElementById('foldCollections').disabled);

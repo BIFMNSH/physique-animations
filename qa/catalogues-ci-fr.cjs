@@ -8,7 +8,7 @@ assert.equal(fr.length,48,'48 entrées France cycle 4');
 assert.equal(new Set(ci.map(x=>x.id)).size,89,'identifiants CI uniques');
 assert.equal(new Set(fr.map(x=>x.id)).size,48,'identifiants France uniques');
 assert.ok(ci.every(x=>x.programme==='CI'&&x.niveau==='6e'&&['conception','prototype','disponible'].includes(x.statut)&&x.id.startsWith('NL-CI-6E-')),'catalogue CI séparé');
-assert.ok(ci.filter(x=>x.statut==='disponible').every(x=>/-(ELE|MAT)-/.test(x.id)),'disponible : Électricité (validée le 27 octobre 2026) et Matière (25 octobre 2026)');assert.ok(ci.filter(x=>/-ELE-/.test(x.id)).every(x=>x.statut==='disponible'),'dix-sept fiches Électricité validées');
+assert.ok(ci.filter(x=>x.statut==='disponible').every(x=>/-(ELE|MAT|ENE)-/.test(x.id)),'disponible : Électricité, Matière et Énergie (validées le 27 octobre 2026)');assert.ok(ci.filter(x=>/-ELE-/.test(x.id)).every(x=>x.statut==='disponible'),'dix-sept fiches Électricité validées');
 assert.ok(fr.every(x=>['5e','4e','3e'].includes(x.niveau)),'niveaux du programme français');
 assert.ok(ci.every(x=>!fr.some(y=>y.id===x.id)),'espaces d’identifiants distincts');
 const totals={};for(const x of ci)totals[x.theme]=(totals[x.theme]||0)+1;

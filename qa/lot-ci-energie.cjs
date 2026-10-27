@@ -220,7 +220,7 @@ console.log('Lot Énergie : chaînes guidée (ENE-05), libre (ENE-07) et bilan (
 /* ---------- catalogue, pages, hors-ligne ---------- */
 {const dom=new JSDOM('',{runScripts:'outside-only'});dom.window.eval(read('assets/catalogues/6e-ci.js'));
  const ene=dom.window.NL_CATALOGUE_CI_6E.filter(x=>x.theme==='Énergie');
- assert.equal(ene.length,10);assert.ok(ene.every(x=>x.statut==='prototype'),'les fiches restent « prototype » tant que le propriétaire ne les a pas validées');
+ assert.equal(ene.length,10);assert.ok(ene.every(x=>x.statut==='disponible'),'dix fiches validées par le propriétaire (27 octobre 2026)');
  deq(ene.map(x=>x.sourceId),IDS.map(i=>'ENE-'+i));
  assert.equal(new Set(ene.map(x=>x.lecon)).size,2);
  for(const e of ene){const F=w['FICHE_CI_ENE'+e.sourceId.slice(-2)];assert.ok(F.titre.replace(/’/g,"'").startsWith(e.titre.replace(/ \(niveau [12]\)/,'').slice(0,20)),'titre cohérent '+e.id);}}
@@ -234,7 +234,7 @@ assert.ok(sw.includes('energie-modele.js'));
 /* parcours élève : dormant tant qu'aucune fiche n'est validée, actif ensuite */
 function etapes(statut){
   const dom=new JSDOM('',{url:'http://localhost/',runScripts:'outside-only'}),W=dom.window;W.eval(read('assets/catalogues/6e-ci.js'));
-  const cat=W.NL_CATALOGUE_CI_6E.map(x=>/ENE-0[1-3]$/.test(x.id)?{...x,statut}:{...x});W.NL_CATALOGUE_CI_6E=cat;W.eval(read('assets/simple/etapes-ci.js'));return W.NohobaEtapesCI;
+  const cat=W.NL_CATALOGUE_CI_6E.map(x=>/-ENE-/.test(x.id)&&(statut==='prototype'||/ENE-0[1-3]$/.test(x.id))?{...x,statut}:/-ENE-/.test(x.id)?{...x,statut:'prototype'}:{...x});W.NL_CATALOGUE_CI_6E=cat;W.eval(read('assets/simple/etapes-ci.js'));return W.NohobaEtapesCI;
 }
 {const dormant=etapes('prototype');assert.equal(dormant.energieActif(),false,'aucun élève ne voit le parcours avant validation');
  const actif=etapes('disponible');assert.equal(actif.energieActif(),true);
