@@ -2,7 +2,7 @@
 
 27 octobre 2026 (mises à jour le même jour : programme MENA, TP DPFC 12 et 13, manuel JD, décisions du propriétaire) · collection Côte d'Ivoire, 6e · thème « Mesure de grandeurs physiques » · **En conception**.
 
-Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Les titres et l'ordre viennent du catalogue (`assets/catalogues/6e-ci.js`). **Sources lues** : programme éducatif et guide d'exécution de Physique-Chimie 6e (DPFC, édition APPRENDRE), compétence 3 « Mesure de grandeurs physiques » : programme p. 11, progression p. 15, guide p. 27-28 (lecture assistée, pages à confirmer) ; dossier « Extraction des 70 activités » du 23 octobre 2026. **Archive des 13 TP DPFC** (reçue le 27 octobre 2026) : fiche enseignant 12 « Volume d'un liquide et d'un solide » et fiche 13 « Masse d'un solide et d'un liquide », lues (texte et figures). **Manuel JD Éditions 6e** (collection Atome, exemplaire spécimen reçu le 27 octobre 2026) : leçon 1 « Volume d'un liquide et d'un solide » p. 93 à 98 et leçon 2 « Masse d'un solide et d'un liquide » p. 102 à 109, lues sur les pages rendues en image (numéros du manuel ; page du PDF = page du manuel + 2). Le manuel sert pour la structure et les habiletés seulement. Les consignes, figures et formulations sont originales.
+Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité scientifique et pédagogique déjà certifiée. **Aucune fiche n'est construite à ce stade.** Les titres et l'ordre viennent du catalogue (`assets/catalogues/6e-ci.js`). **Sources lues** : programme éducatif et guide d'exécution de Physique-Chimie 6e (DPFC, édition APPRENDRE), compétence 3 « Mesure de grandeurs physiques » : programme p. 11, progression p. 15, guide p. 27-28 (lecture assistée, pages à confirmer) ; dossier « Extraction des 70 activités » du 23 octobre 2026. **Archive des 13 TP DPFC** (reçue le 27 octobre 2026) : fiche enseignant 12 « Volume d'un liquide et d'un solide » et fiche 13 « Masse d'un solide et d'un liquide », lues (texte et figures). **Manuel JD Éditions 6e** (collection Atome, exemplaire spécimen reçu le 27 octobre 2026) : leçon 1 « Volume d'un liquide et d'un solide » p. 93 à 98 et leçon 2 « Masse d'un solide et d'un liquide » p. 102 à 109, lues sur les pages rendues en image (numéros du manuel ; page du PDF = page du manuel + 2). Le manuel sert pour la structure et les habiletés seulement. **Inspiration complémentaire** : manuel français Lelivrescolaire *Sciences et technologie 6e*, chapitre 2 « Masse et volume » (p. 32 à 41, consulté le 27 octobre 2026) ; programme français, non ivoirien : idées de situations seulement, aucun texte ni figure repris. Les consignes, figures et formulations sont originales.
 
 ## Vue d'ensemble
 
@@ -69,7 +69,7 @@ Garde-fous : la capacité écrite sur une étiquette est une capacité nominale 
 | Opération | Scénario proposé |
 |---|---|
 | Problématiser | Kofi doit prélever 60 mL d'eau pour une expérience. Bécher, verre mesureur ou éprouvette : lequel choisir, et comment lire juste ? |
-| Émettre une hypothèse | L'élève prévoit la lecture pour trois positions de l'œil (au-dessus, au niveau, en dessous du ménisque). |
+| Émettre une hypothèse | Test de départ : lire le volume dans un biberon gradué et dans une seringue graduée (deux graduations différentes). Puis l'élève prévoit la lecture pour trois positions de l'œil (au-dessus, au niveau, en dessous du ménisque). |
 | Expérimenter / Investiguer | Panneau de lecture (comme au TP 12) : deux éprouvettes, l'une graduée en cm³, l'autre en mL, avec des valeurs de division différentes ; l'élève relève l'unité, trouve la valeur d'une division à partir de dix divisions, puis lit les volumes. Ensuite : verser ; déplacer l'œil avec un curseur ; zoom sur le ménisque ; mesurer le même liquide dans le bécher, le verre mesureur et l'éprouvette. |
 | Analyser et interpréter | On ne lit un volume qu'après avoir trouvé la valeur d'une division ; seule la visée horizontale au bas du ménisque donne la bonne valeur ; l'éprouvette, plus étroite et finement graduée, est plus précise que le bécher. |
 | Conclure | L'élève écrit la méthode en quatre étapes. |
@@ -98,6 +98,7 @@ Garde-fous : eau colorée seulement ; ménisque concave (eau). Panneaux de lectu
 - **Le solide qui flotte** (bouchon de liège) : constat d'abord, le bouchon ne s'enfonce pas et le niveau monte peu, la mesure est fausse. Puis la **méthode du lest** : on plonge un lest (écrou de fer) seul et on lit V₂ ; on attache le bouchon au lest, on replonge et on lit V₃ ; le volume du bouchon est V₃ − V₂. Une variante : enfoncer le bouchon avec une tige fine, dont le volume immergé est négligé (limite discutée).
 - **Le solide trop grand pour l'éprouvette** (une mangue, une pierre) : **vase à trop-plein** rempli jusqu'au bec ; l'eau qui déborde est recueillie et mesurée à l'éprouvette ; son volume est celui du solide.
 - **Le solide qui se dissout** (morceau de sucre) : on remplace l'eau par un liquide qui ne le dissout pas (huile), sans autre calcul.
+- **Et un gaz ?** Le même principe mesure le volume d'un gaz : éprouvette pleine d'eau retournée sur un cristallisoir, on souffle une expiration par un tube, l'air chasse l'eau et on lit le volume d'air. Lien avec MAT-10 (recueillir un gaz). Tube individuel, en simulation.
 
 Garde-fous : valeurs entières à la graduation près. Les trois prolongements restent facultatifs ; ils ne changent ni la compétence de la fiche ni son évaluation. Le solide glisse le long de la paroi pour ne pas casser le fond de l'éprouvette.
 
@@ -135,7 +136,7 @@ Garde-fous : trois dimensions dans la même unité ; valeurs entières ou au dem
 | Opération | Scénario proposé |
 |---|---|
 | Problématiser | Pour un gâteau, la recette indique 250 g de farine. Que mesure-t-on avec la balance ? Si l'on aplatit une boule de pâte à modeler, ou qu'on la coupe en morceaux, sa masse change-t-elle ? |
-| Émettre une hypothèse | L'élève prévoit l'indication de la balance après chaque transformation. |
+| Émettre une hypothèse | Question piège de départ : qu'est-ce qui est le plus lourd, un kilogramme de coton ou un kilogramme de fer ? Puis l'élève prévoit l'indication de la balance après chaque transformation. |
 | Expérimenter / Investiguer | Balance électronique du lot Matière : boule → galette → quatre morceaux réunis ; puis deux cubes de même volume (bois, fer) et deux objets de même masse mais de volumes différents. |
 | Analyser et interpréter | La masse reste la même quelle que soit la forme ; deux corps de même volume peuvent avoir des masses différentes : masse et volume sont deux grandeurs distinctes. |
 | Conclure | L'élève écrit la définition, l'unité et les conversions. |
@@ -197,6 +198,8 @@ Garde-fous : valeurs simulées ; objet propre et sec ; un objet plus lourd que l
 | Analyser et interpréter | m = m₂ − m₁ ; deux liquides de même volume n'ont pas la même masse. |
 | Conclure | L'élève écrit la méthode et la formule. |
 | Communiquer | Tableau m₁ / m₂ / m pour les deux liquides. |
+
+**Pour aller plus loin** (enrichissement facultatif) : peser 10 mL, 20 mL puis 50 mL d'eau ; l'élève constate que la masse double quand le volume double et que 1 mL d'eau a une masse d'environ 1 g. Tableau volume / masse, sans le mot « masse volumique ».
 
 Garde-fous : ici m₂ > m₁ toujours (le liquide s'ajoute) ; récipient sec à l'extérieur. Comparaison eau / huile observée, sans masse volumique. La fonction « tare » de la balance électronique est réservée à MES-10.
 
