@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maquette · étape « Essaie » · NOHOBA-Lab</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/simple/simple.css">
+<style>
+body{padding:20px}
+.maq{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;align-items:flex-start}
+.tel{width:390px;max-width:100%;border:1px solid var(--line2);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+.cap{font:700 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);text-align:center;margin:0 0 4px}
+.ess-pas{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--soft)}
+.ess-pas .sp-bar{display:flex;gap:4px;width:120px;flex-shrink:0}
+.ess-pas b{color:var(--go-ink,#FDBA74)}
+.ess-q{font:800 26px/1.2 'Bricolage Grotesque',sans-serif;margin:0}
+.ess-ctx{font-size:18px;line-height:1.4;margin:0;color:var(--soft)}
+.ess-ch{display:flex;flex-direction:column;gap:10px;border:0;padding:0;margin:0}
+.ess-ch label{display:flex;gap:12px;align-items:center;min-height:60px;border-radius:16px;background:var(--panel);padding:10px 16px;font-size:18px;font-weight:700;cursor:pointer}
+.ess-ch input{width:24px;height:24px;accent-color:#C2410C}
+.ess-ch label.on{outline:2px solid var(--go)}
+.ess-sim{border-radius:18px;background:#F7F8FB;color:#243049;padding:14px;min-height:190px;display:flex;align-items:center;justify-content:center;font-weight:700;text-align:center}
+.ess-ctl{display:flex;flex-wrap:wrap;gap:8px}
+.ess-ctl .sp-btn{min-height:48px;font-size:17px;padding:0 16px}
+.ess-note{border-radius:16px;background:var(--panel);padding:12px 14px;font-size:17px}
+.ess-lien{font-size:16px;color:var(--soft);min-height:44px;display:inline-flex;align-items:center}
+</style></head>
+<body>
+<h1 class="sp-h1" style="text-align:center;font-size:28px;margin:0 0 6px">Maquette · l’étape « Essaie »</h1>
+<p class="cap" style="margin-bottom:18px">Même langage que l’accueil : une tâche par écran, un seul gros bouton, pas d’onglets.</p>
+<div class="maq">
+ <div><p class="cap">1 · Je fais ma prévision</p>
+ <section class="tel" aria-label="Écran 1 : prévision">
+  <header class="sp-top"><a class="sp-round" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Ma leçon</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <p class="ess-pas"><span class="sp-bar"><i style="background:var(--go)"></i><i></i><i></i><i></i></span><span><b>Essaie</b> · étape 1 sur 4</span></p>
+  <h2 class="ess-q">Pourquoi la lampe reste-t-elle éteinte ?</h2>
+  <p class="ess-ctx">Une lampe est reliée à une pile, mais elle ne s’allume pas. Que penses-tu ?</p>
+  <fieldset class="ess-ch"><legend class="sp-note" style="margin-bottom:6px">Je choisis ce que je crois</legend>
+   <label class="on"><input type="radio" name="p" checked> Le circuit n’est pas fermé</label>
+   <label><input type="radio" name="p"> La pile est à l’envers</label>
+   <label><input type="radio" name="p"> La lampe est trop petite</label>
+  </fieldset>
+  <a class="sp-btn" href="#">Je teste dans la simulation →</a>
+  <a class="ess-lien" href="#">Je ne sais pas encore</a>
+ </section></div>
+
+ <div><p class="cap">2 · Je manipule</p>
+ <section class="tel" aria-label="Écran 2 : simulation">
+  <header class="sp-top"><a class="sp-round" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Ma prévision</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <p class="ess-pas"><span class="sp-bar"><i style="background:var(--go)"></i><i></i><i></i><i></i></span><span><b>Essaie</b> · je manipule</span></p>
+  <h2 class="ess-q">Change le montage, regarde la lampe</h2>
+  <div class="ess-sim" role="img" aria-label="Simulation : pile et lampe">(la simulation occupe toute la largeur)</div>
+  <div class="ess-ctl"><a class="sp-btn ghost" href="#">Fermer l’interrupteur</a><a class="sp-btn ghost" href="#">Retourner la pile</a></div>
+  <p class="ess-note"><b>Ce que je vois :</b> la lampe est éteinte, l’interrupteur est ouvert.</p>
+  <a class="sp-btn" href="#">J’ai compris, je compare →</a>
+  <a class="ess-lien" href="#">Besoin d’un coup de pouce ?</a>
+ </section></div>
+
+ <div><p class="cap">3 · Je compare à ma prévision</p>
+ <section class="tel" aria-label="Écran 3 : bilan de l’étape">
+  <header class="sp-top"><a class="sp-round" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Ma leçon</a><button type="button" class="sp-round" aria-label="Réglages">⚙</button></header>
+  <p class="ess-pas"><span class="sp-bar"><i style="background:var(--go)"></i><i></i><i></i><i></i></span><span><b>Essaie</b> · bravo</span></p>
+  <h2 class="ess-q">Tu avais prévu : « le circuit n’est pas fermé »</h2>
+  <p class="ess-note"><b>Résultat :</b> oui. La lampe s’allume seulement quand le circuit est fermé.</p>
+  <a class="sp-btn" href="#">Étape suivante : Regarde →</a>
+  <a class="ess-lien" href="#">Refaire une manipulation</a>
+ </section></div>
+</div>
+<p class="sp-note" style="text-align:center;margin-top:22px">Réglages (thème, taille du texte, contraste) : regroupés derrière un seul bouton ⚙. Retirés de l’écran : onglets Manipuler / Mesures / Bilan, « Parcours Révision », cinq boutons de réglage.</p>
+</body></html>
