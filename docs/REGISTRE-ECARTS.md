@@ -1,6 +1,6 @@
 # Registre des écarts · collection Côte d'Ivoire 6e
 
-Dernière mise à jour : 25 octobre 2026. Sources consultées pour le lot électricité : manuel JD Éditions 6e (spécimen, p. 10-16), progression DPFC, TP DPFC 6e fiche 1. Statuts : ouvert · accepté · corrigé.
+Dernière mise à jour : 27 octobre 2026. Sources consultées pour le lot électricité : manuel JD Éditions 6e (spécimen, p. 10-16), progression DPFC, TP DPFC 6e fiche 1. Statuts : ouvert · accepté · corrigé.
 
 | Fiche | Source | Écart | Décision | Statut |
 |---|---|---|---|---|
@@ -13,6 +13,7 @@ Dernière mise à jour : 25 octobre 2026. Sources consultées pour le lot élect
 | ELE-17 | Programme p. 39 ; manuel JD p. 10 (habileté seulement) | Aucune activité dédiée dans le manuel (p. 11-16) ni dans le TP DPFC fiche 1 : la manipulation des grains est entièrement NohobaLab. Formulation de la définition du courant et sens des grains à valider | À valider | ouvert |
 | CHI-01 | TP officiel | Méthode différente (bougie → paille de fer, valeurs 20 % / 80 % conservées) : note fixe à afficher | À faire | ouvert |
 | MES-08, MES-09 | Programme | Double pesée : signe de m2 − m1 à valider par le professeur | À valider avant publication | ouvert |
+| MES-01 à MES-10 | Catalogue CI 6e (titres) ; archive TP DPFC et pages MENA / JD non disponibles le 27 octobre 2026 | Scénarios du lot Grandeurs et mesures proposés sans appui officiel vérifié ; convention de double pesée proposée : m = m₂ − m₁ (m₁ = masses ajoutées avec le solide, m₂ = masses seules) | [Scénarios à valider](scenarios-lot-mesures.md). Aucune construction ; statut conception conservé. | ouvert |
 | Hub | Sécurité | Numéro des sapeurs-pompiers 180 à reconfirmer auprès du GSPM avant publication | À faire | ouvert |
 | Général | Programme | Numéros de page issus d'une lecture assistée | Confirmés exacts par le propriétaire le 25 octobre 2026 | accepté |
 | Général | Manuel | Exemplaire spécimen : structure et habiletés seulement | Appliqué | accepté |
