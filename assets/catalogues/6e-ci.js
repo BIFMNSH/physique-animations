@@ -868,5 +868,115 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "titre": "Comprendre comment un centre de tri sépare les déchets",
     "statut": "disponible",
     "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-01",
+    "sourceId": "ENE-01",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Reconnaître les effets du courant électrique",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-02",
+    "sourceId": "ENE-02",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Reconnaître des formes d'énergie",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-03",
+    "sourceId": "ENE-03",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Décrire le transfert d'énergie d'une pile vers une lampe",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-04",
+    "sourceId": "ENE-04",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Décrire la conversion d'énergie dans une lampe",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-05",
+    "sourceId": "ENE-05",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Construire la chaîne énergétique pile–lampe (niveau 1)",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-06",
+    "sourceId": "ENE-06",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Faire fonctionner une lampe avec une cellule photovoltaïque",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-07",
+    "sourceId": "ENE-07",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "L’énergie du circuit",
+    "titre": "Construire la chaîne énergétique d'un panneau photovoltaïque (niveau 2)",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-08",
+    "sourceId": "ENE-08",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "Produire de l’énergie électrique",
+    "titre": "Comparer des ressources d'énergie",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-09",
+    "sourceId": "ENE-09",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "Produire de l’énergie électrique",
+    "titre": "Choisir une installation de production d'électricité",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-ENE-10",
+    "sourceId": "ENE-10",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Énergie",
+    "lecon": "Produire de l’énergie électrique",
+    "titre": "Bilan : construire une chaîne énergétique",
+    "statut": "prototype",
+    "type": "investigation"
   }
 ]);

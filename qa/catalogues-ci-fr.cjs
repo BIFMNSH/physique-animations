@@ -3,9 +3,9 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const root=path.resolve(__dirname,'..'),ctx={window:{}};vm.createContext(ctx);
 for(const f of ['assets/catalogues/6e-ci.js','assets/activites/catalogue.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f});
 const ci=ctx.window.NL_CATALOGUE_CI_6E,fr=ctx.window.ACTIVITES;
-assert.equal(ci.length,79,'79 entrées Côte d’Ivoire');
+assert.equal(ci.length,89,'89 entrées Côte d’Ivoire');
 assert.equal(fr.length,48,'48 entrées France cycle 4');
-assert.equal(new Set(ci.map(x=>x.id)).size,79,'identifiants CI uniques');
+assert.equal(new Set(ci.map(x=>x.id)).size,89,'identifiants CI uniques');
 assert.equal(new Set(fr.map(x=>x.id)).size,48,'identifiants France uniques');
 assert.ok(ci.every(x=>x.programme==='CI'&&x.niveau==='6e'&&['conception','prototype','disponible'].includes(x.statut)&&x.id.startsWith('NL-CI-6E-')),'catalogue CI séparé');
 assert.ok(ci.filter(x=>x.statut==='disponible').every(x=>/-(ELE|MAT)-/.test(x.id)),'disponible : Électricité (validée le 27 octobre 2026) et Matière (25 octobre 2026)');assert.ok(ci.filter(x=>/-ELE-/.test(x.id)).every(x=>x.statut==='disponible'),'dix-sept fiches Électricité validées');
@@ -16,9 +16,9 @@ assert.equal(totals['Électricité'],17);
 assert.equal(totals['Propriétés physiques de la matière'],32);
 assert.equal(totals['Grandeurs et mesures physiques'],10);
 assert.equal(totals['Air et combustions'],20);
-assert.equal(new Set(ci.map(x=>x.theme+'|'+x.lecon)).size,14);
+assert.equal(totals['Énergie'],10);assert.equal(new Set(ci.map(x=>x.theme+'|'+x.lecon)).size,16);
 assert.ok(ci.some(x=>x.sourceId==='MAT-26')&&ci.some(x=>x.sourceId==='CHI-20'&&x.statut==='conception')&&ci.some(x=>x.sourceId==='ELE-17')&&!ci.some(x=>x.sourceId==='MAT-22'),'fiches complémentaires décidées, MAT-22 fusionnée dans MAT-21');
-console.log('Catalogues vérifiés : 79 CI + 48 FR, 4 thèmes CI, 14 leçons CI.');
+console.log('Catalogues vérifiés : 89 CI + 48 FR, 5 thèmes CI, 16 leçons CI.');
 
 const engine=fs.readFileSync(path.join(root,'assets/activites/activite.js'),'utf8');
 const scientific=['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'];

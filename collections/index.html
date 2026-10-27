@@ -99,7 +99,7 @@
   $('ciSummary').textContent=new Set(items.map(function(x){return x.theme;})).size+' thèmes · '+new Set(items.map(function(x){return x.lecon;})).size+' leçons · '+stats(items)+'.';
   $('frTotal').textContent=fr.length+' activités au catalogue';
   $('frSummary').textContent='5e, 4e et 3e · '+stats(fr)+'.';
-  var programme=window.PROGRAMME['6e'],themeNames={'Grandeurs et mesures physiques':'Mesure de grandeurs physiques','Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;})));
+  var POUR_ALLER_PLUS_LOIN={col:'var(--amber)',ic:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'},programme=window.PROGRAMME['6e'],themeNames={'Grandeurs et mesures physiques':'Mesure de grandeurs physiques','Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;})));
   /* volets ouverts (hors filtrage) : mémorisés sur cet appareil */
   var UI_KEY='pc-collections-ui',UI=S.store(UI_KEY,{});UI.themes=UI.themes||{};UI.lessons=UI.lessons||{};
   function saveUI(){try{localStorage.setItem(UI_KEY,JSON.stringify(UI));}catch(e){}}
@@ -117,7 +117,7 @@
     if(!filtered.length){el('p',{class:'empty-result',text:'Aucun résultat. Essaie un autre mot ou retire un filtre.'},entries);foldLabel();return;}
     themes.forEach(function(t,ti){
       var list=filtered.filter(function(x){return x.theme===t;});if(!list.length)return;
-      var p=programme.find(function(x){return x.nm===(themeNames[t]||t);}),g=el('details',{class:'catalogue-group',style:'--tc:'+p.col},entries),sm=el('summary',{},g);
+      var p=programme.find(function(x){return x.nm===(themeNames[t]||t);})||POUR_ALLER_PLUS_LOIN,g=el('details',{class:'catalogue-group',style:'--tc:'+p.col},entries),sm=el('summary',{},g);
       g.open=filtering||(t in UI.themes?UI.themes[t]:ti===0);
       var ic=el('span',{class:'catalogue-icon','aria-hidden':'true'},sm);ic.innerHTML='<svg viewBox="0 0 24 24">'+p.ic+'</svg>';
       var lessons=Array.from(new Set(list.map(function(x){return x.lecon;})));

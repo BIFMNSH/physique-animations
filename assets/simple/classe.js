@@ -7,6 +7,8 @@
   /* 6e : parcours propre à la collection Côte d’Ivoire, ajouté à la fin du thème Matière (copie : le programme partagé n'est pas modifié) */
   var PRG = JSON.parse(JSON.stringify((window.PROGRAMME || {})[LV] || []));
   if (CI) PRG.forEach(function (t) { if (t.nm === 'Propriétés physiques de la matière') t.les.push({ t: 'Matériaux, tri et déchets', slug: LOCAL, ready: true, local: true }); });
+  /* « Pour aller plus loin » : parcours Énergie (hors programme), visible seulement quand une fiche est validée */
+  if (CI && window.NohobaEtapesCI && window.NohobaEtapesCI.energieActif()) PRG.push({ nm: 'Pour aller plus loin', col: 'var(--amber)', les: [{ t: 'L’énergie du circuit', slug: window.NohobaEtapesCI.ENERGIE, ready: true, local: true }] });
   var STEPS = ['resume', 'sim', 'defi', 'quiz'];
   var TC = { 'var(--amber)': 'var(--t-amber)', 'var(--blue)': 'var(--t-blue)', 'var(--green)': 'var(--t-green)', 'var(--violet)': 'var(--t-violet)' };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
