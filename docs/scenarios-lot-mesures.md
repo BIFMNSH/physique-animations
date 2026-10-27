@@ -1,4 +1,4 @@
-# Scénarios à valider · lot Mesure de grandeurs physiques (MES-01 à MES-10)
+# Scénarios à valider · lot Mesure de grandeurs physiques (MES-01 à MES-11)
 
 27 octobre 2026 (mises à jour le même jour : programme MENA, TP DPFC 12 et 13, manuel JD, décisions du propriétaire) · collection Côte d'Ivoire, 6e · thème « Mesure de grandeurs physiques » · **En conception**.
 
@@ -18,6 +18,7 @@ Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité 
 | MES-08 | Masse d'un solide et d'un liquide | Mesurer la masse d'un liquide par différence de deux pesées | prog. p. 11 ; guide p. 28 · TP 13, activité 1 · JD p. 106-107 |
 | MES-09 | Masse d'un solide et d'un liquide | Mesurer une masse par double pesée et la comparer à la simple pesée | prog. p. 11 ; guide p. 28 · TP 13, activités 2 et 4 · JD p. 107-108 |
 | MES-10 | Masse d'un solide et d'un liquide | Associer un type de balance à son usage et à sa précision | prog. p. 11 ; guide p. 28 · JD p. 108 |
+| MES-11 | Masse d'un solide et d'un liquide | Comparer la masse et le volume d'objets pour montrer que ce sont deux grandeurs différentes | ajout du 27 octobre 2026 (idée du propriétaire) ; inspiration Lelivrescolaire ch. 2 |
 
 Règles communes à tout le lot :
 - **Intitulés officiels** (décision du 27 octobre 2026) : thème « Mesure de grandeurs physiques », leçons « Volume d'un liquide et d'un solide » et « Masse d'un solide et d'un liquide », comme le programme, les TP et le manuel. Le catalogue sera renommé à la construction. Progression : 2 séances par leçon (semaines 18 à 21), puis évaluation et remédiation.
@@ -32,7 +33,7 @@ Règles communes à tout le lot :
 - Une seule variable modifiée à la fois. Hypothèse enregistrée avant la manipulation, jamais écrasée.
 - Repères locaux : bidon de 5 L, bouteille d'eau de 1,5 L, sachet d'eau, jus de gingembre, sac de riz de 25 kg, quintal de cacao, grumier, marché, F CFA ; prénoms Awa, Kofi, Aya, Yao.
 - Hors lot : poids, masse volumique, mole. Le guide rappelle que masse et pesée sont déjà vues à l'école primaire (CM1, CM2) : MES-05 part de ces acquis.
-- Ordre conseillé : MES-01 → MES-04 (volume), puis MES-05 → MES-10 (masse). MES-06 et MES-07 précèdent MAT-23 (conservation de la masse), déjà construite : vérifier la cohérence de vocabulaire avec elle.
+- Ordre conseillé : MES-01 → MES-04 (volume), puis MES-05 → MES-10 (masse), puis MES-11, qui réutilise la mesure du volume (MES-03, MES-04) et la pesée (MES-07). Catalogue : 79 → 80 entrées à la construction. MES-06 et MES-07 précèdent MAT-23 (conservation de la masse), déjà construite : vérifier la cohérence de vocabulaire avec elle.
 - Statut `prototype` après construction, jusqu'à validation du propriétaire. Corrigés dans `server/private/corriges-ci/`, jamais dans un fichier public. Aucun code interne affiché à l'élève.
 
 ---
@@ -131,18 +132,18 @@ Garde-fous : trois dimensions dans la même unité ; valeurs entières ou au dem
 |---|---|
 | Thème / Chapitre | **Mesure de grandeurs physiques** / Masse d'un solide et d'un liquide |
 | Compétence visée | Définir la masse d'un corps et citer ses unités. |
-| À la fin de cette partie, je dois être capable de | Dire que la masse est la grandeur que l'on mesure avec une balance ; citer l'unité internationale (kg), ses multiples (tonne, quintal) et sous-multiples (hg, dag, g, dg, cg, mg) ; dire que la masse ne change pas quand on déforme ou découpe un corps sans rien perdre ; distinguer masse et volume. |
+| À la fin de cette partie, je dois être capable de | Dire que la masse est la grandeur que l'on mesure avec une balance ; citer l'unité internationale (kg), ses multiples (tonne, quintal) et sous-multiples (hg, dag, g, dg, cg, mg) ; dire que la masse ne change pas quand on déforme ou découpe un corps sans rien perdre ; dire que masse et volume sont deux grandeurs différentes (approfondi en MES-11). |
 
 | Opération | Scénario proposé |
 |---|---|
 | Problématiser | Pour un gâteau, la recette indique 250 g de farine. Que mesure-t-on avec la balance ? Si l'on aplatit une boule de pâte à modeler, ou qu'on la coupe en morceaux, sa masse change-t-elle ? |
 | Émettre une hypothèse | Question piège de départ : qu'est-ce qui est le plus lourd, un kilogramme de coton ou un kilogramme de fer ? Puis l'élève prévoit l'indication de la balance après chaque transformation. |
-| Expérimenter / Investiguer | Balance électronique du lot Matière : boule → galette → quatre morceaux réunis ; puis deux cubes de même volume (bois, fer) et deux objets de même masse mais de volumes différents. |
-| Analyser et interpréter | La masse reste la même quelle que soit la forme ; deux corps de même volume peuvent avoir des masses différentes : masse et volume sont deux grandeurs distinctes. |
+| Expérimenter / Investiguer | Balance électronique du lot Matière : boule → galette → quatre morceaux réunis ; puis le kilogramme de coton et le kilogramme de fer posés tour à tour : même indication. |
+| Analyser et interpréter | La masse reste la même quelle que soit la forme ; un kilogramme est un kilogramme, quelle que soit la matière. |
 | Conclure | L'élève écrit la définition, l'unité et les conversions. |
 | Communiquer | Tableau de conversion (t, q, kg, hg, dag, g, dg, cg, mg) et classement d'objets du quotidien par masse (du grain de riz au quintal de cacao). |
 
-Garde-fous : pas de poids, pas de masse volumique (le contraste bois / fer reste une observation). Aucune perte de matière pendant les découpes (on rassemble tous les morceaux sur le plateau).
+Garde-fous : pas de poids, pas de masse volumique. La comparaison des volumes est laissée à MES-11. Aucune perte de matière pendant les découpes (on rassemble tous les morceaux sur le plateau).
 
 ### MES-06 · Expliquer le principe de la simple pesée
 
@@ -241,6 +242,25 @@ Garde-fous : convention conforme au TP 13 pour le solide : m = m₂ − m₁ (m�
 
 Garde-fous : dessins génériques, sans marque. Portées et précisions données comme ordres de grandeur. La liste suit le guide (pèse-lettre, pèse-personne, balance romaine, balance monoplateau) et le manuel (balance électronique, pont-bascule). Le pèse-personne est gardé, sans parler de force en 6e ; le peson n'est pas proposé. Les photos du manuel ne sont pas reprises : dessins originaux.
 
+### MES-11 · Comparer la masse et le volume de quelques objets
+
+| Repère | Proposition |
+|---|---|
+| Thème / Chapitre | **Mesure de grandeurs physiques** / Masse d'un solide et d'un liquide |
+| Compétence visée | Comparer la masse et le volume d'objets pour montrer que ce sont deux grandeurs différentes. |
+| À la fin de cette partie, je dois être capable de | Dire que des objets de même volume peuvent avoir des masses différentes ; que des objets de même masse peuvent avoir des volumes différents ; que pour une même matière, la masse double quand le volume double ; employer « plus lourd » au sens de « de plus grande masse » et préciser « à volume égal ». |
+
+| Opération | Scénario proposé |
+|---|---|
+| Problématiser | Kofi aide à charger un camion : deux sacs de même taille, l'un de coton, l'autre de sable, n'ont pas du tout la même masse ; et un petit sac de riz pèse autant qu'un grand sac de feuilles de manioc. Le volume d'un objet permet-il de connaître sa masse ? |
+| Émettre une hypothèse | L'élève range cinq cylindres de même taille (bois, PVC, aluminium, fer, laiton) du plus léger au plus lourd, puis prévoit si 100 g de coton et 100 g d'écrous occupent la même place. Hypothèse enregistrée avec « car… ». |
+| Expérimenter / Investiguer | **Même volume, masses différentes** : vérifier que les cinq cylindres ont le même volume (calcul de MES-04 ou déplacement d'eau de MES-03, le bois avec le lest), puis peser chacun ; même essai avec trois bouteilles de 1,5 L remplies d'eau, d'huile et de sable sec. **Même masse, volumes différents** : équilibrer la balance Roberval avec 100 g de coton d'un côté, 100 g d'écrous de l'autre, puis comparer leurs volumes (le coton remplit un bécher, les écrous en occupent le fond). **Une seule matière** : peser une, deux, puis trois boulettes de pâte à modeler identiques et mesurer leur volume. |
+| Analyser et interpréter | À volume égal, la masse dépend de la matière ; à masse égale, le volume dépend de la matière ; pour une même matière, masse et volume augmentent ensemble (deux fois plus de volume, deux fois plus de masse). On ne peut donc pas déduire la masse du seul volume sans connaître la matière. |
+| Conclure | L'élève répond à la question de départ et corrige son classement. |
+| Communiquer | Deux tableaux (objet, volume, masse) : « même volume » et « même masse » ; tableau des boulettes ; phrase-bilan. Fiche imprimable. |
+
+Garde-fous : **ni « masse volumique » ni « densité »** (hors programme de 6e) ; aucun rapport masse/volume calculé, seulement des comparaisons et le doublement. Valeurs simulées réalistes, données comme illustrations. Vocabulaire surveillé : « le fer est plus lourd que le bois » est faux sans « à volume égal ». Le bois flotte : son volume vient du calcul ou de la méthode du lest. Sable sec seulement ; coton tassé de la même façon d'un essai à l'autre. Réutilise les dessins communs (éprouvette, balance Roberval, balance électronique).
+
 ---
 
 ## Décisions du propriétaire (27 octobre 2026)
@@ -254,4 +274,5 @@ Garde-fous : dessins génériques, sans marque. Portées et précisions données
 ## Reste à valider
 
 - **Le tableau lui-même**, pour lancer la construction des dix fiches.
-- Interprétation proposée de « aller au-delà » (MES-03) : les trois prolongements ci-dessus, facultatifs. À corriger si tu pensais à autre chose.
+- Interprétation proposée de « aller au-delà » (MES-03) : les prolongements ci-dessus, facultatifs. À corriger si tu pensais à autre chose.
+- MES-11, nouvelle fiche ajoutée à ta demande (relation masse-volume sans masse volumique).
