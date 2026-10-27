@@ -1,0 +1,16 @@
+# NOHOBA-Lab
+
+> Site gratuit de physique-chimie pour les collégiens francophones (6e à 3e, programme MENA de Côte d’Ivoire) : leçons, simulations, défis et quiz, sur téléphone, sans compte.
+
+## Pages principales
+- [Accueil](https://lab.nohaba.com/): choisir sa classe
+- [Sommaire des leçons](https://lab.nohaba.com/lecons/): les 53 leçons de la 6e au BEPC
+- [Classe de 6e](https://lab.nohaba.com/6e/)
+- [Classe de 5e](https://lab.nohaba.com/5e/)
+- [Classe de 4e](https://lab.nohaba.com/4e/)
+- [Classe de 3e](https://lab.nohaba.com/3e/)
+
+## Informations
+- [Mentions légales](https://lab.nohaba.com/mentions-legales/)
+- [Confidentialité](https://lab.nohaba.com/confidentialite/)
+- [Crédits](https://lab.nohaba.com/credits/)

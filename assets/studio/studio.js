@@ -421,9 +421,9 @@
     /* mode intégré (?embed=resume|sim|defi) : un seul écran Studio, sans barre du haut, dans le lecteur en moments */
     var EMBED = (/[?&]embed=(resume|sim|defi)\b/.exec(location.search) || [])[1] || null;
     var app = document.documentElement; app.classList.add('app'); if (EMBED) app.classList.add('embed');
-    document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab';
+    document.title = L.title + ' · ' + L.level + ' · NOHOBA-Lab'; var lh = document.getElementById('lh'); if (lh) lh.textContent = L.title + ' · ' + L.level;
     applySettings();
-    var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage' }, vp);
+    var vp = h('div', { class: 'viewport' }, document.body), stage = h('div', { class: 'stage', role: 'main' }, vp);
     var prog = PROG[L.id] = PROG[L.id] || {}; PROG.last = L.id; save('pc-studio-prog', PROG);
 
     /* barre du haut */

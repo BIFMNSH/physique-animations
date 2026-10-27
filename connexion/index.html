@@ -7,10 +7,21 @@
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('pc-theme')||'dark')}catch(e){}</script>
 <title>Connexion · NOHOBA-Lab</title>
 <meta name="description" content="Connexion des élèves, enseignants et établissements à NOHOBA-Lab.">
+<link rel="canonical" href="https://lab.nohaba.com/connexion/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NOHOBA-Lab">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Connexion · NOHOBA-Lab">
+<meta property="og:description" content="Connexion des élèves, enseignants et établissements à NOHOBA-Lab.">
+<meta property="og:url" content="https://lab.nohaba.com/connexion/">
+<meta property="og:image" content="https://lab.nohaba.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/style.css">
 <link rel="stylesheet" href="../assets/abo.css">
 <script defer src="../assets/compte.js"></script>
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Connexion · NOHOBA-Lab", "url": "https://lab.nohaba.com/connexion/", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}}</script>
 </head>
 <body>
 <div class="preview" role="note">Accès 100 % gratuit jusqu’au 31 décembre 2026 : un compte n’est pas nécessaire. Il sert à garder votre progression et à rejoindre une classe.</div>
@@ -45,7 +56,7 @@
           <div class="field"><label for="mdp" id="lMdp">Mot de passe</label><div class="in"><input id="mdp" type="password" autocomplete="current-password" minlength="8" aria-describedby="errMdp hintMdp"><button type="button" id="voir" class="btn" style="border:none;min-height:0;height:50px;border-radius:0" aria-pressed="false">Afficher</button></div><div class="small" id="hintMdp" hidden>8 caractères minimum.</div><div class="err" id="errMdp" aria-live="polite"></div></div>
           <button class="btn primary block" type="submit" id="bMail">Se connecter</button>
           <p class="msg" id="mMail" role="status" aria-live="polite"></p>
-          <p class="small" style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 0"><a href="#" id="lBascule">Créer un compte avec une adresse e-mail</a><a href="#" id="lOubli">Mot de passe oublié ?</a></p>
+          <p class="small" style="display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 0"><a href="?mode=creer" id="lBascule">Créer un compte avec une adresse e-mail</a><a href="?mode=oubli" id="lOubli">Mot de passe oublié ?</a></p>
         </form>
         <div class="or" id="orTel" hidden>ou avec un numéro de téléphone</div>
         <form id="fTel" novalidate>
