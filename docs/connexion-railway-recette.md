@@ -36,3 +36,21 @@ La CI `Connexion et PostgreSQL` fournit un PostgreSQL jetable pour les tests d�
 ## Avant fusion
 
 Préparer un environnement de production et remplacer la destination de recette du proxy. Configurer son origine, ses fournisseurs et ses domaines. Recetter inscription, confirmation, connexion, session après rechargement, récupération de mot de passe et déconnexion sur la prévisualisation. Le statut enseignant reste déclaratif dans le socle existant : la vérification de ce statut reste un chantier distinct avant distribution de corrigés confidentiels.
+
+## Connexions sociales : Google, Facebook, Apple et X
+
+Les quatre fournisseurs sont intégrés au serveur Better Auth et au formulaire. Seuls les fournisseurs disposant de leurs deux identifiants apparaissent. Les échecs et annulations reviennent au formulaire, sans création de session locale fictive.
+
+| Fournisseur | Variables Railway | Chemin de retour |
+| --- | --- | --- |
+| Google | GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET | /api/auth/callback/google |
+| Facebook | FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET | /api/auth/callback/facebook |
+| Apple | APPLE_CLIENT_ID, APPLE_CLIENT_SECRET | /api/auth/callback/apple |
+| X | TWITTER_CLIENT_ID, TWITTER_CLIENT_SECRET | /api/auth/callback/twitter |
+
+Préfixer chaque chemin par l’origine stable de recette :
+https://physique-animations-git-feat-connexion-12d04e-bifmnshs-projects.vercel.app
+
+Enregistrer les applications chez les fournisseurs, renseigner ces URL de retour et stocker leurs secrets directement dans Railway. Ne jamais publier ces secrets dans GitHub. La protection Vercel de la recette doit permettre au testeur d’atteindre la page de retour ; Apple peut notamment renvoyer un POST. Recetter chaque fournisseur avec un compte autorisé avant ouverture publique.
+
+Les tests DOM vérifient les quatre boutons, les identifiants transmis, les URL de retour, les doubles clics et la récupération après erreur. Ils ne remplacent pas une connexion OAuth réelle. L’activation reste à effectuer avec les identifiants du propriétaire.

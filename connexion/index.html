@@ -167,9 +167,30 @@
       say('mTop',ks.length||mailOn||smsOn?'':'Les moyens de connexion sont en cours de configuration. Continuez sans compte.');
       if(mailOn){show('fMail',true);show('orMail',ks.length>0);modeMail(RESET?'reset':q.get('reset')||q.get('mode')==='oubli'?'forgot':q.get('mode')==='creer'?'up':'in');if(q.get('reset')&&!RESET)say('mMail','Ce lien a expiré. Demandez-en un nouveau.');}
       show('orTel',smsOn&&(ks.length>0||mailOn));
-      if(ks.length){show('socialRow',true);$('social').innerHTML=ks.map(function(k){return '<button type="button" class="sbtn" data-p="'+k+'"><span class="si" aria-hidden="true">'+NOM[k].charAt(0)+'</span>'+NOM[k]+'</button>';}).join('');
-        document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){say('mTop','Redirection vers '+NOM[b.dataset.p]+'…');
-          C.req('/api/auth/sign-in/social',{method:'POST',body:{provider:b.dataset.p,callbackURL:location.origin+'/connexion/'}}).then(function(r){C.marquer();if(r&&r.url)location.href=r.url;else say('mTop','Connexion indisponible pour le moment.');}).catch(function(e){say('mTop',e.message);});};});}
+      if(ks.length){show('socialRow',true);$('social').innerHTML=ks.map(function(k){return '<button type="button" class="sbtn" data-p="'+k+'">Continuer avec '+NOM[k]+'</button>';}).join('');
+        var socialBusy=false;
+        document.querySelectorAll('.sbtn').forEach(function(b){b.onclick=function(){
+          if(socialBusy)return;socialBusy=true;
+          var label=b.textContent;
+          document.querySelectorAll('.sbtn').forEach(function(el){el.disabled=true;});
+          b.setAttribute('aria-busy','true');b.textContent='Connexion à '+NOM[b.dataset.p]+'…';
+          say('mTop','Redirection vers '+NOM[b.dataset.p]+'…');
+          C.req('/api/auth/sign-in/social',{method:'POST',body:{
+            provider:b.dataset.p,callbackURL:location.origin+'/connexion/',
+            errorCallbackURL:location.origin+'/connexion/?error=oauth'
+          }}).then(function(r){
+            if(!r||!r.url)throw new Error('OAUTH_UNAVAILABLE');
+            var target=new URL(r.url);
+            if(target.protocol!=='https:')throw new Error('OAUTH_UNAVAILABLE');
+            location.assign(target.href);
+          }).catch(function(){
+            say('mTop','La connexion avec '+NOM[b.dataset.p]+' n’a pas abouti. Réessayez ou choisissez une autre méthode.');
+            socialBusy=false;b.textContent=label;b.removeAttribute('aria-busy');
+            document.querySelectorAll('.sbtn').forEach(function(el){el.disabled=false;});
+            b.focus();
+          });
+        };});
+      }
     }).catch(unavailable);
     if(q.get('verifie'))C.marquer();
     C.me().then(function(m){C.marquer();compte(m);}).catch(function(e){if(e.status===401)C.oublier();});

@@ -20,6 +20,25 @@ async function page(providers, query = '') {
   assert.equal(p.$('fTel').hidden,true);assert.equal(p.$('fMail').hidden,true);assert.match(p.$('mTop').textContent,/configuration/);p.close();
   p=await page({email:true,sms:false},'?mode=creer');
   assert.equal(p.$('rowNom').hidden,false);assert.equal(p.$('mdp').autocomplete,'new-password');p.close();
+  p=await page({google:true,facebook:true,apple:true,twitter:true,email:true});
+  assert.equal(p.$('socialRow').hidden,false);
+  const buttons=[...p.w.document.querySelectorAll('.sbtn')];
+  assert.deepEqual(buttons.map(b=>b.textContent),['Continuer avec Google','Continuer avec Apple','Continuer avec Facebook','Continuer avec X']);
+  for(const b of buttons){
+    b.click();b.click();await tick();
+    const call=p.calls.at(-1);
+    assert.equal(call.path,'/api/auth/sign-in/social');
+    assert.equal(call.body.provider,b.dataset.p);
+    assert.equal(call.body.callbackURL,'https://example.com/connexion/');
+    assert.equal(call.body.errorCallbackURL,'https://example.com/connexion/?error=oauth');
+    assert.equal(b.disabled,false);
+    assert.match(p.$('mTop').textContent,/n’a pas abouti/);
+  }
+  assert.equal(p.calls.length,4,'Un seul appel par fournisseur malgré les doubles clics');
+  p.close();
+  p=await page({google:true,facebook:false});
+  assert.equal(p.w.document.querySelectorAll('.sbtn').length,1);
+  assert.equal(p.w.document.querySelector('.sbtn').dataset.p,'google');p.close();
   p=await page({sms:true});
   const submit=()=>p.$('fTel').dispatchEvent(new p.w.Event('submit',{cancelable:true}));
   submit();assert.equal(p.$('tel').getAttribute('aria-invalid'),'true');assert.equal(p.calls.length,0);
