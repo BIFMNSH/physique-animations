@@ -16,4 +16,10 @@ assert.ok(/\.flash \.flash-x\{[^}]*width:44px;height:44px/.test(css),'cible tact
 ['parcours-ci','activites-ci','lecon-ci','bilan-ci'].forEach(p=>assert.ok(/<meta name="robots" content="noindex/.test(read(p+'/index.html')),p+' doit rester non indexée'));
 /* hors-ligne : version renouvelée */
 assert.ok(+/pc-v(\d+)/.exec(read('sw.js'))[1]>=126,'cache du service worker renouvelé');
+/* titres : 65 caractères au plus ; un seul h1 statique sur les pages de leçon et d'investigation */
+const walk=d=>fs.readdirSync(path.join(root,d),{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):[path.join(d,e.name)]);
+['3e','4e','5e','6e','lecons','decouvrir'].flatMap(d=>walk(d)).filter(f=>f.endsWith('index.html')).forEach(f=>{
+  const t=/<title[^>]*>(.*?)<\/title>/s.exec(read(f))[1];assert.ok(t.length<=65,f+' : titre de '+t.length+' caractères');});
+assert.equal((read('lecon/index.html').match(/<h1[\s>]/g)||[]).length,1,'lecon : un seul h1');
+assert.ok(/<noscript><h1>/.test(read('activites-ci/index.html')),'activites-ci : h1 statique de repli');
 console.log('studio-lecteur : OK');
