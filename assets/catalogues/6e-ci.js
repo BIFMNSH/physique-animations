@@ -478,10 +478,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-01",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Volume d’un liquide ou d’un solide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Volume d’un liquide et d’un solide",
     "titre": "S'approprier les notions de volume et de capacité",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -489,10 +489,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-02",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Volume d’un liquide ou d’un solide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Volume d’un liquide et d’un solide",
     "titre": "Mesurer le volume d'un liquide à l'aide d'un récipient gradué",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -500,10 +500,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-03",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Volume d’un liquide ou d’un solide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Volume d’un liquide et d’un solide",
     "titre": "Mesurer le volume d'un solide à l'aide d'un récipient gradué",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -511,10 +511,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-04",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Volume d’un liquide ou d’un solide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Volume d’un liquide et d’un solide",
     "titre": "Déterminer le volume d'un solide de forme géométrique simple",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -522,10 +522,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-05",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Masse d’un solide ou d’un liquide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
     "titre": "Définir la masse",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -533,10 +533,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-06",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Masse d’un solide ou d’un liquide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
     "titre": "Expliquer le principe de la simple pesée",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -544,10 +544,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-07",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Masse d’un solide ou d’un liquide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
     "titre": "Déterminer la masse d'un solide par simple pesée",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -555,10 +555,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-08",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Masse d’un solide ou d’un liquide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
     "titre": "Déterminer la masse d'un liquide par simple pesée",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -566,10 +566,10 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-09",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Masse d’un solide ou d’un liquide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
     "titre": "Déterminer la masse d'un solide par la double pesée",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -577,10 +577,21 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "sourceId": "MES-10",
     "programme": "CI",
     "niveau": "6e",
-    "theme": "Grandeurs et mesures physiques",
-    "lecon": "Masse d’un solide ou d’un liquide",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
     "titre": "Découvrir d'autres types de balances",
-    "statut": "conception",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-MES-11",
+    "sourceId": "MES-11",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Mesure de grandeurs physiques",
+    "lecon": "Masse d’un solide et d’un liquide",
+    "titre": "Relation entre masse et volume",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
