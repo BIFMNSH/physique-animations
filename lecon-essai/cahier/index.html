@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
+<title>Cahier de labo · La tension électrique · NOHOBA-Lab</title>
+<meta name="description" content="Prototype de cahier de labo de 5e : mesurer la tension aux bornes de deux lampes en série, en neuf moments.">
+<link rel="icon" href="../../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/simple/simple.css">
+<link rel="stylesheet" href="../../assets/simple/moments.css">
+<link rel="stylesheet" href="../../assets/simple/cahier-essai.css">
+</head>
+<body>
+<a class="sp-skip" href="#main">Aller au cahier</a>
+<div class="sp cb">
+  <header class="sp-top cb-top">
+    <a class="sp-round" href="../../5e/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Mes leçons</a>
+    <span class="cb-right">
+      <button type="button" class="sp-round" id="cb-prof" hidden>Mode enseignant</button>
+      <button type="button" class="sp-round" id="cb-imp">Imprimer</button>
+      <button type="button" class="sp-round" data-sp-theme aria-label="Changer de thème"></button>
+    </span>
+  </header>
+  <main class="sp-main" id="main">
+    <div class="cb-id">
+      <p class="mo-theme">Cahier de labo · Physique-chimie 5e · <b>Prototype</b></p>
+      <h1 class="sp-h1 mo-h1">La tension aux bornes de deux lampes</h1>
+      <div class="cb-champs"><label for="nom">Prénom</label><input id="nom" autocomplete="off" maxlength="40"><span id="cb-date"></span></div>
+    </div>
+    <div class="mo-prog"><span class="sp-bar" id="cb-bar" role="img" aria-label="Moment 1 sur 9"></span><span class="sp-note" id="cb-count" aria-live="polite">Moment 1 sur 9</span></div>
+    <div class="feuille" id="cb"><noscript><p class="mo-lead">Ce cahier a besoin de JavaScript.</p></noscript></div>
+  </main>
+  <footer class="mo-foot"><p class="sp-note">Tes réponses restent sur cet appareil.</p></footer>
+</div>
+<script src="../../assets/simple/simple.js"></script>
+<script src="../../assets/shared/atelier-electrique.js"></script>
+<script src="../../assets/simple/cahier-essai.js"></script>
+</body></html>
