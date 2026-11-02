@@ -1,0 +1,44 @@
+/* Leçon d'essai en quatre étapes (Essaie, Regarde, Enquête, Vérifie). S'appuie sur simple.css et moments.css. */
+.le-right{display:flex;gap:8px;align-items:center}
+.le-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.le-steps li{border-top:6px solid var(--line2);padding-top:6px;font-size:15px;font-weight:700;color:var(--muted);min-width:0}
+.le-steps li.on{border-color:var(--go);color:var(--text)}
+.le-steps li.done{border-color:var(--go);color:var(--soft)}
+#le-app{display:flex;flex-direction:column;gap:18px;min-width:0}
+.le-comp{font-size:16px;color:var(--soft)}.le-comp summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}.le-comp p{margin:0 0 8px}
+.le-lab{display:grid;gap:14px;grid-template-columns:minmax(0,1fr);min-width:0}
+.le-montage,.le-schema{min-width:0}.le-montage svg [data-p],.le-montage svg [data-inter]{cursor:pointer}
+.le-instr{display:flex;flex-direction:column;gap:12px;min-width:0}
+.le-ecran{border-radius:16px;background:#10241C;color:#B9F6CE;border:2px solid #2C5A47;padding:12px 16px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.le-ecran small{white-space:nowrap;font-size:16px;font-weight:700;color:#D6F5E2}
+.le-ecran output{font:800 clamp(38px,11vw,52px)/1 'Bricolage Grotesque',sans-serif;white-space:nowrap}
+.le-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.le-pt{min-height:64px;border-radius:16px;border:2px solid var(--line2);background:var(--panel);color:var(--text);font:800 22px 'Chiffres','Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px}
+.le-pt small{font:700 15px 'Chiffres','Atkinson Hyperlegible',sans-serif;color:var(--soft)}
+.le-pt.sel{border-color:var(--go);box-shadow:inset 0 0 0 2px var(--go)}
+.le-inter{min-height:52px;width:100%}
+.le-instr .sp-btn{width:100%}
+.le-table{width:100%;border-collapse:collapse;font-size:18px}
+.le-table th,.le-table td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+.le-table td:last-child,.le-table th:last-child{text-align:right;font-weight:800}
+.le-box{border-radius:16px;background:var(--panel);border:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.le-box p{margin:0}
+.le-box.ok{border-color:var(--t-green)}
+.le-loi{font:800 clamp(20px,5.4vw,28px)/1.25 'Chiffres','Bricolage Grotesque',sans-serif;overflow-wrap:anywhere}
+.le-ch{display:flex;flex-direction:column;gap:10px}
+.le-ch button{min-height:60px;border-radius:16px;border:2px solid var(--line2);background:var(--panel);color:var(--text);font-family:inherit;font-weight:700;font-size:18px;line-height:1.3;text-align:left;padding:10px 16px;cursor:pointer}
+.le-ch button[aria-pressed="true"]{border-color:var(--go)}
+.le-ch button.bon{border-color:var(--t-green);box-shadow:inset 0 0 0 2px var(--t-green)}
+.le-ch button.faux{border-style:dashed}
+.le-ch button:disabled{cursor:default;color:var(--soft)}
+.le-ch button.bon:disabled{color:var(--text)}
+.le-score{font:800 clamp(44px,12vw,64px)/1 'Bricolage Grotesque',sans-serif;color:var(--go-ink)}
+body.prof .le-txt,body.prof .sp-top>a{display:none!important}
+body.prof .sp{max-width:none}
+body.prof .le-right{margin-left:auto}
+@media (min-width:760px){
+  .le-lab{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}
+  .le-montage{grid-row:1 / span 2}.le-schema{grid-column:2}
+  .le-ch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:no-preference){.le-pt,.le-ch button{transition:border-color .15s}}
