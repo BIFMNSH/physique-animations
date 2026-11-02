@@ -24,29 +24,27 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  /* sommaire */
  let w=ouvre('http://localhost/livre/',{'pc-livre-dilatation-gaz':{m:4,q:[]},'pc-livre-tension':{m:9,fini:true,q:[1,1,1,0,1]}}),d=w.document;
  assert.equal(d.querySelectorAll('.toc a').length,13,'13 leçons au sommaire');assert.match(d.querySelector('.toc a[href="?l=tension"]').textContent,/Terminée · 4\/5/);assert.match(d.querySelector('.toc a[href="?l=dilatation-gaz"]').textContent,/Moment 4 sur 9/);
- /* leçon en livre (tablette) */
+ /* leçon (tablette : livre double, cahier en tiroir) */
  w=ouvre('http://localhost/livre/?l=dilatation-gaz');d=w.document;await attend();const $=s=>d.querySelector(s),pg=()=>[...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(',');
- assert.equal(pg(),'p1,p2');assert.match($('[data-pg="p1"]').textContent,/Pourquoi la lampe/);assert.ok($('#next').disabled);
- $('[data-commence]').click();$('[data-ecrire="rep"]').click();assert.ok(!$('#volet').hidden,'la feuille volante s’ouvre');
- $('#fTxt').value='a';$('[data-fok]').click();assert.match($('#fMsg').textContent,/quelques mots/);
- $('#fTxt').value='Ma réponse';$('[data-fok]').click();assert.equal(pg(),'p3,p4','le livre tourne vers l’hypothèse');assert.match($('[data-pg="p3"] .cite').textContent,/Ma réponse/);
- $('[data-ecrire="hyp"]').click();$('#fTxt').value='Mon hypothèse car';$('[data-fok]').click();
- assert.ok($('[data-pg="p3"] .ecrit'),'hypothèse écrite dans la page');assert.match($('[data-pg="p3"] .ecrit:last-of-type').className,/ecrit/);
- $('[data-labo]').click();assert.match($('#volet iframe').getAttribute('src'),/lecon\/\?l=dilatation-gaz&embed=sim/);$('[data-lfin]').click();assert.equal(pg(),'p5,p6');
- for(const k of ['obs','comp','bilan']){$(`[data-ecrire="${k}"]`).click();$('#fTxt').value='Texte '+k;$('[data-fok]').click();}
- assert.equal(pg(),'p7,p8');assert.ok($('.lang').classList.contains('up'),'le bilan scientifique se découvre');assert.match($('.bs').innerHTML,/<b>1<\/b>/);
- assert.ok($('[data-defi]').disabled);$('[data-cmp="1"]').click();$('[data-defi]').click();assert.equal(pg(),'p9a,p9b');
- for(let i=0;i<5;i++){assert.match($('[data-pg="p9b"]').textContent,new RegExp('Manche '+(i+1)+' sur 5'));$('[data-dq] [data-i="'+(i===4?0:1)+'"]').click();assert.match($('[data-dx]').textContent,/Parce que/);$('[data-dsv]').click();}
- assert.match($('[data-pg="p9b"]').textContent,/Défi terminé[\s\S]*4 manches réussies sur 5/);assert.match($('[data-pg="p9b"]').textContent,/★★★/);
- /* même travail en cahier */
- d.querySelector('#bar [data-vue="cahier"]').click();assert.ok($('#fit').hidden&&!$('#cahierVue').hidden);assert.equal(d.querySelectorAll('#cahierVue .flux').length,9);assert.match($('#cahierVue').textContent,/Texte bilan/);
- assert.equal(w.localStorage.getItem('pc-livre-vue'),'cahier');
- /* reprise et données abîmées ; téléphone en cahier */
- const st=w.localStorage.getItem('pc-livre-dilatation-gaz');w=ouvre('http://localhost/livre/?l=dilatation-gaz',{'pc-livre-dilatation-gaz':st,'pc-livre-vue':'livre'});d=w.document;await attend();
- assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'p9a,p9b','reprise à la dernière page');
- w=ouvre('http://localhost/livre/?l=dilatation-gaz',{'pc-livre-dilatation-gaz':'{cassé'});d=w.document;await attend();assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'p1,p2');
- w=ouvre('http://localhost/livre/?l=dilatation-gaz',{},390);d=w.document;await attend();assert.ok(d.body.classList.contains('sgl'));assert.equal(d.querySelectorAll('#book .page').length,1);
- d.querySelector('[data-commence]').click();assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'p2','téléphone : une page à la fois');
+ assert.equal(pg(),'s1l,s1r');assert.match($('[data-pg="s1l"]').textContent,/Pourquoi la lampe/);assert.ok($('#next').disabled,'chapitre 2 fermé');assert.match($('#cb').textContent,/Situation-problème/);
+ $('[data-ouvre]').click();assert.ok($('#cahier').classList.contains('open'),'le tiroir du cahier s’ouvre');
+ $('#c1').click();$('#trep').value='a';$('#c2').click();assert.match($('#msg2').textContent,/quelques mots/);
+ $('#trep').value='Ma réponse';$('#c2').click();assert.match($('#m2').textContent,/Ma réponse/,'la réponse reste écrite dans le cahier');
+ $('#thyp').value='Mon hypothèse car';$('#c3').click();
+ assert.equal(pg(),'s2l,s2r','le livre tourne vers le laboratoire');assert.ok(!$('#cahier').classList.contains('open'));assert.match($('[data-pg="s2r"]').textContent,/Mon hypothèse car/,'l’hypothèse apparaît dans le livre');
+ assert.ok($('#c4').disabled,'manipulation requise');$('[data-pg="s2l"] [data-labo]').click();assert.match($('#volet iframe').getAttribute('src'),/lecon\/\?l=dilatation-gaz&embed=sim/);$('[data-lfin]').click();assert.ok($('#volet').hidden);
+ for(const [c,m] of [['obs',5],['comp',6]]){$('#t'+c).value='Texte '+c;$('#c'+m).click();}
+ assert.equal(pg(),'s3l,s3r','le livre passe à « Ce que dit l’expérience »');assert.match($('[data-pg="s3l"]').textContent,/Texte obs[\s\S]*Texte comp/);assert.ok(!$('.lang').classList.contains('up'),'bilan scientifique couvert');
+ $('#tbilan').value='Texte bilan';$('#c7').click();assert.ok($('.lang').classList.contains('up'),'le rabat se soulève');assert.match($('.bs').innerHTML,/<b>1<\/b>/);
+ assert.ok($('#c8').disabled);$('[data-cmp="1"]').click();$('#c8').click();assert.equal(pg(),'s4l,s4r');
+ for(let i=0;i<5;i++){assert.match($('[data-pg="s4r"]').textContent,new RegExp('Manche '+(i+1)+' sur 5'));$('[data-dq] [data-i="'+(i===4?0:1)+'"]').click();assert.match($('[data-dx]').textContent,/Parce que/);$('[data-dsv]').click();}
+ assert.match($('[data-pg="s4r"]').textContent,/Défi terminé[\s\S]*4 manches réussies sur 5/);assert.ok($('#fin'));assert.match($('#fin').textContent,/★★★/);assert.equal(d.querySelectorAll('#cb .en').length,9);
+ /* reprise et données abîmées ; téléphone */
+ const st=w.localStorage.getItem('pc-livre-dilatation-gaz');w=ouvre('http://localhost/livre/?l=dilatation-gaz',{'pc-livre-dilatation-gaz':st});d=w.document;await attend();
+ assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'s4l,s4r','reprise au défi');assert.ok(d.querySelector('#fin'));
+ w=ouvre('http://localhost/livre/?l=dilatation-gaz',{'pc-livre-dilatation-gaz':'{cassé'});d=w.document;await attend();assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'s1l,s1r');
+ w=ouvre('http://localhost/livre/?l=dilatation-gaz',{'pc-livre-dilatation-gaz':{m:3,rep:'r',hyp:'',q:[],pos:0}},390);d=w.document;await attend();assert.ok(d.body.classList.contains('sgl'));assert.equal(d.querySelectorAll('#book .page').length,1);
+ d.querySelector('#thyp').value='Hyp';d.querySelector('#c3').click();assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'s2l','téléphone : le livre ouvre le laboratoire');
  w=ouvre('http://localhost/livre/?l=inconnue');assert.equal(w.document.querySelectorAll('.toc a').length,13,'leçon inconnue : sommaire');
- console.log('Livre de 5e : 13 leçons complètes, sommaire, neuf moments en livre et en cahier, feuille volante, laboratoire, défi et reprise contrôlés.');
+ console.log('Cartable de 5e : 13 leçons complètes, sommaire, livre et cahier liés en neuf moments, laboratoire, rabat, défi, tiroir et reprise contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});
