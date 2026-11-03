@@ -149,7 +149,7 @@ function organeReel(kind,s,x,y){s=s||{};
 function organeM(kind,st,x,y){var d=kind==='inter'?30:24;return {g:organeReel(kind,st,x,y),L:[x-d,y],R:[x+d,y]};}
 /* planche d'essai branchée aux bornes de la lampe : deux douilles en (x∓22, y) ; l'objet posé ou le fil les relie */
 function plancheM(x,y,pont){var m=pont?materiau(pont):null,g=A.douille?'':'';
-  g='<ellipse cx="'+x+'" cy="'+(y+16)+'" rx="48" ry="6" fill="#05080F" opacity=".4"/><rect x="'+(x-35)+'" y="'+(y-13)+'" width="70" height="26" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>';
+  g='<ellipse cx="'+x+'" cy="'+(y+16)+'" rx="48" ry="6" fill="#1F2B44" opacity=".16"/><rect x="'+(x-35)+'" y="'+(y-13)+'" width="70" height="26" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>';
   if(m&&pont!=='fil')g+='<rect x="'+(x-22)+'" y="'+(y-5)+'" width="44" height="10" rx="4" fill="'+m.couleur+'" stroke="#1B2540" stroke-opacity=".45" stroke-width="1.5"/>';
   g+=A.douille(x-22,y)+A.douille(x+22,y);
   if(pont==='fil'){var k=A.cab([x-22,y],1,[x+22,y],-1,m.couleur,{k:30,sansA:true,sansB:true});g+=k.svg;}
@@ -185,8 +185,8 @@ function montageBoucle(o,e){
   if(planM){s+=A.cab(lampM.L,-1,planM.L,-1,A.CK,{k:40}).svg+A.cab(lampM.R,1,planM.R,1,A.CR,{k:40}).svg;}
   if(o.courtPile){var a0=P.R,b0=P.L,dd='M'+a0[0]+' '+a0[1]+' C'+(a0[0]+10)+' '+(a0[1]-70)+' '+(b0[0]-10)+' '+(b0[1]-70)+' '+b0[0]+' '+b0[1];
     s+='<path d="'+dd+'" fill="none" stroke="#0A0F1A" stroke-opacity=".55" stroke-width="8" stroke-linecap="round" transform="translate(1.5 3)"/><path d="'+dd+'" fill="none" stroke="#F97316" stroke-width="5" stroke-linecap="round"/>';}
-  if(lache){var kk=ch[n-2],bx=kk.b[0]+kk.db*40,by=kk.b[1]-36;s+='<path d="M'+(bx-8)+' '+(by-8)+' l16 16 M'+(bx+8)+' '+(by-8)+' l-16 16" stroke="#FF8A80" stroke-width="3.5" stroke-linecap="round"/>'+T(bx+16,by+4,'fil mal serré',11,'#FF8A80',700,'start');}
-  if(o.pile==='usee'&&rev)s+=T(P.R[0]-53,P.R[1]-40,'pile usée',12,'#FF8A80',800);
+  if(lache){var kk=ch[n-2],bx=kk.b[0]+kk.db*40,by=kk.b[1]-36;s+='<path d="M'+(bx-8)+' '+(by-8)+' l16 16 M'+(bx+8)+' '+(by-8)+' l-16 16" stroke="#D9423B" stroke-width="3.5" stroke-linecap="round"/>'+T(bx+16,by+4,'fil mal serré',11,'#D9423B',700,'start');}
+  if(o.pile==='usee'&&rev)s+=T(P.R[0]-53,P.R[1]-40,'pile usée',12,'#D9423B',800);
   if(hot)ch.forEach(function(k,j){s+='<path d="'+cl[j]+'" fill="none" stroke="#FF5A2E" stroke-width="13" opacity=".22" stroke-linecap="round"/>';});
   if(!o.cache)s+=jauge(352,6,e.niveau,e.echauffement==='coupe'?'évité : coupé':NIVEAUX[e.niveau]);
   var tot=o.moteur?'moteur '+(e.moteur==='actif'?'en marche':'à l’arrêt')+' et lampe '+(lampOn?'allumée':'éteinte'):'';

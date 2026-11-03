@@ -107,9 +107,9 @@ console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées 
   const drawing=panel.querySelector('svg');
   const nb=(drawing.innerHTML.match(/<path[^>]*stroke-linecap="round"/g)||[]).length;
   assert.ok(drawing.querySelectorAll('path').length>=4,'ELE-03 banc : pile, lampe sur socle et câbles dessinés');
-  assert.ok(/#0F1729/i.test(drawing.outerHTML),'ELE-03 banc d’essai sombre comme dans les vidéos');
+  assert.ok(/background:#fff/i.test(drawing.outerHTML),'ELE-03 banc d’essai sur fond blanc comme dans les vidéos');
   const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
-  assert.ok(/#0F1729/i.test(serie)&&/aria-label="Montage/.test(serie),'montage en série sur le banc, nom accessible');
+  assert.ok(/background:#fff/i.test(serie)&&/aria-label="Montage/.test(serie),'montage en série sur le banc, nom accessible');
   const pm=w.NohobaAtelier.pileM(100,50).svg||w.NohobaAtelier.pileM(100,50);
   assert.ok(String(pm).includes('width="12" height="12"')||String(pm).length>0,'pile à deux bornes');
 }
