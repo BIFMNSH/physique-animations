@@ -88,17 +88,20 @@ function svgBanc(inner,vb,label){return '<svg viewBox="'+vb+'" role="img" aria-l
 function fiche(pt,from,col){var a=Math.atan2(pt[1]-from[1],pt[0]-from[0])*180/Math.PI;
   return '<g transform="translate('+r1(pt[0])+' '+r1(pt[1])+') rotate('+r1(a)+')"><rect x="-15" y="-5.5" width="14" height="11" rx="3" fill="'+col+'" stroke="#0A0F1A" stroke-opacity=".5"/><rect x="-9" y="-5.5" width="2.2" height="11" fill="#fff" opacity=".25"/><rect x="-2" y="-2.6" width="7" height="5.2" rx="1.5" fill="#D9B44A" stroke="#8A6D12" stroke-width=".8"/></g>';}
 /* câble entre deux douilles : il part de chacune horizontalement (da, db = ±1 : vers la gauche ou la droite) puis se courbe. Renvoie {d, svg}. */
-function cab(a,da,b,db,col,o){o=o||{};var d=Math.hypot(b[0]-a[0],b[1]-a[1]),k=o.k||Math.max(34,Math.min(80,d*.4)),c1=[a[0]+da*k,a[1]],c2=[b[0]+db*k,b[1]],
+function ctrl(a,da,b,db,k){var d=Math.hypot(b[0]-a[0],b[1]-a[1]),h=0;k=k||Math.max(34,Math.min(80,d*.4));
+  if(Math.abs(a[1]-b[1])<30&&((b[0]-a[0])*da<-4||(a[0]-b[0])*db<-4))h=64;
+  return [[a[0]+da*k,a[1]+h],[b[0]+db*k,b[1]+h]];}
+function cab(a,da,b,db,col,o){o=o||{};var cc=ctrl(a,da,b,db,o.k),c1=cc[0],c2=cc[1],
   dd='M'+r1(a[0])+' '+r1(a[1])+' C'+r1(c1[0])+' '+r1(c1[1])+' '+r1(c2[0])+' '+r1(c2[1])+' '+r1(b[0])+' '+r1(b[1]),
   s='<path d="'+dd+'" fill="none" stroke="#1F2B44" stroke-opacity=".16" stroke-width="6" stroke-linecap="round" transform="translate(1.5 3)"/>';
   if(col===CK)s+='<path d="'+dd+'" fill="none" stroke="#C9D2E3" stroke-opacity=".9" stroke-width="0" stroke-linecap="round"/>';
   s+='<path d="'+dd+'" fill="none" stroke="'+col+'" stroke-width="4.2" stroke-linecap="round"/><path d="'+dd+'" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.4" stroke-linecap="round" transform="translate(0 -1.2)"/>';
-  if(!o.sansA)s+=fiche(a,c1,col);if(!o.sansB)s+=fiche(b,c2,col);
+  if(!o.sansA)s+=fiche(a,[c1[0],a[1]],col);if(!o.sansB)s+=fiche(b,[c2[0],b[1]],col);
   return {d:dd,svg:s};}
 function ring(m,cx,cy,rx,ry){var P=[],i,a;for(i=0;i<m;i++){a=(-90+i*360/m)*Math.PI/180;P.push([cx+rx*Math.cos(a),cy+ry*Math.sin(a)]);}return P;}
 /* boucle de modules à deux douilles : le premier (pile) sort par la droite (+) et revient par la gauche (−) ; mods[i]={L:[x,y],R:[x,y]} */
 /* nombre de points du câble qui passent dans le verre ou le halo d'une lampe (avoid = [cx,cy,r]) */
-function touche(a,da,b,db,mods){var d=Math.hypot(b[0]-a[0],b[1]-a[1]),k=Math.max(34,Math.min(80,d*.4)),c1=[a[0]+da*k,a[1]],c2=[b[0]+db*k,b[1]],n=0,i,j,u,x,y,q,v;
+function touche(a,da,b,db,mods){var cc=ctrl(a,da,b,db),c1=cc[0],c2=cc[1],n=0,i,j,u,x,y,q,v;
   for(i=1;i<16;i++){u=i/16;v=1-u;x=v*v*v*a[0]+3*v*v*u*c1[0]+3*v*u*u*c2[0]+u*u*u*b[0];y=v*v*v*a[1]+3*v*v*u*c1[1]+3*v*u*u*c2[1]+u*u*u*b[1];
     for(j=0;j<mods.length;j++){q=mods[j].av;if(q&&Math.hypot(x-q[0],y-q[1])<q[2])n++;}}
   return n;}
@@ -112,19 +115,20 @@ function chaine(mods){var m=mods.length,best=null,mask,i,inJ,cost,oj,a,b,da,db,o
 function douille(x,y){return '<circle cx="'+x+'" cy="'+y+'" r="6.5" fill="#C9CED8" stroke="#6B7480" stroke-width="1.6"/><circle cx="'+x+'" cy="'+y+'" r="2.6" fill="#2A2F38"/>';}
 function socle(x,y){return '<ellipse cx="'+x+'" cy="'+(y+16)+'" rx="48" ry="6" fill="#1F2B44" opacity=".16"/><rect x="'+(x-35)+'" y="'+(y-13.2)+'" width="70" height="26.4" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>';}
 /* pile plate : deux bornes de même taille aux extrémités, − à gauche et + à droite (inv : échangés) ; douilles (x∓53, y) */
+/* borne de pile plate : lame de laiton arrondie avec plot central, identique des deux côtés (x0 = bord gauche de la lame) */
+function borne(x0,y){return '<rect x="'+x0+'" y="'+(y-9)+'" width="14" height="18" rx="3.5" fill="#D9B44A" stroke="#8A6D12" stroke-width="1.4"/><rect x="'+(x0+1.6)+'" y="'+(y-7.6)+'" width="10.8" height="4" rx="2" fill="#F6E49A" opacity=".85"/><circle cx="'+(x0+7)+'" cy="'+(y+1)+'" r="3.4" fill="#B98A16" stroke="#7A5C0C" stroke-width="1"/><circle cx="'+(x0+6.2)+'" cy="'+(y+.2)+'" r="1" fill="#F6E49A"/>';}
 function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv?'#D9423B':'#1D6FDB',dc=o.inv?'#1D6FDB':'#D9423B';
-  var g='<ellipse cx="'+x+'" cy="'+(y+27)+'" rx="56" ry="7" fill="#1F2B44" opacity=".16"/><rect x="'+(x-58)+'" y="'+(y-6)+'" width="12" height="12" rx="2" fill="#D9B44A" stroke="#8A6D12"/><rect x="'+(x+46)+'" y="'+(y-6)+'" width="12" height="12" rx="2" fill="#D9B44A" stroke="#8A6D12"/>'
-   +'<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-43)+'" y="'+(y+14)+'" width="86" height="3" rx="1.5" fill="#fff" opacity=".12"/><rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="12" rx="6" fill="#FFB547"/>'
+  var g='<ellipse cx="'+x+'" cy="'+(y+27)+'" rx="56" ry="7" fill="#1F2B44" opacity=".16"/>'+borne(x-61,y)+borne(x+47,y)+''+'<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-43)+'" y="'+(y+14)+'" width="86" height="3" rx="1.5" fill="#fff" opacity=".12"/><rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="12" rx="6" fill="#FFB547"/>'
    +T(x,y+12,'4,5 V',15,'#EEF2F8',900)+T(x-34,y-29,gs,20,gc,900)+T(x+34,y-29,ds,18,dc,900);
   if(o.fail)g+='<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#fff" opacity=".55"/>';
-  return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:[x-53,y],R:[x+53,y]};}
+  return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:[x-67,y],R:[x+67,y]};}
 /* lampe sur son socle : le verre est isolant, les deux douilles du socle sont les bornes ; douilles (x∓22, y) ; verre en (x, y-33) */
 function lampeM(x,y,on,o){o=o||{};var by=y-33,g='';
   if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="46" fill="#FFD27A" opacity=".2"/><circle cx="'+x+'" cy="'+by+'" r="30" fill="#FFD27A" opacity=".3"/>';
   g+=socle(x,y)+'<path d="M'+(x-22)+' '+y+' H'+(x-9.2)+' M'+(x+9.2)+' '+y+' H'+(x+22)+'" stroke="#3A4660" stroke-width="1.6" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="9.2" fill="#fff" stroke="#3A4660" stroke-width="1.8"/><path d="M'+(x-6.6)+' '+(y-6.6)+' L'+(x+6.6)+' '+(y+6.6)+' M'+(x+6.6)+' '+(y-6.6)+' L'+(x-6.6)+' '+(y+6.6)+'" stroke="#3A4660" stroke-width="1.8"/>'+douille(x-22,y)+douille(x+22,y);
   g+='<rect x="'+(x-8.8)+'" y="'+(y-24)+'" width="17.6" height="11" rx="3" fill="#8D96A8" stroke="#6B7480" stroke-width="1.2"/><circle cx="'+x+'" cy="'+by+'" r="19" fill="'+(on?'#FFE9A8':'#EEF2FA')+'" stroke="#9FB0C4" stroke-width="2.5"/>'
    +'<path d="M'+(x-9)+' '+(by+14)+' L'+(x-6)+' '+(by+2)+' l4 -6 l4 6 l4 -6 l4 6 L'+(x+9)+' '+(by+14)+'" fill="none" stroke="'+(on?'#FF8A00':'#8D96A8')+'" stroke-width="2.2" stroke-linejoin="round"/>';
-  if(o.grille)g+='<path d="M'+(x-4)+' '+(by-6)+' l3 4 M'+(x+4)+' '+(by-6)+' l-3 4" stroke="#FF5A4E" stroke-width="2.5"/>'+T(x,by-27,'filament coupé',11,'#D9423B',800).replace('y="'+(by-27)+'"','y="'+(y+36)+'"');
+  if(o.grille)g+='<path d="M'+(x-4)+' '+(by-6)+' l3 4 M'+(x+4)+' '+(by-6)+' l-3 4" stroke="#FF5A4E" stroke-width="2.5"/>'+T(x,by-27,'filament coupé',11,'#D9423B',800).replace('y="'+(by-27)+'"','y="'+(y+72)+'"');
   return {g:'<g data-pop="lampe" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y],verre:[x,by],av:[x,by,50]};}
 /* interrupteur sur socle : douilles (x∓30, y) ; la lame pivote autour de la douille de gauche */
 function interM(x,y,closed,nom){var x1=x-30,x2=x+30,ex=closed?x2:x1+60*Math.cos(-32*Math.PI/180),ey=closed?y:y+60*Math.sin(-32*Math.PI/180);
