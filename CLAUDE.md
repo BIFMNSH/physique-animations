@@ -17,7 +17,7 @@ Propriétaire : docteur en chimie physique, professeur de physique-chimie. Répo
 - Présentation d'une fiche : Thème (gras, couleur), Chapitre, Compétence visée, puis « À la fin de cette partie, je dois être capable de ».
 - Ne jamais afficher de code interne (NL-C4-…, NL-CI-…) ni « Programme du cycle 4 ». Les libellés ELE-07 etc. ne servent que dans le hub.
 - Les contenus utilisent toute la largeur disponible, sur ordinateur comme sur mobile (pas de défilement horizontal de page).
-- Chaque expérience affiche un montage réaliste et son schéma normalisé côte à côte. Plot et culot de la lampe sont les contacts ; le verre est isolant.
+- Chaque expérience affiche un montage réaliste et son schéma normalisé côte à côte, dans le style banc d'essai : fond blanc, modules sur socle noir, lampe sur support à deux douilles, pile plate en bloc avec deux languettes identiques, câbles souples à fiches banane ou pinces crocodiles (outils `A.banc5e`, `pileM`, `lampeM`, `interM`, `moteurM`, `cab` de `atelier-electrique.js`). Le verre de la lampe est isolant. Exception : quand l'activité porte sur le contact direct (ampoule tenue à la main et posée sur la pile, sans fil de connexion : ELE-01, ELE-02), garder le dessin de la lampe seule, avec son plot et son culot comme contacts.
 - Accessibilité : étiquettes sur les contrôles, noms accessibles sur les images (SVG `role="img"` et `aria-label`), mouvement réduit respecté.
 - Sécurité : protocoles guidés par le professeur pour toute flamme ; l'élève investigue sur simulation.
 
