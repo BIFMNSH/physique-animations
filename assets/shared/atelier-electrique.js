@@ -133,7 +133,7 @@ function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv
    +'<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="13" rx="4" fill="#FFB547"/><rect x="'+(x-33)+'" y="'+(y+30)+'" width="66" height="2.4" rx="1.2" fill="#fff" opacity=".12"/>'
    +T(x,y+20,'4,5 V',15,'#EEF2F8',900)+T(x-26,y-1,gs,16,gc,900)+T(x+26,y-1,ds,15,dc,900);
   if(o.fail)g+='<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#fff" opacity=".55"/>';
-  var AL=[x-29,y-36],AR=[x+39,y-36];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
+  var AL=[x-29,y-36],AR=[x+39,y-36];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" tabindex="0" role="button" aria-label="Voir la pile en 3D" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
 /* lampe sur son socle : le verre est isolant, les deux douilles du socle sont les bornes ; douilles (x∓22, y) ; verre en (x, y-33) */
 function lampeM(x,y,on,o){o=o||{};var by=y-33,g='';
   if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="40" fill="#FFD27A" opacity=".2"/><circle cx="'+x+'" cy="'+by+'" r="26" fill="#FFD27A" opacity=".3"/>';
@@ -141,10 +141,10 @@ function lampeM(x,y,on,o){o=o||{};var by=y-33,g='';
   g+='<rect x="'+(x-8.8)+'" y="'+(y-24)+'" width="17.6" height="11" rx="3" fill="#8D96A8" stroke="#6B7480" stroke-width="1.2"/><circle cx="'+x+'" cy="'+by+'" r="19" fill="'+(on?'#FFE9A8':'#EEF2FA')+'" stroke="#9FB0C4" stroke-width="2.5"/>'
    +'<path d="M'+(x-9)+' '+(by+14)+' L'+(x-6)+' '+(by+2)+' l4 -6 l4 6 l4 -6 l4 6 L'+(x+9)+' '+(by+14)+'" fill="none" stroke="'+(on?'#FF8A00':'#8D96A8')+'" stroke-width="2.2" stroke-linejoin="round"/>';
   if(o.grille)g+='<path d="M'+(x-4)+' '+(by-6)+' l3 4 M'+(x+4)+' '+(by-6)+' l-3 4" stroke="#FF5A4E" stroke-width="2.5"/>'+T(x,by-27,'filament coupé',11,'#D9423B',800).replace('y="'+(by-27)+'"','y="'+(y+72)+'"');
-  return {g:'<g data-pop="lampe" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y],verre:[x,by],av:[x,by,36]};}
+  return {g:'<g data-pop="lampe" tabindex="0" role="button" aria-label="Voir la lampe en 3D" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y],verre:[x,by],av:[x,by,36]};}
 /* interrupteur sur socle : douilles (x∓30, y) ; la lame pivote autour de la douille de gauche */
 function interM(x,y,closed,nom){var x1=x-30,x2=x+30,ex=closed?x2:x1+60*Math.cos(-32*Math.PI/180),ey=closed?y:y+60*Math.sin(-32*Math.PI/180);
-  return {g:'<g data-pop="inter" data-etat="'+(closed?1:0)+'" style="cursor:pointer"><ellipse cx="'+x+'" cy="'+(y+18)+'" rx="76" ry="6" fill="#1F2B44" opacity=".14"/><rect x="'+(x1-20)+'" y="'+(y-15)+'" width="100" height="32" rx="6" fill="#C9D2E3"/><rect x="'+(x1-20)+'" y="'+(y-15)+'" width="100" height="28" rx="6" fill="#EEF2FA" stroke="#9FB0C4" stroke-width="1.5"/><rect x="'+(x1-15)+'" y="'+(y-11)+'" width="90" height="4" rx="2" fill="#fff" opacity=".8"/>'
+  return {g:'<g data-pop="inter" tabindex="0" role="button" aria-label="Voir l’interrupteur en 3D" data-etat="'+(closed?1:0)+'" style="cursor:pointer"><ellipse cx="'+x+'" cy="'+(y+18)+'" rx="76" ry="6" fill="#1F2B44" opacity=".14"/><rect x="'+(x1-20)+'" y="'+(y-15)+'" width="100" height="32" rx="6" fill="#C9D2E3"/><rect x="'+(x1-20)+'" y="'+(y-15)+'" width="100" height="28" rx="6" fill="#EEF2FA" stroke="#9FB0C4" stroke-width="1.5"/><rect x="'+(x1-15)+'" y="'+(y-11)+'" width="90" height="4" rx="2" fill="#fff" opacity=".8"/>'
    +douille(x1,y)+douille(x2,y)+'<line x1="'+x1+'" y1="'+y+'" x2="'+r1(ex)+'" y2="'+r1(ey)+'" stroke="#B98A16" stroke-width="5" stroke-linecap="round"/><circle cx="'+r1(ex)+'" cy="'+r1(ey)+'" r="6.5" fill="#2A2F38" stroke="#0A0F1A"/>'+T(x,y+33,nom||'K',12,CLAIR,800)+'</g>',L:[x1,y],R:[x2,y]};}
 /* moteur sur socle : douilles (x∓22, y) ; hélice au-dessus */
 function moteurM(x,y,on,sens){var cy=y-14,g=socle(x,y)+douille(x-22,y)+douille(x+22,y),i;
@@ -153,7 +153,7 @@ function moteurM(x,y,on,sens){var cy=y-14,g=socle(x,y)+douille(x-22,y)+douille(x
   g+='<g transform="translate('+x+' '+(cy-26)+') rotate('+(on?25:0)+')">';for(i=0;i<3;i++)g+='<path d="M0 0 q5 -13 0 -22 q-5 8 0 22z" fill="#4FC3FF" transform="rotate('+(i*120)+')"/>';g+='<circle r="3" fill="#EEF2F8"/></g>';
   if(on&&sens)g+='<path d="'+(sens>0?'M'+(x-26)+' '+(cy-56)+' q26 -14 52 0':'M'+(x+26)+' '+(cy-56)+' q-26 -14 -52 0')+'" fill="none" stroke="#4FC3FF" stroke-width="3.5" stroke-linecap="round"/><path d="'+(sens>0?'M'+(x+22)+' '+(cy-64)+' l6 8 l-9 2':'M'+(x-22)+' '+(cy-64)+' l-6 8 l9 2')+'" fill="none" stroke="#4FC3FF" stroke-width="3.5" stroke-linecap="round"/>';
   else if(on)g+='<path d="M'+(x-26)+' '+(cy-56)+' q26 -14 52 0" fill="none" stroke="#4FC3FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 6"/>';
-  return {g:'<g data-pop="moteur" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y]};}
+  return {g:'<g data-pop="moteur" tabindex="0" role="button" aria-label="Voir le moteur en 3D" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y]};}
 function absentM(x,y,w,h,t){return '<rect x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" rx="10" fill="none" stroke="#5B6680" stroke-width="2" stroke-dasharray="6 5"/>'+T(x,y+5,t,13,'#8895A8',700);}
 /* pile + lampe + deux fils : pile en haut, lampe en bas. r, n : où aboutissent le fil rouge (borne +) et le fil noir (borne −) : plot (douille de droite), culot (douille de gauche), verre ou libre */
 function pileLampe(on,r,n){
@@ -260,6 +260,7 @@ window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgB
     cur={ov:ov,raf:function(){cancelAnimationFrame(raf);},prev:prev};loop();cv.focus();}
   function fermer(){if(!cur)return;cur.raf();cur.ov.remove();if(cur.prev&&cur.prev.focus)try{cur.prev.focus();}catch(e){}cur=null;}
   document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('[data-pop]');if(el&&!el.closest('[data-pop-off]'))ouvrir(el.getAttribute('data-pop'),el.getAttribute('data-etat')==null?null:el.getAttribute('data-etat')==='1');});
+  document.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var el=e.target.getAttribute&&e.target.getAttribute('data-pop')?e.target:null;if(el){e.preventDefault();ouvrir(el.getAttribute('data-pop'),el.getAttribute('data-etat')==null?null:el.getAttribute('data-etat')==='1');}});
   window.NohobaPop3D={ouvrir:ouvrir,fermer:fermer,types:Object.keys(DEF)};
 })();
 })();
