@@ -131,9 +131,10 @@ function interM(x,y,closed,nom){var x1=x-30,x2=x+30,ex=closed?x2:x1+60*Math.cos(
   return {g:'<ellipse cx="'+x+'" cy="'+(y+18)+'" rx="76" ry="6" fill="#05080F" opacity=".35"/><rect x="'+(x1-20)+'" y="'+(y-15)+'" width="100" height="32" rx="6" fill="#C9D2E3"/><rect x="'+(x1-20)+'" y="'+(y-15)+'" width="100" height="28" rx="6" fill="#EEF2FA" stroke="#9FB0C4" stroke-width="1.5"/><rect x="'+(x1-15)+'" y="'+(y-11)+'" width="90" height="4" rx="2" fill="#fff" opacity=".8"/>'
    +douille(x1,y)+douille(x2,y)+'<line x1="'+x1+'" y1="'+y+'" x2="'+r1(ex)+'" y2="'+r1(ey)+'" stroke="#B98A16" stroke-width="5" stroke-linecap="round"/><circle cx="'+r1(ex)+'" cy="'+r1(ey)+'" r="6.5" fill="#2A2F38" stroke="#0A0F1A"/>'+T(x,y+33,nom||'K',12,CLAIR,800),L:[x1,y],R:[x2,y]};}
 /* moteur sur socle : douilles (x∓22, y) ; hélice au-dessus */
-function moteurM(x,y,on,sens){var cy=y-30,g=socle(x,y)+douille(x-22,y)+douille(x+22,y),i;
-  g+='<line x1="'+x+'" y1="'+(cy-19)+'" x2="'+x+'" y2="'+(cy-31)+'" stroke="#7D89A3" stroke-width="3"/><circle cx="'+x+'" cy="'+cy+'" r="19" fill="#2A3346" stroke="#C9D2E3" stroke-width="2.5"/>'+T(x,cy+6,'M',17,'#EEF2F8',900);
-  g+='<g transform="translate('+x+' '+(cy-38)+') rotate('+(on?25:0)+')">';for(i=0;i<3;i++)g+='<path d="M0 0 q5 -13 0 -22 q-5 8 0 22z" fill="#4FC3FF" transform="rotate('+(i*120)+')"/>';g+='<circle r="3" fill="#EEF2F8"/></g>';
+function moteurM(x,y,on,sens){var cy=y-14,g=socle(x,y)+douille(x-22,y)+douille(x+22,y),i;
+  g+='<path d="M'+(x-22)+' '+y+' H'+(x-10.5)+' M'+(x+10.5)+' '+y+' H'+(x+22)+'" stroke="#3A4660" stroke-width="1.6" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="10.5" fill="#fff" stroke="#3A4660" stroke-width="1.8"/>'+T(x,y+4.6,'M',13,'#1F2B44',900);
+  g+='<line x1="'+x+'" y1="'+(y-13)+'" x2="'+x+'" y2="'+(y-38)+'" stroke="#7D89A3" stroke-width="3" stroke-linecap="round"/>';
+  g+='<g transform="translate('+x+' '+(cy-26)+') rotate('+(on?25:0)+')">';for(i=0;i<3;i++)g+='<path d="M0 0 q5 -13 0 -22 q-5 8 0 22z" fill="#4FC3FF" transform="rotate('+(i*120)+')"/>';g+='<circle r="3" fill="#EEF2F8"/></g>';
   if(on&&sens)g+='<path d="'+(sens>0?'M'+(x-26)+' '+(cy-56)+' q26 -14 52 0':'M'+(x+26)+' '+(cy-56)+' q-26 -14 -52 0')+'" fill="none" stroke="#4FC3FF" stroke-width="3.5" stroke-linecap="round"/><path d="'+(sens>0?'M'+(x+22)+' '+(cy-64)+' l6 8 l-9 2':'M'+(x-22)+' '+(cy-64)+' l-6 8 l9 2')+'" fill="none" stroke="#4FC3FF" stroke-width="3.5" stroke-linecap="round"/>';
   else if(on)g+='<path d="M'+(x-26)+' '+(cy-56)+' q26 -14 52 0" fill="none" stroke="#4FC3FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 6"/>';
   return {g:g,L:[x-22,y],R:[x+22,y]};}
