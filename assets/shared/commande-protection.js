@@ -156,7 +156,7 @@ function plancheM(x,y,pont){var m=pont?materiau(pont):null,g=A.douille?'':'';
   g+=T(x,y+34,m?m.nom:'bornes nues, rien entre elles',11,A.CLAIR,700);
   return {g:g,L:[x-22,y],R:[x+22,y]};}
 var NIVEAUX=['aucun','chaud','très chaud','la gaine fond : danger'];
-function jauge(x,y,n,txt){var cols=['#E0A800','#F97316','#E0342F'],g='<rect x="'+x+'" y="'+y+'" width="146" height="38" rx="9" fill="#fff" stroke="#9FB0C4"/>',i,h;
+function jauge(x,y,n,txt){var cols=['#E0A800','#F97316','#E0342F'],g='<rect x="'+x+'" y="'+y+'" width="184" height="38" rx="9" fill="#fff" stroke="#9FB0C4"/>',i,h;
   for(i=0;i<3;i++){h=9+i*6;g+='<rect x="'+(x+10+i*14)+'" y="'+(y+30-h)+'" width="10" height="'+h+'" rx="2" fill="'+(i<n?cols[i]:'#E3E8F0')+'"/>';}
   return g+T(x+58,y+15,'Échauffement',11,'#46536B',700,'start')+T(x+58,y+30,txt,11,INK,800,'start');}
 
@@ -188,7 +188,7 @@ function montageBoucle(o,e){
   if(lache){var kk=ch[n-2],bx=kk.b[0]+kk.db*40,by=kk.b[1]-36;s+='<path d="M'+(bx-8)+' '+(by-8)+' l16 16 M'+(bx+8)+' '+(by-8)+' l-16 16" stroke="#FF8A80" stroke-width="3.5" stroke-linecap="round"/>'+T(bx+16,by+4,'fil mal serré',11,'#FF8A80',700,'start');}
   if(o.pile==='usee'&&rev)s+=T(P.R[0]-53,P.R[1]-40,'pile usée',12,'#FF8A80',800);
   if(hot)ch.forEach(function(k,j){s+='<path d="'+cl[j]+'" fill="none" stroke="#FF5A2E" stroke-width="13" opacity=".22" stroke-linecap="round"/>';});
-  if(!o.cache)s+=jauge(380,6,e.niveau,e.echauffement==='coupe'?'évité : coupé':NIVEAUX[e.niveau]);
+  if(!o.cache)s+=jauge(352,6,e.niveau,e.echauffement==='coupe'?'évité : coupé':NIVEAUX[e.niveau]);
   var tot=o.moteur?'moteur '+(e.moteur==='actif'?'en marche':'à l’arrêt')+' et lampe '+(lampOn?'allumée':'éteinte'):'';
   var lab='Montage sur le banc : '+(e.courtCircuit?'court-circuit, la lampe est éteinte, échauffement fort':(o.moteur?tot:(o.lampe==='absente'?'sans lampe':(lampOn?'la lampe brille':'la lampe est éteinte'))))
     +(e.protection?' ; '+(e.protection.type==='fusible'?'le fusible a fondu, le circuit est coupé':'le disjoncteur s’est déclenché, le circuit est coupé'):'')
@@ -258,7 +258,7 @@ function schemaCommut(o,e){var st='fill="none" stroke="'+INK+'" stroke-width="2.
   return A.svg(s+T(220,193,'Une seule boucle est fermée : position '+p,13,'#46536B',700),'0 0 440 200','Schéma normalisé : commutateur en position '+p+', '+(e.L1==='actif'?'boucle de la lampe 1 fermée':'boucle de la lampe 2 fermée'));}
 
 /* ---- va-et-vient (ELE-11) ---- */
-function montageVV(o,e){var s='',p1=o.p1===2?2:1,p2=o.p2===2?2:1,on=e.lampe==='actif',P=A.pileM(270,60),Lp=A.lampeM(95,185,on),
+function montageVV(o,e){var s='',p1=o.p1===2?2:1,p2=o.p2===2?2:1,on=e.lampe==='actif',P=A.pileM(270,60),Lp=A.lampeM(125,185,on),
       k2x=450,k2y=185,k1x=270,k1y=290,c2=[k2x+24,k2y],a2=[k2x-24,k2y-18],b2=[k2x-24,k2y+18],c1=[k1x-24,k1y],a1=[k1x+24,k1y-18],b1=[k1x+24,k1y+18];
   /* banc : pile en haut, commutateur 2 à droite, commutateur 1 en bas, lampe à gauche */
   s+=Lp.g+P.g+commutReel(k2x,k2y,p2,true,'commutateur 2')+commutReel(k1x,k1y,p1,false,'commutateur 1');
