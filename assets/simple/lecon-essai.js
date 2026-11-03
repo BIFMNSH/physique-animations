@@ -27,25 +27,12 @@
   var S = neuf(), lab = { n: 1, ferme: true, pt: null }, raf = 0, prof = false;
 
   /* ---------- dessin ---------- */
-  var COORD = { A: [310, 104], B: [370, 272], C: [118, 34] }, SCH = { A: [340, 63], B: [292, 160], C: [146, 40] };
-  function boucle(n) {
-    return 'M233 34 H310 V189 H354 L370 208 V325 ' + (n === 2 ? 'H220 V308 L204 289 H134 ' : 'H150 V289 H134 ') + 'H86 H50 V34 H207 L233 34';
-  }
+  var SCH = { A: [340, 63], B: [292, 160], C: [146, 40] };
+  /* banc : pile en haut, L1 à droite, K à gauche, L2 en bas ; les points A, B, C sont posés sur les câbles et les grains suivent la boucle */
   function montage() {
-    var n = lab.n, on = lab.ferme, s = '';
-    s += A.fil('M233 34 H310 V189 H354', '#C03A2E') + A.fil('M207 34 H50 V289 H86', '#243049');
-    s += n === 2 ? A.fil('M370 208 V325 H220 V308', '#243049') + A.fil('M204 289 H134', '#243049') : A.fil('M370 208 V325 H150 V289 H134', '#243049');
-    s += '<path id="le-boucle" d="' + boucle(n) + '" fill="none" stroke="none"/><g id="le-grains"></g>';
-    s += A.pile45(180, 76, 1) + A.interrupteur(110, 289, on);
-    s += '<rect data-inter x="62" y="252" width="96" height="60" fill="transparent"/>';
-    function lp(x, y) { var c = A.lampe(x, y, false); if (on) c += '<g opacity="' + (n === 2 ? '.5' : '1') + '">' + A.lampe(x, y, true) + '</g>'; return c; }
-    s += lp(370, 150);
-    if (n === 2) s += lp(220, 250);
-    POINTS.forEach(function (p) {
-      var c = COORD[p], sel = lab.pt === p;
-      s += '<g data-p="' + p + '"><circle cx="' + c[0] + '" cy="' + c[1] + '" r="24" fill="transparent"/><circle cx="' + c[0] + '" cy="' + c[1] + '" r="15" fill="' + (sel ? '#C2410C' : '#fff') + '" stroke="#C2410C" stroke-width="3"/>' + A.T(c[0], c[1] + 6, p, 17, sel ? '#fff' : '#243049', 800) + '</g>';
-    });
-    return A.svg(s, '0 0 440 345', 'Montage : pile de 4,5 V, ' + (n === 2 ? 'deux lampes' : 'une lampe') + ' et interrupteur ' + (on ? 'fermé' : 'ouvert') + ' en série, avec les points de mesure A, B et C.');
+    var n = lab.n, on = lab.ferme;
+    return A.banc5e({ n: n, on: on, k1: n === 2 ? .5 : 1, k2: .5, pts: true, sel: lab.pt, grains: { path: 'le-boucle', g: 'le-grains' }, interSansPop: true,
+      label: 'Montage : pile de 4,5 V, ' + (n === 2 ? 'deux lampes' : 'une lampe') + ' et interrupteur ' + (on ? 'fermé' : 'ouvert') + ' en série, avec les points de mesure A, B et C. Touche l’interrupteur pour l’ouvrir ou le fermer.' }).svg;
   }
   function schema() {
     var h = A.schema({ cotes: { droite: 'lampe', bas: lab.n === 2 ? 'lampe' : 'fil', gauche: lab.ferme ? 'interFerme' : 'interOuvert' }, legende: 'Schéma normalisé', label: 'Schéma normalisé du montage en série' + (lab.pt ? ', ampèremètre au point ' + lab.pt : '') + '.' });
@@ -119,7 +106,7 @@
   function essaie() {
     lab = { n: 1, ferme: true, pt: null };
     $('le-app').innerHTML = '<h1 class="sp-h1 mo-h1 le-txt">Mesure le courant autour de la lampe</h1>' + htmlLab('Continuer')
-      + '<details class="le-comp le-txt"><summary>Ce que je vais apprendre</summary><p><b>Compétence visée :</b> mesurer une intensité et interpréter le résultat.</p><p>À la fin de cette partie, je dois être capable de dire que l’intensité est la même en tout point d’un circuit en série.</p></details>';
+      + '<details class="le-comp le-txt"><summary>Ce que je vais apprendre</summary><p class="mo-theme"><b>Thème : Mesure de grandeurs physiques</b></p><p>Chapitre : L’intensité du courant électrique</p><p><b>Compétence visée :</b> mesurer une intensité en plusieurs points d’un circuit en série.</p><p>À la fin de cette partie, je dois être capable de dire que l’intensité est la même en tout point d’un circuit en série.</p></details>';
     $('le-prof').hidden = false;
     lierLab(function () { aller(1); });
   }

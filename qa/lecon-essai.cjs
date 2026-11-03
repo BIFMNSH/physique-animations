@@ -9,6 +9,9 @@ assert.equal(I(1,true),300);assert.equal(I(2,true),150);assert.equal(I(1,false),
 assert.equal(d.querySelector('[aria-current="step"]').textContent,'Essaie','la leçon commence par Essaie');
 assert.ok($('le-montage').querySelector('svg')&&$('le-schema').querySelector('svg'),'montage et schéma côte à côte');
 assert.ok($('le-go').hidden,'pas de suite avant les mesures');
+const clicK=()=>$('le-montage').querySelector('[data-inter]').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+clicK();assert.equal($('le-inter').textContent,'Fermer l’interrupteur','un clic sur K ouvre l’interrupteur');assert.ok(!$('le-montage').querySelector('[data-pop="inter"]'),'K sans fenêtre 3D dans la leçon');
+clicK();assert.equal($('le-inter').textContent,'Ouvrir l’interrupteur','un second clic le referme');
 $('le-inter').click();$('le-pt-A').click();assert.equal($('le-val').textContent,'0 mA','circuit ouvert');assert.ok(!/300/.test($('le-pt-A').textContent),'mesure à vide non retenue');
 $('le-inter').click();assert.equal($('le-val').textContent,'300 mA');
 $('le-pt-B').click();$('le-pt-C').click();assert.ok(!$('le-go').hidden);$('le-go').click();

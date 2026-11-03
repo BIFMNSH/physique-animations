@@ -76,3 +76,5 @@ body.prof .lab-en .msgl{display:none}body.prof .lab-fig svg{max-height:calc(100v
   .en{break-inside:avoid}.en.fait>h2{color:#111}
   .cb-champs input{border:0;border-bottom:1px solid #111;border-radius:0;background:#fff;color:#111}
 }
+
+.mo-comp{font-size:16px;color:var(--soft)}.mo-comp summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}.mo-comp p{margin:0 0 8px}

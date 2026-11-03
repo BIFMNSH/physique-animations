@@ -135,10 +135,10 @@ function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv
   if(o.fail)g+='<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#fff" opacity=".55"/>';
   var AL=[x-29,y-36],AR=[x+39,y-36];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" tabindex="0" role="button" aria-label="Voir la pile en 3D" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
 /* lampe sur son socle : le verre est isolant, les deux douilles du socle sont les bornes ; douilles (x∓22, y) ; verre en (x, y-33) */
-function lampeM(x,y,on,o){o=o||{};var by=y-33,g='';
-  if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="40" fill="#FFD27A" opacity=".2"/><circle cx="'+x+'" cy="'+by+'" r="26" fill="#FFD27A" opacity=".3"/>';
+function lampeM(x,y,on,o){o=o||{};var by=y-33,g='',k=o.k==null?1:o.k;
+  if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="40" fill="#FFD27A" opacity="'+Math.round(20*k)/100+'"/><circle cx="'+x+'" cy="'+by+'" r="26" fill="#FFD27A" opacity="'+Math.round(30*k)/100+'"/>';
   g+=socle(x,y)+'<path d="M'+(x-22)+' '+y+' H'+(x-9.2)+' M'+(x+9.2)+' '+y+' H'+(x+22)+'" stroke="#3A4660" stroke-width="1.6" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="9.2" fill="#fff" stroke="#3A4660" stroke-width="1.8"/><path d="M'+(x-6.6)+' '+(y-6.6)+' L'+(x+6.6)+' '+(y+6.6)+' M'+(x+6.6)+' '+(y-6.6)+' L'+(x-6.6)+' '+(y+6.6)+'" stroke="#3A4660" stroke-width="1.8"/>'+douille(x-22,y)+douille(x+22,y);
-  g+='<rect x="'+(x-8.8)+'" y="'+(y-24)+'" width="17.6" height="11" rx="3" fill="#8D96A8" stroke="#6B7480" stroke-width="1.2"/><circle cx="'+x+'" cy="'+by+'" r="19" fill="'+(on?'#FFE9A8':'#EEF2FA')+'" stroke="#9FB0C4" stroke-width="2.5"/>'
+  g+='<rect x="'+(x-8.8)+'" y="'+(y-24)+'" width="17.6" height="11" rx="3" fill="#8D96A8" stroke="#6B7480" stroke-width="1.2"/><circle cx="'+x+'" cy="'+by+'" r="19" fill="'+(on?(k<.7?'#FFF1C9':'#FFE9A8'):'#EEF2FA')+'" stroke="#9FB0C4" stroke-width="2.5"/>'
    +'<path d="M'+(x-9)+' '+(by+14)+' L'+(x-6)+' '+(by+2)+' l4 -6 l4 6 l4 -6 l4 6 L'+(x+9)+' '+(by+14)+'" fill="none" stroke="'+(on?'#FF8A00':'#8D96A8')+'" stroke-width="2.2" stroke-linejoin="round"/>';
   if(o.grille)g+='<path d="M'+(x-4)+' '+(by-6)+' l3 4 M'+(x+4)+' '+(by-6)+' l-3 4" stroke="#FF5A4E" stroke-width="2.5"/>'+T(x,by-27,'filament coupé',11,'#D9423B',800).replace('y="'+(by-27)+'"','y="'+(y+72)+'"');
   return {g:'<g data-pop="lampe" tabindex="0" role="button" aria-label="Voir la lampe en 3D" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y],verre:[x,by],av:[x,by,36]};}
@@ -173,7 +173,46 @@ function montageSerie(o){
   if(piece)s+=P.g;if(ix!=='absent')s+=I.g;if(mot)s+=M.g;if(lamp)s+=Lp.g;
   c.forEach(function(k,i){var kk=cab(k.a,k.da,coupe&&i===2?[k.b[0]+(k.db>0?36:-36),k.b[1]-30]:k.b,k.db,cols[i],{sansB:coupe&&i===2});s+=kk.svg;});
   return {svg:svgBanc(s,'0 0 540 310','Montage en série : pile, interrupteur '+(ix==='ferme'?'fermé':ix==='ouvert'?'ouvert':'absent')+', moteur, lampe, reliés par des câbles'+(on?' ; la lampe brille et le moteur tourne':' ; le circuit est ouvert')),allume:on};}
-window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgBanc:svgBanc,cab:cab,ring:ring,chaine:chaine,pileM:pileM,lampeM:lampeM,interM:interM,moteurM:moteurM,absentM:absentM,douille:douille,CR:CR,CK:CK,CLAIR:CLAIR,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,
+/* ---- boucle des leçons de 5e : pile en haut, L1 à droite, K à gauche, L2 en bas (n = 2), voltmètre au centre ----
+   o : n (1 ou 2), on, dip (null, 'G', 'L1', 'L2' ou 'K' : dipôle mesuré), volt (n = 2 seulement), txt (affichage du voltmètre),
+       pts + sel (points de mesure A, B, C posés sur les câbles), k1 et k2 (éclat des lampes de 0 à 1),
+       grains {path, g} (identifiants du chemin et du groupe des grains), interSansPop (un clic sur K le bascule, sans fenêtre 3D), label.
+   Le câble sort de la borne + de la pile par la droite : le + d'un dipôle est la borne où arrive ce câble, le − celle d'où repart le suivant.
+   Renvoie {svg, pos:{A,B,C}, cables, bornes:{G,L1,L2,K : [+, −]}, fiches:{v, c}, boucle}. */
+function ptCab(a,da,b,db,u,k){var cc=ctrl(a,da,b,db,k),c1=cc[0],c2=cc[1],v=1-u;
+  return [v*v*v*a[0]+3*v*v*u*c1[0]+3*v*u*u*c2[0]+u*u*u*b[0],v*v*v*a[1]+3*v*v*u*c1[1]+3*v*u*u*c2[1]+u*u*u*b[1]];}
+function fil5(d,col){return '<path d="'+d+'" fill="none" stroke="#1F2B44" stroke-opacity=".16" stroke-width="6" stroke-linecap="round" transform="translate(1.5 3)"/><path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="4.2" stroke-linecap="round"/><path d="'+d+'" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.4" stroke-linecap="round" transform="translate(0 -1.2)"/>';}
+function banc5e(o){o=o||{};
+  var n=o.n===2?2:1,on=!!o.on,dip=o.dip||null,volt=!!o.volt&&n===2,H=n===2?425:290,INK2='#243049',OR2='#F97316',BL2='#0B6FA8',
+  P=pileM(280,78),L1=lampeM(475,205,on,{k:o.k1}),L2=n===2?lampeM(280,345,on,{k:o.k2}):null,K=interM(85,205,on,' '),
+  cb=n===2?[[P.R,1,L1.R,1,CR],[L1.L,-1,L2.R,1,CK],[L2.L,-1,K.R,1,CK],[K.L,-1,P.L,-1,CK]]:[[P.R,1,L1.R,1,CR],[L1.L,-1,K.R,1,CK],[K.L,-1,P.L,-1,CK]],
+  GP=[307,20],GM=[263,20],bornes={G:[GP,GM],L1:[L1.R,L1.L],K:[K.R,K.L]},fich={},s='',ds=[],kg=K.g,pos,
+  halos={G:'<rect x="224" y="2" width="112" height="122" rx="16"/>',L1:'<circle cx="475" cy="185" r="62"/>',L2:'<circle cx="280" cy="325" r="62"/>',K:'<rect x="24" y="168" width="122" height="62" rx="14"/>'};
+  function pc(c,u){return ptCab(c[0],c[1],c[2],c[3],u);}
+  function pt(p){return Math.round(p[0]*10)/10+' '+Math.round(p[1]*10)/10;}
+  if(L2)bornes.L2=[L2.R,L2.L];
+  if(o.interSansPop)kg='<g data-inter style="cursor:pointer">'+kg.replace(' data-pop="inter" tabindex="0" role="button" aria-label="Voir l’interrupteur en 3D"','')+'</g>';
+  if(dip)s+='<g fill="'+OR2+'" fill-opacity=".14" stroke="'+OR2+'" stroke-width="2.5" stroke-dasharray="6 5">'+halos[dip]+'</g>';
+  s+=P.g+kg+L1.g+(L2?L2.g:'');
+  cb.forEach(function(k){var q=cab(k[0],k[1],k[2],k[3],k[4]);s+=q.svg;ds.push(q.d);});
+  s+=T(475,262,'L1',20,INK2,800)+T(85,242,'K',20,INK2,800)+(L2?T(280,402,'L2',20,INK2,800):'');
+  pos={A:pc(cb[0],.55),B:pc(cb[1],.3),C:pc(cb[cb.length-1],.45)};
+  if(o.grains)s+='<path id="'+o.grains.path+'" d="'+ds.join(' ')+'" fill="none" stroke="none"/><g id="'+o.grains.g+'"></g>';
+  if(o.interSansPop)s+='<rect data-inter x="40" y="168" width="90" height="82" fill="transparent"/>';
+  if(o.pts)['A','B','C'].forEach(function(p){var c=pos[p],sel=o.sel===p;
+    s+='<g data-p="'+p+'"><circle cx="'+pt(c).split(' ')[0]+'" cy="'+pt(c).split(' ')[1]+'" r="24" fill="transparent"/><circle cx="'+c[0]+'" cy="'+c[1]+'" r="15" fill="'+(sel?'#C2410C':'#fff')+'" stroke="#C2410C" stroke-width="3"/>'+T(c[0],c[1]+6,p,17,sel?'#fff':INK2,800)+'</g>';});
+  if(volt){var bx=210,by=150,bw=140,bh=68,V=[bx+bw,by+34],C=[bx,by+34],e,kv,a,b;V.croc=C.croc=1;
+    s+='<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="12" fill="#2B3345" stroke="#1B2540" stroke-width="2"/><rect x="'+(bx+16)+'" y="'+(by+9)+'" width="108" height="32" rx="6" fill="#10241C" stroke="#2C5A47"/>'
+      +T(bx+70,by+33,o.txt||'— V',21,'#B9F6CE',800)+T(bx+70,by+58,'Voltmètre',11,'#C9D2E0',700)+T(bx+bw-8,by+59,'V',11,'#fff',800,'end')+T(bx+8,by+59,'COM',11,'#fff',800,'start');
+    if(dip==='G'){fich.v=GP;fich.c=GM;
+      s+=fil5('M'+pt(V)+' C395 184 320 -30 '+pt(GP),OR2)+fil5('M'+pt(C)+' C165 184 250 -30 '+pt(GM),BL2)+pince(V,[V[0]+40,V[1]],OR2)+pince(C,[C[0]-40,C[1]],BL2)+pince(GP,[GP[0],GP[1]-40],OR2)+pince(GM,[GM[0],GM[1]-40],BL2);
+    }else if(dip){e=bornes[dip];fich.v=[e[0][0],e[0][1]-34];fich.c=[e[1][0],e[1][1]-34];kv=dip==='L1'?[70,130]:dip==='K'?[130,70]:[60,60];
+      a=cab(V,1,fich.v,1,OR2,{k:kv[0]});b=cab(C,-1,fich.c,-1,BL2,{k:kv[1]});s+=a.svg+b.svg;
+    }else{
+      s+=fil5('M'+pt(V)+' C390 184 330 190 322 244',OR2)+fil5('M'+pt(C)+' C170 184 230 190 238 244',BL2)+pince(V,[V[0]+40,V[1]],OR2)+pince(C,[C[0]-40,C[1]],BL2)+pince([322,244],[322,204],OR2)+pince([238,244],[238,204],BL2);}
+  }
+  return {svg:svgBanc(s,'0 0 560 '+H,o.label||('Montage : pile de 4,5 V, interrupteur '+(on?'fermé':'ouvert')+' et '+(n===2?'lampes L1 et L2':'une lampe')+' en série'+(on?', allumées.':', éteintes.'))),pos:pos,cables:cb,bornes:bornes,fiches:fich,boucle:ds.join(' ')};}
+window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgBanc:svgBanc,cab:cab,ring:ring,chaine:chaine,pileM:pileM,lampeM:lampeM,interM:interM,moteurM:moteurM,absentM:absentM,douille:douille,CR:CR,CK:CK,CLAIR:CLAIR,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,banc5e:banc5e,ptCab:ptCab,
   /* zone d'observation de l'élève + bouton d'enregistrement + messages */
   saisie:function(parent,h,id,placeholder){var out=h('p',{'aria-live':'polite'},parent),btn=h('button',{type:'button',class:'btn primary',text:'Enregistrer mon observation'},parent);
     h('label',{for:id,text:'Mon observation (j’écris ce que je vois, sans conclure) :'},parent);var ta=h('textarea',{id:id,rows:'2',placeholder:placeholder||'J’observe que…'},parent),msg=h('p',{class:'msg','aria-live':'polite'},parent);

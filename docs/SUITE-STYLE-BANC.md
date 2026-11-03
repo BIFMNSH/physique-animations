@@ -10,7 +10,7 @@ Reprise prévue dans une **nouvelle conversation** (méthode du projet : un lot 
 ## Reste à faire
 | Lieu | Fichier | Remplacer | Contraintes |
 |---|---|---|---|
-| Cartable 5e, cahier, leçon d'essai | `assets/simple/cartable.js`, `cahier-essai.js`, `lecon-essai.js` | `A.pile45`, `A.lampe`, `A.interrupteur`, fils dessinés à la main | Les grains circulent le long de `#le-boucle` ; points de mesure A, B, C ; halos `HALO` ; pointes du voltmètre `TERM` : tout est en coordonnées fixes, à recalculer depuis les ancres des modules (`L`, `R`) |
+| ~~Cartable 5e, cahier, leçon d'essai~~ | `assets/simple/cartable.js`, `cahier-essai.js`, `lecon-essai.js` | Fait le 3 nov. 2026 avec `A.banc5e` (boucle à une ou deux lampes, voltmètre au centre) et le test `qa/banc-5e.cjs` | Reste à valider par le propriétaire (captures bureau et téléphone faites) |
 | Lot énergie | `assets/shared/energie-modele.js` (`sceneCellule`, `sceneAppareil`) | `A.lampe`, `A.pile45`, `A.moteur` | Schémas `A.schema` à garder alignés |
 | Livre 3D, chapitres 0 et 1, ELE-01, ELE-02 | `livre-ci.js`, `NL-CI-6E-ELE-01.js` | `pile45`, `pileCyl`, lampe seule | Décision du propriétaire : lampe seule conservée, à reconfirmer |
 

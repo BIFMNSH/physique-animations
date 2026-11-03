@@ -57,29 +57,11 @@
   function stars(n) { return '★'.repeat(n) + '☆'.repeat(3 - n); }
 
   /* ---------- dessins ---------- */
-  var TERM = { G: [[233, 34], [207, 34]], L1: [[354, 189], [370, 208]], L2: [[220, 308], [204, 289]], K: [[134, 289], [86, 289]] };
-  var HALO = { G: '<rect x="170" y="6" width="100" height="180" rx="16"/>', L1: '<circle cx="370" cy="150" r="60"/>', L2: '<circle cx="220" cy="250" r="60"/>', K: '<rect x="68" y="268" width="84" height="42" rx="14"/>' };
-  function lead(a, b, col) {
-    var d = 'M' + a[0] + ' ' + a[1] + ' C' + a[0] + ' ' + (a[1] - 70) + ' ' + b[0] + ' ' + (b[1] + 70) + ' ' + b[0] + ' ' + b[1];
-    return '<path d="' + d + '" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="8" stroke-linecap="round"/><path d="' + d + '" fill="none" stroke="' + col + '" stroke-width="4.5" stroke-linecap="round"/><circle cx="' + b[0] + '" cy="' + b[1] + '" r="7.5" fill="' + col + '" stroke="#fff" stroke-width="2.5"/>';
-  }
-  function boitier(v) {
-    return '<rect x="120" y="380" width="200" height="72" rx="12" fill="#2B3345" stroke="#1B2540" stroke-width="2"/>'
-      + '<circle cx="160" cy="380" r="8" fill="' + OR + '" stroke="#fff" stroke-width="2"/><circle cx="280" cy="380" r="8" fill="' + BL + '" stroke="#fff" stroke-width="2"/>'
-      + A.T(160, 400, 'V', 13, '#fff', 800) + A.T(280, 400, 'COM', 13, '#fff', 800)
-      + '<rect x="150" y="406" width="140" height="32" rx="6" fill="#10241C" stroke="#2C5A47"/>' + A.T(220, 430, v == null ? '— V' : fv(v), 22, '#B9F6CE', 800) + A.T(220, 449, 'Voltmètre', 11, '#C9D2E0', 700);
-  }
+  /* banc : pile en haut, L1 à droite, K à gauche, L2 en bas ; voltmètre au centre, fil orange (borne V) sur la borne + du dipôle, fil bleu (COM) sur la borne − */
   function montage(dip, ferme) {
-    var v = dip ? tension(dip, ferme) : null, s = '';
-    if (dip) s += '<g fill="' + OR + '" fill-opacity=".14" stroke="' + OR + '" stroke-width="2.5" stroke-dasharray="6 5">' + HALO[dip] + '</g>';
-    s += A.fil('M233 34 H310 V189 H354', '#C03A2E') + A.fil('M207 34 H50 V289 H86', INK) + A.fil('M370 208 V325 H220 V308', INK) + A.fil('M204 289 H134', INK);
-    s += A.pile45(180, 76, 1) + A.interrupteur(110, 289, ferme) + A.lampe(370, 150, ferme) + A.lampe(220, 250, ferme);
-    s += A.broches([[233, 34], [207, 34], [354, 189], [370, 208], [220, 308], [204, 289], [134, 289], [86, 289]]);
-    s += A.T(418, 214, 'L1', 16, INK, 800) + A.T(288, 256, 'L2', 16, INK, 800) + A.T(110, 324, 'K', 16, INK, 800);
-    s += boitier(v);
-    if (dip) s += lead([160, 380], TERM[dip][0], OR) + lead([280, 380], TERM[dip][1], BL);
-    else s += '<path d="M160 380 C160 346 128 340 118 326" fill="none" stroke="' + OR + '" stroke-width="4.5" stroke-linecap="round"/><circle cx="118" cy="326" r="7.5" fill="' + OR + '" stroke="#fff" stroke-width="2.5"/><path d="M280 380 C280 346 312 340 322 326" fill="none" stroke="' + BL + '" stroke-width="4.5" stroke-linecap="round"/><circle cx="322" cy="326" r="7.5" fill="' + BL + '" stroke="#fff" stroke-width="2.5"/>';
-    return A.svg(s, '0 0 440 462', 'Montage : pile de 4,5 V, interrupteur ' + (ferme ? 'fermé' : 'ouvert') + ' et lampes L1 et L2 en série. ' + (dip ? 'Le voltmètre est branché aux bornes de ' + NOMS[dip] + ' et indique ' + fv(v) + '.' : 'Le voltmètre n’est pas encore branché.'));
+    var v = dip ? tension(dip, ferme) : null;
+    return A.banc5e({ n: 2, on: ferme, dip: dip, volt: true, txt: v == null ? null : fv(v), k1: .5, k2: 1,
+      label: 'Montage : pile de 4,5 V, interrupteur ' + (ferme ? 'fermé' : 'ouvert') + ' et lampes L1 et L2 en série' + (ferme ? ', allumées. ' : ', éteintes. ') + (dip ? 'Le voltmètre est branché aux bornes de ' + NOMS[dip] + ' et indique ' + fv(v) + '.' : 'Le voltmètre n’est pas encore branché.') }).svg;
   }
   var PV = {
     G: { v: [[260, 40], [260, -8], [237, -8]], c: [[180, 40], [180, -8], [203, -8]], o: [220, -8], h: [220, 40, 30] },
@@ -124,7 +106,8 @@
   function actif(m) {
     var h = '';
     if (m === 1) {
-      h = '<p class="mo-big">Au TP, Awa et Kofi montent un circuit en série : une pile de 4,5 V, un interrupteur et deux lampes différentes, L1 et L2.</p>'
+      h = '<details class="mo-comp"><summary>Ce que je vais apprendre</summary><p class="mo-theme"><b>Thème : Mesure de grandeurs physiques</b></p><p>Chapitre : La tension électrique</p><p><b>Compétence visée :</b> mesurer une tension avec un voltmètre.</p><p>À la fin de cette partie, je dois être capable de dire que la tension de la pile est égale à la somme des tensions aux bornes des lampes.</p></details>'
+        + '<p class="mo-big">Au TP, Awa et Kofi montent un circuit en série : une pile de 4,5 V, un interrupteur et deux lampes différentes, L1 et L2.</p>'
         + '<blockquote class="mo-quote"><b>Kofi</b><span>« Comme pour l’intensité, c’est pareil partout : chaque lampe aura 4,5 V. »</span></blockquote>'
         + '<blockquote class="mo-quote"><b>Awa</b><span>« Je n’en suis pas sûre. Mesurons avec un voltmètre. »</span></blockquote>'
         + '<div class="fig">' + schema(null, true) + '</div>'

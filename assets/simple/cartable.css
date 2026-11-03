@@ -46,7 +46,7 @@ button,input,textarea{font:inherit;color:inherit}
 .go{min-height:50px;border:0;border-radius:14px;background:var(--go);color:var(--ongo);font-weight:700;font-size:18px;cursor:pointer;padding:6px 16px}
 .page .go{width:100%;margin-top:auto}
 .stage{position:relative;transform-style:preserve-3d;flex:none;margin-top:12px}
-.p-s1{height:250px}.p-lab{height:500px}.p-labs{height:248px}
+.p-s1{height:250px}.p-lab{height:330px}.p-labs{height:248px}
 .psh{position:absolute;left:30px;right:30px;bottom:-4px;height:24px;background:var(--shadow);border-radius:50%;transform:scaleX(.2);opacity:0}
 .panel{position:absolute;inset:0;transform-origin:50% 100%;transform:rotateX(84deg);background:#F7F8FB;border:1px solid #B9C3D3;border-radius:10px;box-shadow:0 4px 10px var(--shadow);padding:4px}
 .panel>div{width:100%;height:100%}
@@ -175,3 +175,5 @@ body:not(.desk) #cahier:before{display:none}body:not(.desk) .ch-head{padding-lef
   #cahier:before{display:none}#cb{overflow:visible;display:flex}.en{break-inside:avoid}
   .ch-id input{border-bottom:1px solid #111}
 }
+
+.comp{font-size:16px;color:var(--soft)}.comp summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}.comp p{margin:0 0 6px}.comp .th{color:var(--go);font-weight:700}[data-theme="dark"] .comp .th{color:#FFB547}
