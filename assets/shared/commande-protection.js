@@ -186,7 +186,7 @@ function montageBoucle(o,e){
   if(o.courtPile){var a0=P.R,b0=P.L,dd='M'+a0[0]+' '+a0[1]+' C'+(a0[0]+10)+' '+(a0[1]-70)+' '+(b0[0]-10)+' '+(b0[1]-70)+' '+b0[0]+' '+b0[1];
     s+='<path d="'+dd+'" fill="none" stroke="#0A0F1A" stroke-opacity=".55" stroke-width="8" stroke-linecap="round" transform="translate(1.5 3)"/><path d="'+dd+'" fill="none" stroke="#F97316" stroke-width="5" stroke-linecap="round"/>';}
   if(lache){var kk=ch[n-2],bx=kk.b[0]+kk.db*40,by=kk.b[1]-36;s+='<path d="M'+(bx-8)+' '+(by-8)+' l16 16 M'+(bx+8)+' '+(by-8)+' l-16 16" stroke="#D9423B" stroke-width="3.5" stroke-linecap="round"/>'+T(bx+16,by+4,'fil mal serré',11,'#D9423B',700,'start');}
-  if(o.pile==='usee'&&rev)s+=T(P.R[0]-53,P.R[1]-40,'pile usée',12,'#D9423B',800);
+  if(o.pile==='usee'&&rev)s+=T(P.R[0]-8,P.R[1]-12,'pile usée',12,'#D9423B',800);
   if(hot)ch.forEach(function(k,j){s+='<path d="'+cl[j]+'" fill="none" stroke="#FF5A2E" stroke-width="13" opacity=".22" stroke-linecap="round"/>';});
   if(!o.cache)s+=jauge(352,6,e.niveau,e.echauffement==='coupe'?'évité : coupé':NIVEAUX[e.niveau]);
   var tot=o.moteur?'moteur '+(e.moteur==='actif'?'en marche':'à l’arrêt')+' et lampe '+(lampOn?'allumée':'éteinte'):'';

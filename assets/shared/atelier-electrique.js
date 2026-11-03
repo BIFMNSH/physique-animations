@@ -119,12 +119,18 @@ function douille(x,y){return '<circle cx="'+x+'" cy="'+y+'" r="6.5" fill="#C9CED
 function socle(x,y){return '<ellipse cx="'+x+'" cy="'+(y+19)+'" rx="48" ry="6" fill="#1F2B44" opacity=".16"/><rect x="'+(x-35)+'" y="'+(y-3)+'" width="70" height="21" rx="5" fill="#2A3346"/><rect x="'+(x-35)+'" y="'+(y-13.2)+'" width="70" height="23" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>';}
 /* pile plate : deux bornes de même taille aux extrémités, − à gauche et + à droite (inv : échangés) ; douilles (x∓53, y) */
 /* borne de pile plate : lame de laiton arrondie avec plot central, identique des deux côtés (x0 = bord gauche de la lame) */
-function borne(x0,y){return '<rect x="'+x0+'" y="'+(y-9)+'" width="14" height="18" rx="3.5" fill="#D9B44A" stroke="#8A6D12" stroke-width="1.4"/><rect x="'+(x0+1.6)+'" y="'+(y-7.6)+'" width="10.8" height="4" rx="2" fill="#F6E49A" opacity=".85"/><circle cx="'+(x0+7)+'" cy="'+(y+1)+'" r="3.4" fill="#B98A16" stroke="#7A5C0C" stroke-width="1"/><circle cx="'+(x0+6.2)+'" cy="'+(y+.2)+'" r="1" fill="#F6E49A"/>';}
-function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv?'#D9423B':'#1D6FDB',dc=o.inv?'#1D6FDB':'#D9423B';
-  var g='<ellipse cx="'+x+'" cy="'+(y+27)+'" rx="56" ry="7" fill="#1F2B44" opacity=".16"/>'+borne(x-61,y)+borne(x+47,y)+''+'<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-43)+'" y="'+(y+14)+'" width="86" height="3" rx="1.5" fill="#fff" opacity=".12"/><rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="12" rx="6" fill="#FFB547"/>'
-   +T(x,y+12,'4,5 V',15,'#EEF2F8',900)+T(x-34,y-29,gs,20,gc,900)+T(x+34,y-29,ds,18,dc,900);
-  if(o.fail)g+='<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#fff" opacity=".55"/>';
-  var AL=[x-67,y],AR=[x+67,y];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
+/* languette de laiton d'une pile plate 4,5 V : plaque droite posée sur le dessus, identique des deux côtés */
+function languette(xt,y){return '<rect x="'+(xt-3.2)+'" y="'+(y-44)+'" width="6.4" height="19" rx="1.6" fill="#D9B44A" stroke="#8A6D12" stroke-width="1.2"/><rect x="'+(xt-1.9)+'" y="'+(y-42.5)+'" width="2" height="15" fill="#F6E49A" opacity=".8"/>';}
+/* pile plate 4,5 V : bloc presque carré (face avant, dessus et côté), deux languettes de laiton identiques sur le dessus, − à gauche et + à droite (inv : échangés) ; pinces en (x-29, y-36) et (x+39, y-36) */
+function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv?'#FF9A92':'#8FC0FF',dc=o.inv?'#8FC0FF':'#FF9A92',xl=x-17,xr=x+27;
+  var g='<ellipse cx="'+(x+5)+'" cy="'+(y+39)+'" rx="50" ry="6" fill="#1F2B44" opacity=".16"/>'
+   +'<path d="M'+(x+37)+' '+(y-24)+' L'+(x+47)+' '+(y-32)+' L'+(x+47)+' '+(y+28)+' L'+(x+37)+' '+(y+36)+' Z" fill="#141C30" stroke="#5B6680" stroke-width="1.6" stroke-linejoin="round"/>'
+   +'<path d="M'+(x-37)+' '+(y-24)+' L'+(x-27)+' '+(y-32)+' L'+(x+47)+' '+(y-32)+' L'+(x+37)+' '+(y-24)+' Z" fill="#3A4660" stroke="#5B6680" stroke-width="1.6" stroke-linejoin="round"/>'
+   +languette(xl,y-2)+languette(xr,y-2)
+   +'<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="13" rx="4" fill="#FFB547"/><rect x="'+(x-33)+'" y="'+(y+30)+'" width="66" height="2.4" rx="1.2" fill="#fff" opacity=".12"/>'
+   +T(x,y+20,'4,5 V',15,'#EEF2F8',900)+T(x-26,y-1,gs,16,gc,900)+T(x+26,y-1,ds,15,dc,900);
+  if(o.fail)g+='<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#fff" opacity=".55"/>';
+  var AL=[x-29,y-36],AR=[x+39,y-36];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
 /* lampe sur son socle : le verre est isolant, les deux douilles du socle sont les bornes ; douilles (x∓22, y) ; verre en (x, y-33) */
 function lampeM(x,y,on,o){o=o||{};var by=y-33,g='';
   if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="46" fill="#FFD27A" opacity=".2"/><circle cx="'+x+'" cy="'+by+'" r="30" fill="#FFD27A" opacity=".3"/>';
@@ -192,9 +198,10 @@ window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgB
   function seg(a,b,col,w){return [{line:[a,b],c:col,w:w||3}];}
   function socle(w,d){return box(0,0,0,w,26,d,'#E9EEF6').map(function(f){f.base=1;return f;});}
   var DEF={
-    pile:{titre:'Pile plate 4,5 V',sc:3.7,cy:370,vue:[.55,.5],build:function(){var f=box(0,0,0,96,34,46,'#1F2B44').map(function(q){q.base=1;return q;}).concat(box(0,15,0,96,5,46,'#FFB547').map(function(q){q.base=1;return q;}),box(-54,3,0,6,24,18,'#D9B44A'),box(54,3,0,6,24,18,'#D9B44A'));return f;},
-      lab:[{p:[-55,12,0],t:'borne − (lame de laiton)'},{p:[55,12,0],t:'borne + (même taille)'},{p:[0,22,0],t:'bande orange : pile plate 4,5 V'}],
-      lg:['Deux bornes de même taille aux extrémités : la borne − à gauche, la borne + à droite.','Le courant sort par la borne + et revient par la borne −.']},
+    pile:{titre:'Pile plate 4,5 V',sc:3.2,cy:330,vue:[.55,.5],build:function(){var q=function(F){return F.map(function(f){f.base=1;return f;});};
+      return q(box(0,0,0,74,60,22,'#1F2B44')).concat(q(box(0,24,0,74.6,12,22.6,'#FFB547')),box(-20,35,0,6,15,10,'#D9B44A'),box(20,35,0,6,15,10,'#D9B44A'));},
+      lab:[{p:[-20,42,0],t:'languette − (laiton)'},{p:[20,42,0],t:'languette + (même taille)'},{p:[0,6,11],t:'bande orange : pile plate 4,5 V'}],
+      lg:['Pile plate : un bloc avec deux languettes de laiton identiques sur le dessus.','Le courant sort par la languette + et revient par la languette −.']},
     lampe:{titre:'Lampe sur son support (dipôle)',vue:[.5,.3],build:function(on,t,lift){lift=lift||0;var col=on?'#FF8A00':'#6B7480',dx=lift*105,dy=-lift*24;
       function mv(F){return F.map(function(q){if(q.line)q.line=q.line.map(function(p){return [p[0]+dx,p[1]+dy,p[2]+lift*18];});else q.p=q.p.map(function(p){return [p[0]+dx,p[1]+dy,p[2]+lift*18];});return q;});}
       var f=socle(70,40).concat(cyl(-22,13,0,6.5,3,'#C9CED8'),cyl(22,13,0,6.5,3,'#C9CED8'));
