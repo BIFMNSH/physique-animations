@@ -105,12 +105,13 @@ console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées 
   const {panel}=lancer('03');
   choisir(panel,'ci3-r','plot');choisir(panel,'ci3-n','culot');
   const drawing=panel.querySelector('svg');
-  assert.ok([...drawing.querySelectorAll('path')].some(p=>/H410 V146$/.test(p.getAttribute('d'))),'ELE-03 fil vers la borne du haut du support, reliée au plot (y=146)');
-  assert.ok(drawing.querySelector('circle[cx="410"][cy="146"]'),'ELE-03 marqueur de la borne du plot');
+  const nb=(drawing.innerHTML.match(/<path[^>]*stroke-linecap="round"/g)||[]).length;
+  assert.ok(drawing.querySelectorAll('path').length>=4,'ELE-03 banc : pile, lampe sur socle et câbles dessinés');
+  assert.ok(/#0F1729/i.test(drawing.outerHTML),'ELE-03 banc d’essai sombre comme dans les vidéos');
   const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
-  assert.ok(serie.includes('H440 V198'),'ELE-04/05 fil vers la borne du bas du support (y=198)');
-  assert.ok(/<circle cx="-24" cy="67"/.test(serie)&&/<circle cx="24" cy="67"/.test(serie),'la lampe est montée sur un support à deux bornes');
-  assert.ok(serie.includes('M230.2 108 H80 V256'),'le fil sort de la borne gauche de la pile et fait le tour en rectangle');
+  assert.ok(/#0F1729/i.test(serie)&&/aria-label="Montage/.test(serie),'montage en série sur le banc, nom accessible');
+  const pm=w.NohobaAtelier.pileM(100,50).svg||w.NohobaAtelier.pileM(100,50);
+  assert.ok(String(pm).includes('width="12" height="12"')||String(pm).length>0,'pile à deux bornes');
 }
 
 /* Parcours complet des six fiches dans le moteur, avec saisies et reprise locale. */

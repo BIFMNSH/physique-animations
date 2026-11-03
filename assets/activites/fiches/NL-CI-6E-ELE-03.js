@@ -9,9 +9,9 @@
   function allume(r,n){return (r==='plot'&&n==='culot')||(r==='culot'&&n==='plot');}
   function dessin(r,n){
     const A=window.NohobaAtelier,on=allume(r,n),m=A.pileLampe(on,r,n);
-    let s=m.inner+A.broches(m.ends);
-    if(r==='verre'||n==='verre')s+=A.pastille(430,28,'verre = isolant');
-    return A.svg(s,'0 0 500 260','Pile, lampe sur son support et deux fils, montés en rectangle : '+(on?'la lampe brille':'la lampe est éteinte'));
+    let s=m.inner;
+    if(r==='verre'||n==='verre')s+=A.pastille(430,30,'verre = isolant');
+    return A.svgBanc(s,'0 0 500 290','Pile, lampe sur son support et deux câbles, montés sur le banc : '+(on?'la lampe brille':'la lampe est éteinte'));
   }
   function manip(panel,X){
     const A=window.NohobaAtelier,st=X.st(),sec=h('div',{class:'card'},panel);

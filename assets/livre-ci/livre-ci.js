@@ -71,7 +71,7 @@
     var A = window.NohobaAtelier; if (!A) return '';
     if (c === 0) return A.svg(A.pile45(70, 110, 1.2) + A.pileCyl(232, 104, 0.9) + A.lampe(340, 110, on, 1.3), '0 0 460 252', 'Pile plate, pile cylindrique et lampe');
     if (c === 1) return A.svg(A.pileCyl(150, 130, 1) + A.lampe(150, 62, on, 1) + A.fil('M134 101 H106 V244 H150', '#2E3138'), '0 0 300 270', 'Une lampe posée sur une pile cylindrique et reliée par un fil');
-    if (c === 2) { var m2 = A.pileLampe(on, 'plot', 'culot'); return A.svg(m2.inner + A.broches(m2.ends), '0 0 500 260', 'Pile plate, lampe sur son support et deux fils, montés en rectangle : ' + (on ? 'la lampe brille' : 'la lampe est éteinte')); }
+    if (c === 2) { var m2 = A.pileLampe(on, 'plot', 'culot'); return A.svgBanc(m2.inner, '0 0 500 290', 'Pile plate, lampe sur son support et deux câbles, montés sur le banc : ' + (on ? 'la lampe brille' : 'la lampe est éteinte')); }
     return A.montageSerie({ inter: on ? 'ferme' : 'ouvert' }).svg;
   }
   function pop(c, cls) { return '<div class="stage ' + (cls || '') + (fini(c) ? ' allume' : '') + '"><div class="psh"></div><div class="panel">' + ill(c, fini(c)) + '</div></div>'; }

@@ -8,17 +8,20 @@
   const nom=id=>(ACT.filter(x=>x[0]===id)[0]||['',''])[1];
   const ferme=a=>a==='ferme';
   function dessin(a){
-    const A=window.NohobaAtelier,on=ferme(a);
-    const rFull='M218.4 104 H410 V146',nFull='M410 194 V236 H60 V104 H175.2';
+    const A=window.NohobaAtelier,on=ferme(a),P=A.pileM(250,52),I=A.interM(405,175,a!=='inter','K'),Lp=A.lampeM(95,215,on);
+    const ch=A.chaine([P,I,Lp]).cables,cs=[A.CR,A.CR,A.CK];
     let s='';
-    if(a==='pile')s+='<rect x="146" y="10" width="110" height="96" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+A.T(201,62,'pile retirée',13,'#8895A8',700);else s+=A.pile45t(150,14,.9);
-    s+=A.lampeV(343,170,on,1);
-    s+=A.fil('M218.4 104 H296','#E0342F')+A.fil('M344 104 H410 V'+(a==='rouge'?'122':'146'),'#E0342F');
-    s+=A.fil('M175.2 104 H60 V236 H410 V'+(a==='noir'?'220':'194'),'#2E3138');
-    s+=A.interrupteur(320,104,a!=='inter');
+    if(a==='pile')s+=A.absentM(250,52,120,56,'pile retirée');else s+=P.g;
+    s+=I.g+Lp.g;
+    const cabs=ch.map((k,i)=>{let aa=k.a,bb=k.b,sA=false,sB=false;
+      if(a==='rouge'&&i===1){bb=[k.b[0]+k.db*40,k.b[1]-36];sB=true;}
+      if(a==='noir'&&i===2){aa=[k.a[0]+(-k.da)*40,k.a[1]-36];sA=true;}
+      return A.cab(aa,k.da,bb,k.db,cs[i],{sansA:sA,sansB:sB});});
+    cabs.forEach(c=>{s+=c.svg;});
+    const full=ch.map(k=>A.cab(k.a,k.da,k.b,k.db,A.CR));
+    const rFull=full[0].d+' L'+ch[1].a[0]+' '+ch[1].a[1]+' '+full[1].d.replace(/^M\S+ \S+ /,''),nFull=full[2].d;
     s+='<path data-w="r" d="'+rFull+'" fill="none" stroke="none"/><path data-w="n" d="'+nFull+'" fill="none" stroke="none"/><g data-g="m"></g>';
-    s+=A.broches([[296,104],[344,104],[410,a==='rouge'?122:146],[410,a==='noir'?220:194]]);
-    return A.svg(s,'0 0 500 260','Pile, interrupteur, lampe et fils montés en rectangle, avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
+    return A.svgBanc(s,'0 0 500 290','Pile, interrupteur, lampe et câbles sur le banc, avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
   }
   function manip(panel,X){
     const A=window.NohobaAtelier,st=X.st(),sec=h('div',{class:'card'},panel);
