@@ -7,24 +7,11 @@
   const FIN=[['plot','le plot de la lampe'],['culot','le culot de la lampe'],['verre','le verre de la lampe'],['libre','rien (fil détaché)']];
   const nom=id=>(FIN.filter(x=>x[0]===id)[0]||['',''])[1];
   function allume(r,n){return (r==='plot'&&n==='culot')||(r==='culot'&&n==='plot');}
-  const PT={plot:[384,167],culot:[336,167],verre:[340,84],libre:[290,190]};
-  function chemin(base,cible,haut){
-    const t=PT[cible];
-    if(cible==='plot')return base+' V'+haut+' H'+t[0]+' V'+t[1];
-    if(cible==='verre')return base+' V'+haut+' H300 V'+t[1]+' H'+t[0];
-    return base+' V'+haut+' H'+t[0]+' V'+t[1];
-  }
   function dessin(r,n){
-    const A=window.NohobaAtelier,on=allume(r,n);
-    let s=A.pile45(30,96,.9)+A.lampe(360,100,on,1,true);
-    /* fil rouge : borne + ; fil noir : borne − */
-    const dR=chemin('M77.7 58.2 V14 H408',r,206),
-          dN=chemin('M54.3 58.2 V46 H14',n,218);
-    s+=A.fil(dR,'#E0342F')+A.fil(dN,'#2E3138');
-    const ends=[PT[r],PT[n]];
-    s+=A.broches(ends.map(p=>[p[0],p[1]]));
-    if(r==='verre'||n==='verre')s+=A.pastille(390,28,'verre = isolant');
-    return A.svg(s,'0 0 460 250','Pile, lampe et deux fils : '+(on?'la lampe brille':'la lampe est éteinte'));
+    const A=window.NohobaAtelier,on=allume(r,n),m=A.pileLampe(on,r,n);
+    let s=m.inner+A.broches(m.ends);
+    if(r==='verre'||n==='verre')s+=A.pastille(430,28,'verre = isolant');
+    return A.svg(s,'0 0 500 260','Pile, lampe sur son support et deux fils, montés en rectangle : '+(on?'la lampe brille':'la lampe est éteinte'));
   }
   function manip(panel,X){
     const A=window.NohobaAtelier,st=X.st(),sec=h('div',{class:'card'},panel);

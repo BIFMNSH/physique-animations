@@ -9,16 +9,16 @@
   const ferme=a=>a==='ferme';
   function dessin(a){
     const A=window.NohobaAtelier,on=ferme(a);
-    const rFull='M77.7 58.2 V14 H408 V206 H384 V167',nFull='M336 167 V218 H14 V46 H54.3 V58.2';
+    const rFull='M218.4 104 H410 V146',nFull='M410 194 V236 H60 V104 H175.2';
     let s='';
-    if(a==='pile')s+='<rect x="26" y="52" width="86" height="130" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+A.T(69,122,'pile retirée',13,'#8895A8',700);else s+=A.pile45(30,96,.9);
-    s+=A.lampe(360,100,on,1,true);
-    s+=A.fil('M77.7 58.2 V14 H191','#E0342F')+A.fil('M239 14 H408 V206 H384 V'+(a==='rouge'?'190':'167'),'#E0342F');
-    s+=A.fil('M54.3 58.2 V46 H14 V218 H'+(a==='noir'?'318':'336')+' V'+(a==='noir'?'190':'167'),'#2E3138');
-    s+=A.interrupteur(215,14,a!=='inter');
+    if(a==='pile')s+='<rect x="146" y="10" width="110" height="96" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+A.T(201,62,'pile retirée',13,'#8895A8',700);else s+=A.pile45t(150,14,.9);
+    s+=A.lampeV(343,170,on,1);
+    s+=A.fil('M218.4 104 H296','#E0342F')+A.fil('M344 104 H410 V'+(a==='rouge'?'122':'146'),'#E0342F');
+    s+=A.fil('M175.2 104 H60 V236 H410 V'+(a==='noir'?'220':'194'),'#2E3138');
+    s+=A.interrupteur(320,104,a!=='inter');
     s+='<path data-w="r" d="'+rFull+'" fill="none" stroke="none"/><path data-w="n" d="'+nFull+'" fill="none" stroke="none"/><g data-g="m"></g>';
-    s+=A.broches([[384,a==='rouge'?190:167],[a==='noir'?318:336,a==='noir'?190:167]]);
-    return A.svg(s,'0 -26 460 290','Pile, interrupteur, lampe et fils avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
+    s+=A.broches([[296,104],[344,104],[410,a==='rouge'?122:146],[410,a==='noir'?220:194]]);
+    return A.svg(s,'0 0 500 260','Pile, interrupteur, lampe et fils montés en rectangle, avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
   }
   function manip(panel,X){
     const A=window.NohobaAtelier,st=X.st(),sec=h('div',{class:'card'},panel);

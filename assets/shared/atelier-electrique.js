@@ -81,23 +81,47 @@ function grains(n,phase,coupes){var L=2*(X1-X0)+2*(Y1-Y0),pts=[],i,d,x,y,per;
   return pts;}
 /* montage en série : pile 4,5 V, interrupteur, moteur, lampe, quatre fils (ordre : − → interrupteur → moteur → lampe → +).
    o : {inter:'ferme'|'ouvert'|'absent', moteur:bool, lampe:bool, pile:bool, filCoupe:bool} ; renvoie {svg, allume} */
+/* pile plate couchée, lames vers le bas (montage en rectangle) : borne gauche en (x+28*sc, y+100*sc), borne droite en (x+76*sc, y+100*sc).
+   Normalement − à gauche et + à droite ; inv : signes échangés. Les deux lames ont la même taille. */
+function pile45t(x,y,sc,fail,inv){sc=sc||1;var gs=inv?'+':'−',ds=inv?'−':'+',gc=inv?'#C03A2E':'#2B5EA8',dc=inv?'#2B5EA8':'#C03A2E';
+  var g='<g transform="translate('+x+' '+y+') scale('+sc+')"><rect x="22" y="76" width="12" height="24" rx="2" fill="#E7B93C" stroke="#9A7A12"/><rect x="70" y="76" width="12" height="24" rx="2" fill="#E7B93C" stroke="#9A7A12"/>'
+   +'<rect x="0" y="0" width="104" height="80" rx="9" fill="#34457A"/><rect x="0" y="0" width="104" height="20" rx="9" fill="#5A6FA8"/><rect x="24" y="24" width="56" height="30" rx="6" fill="#F97316"/>'+T(52,46,'4,5 V',18,'#fff',800)
+   +'<circle cx="28" cy="64" r="10" fill="#fff"/>'+T(28,72,gs,20,gc,800)+'<circle cx="76" cy="64" r="10" fill="#fff"/>'+T(76,72,ds,20,dc,800);
+  if(fail)g+='<rect x="0" y="0" width="104" height="80" rx="9" fill="#fff" opacity=".6"/>';
+  return g+'</g>';}
+/* lampe sur son support, tournée : le verre vers la gauche, les deux bornes du support à droite l'une sous l'autre.
+   Borne du haut (plot) en (x+67*sc, y-24*sc), borne du bas (culot) en (x+67*sc, y+24*sc). */
+function lampeV(x,y,on,sc,vers){return '<g transform="translate('+x+' '+y+') rotate('+(vers==='droite'?90:-90)+')">'+lampe(0,0,on,sc,true)+'</g>';}
+/* vers='droite' : verre vers la droite, bornes à gauche : culot en (x-67*sc, y-24*sc), plot en (x-67*sc, y+24*sc). */
+/* pile + lampe + deux fils, en rectangle : pile en haut (− à gauche, + à droite), lampe à droite.
+   r, n : où aboutissent le fil rouge (borne +) et le fil noir (borne −) : plot, culot, verre ou libre. */
+var PL={plot:[410,146],culot:[410,194],verre:[343,144],libre:[300,132]},PLN={plot:[410,146],culot:[410,194],verre:[343,196],libre:[60,196]};
+function pileLampe(on,r,n,inter){
+  var R='M218.4 104',N='M175.2 104',dR,dN,rr={
+    plot:' H410 V146',culot:' H432 V220 H410 V194',verre:' H343 V144',libre:' H300 V132'},
+   nn={plot:' H60 V236 H452 V146 H410',culot:' H60 V236 H410 V194',verre:' H60 V236 H343 V196',libre:' H60 V196'};
+  var s=pile45t(150,14,.9)+lampeV(343,170,on,1);
+  dR=R+(rr[r]||rr.libre);dN=N+(nn[n]||nn.libre);
+  s+=fil(dR,'#E0342F')+fil(dN,'#2E3138');
+  return {inner:s,ends:[PL[r]||PL.libre,PLN[n]||PLN.libre],dR:dR,dN:dN};}
+/* montage en série en rectangle : pile en haut, interrupteur et moteur en bas, lampe à droite */
 function montageSerie(o){
   var piece=o.pile!==false,lamp=o.lampe!==false,mot=o.moteur!==false,ix=o.inter||'ferme',coupe=!!o.filCoupe,
-      on=piece&&lamp&&mot&&ix==='ferme'&&!coupe,s='';
+      on=piece&&lamp&&mot&&ix==='ferme'&&!coupe,s='',BLK='#2E3138',RED='#E0342F';
   function absent(x,y,w,h,t){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+T(x+w/2,y+h/2+5,t,13,'#8895A8',700);}
-  /* Fils routés hors des objets, du sommet des bornes aux contacts de la lampe. */
-  s+=fil('M64.3 112.2 V84 H22 V24 H152 V50 H176','#2E3138');
-  s+=fil('M224 50 C270 50 290 66 330 66','#2E3138');
-  s+=fil(coupe?'M390 66 C420 66 430 100 436 130':'M390 66 C430 66 430 247 446 247','#E0342F');
-  s+=fil('M87.7 112.2 V84 H126 V284 H494 V247','#E0342F');
-  if(piece)s+=pile45(40,150,.9);else s+=absent(30,100,90,120,'pile absente');
-  if(ix==='absent')s+=absent(176,32,48,36,'');else s+=interrupteur(200,50,ix==='ferme');
-  if(mot)s+=moteur(360,60,on);else s+=absent(322,28,76,52,'moteur absent');
-  if(lamp)s+=lampe(470,180,on,1,true);else s+=absent(430,128,80,140,'lampe absente');
-  s+=broches([[176,50],[224,50],[330,66],[390,66]]);
-  if(lamp)s+=broches([[446,247],[494,247]]);
+  /* fils du rectangle : − → interrupteur → moteur → borne du bas de la lampe ; borne du haut → + */
+  s+=fil('M230.2 108 H80 V256 H146',BLK);
+  s+=fil('M194 256 H270',BLK);
+  s+=fil(coupe?'M330 256 H392 V232':'M330 256 H440 V198',RED);
+  s+=fil('M440 150 V108 H273.4',RED);
+  if(piece)s+=pile45t(205,18,.9);else s+=absent(200,10,110,98,'pile absente');
+  if(ix==='absent')s+=absent(136,238,68,36,'');else s+=interrupteur(170,256,ix==='ferme');
+  if(mot)s+=moteur(300,250,on);else s+=absent(262,226,76,52,'moteur absent');
+  if(lamp)s+=lampeV(373,174,on,1);else s+=absent(340,128,120,92,'lampe absente');
+  s+=broches([[146,256],[194,256],[270,256],[330,256]]);
+  if(lamp)s+=broches([[440,150],[440,198]]);
   return {svg:svg(s,'0 0 560 300','Montage en série : pile, interrupteur '+(ix==='ferme'?'fermé':ix==='ouvert'?'ouvert':'absent')+', moteur, lampe'+(on?' ; la lampe brille et le moteur tourne':' ; le circuit est ouvert')),allume:on};}
-window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,
+window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pile45t:pile45t,lampeV:lampeV,pileLampe:pileLampe,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,
   /* zone d'observation de l'élève + bouton d'enregistrement + messages */
   saisie:function(parent,h,id,placeholder){var out=h('p',{'aria-live':'polite'},parent),btn=h('button',{type:'button',class:'btn primary',text:'Enregistrer mon observation'},parent);
     h('label',{for:id,text:'Mon observation (j’écris ce que je vois, sans conclure) :'},parent);var ta=h('textarea',{id:id,rows:'2',placeholder:placeholder||'J’observe que…'},parent),msg=h('p',{class:'msg','aria-live':'polite'},parent);
