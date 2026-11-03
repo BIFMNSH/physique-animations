@@ -85,7 +85,10 @@ function grains(n,phase,coupes){var L=2*(X1-X0)+2*(Y1-Y0),pts=[],i,d,x,y,per;
 var CR='#D9423B',CK='#2B2F38',FD='#0F1729',CLAIR='#3A4660';
 function r1(v){return Math.round(v*10)/10;}
 function svgBanc(inner,vb,label){return '<svg viewBox="'+vb+'" role="img" aria-label="'+esc(label)+'" style="display:block;width:100%;height:auto;border-radius:14px;background:#fff;border:1px solid #D5DCE8;box-sizing:border-box">'+inner+'</svg>';}
-function fiche(pt,from,col){var a=Math.atan2(pt[1]-from[1],pt[0]-from[0])*180/Math.PI;
+/* pince crocodile : gaine colorée puis mâchoires métalliques qui serrent la lame de la borne */
+function pince(pt,from,col){var a=Math.atan2(pt[1]-from[1],pt[0]-from[0])*180/Math.PI;
+  return '<g transform="translate('+r1(pt[0])+' '+r1(pt[1])+') rotate('+r1(a)+')"><rect x="-17" y="-5.5" width="12" height="11" rx="3" fill="'+col+'" stroke="#0A0F1A" stroke-opacity=".5"/><rect x="-12" y="-5.5" width="2" height="11" fill="#fff" opacity=".25"/><path d="M-5 -5 L12 -3 L12 -.6 L-5 -.6 Z M-5 5 L12 3 L12 .6 L-5 .6 Z" fill="#C9D2E3" stroke="#6B7480" stroke-width="1"/><path d="M5 -3 v2 M8 -3 v2 M11 -3 v2 M5 3 v-2 M8 3 v-2 M11 3 v-2" stroke="#6B7480" stroke-width=".9"/></g>';}
+function fiche(pt,from,col){if(pt.croc)return pince(pt,from,col);var a=Math.atan2(pt[1]-from[1],pt[0]-from[0])*180/Math.PI;
   return '<g transform="translate('+r1(pt[0])+' '+r1(pt[1])+') rotate('+r1(a)+')"><rect x="-15" y="-5.5" width="14" height="11" rx="3" fill="'+col+'" stroke="#0A0F1A" stroke-opacity=".5"/><rect x="-9" y="-5.5" width="2.2" height="11" fill="#fff" opacity=".25"/><rect x="-2" y="-2.6" width="7" height="5.2" rx="1.5" fill="#D9B44A" stroke="#8A6D12" stroke-width=".8"/></g>';}
 /* câble entre deux douilles : il part de chacune horizontalement (da, db = ±1 : vers la gauche ou la droite) puis se courbe. Renvoie {d, svg}. */
 function ctrl(a,da,b,db,k){var d=Math.hypot(b[0]-a[0],b[1]-a[1]),h=0;k=k||Math.max(34,Math.min(80,d*.4));
@@ -113,7 +116,7 @@ function chaine(mods){var m=mods.length,best=null,mask,i,inJ,cost,oj,a,b,da,db,o
   for(i=0;i<m;i++){oj=i===0?'R':best.inJ[i]==='L'?'R':'L';j=(i+1)%m;ij=best.inJ[j];out.push({a:mods[i][oj],da:oj==='L'?-1:1,b:mods[j][ij],db:ij==='L'?-1:1,i:i});}
   return {cables:out,inJ:best.inJ};}
 function douille(x,y){return '<circle cx="'+x+'" cy="'+y+'" r="6.5" fill="#C9CED8" stroke="#6B7480" stroke-width="1.6"/><circle cx="'+x+'" cy="'+y+'" r="2.6" fill="#2A2F38"/>';}
-function socle(x,y){return '<ellipse cx="'+x+'" cy="'+(y+16)+'" rx="48" ry="6" fill="#1F2B44" opacity=".16"/><rect x="'+(x-35)+'" y="'+(y-13.2)+'" width="70" height="26.4" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>';}
+function socle(x,y){return '<ellipse cx="'+x+'" cy="'+(y+19)+'" rx="48" ry="6" fill="#1F2B44" opacity=".16"/><rect x="'+(x-35)+'" y="'+(y-3)+'" width="70" height="21" rx="5" fill="#2A3346"/><rect x="'+(x-35)+'" y="'+(y-13.2)+'" width="70" height="23" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>';}
 /* pile plate : deux bornes de même taille aux extrémités, − à gauche et + à droite (inv : échangés) ; douilles (x∓53, y) */
 /* borne de pile plate : lame de laiton arrondie avec plot central, identique des deux côtés (x0 = bord gauche de la lame) */
 function borne(x0,y){return '<rect x="'+x0+'" y="'+(y-9)+'" width="14" height="18" rx="3.5" fill="#D9B44A" stroke="#8A6D12" stroke-width="1.4"/><rect x="'+(x0+1.6)+'" y="'+(y-7.6)+'" width="10.8" height="4" rx="2" fill="#F6E49A" opacity=".85"/><circle cx="'+(x0+7)+'" cy="'+(y+1)+'" r="3.4" fill="#B98A16" stroke="#7A5C0C" stroke-width="1"/><circle cx="'+(x0+6.2)+'" cy="'+(y+.2)+'" r="1" fill="#F6E49A"/>';}
@@ -121,7 +124,7 @@ function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv
   var g='<ellipse cx="'+x+'" cy="'+(y+27)+'" rx="56" ry="7" fill="#1F2B44" opacity=".16"/>'+borne(x-61,y)+borne(x+47,y)+''+'<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-43)+'" y="'+(y+14)+'" width="86" height="3" rx="1.5" fill="#fff" opacity=".12"/><rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="12" rx="6" fill="#FFB547"/>'
    +T(x,y+12,'4,5 V',15,'#EEF2F8',900)+T(x-34,y-29,gs,20,gc,900)+T(x+34,y-29,ds,18,dc,900);
   if(o.fail)g+='<rect x="'+(x-48)+'" y="'+(y-23)+'" width="96" height="46" rx="7" fill="#fff" opacity=".55"/>';
-  return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:[x-67,y],R:[x+67,y]};}
+  var AL=[x-67,y],AR=[x+67,y];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
 /* lampe sur son socle : le verre est isolant, les deux douilles du socle sont les bornes ; douilles (x∓22, y) ; verre en (x, y-33) */
 function lampeM(x,y,on,o){o=o||{};var by=y-33,g='';
   if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="46" fill="#FFD27A" opacity=".2"/><circle cx="'+x+'" cy="'+by+'" r="30" fill="#FFD27A" opacity=".3"/>';
@@ -136,7 +139,7 @@ function interM(x,y,closed,nom){var x1=x-30,x2=x+30,ex=closed?x2:x1+60*Math.cos(
    +douille(x1,y)+douille(x2,y)+'<line x1="'+x1+'" y1="'+y+'" x2="'+r1(ex)+'" y2="'+r1(ey)+'" stroke="#B98A16" stroke-width="5" stroke-linecap="round"/><circle cx="'+r1(ex)+'" cy="'+r1(ey)+'" r="6.5" fill="#2A2F38" stroke="#0A0F1A"/>'+T(x,y+33,nom||'K',12,CLAIR,800)+'</g>',L:[x1,y],R:[x2,y]};}
 /* moteur sur socle : douilles (x∓22, y) ; hélice au-dessus */
 function moteurM(x,y,on,sens){var cy=y-14,g=socle(x,y)+douille(x-22,y)+douille(x+22,y),i;
-  g+='<path d="M'+(x-22)+' '+y+' H'+(x-10.5)+' M'+(x+10.5)+' '+y+' H'+(x+22)+'" stroke="#3A4660" stroke-width="1.6" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="10.5" fill="#fff" stroke="#3A4660" stroke-width="1.8"/>'+T(x,y+4.6,'M',13,'#1F2B44',900);
+  g+=T(x-22,y-14,'A',10,'#3A4660',800)+T(x+22,y-14,'B',10,'#3A4660',800)+'<path d="M'+(x-22)+' '+y+' H'+(x-10.5)+' M'+(x+10.5)+' '+y+' H'+(x+22)+'" stroke="#3A4660" stroke-width="1.6" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="10.5" fill="#fff" stroke="#3A4660" stroke-width="1.8"/>'+T(x,y+4.6,'M',13,'#1F2B44',900);
   g+='<line x1="'+x+'" y1="'+(y-13)+'" x2="'+x+'" y2="'+(y-38)+'" stroke="#7D89A3" stroke-width="3" stroke-linecap="round"/>';
   g+='<g transform="translate('+x+' '+(cy-26)+') rotate('+(on?25:0)+')">';for(i=0;i<3;i++)g+='<path d="M0 0 q5 -13 0 -22 q-5 8 0 22z" fill="#4FC3FF" transform="rotate('+(i*120)+')"/>';g+='<circle r="3" fill="#EEF2F8"/></g>';
   if(on&&sens)g+='<path d="'+(sens>0?'M'+(x-26)+' '+(cy-56)+' q26 -14 52 0':'M'+(x+26)+' '+(cy-56)+' q-26 -14 -52 0')+'" fill="none" stroke="#4FC3FF" stroke-width="3.5" stroke-linecap="round"/><path d="'+(sens>0?'M'+(x+22)+' '+(cy-64)+' l6 8 l-9 2':'M'+(x-22)+' '+(cy-64)+' l-6 8 l9 2')+'" fill="none" stroke="#4FC3FF" stroke-width="3.5" stroke-linecap="round"/>';
@@ -189,13 +192,18 @@ window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgB
   function seg(a,b,col,w){return [{line:[a,b],c:col,w:w||3}];}
   function socle(w,d){return box(0,0,0,w,26,d,'#E9EEF6').map(function(f){f.base=1;return f;});}
   var DEF={
-    pile:{titre:'Pile plate 4,5 V',sc:3.7,cy:370,vue:[.55,.5],build:function(){var f=box(0,0,0,96,34,46,'#1F2B44').map(function(q){q.base=1;return q;}).concat(box(0,15,0,96,5,46,'#FFB547').map(function(q){q.base=1;return q;}),box(-53,0,0,12,12,12,'#D9B44A'),box(53,0,0,12,12,12,'#D9B44A'));return f;},
-      lab:[{p:[-53,10,0],t:'borne − (même taille)'},{p:[53,10,0],t:'borne + (même taille)'},{p:[0,22,0],t:'bande orange : pile plate 4,5 V'}],
+    pile:{titre:'Pile plate 4,5 V',sc:3.7,cy:370,vue:[.55,.5],build:function(){var f=box(0,0,0,96,34,46,'#1F2B44').map(function(q){q.base=1;return q;}).concat(box(0,15,0,96,5,46,'#FFB547').map(function(q){q.base=1;return q;}),box(-54,3,0,6,24,18,'#D9B44A'),box(54,3,0,6,24,18,'#D9B44A'));return f;},
+      lab:[{p:[-55,12,0],t:'borne − (lame de laiton)'},{p:[55,12,0],t:'borne + (même taille)'},{p:[0,22,0],t:'bande orange : pile plate 4,5 V'}],
       lg:['Deux bornes de même taille aux extrémités : la borne − à gauche, la borne + à droite.','Le courant sort par la borne + et revient par la borne −.']},
-    lampe:{titre:'Lampe sur son support (dipôle)',vue:[.5,.3],build:function(on){var f=socle(70,40).concat(cyl(-22,13,0,6.5,3,'#C9CED8'),cyl(22,13,0,6.5,3,'#C9CED8'),cyl(0,13,0,8,12,'#8D96A8'),sph(0,45,0,19,on?'#FFE9A8':'#DCE4F2',14,on),
-      seg([-9,34,0],[-6,44,0],on?'#FF8A00':'#6B7480',3),seg([-6,44,0],[-2,50,0],on?'#FF8A00':'#6B7480',3),seg([-2,50,0],[2,44,0],on?'#FF8A00':'#6B7480',3),seg([2,44,0],[6,50,0],on?'#FF8A00':'#6B7480',3),seg([6,50,0],[9,34,0],on?'#FF8A00':'#6B7480',3));return f;},
-      lab:[{p:[-22,16,0],t:'borne (douille)'},{p:[22,16,0],t:'borne (douille)'},{p:[0,68,0],t:'verre : isolant'},{p:[0,48,0],t:'filament'}],
-      lg:['La lampe est montée sur un support à deux bornes : c’est un dipôle.','Les deux bornes du support sont les contacts ; le verre est isolant.','Le courant traverse le filament seulement si les deux bornes sont reliées à la pile.'],on:true},
+    lampe:{titre:'Lampe sur son support (dipôle)',vue:[.5,.3],build:function(on,t,lift){lift=lift||0;var col=on?'#FF8A00':'#6B7480',dx=lift*105,dy=-lift*24;
+      function mv(F){return F.map(function(q){if(q.line)q.line=q.line.map(function(p){return [p[0]+dx,p[1]+dy,p[2]+lift*18];});else q.p=q.p.map(function(p){return [p[0]+dx,p[1]+dy,p[2]+lift*18];});return q;});}
+      var f=socle(70,40).concat(cyl(-22,13,0,6.5,3,'#C9CED8'),cyl(22,13,0,6.5,3,'#C9CED8'));
+      if(lift>.05)f=f.concat(cyl(0,13,0,8.5,.6,'#0F1729'));
+      var amp=cyl(0,13,0,8,12,'#8D96A8').concat(sph(0,45,0,19,on?'#FFE9A8':'#DCE4F2',14,on),seg([-9,34,0],[-6,44,0],col,3),seg([-6,44,0],[-2,50,0],col,3),seg([-2,50,0],[2,44,0],col,3),seg([2,44,0],[6,50,0],col,3),seg([6,50,0],[9,34,0],col,3));
+      return f.concat(mv(amp));},
+      lab:[{p:[-22,16,0],t:'borne (douille)'},{p:[22,16,0],t:'borne (douille)'},{p:[0,68,0],t:'verre : isolant',suit:1},{p:[0,48,0],t:'filament',suit:1}],
+      lg:['La lampe est montée sur un support à deux bornes : c’est un dipôle.','Les deux bornes du support sont les contacts ; le verre est isolant.','Le courant traverse le filament seulement si les deux bornes sont reliées à la pile.'],on:true,devis:true,
+      etat:function(st){return st.lift>.6?'Lampe dévissée : le circuit est ouvert, le courant ne passe plus.':'Lampe vissée : le circuit est fermé, si la pile et l’interrupteur le permettent.';}},
     moteur:{titre:'Moteur sur son support',vue:[.5,.3],build:function(on,t){var f=socle(70,40).concat(cyl(-22,13,0,6.5,3,'#C9CED8'),cyl(22,13,0,6.5,3,'#C9CED8'),cyl(0,13,0,10.5,6,'#FFFFFF'),cyl(0,19,0,2,28,'#7D89A3')),i,a;
       for(i=0;i<3;i++){a=(t||0)+i*2*PI/3;f.push({p:[[0,47,0],[34*Math.cos(a)-4*Math.sin(a),47,34*Math.sin(a)+4*Math.cos(a)],[34*Math.cos(a)+4*Math.sin(a),47,34*Math.sin(a)-4*Math.cos(a)]],c:'#4FC3FF',two:true});}
       return f;},
@@ -208,7 +216,7 @@ window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgB
   };
   var cur=null;
   function ouvrir(kind,etat){var d=DEF[kind];if(!d)return;if(cur)fermer();
-    var st={yaw:d.vue[0]*.8,pit:d.vue[1],on:etat!=null?!!etat:true,auto:!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches,t:0},prev=document.activeElement;
+    var st={lift:0,vis:0,yaw:d.vue[0]*.8,pit:d.vue[1],on:etat!=null?!!etat:true,auto:!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches,t:0},prev=document.activeElement;
     var ov=document.createElement('div');ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label',d.titre+' en 3D');
     ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(15,23,41,.55);display:flex;align-items:center;justify-content:center;padding:12px;font-family:system-ui,sans-serif';
     var card=document.createElement('div');card.style.cssText='background:#fff;color:#1F2B44;border-radius:16px;max-width:560px;width:100%;max-height:96vh;overflow:auto;padding:14px 16px;box-shadow:0 20px 60px rgba(0,0,0,.4)';
@@ -220,18 +228,19 @@ window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileLampe:pileLampe,svgB
     btn('Vue de départ',function(){st.yaw=d.vue[0]*.8;st.pit=d.vue[1];});
     var bOn=null;if(d.bascule||d.on)bOn=btn('',function(){st.on=!st.on;maj();});
     function maj(){if(bOn)bOn.textContent=d.bascule?(st.on?'Ouvrir l’interrupteur':'Fermer l’interrupteur'):(kind==='moteur'?(st.on?'Arrêter':'Faire tourner'):(st.on?'Éteindre':'Allumer'));}maj();
+    var bV=null,stat=null;if(d.devis){bV=btn('Dévisser la lampe',function(){st.vis=st.vis?0:1;bV.textContent=st.vis?'Revisser la lampe':'Dévisser la lampe';});stat=document.createElement('p');stat.setAttribute('aria-live','polite');stat.style.cssText='margin:0 0 8px;font:700 14px system-ui;color:#C2410C';}
     var bF=btn('Fermer',function(){fermer();});bF.style.background='#C2410C';bF.style.color='#fff';bF.style.borderColor='#C2410C';
     var ul=document.createElement('ul');ul.style.cssText='margin:0;padding-left:18px;font-size:14px;line-height:1.45';d.lg.forEach(function(t){var li=document.createElement('li');li.textContent=t;ul.appendChild(li);});
-    card.appendChild(h);card.appendChild(cv);card.appendChild(bar);card.appendChild(ul);ov.appendChild(card);document.body.appendChild(ov);
+    card.appendChild(h);card.appendChild(cv);card.appendChild(bar);if(stat)card.appendChild(stat);card.appendChild(ul);ov.appendChild(card);document.body.appendChild(ov);
     var g=cv.getContext('2d'),raf=0,drag=null;
     function proj(p){var cy=Math.cos(st.yaw),sy=Math.sin(st.yaw),cp=Math.cos(st.pit),sp=Math.sin(st.pit),x=p[0]*cy-p[2]*sy,z=p[0]*sy+p[2]*cy,y=p[1],y2=y*cp+z*sp,z2=-y*sp+z*cp,k=620/(620+z2);return [500+x*k*(d.sc||5.6),(d.cy||430)-y2*k*(d.sc||5.6),z2,x,y2];}
-    function draw(){g.clearRect(0,0,cv.width,cv.height);var faces=d.build(st.on,st.t).map(function(f){if(f.line){var a=proj(f.line[0]),b=proj(f.line[1]);return {line:[a,b],c:f.c,w:f.w,z:(a[2]+b[2])/2};}var P=f.p.map(proj),z=P.reduce(function(s,q){return s+q[2];},0)/P.length;return {P:P,c:f.c,z:z,al:f.alpha,em:f.emis,base:f.base};});
+    function draw(){g.clearRect(0,0,cv.width,cv.height);var faces=d.build(st.on&&st.lift<.5,st.t,st.lift).map(function(f){if(f.line){var a=proj(f.line[0]),b=proj(f.line[1]);return {line:[a,b],c:f.c,w:f.w,z:(a[2]+b[2])/2};}var P=f.p.map(proj),z=P.reduce(function(s,q){return s+q[2];},0)/P.length;return {P:P,c:f.c,z:z,al:f.alpha,em:f.emis,base:f.base};});
       faces.sort(function(a,b){return (b.base?1:0)-(a.base?1:0)||b.z-a.z;});
       faces.forEach(function(f){if(f.line){g.strokeStyle=f.c;g.lineWidth=f.w*2.2;g.lineCap='round';g.beginPath();g.moveTo(f.line[0][0],f.line[0][1]);g.lineTo(f.line[1][0],f.line[1][1]);g.stroke();return;}
         var P=f.P,c=hex(f.c),A=[P[1][3]-P[0][3],P[1][4]-P[0][4],P[1][2]-P[0][2]],B=[P[2][3]-P[0][3],P[2][4]-P[0][4],P[2][2]-P[0][2]],n=[A[1]*B[2]-A[2]*B[1],A[2]*B[0]-A[0]*B[2],A[0]*B[1]-A[1]*B[0]],ln=Math.hypot(n[0],n[1],n[2])||1;
         if(n[2]>0)n=[-n[0],-n[1],-n[2]];var dot=(n[0]*-.35+n[1]*.85+n[2]*-.4)/ln,m=f.em?1.05:.62+.46*Math.max(0,dot);g.fillStyle='rgb('+Math.min(255,c[0]*m|0)+','+Math.min(255,c[1]*m|0)+','+Math.min(255,c[2]*m|0)+')';if(f.al)g.globalAlpha=f.al;g.beginPath();P.forEach(function(q,i){i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]);});g.closePath();g.fill();g.globalAlpha=1;g.strokeStyle='rgba(31,43,68,.28)';g.lineWidth=1.2;g.stroke();});
-      if(d.glyph){var gq=proj(d.glyph.p);g.font='800 24px system-ui';g.fillStyle='#1F2B44';g.textAlign='center';g.textBaseline='middle';g.fillText(d.glyph.t,gq[0],gq[1]);}g.font='600 26px system-ui';g.textBaseline='middle';d.lab.forEach(function(l,i){var q=proj(l.p),side=q[0]<500?-1:1,ex=side<0?60:cv.width-60,ey=70+i*52,w;g.strokeStyle='#C2410C';g.lineWidth=2;g.beginPath();g.moveTo(q[0],q[1]);w=g.measureText(l.t).width;g.lineTo(side<0?14+w+8:cv.width-14-w-8,ey);g.stroke();g.fillStyle='#C2410C';g.beginPath();g.arc(q[0],q[1],5,0,7);g.fill();g.fillStyle='#1F2B44';g.textAlign=side<0?'left':'right';g.fillText(l.t,side<0?14:cv.width-14,ey);});}
-    function loop(){if(st.auto&&!drag)st.yaw+=.008;if(d.spin&&st.on)st.t+=.18;draw();raf=requestAnimationFrame(loop);}
+      if(d.glyph){var gq=proj(d.glyph.p);g.font='800 24px system-ui';g.fillStyle='#1F2B44';g.textAlign='center';g.textBaseline='middle';g.fillText(d.glyph.t,gq[0],gq[1]);}g.font='600 26px system-ui';g.textBaseline='middle';d.lab.forEach(function(l,i){var q=proj(l.suit&&st.lift?[l.p[0]+st.lift*105,l.p[1]-st.lift*24,l.p[2]+st.lift*18]:l.p),side=q[0]<500?-1:1,ex=side<0?60:cv.width-60,ey=70+i*52,w;g.strokeStyle='#C2410C';g.lineWidth=2;g.beginPath();g.moveTo(q[0],q[1]);w=g.measureText(l.t).width;g.lineTo(side<0?14+w+8:cv.width-14-w-8,ey);g.stroke();g.fillStyle='#C2410C';g.beginPath();g.arc(q[0],q[1],5,0,7);g.fill();g.fillStyle='#1F2B44';g.textAlign=side<0?'left':'right';g.fillText(l.t,side<0?14:cv.width-14,ey);});}
+    var dernier='';function loop(){if(d.devis){var cible=st.vis,reduit=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;st.lift=reduit?cible:st.lift+(cible-st.lift)*.12;if(Math.abs(cible-st.lift)<.01)st.lift=cible;var e=d.etat(st);if(e!==dernier&&Math.abs(cible-st.lift)<.01){dernier=e;stat.textContent=e;}}if(st.auto&&!drag)st.yaw+=.008;if(d.spin&&st.on)st.t+=.18;draw();raf=requestAnimationFrame(loop);}
     cv.addEventListener('pointerdown',function(e){drag={x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing';});
     cv.addEventListener('pointermove',function(e){if(!drag)return;st.yaw+=(e.clientX-drag.x)*.011;st.pit=Math.max(-.2,Math.min(1.35,st.pit+(e.clientY-drag.y)*.008));drag={x:e.clientX,y:e.clientY};});
     cv.addEventListener('pointerup',function(){drag=null;cv.style.cursor='grab';});
