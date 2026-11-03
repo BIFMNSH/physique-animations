@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<script>try{var t=localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){}</script>
+<title>Le circuit électrique · Mon livre de physique-chimie 6e · NOHOBA-Lab</title>
+<meta name="description" content="Prototype : un livre 3D pour la 6e de Côte d'Ivoire. Huit chapitres sur le circuit électrique, avec la simulation dans la page.">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/livre/livre.css">
+<link rel="stylesheet" href="../assets/livre-ci/livre-ci.css">
+</head>
+<body>
+<svg class="bois" aria-hidden="true" preserveAspectRatio="none"><defs>
+<filter id="g" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".006 .22" numOctaves="3" seed="8"/><feColorMatrix values="0 0 0 0 .32  0 0 0 0 .19  0 0 0 0 .07  .75 0 0 0 -.25"/></filter>
+<pattern id="pl" width="100%" height="212" patternUnits="userSpaceOnUse"><rect width="100%" height="1.5" fill="rgba(70,40,12,.28)"/></pattern></defs>
+<rect width="100%" height="100%" filter="url(#g)"/><rect width="100%" height="100%" fill="url(#pl)"/></svg>
+<div class="vig"></div>
+<div id="app">
+  <main id="main">
+    <div id="fit"><div id="scale"><div class="book" id="book"><div class="cover"></div><div class="stack"></div><div class="slot" id="sL"></div><div class="slot" id="sR"></div><div id="couv" hidden></div><div id="sheet"></div></div></div></div>
+  </main>
+  <nav id="bar" aria-label="Navigation du livre">
+    <button type="button" id="bSom">Sommaire</button>
+    <button type="button" id="prev" aria-label="Page précédente">← Précédent</button><div id="dots"></div><button type="button" id="next" class="nx" aria-label="Page suivante">Suivant →</button>
+    <button type="button" id="bSon" aria-pressed="true">Son</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bTh">Thème</button>
+  </nav>
+</div>
+<div id="volet" hidden></div>
+<div id="fete" aria-hidden="true"></div>
+<script src="../assets/shared/conductivite-modele.js"></script>
+<script src="../assets/shared/atelier-electrique.js"></script>
+<script src="../assets/shared/commande-protection.js"></script>
+<script src="../assets/activites/activite.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-01.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-02.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-03.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-04.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-05.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-17.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-06.js"></script>
+<script src="../assets/activites/fiches/NL-CI-6E-ELE-07.js"></script>
+<script src="../assets/livre-ci/livre-ci.js"></script>
+</body></html>

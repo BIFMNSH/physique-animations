@@ -388,5 +388,17 @@
     draw();
   }
 
-  window.Activite = { cadreHTML: cadreHTML, run: run, num: num, h: h, $: $, esc: esc };
+  /* Atelier seul (livre) : la manipulation d'une fiche, sans onglets ni titres.
+     Mêmes données « pc-act-<id> » que la fiche complète : l'élève retrouve ses essais des deux côtés. */
+  function manip(F, root, onEssai) {
+    var KEY = 'pc-act-' + F.id, st = load(KEY);
+    if (!st.guidage) st.guidage = 'guide';
+    var panel = h('div', { role: 'region', 'aria-label': 'Atelier : ' + F.titre }, root);
+    F.manip(panel, { st: function () { return st; }, key: KEY, F: F, h: h, $: $, num: num, esc: esc, tableHTML: tableHTML,
+      save: function () { save(KEY, st); }, tabs: function () {},
+      addEssai: function (e) { e.ts = Date.now(); e.statut = 'simulé'; e.modele = F.modele; st.essais.push(e); save(KEY, st); if (onEssai) onEssai(st); },
+      aide: function () { var k = Math.min(st.aides, F.aides.length - 1); st.aides++; save(KEY, st); return F.aides[k]; } });
+  }
+
+  window.Activite = { cadreHTML: cadreHTML, run: run, manip: manip, num: num, h: h, $: $, esc: esc };
 })();
