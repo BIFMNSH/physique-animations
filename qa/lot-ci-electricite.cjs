@@ -73,7 +73,7 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
   for(const k of [1,2,3,4,5,6]){const s=panel.querySelector('#ci1-z'+k);s.value=map[k];}
   [...panel.querySelectorAll('button')].find(b=>/Vérifier/.test(b.textContent)).click();
   assert.equal(st.essais.length,6);assert.ok(st.essais.every(e=>e.ok),'six zones justes');
-  assert.ok(/lame courte/.test(w.FICHE_CI_ELE01.synthese)&&/bouton/.test(w.FICHE_CI_ELE01.synthese),'ELE-01 : bornes selon la forme (lame courte +, bouton +)');
+  assert.ok(/même taille/.test(w.FICHE_CI_ELE01.synthese)&&!/lame courte|lame longue/.test(JSON.stringify(w.FICHE_CI_ELE01))&&/bouton/.test(w.FICHE_CI_ELE01.synthese),'ELE-01 : lames de même taille, bornes lues sur les signes (bouton + pour la pile ronde)');
   const F=w.FICHE_CI_ELE01;assert.equal(F.peutConfronter(st),true);assert.equal(F.peutConfronter({essais:[]}),false);
 }
 /* ELE-05 : schéma attendu, erreurs A/B/C, circuits en série */

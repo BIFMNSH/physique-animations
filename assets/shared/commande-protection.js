@@ -148,8 +148,7 @@ function organeReel(kind,s,x,y){s=s||{};
 function pileReelle(x,y,sc,inv,usee){
   var g=A.pile45(x,y,sc,usee);
   if(!inv)return g;
-  /* pile retournée : lame courte (+) à gauche, lame longue (−) à droite, signes échangés */
-  g=g.replace('<rect x="21" y="-62" width="12" height="64"','<rect x="21" y="-42" width="12" height="44"').replace('<rect x="47" y="-42" width="12" height="44"','<rect x="47" y="-62" width="12" height="64"');
+  /* pile retournée : les deux lames ont la même taille, seuls les signes sont échangés */
   g=g.replace(/(<text x="27"[^>]*?)fill="#2B5EA8"([^>]*>)−</,'$1fill="#C03A2E"$2+<').replace(/(<text x="53"[^>]*?)fill="#C03A2E"([^>]*>)\+</,'$1fill="#2B5EA8"$2−<');
   return g;}
 function lampeReelle(x,y,on,sc,grillee){var g=A.lampe(x,y,on,sc);

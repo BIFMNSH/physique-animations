@@ -58,7 +58,7 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  $('[data-lfin]').click();assert.ok($('#volet').hidden);assert.equal(d.querySelectorAll('[data-pg="0:1r"] tbody tr').length,6,'les six essais apparaissent dans le livre');assert.ok(!$('[data-pg="0:1r"] [data-act="conf"]').disabled);
  /* confrontation, bilan, rabat, défi */
  $('input[name="ver:0"][value="confirmee"]').checked=true;$('input[name="ver:0"][value="confirmee"]').dispatchEvent(new w.Event('change',{bubbles:true}));
- const pre=$('#pre0');pre.value='Zone 2 : lame courte';pre.dispatchEvent(new w.Event('input',{bubbles:true}));$('[data-act="conf"]').click();await attend();
+ const pre=$('#pre0');pre.value='Zone 2 : borne +';pre.dispatchEvent(new w.Event('input',{bubbles:true}));$('[data-act="conf"]').click();await attend();
  assert.equal(pg(),'0:2l,0:2r');a=JSON.parse(w.localStorage.getItem('pc-act-NL-CI-6E-ELE-01'));assert.equal(a.confront.verdict,'confirmee');
  assert.ok(!$('.lang').classList.contains('up'),'bilan scientifique couvert');assert.match($('[data-pg="0:2r"]').textContent,/le défi s’ouvre ensuite/);
  const bi=$('#bil0');bi.value='ab';bi.dispatchEvent(new w.Event('input',{bubbles:true}));$('[data-act="bil"]').click();assert.match($('[data-m]').textContent,/phrase complète/);
