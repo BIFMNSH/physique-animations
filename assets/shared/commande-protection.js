@@ -208,19 +208,19 @@ function symV(kind,s,x,y){s=s||{};var d='<circle cx="'+x+'" cy="'+(y-22)+'" r="3
   if(kind==='disj')return d+(ferme?'<path d="M'+x+' '+(y+22)+' V'+(y-22)+'" '+st+'/>':'<path d="M'+x+' '+(y+22)+' L'+(x+16)+' '+(y-14)+'" '+st+'/>')+'<rect x="'+(x+8)+'" y="'+(y-8)+'" width="16" height="16" fill="#fff" stroke="'+INK+'" stroke-width="2"/>'+T(x+16,y+5,'D',12,INK,800);
   return '';}
 function rot(g,x,y){return '<g transform="rotate(90 '+x+' '+y+')">'+g+'</g>';}
-function pileSym(inv){var X0=100,Y0=40,CX=220,l=inv?CX-8:CX+8,c=inv?CX+8:CX-8,g=inv?'+':'−',dr=inv?'−':'+';
+function pileSym(inv){var X0=100,Y0=40,CX=275,l=inv?CX-8:CX+8,c=inv?CX+8:CX-8,g=inv?'+':'−',dr=inv?'−':'+';
   return '<path d="M'+l+' '+(Y0-16)+' V'+(Y0+16)+'" stroke="'+INK+'" stroke-width="2.5"/><path d="M'+c+' '+(Y0-9)+' V'+(Y0+9)+'" stroke="'+INK+'" stroke-width="6"/>'
    +T(CX-22,Y0-12,g,16,g==='+'?'#C03A2E':'#2B5EA8',800)+T(CX+22,Y0-12,dr,16,dr==='+'?'#C03A2E':'#2B5EA8',800);}
 function schemaBoucle(o,e){
   var prevu=!!o.cache;
   if(o.cache){var sain=JSON.parse(JSON.stringify(o));sain.cache=false;sain.pile='ok';sain.lampe='ok';sain.contactLache=false;sain.s1={ferme:true};e=etatBoucle(sain);o=sain;}
-  var X0=100,X1=340,Y0=40,Y1=160,CX=220,st='fill="none" stroke="'+INK+'" stroke-width="2.5"',s='',oo=e.o,lampOn=e.lampe==='actif';
+  var X0=170,X1=380,Y0=40,Y1=160,CX=275,st='fill="none" stroke="'+INK+'" stroke-width="2.5"',s='',oo=e.o,lampOn=e.lampe==='actif';
   s+='<path d="M'+X0+' '+Y0+' H'+(CX-20)+' M'+(CX+20)+' '+Y0+' H'+X1+'" '+st+'/>'+pileSym(o.inverse);
   /* gauche : organe 1 ou fil ; la boucle passe par S1 */
-  if(o.slot1)s+='<path d="M'+X0+' '+Y0+' V78 M'+X0+' 122 V'+Y1+'" '+st+'/>'+symV(o.slot1,oo.s1,X0,100);else s+='<path d="M'+X0+' '+Y0+' V'+Y1+'" '+st+'/>';
+  if(o.slot1)s+='<path d="M'+X1+' '+Y0+' V78 M'+X1+' 122 V'+Y1+'" '+st+'/>'+symV(o.slot1,oo.s1,X1,100);else s+='<path d="M'+X1+' '+Y0+' V'+Y1+'" '+st+'/>';
   /* droite : lampe (cercle croisé) ; absente = pointillé */
-  if(o.lampe==='absente')s+='<path d="M'+X1+' '+Y0+' V'+Y1+'" '+st+'/>';
-  else s+='<path d="M'+X1+' '+Y0+' V83 M'+X1+' 117 V'+Y1+'" '+st+'/>'+(lampOn?'<circle cx="'+X1+'" cy="100" r="25" fill="#FFE27A" opacity=".55"/>':'')+A.symbole('lampe',X1,100)+(o.lampe==='grillee'?T(X1+30,104,'coupé',11,'#B33A2E',700,'start'):'');
+  if(o.lampe==='absente')s+='<path d="M'+X0+' '+Y0+' V'+Y1+'" '+st+'/>';
+  else s+='<path d="M'+X0+' '+Y0+' V83 M'+X0+' 117 V'+Y1+'" '+st+'/>'+(lampOn?'<circle cx="'+X0+'" cy="100" r="25" fill="#FFE27A" opacity=".55"/>':'')+A.symbole('lampe',X0,100)+(o.lampe==='grillee'?T(X0-30,104,'coupé',11,'#B33A2E',700,'end'):'');
   /* bas : fil, organe 2 ou moteur */
   if(o.moteur)s+='<path d="M'+X0+' '+Y1+' H'+(CX-17)+' M'+(CX+17)+' '+Y1+' H'+X1+'" '+st+'/>'+A.symbole('moteur',CX,Y1);
   else if(o.slot2)s+='<path d="M'+X0+' '+Y1+' H'+(CX-22)+' M'+(CX+22)+' '+Y1+' H'+X1+'" '+st+'/>'+rot(symV(o.slot2,oo.s2,CX,Y1),CX,Y1);
@@ -228,12 +228,12 @@ function schemaBoucle(o,e){
   if(o.pile==='usee')s+=T(CX,Y0-26,'pile usée',12,'#B33A2E',800);
   /* pont autour de la lampe : fil ou objet posé entre les deux bornes */
   if(o.planche){var m=o.pont?materiau(o.pont):null;
-    s+='<circle cx="'+X1+'" cy="'+Y0+'" r="3.5" fill="'+INK+'"/><circle cx="'+X1+'" cy="'+Y1+'" r="3.5" fill="'+INK+'"/>';
-    s+=m?'<path d="M'+X1+' '+Y0+' H'+(X1+52)+' V'+Y1+' H'+X1+'" fill="none" stroke="'+(m.conducteur?INK:'#9FB0C4')+'" stroke-width="'+(m.conducteur?3.5:2.5)+'" stroke-dasharray="'+(m.conducteur?'':'5 5')+'"/>'+T(X1+58,104,m.nom,11,'#46536B',700,'start'):T(X1+58,104,'bornes libres',11,'#46536B',700,'start');}
+    s+='<circle cx="'+X0+'" cy="'+Y0+'" r="3.5" fill="'+INK+'"/><circle cx="'+X0+'" cy="'+Y1+'" r="3.5" fill="'+INK+'"/>';
+    s+=m?'<path d="M'+X0+' '+Y0+' H'+(X0-52)+' V'+Y1+' H'+X0+'" fill="none" stroke="'+(m.conducteur?INK:'#9FB0C4')+'" stroke-width="'+(m.conducteur?3.5:2.5)+'" stroke-dasharray="'+(m.conducteur?'':'5 5')+'"/>'+T(X0-58,104,m.nom,11,'#46536B',700,'end'):T(X0-58,104,'bornes libres',11,'#46536B',700,'end');}
   if(o.courtPile)s+='<path d="M'+(CX-20)+' '+Y0+' V'+(Y0-24)+' H'+(CX+20)+' V'+Y0+'" fill="none" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/><circle cx="'+(CX-20)+'" cy="'+Y0+'" r="3.5" fill="'+INK+'"/><circle cx="'+(CX+20)+'" cy="'+Y0+'" r="3.5" fill="'+INK+'"/>';
   var txt=prevu?'Montage prévu : pile, interrupteur fermé, lampe':e.courtCircuit?'Court-circuit : un chemin sans lampe relie les bornes de la pile':(e.protection?'La protection a coupé le circuit':(e.boucleFermee?'Boucle fermée':'Boucle ouverte'));
   var lab=prevu?'Schéma normalisé du montage prévu : pile, interrupteur fermé, lampe':'Schéma normalisé : '+(e.courtCircuit?'court-circuit':(e.boucleFermee?'boucle fermée':'boucle ouverte'))+(e.protection?', protection ouverte':'');
-  return A.svg(s+T(CX,193,txt,13,'#46536B',700),'0 0 520 200',lab);}
+  return A.svg(s+T(CX,193,txt,13,'#46536B',700),'0 0 540 200',lab);}
 /* sens de rotation du moteur (ELE-06) : la flèche courbe est dessinée sur le moteur du banc */
 function montageMoteur(o,e){var svg=montageBoucle(o,e);
   if(e.moteur!=='actif')return svg;

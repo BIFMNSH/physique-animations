@@ -27,7 +27,7 @@
     function maj(){
       const r=val('ci3-r'),n=val('ci3-n'),on=allume(r,n);
       fig.montage(dessin(r,n));
-      fig.schema(A.schema({cotes:{droite:'lampe',bas:on?'fil':'vide'},legende:on?'Boucle fermée : la lampe brille':'Boucle ouverte : la lampe ne brille pas',label:'Schéma normalisé : pile et lampe, boucle '+(on?'fermée':'ouverte')}));
+      fig.schema(A.schema({cotes:{droite:on?'fil':'vide',bas:'lampe'},legende:on?'Boucle fermée : la lampe brille':'Boucle ouverte : la lampe ne brille pas',label:'Schéma normalisé : pile et lampe, boucle '+(on?'fermée':'ouverte')}));
       S.out.textContent='Fil rouge sur '+nom(r)+', fil noir sur '+nom(n)+'. Observation : lampe '+(on?'allumée':'éteinte')+'.';
     }
     function paint(){table.innerHTML=X.tableHTML(window.FICHE_CI_ELE03,window.FICHE_CI_ELE03.lignes(st),'Mes essais de montage.');}

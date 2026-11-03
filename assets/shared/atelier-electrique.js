@@ -164,12 +164,12 @@ function pileLampe(on,r,n){
 /* montage en série : pile, interrupteur, moteur, lampe en anneau */
 function montageSerie(o){
   var piece=o.pile!==false,lamp=o.lampe!==false,mot=o.moteur!==false,ix=o.inter||'ferme',coupe=!!o.filCoupe,
-      on=piece&&lamp&&mot&&ix==='ferme'&&!coupe,s='',P=pileM(270,64,{fail:false}),I=interM(450,170,ix==='ferme'),M=moteurM(270,262,on&&mot),Lp=lampeM(125,170,on,{});
-  var mods=[P,I,M,Lp],c=chaine(mods).cables,cols=[CR,CK,CR,CK];
+      on=piece&&lamp&&mot&&ix==='ferme'&&!coupe,s='',P=pileM(270,64,{fail:false}),I=interM(125,170,ix==='ferme'),M=moteurM(270,262,on&&mot),Lp=lampeM(445,170,on,{});
+  var mods=[P,Lp,M,I],c=chaine(mods).cables,cols=[CR,CK,CR,CK];
   if(!piece)s+=absentM(270,64,120,56,'pile absente');
-  if(ix==='absent')s+=absentM(450,170,110,40,'');
+  if(ix==='absent')s+=absentM(125,170,110,40,'');
   if(!mot)s+=absentM(270,248,96,60,'moteur absent');
-  if(!lamp)s+=absentM(125,150,80,90,'lampe absente');
+  if(!lamp)s+=absentM(445,150,80,90,'lampe absente');
   if(piece)s+=P.g;if(ix!=='absent')s+=I.g;if(mot)s+=M.g;if(lamp)s+=Lp.g;
   c.forEach(function(k,i){var kk=cab(k.a,k.da,coupe&&i===2?[k.b[0]+(k.db>0?36:-36),k.b[1]-30]:k.b,k.db,cols[i],{sansB:coupe&&i===2});s+=kk.svg;});
   return {svg:svgBanc(s,'0 0 540 310','Montage en série : pile, interrupteur '+(ix==='ferme'?'fermé':ix==='ouvert'?'ouvert':'absent')+', moteur, lampe, reliés par des câbles'+(on?' ; la lampe brille et le moteur tourne':' ; le circuit est ouvert')),allume:on};}

@@ -43,7 +43,7 @@
     function maj(){
       const a=val(),on=ferme(a);courant=a;
       fig.montage(dessin(a));
-      fig.schema(A.schema({pile:a==='pile'?'absente':'normale',cotes:{droite:'lampe',gauche:a==='inter'?'interOuvert':'interFerme',bas:a==='rouge'||a==='noir'?'vide':'fil'},legende:on?'Boucle fermée : les grains circulent':'Boucle ouverte : les grains sont immobiles',label:'Schéma normalisé : boucle '+(on?'fermée':'ouverte')}).replace('</svg>','<g data-g="s"></g></svg>'));
+      fig.schema(A.schema({pile:a==='pile'?'absente':'normale',cotes:{droite:a==='inter'?'interOuvert':'interFerme',gauche:'lampe',bas:a==='rouge'||a==='noir'?'vide':'fil'},legende:on?'Boucle fermée : les grains circulent':'Boucle ouverte : les grains sont immobiles',label:'Schéma normalisé : boucle '+(on?'fermée':'ouverte')}).replace('</svg>','<g data-g="s"></g></svg>'));
       grainsSVG();
       S.out.textContent=nom(a)+'. Observation : lampe '+(on?'allumée, grains en mouvement':'éteinte, grains immobiles')+'.';
     }
