@@ -92,10 +92,10 @@ function fiche(pt,from,col){if(pt.croc)return pince(pt,from,col);var a=Math.atan
   /* fiche banane de sécurité : manchon isolant qui coiffe entièrement la douille (aucune partie métallique visible), collier à la base, gaine du câble au sommet */
   return '<g transform="translate('+r1(pt[0])+' '+r1(pt[1])+') rotate('+r1(a)+')"><rect x="-26" y="-4.6" width="8" height="9.2" rx="2.4" fill="'+col+'" stroke="#0A0F1A" stroke-opacity=".5"/><rect x="-19" y="-6.8" width="26.5" height="13.6" rx="3.6" fill="'+col+'" stroke="#0A0F1A" stroke-opacity=".55"/><rect x="2.4" y="-6.8" width="5.1" height="13.6" rx="2.2" fill="#0A0F1A" opacity=".3"/><rect x="-15" y="-6.8" width="2.4" height="13.6" fill="#fff" opacity=".28"/><circle cx="-5" cy="-6.8" r="0" fill="none"/></g>';}
 /* câble entre deux douilles : il part de chacune horizontalement (da, db = ±1 : vers la gauche ou la droite) puis se courbe. Renvoie {d, svg}. */
-function ctrl(a,da,b,db,k){var d=Math.hypot(b[0]-a[0],b[1]-a[1]),h=0,kv=k||Math.max(28,Math.min(66,d*.35)),kh=k||Math.max(34,Math.min(80,d*.4)),c1,c2;
+function ctrl(a,da,b,db,k){var d=Math.hypot(b[0]-a[0],b[1]-a[1]),h=0,kv=k||Math.max(40,Math.min(104,d*.5)),kh=k||Math.max(34,Math.min(80,d*.4)),c1,c2;
   /* fiche banane sur une douille : elle entre par le dessus (verticale) ; pince crocodile : elle arrive par le côté */
-  c1=a.croc?[a[0]+da*kh,a[1]]:[a[0]+da*14,a[1]-kv];
-  c2=b.croc?[b[0]+db*kh,b[1]]:[b[0]+db*14,b[1]-kv];
+  c1=a.croc?[a[0]+da*kh,a[1]]:[a[0]+da*(14+kv*.25),a[1]-kv];
+  c2=b.croc?[b[0]+db*kh,b[1]]:[b[0]+db*(14+kv*.25),b[1]-kv];
   return [c1,c2];}
 function cab(a,da,b,db,col,o){o=o||{};var cc=ctrl(a,da,b,db,o.k),c1=cc[0],c2=cc[1],
   dd='M'+r1(a[0])+' '+r1(a[1])+' C'+r1(c1[0])+' '+r1(c1[1])+' '+r1(c2[0])+' '+r1(c2[1])+' '+r1(b[0])+' '+r1(b[1]),
