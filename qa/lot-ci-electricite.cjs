@@ -114,6 +114,12 @@ console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées 
   assert.ok(String(pm).includes('width="12" height="12"')||String(pm).length>0,'pile à deux bornes');
 }
 
+/* Fenêtre 3D : chaque module du montage est cliquable (pile, lampe, moteur, interrupteur). */
+{
+  const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
+  ['pile','lampe','moteur','inter'].forEach(k=>assert.ok(serie.includes('data-pop="'+k+'"'),'module 3D cliquable : '+k));
+}
+
 /* Parcours complet des six fiches dans le moteur, avec saisies et reprise locale. */
 for(const i of IDS){
   const win=env(),document=win.document,F=win['FICHE_CI_ELE'+i],app=document.getElementById('app'),key='pc-act-'+F.id;
