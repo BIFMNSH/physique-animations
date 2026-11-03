@@ -151,7 +151,7 @@ function pileReelle(x,y,sc,inv,usee){
   /* pile retournée : les deux lames ont la même taille, seuls les signes sont échangés */
   g=g.replace(/(<text x="27"[^>]*?)fill="#2B5EA8"([^>]*>)−</,'$1fill="#C03A2E"$2+<').replace(/(<text x="53"[^>]*?)fill="#C03A2E"([^>]*>)\+</,'$1fill="#2B5EA8"$2−<');
   return g;}
-function lampeReelle(x,y,on,sc,grillee){var g=A.lampe(x,y,on,sc);
+function lampeReelle(x,y,on,sc,grillee){var g=A.lampe(x,y,on,sc,true);
   if(grillee)g+='<g transform="translate('+x+' '+y+') scale('+(sc||1)+')"><rect x="-4" y="-3" width="8" height="11" fill="#EEF3F8"/><path d="M-8 8 Q-5 -2 -3 -3 M3 -3 Q5 -2 8 8" stroke="#8A94A4" stroke-width="2.4" fill="none"/></g>'+T(x,y-34*(sc||1),'filament coupé',11,'#B33A2E',700);
   return g;}
 function planche(pont){var m=pont?materiau(pont):null,g='<rect x="278" y="130" width="44" height="90" rx="9" fill="#EEF2FA" stroke="#9FB0C4"/>';
@@ -172,14 +172,14 @@ function montageBoucle(o,e){
   var on1=oo.s1||{},on2=oo.s2||{},hot=e.courtCircuit;
   s+=F('M64.3 112.2 V84 H22 V24 H152 V50 '+(dip1?'H176':'H224'),cl);
   if(o.courtPile)s+=F('M64.3 112.2 C62 70 90 70 87.7 112.2','#F97316');
-  if(o.moteur){s+=F('M224 50 C270 50 290 66 330 66',cl)+F('M390 66 C430 66 430 219 454 219',cl);}
-  else{var fin=(o.contactLache&&rev)?'H430':'H454';
-    if(o.planche)s+=F('M224 50 H260 V150 H300',cl)+F('M300 150 H420 V219 '+fin,cl);
-    else s+=F('M224 50 H260 V150 H420 V219 '+fin,cl);}
-  if(o.contactLache&&rev)s+='<path d="M440 207 l12 24 M452 207 l-12 24" stroke="#B33A2E" stroke-width="3.5" stroke-linecap="round"/>'+T(404,244,'fil mal serré',11,'#B33A2E',700);
-  if(s2){s+=F('M87.7 112.2 V84 H126 V284 H276',cr)+F('M324 284 H470 V238',cr);}
-  else if(o.planche)s+=F('M87.7 112.2 V84 H126 V200 H300',cr)+F('M300 200 H380 V284 H470 V238',cr);
-  else s+=F('M87.7 112.2 V84 H126 V284 H470 V238',cr);
+  if(o.moteur){s+=F('M224 50 C270 50 290 66 330 66',cl)+F('M390 66 C430 66 430 247 446 247',cl);}
+  else{var fin=(o.contactLache&&rev)?'H430':'H446';
+    if(o.planche)s+=F('M224 50 H260 V150 H300',cl)+F('M300 150 H420 V247 '+fin,cl);
+    else s+=F('M224 50 H260 V150 H420 V247 '+fin,cl);}
+  if(o.contactLache&&rev)s+='<path d="M424 235 l12 24 M436 235 l-12 24" stroke="#B33A2E" stroke-width="3.5" stroke-linecap="round"/>'+T(396,276,'fil mal serré',11,'#B33A2E',700);
+  if(s2){s+=F('M87.7 112.2 V84 H126 V284 H276',cr)+F('M324 284 H494 V247',cr);}
+  else if(o.planche)s+=F('M87.7 112.2 V84 H126 V200 H300',cr)+F('M300 200 H380 V284 H494 V247',cr);
+  else s+=F('M87.7 112.2 V84 H126 V284 H494 V247',cr);
   if(o.planche)s=s.replace(/^/,planche(o.pont));
   s+=pileReelle(40,150,.9,o.inverse,o.pile==='usee'&&rev);
   if(o.pile==='usee'&&rev)s+=T(80,262,'pile usée',12,'#B33A2E',800);
@@ -187,7 +187,7 @@ function montageBoucle(o,e){
   if(s2)s+=organeReel(s2,on2,300,284);
   if(o.moteur)s+=A.moteur(360,60,e.moteur==='actif');
   if(o.lampe!=='absente')s+=lampeReelle(470,180,lampOn,1,o.lampe==='grillee'&&rev);
-  var br=[];if(dip1)br.push([176,50],[224,50]);if(o.moteur)br.push([330,66],[390,66]);if(s2)br.push([276,284],[324,284]);if(o.lampe!=='absente')br.push([(o.contactLache&&rev)?430:454,219],[470,238]);
+  var br=[];if(dip1)br.push([176,50],[224,50]);if(o.moteur)br.push([330,66],[390,66]);if(s2)br.push([276,284],[324,284]);if(o.lampe!=='absente')br.push([(o.contactLache&&rev)?430:446,247],[494,247]);
   s+=A.broches(br);
   if(o.planche)s+=studs(o.pont);
   if(hot)s+='<path d="M64 112 V84 H22 V24 H152 V50" fill="none" stroke="#FF5A2E" stroke-width="9" opacity=".28" stroke-linecap="round" stroke-linejoin="round"/>';
@@ -247,10 +247,10 @@ function montageMoteur(o,e){var svg=montageBoucle(o,e);
 
 /* ---- commutateur et deux lampes (ELE-10) ---- */
 function montageCommut(o,e){var F=A.fil,s='',p=o.pos===2?2:1;
-  s+=F('M64.3 112.2 V92 H22 V70 H176',BLK)+F('M224 52 H300 V131.2 H407.2',BLK)+F('M224 88 H270 V261.2 H407.2',BLK)+F('M87.7 112.2 V84 H126 V310 H540 V147.2 H420',RED)+F('M420 277.2 V310',RED);
-  s+=A.pile45(40,150,.9)+commutReel(200,70,p,false,'commutateur')+A.lampe(420,100,e.L1==='actif',.8)+A.lampe(420,230,e.L2==='actif',.8)
+  s+=F('M64.3 112.2 V92 H22 V70 H176',BLK)+F('M224 52 H300 V153.6 H400.8',BLK)+F('M224 88 H270 V283.6 H400.8',BLK)+F('M87.7 112.2 V84 H126 V310 H540 V153.6 H439.2',RED)+F('M439.2 283.6 V310',RED);
+  s+=A.pile45(40,150,.9)+commutReel(200,70,p,false,'commutateur')+A.lampe(420,100,e.L1==='actif',.8,true)+A.lampe(420,230,e.L2==='actif',.8,true)
    +T(420,178,'Lampe 1',12,'#46536B',700)+T(470,262,'Lampe 2',12,'#46536B',700)
-   +A.broches([[176,70],[224,52],[224,88],[407.2,131.2],[407.2,261.2],[420,147.2],[420,277.2]])+'<circle cx="420" cy="310" r="4" fill="#243049"/>';
+   +A.broches([[176,70],[224,52],[224,88],[400.8,153.6],[400.8,283.6],[439.2,153.6],[439.2,283.6]])+'<circle cx="439.2" cy="310" r="4" fill="#243049"/>';
   var lab='Montage : commutateur en position '+p+' ; '+(e.L1==='actif'?'la lampe 1 brille et la lampe 2 est éteinte':'la lampe 2 brille et la lampe 1 est éteinte');
   return A.svg(s,'0 0 560 330',lab);}
 function symCommut(x,y,pos,flip){var c=flip?x+40:x,t=flip?x:x+40,yy=pos===2?24:-24,dot=function(a,b){return '<circle cx="'+a+'" cy="'+b+'" r="3.5" fill="'+INK+'"/>';};
@@ -264,9 +264,9 @@ function schemaCommut(o,e){var st='fill="none" stroke="'+INK+'" stroke-width="2.
 
 /* ---- va-et-vient (ELE-11) ---- */
 function montageVV(o,e){var F=A.fil,s='',p1=o.p1===2?2:1,p2=o.p2===2?2:1,on=e.lampe==='actif';
-  s+=F('M64.3 112.2 V92 H22 V70 H176',BLK)+F('M224 52 H336',BLK)+F('M224 88 H336',BLK)+F('M384 70 H430 V189 H454',BLK)+F('M87.7 112.2 V84 H126 V250 H470 V208',RED);
-  s+=A.pile45(40,150,.9)+commutReel(200,70,p1,false,'commutateur 1')+commutReel(360,70,p2,true,'commutateur 2')+A.lampe(470,150,on,1)
-   +A.broches([[176,70],[224,52],[224,88],[336,52],[336,88],[384,70],[454,189],[470,208]]);
+  s+=F('M64.3 112.2 V92 H22 V70 H176',BLK)+F('M224 52 H336',BLK)+F('M224 88 H336',BLK)+F('M384 70 H430 V217 H446',BLK)+F('M87.7 112.2 V84 H126 V250 H494 V217',RED);
+  s+=A.pile45(40,150,.9)+commutReel(200,70,p1,false,'commutateur 1')+commutReel(360,70,p2,true,'commutateur 2')+A.lampe(470,150,on,1,true)
+   +A.broches([[176,70],[224,52],[224,88],[336,52],[336,88],[384,70],[446,217],[494,217]]);
   return A.svg(s,'0 0 560 280','Montage : commutateur 1 en position '+p1+', commutateur 2 en position '+p2+' ; '+(on?'la lampe brille':'la lampe est éteinte'));}
 function schemaVV(o,e){var st='fill="none" stroke="'+INK+'" stroke-width="2.5"',p1=o.p1===2?2:1,p2=o.p2===2?2:1,on=e.lampe==='actif',s='';
   s+='<path d="M100 40 H200 M240 40 H410 V54" '+st+'/>'+pileSym(false)+'<path d="M100 40 V100 H110" '+st+'/>'+symCommut(110,100,p1,false)

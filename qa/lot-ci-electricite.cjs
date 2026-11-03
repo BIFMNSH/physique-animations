@@ -105,10 +105,11 @@ console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées 
   const {panel}=lancer('03');
   choisir(panel,'ci3-r','plot');choisir(panel,'ci3-n','culot');
   const drawing=panel.querySelector('svg');
-  assert.ok([...drawing.querySelectorAll('path')].some(p=>/H360 V158$/.test(p.getAttribute('d'))),'ELE-03 fil vers le plot à y=158');
-  assert.ok(drawing.querySelector('circle[cx="360"][cy="158"]'),'ELE-03 marqueur du plot');
+  assert.ok([...drawing.querySelectorAll('path')].some(p=>/H384 V167$/.test(p.getAttribute('d'))),'ELE-03 fil vers la borne du support reliée au plot (y=167)');
+  assert.ok(drawing.querySelector('circle[cx="384"][cy="167"]'),'ELE-03 marqueur de la borne du plot');
   const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
-  assert.ok(serie.includes('H470 V238'),'ELE-04/05 fil vers le plot à y=238');
+  assert.ok(serie.includes('H494 V247'),'ELE-04/05 fil vers la borne du support reliée au plot (y=247)');
+  assert.ok(/<circle cx="-24" cy="67"/.test(serie)&&/<circle cx="24" cy="67"/.test(serie),'la lampe est montée sur un support à deux bornes');
   assert.ok(serie.includes('M87.7 112.2 V84 H126 V284'),'le fil sort de la borne sans traverser la pile');
 }
 

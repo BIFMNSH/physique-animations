@@ -1,6 +1,6 @@
 /* NohobaLab · atelier d'électricité (6e Côte d'Ivoire) : dessins originaux partagés par les activités du circuit électrique.
    Montage réaliste (pile 4,5 V, pile cylindrique, lampe, interrupteur, moteur) et schéma normalisé (symboles du document de classe).
-   Conventions : plot et culot de la lampe sont les deux contacts ; le verre est isolant ; pile plate : deux lames de même taille, + et − imprimés. */
+   Conventions : plot et culot de la lampe sont les deux contacts ; le verre est isolant ; dans un circuit, la lampe est montée sur un support à deux bornes (dipôle) ; pile plate : deux lames de même taille, + et − imprimés. */
 (function(){
 'use strict';
 var INK='#243049',OR='#F97316',FONT='Atkinson Hyperlegible,system-ui,sans-serif';
@@ -20,10 +20,13 @@ function pileCyl(x,y,sc){sc=sc||1;
   +'<rect x="-9" y="-10" width="18" height="12" rx="3" fill="#C9CED8" stroke="#6b7480"/><rect x="-26" y="108" width="52" height="6" rx="3" fill="#C9CED8" stroke="#6b7480"/>'
   +'</g>';}
 /* lampe : verre (isolant) au-dessus ; culot (côté, filetage) ; plot (pointe en bas). Culot : (x-16,y+39) ; plot : (x,y+58) */
-function lampe(x,y,on,sc){sc=sc||1;var g='<g transform="translate('+x+' '+y+') scale('+sc+')">',i,a;
+/* lampe ; support=true : lampe montée sur un support (douille) à deux bornes sur le socle, côte à côte.
+   Accroches des fils (repère de la lampe) : borne gauche = culot en (x-24*sc, y+67*sc), borne droite = plot en (x+24*sc, y+67*sc). */
+function lampe(x,y,on,sc,support){sc=sc||1;var g='<g transform="translate('+x+' '+y+') scale('+sc+')">',i,a;
   if(on){g+='<circle cx="0" cy="0" r="52" fill="#FFE27A" opacity=".45"/>';for(i=0;i<8;i++){a=i*Math.PI/4+0.39;g+='<line x1="'+(36*Math.cos(a)).toFixed(1)+'" y1="'+(36*Math.sin(a)).toFixed(1)+'" x2="'+(50*Math.cos(a)).toFixed(1)+'" y2="'+(50*Math.sin(a)).toFixed(1)+'" stroke="#F0B400" stroke-width="3" stroke-linecap="round"/>';}}
   g+='<circle cx="0" cy="0" r="26" fill="'+(on?'#FFE27A':'#EEF3F8')+'" stroke="#9FB0C4" stroke-width="2.5"/><path d="M-8 18 V8 M8 18 V8" stroke="#6b7480" stroke-width="2"/><path d="M-8 8 Q-4 -10 0 4 Q4 -10 8 8" fill="none" stroke="'+(on?'#FF8A00':'#8A94A4')+'" stroke-width="2.4"/>'
-  +'<rect x="-16" y="26" width="32" height="26" rx="4" fill="#B7BDC7" stroke="#6b7480"/><path d="M-16 34 h32 M-16 42 h32" stroke="#6b7480"/><rect x="-6" y="52" width="12" height="6" rx="2" fill="#8A94A4"/></g>';return g;}
+  +'<rect x="-16" y="26" width="32" height="26" rx="4" fill="#B7BDC7" stroke="#6b7480"/><path d="M-16 34 h32 M-16 42 h32" stroke="#6b7480"/><rect x="-6" y="52" width="12" height="6" rx="2" fill="#8A94A4"/>'
+  +(support?'<rect x="-21" y="44" width="42" height="14" rx="4" fill="#D6DCE6" stroke="#9FB0C4" stroke-width="2"/><rect x="-38" y="56" width="76" height="22" rx="7" fill="#EEF2FA" stroke="#9FB0C4" stroke-width="2"/><path d="M-16 58 L-24 67 M0 58 L24 67" stroke="#6b7480" stroke-width="2" fill="none"/><circle cx="-24" cy="67" r="6" fill="#B7BDC7" stroke="#6b7480" stroke-width="2"/><circle cx="24" cy="67" r="6" fill="#B7BDC7" stroke="#6b7480" stroke-width="2"/>':'')+'</g>';return g;}
 /* interrupteur sur socle : contacts en (x-24,y) et (x+24,y) */
 function interrupteur(x,y,closed){return '<g transform="translate('+x+' '+y+')"><rect x="-34" y="-10" width="68" height="20" rx="8" fill="#EEF2FA" stroke="#9FB0C4"/><circle cx="-24" cy="0" r="6" fill="#B7BDC7" stroke="#6b7480"/><circle cx="24" cy="0" r="6" fill="#B7BDC7" stroke="#6b7480"/>'
   +(closed?'<path d="M-24 0 H24" stroke="#C99A1E" stroke-width="5" stroke-linecap="round"/>':'<path d="M-24 0 L18 -24" stroke="#C99A1E" stroke-width="5" stroke-linecap="round"/>')+'</g>';}
@@ -85,14 +88,14 @@ function montageSerie(o){
   /* Fils routés hors des objets, du sommet des bornes aux contacts de la lampe. */
   s+=fil('M64.3 112.2 V84 H22 V24 H152 V50 H176','#2E3138');
   s+=fil('M224 50 C270 50 290 66 330 66','#2E3138');
-  s+=fil(coupe?'M390 66 C420 66 430 100 436 130':'M390 66 C430 66 430 219 454 219','#E0342F');
-  s+=fil('M87.7 112.2 V84 H126 V284 H470 V238','#E0342F');
+  s+=fil(coupe?'M390 66 C420 66 430 100 436 130':'M390 66 C430 66 430 247 446 247','#E0342F');
+  s+=fil('M87.7 112.2 V84 H126 V284 H494 V247','#E0342F');
   if(piece)s+=pile45(40,150,.9);else s+=absent(30,100,90,120,'pile absente');
   if(ix==='absent')s+=absent(176,32,48,36,'');else s+=interrupteur(200,50,ix==='ferme');
   if(mot)s+=moteur(360,60,on);else s+=absent(322,28,76,52,'moteur absent');
-  if(lamp)s+=lampe(470,180,on,1);else s+=absent(430,128,80,140,'lampe absente');
+  if(lamp)s+=lampe(470,180,on,1,true);else s+=absent(430,128,80,140,'lampe absente');
   s+=broches([[176,50],[224,50],[330,66],[390,66]]);
-  if(lamp)s+=broches([[454,219],[470,238]]);
+  if(lamp)s+=broches([[446,247],[494,247]]);
   return {svg:svg(s,'0 0 560 300','Montage en série : pile, interrupteur '+(ix==='ferme'?'fermé':ix==='ouvert'?'ouvert':'absent')+', moteur, lampe'+(on?' ; la lampe brille et le moteur tourne':' ; le circuit est ouvert')),allume:on};}
 window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,
   /* zone d'observation de l'élève + bouton d'enregistrement + messages */

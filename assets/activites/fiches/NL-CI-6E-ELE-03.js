@@ -7,17 +7,16 @@
   const FIN=[['plot','le plot de la lampe'],['culot','le culot de la lampe'],['verre','le verre de la lampe'],['libre','rien (fil détaché)']];
   const nom=id=>(FIN.filter(x=>x[0]===id)[0]||['',''])[1];
   function allume(r,n){return (r==='plot'&&n==='culot')||(r==='culot'&&n==='plot');}
-  const PT={plot:[360,158],culot:[344,139],verre:[340,84],libre:[290,190]};
+  const PT={plot:[384,167],culot:[336,167],verre:[340,84],libre:[290,190]};
   function chemin(base,cible,haut){
     const t=PT[cible];
     if(cible==='plot')return base+' V'+haut+' H'+t[0]+' V'+t[1];
-    if(cible==='culot')return base+' V'+haut+' H320 V'+t[1]+' H'+t[0];
     if(cible==='verre')return base+' V'+haut+' H300 V'+t[1]+' H'+t[0];
     return base+' V'+haut+' H'+t[0]+' V'+t[1];
   }
   function dessin(r,n){
     const A=window.NohobaAtelier,on=allume(r,n);
-    let s=A.pile45(30,96,.9)+A.lampe(360,100,on,1);
+    let s=A.pile45(30,96,.9)+A.lampe(360,100,on,1,true);
     /* fil rouge : borne + ; fil noir : borne − */
     const dR=chemin('M77.7 58.2 V14 H408',r,206),
           dN=chemin('M54.3 58.2 V46 H14',n,218);
