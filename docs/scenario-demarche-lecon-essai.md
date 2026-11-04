@@ -1,6 +1,6 @@
 # Scénario v2 : leçon d'essai de 5e sur le modèle des fiches de 6e
 
-Statut : **à valider par le propriétaire, rien n'est construit.** Remplace la v1 (écrans inventés) : on reprend tel quel le modèle des fiches 6e, celui du moteur `assets/activites/activite.js` et du gabarit `gabarit-fiche.js`.
+Statut : **validé le 4 nov. 2026 (remplacer la leçon d'essai, étendre aux 13 leçons). Étape 1 construite : fiche `NL-5E-ELE-01` et page `activites-5e/` ; `lecon-essai/` renvoie vers la fiche ; ancien moteur `lecon-essai.js` retiré.** Remplace la v1 (écrans inventés) : on reprend tel quel le modèle des fiches 6e, celui du moteur `assets/activites/activite.js` et du gabarit `gabarit-fiche.js`.
 
 Compétence unique : mesurer une intensité en plusieurs points d'un circuit en série. Contexte : Awa, Kofi, pile de 4,5 V.
 
@@ -21,3 +21,9 @@ Construction proposée :
 - Corrigés : aucun fichier public avec corrigé ; le mode professeur reste local.
 
 À décider : (a) remplacer `lecon-essai/` par cette fiche ou garder les deux ; (b) étendre ensuite aux 13 leçons du cartable.
+
+## Extension aux 13 leçons de 5e (état)
+Les 13 leçons prêtes (`assets/studio/programme.js`) : generateur-recepteur, association-lampes, piles-serie, intensite, tension, pression-atmospherique, melanges, atomes-molecules, combustion-carbone, combustion-soufre, dilatation-solides, dilatation-liquides, dilatation-gaz.
+- **intensite** : faite (fiche `NL-5E-ELE-01`).
+- Les 12 autres ont chacune une simulation Studio propre (SVG de 200 à 250 lignes) et des données de leçon (situation, prévision, À retenir, quiz). Chaque fiche demande sa manipulation, ses hypothèses, son corrigé et ses tests : un lot par thème (Électricité : 3 leçons ; Mesures et pression : 2 ; Matière : 4 ; Dilatation : 3), à valider un par un avec un tableau de scénarios.
+- La page `activites-5e/` accepte aujourd'hui `NL-5E-ELE-01` seulement ; chaque fiche s'ajoute à la liste blanche et à `sw.js`.
