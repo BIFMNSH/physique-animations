@@ -1,6 +1,6 @@
 # Scénarios : lot Mesures de 5e (tension et pression atmosphérique, 3 fiches)
 
-Statut : **à valider par le propriétaire, rien n'est construit.** Branche `essai/lecon-ampoule`. Gabarit : `NL-5E-ELE-01` à `-04` (moteur 6e, page `activites-5e/`). Thème : Mesure de grandeurs physiques. Contexte : Awa, Kofi, Abidjan, mont Tonkoui, F CFA. Valeurs de simulation affichées comme telles.
+Statut : **validé le 4 nov. 2026 et construit** : fiches `NL-5E-ELE-05`, `NL-5E-MES-01`, `NL-5E-MES-02`, modèles `assets/shared/elec5e.js` (tension) et `assets/shared/mesures5e.js` (pression), test `qa/activites-5e.cjs`. Reste à valider par le propriétaire. Branche `essai/lecon-ampoule`. Gabarit : `NL-5E-ELE-01` à `-04` (moteur 6e, page `activites-5e/`). Thème : Mesure de grandeurs physiques. Contexte : Awa, Kofi, Abidjan, mont Tonkoui, F CFA. Valeurs de simulation affichées comme telles.
 
 Pour respecter « une activité = une seule compétence », la leçon sur la pression atmosphérique donne deux fiches.
 
@@ -17,3 +17,5 @@ Contraintes communes :
 - Le modèle de tension (L1 1,5 V, L2 3 V) est repris du cartable ; il passe dans `elec5e.js` pour ne pas charger tout le cartable.
 - Pages : `activites-5e/` étend sa liste blanche à `ELE-05`, `MES-01`, `MES-02` ; `sw.js` et `qa/activites-5e.cjs` étendus.
 - Points à confirmer : altitudes et pressions des cinq lieux, libellés Thème/Chapitre, source du programme.
+
+Choix de construction : pression = atmosphère standard arrondie, comme la simulation Studio (Abidjan 1 013 hPa, Tonkoui 873, Nimba 817, Kilimandjaro 480, Everest 314) ; MES-01 propose six variantes (une avec effet et une témoin pour chaque expérience) et un schéma « air dehors / air dedans » ; le libellé « Schéma normalisé » du moteur s'applique aussi au cadran du baromètre (MES-02).

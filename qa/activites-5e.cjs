@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.resolve(root,f),'utf8');
 const dom=new JSDOM('<!doctype html><body></body>',{url:'http://localhost/activites-5e/',runScripts:'outside-only'}),w=dom.window,doc=w.document;
 w.requestAnimationFrame=()=>0;w.cancelAnimationFrame=()=>{};w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};
-for(const f of ['assets/shared/atelier-electrique.js','assets/shared/elec5e.js','assets/activites/activite.js',...['01','02','03','04'].map(n=>'assets/activites/fiches/NL-5E-ELE-'+n+'.js')])w.eval(read(f));
+for(const f of ['assets/shared/atelier-electrique.js','assets/shared/elec5e.js','assets/shared/mesures5e.js','assets/activites/activite.js',...['ELE-01','ELE-02','ELE-03','ELE-04','ELE-05','MES-01','MES-02'].map(n=>'assets/activites/fiches/NL-5E-'+n+'.js')])w.eval(read(f));
 const F=w.FICHE_5E_ELE01,I=w.NohobaIntensite.intensite;
 /* modèle */
 assert.equal(I(1,true),300);assert.equal(I(2,true),150);assert.equal(I(1,false),0);assert.equal(I(2,false),0);
@@ -83,13 +83,48 @@ for(const n of ['02','03','04']){const {F,panel,st}=lancer(n);
  assert.equal(F.peutConfronter(st),false);choisir2(panel,'e-a','3o');enreg2(panel);
  assert.equal(F.peutConfronter(st),true);eq(st.essais.map(e=>e.U),[1.5,3,4.5,1.5]);assert.match(panel.querySelector('svg').getAttribute('aria-label'),/1,5 V/);
  assert.match(panel.querySelector('p[aria-live=polite]').textContent,/Trois piles, une retournée : 1,5 V/);}
+
+/* ---------- lot Mesures de 5e : ELE-05 (tension), MES-01 (effets de la pression), MES-02 (pression et altitude) ---------- */
+const E5=w.NohobaElec5e,M5=w.NohobaMes5e;
+assert.equal(E5.tension('G',true),4.5);assert.equal(E5.tension('L1',true),1.5);assert.equal(E5.tension('L2',true),3);assert.equal(E5.tension('K',true),0);assert.equal(E5.tension('K',false),4.5);assert.equal(E5.tension('L1',false),0);
+assert.equal(E5.tension('L1',true)+E5.tension('L2',true),E5.tension('G',true),'U = U1 + U2');assert.throws(()=>E5.tension('X',true),/inconnu/);
+assert.equal(M5.pression(0),1013);assert.ok(M5.pression(1752)>=815&&M5.pression(1752)<=825,'mont Nimba environ 820 hPa');
+assert.ok(M5.pression(1189)>M5.pression(1752)&&M5.pression(1752)>M5.pression(5895)&&M5.pression(5895)>M5.pression(8849)&&M5.pression(8849)>0,'la pression diminue avec l’altitude sans s’annuler');
+assert.throws(()=>M5.pression(-1),/hors/);assert.throws(()=>M5.pression(9500),/hors/);assert.throws(()=>M5.lieu('lune'),/inconnu/);assert.throws(()=>M5.exp('x'),/inconnue/);
+assert.deepEqual(['verre-lisse','verre-trou','bout-0','bout-bcp','vent-ok','vent-trou'].map(i=>M5.exp(i).effet),[true,false,false,true,true,false]);
+assert.ok(M5.exp('bout-bcp').dedans==='moins'&&M5.exp('bout-0').dedans==='autant');
+for(const n of ['ELE05','MES01','MES02']){const F=w['FICHE_5E_'+n],panel=doc.createElement('div');doc.body.appendChild(panel);const st2={essais:[],prevision:null},X2={st:()=>st2,save:()=>{},addEssai:e=>{st2.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X2);
+  for(const k of ['titre','theme','chapitre','competenceVisee','objectifsPedagogiques','situationEvaluation','situation','materiel','prevision','protocole','colonnes','lignes','resume','confrontation','retroaction','transfert','critere','manip','grilleMaitrise','peutConfronter','aides','synthese','prof','diagnostic'])assert.ok(F[k]!=null,n+' : champ '+k);
+  assert.equal(F.theme,'Mesure de grandeurs physiques');assert.equal(F.niveau,'5e');assert.equal(F.prevision.choix.length,4);assert.equal(F.grilleMaitrise.map(x=>x[0]).join(),'MI,MF,MS,TBM');
+  assert.ok(F.transfert.options.some(o=>o[0]===F.transfert.rep),'transfert '+n);assert.ok(/Awa|Kofi/.test(F.situation+F.situationEvaluation));
+  assert.ok(!/NL-C4|NL-CI|NL-5E|ELE-\d\d|MES-\d\d|Programme du cycle 4/.test(JSON.stringify(F).replace(F.id,'')),'aucun code interne '+n);
+  assert.ok([...panel.querySelectorAll('svg')].every(s=>s.getAttribute('role')==='img'&&s.getAttribute('aria-label')),'SVG nommés '+n);
+  const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
+  assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
+  assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+{const {F,panel,st}=lancer('05');
+ for(const [d,k] of [['G','ferme'],['L1','ferme'],['L2','ferme']]){choisir2(panel,'e-d',d);choisir2(panel,'e-k',k);enreg2(panel);}
+ assert.equal(F.peutConfronter(st),false);choisir2(panel,'e-d','K');choisir2(panel,'e-k','ouvert');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/4,5 V/);enreg2(panel);
+ assert.equal(F.peutConfronter(st),true);assert.deepEqual(st.essais.map(e=>e.U),[4.5,1.5,3,4.5]);assert.match(panel.querySelector('svg').getAttribute('aria-label'),/voltmètre est branché aux bornes de l’interrupteur K et indique 4,5 V/);}
+{const F=w.FICHE_5E_MES01,panel=doc.createElement('div');doc.body.appendChild(panel);const st={essais:[],prevision:null},X={st:()=>st,save:()=>{},addEssai:e=>{st.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X);
+ for(const x of ['verre-lisse','verre-trou','bout-bcp']){choisir2(panel,'e-x',x);enreg2(panel);}assert.equal(F.peutConfronter(st),false,'les trois expériences sont nécessaires');
+ choisir2(panel,'e-x','vent-ok');enreg2(panel);assert.equal(F.peutConfronter(st),true);assert.match(panel.querySelector('p[aria-live=polite]').textContent,/colle au mur/);assert.match(panel.querySelector('svg').getAttribute('aria-label'),/ventouse bien appliquée/);
+ assert.match([...panel.querySelectorAll('svg')][1].getAttribute('aria-label'),/Dehors pousse plus que dedans/);}
+{const F=w.FICHE_5E_MES02,panel=doc.createElement('div');doc.body.appendChild(panel);const st={essais:[],prevision:null},X={st:()=>st,save:()=>{},addEssai:e=>{st.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X);
+ for(const l of ['abidjan','tonkoui','nimba']){choisir2(panel,'e-l',l);enreg2(panel);}assert.equal(F.peutConfronter(st),false,'il faut un sommet très haut');
+ choisir2(panel,'e-l','everest');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/Everest : 314 hPa/);enreg2(panel);assert.equal(F.peutConfronter(st),true);
+ assert.deepEqual(st.essais.map(e=>e.P),[1013,M5.pression(1189),M5.pression(1752),314]);assert.match([...panel.querySelectorAll('svg')][1].getAttribute('aria-label'),/314 hPa/);}
+for(const n of ['ELE-05','MES-01','MES-02'])assert.ok(read('sw.js').includes('NL-5E-'+n+'.js'),'hors-ligne '+n);
+assert.ok(read('sw.js').includes('mesures5e.js')&&read('activites-5e/index.html').includes('mesures5e.js'),'modèle de pression chargé et en cache');
+assert.ok(/MES-0\[12\]/.test(read('activites-5e/index.html')),'liste blanche : pression');
 /* page et hors-ligne */
 for(const n of ['02','03','04'])assert.ok(read('sw.js').includes('NL-5E-ELE-'+n+'.js'),'hors-ligne '+n);
 assert.ok(read('sw.js').includes('elec5e.js')&&read('activites-5e/index.html').includes('elec5e.js'),'modèle partagé chargé et en cache');
-assert.ok(/ELE-0\[1-4\]/.test(read('activites-5e/index.html')),'liste blanche de la page');
+assert.ok(/ELE-0\[1-5\]/.test(read('activites-5e/index.html')),'liste blanche de la page');
 /* page et redirection */
 const page=read('activites-5e/index.html');assert.ok(/noindex/.test(page)&&/Prototype/.test(page)&&/FICHE_5E_/.test(page)&&/NL-5E-ELE-01/.test(page));assert.ok(!read('sitemap.xml').includes('activites-5e'),'prototype hors référencement');
 const old=read('lecon-essai/index.html');assert.ok(/activites-5e\/\?a=NL-5E-ELE-01/.test(old)&&/noindex/.test(old),'l’ancienne leçon d’essai renvoie vers la fiche');
 assert.ok(!fs.existsSync(path.join(root,'assets/simple/lecon-essai.js')),'ancien moteur de la leçon d’essai retiré');
 assert.ok(read('sw.js').includes('NL-5E-ELE-01.js')&&read('sw.js').includes('./activites-5e/'),'hors-ligne');
-console.log('Fiches de 5e (ELE-01 à ELE-04) : modèles, structure, manipulations, six opérations, page, hors-ligne et redirection contrôlés.');
+console.log('Fiches de 5e (ELE-01 à ELE-05, MES-01, MES-02) : modèles, structure, manipulations, six opérations, page, hors-ligne et redirection contrôlés.');

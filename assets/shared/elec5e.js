@@ -76,6 +76,21 @@
     var etiq=piles.map(function(p){return p.f?'retournée':'dans le sens +';}).join(', ');
     return {montage:A.svgBanc(s,'0 0 560 255','Montage : '+n+(n===1?' pile':' piles')+' de 1,5 V en série ('+etiq+'). Le voltmètre, entre les extrémités, indique '+fv(U).replace('-','moins ')+'.'),
       schema:schemaPiles(piles,U),U:U};};
+  /* ---------- ELE-05 : tension aux bornes des dipôles d'un circuit en série (pile 4,5 V, L1 20 Ω, L2 40 Ω : valeurs de simulation) ---------- */
+  N.UG=4.5;N.DIP=[['G','La pile'],['L1','La lampe L1'],['L2','La lampe L2'],['K','L’interrupteur K']];
+  N.nomDip=function(d){var x=N.DIP.filter(function(a){return a[0]===d;})[0];if(!x)throw new Error('dipôle inconnu : '+d);return x[1];};
+  N.tension=function(d,ferme){N.nomDip(d);if(d==='G')return N.UG;if(d==='K')return ferme?0:N.UG;if(!ferme)return 0;return Math.round((d==='L1'?20:40)*N.UG/60*100)/100;};
+  var PV={G:{v:[[260,40],[260,-8],[237,-8]],c:[[180,40],[180,-8],[203,-8]],o:[220,-8],h:[220,40,30]},L1:{v:[[340,62],[400,62],[400,83]],c:[[340,138],[400,138],[400,117]],o:[400,100],h:[340,100,30]},
+    L2:{v:[[275,160],[275,205],[237,205]],c:[[165,160],[165,205],[203,205]],o:[220,205],h:[220,160,30]},K:{v:[[100,138],[44,138],[44,117]],c:[[100,62],[44,62],[44,83]],o:[44,100],h:[100,100,32]}};
+  function poly(p,col){return '<path d="M'+p.map(function(q){return q[0]+' '+q[1];}).join(' L')+'" fill="none" stroke="'+col+'" stroke-width="3.5" stroke-linejoin="round"/><circle cx="'+p[0][0]+'" cy="'+p[0][1]+'" r="5" fill="'+col+'"/>';}
+  N.montageTension=function(d,ferme){
+    var U=N.tension(d,ferme),pv=PV[d],
+      m=A.banc5e({n:2,on:ferme,dip:d,volt:true,txt:fv(U).replace('-','−'),k1:.5,k2:1,label:'Montage : pile de 4,5 V, interrupteur '+(ferme?'fermé':'ouvert')+' et lampes L1 et L2 en série'+(ferme?', allumées. ':', éteintes. ')+'Le voltmètre est branché aux bornes de '+bas(N.nomDip(d))+' et indique '+fv(U)+'.'}).svg;
+    var sc=A.schema({cotes:{droite:'lampe',bas:'lampe',gauche:ferme?'interFerme':'interOuvert'},legende:'',label:'Schéma normalisé : pile, lampes L1 et L2 et interrupteur K en série. Le voltmètre est branché en dérivation aux bornes de '+bas(N.nomDip(d))+'.'}),x='';
+    x+='<circle cx="'+pv.h[0]+'" cy="'+pv.h[1]+'" r="'+pv.h[2]+'" fill="#F97316" fill-opacity=".14" stroke="#F97316" stroke-width="2.5" stroke-dasharray="6 5"/>'+poly(pv.v,'#F97316')+poly(pv.c,'#0B6FA8')
+      +'<circle cx="'+pv.o[0]+'" cy="'+pv.o[1]+'" r="17" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/>'+T(pv.o[0],pv.o[1]+6,'V',17,INK,800)+T(316,105,'L1',15,INK,800,'end')+T(220,131,'L2',15,INK,800)+T(124,105,'K',15,INK,800,'start');
+    sc=sc.replace('viewBox="0 0 440 200"','viewBox="0 -40 440 270"').replace('</svg>',x+'</svg>');
+    return {montage:m,schema:sc,U:U};};
   /* ---------- atelier commun : groupes de choix, montage et schéma côte à côte, observation, tableau ---------- */
   /* cfg : {titre, intro, groupes:[{legende,nom,items:[[val,libellé]],def}], rendre(v)->{montage,schema,lecture,essai}, placeholder, fiche:()=>FICHE} */
   N.atelier=function(panel,X,cfg){
