@@ -25,5 +25,6 @@ Construction proposée :
 ## Extension aux 13 leçons de 5e (état)
 Les 13 leçons prêtes (`assets/studio/programme.js`) : generateur-recepteur, association-lampes, piles-serie, intensite, tension, pression-atmospherique, melanges, atomes-molecules, combustion-carbone, combustion-soufre, dilatation-solides, dilatation-liquides, dilatation-gaz.
 - **intensite** : faite (fiche `NL-5E-ELE-01`).
-- Les 12 autres ont chacune une simulation Studio propre (SVG de 200 à 250 lignes) et des données de leçon (situation, prévision, À retenir, quiz). Chaque fiche demande sa manipulation, ses hypothèses, son corrigé et ses tests : un lot par thème (Électricité : 3 leçons ; Mesures et pression : 2 ; Matière : 4 ; Dilatation : 3), à valider un par un avec un tableau de scénarios.
+- **generateur-recepteur, association-lampes, piles-serie** : faites (fiches `NL-5E-ELE-02` à `-04`, 4 nov. 2026).
+- Les 9 autres ont chacune une simulation Studio propre (SVG de 200 à 250 lignes) et des données de leçon (situation, prévision, À retenir, quiz). Chaque fiche demande sa manipulation, ses hypothèses, son corrigé et ses tests : un lot par thème (Électricité : 3 leçons ; Mesures et pression : 2 ; Matière : 4 ; Dilatation : 3), à valider un par un avec un tableau de scénarios.
 - La page `activites-5e/` accepte aujourd'hui `NL-5E-ELE-01` seulement ; chaque fiche s'ajoute à la liste blanche et à `sw.js`.

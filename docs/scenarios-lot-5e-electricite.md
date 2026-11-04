@@ -1,6 +1,6 @@
 # Scénarios : lot Électricité de 5e (3 fiches sur le moteur des fiches de 6e)
 
-Statut : **à valider par le propriétaire, rien n'est construit.** Branche `essai/lecon-ampoule`. Gabarit : `NL-5E-ELE-01` (déjà fait). Thème : Électricité. Contexte : Awa, Kofi, B12, 220 V, F CFA. Manipulations sur le banc (`pileM`, `lampeM`, `moteurM`, `cab`, schéma normalisé aligné), valeurs de simulation affichées comme telles.
+Statut : **validé le 4 nov. 2026 et construit** : fiches `NL-5E-ELE-02`, `-03`, `-04`, modèle et dessins `assets/shared/elec5e.js`, test `qa/activites-5e.cjs`. Reste à valider par le propriétaire (captures bureau et téléphone faites). Branche `essai/lecon-ampoule`. Gabarit : `NL-5E-ELE-01` (déjà fait). Thème : Électricité. Contexte : Awa, Kofi, B12, 220 V, F CFA. Manipulations sur le banc (`pileM`, `lampeM`, `moteurM`, `cab`, schéma normalisé aligné), valeurs de simulation affichées comme telles.
 
 | Fiche | Chapitre | Compétence unique | 1 Problématiser | 2 Hypothèse (4 choix) | 3 Manipulation | 4 Analyser | 5 Conclure / transfert | 6 Communiquer |
 |---|---|---|---|---|---|---|---|---|
@@ -14,3 +14,5 @@ Contraintes communes :
 - `activites-5e/` : liste blanche étendue à 02, 03, 04 ; `sw.js` mis à jour ; test `qa/activites-5e.cjs` étendu par fiche (structure, manipulation, règle du modèle, hors-ligne).
 - Les simulations Studio existantes (`assets/studio/lecons/*.js`) ne sont pas modifiées : les fiches s'ajoutent à côté.
 - Points à confirmer : tensions nominales proposées (valeurs de la leçon Studio), libellés Thème/Chapitre, programme à citer.
+
+Choix de construction : ELE-03 en dérivation range L2 sous L1 (cables chaînés sur les douilles de L1, sans croisement) ; ELE-04 propose cinq associations prédéfinies (1 pile ; 2 ou 3 dans le même sens ; 2 ou 3 dont une retournée, jamais la première) pour que le voltmètre lise toujours une valeur positive ; schéma des dérivations et des piles dessinés à la main (`A.schema` ne couvre que la série).

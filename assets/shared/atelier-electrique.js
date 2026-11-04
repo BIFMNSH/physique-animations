@@ -131,15 +131,18 @@ function pileM(x,y,o){o=o||{};var gs=o.inv?'+':'−',ds=o.inv?'−':'+',gc=o.inv
    +'<path d="M'+(x-37)+' '+(y-24)+' L'+(x-27)+' '+(y-32)+' L'+(x+47)+' '+(y-32)+' L'+(x+37)+' '+(y-24)+' Z" fill="#3A4660" stroke="#5B6680" stroke-width="1.6" stroke-linejoin="round"/>'
    +languette(xl,y-2)+languette(xr,y-2)
    +'<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#1F2B44" stroke="#5B6680" stroke-width="2"/><rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="13" rx="4" fill="#FFB547"/><rect x="'+(x-33)+'" y="'+(y+30)+'" width="66" height="2.4" rx="1.2" fill="#fff" opacity=".12"/>'
-   +T(x,y+20,'4,5 V',15,'#EEF2F8',900)+T(x-26,y-1,gs,16,gc,900)+T(x+26,y-1,ds,15,dc,900);
+   +T(x,y+20,o.txt||'4,5 V',15,'#EEF2F8',900)+T(x-26,y-1,gs,16,gc,900)+T(x+26,y-1,ds,15,dc,900);
   if(o.fail)g+='<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#fff" opacity=".55"/>';
   var AL=[x-29,y-36],AR=[x+39,y-36];AL.croc=AR.croc=1;return {g:'<g data-pop="pile" tabindex="0" role="button" aria-label="Voir la pile en 3D" style="cursor:pointer">'+g+'</g>',L:AL,R:AR};}
 /* lampe sur son socle : le verre est isolant, les deux douilles du socle sont les bornes ; douilles (x∓22, y) ; verre en (x, y-33) */
 function lampeM(x,y,on,o){o=o||{};var by=y-33,g='',k=o.k==null?1:o.k;
   if(on)g+='<circle cx="'+x+'" cy="'+by+'" r="40" fill="#FFD27A" opacity="'+Math.round(20*k)/100+'"/><circle cx="'+x+'" cy="'+by+'" r="26" fill="#FFD27A" opacity="'+Math.round(30*k)/100+'"/>';
   g+=socle(x,y)+'<path d="M'+(x-22)+' '+y+' H'+(x-9.2)+' M'+(x+9.2)+' '+y+' H'+(x+22)+'" stroke="#3A4660" stroke-width="1.6" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="9.2" fill="#fff" stroke="#3A4660" stroke-width="1.8"/><path d="M'+(x-6.6)+' '+(y-6.6)+' L'+(x+6.6)+' '+(y+6.6)+' M'+(x+6.6)+' '+(y-6.6)+' L'+(x-6.6)+' '+(y+6.6)+'" stroke="#3A4660" stroke-width="1.8"/>'+douille(x-22,y)+douille(x+22,y);
+  if(o.devisse)g+='<circle cx="'+x+'" cy="'+by+'" r="19" fill="none" stroke="#8895A8" stroke-width="2" stroke-dasharray="5 4"/>'+T(x,y+36,'dévissée',12,'#8895A8',700);
+  else{
   g+='<rect x="'+(x-8.8)+'" y="'+(y-24)+'" width="17.6" height="11" rx="3" fill="#8D96A8" stroke="#6B7480" stroke-width="1.2"/><circle cx="'+x+'" cy="'+by+'" r="19" fill="'+(on?(k<.7?'#FFF1C9':'#FFE9A8'):'#EEF2FA')+'" stroke="#9FB0C4" stroke-width="2.5"/>'
    +'<path d="M'+(x-9)+' '+(by+14)+' L'+(x-6)+' '+(by+2)+' l4 -6 l4 6 l4 -6 l4 6 L'+(x+9)+' '+(by+14)+'" fill="none" stroke="'+(on?'#FF8A00':'#8D96A8')+'" stroke-width="2.2" stroke-linejoin="round"/>';
+  }
   if(o.grille)g+='<path d="M'+(x-4)+' '+(by-6)+' l3 4 M'+(x+4)+' '+(by-6)+' l-3 4" stroke="#FF5A4E" stroke-width="2.5"/>'+T(x,by-27,'filament coupé',11,'#D9423B',800).replace('y="'+(by-27)+'"','y="'+(y+72)+'"');
   return {g:'<g data-pop="lampe" tabindex="0" role="button" aria-label="Voir la lampe en 3D" data-etat="'+(on?1:0)+'" style="cursor:pointer">'+g+'</g>',L:[x-22,y],R:[x+22,y],verre:[x,by],av:[x,by,36]};}
 /* interrupteur sur socle : douilles (x∓30, y) ; la lame pivote autour de la douille de gauche */
