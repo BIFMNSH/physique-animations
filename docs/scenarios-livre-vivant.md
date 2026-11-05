@@ -1,6 +1,6 @@
 # Scénarios : « Livre vivant » des quatre niveaux (6e, 5e, 4e, 3e)
 
-Statut : **lots 1 à 9 construits (45 leçons) ; les 8 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
+Statut : **lots 1 à 10 construits (50 leçons) ; les 3 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
 Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué sans la section bilingue (interface française). Aucune page de manuel fournie : tout part du programme et des leçons Studio (À retenir, quiz), sans copie de manuel.
 
 ## Structure commune (prompt)
@@ -47,7 +47,7 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 5e | melanges | Un mélange, une technique (filtration, décantation, évaporation), résultat dessiné | étapes | « Le sel reste sur le filtre » |
 | 5e | atomes-molecules | Molécules en couleurs CPK, dénombrement des atomes ; corps pur simple ou composé | couches | « Le 2 de H₂O = 2 molécules » |
 
-## À construire : les 8 autres leçons
+## À construire : les 3 autres leçons
 | Niveau | Leçon | Moment essentiel | Modèle |
 |---|---|---|---|
 | 6e | temperature | Thermomètre à graduer et lire | banc |
@@ -105,3 +105,4 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 - Lot 8 (4e : dangers-secteur, transfo-redressement, atomes-ions, metal-ion, traitement-eau) : dangers qualitatifs, aucun seuil chiffré. Transformateur : Us = 220 V × Ns / 1 000 (primaire 1 000 spires) : relation de proportionnalité retenue comme choix de conception, À CONFRONTER AU PROGRAMME MENA avant validation. Atomes-ions : modèle des couches simplifié (2 · 8 · 8), éléments Na, Mg, Cl, O. Test à la soude : Cu²⁺ bleu, Fe²⁺ vert, Fe³⁺ rouille, Zn²⁺ blanc. Avancement de l'attaque du fer et étapes de potabilisation : schémas simplifiés. Manipulations (soude, acide) réservées au professeur.
 - Décision du propriétaire (5 nov. 2026, message « Ok valider ») : relation du transformateur du lot 8 (Us = 220 V × Ns / 1 000) acceptée telle quelle.
 - Lot 9 (4e qualite-eau ; 3e les-forces, equilibre-deux-forces, travail-puissance, energie-mecanique) : g = 10 N/kg (Terre) et 1,6 N/kg (Lune), cohérent avec « Masse et poids ». Plage de pH acceptable 6,5–8,5 : repère indicatif à confronter à la source officielle. Test des ions chlorure : qualitatif. Équilibre : objet de 1 kg (P = 10 N). Travail : force dans le sens du déplacement. Énergie : bille de 2 kg lâchée de 5 m (Em = 100 J), Ec = ½ m v² : niveau et notations À CONFRONTER AU PROGRAMME avant validation.
+- Lot 10 (3e : electrolyse-eau, alcanes, oxydation-corps-purs, reduction-oxydes, solutions-acides-basiques) : volumes d'électrolyse 1 mL de O₂ par 10 % de durée (choix de dessin), rapport 2:1. Oxydation du fer : 10 g donnent environ 13,8 g d'oxyde Fe₃O₄ (calcul à partir des masses molaires, arrondi) : À CONFRONTER AU PROGRAMME (oxyde de fer retenu). Réduction : équation affichée CuO + C → Cu + CO₂ non équilibrée, à adapter si le programme impose l'équilibrage. Solutions : nombres d'ions dessinés qualitativement ; dilution par 10 : pH de l'acide + 1, de la base − 1 (acide de départ pH 2, base pH 12 : valeurs choisies). Toutes les manipulations (flamme, acide, soude) restent réservées au professeur.
