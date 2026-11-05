@@ -1,0 +1,19 @@
+# Scénarios : lot Mélanges de 5e (3 fiches sur le moteur des fiches de 6e)
+
+Statut : **à valider par le propriétaire, rien n'est construit.** Branche `essai/lecon-ampoule`. Gabarit : `NL-5E-ELE-01` à `-05`, `MES-01`, `MES-02` (moteur 6e, page `activites-5e/`). Thème : Mélanges et réactions chimiques. Leçon source : Studio `melanges` (inchangée). Contexte : Awa, Kofi, eau boueuse du fleuve, huile de palme, sel et sucre de la cuisine, eau de la lagune.
+
+La leçon contient trois compétences distinctes ; je la découpe donc en trois fiches (« une activité = une seule compétence »).
+
+| Fiche | Chapitre | Compétence unique | 1 Problématiser | 2 Hypothèse (4 choix) | 3 Manipulation (simulation) | 4 Analyser | 5 Conclure / transfert | 6 Communiquer |
+|---|---|---|---|---|---|---|---|---|
+| `NL-5E-MEL-01` · Mélange homogène ou hétérogène | Les mélanges | Classer un mélange en homogène ou hétérogène d'après le nombre de phases visibles | Awa mélange dans des verres de l'eau avec du sable, du sel, de l'huile de palme, du sucre, de la terre : tous les mélanges se ressemblent-ils ? | Tous identiques, deux familles selon ce qu'on voit, selon la couleur, selon le goût | Huit mélanges au choix (eau + sable, sel, huile de palme, sucre, terre, eau de la lagune, eau + sirop, eau + farine) : bécher dessiné, nombre de phases lu | Regrouper les mélanges à une phase et ceux à plusieurs | Hétérogène : au moins deux constituants visibles à l'œil nu ; homogène : une seule phase ; transfert : eau boueuse | Trace A4, grille, corrigé réservé |
+| `NL-5E-MEL-02` · Séparer un mélange hétérogène | Séparation des mélanges hétérogènes | Choisir la méthode qui sépare un mélange hétérogène | Kofi veut récupérer l'eau claire de l'eau boueuse du fleuve et l'huile d'un mélange eau-huile | Repos, filtration, ampoule à décanter, chauffage | Mélange (eau + sable, eau + huile de palme, eau boueuse) × méthode (décantation, filtration, ampoule à décanter) : résultat dessiné (dépôt, filtrat, deux couches) | Comparer les méthodes : laquelle convient à quel mélange | Décantation + filtration pour les solides ; ampoule pour deux liquides non miscibles ; transfert : eau + huile | idem |
+| `NL-5E-MEL-03` · Séparer un mélange homogène | Séparation des mélanges homogènes | Choisir la méthode qui permet de récupérer un constituant d'un mélange homogène | Awa veut récupérer le sel de l'eau de mer et de l'eau pure | Filtration, évaporation, distillation, décantation | Mélange (eau salée, eau sucrée, eau de mer) × méthode (filtration, évaporation, distillation) ; chauffage présenté comme réalisé par le professeur ; résultat : solide récupéré ou distillat | Comparer ce qu'on récupère avec chaque méthode | Évaporation : solide dissous ; distillation : liquide pur (distillat) ; transfert : sel de cuisine | idem |
+
+Contraintes communes :
+- Sécurité : tout chauffage (évaporation, distillation) est montré en simulation, avec la mention « protocole guidé par le professeur » ; aucune flamme à manipuler par l'élève.
+- Aucune notion hors lot : ni masse volumique, ni températures d'ébullition chiffrées, ni distillation fractionnée ; vocabulaire : phase, miscible / non miscible, décantation, filtration, filtrat, ampoule à décanter, évaporation, distillation, distillat.
+- Dessins originaux de verrerie (bécher, entonnoir et filtre, ampoule à décanter, montage de distillation) ; le « schéma » est le schéma légendé de la méthode (flèches, légendes, phases) ; SVG nommés.
+- Modèle testable `NohobaMelanges5e` (nombre de phases, résultat de chaque couple mélange × méthode, erreur si couple inconnu) dans `assets/shared/melanges5e.js`.
+- `activites-5e/` : liste blanche étendue à `MEL-01` à `-03` ; `sw.js` et `qa/activites-5e.cjs` étendus.
+- Points à confirmer : liste des huit mélanges, découpage en trois fiches, libellés Thème/Chapitre, source du programme.
