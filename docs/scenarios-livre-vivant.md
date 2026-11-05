@@ -1,6 +1,6 @@
 # Scénarios : « Livre vivant » des quatre niveaux (6e, 5e, 4e, 3e)
 
-Statut : **lot 1 construit pour 5 leçons, les 48 autres sont à valider ici.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
+Statut : **lots 1 et 2 construits (10 leçons) ; les 43 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
 Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué sans la section bilingue (interface française). Aucune page de manuel fournie : tout part du programme et des leçons Studio (À retenir, quiz), sans copie de manuel.
 
 ## Structure commune (prompt)
@@ -20,14 +20,18 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 3e | masse-poids | Curseur de masse, choix Terre / Lune : P = m × g, droite tracée, dynamomètre | courbe | « La masse change quand on va sur la Lune » |
 | 3e | conducteur-ohmique | Curseur d'intensité, deux résistances comparées en alternance : U = R × I, droite par l'origine | courbe | « Quand U double, R double » (R est fixée par le composant ; c'est I qui suit U) |
 
-## À valider : les 48 autres leçons
+## Lot 2 (construit, 6e)
+| Niveau | Leçon | Moment essentiel | Modèle | Erreur fréquente visée |
+|---|---|---|---|---|
+| 6e | circuit-electrique | Choisir l'objet testé et le nombre de fils : la lampe brille si la boucle est fermée et l'objet conducteur | banc | « Un seul fil suffit » |
+| 6e | commande-circuit | Interrupteur ouvert/fermé ; comparaison interrupteur à droite / à gauche | banc | « Il faut le placer tout près de la lampe » |
+| 6e | court-circuit | Fil sur la lampe, avec ou sans fusible (simulation) | banc | « La lampe brille plus fort » |
+| 6e | solides-liquides | Incliner un bocal : surface libre horizontale ; bloc de bois qui garde sa forme ; même volume, deux bocaux | particules | « La surface s'incline avec le bocal » |
+| 6e | les-gaz | Piston de seringue : V diminue, 20 particules ; air contre eau | particules | « Les particules rapetissent » |
+
+## À construire : les 43 autres leçons
 | Niveau | Leçon | Moment essentiel | Modèle |
 |---|---|---|---|
-| 6e | circuit-electrique | Fermer la boucle : relier pile, lampe, fils, la lampe s'allume | banc |
-| 6e | commande-circuit | Interrupteur ouvert/fermé commande la lampe | banc |
-| 6e | court-circuit | Un fil en dérivation éteint la lampe et chauffe : le fusible protège | scénario |
-| 6e | solides-liquides | Verser : le solide garde sa forme, le liquide prend celle du récipient | particules |
-| 6e | les-gaz | Piston : le gaz se comprime et remplit tout le volume | particules |
 | 6e | temperature | Thermomètre à graduer et lire | banc |
 | 6e | constituants-air | Bougie sous cloche : l'eau monte d'environ un cinquième | couches |
 | 6e | combustion-solide-liquide | Retirer un côté du triangle du feu, la flamme s'éteint | étapes |
@@ -83,3 +87,4 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 - Défi : 5 manches issues du quiz Studio + 2 manches lues sur le laboratoire = 7.
 - Mode enseignant : page de droite seule, laboratoire élargi, bouton de sortie + Échap.
 - 48 leçons : cartes « en préparation » dans le sommaire jusqu'à validation du tableau ci-dessus.
+- Lot 2 : leçons qualitatives du programme de 6e ; la graduation du piston (V = 100 − 0,7 × poussée en %) et le volume d'eau de 100 mL sont des choix de conception, pas des mesures. Court-circuit : simulation seulement, avec rappel de ne jamais le réaliser sans le professeur. Les points jaunes montrent le sens conventionnel du courant.

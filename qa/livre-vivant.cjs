@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{JSDOM}=require('jsdom');
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.resolve(root,f),'utf8');
 const html=read('livre-vivant/index.html'),prog=read('assets/studio/programme.js'),eng=read('assets/vivant/vivant.js'),css=read('assets/vivant/vivant.css');
-const SL=['changements-etat','dilatation-gaz','tension-sinusoidale','masse-poids','conducteur-ohmique'];
+const SL=['changements-etat','dilatation-gaz','tension-sinusoidale','masse-poids','conducteur-ohmique','circuit-electrique','commande-circuit','court-circuit','solides-liquides','les-gaz'];
 const MODS=Object.fromEntries(SL.map(s=>[s,read('assets/vivant/lecons/'+s+'.js')]));
 assert.ok(/noindex/.test(html)&&!read('sitemap.xml').includes('/livre-vivant/'),'prototype hors référencement');
 assert.ok(!/(src|href)="https?:/.test(html)&&!/@import|url\(https?:/.test(css),'aucune ressource externe');
@@ -21,7 +21,7 @@ function ouvre(url,store,largeur){
  w.AudioContext=function(){audio.ctx++;this.currentTime=0;this.state='running';this.destination={};this.createGain=()=>{const g={gain:{value:1,setTargetAtTime(v){this.value=v;this.last=v}},connect(){},disconnect(){}};audio.gains.push(g);return g};this.createOscillator=()=>{const o={frequency:{value:0,setTargetAtTime(v){this.value=v;this.n=(this.n||0)+1}},started:false,stopped:false,connect(){},disconnect(){},start(){o.started=true},stop(){o.stopped=true}};audio.osc.push(o);return o};this.resume=()=>{}};
  const ap=w.document.body.appendChild.bind(w.document.body);
  w.document.body.appendChild=x=>{if(x.tagName==='SCRIPT'){const m=/lecons\/([a-z-]+)\.js/.exec(x.src);w.Studio.start(FAKE(m?m[1]:'x'));setTimeout(()=>x.onload&&x.onload(),0);return x;}return ap(x);};
- w.eval(prog);w.eval(eng);for(const s of SL)w.eval(MODS[s]);w.Vivant.init();return w;}
+ w.eval(prog);w.eval(eng);w.eval(read('assets/vivant/circuit.js'));for(const s of SL)w.eval(MODS[s]);w.Vivant.init();return w;}
 const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
 (async()=>{
  let w=ouvre('http://localhost/livre-vivant/?n=x'),d=w.document,V=w.Vivant;
@@ -35,18 +35,26 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  for(const s of SL){const M=V.mods[s];assert.ok(M,s);assert.ok(M.chap.length>=2&&M.chap.length<=4,s+' : 3 à 5 chapitres avec le défi');
   M.chap.forEach((c,i)=>{assert.ok(c.cur&&c.paras.length>=1&&c.paras.every(p=>p.length<=200),s+' ch'+i+' : explication courte');assert.ok(c.loi&&c.loi.t&&c.note,s+' ch'+i+' : loi et note');
    assert.ok(c.predis.opts.length>=3&&c.predis.a>=0&&c.predis.a<c.predis.opts.length&&c.predis.rep,s+' ch'+i+' : prédis puis révèle');assert.ok(c.verif.o.length>=3&&c.verif.a<c.verif.o.length&&c.verif.e,s+' ch'+i+' : vérification');
-   assert.ok(typeof c.lab.scene==='function'&&typeof c.lab.read==='function'&&c.lab.inputs.length>=1&&c.lab.alt,s+' ch'+i+' : laboratoire accessible');});
+   assert.ok(typeof c.lab.scene==='function'&&typeof c.lab.read==='function'&&((c.lab.inputs||[]).length+(c.lab.choices||[]).length)>=1&&c.lab.alt,s+' ch'+i+' : laboratoire accessible');});
   if(s!=='dilatation-gaz')assert.ok(M.chap.some(c=>c.lab.sit&&c.lab.sit.length===2),s+' : une comparaison en alternance');assert.ok(M.chap[0].lab.sound,s+' : son');assert.equal(M.manches({}).length>=2,true,s+' : manches de laboratoire');}
+ for(const s of SL)for(const lv of [{},[{}],[{m:3,g:'10',tau:50,T:40,fils:'1',obj:'gomme',k:'0',fil:'1',fus:'1',ang:0,p:0}]])for(const m of V.mods[s].manches(lv)){assert.ok(m.q&&m.e,s+' : manche '+m.type);if(m.type==='qcm')assert.ok(m.o.length>=2&&m.a>=0&&m.a<m.o.length,s+' : qcm');if(m.type==='clic')assert.ok(m.zones.some(z=>z.id===m.a),s+' : clic');if(m.type==='calcul')assert.ok(isFinite(m.ans),s+' : calcul');}
  /* valeurs lues par défaut = lois */
  const rd=(s,i,v)=>V.mods[s].chap[i].lab.read(v,{}).join(' ');
  assert.match(rd('masse-poids',0,{m:2,g:'10'}),/2,0 kg × 10 N\/kg = 20 N/);assert.match(rd('masse-poids',0,{m:2,g:'1.6'}),/1,6 N\/kg = 3,2 N/);
  assert.match(rd('conducteur-ohmique',0,{R:'100',I:30}),/100 Ω × 0,030 A = 3,0 V/);assert.match(rd('tension-sinusoidale',0,{f:250,U:4}),/1 ÷ 250 Hz = 0,004 s = 4 ms[\s\S]*≈ 2,8 V/);
  assert.match(rd('changements-etat',0,{tau:30,sens:'chaud'}),/Fusion[\s\S]*Palier : la température reste à 0 °C/);assert.match(rd('changements-etat',0,{tau:75,sens:'chaud'}),/Palier[\s\S]*100 °C/);assert.match(rd('changements-etat',0,{tau:30,sens:'froid'}),/Liquéfaction/,'refroidissement : liquéfaction');
+ assert.equal(V.lois.circuitFerme(2,'clou'),true);assert.equal(V.lois.circuitFerme(2,'plastique'),false);assert.equal(V.lois.circuitFerme(1,'clou'),false,'un seul fil : boucle ouverte');assert.equal(V.lois.circuitFerme(2,'mine'),true,'le graphite conduit');
+ assert.equal(V.lois.circuitCommande(1),true);assert.equal(V.lois.circuitCommande(0),false);assert.deepEqual([[0,0],[0,1],[1,0],[1,1]].map(a=>V.lois.courtCircuit(a[0],a[1])),[0,0,1,2],'court-circuit : lampe, fusible, fil qui chauffe, fusible fondu');
+ assert.equal(V.lois.volumeSeringue('air',0),100);assert.ok(Math.abs(V.lois.volumeSeringue('air',40)-72)<1e-9);assert.equal(V.lois.volumeSeringue('eau',90),100,'un liquide ne se comprime pas');
+ {const poly=[[0,0],[100,0],[100,140],[0,140]];const rot=a=>{const r=a*Math.PI/180;return poly.map(p=>[50+(p[0]-50)*Math.cos(r)-(p[1]-70)*Math.sin(r),70+(p[0]-50)*Math.sin(r)+(p[1]-70)*Math.cos(r)])};assert.ok(Math.abs(V.lois.niveauLiquide(poly,5600)-84)<0.01,'niveau à plat : 5600/100 = 56 sous le haut');for(const a of [0,30,60]){const q=rot(a),y=V.lois.niveauLiquide(q,5600);assert.ok(isFinite(y));}}
+ assert.match(rd('circuit-electrique',0,{obj:'clou',fils:'2'}),/La lampe brille[\s\S]*conducteur/);assert.match(rd('circuit-electrique',0,{obj:'gomme',fils:'2'}),/éteinte[\s\S]*isolant/);assert.match(rd('circuit-electrique',0,{obj:'clou',fils:'1'}),/Boucle ouverte/);
+ assert.match(rd('commande-circuit',0,{k:'0'}),/ouvert[\s\S]*éteinte/);assert.match(rd('court-circuit',0,{fil:'1',fus:'0'}),/chauffent/);assert.match(rd('court-circuit',0,{fil:'1',fus:'1'}),/fusible fond/);
+ assert.match(rd('solides-liquides',0,{mat:'liq',ang:40}),/horizontale/);assert.match(rd('solides-liquides',0,{mat:'sol',ang:40}),/garde sa forme/);assert.match(rd('les-gaz',0,{mat:'air',p:40}),/V = 72 mL[\s\S]*20 particules/);assert.match(rd('les-gaz',0,{mat:'eau',p:90}),/V = 100 mL[\s\S]*ne se comprime pas/);
  assert.match(rd('dilatation-gaz',0,{T:80}),/plus gonflé[\s\S]*16/);
- /* 3. sommaire : quatre niveaux, 53 leçons, 5 ouvertes */
+ /* 3. sommaire : quatre niveaux, 53 leçons, 10 ouvertes */
  w=ouvre('http://localhost/livre-vivant/');d=w.document;assert.equal(d.querySelectorAll('.niv button').length,4);
  let ouv=0,tot=0;for(const n of ['6e','5e','4e','3e']){d.querySelector('.niv button[data-n="'+n+'"]').click();tot+=d.querySelectorAll('.les > *').length;ouv+=d.querySelectorAll('.les a').length;}
- assert.equal(tot,53);assert.equal(ouv,5);d.querySelector('.niv button[data-n="3e"]').click();assert.match(d.body.textContent,/Masse et poids/);assert.equal(d.querySelector('.niv [aria-selected="true"]').textContent,'3e');assert.equal(w.localStorage.getItem('vv-niveau'),'3e','le niveau est retenu');
+ assert.equal(tot,53);assert.equal(ouv,10);d.querySelector('.niv button[data-n="3e"]').click();assert.match(d.body.textContent,/Masse et poids/);assert.equal(d.querySelector('.niv [aria-selected="true"]').textContent,'3e');assert.equal(w.localStorage.getItem('vv-niveau'),'3e','le niveau est retenu');
  /* 4. parcours d'une leçon (masse-poids, 3e) */
  w=ouvre('http://localhost/livre-vivant/?l=masse-poids');d=w.document;await attend();const $=s=>d.querySelector(s),pg=()=>[...d.querySelectorAll('#book .page')].map(p=>p.dataset.ci+p.dataset.sd).join(',');
  assert.equal(pg(),'0g,0d');assert.equal(audio.ctx,0,'aucun son avant la première interaction');assert.equal(d.querySelectorAll('#dots button').length,3);
@@ -91,5 +99,5 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  w=ouvre('http://localhost/livre-vivant/?l=tension-sinusoidale');d=w.document;await attend();d.querySelector('#bAnim').click();d.querySelector('#bEns').click();d.querySelector('#ensOut').click();assert.ok(!d.body.classList.contains('ens'),'le bouton de sortie fonctionne');
  /* clavier : flèches */
  w=ouvre('http://localhost/livre-vivant/?l=conducteur-ohmique');d=w.document;await attend();d.querySelector('#bAnim').click();d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight'}));assert.equal(d.querySelector('#book .page').dataset.ci,'1');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowLeft'}));assert.equal(d.querySelector('#book .page').dataset.ci,'0');
- console.log('Livre vivant : lois, structure des 5 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
+ console.log('Livre vivant : lois, structure des 10 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});
