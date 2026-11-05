@@ -1,6 +1,6 @@
 # Scénarios : lot Dilatation de 5e (4 fiches sur le moteur des fiches de 6e)
 
-Statut : **à valider par le propriétaire, rien n'est construit.** Branche `essai/lecon-ampoule`. Gabarit : fiches `NL-5E-MAT-01` à `-04`, `MEL-01` à `-03` (moteur 6e, page `activites-5e/`, atelier `NohobaElec5e.atelier`). Thème : Propriétés physiques de la matière. Leçons sources Studio (inchangées) : `dilatation-solides`, `dilatation-liquides`, `dilatation-gaz`. Contexte : Awa, Kofi, rails de la gare d'Abidjan, thermomètre du dispensaire, bouteille de gaz du marché.
+Statut : **validé le 5 nov. 2026 et construit** (fiches `NL-5E-DIL-01` à `-04`, `assets/shared/dilatation5e.js`, tests dans `qa/activites-5e.cjs`). Choix retenus par défaut : solides en deux fiches ; classement qualitatif seulement dans DIL-02 ; pression d'une bouteille fermée en simple mention de sécurité dans DIL-04. Branche `essai/lecon-ampoule`. Gabarit : fiches `NL-5E-MAT-01` à `-04`, `MEL-01` à `-03` (moteur 6e, page `activites-5e/`, atelier `NohobaElec5e.atelier`). Thème : Propriétés physiques de la matière. Leçons sources Studio (inchangées) : `dilatation-solides`, `dilatation-liquides`, `dilatation-gaz`. Contexte : Awa, Kofi, rails de la gare d'Abidjan, thermomètre du dispensaire, bouteille de gaz du marché.
 
 Trois leçons, quatre compétences : la leçon « solides » est coupée en deux fiches (effet de la température ; comparaison des métaux), car « une activité = une seule compétence ».
 

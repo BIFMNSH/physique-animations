@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.resolve(root,f),'utf8');
 const dom=new JSDOM('<!doctype html><body></body>',{url:'http://localhost/activites-5e/',runScripts:'outside-only'}),w=dom.window,doc=w.document;
 w.requestAnimationFrame=()=>0;w.cancelAnimationFrame=()=>{};w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};
-for(const f of ['assets/shared/atelier-electrique.js','assets/shared/elec5e.js','assets/shared/mesures5e.js','assets/shared/melanges5e.js','assets/shared/matiere5e.js','assets/activites/activite.js',...['ELE-01','ELE-02','ELE-03','ELE-04','ELE-05','MES-01','MES-02','MEL-01','MEL-02','MEL-03','MAT-01','MAT-02','MAT-03','MAT-04'].map(n=>'assets/activites/fiches/NL-5E-'+n+'.js')])w.eval(read(f));
+for(const f of ['assets/shared/atelier-electrique.js','assets/shared/elec5e.js','assets/shared/mesures5e.js','assets/shared/melanges5e.js','assets/shared/matiere5e.js','assets/shared/dilatation5e.js','assets/activites/activite.js',...['ELE-01','ELE-02','ELE-03','ELE-04','ELE-05','MES-01','MES-02','MEL-01','MEL-02','MEL-03','MAT-01','MAT-02','MAT-03','MAT-04','DIL-01','DIL-02','DIL-03','DIL-04'].map(n=>'assets/activites/fiches/NL-5E-'+n+'.js')])w.eval(read(f));
 const F=w.FICHE_5E_ELE01,I=w.NohobaIntensite.intensite;
 /* modèle */
 assert.equal(I(1,true),300);assert.equal(I(2,true),150);assert.equal(I(1,false),0);assert.equal(I(2,false),0);
@@ -184,6 +184,37 @@ for(const n of ['MAT01','MAT02','MAT03','MAT04']){const F=w['FICHE_5E_'+n],panel
 for(const n of ['MAT-01','MAT-02','MAT-03','MAT-04'])assert.ok(read('sw.js').includes('NL-5E-'+n+'.js'),'hors-ligne '+n);
 assert.ok(read('sw.js').includes('matiere5e.js')&&read('activites-5e/index.html').includes('matiere5e.js'),'modèle de la matière chargé et en cache');
 assert.ok(/MAT-0\[1-4\]/.test(read('activites-5e/index.html')),'liste blanche : matière');
+/* ---------- lot Dilatation de 5e : DIL-01 (solide), DIL-02 (métaux), DIL-03 (liquides), DIL-04 (gaz) ---------- */
+const DL=w.NohobaDilatation5e;
+assert.equal(DL.res1('froide').passe,true);assert.equal(DL.res1('chauffee').passe,false);assert.equal(DL.res1('refroidie').passe,true);assert.throws(()=>DL.res1('x'),/inconnu/);
+assert.ok(DL.res2('fer','chaud').allong<DL.res2('cuivre','chaud').allong&&DL.res2('cuivre','chaud').allong<DL.res2('alu','chaud').allong,'fer < cuivre < aluminium');assert.equal(DL.res2('alu','ambiant').allong,0);assert.throws(()=>DL.res2('or','chaud'),/inconnu/);assert.throws(()=>DL.res2('fer','x'),/inconnu/);
+assert.ok(DL.res3('eau','chaud').niv>0&&DL.res3('eau','glace').niv<0&&DL.res3('eau','ambiant').niv===0&&DL.res3('alcool','chaud').niv>DL.res3('huile','chaud').niv&&DL.res3('huile','chaud').niv>DL.res3('eau','chaud').niv,'alcool > huile > eau');assert.throws(()=>DL.res3('x','chaud'),/inconnu/);assert.throws(()=>DL.res3('eau','x'),/inconnu/);
+assert.equal(['glace','ambiant','chaud','mains'].map(b=>DL.res4(b).etat).join(),'dégonflé,inchangé,gonflé,gonflé');assert.throws(()=>DL.res4('x'),/inconnu/);
+for(const e of DL.ETATS)assert.ok(/^<svg/.test(DL.montage1(e[0]))&&/^<svg/.test(DL.schema1(e[0])));
+for(const b of DL.BARRES)for(const s of DL.ETATS2)assert.ok(/^<svg/.test(DL.montage2(b[0],s[0]))&&/^<svg/.test(DL.schema2(b[0],s[0])));
+for(const l of DL.LIQ)for(const b of DL.BAINS)assert.ok(/^<svg/.test(DL.montage3(l[0],b[0]))&&/^<svg/.test(DL.schema3(l[0],b[0])));
+for(const b of DL.BAINS4)assert.ok(/^<svg/.test(DL.montage4(b[0]))&&/^<svg/.test(DL.schema4(b[0])));
+assert.ok(/chauffage réalisé par le professeur/.test(DL.montage1('chauffee')+DL.montage2('fer','chaud')),'chauffage guidé');
+for(const n of ['DIL01','DIL02','DIL03','DIL04']){const F=w['FICHE_5E_'+n],panel=doc.createElement('div');doc.body.appendChild(panel);const st2={essais:[],prevision:null},X2={st:()=>st2,save:()=>{},addEssai:e=>{st2.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X2);
+  for(const k of ['titre','theme','chapitre','competenceVisee','objectifsPedagogiques','situationEvaluation','situation','materiel','prevision','protocole','colonnes','lignes','resume','confrontation','retroaction','transfert','critere','manip','grilleMaitrise','peutConfronter','aides','synthese','prof','diagnostic'])assert.ok(F[k]!=null,n+' : champ '+k);
+  assert.equal(F.theme,'Propriétés physiques de la matière');assert.equal(F.niveau,'5e');assert.equal(F.prevision.choix.length,4);assert.equal(F.grilleMaitrise.map(x=>x[0]).join(),'MI,MF,MS,TBM');assert.ok(F.aides.length>=3);
+  assert.ok(F.transfert.options.some(o=>o[0]===F.transfert.rep),'transfert '+n);assert.ok(/Awa|Kofi/.test(F.situation+F.situationEvaluation));
+  assert.ok(!/NL-C4|NL-CI|NL-5E|DIL-\d\d|Programme du cycle 4/.test(JSON.stringify(F).replace(F.id,'')),'aucun code interne '+n);
+  assert.ok([...panel.querySelectorAll('svg')].every(s=>s.getAttribute('role')==='img'&&s.getAttribute('aria-label')),'SVG nommés '+n);
+  const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
+  assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
+  assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+{const {F,panel,st}=lancerM('DIL01');for(const e of ['froide','chauffee']){choisir2(panel,'e-e',e);enreg2(panel);}assert.equal(F.peutConfronter(st),false);
+ choisir2(panel,'e-e','refroidie');enreg2(panel);assert.equal(F.peutConfronter(st),true);assert.equal(st.essais.map(e=>e.passe).join(),'true,false,true');choisir2(panel,'e-e','chauffee');assert.match(panel.querySelector('svg').getAttribute('aria-label'),/reste bloquée/);}
+{const {F,panel,st}=lancerM('DIL02');for(const b of ['fer','cuivre']){choisir2(panel,'e-b',b);choisir2(panel,'e-s','chaud');enreg2(panel);}choisir2(panel,'e-b','alu');choisir2(panel,'e-s','ambiant');enreg2(panel);choisir2(panel,'e-b','fer');choisir2(panel,'e-s','ambiant');enreg2(panel);
+ assert.equal(F.peutConfronter(st),false,'l’aluminium chauffé est nécessaire');choisir2(panel,'e-b','alu');choisir2(panel,'e-s','chaud');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/beaucoup/);enreg2(panel);assert.equal(F.peutConfronter(st),true);}
+{const {F,panel,st}=lancerM('DIL03');for(const [l,b] of [['eau','chaud'],['huile','chaud'],['alcool','chaud'],['eau','ambiant']]){choisir2(panel,'e-l',l);choisir2(panel,'e-b',b);enreg2(panel);}assert.equal(F.peutConfronter(st),false,'un bain de glace est nécessaire');
+ choisir2(panel,'e-l','alcool');choisir2(panel,'e-b','glace');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/sous le repère/);enreg2(panel);assert.equal(F.peutConfronter(st),true);}
+{const {F,panel,st}=lancerM('DIL04');for(const b of ['chaud','mains']){choisir2(panel,'e-b',b);enreg2(panel);}assert.equal(F.peutConfronter(st),false);choisir2(panel,'e-b','glace');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/dégonfle/);enreg2(panel);assert.equal(F.peutConfronter(st),true);}
+for(const n of ['DIL-01','DIL-02','DIL-03','DIL-04'])assert.ok(read('sw.js').includes('NL-5E-'+n+'.js'),'hors-ligne '+n);
+assert.ok(read('sw.js').includes('dilatation5e.js')&&read('activites-5e/index.html').includes('dilatation5e.js'),'modèle de dilatation chargé et en cache');
+assert.ok(/DIL-0\[1-4\]/.test(read('activites-5e/index.html')),'liste blanche : dilatation');
 /* page et hors-ligne */
 for(const n of ['02','03','04'])assert.ok(read('sw.js').includes('NL-5E-ELE-'+n+'.js'),'hors-ligne '+n);
 assert.ok(read('sw.js').includes('elec5e.js')&&read('activites-5e/index.html').includes('elec5e.js'),'modèle partagé chargé et en cache');
@@ -193,4 +224,4 @@ const page=read('activites-5e/index.html');assert.ok(/noindex/.test(page)&&/Prot
 const old=read('lecon-essai/index.html');assert.ok(/activites-5e\/\?a=NL-5E-ELE-01/.test(old)&&/noindex/.test(old),'l’ancienne leçon d’essai renvoie vers la fiche');
 assert.ok(!fs.existsSync(path.join(root,'assets/simple/lecon-essai.js')),'ancien moteur de la leçon d’essai retiré');
 assert.ok(read('sw.js').includes('NL-5E-ELE-01.js')&&read('sw.js').includes('./activites-5e/'),'hors-ligne');
-console.log('Fiches de 5e (ELE-01 à ELE-05, MES-01, MES-02, MEL-01 à MEL-03, MAT-01 à MAT-04) : modèles, structure, manipulations, six opérations, page, hors-ligne et redirection contrôlés.');
+console.log('Fiches de 5e (ELE-01 à ELE-05, MES-01, MES-02, MEL-01 à MEL-03, MAT-01 à MAT-04, DIL-01 à DIL-04) : modèles, structure, manipulations, six opérations, page, hors-ligne et redirection contrôlés.');
