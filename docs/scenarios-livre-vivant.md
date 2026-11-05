@@ -1,6 +1,6 @@
 # Scénarios : « Livre vivant » des quatre niveaux (6e, 5e, 4e, 3e)
 
-Statut : **lots 1 à 6 construits (30 leçons) ; les 23 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
+Statut : **lots 1 à 7 construits (35 leçons) ; les 18 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
 Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué sans la section bilingue (interface française). Aucune page de manuel fournie : tout part du programme et des leçons Studio (À retenir, quiz), sans copie de manuel.
 
 ## Structure commune (prompt)
@@ -47,7 +47,7 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 5e | melanges | Un mélange, une technique (filtration, décantation, évaporation), résultat dessiné | étapes | « Le sel reste sur le filtre » |
 | 5e | atomes-molecules | Molécules en couleurs CPK, dénombrement des atomes ; corps pur simple ou composé | couches | « Le 2 de H₂O = 2 molécules » |
 
-## À construire : les 23 autres leçons
+## À construire : les 18 autres leçons
 | Niveau | Leçon | Moment essentiel | Modèle |
 |---|---|---|---|
 | 6e | temperature | Thermomètre à graduer et lire | banc |
@@ -101,3 +101,4 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 - Lot 4 : leçons qualitatives, sauf deux calculs. Pression intérieure = 1 013 hPa × part d'air restant (volume et température constants). P(h) = 1 013 hPa × exp(−h / 8 400 m) : approximation de l'atmosphère à température constante, à confirmer avec le manuel. Boule/anneau : l'échelle de chauffage est en % et l'écart est exagéré ; seuil de passage et flèche de la barre (sans joint : (2/π)·√(ΔL·L)) sont des choix de dessin. Alcool plus dilatable que l'eau : qualitatif, sans coefficients. Évaporation : l'eau est perdue (pas de distillation). Les nombres de 1 000 et plus s'écrivent avec une espace insécable.
 - Lot 5 (6e : température, volume, masse, constituants de l'air, combustion d'un solide ou d'un liquide) : qualitatif, hors repères 0 °C / 100 °C et 1 L = 1 000 mL. Masses d'objets indicatives (citron 100 g, pomme 150 g, mangue 400 g) ; inclinaison du fléau = choix de dessin (nulle à l'équilibre) ; bécher gradué de 20 mL, indicatif. Air : 4 O₂ + 16 N₂ sur le dessin = 1/5 et 4/5 ; l'eau monte de 20 % de la hauteur de la cloche : choix de dessin. Feu : simulation seule, jamais de flamme réelle sans le professeur. Écart connu : en chapitre 2 de la combustion, les deux contrôles « Moyen d'extinction » n'indiquent pas leur situation.
 - Lot 6 (6e combustion-gaz, dangers-combustions ; 5e combustion-carbone, combustion-soufre ; 4e sources-recepteurs) : qualitatif. Seuil flamme bleue/jaune à 50 % d'air et baisse du O₂ en pièce fermée (O₂ = 100 − 0,9 × durée) : choix de conception. 5 C (ou S) + 5 O₂ sur le dessin : choix de dessin. Test à l'eau de chaux, soufre sous hotte et feu : simulation, manipulation réelle par le professeur. Pas de numéro d'urgence affiché (varie selon le pays).
+- Lot 7 (4e : propagation-lumiere, phases-eclipses, lumiere-blanche, aimant-bobine, tension-alternative) : valeurs du programme arrondies (c ≈ 300 000 km/s ; Terre–Lune 384 400 km ; Terre–Soleil 150 millions de km ; lunaison ≈ 29,5 jours ; secteur 311 V = 220 V × √2, période 20 ms). Échelles astronomiques non respectées. Seuil du disque de Newton (70 %) et unités arbitraires de l'aimant : choix de dessin. Courbes sans graduation verticale (pile tracée à mi-hauteur : choix de dessin).
