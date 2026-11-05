@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<script>try{var t=localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){}</script>
+<title>Livre vivant de physique-chimie · NOHOBA-Lab</title>
+<meta name="description" content="Prototype : un livre vivant par leçon, avec un modèle qui se dresse sur la page, des curseurs, du son et un défi, pour les classes de 6e, 5e, 4e et 3e.">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/vivant/vivant.css">
+</head>
+<body>
+<svg class="bois" aria-hidden="true" preserveAspectRatio="none"><defs>
+<filter id="vein" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".004 .16" numOctaves="3" seed="21"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .38  0 0 0 0 .18  .8 0 0 0 -.3"/></filter>
+<pattern id="plank" width="100%" height="230" patternUnits="userSpaceOnUse"><rect width="100%" height="1.5" fill="rgba(110,76,36,.22)"/></pattern></defs>
+<rect width="100%" height="100%" filter="url(#vein)"/><rect width="100%" height="100%" fill="url(#plank)"/></svg>
+<div class="lum"></div>
+<div id="app">
+  <main id="main">
+    <section id="somm" hidden aria-label="Choix de la leçon"></section>
+    <div id="fit" hidden><div id="scale"><div class="book" id="book"><div class="cover"></div><div class="stack"></div><div class="slot" id="sL"></div><div class="slot" id="sR"></div><div id="sheet"></div></div></div></div>
+  </main>
+  <nav id="bar" aria-label="Navigation du livre">
+    <a id="bSom" href="./">Sommaire</a>
+    <button type="button" id="prev" aria-label="Page précédente">← Précédent</button><div id="dots"></div><button type="button" id="next" class="nx" aria-label="Page suivante">Suivant →</button>
+    <button type="button" id="bSon" aria-pressed="true">Son</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bEns" aria-pressed="false">Mode enseignant</button><button type="button" id="bTh">Thème</button>
+  </nav>
+</div>
+<button type="button" id="ensOut" hidden>Quitter le mode enseignant (Esc)</button>
+<script src="../assets/studio/programme.js"></script>
+<script src="../assets/vivant/vivant.js"></script>
+<script src="../assets/vivant/lecons/changements-etat.js"></script>
+<script src="../assets/vivant/lecons/dilatation-gaz.js"></script>
+<script src="../assets/vivant/lecons/tension-sinusoidale.js"></script>
+<script src="../assets/vivant/lecons/masse-poids.js"></script>
+<script src="../assets/vivant/lecons/conducteur-ohmique.js"></script>
+<script>Vivant.init();</script>
+</body></html>
