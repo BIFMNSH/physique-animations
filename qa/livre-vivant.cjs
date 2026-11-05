@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{JSDOM}=require('jsdom');
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.resolve(root,f),'utf8');
 const html=read('livre-vivant/index.html'),prog=read('assets/studio/programme.js'),eng=read('assets/vivant/vivant.js'),css=read('assets/vivant/vivant.css');
-const SL=['changements-etat','dilatation-gaz','tension-sinusoidale','masse-poids','conducteur-ohmique','circuit-electrique','commande-circuit','court-circuit','solides-liquides','les-gaz'];
+const SL=['changements-etat','dilatation-gaz','tension-sinusoidale','masse-poids','conducteur-ohmique','circuit-electrique','commande-circuit','court-circuit','solides-liquides','les-gaz','generateur-recepteur','association-lampes','piles-serie','tension','intensite'];
 const MODS=Object.fromEntries(SL.map(s=>[s,read('assets/vivant/lecons/'+s+'.js')]));
 assert.ok(/noindex/.test(html)&&!read('sitemap.xml').includes('/livre-vivant/'),'prototype hors référencement');
 assert.ok(!/(src|href)="https?:/.test(html)&&!/@import|url\(https?:/.test(css),'aucune ressource externe');
@@ -50,11 +50,18 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  assert.match(rd('circuit-electrique',0,{obj:'clou',fils:'2'}),/La lampe brille[\s\S]*conducteur/);assert.match(rd('circuit-electrique',0,{obj:'gomme',fils:'2'}),/éteinte[\s\S]*isolant/);assert.match(rd('circuit-electrique',0,{obj:'clou',fils:'1'}),/Boucle ouverte/);
  assert.match(rd('commande-circuit',0,{k:'0'}),/ouvert[\s\S]*éteinte/);assert.match(rd('court-circuit',0,{fil:'1',fus:'0'}),/chauffent/);assert.match(rd('court-circuit',0,{fil:'1',fus:'1'}),/fusible fond/);
  assert.match(rd('solides-liquides',0,{mat:'liq',ang:40}),/horizontale/);assert.match(rd('solides-liquides',0,{mat:'sol',ang:40}),/garde sa forme/);assert.match(rd('les-gaz',0,{mat:'air',p:40}),/V = 72 mL[\s\S]*20 particules/);assert.match(rd('les-gaz',0,{mat:'eau',p:90}),/V = 100 mL[\s\S]*ne se comprime pas/);
+ {const L=V.lois.etatLampe;assert.equal(L(0,6).k,'eteinte');assert.equal(L(3,6).k,'faible');assert.equal(L(6,6).k,'normale');assert.equal(L(7.5,6).k,'surtension');assert.equal(L(9,6).k,'grillee');assert.equal(L(6,3).k,'grillee');
+  assert.deepEqual([1,2,3,4].map(n=>V.lois.pilesSerie(n,false)),[1.5,3,4.5,6]);assert.deepEqual([1,2,3].map(n=>V.lois.pilesSerie(n,true)),[-1.5,0,1.5],'pile retournée : se retranche');
+  assert.deepEqual([['serie',0],['serie',1],['der',0],['der',1],['der',2]].map(a=>{const e=V.lois.associationLampes(a[0],a[1]);return [e.l1,e.l2,e.circule]}),[[.5,.5,true],[0,0,false],[1,1,true],[0,1,true],[1,0,true]],'série : tout s’éteint ; dérivation : indépendantes');
+  assert.ok(Math.abs(V.lois.noeud(1)-0.25)<1e-9);assert.ok(Math.abs(V.lois.noeud(0)-0.15)<1e-9);
+  assert.equal(V.lois.lectureVoltmetre({n:3,mont:'der',sens:'ok'}),4.5);assert.equal(V.lois.lectureVoltmetre({n:3,mont:'der',sens:'inv'}),-4.5);assert.equal(V.lois.lectureVoltmetre({n:3,ou:'lampe',k:'0'}),0,'interrupteur ouvert : 0 V aux bornes de la lampe');assert.equal(V.lois.lectureVoltmetre({n:3,ou:'pile',k:'0'}),4.5,'la pile garde sa tension');}
+ assert.match(rd('generateur-recepteur',0,{Ug:3,Un:6}),/Sous-tension : 3 V < 6 V/);assert.match(rd('generateur-recepteur',0,{Ug:6,Un:6}),/normalement/);assert.match(rd('piles-serie',0,{n:3,sens:'meme'}),/1,5 V \+ 1,5 V \+ 1,5 V = 4,5 V/);assert.match(rd('piles-serie',1,{n:3,sens:'inv'}),/1,5 V \+ 1,5 V − 1,5 V = 1,5 V/);
+ assert.match(rd('association-lampes',0,{mont:'serie',dev:'0'}),/3 V \+ 3 V = 6 V/);assert.match(rd('association-lampes',0,{mont:'der',dev:'1'}),/L2 continue/);assert.match(rd('tension',0,{n:3,mont:'der',sens:'ok'}),/3 × 1,5 V = 4,5 V/);assert.match(rd('intensite',0,{pos:'moins'}),/0,10 A = 100 mA/);assert.match(rd('intensite',1,{mes:'I',l2:'1'}),/0,15 A \+ 0,10 A = 0,25 A/);
  assert.match(rd('dilatation-gaz',0,{T:80}),/plus gonflé[\s\S]*16/);
- /* 3. sommaire : quatre niveaux, 53 leçons, 10 ouvertes */
+ /* 3. sommaire : quatre niveaux, 53 leçons, 15 ouvertes */
  w=ouvre('http://localhost/livre-vivant/');d=w.document;assert.equal(d.querySelectorAll('.niv button').length,4);
  let ouv=0,tot=0;for(const n of ['6e','5e','4e','3e']){d.querySelector('.niv button[data-n="'+n+'"]').click();tot+=d.querySelectorAll('.les > *').length;ouv+=d.querySelectorAll('.les a').length;}
- assert.equal(tot,53);assert.equal(ouv,10);d.querySelector('.niv button[data-n="3e"]').click();assert.match(d.body.textContent,/Masse et poids/);assert.equal(d.querySelector('.niv [aria-selected="true"]').textContent,'3e');assert.equal(w.localStorage.getItem('vv-niveau'),'3e','le niveau est retenu');
+ assert.equal(tot,53);assert.equal(ouv,15);d.querySelector('.niv button[data-n="3e"]').click();assert.match(d.body.textContent,/Masse et poids/);assert.equal(d.querySelector('.niv [aria-selected="true"]').textContent,'3e');assert.equal(w.localStorage.getItem('vv-niveau'),'3e','le niveau est retenu');
  /* 4. parcours d'une leçon (masse-poids, 3e) */
  w=ouvre('http://localhost/livre-vivant/?l=masse-poids');d=w.document;await attend();const $=s=>d.querySelector(s),pg=()=>[...d.querySelectorAll('#book .page')].map(p=>p.dataset.ci+p.dataset.sd).join(',');
  assert.equal(pg(),'0g,0d');assert.equal(audio.ctx,0,'aucun son avant la première interaction');assert.equal(d.querySelectorAll('#dots button').length,3);
@@ -99,5 +106,5 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  w=ouvre('http://localhost/livre-vivant/?l=tension-sinusoidale');d=w.document;await attend();d.querySelector('#bAnim').click();d.querySelector('#bEns').click();d.querySelector('#ensOut').click();assert.ok(!d.body.classList.contains('ens'),'le bouton de sortie fonctionne');
  /* clavier : flèches */
  w=ouvre('http://localhost/livre-vivant/?l=conducteur-ohmique');d=w.document;await attend();d.querySelector('#bAnim').click();d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight'}));assert.equal(d.querySelector('#book .page').dataset.ci,'1');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowLeft'}));assert.equal(d.querySelector('#book .page').dataset.ci,'0');
- console.log('Livre vivant : lois, structure des 10 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
+ console.log('Livre vivant : lois, structure des 15 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});

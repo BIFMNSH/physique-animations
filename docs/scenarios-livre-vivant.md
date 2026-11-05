@@ -1,6 +1,6 @@
 # Scénarios : « Livre vivant » des quatre niveaux (6e, 5e, 4e, 3e)
 
-Statut : **lots 1 et 2 construits (10 leçons) ; les 43 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
+Statut : **lots 1 à 3 construits (15 leçons) ; les 38 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
 Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué sans la section bilingue (interface française). Aucune page de manuel fournie : tout part du programme et des leçons Studio (À retenir, quiz), sans copie de manuel.
 
 ## Structure commune (prompt)
@@ -29,7 +29,16 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 6e | solides-liquides | Incliner un bocal : surface libre horizontale ; bloc de bois qui garde sa forme ; même volume, deux bocaux | particules | « La surface s'incline avec le bocal » |
 | 6e | les-gaz | Piston de seringue : V diminue, 20 particules ; air contre eau | particules | « Les particules rapetissent » |
 
-## À construire : les 43 autres leçons
+## Lot 3 (construit, 5e électricité)
+| Niveau | Leçon | Moment essentiel | Modèle | Erreur fréquente visée |
+|---|---|---|---|---|
+| 5e | generateur-recepteur | Curseur de tension du générateur : lampe 6 V éteinte, sous-tension, normale, surtension ; comparaison lampe 6 V / 3 V | banc | « Une pile plus forte, c'est toujours mieux » |
+| 5e | association-lampes | Série ou dérivation, on dévisse L1 ou L2 | banc | « En série, les autres lampes restent allumées » |
+| 5e | piles-serie | Piles de 1,5 V bout à bout, U = somme ; une pile retournée se retranche | courbe/banc | « Une pile retournée ajoute quand même sa tension » |
+| 5e | tension | Voltmètre en dérivation ; en série ; bornes inversées ; interrupteur ouvert (pile 4,5 V, lampe 0 V) | banc | « Sans courant, il n'y a pas de tension » |
+| 5e | intensite | Ampèremètre en série : même valeur partout (0,10 A) ; en dérivation I = I₁ + I₂ = 0,25 A | banc | « L'ampèremètre mesure différemment avant et après la lampe » |
+
+## À construire : les 38 autres leçons
 | Niveau | Leçon | Moment essentiel | Modèle |
 |---|---|---|---|
 | 6e | temperature | Thermomètre à graduer et lire | banc |
@@ -39,11 +48,6 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 6e | dangers-combustions | Que faire face à un feu, face au monoxyde de carbone | scénario |
 | 6e | volume | Lire le volume dans une éprouvette, ménisque | banc |
 | 6e | masse | Peser à l'équilibre | banc |
-| 5e | generateur-recepteur | Placer générateur et récepteur, sens du courant | banc |
-| 5e | association-lampes | Série ou dérivation : une lampe dévissée | banc |
-| 5e | piles-serie | Associer des piles : les tensions s'ajoutent | courbe |
-| 5e | intensite | Ampèremètre en série, valeur affichée | banc |
-| 5e | tension | Voltmètre en dérivation, valeur affichée | banc |
 | 5e | pression-atmospherique | Ventouse et air : l'air presse | particules |
 | 5e | melanges | Trier, filtrer, décanter | étapes |
 | 5e | atomes-molecules | Assembler des atomes en couleurs CPK | couches |
@@ -88,3 +92,5 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 - Mode enseignant : page de droite seule, laboratoire élargi, bouton de sortie + Échap.
 - 48 leçons : cartes « en préparation » dans le sommaire jusqu'à validation du tableau ci-dessus.
 - Lot 2 : leçons qualitatives du programme de 6e ; la graduation du piston (V = 100 − 0,7 × poussée en %) et le volume d'eau de 100 mL sont des choix de conception, pas des mesures. Court-circuit : simulation seulement, avec rappel de ne jamais le réaliser sans le professeur. Les points jaunes montrent le sens conventionnel du courant.
+- Lot 3 : valeurs des leçons Studio (lampe 6 V, 0,10 A ; I₁ = 0,15 A, I₂ = 0,10 A). Lampe 4,5 V (piles en série) et lampe 3 V (comparaison) : choix de conception. Seuil de grillage d'une lampe = 1,5 × sa tension nominale : choix de conception, pas une donnée de manuel. Voltmètre en série : il affiche la tension de la pile et éteint la lampe (qualitatif). Interrupteur ouvert : 0 V aux bornes de la lampe, la pile garde sa tension.
+- Mise en page : espacements des pages de gauche resserrés (le texte débordait de 24 à 60 px sur six pages). Le contrôle de débordement des pages fait désormais partie des captures.

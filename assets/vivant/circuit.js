@@ -5,6 +5,16 @@
   'use strict';
   var V = window.Vivant, E = V.elec = {};
   E.W = 200; E.H = 130;
+  /* état d'une lampe de tension nominale Un soumise à la tension U : eteinte, faible (sous-tension), normale, surtension, grillee.
+     Seuil de grillage = 1,5 × Un : choix de conception, pas une donnée de manuel. */
+  V.lois.etatLampe = function (U, Un) {
+    var u = Math.abs(U), e = 1e-9;
+    if (u < 0.05) return { k: 'eteinte', a: 0 };
+    if (u < Un - e) return { k: 'faible', a: u / Un };
+    if (u < Un + e) return { k: 'normale', a: 1 };
+    if (u < 1.5 * Un - e) return { k: 'surtension', a: 1.25 };
+    return { k: 'grillee', a: 0 };
+  };
   E.pos = { plus: [82, 96], moins: [118, 96], lampe: [100, 34] };
   function dots(c, pts, t, anim, col) {
     var L = [], tot = 0, i, d;
@@ -32,17 +42,27 @@
       c.restore();
     });
   };
-  E.pile = function (c, hot) {
+  /* pile : label facultatif (tension) à la place du mot « pile » */
+  E.pile = function (c, hot, label) {
     var P = V.P; P.rect(c, 62, 102, 76, 18, P.col.ink, 2.4, hot ? '#FFD0B5' : P.col.fill);
     P.rect(c, 78, 96, 8, 6, P.col.ink, 2, P.col.paper); P.rect(c, 114, 96, 8, 6, P.col.ink, 2, P.col.paper);
-    P.txt(c, '+', 82, 111, 13, P.col.b, 'center', 800); P.txt(c, '−', 118, 111, 13, P.col.a, 'center', 800);
-    P.txt(c, 'pile', 100, 111, 11, P.col.soft, 'center');
+    P.txt(c, '+', label ? 70 : 82, 111, 13, P.col.b, 'center', 800); P.txt(c, '−', label ? 130 : 118, 111, 13, P.col.a, 'center', 800);
+    P.txt(c, label || 'pile', 100, 111, 11, P.col.soft, 'center');
   };
-  E.lampe = function (c, x, y, lit) {
-    var P = V.P, i;
-    if (lit) for (i = 0; i < 8; i++) { var a = i * Math.PI / 4 + 0.4; P.line(c, x + Math.cos(a) * 19, y + Math.sin(a) * 19, x + Math.cos(a) * 26, y + Math.sin(a) * 26, P.col.glow, 2.4); }
-    P.circ(c, x, y, 15, P.col.ink, 2.4, lit ? 'rgba(255,224,102,.95)' : P.col.paper);
-    P.poly(c, [[x - 8, y + 8], [x - 5, y - 4], [x - 2, y + 4], [x + 2, y - 4], [x + 5, y + 4], [x + 8, y - 6]], lit ? '#B45309' : P.col.soft, 1.8);
+  /* lampe : lit = true/false ou une intensité de 0 à 1 (au-delà de 1 : surtension) ; burn = filament grillé ; r = rayon */
+  E.lampe = function (c, x, y, lit, burn, r) {
+    var P = V.P, i, R = r || 15, a = lit === true ? 1 : +lit || 0, k = R / 15;
+    if (burn) a = 0;
+    if (a > 0) for (i = 0; i < 8; i++) { var an = i * Math.PI / 4 + 0.4, l = (4 + 9 * Math.min(a, 1.4)) * k; P.line(c, x + Math.cos(an) * (R + 4 * k), y + Math.sin(an) * (R + 4 * k), x + Math.cos(an) * (R + 4 * k + l), y + Math.sin(an) * (R + 4 * k + l), P.col.glow, 2.4); }
+    P.circ(c, x, y, R, P.col.ink, 2.4, a > 0 ? 'rgba(255,224,102,' + (0.3 + 0.65 * Math.min(a, 1)).toFixed(2) + ')' : P.col.paper);
+    P.poly(c, [[x - 8 * k, y + 8 * k], [x - 5 * k, y - 4 * k], [x - 2 * k, y + 4 * k], [x + 2 * k, y - 4 * k], [x + 5 * k, y + 4 * k], [x + 8 * k, y - 6 * k]], a > 0 ? '#B45309' : P.col.soft, 1.8);
+    if (burn) P.txt(c, '✕', x, y, 14 * k, P.col.hot, 'center', 800);
+  };
+  /* appareil de mesure : cercle avec sa lettre (V ou A) */
+  E.meter = function (c, x, y, lettre, col) { var P = V.P; P.circ(c, x, y, 13, col || P.col.ink, 2.4, P.col.paper); P.txt(c, lettre, x, y, 15, col || P.col.ink, 'center', 800); };
+  /* boucle simple sans élément : pile, fils, lampe en haut au centre */
+  E.boucle = function (c, on, t, anim) {
+    E.fil(c, [[82, 96], [82, 84], [20, 84], [20, 34], [85, 34]], on, t, anim); E.fil(c, [[115, 34], [180, 34], [180, 84], [118, 84], [118, 96]], on, t, anim);
   };
   /* interrupteur : bornes en (x, y0) et (x, y1), lame verticale si fermé */
   E.inter = function (c, x, y0, y1, closed) {
