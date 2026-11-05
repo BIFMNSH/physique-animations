@@ -23,6 +23,15 @@
   var LEC = LECONS.filter(function (x) { return x.slug === SLUG; })[0] || null;
 
   var TITRES = ['Situation-problème', 'J’analyse et je réponds', 'Je formule mon hypothèse', 'Je réalise la manipulation', 'J’observe et j’analyse les résultats', 'Je confronte les résultats à mon hypothèse', 'Je rédige mon bilan', 'Je compare avec le bilan scientifique', 'Je relève un défi, seul ou en équipe'];
+  /* fiches d'investigation de 5e (page activites-5e) reliées au moment « laboratoire » */
+  var FICHES5E = { 'intensite': [['NL-5E-ELE-01', 'La lampe use-t-elle le courant ?']], 'generateur-recepteur': [['NL-5E-ELE-02', 'Choisir un générateur']], 'association-lampes': [['NL-5E-ELE-03', 'Deux lampes, deux montages']], 'piles-serie': [['NL-5E-ELE-04', 'Associer des piles en série']], 'tension': [['NL-5E-ELE-05', 'Mesurer une tension']],
+    'pression-atmospherique': [['NL-5E-MES-01', 'Trois expériences avec l’air'], ['NL-5E-MES-02', 'Pression et altitude']], 'melanges': [['NL-5E-MEL-01', 'Classer les mélanges'], ['NL-5E-MEL-02', 'Séparer un mélange hétérogène'], ['NL-5E-MEL-03', 'Séparer un mélange homogène']],
+    'atomes-molecules': [['NL-5E-MAT-01', 'Lire une formule'], ['NL-5E-MAT-02', 'Corps simple, corps composé']], 'combustion-carbone': [['NL-5E-MAT-03', 'Brûler du carbone']], 'combustion-soufre': [['NL-5E-MAT-04', 'Brûler du soufre']],
+    'dilatation-solides': [['NL-5E-DIL-01', 'Un solide chauffé'], ['NL-5E-DIL-02', 'Des métaux différents']], 'dilatation-liquides': [['NL-5E-DIL-03', 'Un liquide chauffé']], 'dilatation-gaz': [['NL-5E-DIL-04', 'Un gaz chauffé']] };
+  function fiches5e() {
+    var f = FICHES5E[LEC && LEC.slug]; if (!f) return '';
+    return '<div class="note"><b>Investigation guidée</b> : mène la démarche en six opérations.<ul>' + f.map(function (x) { return '<li><a href="../activites-5e/?a=' + x[0] + '">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul></div>';
+  }
   var CHAP = ['La situation', 'Le laboratoire', 'Ce que dit l’expérience', 'Le défi'];
   var SP = [['s1l', 's1r'], ['s2l', 's2r'], ['s3l', 's3r'], ['s4l', 's4r']];
   var SGL = ['s1l', 's1r', 's2l', 's2r', 's3l', 's3r', 's4r'], SGL2SP = [0, 0, 1, 1, 2, 2, 3], SP2SGL = [0, 2, 4, 6];
@@ -60,11 +69,11 @@
     var I = L.inquiry || {};
     switch (id) {
       case 's1l': return '<p class="th">' + esc(L.theme || LEC.th) + '</p><h1>' + esc(L.title || LEC.t) + '</h1><p class="hook">' + esc(I.situation || '') + '</p>'
-        + '<div class="note">' + (mode === 'desk' ? 'Ton cahier de labo est posé à côté du livre : tu y écris tes idées, tes observations et ton bilan.' : 'Ton cahier de labo est dans le bouton « Mon cahier » : tu y écris tes idées, tes observations et ton bilan.') + '</div>';
+        + '<div class="note">' + (mode === 'desk' ? 'Ton cahier de labo est posé à côté du livre : tu y écris tes idées, tes observations et ton bilan.' : 'Ton cahier de labo est dans le bouton « Mon cahier » : tu y écris tes idées, tes observations et ton bilan.') + '</div>' + fiches5e();
       case 's1r': return '<h2>Regarde avant de chercher</h2>' + pop('') + '<p>Un résumé animé d’une minute présente la situation. Tu peux le regarder maintenant ou plus tard.</p><button type="button" class="btn large" data-resume>Regarder le résumé animé</button>' + ouvre('Ouvrir mon cahier');
       case 's2l': return '<h2>Le laboratoire</h2>' + pop('grand') + '<button type="button" class="go bas" data-labo>' + (S.m <= 4 ? 'Entrer dans le laboratoire' : 'Retourner au laboratoire') + '</button>';
       case 's2r': return '<h2>Ma manipulation</h2><ol class="etapes"><li>Entre dans le laboratoire.</li><li>Fais au moins deux essais, avec des réglages différents.</li><li>Note dans ton cahier ce que tu observes, essai par essai.</li></ol>'
-        + cite('Mon hypothèse', S.hyp) + (S.obs ? cite('Mes observations', S.obs) : '') + '<div class="note">Chaque idée que tu écris dans ton cahier reste aussi dans ton livre.</div>' + ouvre('Écrire dans mon cahier');
+        + fiches5e() + cite('Mon hypothèse', S.hyp) + (S.obs ? cite('Mes observations', S.obs) : '') + '<div class="note">Chaque idée que tu écris dans ton cahier reste aussi dans ton livre.</div>' + ouvre('Écrire dans mon cahier');
       case 's3l': return '<h1>Ce que dit l’expérience</h1>' + cite('Mes observations', S.obs) + cite('Ma confrontation', S.comp) + '<button type="button" class="btn large" data-resume>Revoir le résumé animé</button>' + (S.m === 7 ? ouvre('Écrire mon bilan dans mon cahier') : '');
       case 's3r': return '<h2>Le bilan scientifique</h2><div class="tab"><div class="bs"><ul>' + (L.retiens || []).map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul></div>'
         + '<button type="button" class="lang' + (S.m >= 8 && S.vuBilan ? ' up' : '') + '"' + (S.m >= 8 && !S.vuBilan ? ' data-auto' : '') + ' disabled>Écris d’abord ton bilan dans ton cahier. Cette page s’ouvrira ensuite.</button></div>' + (S.m === 8 ? ouvre('Je compare dans mon cahier') : '');

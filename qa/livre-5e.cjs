@@ -46,5 +46,7 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  w=ouvre('http://localhost/livre/?l=dilatation-gaz',{'pc-livre-dilatation-gaz':{m:3,rep:'r',hyp:'',q:[],pos:0}},390);d=w.document;await attend();assert.ok(d.body.classList.contains('sgl'));assert.equal(d.querySelectorAll('#book .page').length,1);
  d.querySelector('#thyp').value='Hyp';d.querySelector('#c3').click();assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'s2l','téléphone : le livre ouvre le laboratoire');
  w=ouvre('http://localhost/livre/?l=inconnue');assert.equal(w.document.querySelectorAll('.toc a').length,13,'leçon inconnue : sommaire');
+ {const att={intensite:1,'generateur-recepteur':1,'association-lampes':1,'piles-serie':1,tension:1,'pression-atmospherique':2,melanges:3,'atomes-molecules':2,'combustion-carbone':1,'combustion-soufre':1,'dilatation-solides':2,'dilatation-liquides':1,'dilatation-gaz':1};
+  for(const [sl,n] of Object.entries(att)){const w2=ouvre('http://localhost/livre/?l='+sl);await attend();assert.equal(w2.document.querySelectorAll('a[href*="activites-5e/?a=NL-5E-"]').length,n,'fiches reliées au livre : '+sl);}}
  console.log('Cartable de 5e : 13 leçons complètes, sommaire, livre et cahier liés en neuf moments, laboratoire, rabat, défi, tiroir et reprise contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});
