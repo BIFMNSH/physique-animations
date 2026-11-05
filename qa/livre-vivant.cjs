@@ -81,7 +81,7 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  assert.match(rd('lentilles',0,{d:20}),/réelle, renversée[\s\S]*20,0 cm/);assert.match(rd('lentilles',0,{d:5}),/virtuelle, droite/);assert.match(rd('lentilles',0,{d:10}),/infini/);assert.match(rd('defauts-oeil',0,{defaut:'myope',cor:'aucune'}),/devant la rétine/);assert.match(rd('defauts-oeil',1,{defaut:'hyper',cor:'conv'}),/image nette/);assert.match(rd('puissance-energie-electriques',0,{I:5}),/1[\s\u00a0]100 W/);assert.match(rd('puissance-energie-electriques',1,{ap:'fer',t:2}),/2,00 kWh[\s\S]*200 F CFA/);
  /* couverture et téléphone */
  { const h=require('fs').readFileSync(require('path').join(__dirname,'..','livre-vivant','index.html'),'utf8');
-   assert.match(h,/id="couv"[\s\S]*id="couvGo"/,'couverture présente');assert.match(h,/viewport-fit=cover/);assert.match(h,/id="bMore"/);
+   assert.match(h,/id="couv"[\s\S]*id="couvGo"/,'couverture présente');assert.match(h,/viewport-fit=cover/);assert.match(h,/id="bMore"/);assert.equal((h.match(/class="cv-lv"[\s\S]*?<\/p>/)[0].match(/<button/g)||[]).length,4,'quatre niveaux cliquables sur la couverture');
    const css=require('fs').readFileSync(require('path').join(__dirname,'..','assets','vivant','vivant.css'),'utf8');
    assert.match(css,/body\.sgl #app\{padding:0/,'livre plein écran sur téléphone');assert.match(css,/body:not\(\.anim\) \.cv-halo/,'couverture : animations coupées avec le bouton'); }
  /* 3. sommaire : quatre niveaux, 53 leçons, 53 ouvertes */

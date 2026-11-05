@@ -290,8 +290,8 @@
     try { vu = sessionStorage.getItem('vv-couv') === '1'; } catch (e) {}
     if (url || vu) { C.hidden = true; return; }
     document.body.classList.add('avec-couv'); var b = $('#couvGo', C);
-    function ouvre() { try { sessionStorage.setItem('vv-couv', '1'); } catch (e) {} C.classList.add('ouvre'); document.body.classList.remove('avec-couv'); setTimeout(function () { C.hidden = true; var t = $('.niv button[aria-selected="true"]'); if (t) t.focus(); }, ST.anim ? 1100 : 0); }
-    b.onclick = ouvre; b.focus();
+    function ouvre(n) { if (typeof n === 'string' && NIVEAUX.indexOf(n) >= 0) { ST.niv = n; try { localStorage.setItem('vv-niveau', n); } catch (e) {} sommaire(); } try { sessionStorage.setItem('vv-couv', '1'); } catch (e) {} C.classList.add('ouvre'); document.body.classList.remove('avec-couv'); setTimeout(function () { C.hidden = true; var t = $('.niv button[aria-selected="true"]'); if (t) t.focus(); }, ST.anim ? 1100 : 0); }
+    b.onclick = function () { ouvre(); }; $$('.cv-lv button', C).forEach(function (x) { x.onclick = function () { ouvre(x.getAttribute('data-n')); }; }); b.focus();
     document.addEventListener('keydown', function (e) { if (!C.hidden && !C.classList.contains('ouvre') && e.key === 'Escape') ouvre(); });
   }
   function init() {
