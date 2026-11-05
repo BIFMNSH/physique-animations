@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{JSDOM}=require('jsdom');
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.resolve(root,f),'utf8');
 const html=read('livre-vivant/index.html'),prog=read('assets/studio/programme.js'),eng=read('assets/vivant/vivant.js'),css=read('assets/vivant/vivant.css');
-const SL=['changements-etat','dilatation-gaz','tension-sinusoidale','masse-poids','conducteur-ohmique','circuit-electrique','commande-circuit','court-circuit','solides-liquides','les-gaz','generateur-recepteur','association-lampes','piles-serie','tension','intensite'];
+const SL=['changements-etat','dilatation-gaz','tension-sinusoidale','masse-poids','conducteur-ohmique','circuit-electrique','commande-circuit','court-circuit','solides-liquides','les-gaz','generateur-recepteur','association-lampes','piles-serie','tension','intensite','dilatation-solides','dilatation-liquides','pression-atmospherique','melanges','atomes-molecules'];
 const MODS=Object.fromEntries(SL.map(s=>[s,read('assets/vivant/lecons/'+s+'.js')]));
 assert.ok(/noindex/.test(html)&&!read('sitemap.xml').includes('/livre-vivant/'),'prototype hors référencement');
 assert.ok(!/(src|href)="https?:/.test(html)&&!/@import|url\(https?:/.test(css),'aucune ressource externe');
@@ -57,11 +57,17 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
   assert.equal(V.lois.lectureVoltmetre({n:3,mont:'der',sens:'ok'}),4.5);assert.equal(V.lois.lectureVoltmetre({n:3,mont:'der',sens:'inv'}),-4.5);assert.equal(V.lois.lectureVoltmetre({n:3,ou:'lampe',k:'0'}),0,'interrupteur ouvert : 0 V aux bornes de la lampe');assert.equal(V.lois.lectureVoltmetre({n:3,ou:'pile',k:'0'}),4.5,'la pile garde sa tension');}
  assert.match(rd('generateur-recepteur',0,{Ug:3,Un:6}),/Sous-tension : 3 V < 6 V/);assert.match(rd('generateur-recepteur',0,{Ug:6,Un:6}),/normalement/);assert.match(rd('piles-serie',0,{n:3,sens:'meme'}),/1,5 V \+ 1,5 V \+ 1,5 V = 4,5 V/);assert.match(rd('piles-serie',1,{n:3,sens:'inv'}),/1,5 V \+ 1,5 V − 1,5 V = 1,5 V/);
  assert.match(rd('association-lampes',0,{mont:'serie',dev:'0'}),/3 V \+ 3 V = 6 V/);assert.match(rd('association-lampes',0,{mont:'der',dev:'1'}),/L2 continue/);assert.match(rd('tension',0,{n:3,mont:'der',sens:'ok'}),/3 × 1,5 V = 4,5 V/);assert.match(rd('intensite',0,{pos:'moins'}),/0,10 A = 100 mA/);assert.match(rd('intensite',1,{mes:'I',l2:'1'}),/0,15 A \+ 0,10 A = 0,25 A/);
+ {assert.equal(V.lois.bouleTraverse(20),true);assert.equal(V.lois.bouleTraverse(40),true);assert.equal(V.lois.bouleTraverse(60),false,'chauffée, la boule ne passe plus');assert.ok(Math.abs(V.lois.allongementPont(100)-14)<1e-9,'le joint se referme à 100 %');assert.ok(V.lois.fleche(14,240)>35&&V.lois.fleche(0,240)===0);
+  assert.ok(V.lois.niveauLiquideDil(80,1)>V.lois.niveauLiquideDil(80,0.4)&&V.lois.niveauLiquideDil(0,1)===V.lois.niveauLiquideDil(0,0.4));
+  assert.equal(V.lois.pressionInterieure(0),1013);assert.ok(Math.abs(V.lois.pressionInterieure(50)-506.5)<1e-9);assert.equal(V.lois.pressionAltitude(0),1013);assert.ok(V.lois.pressionAltitude(1500)<V.lois.pressionAltitude(500)&&V.lois.pressionAltitude(1500)>800&&V.lois.pressionAltitude(1500)<900,'la pression diminue avec l’altitude');
+  assert.equal(V.lois.resultatMelange('sel','filtration')[0],'non');assert.equal(V.lois.resultatMelange('sable','filtration')[0],'ok');assert.equal(V.lois.resultatMelange('huile','decantation')[0],'ok');assert.equal(V.lois.resultatMelange('sel','evaporation')[0],'perte');
+  assert.equal(JSON.stringify(V.lois.atomesTotal('H2O',3)),'{"H":6,"O":3}');assert.equal(JSON.stringify(V.lois.atomesTotal('CO2',2)),'{"C":2,"O":4}');}
+ assert.match(rd('dilatation-solides',0,{x:60}),/ne passe plus/);assert.match(rd('dilatation-solides',1,{x:80,pont:1,joint:'non'}),/se soulève/);assert.match(rd('dilatation-liquides',0,{x:80,liq:0}),/volume du liquide augmente/);assert.match(rd('pression-atmospherique',0,{x:50}),/1[\s\u202f]013 hPa[\s\S]*507 hPa/);assert.match(rd('pression-atmospherique',1,{h:0}),/1[\s\u202f]013 hPa/);assert.match(rd('melanges',0,{m:'sel',tech:'filtration'}),/ne sont pas séparés[\s\S]*homogène/);assert.match(rd('atomes-molecules',0,{m:'H2O',n:3}),/6 atomes H \+ 3 atomes O = 9 atomes/);
  assert.match(rd('dilatation-gaz',0,{T:80}),/plus gonflé[\s\S]*16/);
- /* 3. sommaire : quatre niveaux, 53 leçons, 15 ouvertes */
+ /* 3. sommaire : quatre niveaux, 53 leçons, 20 ouvertes */
  w=ouvre('http://localhost/livre-vivant/');d=w.document;assert.equal(d.querySelectorAll('.niv button').length,4);
  let ouv=0,tot=0;for(const n of ['6e','5e','4e','3e']){d.querySelector('.niv button[data-n="'+n+'"]').click();tot+=d.querySelectorAll('.les > *').length;ouv+=d.querySelectorAll('.les a').length;}
- assert.equal(tot,53);assert.equal(ouv,15);d.querySelector('.niv button[data-n="3e"]').click();assert.match(d.body.textContent,/Masse et poids/);assert.equal(d.querySelector('.niv [aria-selected="true"]').textContent,'3e');assert.equal(w.localStorage.getItem('vv-niveau'),'3e','le niveau est retenu');
+ assert.equal(tot,53);assert.equal(ouv,20);d.querySelector('.niv button[data-n="3e"]').click();assert.match(d.body.textContent,/Masse et poids/);assert.equal(d.querySelector('.niv [aria-selected="true"]').textContent,'3e');assert.equal(w.localStorage.getItem('vv-niveau'),'3e','le niveau est retenu');
  /* 4. parcours d'une leçon (masse-poids, 3e) */
  w=ouvre('http://localhost/livre-vivant/?l=masse-poids');d=w.document;await attend();const $=s=>d.querySelector(s),pg=()=>[...d.querySelectorAll('#book .page')].map(p=>p.dataset.ci+p.dataset.sd).join(',');
  assert.equal(pg(),'0g,0d');assert.equal(audio.ctx,0,'aucun son avant la première interaction');assert.equal(d.querySelectorAll('#dots button').length,3);
@@ -106,5 +112,5 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  w=ouvre('http://localhost/livre-vivant/?l=tension-sinusoidale');d=w.document;await attend();d.querySelector('#bAnim').click();d.querySelector('#bEns').click();d.querySelector('#ensOut').click();assert.ok(!d.body.classList.contains('ens'),'le bouton de sortie fonctionne');
  /* clavier : flèches */
  w=ouvre('http://localhost/livre-vivant/?l=conducteur-ohmique');d=w.document;await attend();d.querySelector('#bAnim').click();d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight'}));assert.equal(d.querySelector('#book .page').dataset.ci,'1');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowLeft'}));assert.equal(d.querySelector('#book .page').dataset.ci,'0');
- console.log('Livre vivant : lois, structure des 15 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
+ console.log('Livre vivant : lois, structure des 20 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});

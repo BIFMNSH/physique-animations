@@ -1,6 +1,6 @@
 # Scénarios : « Livre vivant » des quatre niveaux (6e, 5e, 4e, 3e)
 
-Statut : **lots 1 à 3 construits (15 leçons) ; les 38 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
+Statut : **lots 1 à 4 construits (20 leçons) ; les 33 autres suivent le tableau ci-dessous, validé le 5 nov. 2026.** Branche `feat/fiches-5e-investigation`. Page : `/livre-vivant/`, à côté du cartable (`/livre/`) pour comparer les deux.
 Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué sans la section bilingue (interface française). Aucune page de manuel fournie : tout part du programme et des leçons Studio (À retenir, quiz), sans copie de manuel.
 
 ## Structure commune (prompt)
@@ -38,7 +38,16 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 5e | tension | Voltmètre en dérivation ; en série ; bornes inversées ; interrupteur ouvert (pile 4,5 V, lampe 0 V) | banc | « Sans courant, il n'y a pas de tension » |
 | 5e | intensite | Ampèremètre en série : même valeur partout (0,10 A) ; en dérivation I = I₁ + I₂ = 0,25 A | banc | « L'ampèremètre mesure différemment avant et après la lampe » |
 
-## À construire : les 38 autres leçons
+## Lot 4 (construit, 5e matière)
+| Niveau | Leçon | Moment essentiel | Modèle | Erreur fréquente visée |
+|---|---|---|---|---|
+| 5e | dilatation-solides | Boule et anneau : chauffée, la boule ne passe plus ; joint de dilatation d'une route, avec et sans joint | particules | « Les particules grossissent » |
+| 5e | dilatation-liquides | Thermomètre : le niveau monte, 14 particules inchangées ; alcool et eau comparés | particules | « Il y a plus de liquide » |
+| 5e | pression-atmospherique | Hémisphères de Magdebourg : P extérieure 1 013 hPa, intérieure selon l'air retiré ; baromètres à deux altitudes | particules/courbe | « Ils sont collés » |
+| 5e | melanges | Un mélange, une technique (filtration, décantation, évaporation), résultat dessiné | étapes | « Le sel reste sur le filtre » |
+| 5e | atomes-molecules | Molécules en couleurs CPK, dénombrement des atomes ; corps pur simple ou composé | couches | « Le 2 de H₂O = 2 molécules » |
+
+## À construire : les 33 autres leçons
 | Niveau | Leçon | Moment essentiel | Modèle |
 |---|---|---|---|
 | 6e | temperature | Thermomètre à graduer et lire | banc |
@@ -48,13 +57,8 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 | 6e | dangers-combustions | Que faire face à un feu, face au monoxyde de carbone | scénario |
 | 6e | volume | Lire le volume dans une éprouvette, ménisque | banc |
 | 6e | masse | Peser à l'équilibre | banc |
-| 5e | pression-atmospherique | Ventouse et air : l'air presse | particules |
-| 5e | melanges | Trier, filtrer, décanter | étapes |
-| 5e | atomes-molecules | Assembler des atomes en couleurs CPK | couches |
 | 5e | combustion-carbone | Carbone + dioxygène, test à l'eau de chaux | étapes |
 | 5e | combustion-soufre | Soufre + dioxygène, gaz piquant | étapes |
-| 5e | dilatation-solides | Boule et anneau | particules |
-| 5e | dilatation-liquides | Thermomètre, niveau du liquide | particules |
 | 4e | sources-recepteurs | Voir un objet : source, objet, œil | banc |
 | 4e | propagation-lumiere | Rayon en ligne droite, ombre | banc |
 | 4e | phases-eclipses | Déplacer la Lune sur son orbite | frise |
@@ -94,3 +98,4 @@ Source de cadrage : le prompt « livre vivant » du propriétaire, appliqué san
 - Lot 2 : leçons qualitatives du programme de 6e ; la graduation du piston (V = 100 − 0,7 × poussée en %) et le volume d'eau de 100 mL sont des choix de conception, pas des mesures. Court-circuit : simulation seulement, avec rappel de ne jamais le réaliser sans le professeur. Les points jaunes montrent le sens conventionnel du courant.
 - Lot 3 : valeurs des leçons Studio (lampe 6 V, 0,10 A ; I₁ = 0,15 A, I₂ = 0,10 A). Lampe 4,5 V (piles en série) et lampe 3 V (comparaison) : choix de conception. Seuil de grillage d'une lampe = 1,5 × sa tension nominale : choix de conception, pas une donnée de manuel. Voltmètre en série : il affiche la tension de la pile et éteint la lampe (qualitatif). Interrupteur ouvert : 0 V aux bornes de la lampe, la pile garde sa tension.
 - Mise en page : espacements des pages de gauche resserrés (le texte débordait de 24 à 60 px sur six pages). Le contrôle de débordement des pages fait désormais partie des captures.
+- Lot 4 : leçons qualitatives, sauf deux calculs. Pression intérieure = 1 013 hPa × part d'air restant (volume et température constants). P(h) = 1 013 hPa × exp(−h / 8 400 m) : approximation de l'atmosphère à température constante, à confirmer avec le manuel. Boule/anneau : l'échelle de chauffage est en % et l'écart est exagéré ; seuil de passage et flèche de la barre (sans joint : (2/π)·√(ΔL·L)) sont des choix de dessin. Alcool plus dilatable que l'eau : qualitatif, sans coefficients. Évaporation : l'eau est perdue (pas de distillation). Les nombres de 1 000 et plus s'écrivent avec une espace insécable.

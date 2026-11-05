@@ -7,7 +7,7 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function fr(x, d) { var s = (+x).toFixed(d == null ? 0 : d); return s.replace('.', ',').replace('-', '−'); }
+  function fr(x, d) { var s = (+x).toFixed(d == null ? 0 : d).split('.'); s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); return s.join(',').replace('-', '−'); }
   function lit(k) { try { var v = JSON.parse(localStorage.getItem(k)); return v && typeof v === 'object' ? v : null; } catch (e) { return null; } }
   function ecrit(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var raf = function (f) { return (window.requestAnimationFrame || function (g) { return setTimeout(function () { g(Date.now()); }, 16); })(f); };
