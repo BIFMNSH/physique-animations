@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.resolve(root,f),'utf8');
 const dom=new JSDOM('<!doctype html><body></body>',{url:'http://localhost/activites-5e/',runScripts:'outside-only'}),w=dom.window,doc=w.document;
 w.requestAnimationFrame=()=>0;w.cancelAnimationFrame=()=>{};w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};
-for(const f of ['assets/shared/atelier-electrique.js','assets/shared/elec5e.js','assets/shared/mesures5e.js','assets/activites/activite.js',...['ELE-01','ELE-02','ELE-03','ELE-04','ELE-05','MES-01','MES-02'].map(n=>'assets/activites/fiches/NL-5E-'+n+'.js')])w.eval(read(f));
+for(const f of ['assets/shared/atelier-electrique.js','assets/shared/elec5e.js','assets/shared/mesures5e.js','assets/shared/melanges5e.js','assets/activites/activite.js',...['ELE-01','ELE-02','ELE-03','ELE-04','ELE-05','MES-01','MES-02','MEL-01','MEL-02','MEL-03'].map(n=>'assets/activites/fiches/NL-5E-'+n+'.js')])w.eval(read(f));
 const F=w.FICHE_5E_ELE01,I=w.NohobaIntensite.intensite;
 /* modèle */
 assert.equal(I(1,true),300);assert.equal(I(2,true),150);assert.equal(I(1,false),0);assert.equal(I(2,false),0);
@@ -118,6 +118,42 @@ for(const n of ['ELE05','MES01','MES02']){const F=w['FICHE_5E_'+n],panel=doc.cre
 for(const n of ['ELE-05','MES-01','MES-02'])assert.ok(read('sw.js').includes('NL-5E-'+n+'.js'),'hors-ligne '+n);
 assert.ok(read('sw.js').includes('mesures5e.js')&&read('activites-5e/index.html').includes('mesures5e.js'),'modèle de pression chargé et en cache');
 assert.ok(/MES-0\[12\]/.test(read('activites-5e/index.html')),'liste blanche : pression');
+/* ---------- lot Mélanges de 5e : MEL-01 (phases), MEL-02 (hétérogène), MEL-03 (homogène) ---------- */
+const ML=w.NohobaMelanges5e;
+assert.equal(ML.MIX1.map(m=>ML.mix1(m[0]).phases).join(),'2,1,2,1,2,1,2,1');assert.equal(ML.mix1('sel').famille,'homogène');assert.equal(ML.mix1('huile').famille,'hétérogène');assert.throws(()=>ML.mix1('x'),/inconnu/);
+assert.equal(ML.res2('sable','filtration').sep,'oui');assert.equal(ML.res2('huile','filtration').sep,'non');assert.equal(ML.res2('huile','ampoule').sep,'oui');assert.equal(ML.res2('boue','decantation').sep,'partiel');assert.equal(ML.res2('sable','ampoule').sep,'non');
+assert.throws(()=>ML.res2('x','filtration'),/inconnu/);assert.throws(()=>ML.res2('sable','x'),/inconnu/);
+assert.equal(ML.res3('sel','filtration').recup,'rien');assert.equal(ML.res3('sucre','evaporation').recup,'solide');assert.equal(ML.res3('mer','distillation').recup,'distillat');assert.throws(()=>ML.res3('sel','x'),/inconnu/);
+for(const m of ML.MIX2)for(const k of ML.METH2){assert.ok(/^<svg/.test(ML.montage2(m[0],k[0]))&&/^<svg/.test(ML.schema2(m[0],k[0])));}
+for(const m of ML.MIX3)for(const k of ML.METH3){assert.ok(/^<svg/.test(ML.montage3(m[0],k[0]))&&/^<svg/.test(ML.schema3(m[0],k[0])));}
+assert.ok(/chauffage réalisé par le professeur/.test(ML.montage3('mer','distillation')+ML.montage3('sel','evaporation')),'chauffage guidé');
+for(const n of ['MEL01','MEL02','MEL03']){const F=w['FICHE_5E_'+n],panel=doc.createElement('div');doc.body.appendChild(panel);const st2={essais:[],prevision:null},X2={st:()=>st2,save:()=>{},addEssai:e=>{st2.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X2);
+  for(const k of ['titre','theme','chapitre','competenceVisee','objectifsPedagogiques','situationEvaluation','situation','materiel','prevision','protocole','colonnes','lignes','resume','confrontation','retroaction','transfert','critere','manip','grilleMaitrise','peutConfronter','aides','synthese','prof','diagnostic'])assert.ok(F[k]!=null,n+' : champ '+k);
+  assert.equal(F.theme,'Mélanges et réactions chimiques');assert.equal(F.niveau,'5e');assert.equal(F.prevision.choix.length,4);assert.equal(F.grilleMaitrise.map(x=>x[0]).join(),'MI,MF,MS,TBM');assert.ok(F.aides.length>=3);
+  assert.ok(F.transfert.options.some(o=>o[0]===F.transfert.rep),'transfert '+n);assert.ok(/Awa|Kofi/.test(F.situation+F.situationEvaluation));
+  assert.ok(!/NL-C4|NL-CI|NL-5E|MEL-\d\d|Programme du cycle 4/.test(JSON.stringify(F).replace(F.id,'')),'aucun code interne '+n);
+  assert.ok([...panel.querySelectorAll('svg')].every(s=>s.getAttribute('role')==='img'&&s.getAttribute('aria-label')),'SVG nommés '+n);
+  const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
+  assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
+  assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+function lancerM(n){const F=w['FICHE_5E_'+n],panel=doc.createElement('div');doc.body.appendChild(panel);const st={essais:[],prevision:null},X={st:()=>st,save:()=>{},addEssai:e=>{st.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X);return {F,panel,st};}
+{const {F,panel,st}=lancerM('MEL01');
+ for(const m of ['sel','sucre','sirop','alcool','sel']){choisir2(panel,'e-m',m);enreg2(panel);}assert.equal(F.peutConfronter(st),false,'il faut un mélange à plusieurs phases');}
+{const {F,panel,st}=lancerM('MEL01');
+ for(const m of ['sel','sucre','sirop','alcool','terre']){choisir2(panel,'e-m',m);enreg2(panel);}assert.equal(F.peutConfronter(st),true);
+ choisir2(panel,'e-m','huile');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/2 phases/);assert.match(panel.querySelector('svg').getAttribute('aria-label'),/huile/);}
+{const {F,panel,st}=lancerM('MEL02');
+ for(const [m,k] of [['sable','filtration'],['huile','filtration'],['huile','ampoule'],['boue','decantation'],['boue','filtration']]){choisir2(panel,'e-m',m);choisir2(panel,'e-k',k);if([['huile','filtration']].some(x=>x[0]===m&&x[1]===k))assert.match(panel.querySelector('p[aria-live=polite]').textContent,/rien n’est séparé|traversent/);enreg2(panel);}
+ assert.equal(F.peutConfronter(st),true);assert.equal(st.essais.map(e=>e.sep).join(),'oui,non,oui,partiel,oui');}
+{const {F,panel,st}=lancerM('MEL03');
+ for(const k of ['filtration','evaporation']){choisir2(panel,'e-m','mer');choisir2(panel,'e-k',k);enreg2(panel);}
+ choisir2(panel,'e-m','sel');choisir2(panel,'e-k','filtration');enreg2(panel);choisir2(panel,'e-m','sucre');choisir2(panel,'e-k','evaporation');enreg2(panel);
+ assert.equal(F.peutConfronter(st),false,'la distillation est nécessaire');choisir2(panel,'e-m','mer');choisir2(panel,'e-k','distillation');assert.match(panel.querySelector('svg').getAttribute('aria-label'),/chauffage réalisé par le professeur/);enreg2(panel);
+ assert.equal(F.peutConfronter(st),true);assert.equal(st.essais.map(e=>e.recup).join(),'rien,solide,rien,solide,distillat');}
+for(const n of ['MEL-01','MEL-02','MEL-03'])assert.ok(read('sw.js').includes('NL-5E-'+n+'.js'),'hors-ligne '+n);
+assert.ok(read('sw.js').includes('melanges5e.js')&&read('activites-5e/index.html').includes('melanges5e.js'),'modèle des mélanges chargé et en cache');
+assert.ok(/MEL-0\[1-3\]/.test(read('activites-5e/index.html')),'liste blanche : mélanges');
 /* page et hors-ligne */
 for(const n of ['02','03','04'])assert.ok(read('sw.js').includes('NL-5E-ELE-'+n+'.js'),'hors-ligne '+n);
 assert.ok(read('sw.js').includes('elec5e.js')&&read('activites-5e/index.html').includes('elec5e.js'),'modèle partagé chargé et en cache');
@@ -127,4 +163,4 @@ const page=read('activites-5e/index.html');assert.ok(/noindex/.test(page)&&/Prot
 const old=read('lecon-essai/index.html');assert.ok(/activites-5e\/\?a=NL-5E-ELE-01/.test(old)&&/noindex/.test(old),'l’ancienne leçon d’essai renvoie vers la fiche');
 assert.ok(!fs.existsSync(path.join(root,'assets/simple/lecon-essai.js')),'ancien moteur de la leçon d’essai retiré');
 assert.ok(read('sw.js').includes('NL-5E-ELE-01.js')&&read('sw.js').includes('./activites-5e/'),'hors-ligne');
-console.log('Fiches de 5e (ELE-01 à ELE-05, MES-01, MES-02) : modèles, structure, manipulations, six opérations, page, hors-ligne et redirection contrôlés.');
+console.log('Fiches de 5e (ELE-01 à ELE-05, MES-01, MES-02, MEL-01 à MEL-03) : modèles, structure, manipulations, six opérations, page, hors-ligne et redirection contrôlés.');
