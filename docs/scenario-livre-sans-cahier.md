@@ -1,6 +1,6 @@
 # Scénario : livre de 5e sans cahier (neuf moments, fiche intégrée)
 
-Statut : **à valider par le propriétaire, rien n'est construit.** Branche `feat/fiches-5e-investigation`. Demande du propriétaire (5 nov. 2026) : un seul parcours pour l'élève, « le livre avec les 9 moments », et **retirer le cahier** (tiroir « Mon cahier »), illisible sur téléphone.
+Statut : **validé et construit (5 nov. 2026)**. Choix du propriétaire : la fiche remplace toute la saisie des moments 3 à 7 ; chaque fiche a son bilan (lu dans le livre quand la fiche est terminée) ; le défi s'ouvre quand toutes les fiches de la leçon sont terminées ; un petit lien « Explorer librement la simulation » garde la simulation d'origine (à l'essai, on verra à l'usage). L'état du livre se déduit des fiches (`pc-act-<id>`), rien à cocher à la main. Branche `feat/fiches-5e-investigation`. Demande du propriétaire (5 nov. 2026) : un seul parcours pour l'élève, « le livre avec les 9 moments », et **retirer le cahier** (tiroir « Mon cahier »), illisible sur téléphone.
 
 ## Constat
 Aujourd'hui l'élève a deux parcours en parallèle : le cahier (9 moments, saisie à droite) et la fiche (6 opérations), deux laboratoires (simulation et fiche), l'hypothèse écrite deux fois. Sur téléphone le cahier en tiroir est trop petit.

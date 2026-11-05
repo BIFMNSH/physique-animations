@@ -103,50 +103,6 @@ a{color:inherit}
 .fc{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;background:var(--paper)}
 .fc.bk{transform:rotateY(180deg)}.fc>.in{position:absolute;top:0;width:480px;height:840px}
 .fc .shade{position:absolute;inset:0;background:#000;opacity:0}
-/* ---------- cahier de labo (à droite sur ordinateur, en tiroir ailleurs) ---------- */
-#main{gap:26px}
-#cahier{flex:0 0 clamp(340px,31vw,440px);min-height:0;display:flex;flex-direction:column;background:var(--cah);color:var(--ink);border-radius:6px 14px 14px 6px;box-shadow:0 18px 30px var(--shadow);transform:rotate(1.1deg);position:relative;overflow:hidden;font-size:17px}
-[data-theme="dark"] #cahier{color:#E8EEF8}
-#cahier:before{content:"";position:absolute;left:6px;top:10px;bottom:10px;width:14px;z-index:2;background:radial-gradient(circle at 7px 7px,var(--oak) 0 4px,#8A8F99 4.5px 6px,transparent 6.5px) 0 0/14px 26px repeat-y}
-.ch-head{padding:12px 14px 10px 34px;display:flex;flex-direction:column;gap:6px;border-bottom:2px solid var(--trait)}
-.ch-kick{margin:0;font-size:13px;font-weight:700;color:var(--th)}
-.ch-titre{margin:0;font:800 23px/1.1 'Bricolage Grotesque',sans-serif}
-.ch-id{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:15px;opacity:.85}
-.ch-id input{min-height:40px;width:150px;border:0;border-bottom:2px solid var(--trait);background:transparent;font-family:'Ecolier',cursive;color:var(--encre);padding:0 4px}
-.ch-prog{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700}
-#cbProg{display:flex;gap:4px;flex:1}#cbProg i{height:7px;flex:1;border-radius:4px;background:var(--trait)}#cbProg i.on{background:var(--go)}
-#cbFerme{display:none}
-#cb{--mg:40px;position:relative;flex:1;min-height:0;overflow:auto;padding:18px 14px 26px calc(var(--mg) + 14px);display:flex;flex-direction:column;gap:24px;background-attachment:local;
-  background-image:linear-gradient(90deg,transparent calc(var(--mg) - 1px),var(--marge) calc(var(--mg) - 1px),var(--marge) calc(var(--mg) + 1px),transparent calc(var(--mg) + 1px)),
-  repeating-linear-gradient(180deg,transparent 0 7px,var(--fin) 7px 8px),repeating-linear-gradient(180deg,transparent 0 31px,var(--trait) 31px 32px),repeating-linear-gradient(90deg,transparent 0 31px,var(--fin) 31px 32px)}
-.en{position:relative;display:flex;flex-direction:column;gap:10px;min-width:0}
-.en>h2{margin:0;font:800 19px/1.15 'Bricolage Grotesque',sans-serif;text-wrap:balance}
-.en .no{position:absolute;left:-28px;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--go);color:#fff;display:flex;align-items:center;justify-content:center;font:800 15px 'Bricolage Grotesque',sans-serif}
-.en.fait .no{background:var(--trait);color:var(--ink)}.en.fait>h2{font-size:16px;opacity:.8}
-.en p{margin:0}
-.lead{opacity:.85;font-size:16px}
-.pb{background:rgba(127,140,160,.12);border-radius:12px;padding:10px 12px}
-.en textarea{width:100%;min-height:128px;border:2px solid var(--trait);border-radius:10px;background:transparent;color:var(--encre);font-family:'Ecolier','Atkinson Hyperlegible',cursive;font-size:16px;line-height:32px;padding:0 10px;resize:vertical;background-image:repeating-linear-gradient(180deg,transparent 0 31px,var(--trait) 31px 32px);background-attachment:local}
-.en label.lab{font-weight:700;font-size:15px}
-.bt{min-height:48px;border-radius:24px;border:0;background:var(--go);color:#fff;font-weight:700;font-size:17px;cursor:pointer;padding:0 18px}
-.bt:disabled{opacity:.45;cursor:default}
-.bt.ghost{background:transparent;color:inherit;border:1.5px solid var(--trait)}
-.bt.go2{width:100%;min-height:52px;font-size:17px}
-.en .crit{font-size:15px}
-.fin{border-radius:14px;border:2px solid var(--go);padding:14px;display:flex;flex-direction:column;gap:10px;background:rgba(127,140,160,.08)}
-.fin h2{margin:0;font:800 22px 'Bricolage Grotesque',sans-serif}
-.fin .stars{font-size:40px}
-#bCahier{position:relative}#bCahier.afaire:after{content:"";position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--go)}
-.desk #bCahier{display:none}
-#bCahier.pulse{animation:pulse .6s}@keyframes pulse{50%{transform:scale(1.12)}}
-.vol{position:fixed;z-index:9;pointer-events:none;max-width:280px;background:var(--cah);color:var(--encre);font-family:'Ecolier',cursive;font-size:15px;line-height:1.5;padding:8px 12px;border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.35);transition:transform .8s cubic-bezier(.55,0,.25,1),opacity .8s}
-/* tiroir (tablette étroite, téléphone) */
-body:not(.desk) #cahier{position:fixed;left:8px;right:8px;bottom:0;height:min(88vh,860px);height:min(88dvh,860px);z-index:6;transform:translateY(104%);border-radius:18px 18px 0 0;visibility:hidden}
-body:not(.desk) #cahier.open{transform:none;visibility:visible}
-body:not(.desk).anim #cahier{transition:transform .35s ease,visibility .35s}
-body:not(.desk) #cbFerme{display:block;align-self:flex-start;min-height:44px}
-body:not(.desk) #cahier:before{display:none}body:not(.desk) .ch-head{padding-left:16px}
-.somm #cahier{display:none}
 /* ---------- volet : laboratoire, résumé, feuille ---------- */
 #volet{position:fixed;inset:0;z-index:8;background:rgba(20,16,10,.62);display:flex;align-items:center;justify-content:center;padding:max(10px,env(safe-area-inset-top,0px)) 10px 10px}
 .labo{width:min(1280px,100%);height:100%;background:#0E1626;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5);transform-origin:0 0}
@@ -170,15 +126,9 @@ body:not(.desk) #cahier:before{display:none}body:not(.desk) .ch-head{padding-lef
 #bar button:disabled{opacity:.4;cursor:default}
 #dots{display:flex;gap:4px}#dots button{padding:0;width:44px}#dots button[aria-current]{border:2px solid var(--go)}
 .sgl #dots{display:none!important}
-.somm #prev,.somm #next,.somm #dots,.somm #bSom,.somm #bCahier{display:none!important}
+.somm #prev,.somm #next,.somm #dots,.somm #bSom{display:none!important}
 @media (prefers-reduced-motion:reduce){.ecrit.neuf{animation:none}}
-@media print{
-  body{overflow:visible;background:#fff;color:#111}
-  .bois,.vig,#fit,#bar,#volet,#cbFerme,.en .bt,.en textarea,.fin .bt{display:none!important}
-  #app,#main{display:block;height:auto;padding:0}
-  #cahier,body:not(.desk) #cahier{position:static;transform:none;visibility:visible;box-shadow:none;height:auto;display:block}
-  #cahier:before{display:none}#cb{overflow:visible}.en{break-inside:avoid}
-}
+@media print{body{overflow:visible;background:#fff;color:#111}.bois,.vig,#fit,#bar,#volet{display:none!important}}
 .rec{font-size:16px;line-height:1.45}
 .stage.grand{height:520px}.sgl .stage.grand{height:300px}
 .page .cite .ecrit{max-height:150px}
@@ -187,3 +137,13 @@ body:not(.desk) #cahier:before{display:none}body:not(.desk) .ch-head{padding-lef
 
 .fiches5e ul{list-style:none;margin:8px 0 0;padding:0}.fiches5e li{margin:6px 0}.fiches5e a{display:block;padding:10px 12px;min-height:44px;box-sizing:border-box;background:#fff;border:2px solid #243049;border-radius:10px;color:#243049;font-weight:800;text-decoration:none}.fiches5e a:hover,.fiches5e a:focus-visible{background:#FFE9A8}
 .note.fiches5e{transform:none}
+
+/* parcours sans cahier : liste des fiches, bilan par fiche, lien vers la simulation */
+.fl{list-style:none;margin:10px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.fl a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;min-height:48px;box-sizing:border-box;background:#fff;color:#1b2430;border:2px solid #243044;border-radius:12px;text-decoration:none;font-weight:700;transform:none}
+.fl a:hover,.fl a:focus-visible{background:#FFE9A8}
+.fl small{font-size:13px;padding:2px 8px;border-radius:10px;background:#E5E9F0;color:#1b2430;white-space:nowrap}
+.fl small.ok{background:#CDEBD3}.fl small.en{background:#FFE9A8}
+.libre{display:block;margin:8px auto 0;min-height:44px;background:none;border:0;color:inherit;text-decoration:underline;font:inherit;font-size:15px;cursor:pointer;opacity:.85}
+.bs{display:flex;flex-direction:column;gap:10px}
+.bsf{background:var(--paper2);border-radius:12px;padding:10px 14px}.bsf b{display:block;margin-bottom:4px}.bsf p{margin:0;font-size:16px;line-height:1.4}

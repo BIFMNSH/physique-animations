@@ -3,7 +3,7 @@
 <meta name="robots" content="noindex, follow">
 <script>try{var t=localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){}</script>
 <title>Mon cartable de physique-chimie · 5e · NOHOBA-Lab</title>
-<meta name="description" content="Prototype : le programme de physique-chimie de 5e en cartable interactif, un livre qui s'ouvre et un cahier de labo qui se remplit.">
+<meta name="description" content="Prototype : le programme de physique-chimie de 5e en cartable interactif, un livre qui s'ouvre, une fiche d'investigation par expérience et un défi.">
 <link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/livre/livre.css">
@@ -17,21 +17,10 @@
 <div id="app">
   <main id="main">
     <div id="fit"><div id="scale"><div class="book" id="book"><div class="cover"></div><div class="stack"></div><div class="slot" id="sL"></div><div class="slot" id="sR"></div><div id="couv" hidden></div><div id="sheet"></div></div></div></div>
-    <aside id="cahier" aria-label="Mon cahier de labo">
-      <div class="ch-head">
-        <p class="ch-kick" id="cbKick">NOHOBA-Lab · Physique-chimie 5e · <b>Prototype</b></p>
-        <h1 class="ch-titre">Mon cahier de labo</h1>
-        <div class="ch-id"><label for="nom">Prénom</label><input id="nom" autocomplete="off" maxlength="40"><span id="cbDate"></span></div>
-        <div class="ch-prog"><span id="cbProg" role="img" aria-label="Moment 1 sur 9"></span><span id="cbCount">Moment 1 sur 9</span></div>
-        <button type="button" class="bt ghost" id="cbFerme">Fermer le cahier</button>
-      </div>
-      <div id="cb"></div>
-    </aside>
   </main>
   <nav id="bar" aria-label="Navigation du livre">
     <a id="bSom" href="./">Sommaire</a>
     <button type="button" id="prev" aria-label="Page précédente">← Précédent</button><div id="dots"></div><button type="button" id="next" class="nx" aria-label="Page suivante">Suivant →</button>
-    <button type="button" id="bCahier" aria-expanded="false">Mon cahier</button>
     <button type="button" id="bSon" aria-pressed="true">Son</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bTh">Thème</button>
   </nav>
 </div>
