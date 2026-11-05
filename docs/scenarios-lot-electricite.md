@@ -19,7 +19,7 @@ Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité 
 | ELE-16 | Court-circuit et protection | Identifier les causes d'une panne dans un circuit | atelier électrique |
 
 Règles communes à tout le lot :
-- Atelier d'électricité partagé : pile 4,5 V aux bornes de même taille, fils attachés par des pinces, contacts de la lampe au plot et au culot (jamais le verre). Montage réaliste et schéma normalisé côte à côte, synchronisés.
+- Atelier d'électricité partagé : pile 4,5 V aux bornes de même taille, style banc d'essai (câbles à fiches sur les douilles du support de la lampe, pinces sur la pile, jamais le verre) ; seules les activités de contact direct sans fil (ELE-01, ELE-02) gardent la lampe seule avec plot et culot. Montage réaliste et schéma normalisé côte à côte, synchronisés.
 - Modèle **qualitatif** : aucune intensité ni tension annoncée comme mesurée. Les valeurs d'illustration du Studio ne sont pas reprises.
 - Une seule variable modifiée à la fois. Hypothèse enregistrée avant la manipulation, jamais écrasée.
 - L'élève investigue sur simulation. Toute manipulation réelle reste encadrée par le professeur ; aucun court-circuit n'est réalisé en vrai. Aucun travail sur le secteur 220 V.

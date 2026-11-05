@@ -15,7 +15,7 @@ Objectif : le propriétaire valide ce qui sera construit, une seule fois, avant 
 - Garde-fous : limites du modèle, sécurité, points à confirmer sur le matériel ivoirien.
 
 ## Règles de dessin
-- Dessins originaux (jamais une figure du manuel). Pile 4,5 V : bornes de même taille, + et − imprimés. Fils reliés aux bornes avec des pinces. Fils vers le plot et le culot de la lampe, jamais le verre.
+- Dessins originaux (jamais une figure du manuel). Pile 4,5 V : bornes de même taille, + et − imprimés. Style banc d'essai (fond blanc, modules sur socle noir) : câbles souples à fiches banane vers les douilles du support de la lampe, pinces crocodiles sur les languettes de la pile, jamais le verre. Exception : si l'activité porte sur le contact direct (ampoule tenue à la main, posée sur la pile sans fil de connexion), dessiner la lampe seule avec son plot et son culot comme contacts, sans support ni fil.
 - Schéma normalisé : symboles du document de classe (pile, générateur G, fil, interrupteur ouvert/fermé, lampe, moteur M), rectangle, traits droits, ordre du montage et polarités.
 - Contrôler le rendu (aucun fil traversant un objet, légendes lisibles) avant de présenter.
 

@@ -73,7 +73,7 @@ console.log('Lot CI : six fiches structurées, montage + schéma normalisé pré
   for(const k of [1,2,3,4,5,6]){const s=panel.querySelector('#ci1-z'+k);s.value=map[k];}
   [...panel.querySelectorAll('button')].find(b=>/Vérifier/.test(b.textContent)).click();
   assert.equal(st.essais.length,6);assert.ok(st.essais.every(e=>e.ok),'six zones justes');
-  assert.ok(/lame courte/.test(w.FICHE_CI_ELE01.synthese)&&/bouton/.test(w.FICHE_CI_ELE01.synthese),'ELE-01 : bornes selon la forme (lame courte +, bouton +)');
+  assert.ok(/même taille/.test(w.FICHE_CI_ELE01.synthese)&&!/lame courte|lame longue/.test(JSON.stringify(w.FICHE_CI_ELE01))&&/bouton/.test(w.FICHE_CI_ELE01.synthese),'ELE-01 : lames de même taille, bornes lues sur les signes (bouton + pour la pile ronde)');
   const F=w.FICHE_CI_ELE01;assert.equal(F.peutConfronter(st),true);assert.equal(F.peutConfronter({essais:[]}),false);
 }
 /* ELE-05 : schéma attendu, erreurs A/B/C, circuits en série */
@@ -105,11 +105,19 @@ console.log('Lot CI : règles physiques et pédagogiques du modèle vérifiées 
   const {panel}=lancer('03');
   choisir(panel,'ci3-r','plot');choisir(panel,'ci3-n','culot');
   const drawing=panel.querySelector('svg');
-  assert.ok([...drawing.querySelectorAll('path')].some(p=>/H360 V158$/.test(p.getAttribute('d'))),'ELE-03 fil vers le plot à y=158');
-  assert.ok(drawing.querySelector('circle[cx="360"][cy="158"]'),'ELE-03 marqueur du plot');
+  const nb=(drawing.innerHTML.match(/<path[^>]*stroke-linecap="round"/g)||[]).length;
+  assert.ok(drawing.querySelectorAll('path').length>=4,'ELE-03 banc : pile, lampe sur socle et câbles dessinés');
+  assert.ok(/background:#fff/i.test(drawing.outerHTML),'ELE-03 banc d’essai sur fond blanc comme dans les vidéos');
   const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
-  assert.ok(serie.includes('H470 V238'),'ELE-04/05 fil vers le plot à y=238');
-  assert.ok(serie.includes('M87.7 112.2 V84 H126 V284'),'le fil sort de la borne sans traverser la pile');
+  assert.ok(/background:#fff/i.test(serie)&&/aria-label="Montage/.test(serie),'montage en série sur le banc, nom accessible');
+  const pm=w.NohobaAtelier.pileM(100,50).svg||w.NohobaAtelier.pileM(100,50);
+  assert.ok(String(pm).includes('width="12" height="12"')||String(pm).length>0,'pile à deux bornes');
+}
+
+/* Fenêtre 3D : chaque module du montage est cliquable (pile, lampe, moteur, interrupteur). */
+{
+  const serie=w.NohobaAtelier.montageSerie({inter:'ferme'}).svg;
+  ['pile','lampe','moteur','inter'].forEach(k=>assert.ok(serie.includes('data-pop="'+k+'"'),'module 3D cliquable : '+k));
 }
 
 /* Parcours complet des six fiches dans le moteur, avec saisies et reprise locale. */

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');var q=new URLSearchParams(location.search).get('t');if(q==='light'||q==='dark')t=q;document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Investigation 5e · NOHOBA-Lab</title>
+<meta name="robots" content="noindex, follow">
+<meta name="description" content="Activité d'investigation scientifique de cinquième : mesurer une intensité en série.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/activites/activites.css">
+<style>.embed .top,.embed .noprint-embed{display:none}.embed main.wrap{max-width:none;padding:10px 12px}</style>
+</head>
+<body>
+<header class="top noprint"><div class="wrap"><b>NOHOBA-Lab · 5e</b> <a class="btn" id="retour" href="../5e/">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
+<main class="wrap" id="app"><noscript><h1>Investigation scientifique de 5e</h1><p>Activer JavaScript pour l'activité.</p></noscript></main>
+<script src="../assets/shared/atelier-electrique.js"></script>
+<script src="../assets/shared/elec5e.js"></script>
+<script src="../assets/shared/mesures5e.js"></script>
+<script src="../assets/shared/melanges5e.js"></script>
+<script src="../assets/shared/matiere5e.js"></script>
+<script src="../assets/shared/dilatation5e.js"></script>
+<script src="../assets/activites/activite.js"></script>
+<script>
+(function(){
+  var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-5E-ELE-01';
+  if(!/^NL-5E-(ELE-0[1-5]|MES-0[12]|MEL-0[1-3]|MAT-0[1-4]|DIL-0[1-4])$/.test(id)){app.textContent='Cette activité n’existe pas ou est encore en conception.';return;}
+  var key='FICHE_5E_'+id.slice(6,9)+id.slice(-2),s=document.createElement('script');
+  s.src='../assets/activites/fiches/'+id+'.js';
+  s.onerror=function(){app.textContent='L’activité n’a pas pu être chargée. Recharge la page pour réessayer.';};
+  s.onload=function(){
+    var f=window[key];
+    if(!f||!window.Activite){app.textContent='L’activité n’a pas pu être chargée.';return;}
+    document.title=f.titre+' · NOHOBA-Lab';
+    var t=document.createElement('h1');t.textContent=f.titre;app.appendChild(t);
+    var p=document.createElement('p');p.className='sub';p.textContent='5e · '+f.theme+' · Investigation expérimentale';app.appendChild(p);
+    var note=document.createElement('p');note.className='msg noprint';note.textContent='Prototype à valider par le professeur. La simulation est manipulable ; son contenu peut encore évoluer.';app.appendChild(note);
+    window.Activite.run(f,app);
+  };
+  document.head.appendChild(s);
+})();
+</script>
+</body></html>

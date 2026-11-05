@@ -7,25 +7,11 @@
   const FIN=[['plot','le plot de la lampe'],['culot','le culot de la lampe'],['verre','le verre de la lampe'],['libre','rien (fil détaché)']];
   const nom=id=>(FIN.filter(x=>x[0]===id)[0]||['',''])[1];
   function allume(r,n){return (r==='plot'&&n==='culot')||(r==='culot'&&n==='plot');}
-  const PT={plot:[360,158],culot:[344,139],verre:[340,84],libre:[290,190]};
-  function chemin(base,cible,haut){
-    const t=PT[cible];
-    if(cible==='plot')return base+' V'+haut+' H'+t[0]+' V'+t[1];
-    if(cible==='culot')return base+' V'+haut+' H320 V'+t[1]+' H'+t[0];
-    if(cible==='verre')return base+' V'+haut+' H300 V'+t[1]+' H'+t[0];
-    return base+' V'+haut+' H'+t[0]+' V'+t[1];
-  }
   function dessin(r,n){
-    const A=window.NohobaAtelier,on=allume(r,n);
-    let s=A.pile45(30,96,.9)+A.lampe(360,100,on,1);
-    /* fil rouge : borne + ; fil noir : borne − */
-    const dR=chemin('M77.7 58.2 V14 H408',r,206),
-          dN=chemin('M54.3 58.2 V46 H14',n,218);
-    s+=A.fil(dR,'#E0342F')+A.fil(dN,'#2E3138');
-    const ends=[PT[r],PT[n]];
-    s+=A.broches(ends.map(p=>[p[0],p[1]]));
-    if(r==='verre'||n==='verre')s+=A.pastille(390,28,'verre = isolant');
-    return A.svg(s,'0 0 460 250','Pile, lampe et deux fils : '+(on?'la lampe brille':'la lampe est éteinte'));
+    const A=window.NohobaAtelier,on=allume(r,n),m=A.pileLampe(on,r,n);
+    let s=m.inner;
+    if(r==='verre'||n==='verre')s+=A.pastille(430,30,'verre = isolant');
+    return A.svgBanc(s,'0 0 500 290','Pile, lampe sur son support et deux câbles, montés sur le banc : '+(on?'la lampe brille':'la lampe est éteinte'));
   }
   function manip(panel,X){
     const A=window.NohobaAtelier,st=X.st(),sec=h('div',{class:'card'},panel);
@@ -41,7 +27,7 @@
     function maj(){
       const r=val('ci3-r'),n=val('ci3-n'),on=allume(r,n);
       fig.montage(dessin(r,n));
-      fig.schema(A.schema({cotes:{droite:'lampe',bas:on?'fil':'vide'},legende:on?'Boucle fermée : la lampe brille':'Boucle ouverte : la lampe ne brille pas',label:'Schéma normalisé : pile et lampe, boucle '+(on?'fermée':'ouverte')}));
+      fig.schema(A.schema({cotes:{droite:on?'fil':'vide',bas:'lampe'},legende:on?'Boucle fermée : la lampe brille':'Boucle ouverte : la lampe ne brille pas',label:'Schéma normalisé : pile et lampe, boucle '+(on?'fermée':'ouverte')}));
       S.out.textContent='Fil rouge sur '+nom(r)+', fil noir sur '+nom(n)+'. Observation : lampe '+(on?'allumée':'éteinte')+'.';
     }
     function paint(){table.innerHTML=X.tableHTML(window.FICHE_CI_ELE03,window.FICHE_CI_ELE03.lignes(st),'Mes essais de montage.');}
