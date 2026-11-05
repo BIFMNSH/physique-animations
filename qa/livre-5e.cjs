@@ -47,6 +47,8 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  d.querySelector('#thyp').value='Hyp';d.querySelector('#c3').click();assert.equal([...d.querySelectorAll('#book .page')].map(p=>p.dataset.pg).join(','),'s2l','téléphone : le livre ouvre le laboratoire');
  w=ouvre('http://localhost/livre/?l=inconnue');assert.equal(w.document.querySelectorAll('.toc a').length,13,'leçon inconnue : sommaire');
  {const att={intensite:1,'generateur-recepteur':1,'association-lampes':1,'piles-serie':1,tension:1,'pression-atmospherique':2,melanges:3,'atomes-molecules':2,'combustion-carbone':1,'combustion-soufre':1,'dilatation-solides':2,'dilatation-liquides':1,'dilatation-gaz':1};
-  for(const [sl,n] of Object.entries(att)){const w2=ouvre('http://localhost/livre/?l='+sl);await attend();assert.equal(w2.document.querySelectorAll('a[href*="activites-5e/?a=NL-5E-"]').length,n,'fiches reliées au livre : '+sl);}}
+  for(const [sl,n] of Object.entries(att)){const w2=ouvre('http://localhost/livre/?l='+sl);await attend();assert.equal(w2.document.querySelectorAll('a[href*="activites-5e/?a=NL-5E-"]').length,n,'fiches reliées au livre : '+sl);}
+  const w3=ouvre('http://localhost/livre/?l=melanges');await attend();w3.document.querySelectorAll('a[data-fiche]')[1].click();
+  const fr=w3.document.querySelector('#volet iframe');assert.ok(fr&&/activites-5e\/\?a=NL-5E-MEL-02&embed=1/.test(fr.getAttribute('src')),'la fiche s’ouvre dans le livre (volet)');assert.equal(w3.document.querySelector('#volet').hidden,false);w3.document.querySelector('[data-lfin]').click();assert.equal(w3.document.querySelector('#volet').hidden,true,'retour au livre');}
  console.log('Cartable de 5e : 13 leçons complètes, sommaire, livre et cahier liés en neuf moments, laboratoire, rabat, défi, tiroir et reprise contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -30,7 +30,7 @@
     'dilatation-solides': [['NL-5E-DIL-01', 'Un solide chauffé'], ['NL-5E-DIL-02', 'Des métaux différents']], 'dilatation-liquides': [['NL-5E-DIL-03', 'Un liquide chauffé']], 'dilatation-gaz': [['NL-5E-DIL-04', 'Un gaz chauffé']] };
   function fiches5e() {
     var f = FICHES5E[LEC && LEC.slug]; if (!f) return '';
-    return '<div class="note"><b>Investigation guidée</b> : mène la démarche en six opérations.<ul>' + f.map(function (x) { return '<li><a href="../activites-5e/?a=' + x[0] + '">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul></div>';
+    return '<div class="note fiches5e"><b>Investigation guidée</b> : mène la démarche en six opérations, ici dans le livre.<ul>' + f.map(function (x) { return '<li><a href="../activites-5e/?a=' + x[0] + '" data-fiche="' + x[0] + '" data-titre="' + esc(x[1]) + '">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul></div>';
   }
   var CHAP = ['La situation', 'Le laboratoire', 'Ce que dit l’expérience', 'Le défi'];
   var SP = [['s1l', 's1r'], ['s2l', 's2r'], ['s3l', 's3r'], ['s4l', 's4r']];
@@ -71,7 +71,7 @@
       case 's1l': return '<p class="th">' + esc(L.theme || LEC.th) + '</p><h1>' + esc(L.title || LEC.t) + '</h1><p class="hook">' + esc(I.situation || '') + '</p>'
         + '<div class="note">' + (mode === 'desk' ? 'Ton cahier de labo est posé à côté du livre : tu y écris tes idées, tes observations et ton bilan.' : 'Ton cahier de labo est dans le bouton « Mon cahier » : tu y écris tes idées, tes observations et ton bilan.') + '</div>' + fiches5e();
       case 's1r': return '<h2>Regarde avant de chercher</h2>' + pop('') + '<p>Un résumé animé d’une minute présente la situation. Tu peux le regarder maintenant ou plus tard.</p><button type="button" class="btn large" data-resume>Regarder le résumé animé</button>' + ouvre('Ouvrir mon cahier');
-      case 's2l': return '<h2>Le laboratoire</h2>' + pop('grand') + '<button type="button" class="go bas" data-labo>' + (S.m <= 4 ? 'Entrer dans le laboratoire' : 'Retourner au laboratoire') + '</button>';
+      case 's2l': return '<h2>Le laboratoire</h2>' + pop('grand') + fiches5e() + '<button type="button" class="go bas" data-labo>' + (S.m <= 4 ? 'Entrer dans le laboratoire' : 'Retourner au laboratoire') + '</button>';
       case 's2r': return '<h2>Ma manipulation</h2><ol class="etapes"><li>Entre dans le laboratoire.</li><li>Fais au moins deux essais, avec des réglages différents.</li><li>Note dans ton cahier ce que tu observes, essai par essai.</li></ol>'
         + fiches5e() + cite('Mon hypothèse', S.hyp) + (S.obs ? cite('Mes observations', S.obs) : '') + '<div class="note">Chaque idée que tu écris dans ton cahier reste aussi dans ton livre.</div>' + ouvre('Écrire dans mon cahier');
       case 's3l': return '<h1>Ce que dit l’expérience</h1>' + cite('Mes observations', S.obs) + cite('Ma confrontation', S.comp) + '<button type="button" class="btn large" data-resume>Revoir le résumé animé</button>' + (S.m === 7 ? ouvre('Écrire mon bilan dans mon cahier') : '');
@@ -102,7 +102,7 @@
     if (m === 1) h = '<p class="lead">Lis la situation ' + LIVRE() + '.</p><p class="pb"><b>Question :</b> ' + esc(I.situation || '') + '</p>' + bt('c1', 'Je me mets au travail');
     else if (m === 2) h = zoneEcrite(2, 'Avec mes mots, je réponds à la question. Je peux me tromper : c’est le début de la recherche.', 'Je pense que…') + '<button type="button" class="bt ghost" data-resume>Besoin d’aide ? Le résumé animé</button>' + bt('c2', 'J’écris ma réponse');
     else if (m === 3) h = cite('Ma première réponse', S.rep) + zoneEcrite(3, esc(I.prediction || 'Je prévois et je justifie avec « car ».'), 'Je prévois que… car…') + bt('c3', 'Je valide et je passe au laboratoire');
-    else if (m === 4) h = '<p class="lead">Entre dans le laboratoire ' + LIVRE() + '. Fais au moins deux essais avec des réglages différents.</p><button type="button" class="bt ghost" data-labo>Ouvrir le laboratoire</button>' + bt('c4', 'J’ai fini ma manipulation', !S.labo);
+    else if (m === 4) h = '<p class="lead">Entre dans le laboratoire ' + LIVRE() + '. Fais au moins deux essais avec des réglages différents.</p><button type="button" class="bt ghost" data-labo>Ouvrir le laboratoire</button>' + fiches5e() + bt('c4', 'J’ai fini ma manipulation', !S.labo);
     else if (m === 5) h = zoneEcrite(5, 'Je note les réglages et ce que j’observe, essai par essai.', 'Essai 1 : … J’observe que…') + '<button type="button" class="bt ghost" data-labo>Rouvrir le laboratoire</button>' + bt('c5', 'J’écris mes observations');
     else if (m === 6) h = cite('Mon hypothèse', S.hyp) + cite('Mes observations', S.obs) + zoneEcrite(6, 'Mes résultats confirment-ils mon hypothèse ? Je justifie avec « car ».', 'Mon hypothèse est… car…') + bt('c6', 'Je continue');
     else if (m === 7) h = '<p class="lead">Relis « Ce que dit l’expérience » ' + LIVRE() + '.</p><p><b>Pour réussir mon bilan :</b></p><ul class="crit">' + crit().map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ul>' + zoneEcrite(7, 'Quelle règle est-ce que je retiens ?', 'Je retiens que…') + bt('c7', 'J’ouvre le bilan scientifique');
@@ -138,6 +138,7 @@
     var m = S.m, c = CHAMPS[m];
     $$('[data-resume]', r).forEach(function (b) { b.onclick = function () { cadre('resume', b); }; });
     $$('[data-labo]', r).forEach(function (b) { b.onclick = function () { cadre('sim', b); }; });
+    brancheFiches(r);
     if (S.fini) { $('#imp').onclick = function () { window.print(); }; $('#again').onclick = recommencer; return; }
     var go = $('#c' + m);
     if (c) {
@@ -192,6 +193,7 @@
   function lierPages(root) {
     $$('[data-resume]', root).forEach(function (b) { b.onclick = function () { cadre('resume', b); }; });
     $$('[data-labo]', root).forEach(function (b) { b.onclick = function () { cadre('sim', $('.panel', b.closest('.page')) || b); }; });
+    brancheFiches(root);
     $$('[data-ouvre]', root).forEach(function (b) { b.onclick = ouvreCahier; });
     var d = $('[data-pg="s4r"]', root); if (d) liedefi(d);
   }
@@ -262,6 +264,14 @@
     if (sim) { S.labo = 1; sauve(); if (S.m === 4) { var c4 = $('#c4'); if (c4) c4.disabled = false; $('#bCahier').classList.toggle('afaire', aFaire()); } }
     $('[data-lfin]', V).onclick = function () { fermeVolet(); if (sim && S.m === 4) avance(); };
   }
+  function cadreFiche(id, titre, src) {
+    var t = 'Investigation · ' + titre;
+    var V = ouvreVolet('<div class="labo" role="dialog" aria-modal="true" aria-label="' + t + '"><div class="lh"><b>' + t + '</b><button type="button" class="go" data-lfin>' + (S.m === 4 ? 'J’ai fini ma manipulation' : 'Revenir au livre') + '</button></div>'
+      + '<div class="lcorps"><iframe title="' + t + '" src="../activites-5e/?a=' + encodeURIComponent(id) + '&embed=1&t=light"></iframe></div></div>', src);
+    S.labo = 1; sauve(); if (S.m === 4) { var c4 = $('#c4'); if (c4) c4.disabled = false; $('#bCahier').classList.toggle('afaire', aFaire()); }
+    $('[data-lfin]', V).onclick = function () { fermeVolet(); if (S.m === 4) avance(); };
+  }
+  function brancheFiches(root) { $$('a[data-fiche]', root || document).forEach(function (a) { a.onclick = function (e) { e.preventDefault(); cadreFiche(a.getAttribute('data-fiche'), a.getAttribute('data-titre'), a); }; }); }
   window.addEventListener('message', function (e) {
     if (e.origin !== location.origin || !e.data || e.data.nohoba !== 'studio-h') return;
     var f = $('#volet iframe'); if (f && f.contentWindow === e.source) f.style.height = window.innerWidth < 1000 ? Math.max(560, Math.min(4000, +e.data.h || 0)) + 'px' : '';

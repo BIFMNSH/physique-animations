@@ -220,7 +220,7 @@ for(const n of ['02','03','04'])assert.ok(read('sw.js').includes('NL-5E-ELE-'+n+
 assert.ok(read('sw.js').includes('elec5e.js')&&read('activites-5e/index.html').includes('elec5e.js'),'modèle partagé chargé et en cache');
 assert.ok(/ELE-0\[1-5\]/.test(read('activites-5e/index.html')),'liste blanche de la page');
 /* page et redirection */
-const page=read('activites-5e/index.html');assert.ok(/noindex/.test(page)&&/Prototype/.test(page)&&/FICHE_5E_/.test(page)&&/NL-5E-ELE-01/.test(page));assert.ok(!read('sitemap.xml').includes('activites-5e'),'prototype hors référencement');
+const page=read('activites-5e/index.html');assert.ok(/embed=1/.test(page),'mode intégré au livre');assert.ok(/noindex/.test(page)&&/Prototype/.test(page)&&/FICHE_5E_/.test(page)&&/NL-5E-ELE-01/.test(page));assert.ok(!read('sitemap.xml').includes('activites-5e'),'prototype hors référencement');
 const old=read('lecon-essai/index.html');assert.ok(/activites-5e\/\?a=NL-5E-ELE-01/.test(old)&&/noindex/.test(old),'l’ancienne leçon d’essai renvoie vers la fiche');
 assert.ok(!fs.existsSync(path.join(root,'assets/simple/lecon-essai.js')),'ancien moteur de la leçon d’essai retiré');
 assert.ok(read('sw.js').includes('NL-5E-ELE-01.js')&&read('sw.js').includes('./activites-5e/'),'hors-ligne');
