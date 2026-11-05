@@ -37,6 +37,21 @@
   var SP = [['s1l', 's1r'], ['s2l', 's2r'], ['s3l', 's3r'], ['s4l', 's4r']];
   var SGL = ['s1l', 's1r', 's2l', 's2r', 's3l', 's3r', 's4r'], SGL2SP = [0, 0, 1, 1, 2, 2, 3], SP2SGL = [0, 2, 4, 6];
   var CH_OF = { s1l: 0, s1r: 0, s2l: 1, s2r: 1, s3l: 2, s3r: 2, s4l: 3, s4r: 3 };
+  var TITRES = ['Situation-problème', 'J’analyse et je réponds', 'Je formule mon hypothèse', 'Je réalise la manipulation', 'J’observe et j’analyse les résultats', 'Je confronte les résultats à mon hypothèse', 'Je rédige mon bilan', 'Je compare avec le bilan scientifique', 'Je relève un défi, seul ou en équipe'];
+  var MOMS = { s1l: [1, 2], s1r: [1, 2], s2l: [3, 7], s2r: [3, 7], s3l: [8, 8], s3r: [8, 8], s4l: [9, 9], s4r: [9, 9] };
+  /* nombre de moments terminés (1 à 9), déduit des fiches : la fiche porte les moments 3 à 7 */
+  function faits() {
+    if (!S || !S.start) return 0;
+    var mx = 0, n = fichesL(), fin = 0; n.forEach(function (x) { var e = ficheEtat(x[0]); if (e.concl) fin++; if (e.stade > mx) mx = e.stade; });
+    if (S.fini) return 9;
+    if (n.length && fin === n.length) return S.q.length ? 8 : 7;
+    return mx >= 6 ? 7 : mx === 5 ? 6 : mx === 4 ? 4 : mx === 3 ? 3 : 2;
+  }
+  function frise(id) {
+    var d = faits(), r = MOMS[id], h = '';
+    for (var i = 1; i <= 9; i++) h += '<i class="' + (i <= d ? 'ok' : '') + (i >= r[0] && i <= r[1] ? ' ici' : '') + '"></i>';
+    return '<div class="frise" role="img" aria-label="' + d + ' moments terminés sur 9">' + h + '</div>';
+  }
   var MOML = { s1l: 'Moments 1 et 2', s1r: 'Moments 1 et 2', s2l: 'Moments 3 à 7', s2r: 'Moments 3 à 7', s3l: 'Moment 8', s3r: 'Moment 8', s4l: 'Moment 9', s4r: 'Moment 9' };
 
   /* ---------- état ---------- */
@@ -83,8 +98,11 @@
         + (S.start ? '' : '<button type="button" class="go bas" data-start>Je me mets au travail</button>');
       case 's1r': return '<h2>Regarde avant de chercher</h2>' + pop('') + '<p>Un résumé animé d’une minute présente la situation. Tu peux le regarder maintenant ou plus tard.</p><button type="button" class="btn large" data-resume>Regarder le résumé animé</button>';
       case 's2l': return '<h2>Le laboratoire</h2><p class="hook">Mène l’investigation : la fiche te guide en six opérations.</p>' + pop('') + listeFiches() + '<button type="button" class="libre" data-labo>Explorer librement la simulation</button>';
-      case 's2r': return '<h2>Ma démarche</h2>' + (S.start ? F.map(function (x) { var e = ficheEtat(x[0]); return '<div class="cite"><b>' + esc(x[1]) + '</b><p class="ecrit">' + (e.prev ? 'Mon hypothèse : ' + esc(e.prev) : '…') + '</p><p class="rec">' + (e.essais ? e.essais + ' essai' + (e.essais > 1 ? 's' : '') + ' réalisé' + (e.essais > 1 ? 's' : '') : 'Pas encore d’essai') + '</p></div>'; }).join('') : '<p>Ton hypothèse et tes essais apparaîtront ici.</p>')
-        + '<div class="note">Ce que tu écris dans la fiche reste sur cet appareil et apparaît ici.</div>';
+      case 's2r': return '<h2>Mes 9 moments</h2><ol class="mom">' + TITRES.map(function (t, k) { var n = k + 1, d = faits(), cl = n <= d ? 'ok' : n === d + 1 ? 'en' : '', det = '';
+          if (n === 3 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.prev ? '<em>' + esc(x[1]) + ' : ' + esc(e.prev) + '</em>' : ''; }).join('');
+          if (n === 4 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.essais ? '<em>' + esc(x[1]) + ' : ' + e.essais + ' essai' + (e.essais > 1 ? 's' : '') + '</em>' : ''; }).join('');
+          if (n === 7 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.concl ? '<em>' + esc(x[1]) + ' : ' + esc(e.concl) + '</em>' : ''; }).join('');
+          return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol><div class="note">Les moments 3 à 7 se font dans la fiche. Ce que tu y écris apparaît ici.</div>';
       case 's3l': return '<h1>Ce que dit l’expérience</h1>' + (F.filter(function (x) { return ficheEtat(x[0]).concl; }).map(function (x) { return cite('Ma conclusion · ' + esc(x[1]), ficheEtat(x[0]).concl); }).join('') || '<div class="note">Termine une fiche : ta conclusion et son bilan apparaîtront ici.</div>') + '<button type="button" class="btn large" data-resume>Revoir le résumé animé</button>';
       case 's3r': return '<h2>Le bilan scientifique</h2><div class="bs">' + F.map(function (x) { var e = ficheEtat(x[0]), f = FI[x[0]]; return '<div class="bsf"><b>' + esc(x[1]) + '</b><p>' + (e.concl ? esc((f && f.synthese) || 'Bilan à venir.') : 'Termine cette fiche pour lire son bilan.') + '</p></div>'; }).join('') + '</div>';
       case 's4l': return '<h1>Le défi</h1><p class="hook">' + L.quiz.length + ' manches, seul ou en équipe. Une erreur ne retire rien : chaque manche t’explique la réponse.</p><p class="stars" aria-label="' + (S.q.length ? etoiles() : 0) + ' étoiles sur 3">' + stars(S.q.length ? etoiles() : 0) + '</p><p>Score : ' + score() + ' sur ' + L.quiz.length + '.</p>' + (S.m < 9 ? '<div class="note">Le défi s’ouvre quand toutes les fiches de la leçon sont terminées.</div>' : '');
@@ -99,7 +117,7 @@
     var i = S.q.length, q = L.quiz[i];
     return tete + '<p class="tag"><span>Manche ' + (i + 1) + ' sur ' + n + '</span></p><h2>' + q.q + '</h2><div class="ch" data-dq role="group" aria-label="Réponses possibles">' + q.o.map(function (o, k) { return '<button type="button" data-i="' + k + '">' + o + '</button>'; }).join('') + '</div><div data-dx aria-live="polite"></div>';
   }
-  function tag(id) { var c = CH_OF[id]; return '<div class="tag"><span>Chapitre ' + (c + 1) + ' · ' + CHAP[c] + '</span><span>' + MOML[id] + '</span></div>'; }
+  function tag(id) { var c = CH_OF[id]; return '<div class="tag"><span>Chapitre ' + (c + 1) + ' · ' + CHAP[c] + '</span><span>' + (MOMS[id][0] === MOMS[id][1] ? 'Moment ' + MOMS[id][0] : 'Moments ' + MOMS[id][0] + ' à ' + MOMS[id][1]) + '</span></div>' + frise(id); }
   function page(id, side) { return '<div class="page ' + side + '" data-pg="' + id + '">' + tag(id) + contenu(id) + '</div>'; }
   function nu(id, side) { return page(id, side).replace(/ id="[^"]*"/g, ''); }
 
