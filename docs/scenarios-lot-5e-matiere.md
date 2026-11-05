@@ -1,6 +1,6 @@
 # Scénarios : lot Matière de 5e (4 fiches sur le moteur des fiches de 6e)
 
-Statut : **à valider par le propriétaire, rien n'est construit.** Branche `essai/lecon-ampoule`. Gabarit : fiches `NL-5E-MEL-01` à `-03` (moteur 6e, page `activites-5e/`). Thème : Mélanges et réactions chimiques. Leçons sources Studio (inchangées) : `atomes-molecules`, `combustion-carbone`, `combustion-soufre`. Contexte : Awa, Kofi, charbon de bois du marché, réchaud, soufre au laboratoire.
+Statut : **validé le 5 nov. 2026 et construit** (fiches `NL-5E-MAT-01` à `-04`, `assets/shared/matiere5e.js`, tests dans `qa/activites-5e.cjs`). Choix retenus par défaut : découpage 2 + 1 + 1 ; monoxyde de carbone en simple mention de sécurité dans MAT-03 ; indicateurs papier pH et permanganate conservés (simulation seulement). Branche `essai/lecon-ampoule`. Gabarit : fiches `NL-5E-MEL-01` à `-03` (moteur 6e, page `activites-5e/`). Thème : Mélanges et réactions chimiques. Leçons sources Studio (inchangées) : `atomes-molecules`, `combustion-carbone`, `combustion-soufre`. Contexte : Awa, Kofi, charbon de bois du marché, réchaud, soufre au laboratoire.
 
 Trois leçons contiennent quatre compétences distinctes ; `atomes-molecules` est donc coupée en deux fiches (« une activité = une seule compétence »). Atomes en couleurs CPK (H blanc, C noir, O rouge, S jaune, N bleu, Cl vert).
 
