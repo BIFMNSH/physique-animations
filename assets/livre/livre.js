@@ -33,7 +33,7 @@
   }
   function statut(x) { var e = ficheEtat(x[0]); return e.concl ? ['Terminée ✓', 'ok'] : e.stade ? ['En cours', 'en'] : ['À faire', 'af']; }
   function nbFinies(slug) { return (FICHES5E[slug] || []).filter(function (x) { return ficheEtat(x[0]).concl; }).length; }
-  var CHAP = ['La situation', 'Le laboratoire', 'Ce que dit l’expérience', 'Le défi'];
+  var CHAP = ['Situation-problème et analyse', 'Investigation', 'Bilan scientifique', 'Défi'], NUMS = ['1-2', '3-7', '8', '9'];
   var SP = [['s1l', 's1r'], ['s2l', 's2r'], ['s3l', 's3r'], ['s4l', 's4r']];
   var SGL = ['s1l', 's1r', 's2l', 's2r', 's3l', 's3r', 's4r'], SGL2SP = [0, 0, 1, 1, 2, 2, 3], SP2SGL = [0, 2, 4, 6];
   var CH_OF = { s1l: 0, s1r: 0, s2l: 1, s2r: 1, s3l: 2, s3r: 2, s4l: 3, s4r: 3 };
@@ -117,7 +117,7 @@
     var i = S.q.length, q = L.quiz[i];
     return tete + '<p class="tag"><span>Manche ' + (i + 1) + ' sur ' + n + '</span></p><h2>' + q.q + '</h2><div class="ch" data-dq role="group" aria-label="Réponses possibles">' + q.o.map(function (o, k) { return '<button type="button" data-i="' + k + '">' + o + '</button>'; }).join('') + '</div><div data-dx aria-live="polite"></div>';
   }
-  function tag(id) { var c = CH_OF[id]; return '<div class="tag"><span>Chapitre ' + (c + 1) + ' · ' + CHAP[c] + '</span><span>' + (MOMS[id][0] === MOMS[id][1] ? 'Moment ' + MOMS[id][0] : 'Moments ' + MOMS[id][0] + ' à ' + MOMS[id][1]) + '</span></div>' + frise(id); }
+  function tag(id) { var c = CH_OF[id]; return '<div class="tag"><span>' + CHAP[c] + '</span><span>' + (MOMS[id][0] === MOMS[id][1] ? 'Moment ' + MOMS[id][0] : 'Moments ' + MOMS[id][0] + ' à ' + MOMS[id][1]) + '</span></div>' + frise(id); }
   function page(id, side) { return '<div class="page ' + side + '" data-pg="' + id + '">' + tag(id) + contenu(id) + '</div>'; }
   function nu(id, side) { return page(id, side).replace(/ id="[^"]*"/g, ''); }
 
@@ -261,7 +261,7 @@
   function majNav() {
     if (!LEC) return;
     var c = posCour(), ch0 = SGL2SP[S.pos];
-    $('#dots').innerHTML = CHAP.map(function (t, i) { var ok = i <= spreadDe(S.m); return '<button type="button" data-c="' + i + '" aria-label="Chapitre ' + (i + 1) + ', ' + t + (ok ? '' : ', pas encore ouvert') + '"' + (ch0 === i ? ' aria-current="step"' : '') + (ok ? '' : ' disabled') + '>' + (i + 1) + '</button>'; }).join('');
+    $('#dots').innerHTML = CHAP.map(function (t, i) { var ok = i <= spreadDe(S.m); return '<button type="button" data-c="' + i + '" aria-label="Moment' + (NUMS[i].length > 1 ? 's ' + NUMS[i].replace('-', ' à ') : ' ' + NUMS[i]) + ', ' + t + (ok ? '' : ', pas encore ouvert') + '"' + (ch0 === i ? ' aria-current="step"' : '') + (ok ? '' : ' disabled') + '>' + NUMS[i] + '</button>'; }).join('');
     $('#prev').disabled = c === 0; $('#next').disabled = !debloque(c + 1);
   }
   function ajuste() {

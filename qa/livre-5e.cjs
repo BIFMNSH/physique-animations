@@ -28,7 +28,7 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  assert.match(d.querySelector('.toc a[href="?l=dilatation-gaz"]').textContent,/0 fiche sur 1/);assert.match(d.querySelector('.toc a[href="?l=melanges"]').textContent,/1 fiche sur 3/);
  /* leçon : plus de cahier, une seule zone d'écriture (la fiche) */
  w=ouvre('http://localhost/livre/?l=dilatation-gaz');d=w.document;await attend();const $=s=>d.querySelector(s);
- assert.equal(pos(w),'s1l,s1r');assert.match($('[data-pg="s1l"]').textContent,/Pourquoi la lampe/);assert.ok($('#next').disabled,'chapitre 2 fermé');
+ assert.equal(pos(w),'s1l,s1r');assert.match($('[data-pg="s1l"]').textContent,/Pourquoi la lampe/);assert.ok($('#next').disabled,'moments 3 à 7 fermés');
  assert.ok(!$('#cahier')&&!$('#bCahier')&&!d.querySelector('textarea'),'ni cahier ni saisie dans le livre');assert.ok(!/cahier/i.test(d.body.textContent),'le mot « cahier » a disparu');
  $('[data-start]').click();assert.equal(pos(w),'s2l,s2r','le livre ouvre le laboratoire');
  assert.equal(d.querySelectorAll('.fl a').length,1);assert.match($('.fl a').textContent,/À faire/);
@@ -54,6 +54,7 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  w=ouvre('http://localhost/livre/?l=inconnue');assert.equal(w.document.querySelectorAll('.toc a').length,13,'leçon inconnue : sommaire');
  {const att={intensite:1,'generateur-recepteur':1,'association-lampes':1,'piles-serie':1,tension:1,'pression-atmospherique':2,melanges:3,'atomes-molecules':2,'combustion-carbone':1,'combustion-soufre':1,'dilatation-solides':2,'dilatation-liquides':1,'dilatation-gaz':1};
   for(const [sl,n] of Object.entries(att)){const w2=ouvre('http://localhost/livre/?l='+sl,{['pc-livre-'+sl]:{m:3,start:1,q:[],pos:2}});await attend();assert.equal(w2.document.querySelectorAll('a[href*="activites-5e/?a=NL-5E-"]').length,n,'fiches reliées au livre : '+sl);}}
+ assert.ok(!/Chapitre/.test(d.body.textContent),'plus de chapitres : seulement les neuf moments');
  assert.ok(!/ouvreCahier|rendreCahier|bCahier/.test(js)&&!/#cahier|#cb\b/.test(css),'plus de code de cahier');
  console.log('Cartable de 5e : 13 leçons, sommaire, fiche dans le volet, état déduit des fiches, bilan par fiche, défi après toutes les fiches, reprise contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});
