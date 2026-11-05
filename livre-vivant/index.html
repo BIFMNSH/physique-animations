@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#3a1a0b">
 <meta name="robots" content="noindex, follow">
 <script>try{var t=localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){}</script>
 <title>Livre vivant de physique-chimie · NOHOBA-Lab</title>
@@ -20,11 +20,36 @@
     <div id="fit" hidden><div id="scale"><div class="book" id="book"><div class="cover"></div><div class="stack"></div><div class="slot" id="sL"></div><div class="slot" id="sR"></div><div id="sheet"></div></div></div></div>
   </main>
   <nav id="bar" aria-label="Navigation du livre">
-    <a id="bSom" href="./">Sommaire</a>
+    <a id="bSom" href="./" aria-label="Sommaire">Sommaire</a>
     <button type="button" id="prev" aria-label="Page précédente">← Précédent</button><div id="dots"></div><button type="button" id="next" class="nx" aria-label="Page suivante">Suivant →</button>
-    <button type="button" id="bSon" aria-pressed="true">Son</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bEns" aria-pressed="false">Mode enseignant</button><button type="button" id="bTh">Thème</button>
+    <button type="button" id="bMore" aria-expanded="false" aria-label="Plus d’options : son, animations, thème">⋯</button><button type="button" id="bSon" aria-pressed="true">Son</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bEns" aria-pressed="false">Mode enseignant</button><button type="button" id="bTh">Thème</button>
   </nav>
 </div>
+<section id="couv" aria-label="Couverture du livre vivant">
+  <div class="cv-in">
+    <svg class="cv-frame" viewBox="0 0 400 700" preserveAspectRatio="none" aria-hidden="true"><rect x="14" y="14" width="372" height="672" rx="6" fill="none" stroke="url(#gold)" stroke-width="3"/><rect x="24" y="24" width="352" height="652" rx="3" fill="none" stroke="url(#gold)" stroke-width="1"/>
+      <g stroke="url(#gold)" stroke-width="2" fill="none"><path d="M24 70 Q24 24 70 24"/><path d="M376 70 Q376 24 330 24"/><path d="M24 630 Q24 676 70 676"/><path d="M376 630 Q376 676 330 676"/></g>
+      <defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7E3A1"/><stop offset=".45" stop-color="#C9962E"/><stop offset=".7" stop-color="#F3D98A"/><stop offset="1" stop-color="#A9791F"/></linearGradient></defs></svg>
+    <p class="cv-top">NOHOBA-Lab · Physique-Chimie</p>
+    <svg class="cv-atom" viewBox="-120 -120 240 240" role="img" aria-label="Un atome stylisé : un noyau lumineux et trois orbites d’électrons">
+      <defs><radialGradient id="noy"><stop offset="0" stop-color="#FFF6D0"/><stop offset=".4" stop-color="#F4C95A"/><stop offset="1" stop-color="#C2410C" stop-opacity="0"/></radialGradient>
+      <linearGradient id="or" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBE9B0"/><stop offset="1" stop-color="#B98524"/></linearGradient></defs>
+      <circle r="62" fill="url(#noy)" class="cv-halo"/>
+      <g fill="none" stroke="url(#or)" stroke-width="2.2"><ellipse rx="100" ry="34" transform="rotate(0)"/><ellipse rx="100" ry="34" transform="rotate(60)"/><ellipse rx="100" ry="34" transform="rotate(-60)"/></g>
+      <g transform="rotate(0)"><circle r="7" fill="#FFE9A8"><animateMotion dur="6s" repeatCount="indefinite" path="M100 0A100 34 0 1 1 -100 0A100 34 0 1 1 100 0"/></circle></g>
+      <g transform="rotate(60)"><circle r="7" fill="#9CC4FF"><animateMotion dur="8s" repeatCount="indefinite" path="M100 0A100 34 0 1 0 -100 0A100 34 0 1 0 100 0"/></circle></g>
+      <g transform="rotate(-60)"><circle r="7" fill="#FF9F6B"><animateMotion dur="10s" repeatCount="indefinite" path="M100 0A100 34 0 1 1 -100 0A100 34 0 1 1 100 0"/></circle></g>
+      <circle r="13" fill="#FFF3C2"/></svg>
+    <h1 class="cv-t"><span>Le livre</span><b>vivant</b></h1>
+    <p class="cv-s">de physique-chimie</p>
+    <p class="cv-lv"><span>6e</span><span>5e</span><span>4e</span><span>3e</span></p>
+    <p class="cv-tag">53 leçons qui se dressent sous tes doigts</p>
+    <button type="button" id="couvGo" class="cv-go">Ouvrir le livre</button>
+    <p class="cv-ft">Manipule · Écoute · Relève le défi</p>
+    <i class="cv-rub" aria-hidden="true"></i>
+    <i class="cv-p p1" aria-hidden="true"></i><i class="cv-p p2" aria-hidden="true"></i><i class="cv-p p3" aria-hidden="true"></i><i class="cv-p p4" aria-hidden="true"></i><i class="cv-p p5" aria-hidden="true"></i><i class="cv-p p6" aria-hidden="true"></i>
+  </div>
+</section>
 <button type="button" id="ensOut" hidden>Quitter le mode enseignant (Esc)</button>
 <script src="../assets/studio/programme.js"></script>
 <script src="../assets/vivant/vivant.js"></script>

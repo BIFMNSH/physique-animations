@@ -6,7 +6,7 @@
 [data-theme="dark"]{--oak:#4D3B27;--paper:#2E2A24;--paper2:#26221D;--ink:#F3ECDD;--soft:#CFC5B2;--line:#51493D;--ok:#6FE29A;--note:#5B4D12;--noteink:#FFF3BE;--leather:#4F2612;--shadow:rgba(0,0,0,.55);--bar:#1F1B16;--barink:#F3ECDD;
   --ca:#8DB5FF;--cb:#FFA56B;--focus:#FFB547;--panel:#252119;color-scheme:dark}
 *{box-sizing:border-box}[hidden]{display:none!important}
-html,body{height:100%}
+html,body{height:100%;height:100dvh}
 body{margin:0;background:var(--oak);color:var(--ink);font:400 18px/1.35 'Atkinson Hyperlegible','Bricolage Grotesque',system-ui,sans-serif;overflow:hidden}
 button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
@@ -142,3 +142,59 @@ button,input{font:inherit;color:inherit}
 .ens .page .ttl{font-size:22px}
 @media (max-width:760px){#bar{gap:4px}#bar button,#bar a{padding:0 10px;font-size:14px}#bar #bEns{display:none}}
 @media print{.bois,.lum,#bar{display:none}body{overflow:visible}}
+
+/* ---------- téléphone : le livre occupe tout l'écran ---------- */
+#bMore{display:none}
+@media (max-width:599px){
+  body.sgl #app{padding:0;gap:0}
+  body.sgl .cover,body.sgl .stack{display:none}
+  body.sgl .bois,body.sgl .lum{display:none}
+  body.sgl #fit{position:relative;background:var(--paper)}
+  body.sgl #scale{position:absolute;left:0;top:0;transform-origin:0 0!important}
+  body.sgl .slot,body.sgl .book,body.sgl #sheet,body.sgl .str{height:var(--bh,840px)}
+  body.sgl .page{border-radius:0}
+  body.sgl:not(.somm) #bar{padding:4px max(6px,env(safe-area-inset-right,0px)) max(4px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px));flex-wrap:wrap;gap:4px}
+  body.sgl:not(.somm) #bar{flex-wrap:nowrap}
+  body.sgl #bar.more{flex-wrap:wrap;justify-content:center}
+  body.sgl #bar button,body.sgl #bar a{padding:0 6px;min-width:40px;justify-content:center}
+  body.sgl #dots{gap:3px}body.sgl #dots button{width:40px}
+  body.sgl #bSom{font-size:0}body.sgl #bSom:before{content:'☰';font-size:20px}
+  body.sgl:not(.somm) #bMore{display:inline-flex;align-items:center;justify-content:center}
+  body.sgl #bar:not(.more) #bSon,body.sgl #bar:not(.more) #bAnim,body.sgl #bar:not(.more) #bTh{display:none}
+}
+/* ---------- couverture ---------- */
+#couv{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#F8E7B4;perspective:1800px;
+  background:radial-gradient(ellipse at 50% 30%,#6b2f14 0%,#3a1a0b 55%,#1c0c05 100%)}
+#couv:before{content:"";position:absolute;inset:0;opacity:.28;mix-blend-mode:overlay;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px),repeating-linear-gradient(25deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
+.cv-in{container-type:inline-size;position:relative;width:min(100vw,calc(100dvh*400/700),520px);height:min(100dvh,calc(100vw*700/400),910px);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8% 10% 9%;text-align:center;transform-origin:left center}
+.cv-frame{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(232,199,122,.35))}
+.cv-top{margin:0;font:700 clamp(11px,3.1cqw,15px)/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#E8C77A;z-index:1}
+.cv-atom{width:68%;max-height:36%;filter:drop-shadow(0 0 18px rgba(244,201,90,.55));z-index:1}
+.cv-halo{animation:cvPulse 3.4s ease-in-out infinite}
+.cv-t{margin:0;display:flex;flex-direction:column;align-items:center;line-height:.95;z-index:1;font-family:'Bricolage Grotesque',sans-serif}
+.cv-t span{font-weight:600;font-size:clamp(22px,7cqw,40px);letter-spacing:.2em;text-transform:uppercase;color:#F8E7B4}
+.cv-t b{font-weight:800;font-size:clamp(54px,18cqw,104px);letter-spacing:.02em;background:linear-gradient(100deg,#9A6A18 0%,#F7E3A1 28%,#C9962E 48%,#FFF4C8 62%,#B98524 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:cvShine 5s ease-in-out infinite;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35))}
+.cv-s{margin:-2% 0 0;font:400 clamp(17px,5.2cqw,26px)/1.1 'Ecolier','Atkinson Hyperlegible',cursive;color:#F3D98A;z-index:1}
+.cv-lv{margin:0;display:flex;gap:10px;z-index:1}
+.cv-lv span{min-width:3.1em;padding:.35em .7em;border:1.5px solid #E8C77A;border-radius:999px;font:800 clamp(14px,4cqw,19px)/1 'Bricolage Grotesque',sans-serif;color:#FBEBB8;background:rgba(0,0,0,.22)}
+.cv-tag{margin:0;font:400 clamp(14px,4.2cqw,19px)/1.3 'Ecolier','Atkinson Hyperlegible',cursive;color:#F8E7B4;max-width:18em;z-index:1}
+.cv-go{z-index:1;min-height:52px;padding:0 2em;border:0;border-radius:999px;cursor:pointer;font:800 clamp(17px,4.8cqw,21px)/1 'Bricolage Grotesque',sans-serif;color:#fff;background:linear-gradient(180deg,#E0561A,#C2410C 55%,#9F3409);box-shadow:0 0 0 2px #F3D98A,0 8px 22px rgba(0,0,0,.5),0 0 28px rgba(232,120,40,.45);position:relative;overflow:hidden}
+.cv-go:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);animation:cvSweep 3.2s ease-in-out infinite}
+.cv-go:hover{filter:brightness(1.1)}
+.cv-ft{margin:0;font:700 clamp(11px,3cqw,14px)/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#CFA95A;z-index:1}
+.cv-rub{position:absolute;top:-2px;right:5%;width:26px;height:15%;background:linear-gradient(90deg,#8E1B1B,#C62828 50%,#8E1B1B);clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);box-shadow:0 6px 10px rgba(0,0,0,.5)}
+.cv-p{position:absolute;width:5px;height:5px;border-radius:50%;background:#F7E3A1;box-shadow:0 0 8px 2px rgba(247,227,161,.7);opacity:0;animation:cvFloat 8s linear infinite}
+.cv-p.p1{left:14%;bottom:12%}.cv-p.p2{left:78%;bottom:20%;animation-delay:1.5s}.cv-p.p3{left:30%;bottom:5%;animation-delay:3s}.cv-p.p4{left:60%;bottom:8%;animation-delay:4.5s}.cv-p.p5{left:88%;bottom:10%;animation-delay:6s}.cv-p.p6{left:8%;bottom:30%;animation-delay:2.2s}
+.anim #couv.ouvre,#couv.ouvre{pointer-events:none}
+.anim #couv.ouvre .cv-in{animation:cvOpen 1.05s cubic-bezier(.6,0,.3,1) forwards}
+.anim #couv.ouvre{animation:cvFade 1.05s ease forwards}
+#couv.ouvre{opacity:0}
+body.avec-couv #app,body.avec-couv #ensOut{visibility:hidden}
+@keyframes cvTour{to{transform:rotate(360deg)}}
+@keyframes cvPulse{50%{transform:scale(1.12);opacity:.8}}
+@keyframes cvShine{50%{background-position:100% 0}}
+@keyframes cvSweep{0%,55%{left:-60%}100%{left:130%}}
+@keyframes cvFloat{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-60vh);opacity:0}}
+@keyframes cvOpen{to{transform:rotateY(-105deg)}}
+@keyframes cvFade{0%,60%{opacity:1}100%{opacity:0}}
+body:not(.anim) .cv-halo,body:not(.anim) .cv-t b,body:not(.anim) .cv-go:after,body:not(.anim) .cv-p{animation:none}body:not(.anim) .cv-p{display:none}

@@ -248,12 +248,14 @@
     var W = window.innerWidth, old = ST.mode; ST.mode = W < 600 ? 'sgl' : 'dbl';
     var B = document.body, one = single(); B.classList.toggle('sgl', one); B.classList.toggle('anim', ST.anim); B.classList.toggle('ens', ST.ens);
     document.documentElement.style.setProperty('--tilt', one ? '0deg' : '9deg');
-    var f = $('#fit'), s = $('#scale'), bw = one ? (ST.ens ? 990 : 510) : 1000, bh = ST.ens ? 840 : 905, k = Math.min(f.clientWidth / bw, f.clientHeight / bh) || 0.5;
-    s.style.width = (one && !ST.ens ? 480 : 960) + 'px'; s.style.height = '840px'; s.style.transform = 'scale(' + k + ')';
+    var f = $('#fit'), s = $('#scale'), bw = one ? (ST.ens ? 990 : 510) : 1000, bh = ST.ens ? 840 : 905, k = Math.min(f.clientWidth / bw, f.clientHeight / bh) || 0.5, H = 840;
+    if (ST.mode === 'sgl' && !ST.ens && f.clientWidth > 0 && f.clientHeight > 0) { H = Math.max(840, Math.min(1100, Math.round(480 * f.clientHeight / f.clientWidth))); k = Math.min(f.clientWidth / 480, f.clientHeight / H); }
+    document.documentElement.style.setProperty('--bh', H + 'px');
+    s.style.width = (one && !ST.ens ? 480 : 960) + 'px'; s.style.height = H + 'px'; s.style.transform = 'scale(' + k + ')';
     $('#prev').textContent = one && ST.mode === 'sgl' ? '←' : '← Précédent'; $('#next').textContent = one && ST.mode === 'sgl' ? '→' : 'Suivant →';
     pose(); return old !== ST.mode;
   }
-  function pose() { var c = ST.mode === 'sgl', s = $('#bSon'); s.textContent = ST.son ? 'Son' : 'Muet'; s.setAttribute('aria-pressed', ST.son); $('#bAnim').textContent = ST.anim ? (c ? 'Anim.' : 'Animations') : (c ? 'Figé' : 'Animations arrêtées'); $('#bAnim').setAttribute('aria-pressed', ST.anim); }
+  function pose() { var at = $('.cv-atom'); if (at && at.pauseAnimations) { if (ST.anim) at.unpauseAnimations(); else at.pauseAnimations(); } var c = ST.mode === 'sgl', s = $('#bSon'); s.textContent = ST.son ? 'Son' : 'Muet'; s.setAttribute('aria-pressed', ST.son); $('#bAnim').textContent = ST.anim ? (c ? 'Anim.' : 'Animations') : (c ? 'Figé' : 'Animations arrêtées'); $('#bAnim').setAttribute('aria-pressed', ST.anim); }
   function ens(on) {
     if (!ST.M || on === ST.ens) return; var c = ci(); ST.ens = on; $('#bEns').setAttribute('aria-pressed', on); $('#ensOut').hidden = !on;
     ST.pos = on ? c : (ST.mode === 'sgl' ? c * 2 : c); ajuste(); monte();
@@ -281,10 +283,23 @@
   }
   function cherche(slug) { var r = null; NIVEAUX.forEach(function (n) { themesDe(n).forEach(function (t) { t.les.forEach(function (l) { if (l.slug === slug) r = { niv: n, les: t, l: l }; }); }); }); return r; }
 
+  /* ---------- page de couverture ---------- */
+  function cover() {
+    var C = $('#couv'); if (!C) return;
+    var url = /[?&]l=([a-z0-9-]+)/.exec(location.search), vu = false;
+    try { vu = sessionStorage.getItem('vv-couv') === '1'; } catch (e) {}
+    if (url || vu) { C.hidden = true; return; }
+    document.body.classList.add('avec-couv'); var b = $('#couvGo', C);
+    function ouvre() { try { sessionStorage.setItem('vv-couv', '1'); } catch (e) {} C.classList.add('ouvre'); document.body.classList.remove('avec-couv'); setTimeout(function () { C.hidden = true; var t = $('.niv button[aria-selected="true"]'); if (t) t.focus(); }, ST.anim ? 1100 : 0); }
+    b.onclick = ouvre; b.focus();
+    document.addEventListener('keydown', function (e) { if (!C.hidden && !C.classList.contains('ouvre') && e.key === 'Escape') ouvre(); });
+  }
   function init() {
     if (!$('#book')) return;
     P.theme();
     $('#bTh').onclick = function () { var r = document.documentElement, n = r.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', n); try { localStorage.setItem('pc-theme', n); } catch (e) {} P.theme(); ST.labs.forEach(function (l) { l.kick(); }); };
+    $('#bMore').onclick = function () { var b = $('#bar'), o = !b.classList.contains('more'); b.classList.toggle('more', o); this.setAttribute('aria-expanded', o); ajuste(); };
+    cover();
     $('#bSon').onclick = function () { ST.son = !ST.son; AU.silence(!ST.son); if (!ST.son) AU.stop(); pose(); };
     $('#bAnim').onclick = function () { ST.anim = !ST.anim; pose(); ajuste(); if (!ST.anim) $$('.pop').forEach(function (p) { p.classList.add('up'); }); ST.labs.forEach(function (l) { l.kick(); }); };
     $('#bEns').onclick = function () { ens(!ST.ens); }; $('#ensOut').onclick = function () { ens(false); };
