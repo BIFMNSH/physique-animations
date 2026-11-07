@@ -18,4 +18,4 @@ page « tts-models » des publications de https://github.com/k2-fsa/sherpa-onnx,
 - Lecture à voix haute : unités (« 6 V » → « six volts »), formules (CO₂ → « C O deux ») et symboles sont remplacés dans `generer.py` (fonction `oral`), sans changer le texte affiché ni l'empreinte.
 
 ## Licence
-Voix en service : `tom-medium` (jeu de données et modèle AGPLv3, projet French-tts-model-piper de Tjiho) ; attribution dans `credits/index.html`. La voix `siwis-medium` (base SIWIS, CC BY 4.0) est l'alternative à la licence la plus simple. Vérifier la licence de toute voix avant de la publier.
+Voix en service : `siwis-medium` (base SIWIS, CC BY 4.0) ; attribution dans `credits/index.html`. Les voix `tom-medium` (AGPLv3) et `upmc-medium` ne sont pas utilisées : vérifier la licence de toute voix avant de la publier.
