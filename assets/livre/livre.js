@@ -125,7 +125,7 @@
         + (S.start ? '' : '<button type="button" class="go bas" data-start>Je me mets au travail</button>');
       case 's2l': return '<h2>Le laboratoire</h2><p class="hook">Prédis, manipule, vérifie : un modèle se dresse sur la page.</p>' + pop('') + btnVivant('Ouvrir le modèle vivant') + '<button type="button" class="libre" data-labo>Explorer librement la simulation</button>';
       case 's2r': return '<h2>Mon parcours</h2><ol class="mom">' + ETAPES.map(function (t, k) { var n = k + 1, d = faits(), cl = n <= d ? 'ok' : n === d + 1 ? 'en' : '', det = n === 3 && vvOk() ? '<em>' + vvOk() + ' vérification' + (vvOk() > 1 ? 's' : '') + ' réussie' + (vvOk() > 1 ? 's' : '') + '</em>' : '';
-          return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol><div class="note">Pas de fiche d’investigation pour cette leçon pour le moment : le modèle vivant sert de laboratoire.</div>';
+          return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol>';
       case 's3l': return '<h1>À retenir</h1><ul class="ret">' + (L.retiens || []).map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul><button type="button" class="libre" data-resume>Revoir le résumé animé</button>';
       case 's3r': return '<h2>Je vérifie</h2><p class="hook">Reviens au modèle pour contrôler ce que tu retiens : prédis, regarde, réponds.</p>' + pop('') + btnVivant('Vérifier avec le modèle vivant');
     }
@@ -286,7 +286,7 @@
     document.body.classList.add('somm');
     var TH = NIVS[NIV] || [], tete = '<div class="tag"><span>NOHOBA-Lab · Physique-chimie ' + NIV + '</span><span>Prototype</span></div>';
     var niv = '<nav class="niv" aria-label="Choisir ma classe">' + NIVEAUX.map(function (n) { return '<a href="?n=' + n + '"' + (n === NIV ? ' aria-current="page"' : '') + ' aria-label="Classe de ' + n + '">' + n + '</a>'; }).join('') + '</nav>';
-    var note = NIV === '5e' ? 'Dans chaque leçon, tu mènes ton investigation dans une fiche, et le livre garde ton avancée.' : 'Dans chaque leçon, tu regardes un résumé animé, tu manipules un modèle, tu retiens l’essentiel et tu relèves un défi. Les fiches d’investigation arrivent bientôt.';
+    var note = NIV === '5e' ? 'Dans chaque leçon, tu mènes ton investigation dans une fiche, et le livre garde ton avancée.' : 'Dans chaque leçon, tu regardes un résumé animé, tu manipules un modèle, tu retiens l’essentiel et tu relèves un défi.';
     var h = Math.ceil(TH.length / 2);
     if (mode === 'sgl') { $('#sL').innerHTML = ''; $('#sR').innerHTML = '<div class="page S" style="overflow:auto">' + tete + '<h1>Sommaire</h1>' + niv + '<div class="toc">' + TH.map(tocTheme).join('') + '</div></div>'; }
     else {
