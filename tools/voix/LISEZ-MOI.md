@@ -14,7 +14,7 @@ page « tts-models » des publications de https://github.com/k2-fsa/sherpa-onnx,
 
 - Seules les phrases nouvelles ou modifiées sont synthétisées ; `--refaire` recommence tout (à utiliser pour changer de voix).
 - Le script écrit aussi `assets/voix/index.json`, la liste des phrases enregistrées (le lecteur n'appelle que celles-là).
-- Poids : environ 30 à 40 Ko par phrase pour les 13 leçons de 5e (voir `du -sh assets/voix`).
+- Poids : environ 30 à 40 Ko par phrase pour les 53 leçons (voir `du -sh assets/voix`).
 - Lecture à voix haute : unités (« 6 V » → « six volts »), formules (CO₂ → « C O deux ») et symboles sont remplacés dans `generer.py` (fonction `oral`), sans changer le texte affiché ni l'empreinte.
 
 ## Licence
