@@ -9,7 +9,7 @@
 <meta name="description" content="Activité d'investigation scientifique de sixième, programme ivoirien.">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/activites/activites.css">
-<style>.embed .top,.embed .noprint-embed{display:none}.embed main.wrap{max-width:none;padding:10px 12px}</style>
+<style>.embed .top,.embed .noprint-embed{display:none!important}.embed main.wrap{max-width:none;padding:10px 12px}</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Investigation 6e · NOHOBA-Lab", "url": "https://lab.nohaba.com/activites-ci/", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "description": "Activité d'investigation scientifique de sixième, programme ivoirien."}</script>
 </head>
 <body>
@@ -31,6 +31,7 @@
 <script src="../assets/catalogues/6e-ci.js"></script>
 <script src="../assets/activites/activite.js"></script>
 <script>
+if(/(^|[?&])embed=1/.test(location.search))document.documentElement.classList.add('embed');
 (function(){
   var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-CI-6E-ELE-07';
   var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01]))$/.exec(id);

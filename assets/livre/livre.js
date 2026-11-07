@@ -35,6 +35,15 @@
     'pression-atmospherique': [['NL-5E-MES-01', 'Trois expériences avec l’air'], ['NL-5E-MES-02', 'Pression et altitude']], 'melanges': [['NL-5E-MEL-01', 'Classer les mélanges'], ['NL-5E-MEL-02', 'Séparer un mélange hétérogène'], ['NL-5E-MEL-03', 'Séparer un mélange homogène']],
     'atomes-molecules': [['NL-5E-MAT-01', 'Lire une formule'], ['NL-5E-MAT-02', 'Corps simple, corps composé']], 'combustion-carbone': [['NL-5E-MAT-03', 'Brûler du carbone']], 'combustion-soufre': [['NL-5E-MAT-04', 'Brûler du soufre']],
     'dilatation-solides': [['NL-5E-DIL-01', 'Un solide chauffé'], ['NL-5E-DIL-02', 'Des métaux différents']], 'dilatation-liquides': [['NL-5E-DIL-03', 'Un liquide chauffé']], 'dilatation-gaz': [['NL-5E-DIL-04', 'Un gaz chauffé']] };
+  /* fiches d'investigation de 6e (programme ivoirien, page activites-ci) : reliées par la leçon du catalogue ; statut « conception » exclu */
+  var CI_LECONS = { 'Circuit électrique': 'circuit-electrique', 'Commande d’un circuit': 'commande-circuit', 'Court-circuit et protection': 'court-circuit', 'Solides et liquides': 'solides-liquides', 'Gaz': 'les-gaz',
+    'Température d’un corps': 'temperature', 'Changements d’état de l’eau': 'changements-etat', 'Volume d’un liquide et d’un solide': 'volume', 'Masse d’un solide et d’un liquide': 'masse' };
+  ((window.NL_CATALOGUE_CI_6E) || []).forEach(function (e) {
+    var sl = CI_LECONS[e.lecon]; if (!sl || e.type !== 'investigation' || e.statut === 'conception') return;
+    (FICHES5E[sl] = FICHES5E[sl] || []).push([e.id, e.titre]);
+  });
+  function estCI(id) { return /^NL-CI-/.test(id); }
+  function urlFiche(id) { return estCI(id) ? '../activites-ci/?a=' + encodeURIComponent(id) + '&embed=1&t=light' : '../activites-5e/?a=' + encodeURIComponent(id) + (/\?/.test(id) ? '' : '&embed=1&t=light'); }
   /* parcours allégé : leçon sans fiche d'investigation */
   var ALG = !!LEC && !FICHES5E[LEC.slug];
   function fichesL() { return (LEC && FICHES5E[LEC.slug]) || []; }
@@ -114,7 +123,7 @@
   function cite(titre, v) { return '<div class="cite"><b>' + titre + '</b><p class="ecrit">' + (v && v.trim() ? esc(v) : '…') + '</p></div>'; }
   function listeFiches() {
     if (!S.start) return '<div class="note">Lis d’abord la situation, puis appuie sur « Je me mets au travail ».</div>';
-    return '<ul class="fl">' + fichesL().map(function (x) { var st = statut(x); return '<li><a href="../activites-5e/?a=' + x[0] + '" data-fiche="' + x[0] + '" data-titre="' + esc(x[1]) + '"><span>' + esc(x[1]) + '</span><small class="' + st[1] + '">' + st[0] + '</small></a></li>'; }).join('') + '</ul>';
+    return '<ul class="fl' + (fichesL().length > 4 ? ' mn' : '') + '">' + fichesL().map(function (x) { var st = statut(x); return '<li><a href="' + urlFiche(x[0]).replace('&embed=1&t=light', '') + '" data-fiche="' + x[0] + '" data-titre="' + esc(x[1]) + '"><span>' + esc(x[1]) + '</span><small class="' + st[1] + '">' + st[0] + '</small></a></li>'; }).join('') + '</ul>';
   }
   /* pages du parcours allégé (les pages non listées ici restent celles du livre) */
   function contenuA(id) {
@@ -146,7 +155,7 @@
           if (n === 7 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.concl ? '<em>' + esc(x[1]) + ' : ' + esc(e.concl) + '</em>' : ''; }).join('');
           return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol><div class="note">Les moments 3 à 7 se font dans la fiche. Ce que tu y écris apparaît ici.</div>';
       case 's3l': return '<h1>Ce que dit l’expérience</h1>' + (F.filter(function (x) { return ficheEtat(x[0]).concl; }).map(function (x) { return cite('Ma conclusion · ' + esc(x[1]), ficheEtat(x[0]).concl); }).join('') || '<div class="note">Termine une fiche : ta conclusion et son bilan apparaîtront ici.</div>') + btnVivant('Manipuler le modèle vivant') + '<button type="button" class="libre" data-resume>Revoir le résumé animé</button>';
-      case 's3r': return '<h2>Le bilan scientifique</h2><div class="bs">' + F.map(function (x) { var e = ficheEtat(x[0]), f = FI[x[0]]; return '<div class="bsf"><b>' + esc(x[1]) + '</b><p>' + (e.concl ? esc((f && f.synthese) || 'Bilan à venir.') : 'Termine cette fiche pour lire son bilan.') + '</p></div>'; }).join('') + '</div>';
+      case 's3r': return '<h2>Le bilan scientifique</h2><div class="bs">' + F.map(function (x) { var e = ficheEtat(x[0]), f = FI[x[0]]; return '<div class="bsf"><b>' + esc(x[1]) + '</b><p>' + (e.concl ? esc((f && f.synthese) || (estCI(x[0]) ? 'Fiche terminée : relis « À retenir » dans la leçon.' : 'Bilan à venir.')) : 'Termine cette fiche pour lire son bilan.') + '</p></div>'; }).join('') + '</div>';
       case 's4l': return '<h1>Le défi</h1><p class="hook">' + L.quiz.length + ' manches, seul ou en équipe. Une erreur ne retire rien : chaque manche t’explique la réponse.</p><p class="stars" aria-label="' + (S.q.length ? etoiles() : 0) + ' étoiles sur 3">' + stars(S.q.length ? etoiles() : 0) + '</p><p>Score : ' + score() + ' sur ' + L.quiz.length + '.</p>' + (S.m < 9 ? '<div class="note">Le défi s’ouvre quand toutes les fiches de la leçon sont terminées.</div>' : '<button type="button" class="libre" data-vivant>Réviser avec le modèle vivant</button>');
       case 's4r': return defi();
     }
@@ -258,7 +267,7 @@
   function cadreFiche(id, titre, src) {
     var t = 'Investigation · ' + titre;
     var V = ouvreVolet('<div class="labo" role="dialog" aria-modal="true" aria-label="' + t + '"><div class="lh"><b>' + t + '</b><button type="button" class="go" data-lfin>Revenir au livre</button></div>'
-      + '<div class="lcorps"><iframe title="' + t + '" src="../activites-5e/?a=' + encodeURIComponent(id) + '&embed=1&t=light"></iframe></div></div>', src);
+      + '<div class="lcorps"><iframe title="' + t + '" src="' + urlFiche(id) + '"></iframe></div></div>', src);
     $('[data-lfin]', V).onclick = retourFiche;
   }
   /* au retour, l'état se relit dans les fiches ; la première conclusion ouvre « Ce que dit l'expérience » */
@@ -286,7 +295,7 @@
     document.body.classList.add('somm');
     var TH = NIVS[NIV] || [], tete = '<div class="tag"><span>NOHOBA-Lab · Physique-chimie ' + NIV + '</span><span>Prototype</span></div>';
     var niv = '<nav class="niv" aria-label="Choisir ma classe">' + NIVEAUX.map(function (n) { return '<a href="?n=' + n + '"' + (n === NIV ? ' aria-current="page"' : '') + ' aria-label="Classe de ' + n + '">' + n + '</a>'; }).join('') + '</nav>';
-    var note = NIV === '5e' ? 'Dans chaque leçon, tu mènes ton investigation dans une fiche, et le livre garde ton avancée.' : 'Dans chaque leçon, tu regardes un résumé animé, tu manipules un modèle, tu retiens l’essentiel et tu relèves un défi.';
+    var note = NIV === '5e' || NIV === '6e' ? (NIV === '5e' ? 'Dans chaque leçon, tu mènes ton investigation dans une fiche, et le livre garde ton avancée.' : 'Quand une leçon a des fiches, tu mènes ton investigation dans le livre, qui garde ton avancée. Sinon, tu manipules le modèle vivant.') : 'Dans chaque leçon, tu regardes un résumé animé, tu manipules un modèle, tu retiens l’essentiel et tu relèves un défi.';
     var h = Math.ceil(TH.length / 2);
     if (mode === 'sgl') { $('#sL').innerHTML = ''; $('#sR').innerHTML = '<div class="page S" style="overflow:auto">' + tete + '<h1>Sommaire</h1>' + niv + '<div class="toc">' + TH.map(tocTheme).join('') + '</div></div>'; }
     else {
@@ -340,9 +349,9 @@
     if (!window.Studio) window.Studio = { s: function () { return {}; }, attr: function () {}, fmt: function (x) { return x; }, kit: {} };
     window.Studio.start = function (c) { L = c; };
     window.__momentsCapture = function (c) { L = c; };
-    var files = [].concat(LEC.kit || []).map(function (k) { return '../assets/studio/kits/' + k + '.js'; }).concat('../assets/studio/lecons/' + LEC.slug + '.js').concat(fichesL().map(function (x) { return '../assets/activites/fiches/' + x[0] + '.js'; }));
+    var files = [].concat(LEC.kit || []).map(function (k) { return '../assets/studio/kits/' + k + '.js'; }).concat('../assets/studio/lecons/' + LEC.slug + '.js').concat(fichesL().filter(function (x) { return !estCI(x[0]); }).map(function (x) { return '../assets/activites/fiches/' + x[0] + '.js'; }));
     (function next(i) {
-      if (i >= files.length) { fichesL().forEach(function (x) { FI[x[0]] = window[cleFiche(x[0])]; }); fin(L && L.inquiry && L.quiz && L.quiz.length ? null : new Error('données')); return; }
+      if (i >= files.length) { fichesL().forEach(function (x) { if (!estCI(x[0])) FI[x[0]] = window[cleFiche(x[0])]; }); fin(L && L.inquiry && L.quiz && L.quiz.length ? null : new Error('données')); return; }
       var sc = document.createElement('script'); sc.src = files[i];
       sc.onload = function () { next(i + 1); }; sc.onerror = function () { if (/fiches\//.test(files[i])) next(i + 1); else fin(new Error('chargement')); };
       document.body.appendChild(sc);
