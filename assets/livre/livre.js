@@ -3,6 +3,8 @@
    donne le bilan de chaque fiche, puis propose le défi. Il n'y a plus de cahier : la fiche est l'unique zone d'écriture (« pc-act-<id> »).
    La simulation d'origine reste accessible par « Explorer librement ». Après l'investigation (moment 8) et au défi, le « modèle vivant » du livre vivant
    (/livre-vivant/?l=<slug>&embed=1) s'ouvre dans le volet : un modèle à manipuler, « Prédis puis révèle » et une vérification par chapitre (progression « vv-<slug> »).
+   Parcours allégé : les leçons sans fiche d'investigation (6e, 4e, 3e pour l'instant) suivent cinq étapes sans verrou : situation et résumé, modèle vivant, À retenir,
+   vérification, défi. Dès qu'une leçon reçoit ses fiches (FICHES5E), elle passe au parcours à 9 moments.
    Progression du livre : « pc-livre-<slug> ». Rien n'est envoyé. */
 (function () {
   'use strict';
@@ -13,20 +15,28 @@
   function ecrit(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   function calme() { return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); }
 
-  /* ---------- les 13 leçons de 5e ---------- */
-  var LECONS = [], THEMES = [];
-  ((window.PROGRAMME && window.PROGRAMME['5e']) || []).forEach(function (th) {
-    var t = { nm: th.nm, les: [] }; THEMES.push(t);
-    th.les.forEach(function (l) { if (l.ready) { var x = { slug: l.slug, t: l.t, th: th.nm, kit: l.kit }; LECONS.push(x); t.les.push(x); } });
+  /* ---------- les leçons prêtes de chaque niveau (6e, 5e, 4e, 3e) ---------- */
+  var NIVEAUX = ['6e', '5e', '4e', '3e'], NIVS = {}, LECONS = [];
+  NIVEAUX.forEach(function (n) {
+    var themes = [];
+    ((window.PROGRAMME && window.PROGRAMME[n]) || []).forEach(function (th) {
+      var t = { nm: th.nm, les: [] };
+      th.les.forEach(function (l) { if (l.ready) { var x = { slug: l.slug, t: l.t, th: th.nm, kit: l.kit, niv: n }; LECONS.push(x); t.les.push(x); } });
+      if (t.les.length) themes.push(t);
+    });
+    NIVS[n] = themes;
   });
   var SLUG = ((/[?&]l=([a-z0-9-]+)/.exec(location.search) || [])[1]) || '';
   var LEC = LECONS.filter(function (x) { return x.slug === SLUG; })[0] || null;
+  var NIV = LEC ? LEC.niv : ((/[?&]n=(6e|5e|4e|3e)(&|$)/.exec(location.search) || [])[1] || '5e');
 
   /* fiches d'investigation de 5e (page activites-5e) reliées au moment « laboratoire » */
   var FICHES5E = { 'intensite': [['NL-5E-ELE-01', 'La lampe use-t-elle le courant ?']], 'generateur-recepteur': [['NL-5E-ELE-02', 'Choisir un générateur']], 'association-lampes': [['NL-5E-ELE-03', 'Deux lampes, deux montages']], 'piles-serie': [['NL-5E-ELE-04', 'Associer des piles en série']], 'tension': [['NL-5E-ELE-05', 'Mesurer une tension']],
     'pression-atmospherique': [['NL-5E-MES-01', 'Trois expériences avec l’air'], ['NL-5E-MES-02', 'Pression et altitude']], 'melanges': [['NL-5E-MEL-01', 'Classer les mélanges'], ['NL-5E-MEL-02', 'Séparer un mélange hétérogène'], ['NL-5E-MEL-03', 'Séparer un mélange homogène']],
     'atomes-molecules': [['NL-5E-MAT-01', 'Lire une formule'], ['NL-5E-MAT-02', 'Corps simple, corps composé']], 'combustion-carbone': [['NL-5E-MAT-03', 'Brûler du carbone']], 'combustion-soufre': [['NL-5E-MAT-04', 'Brûler du soufre']],
     'dilatation-solides': [['NL-5E-DIL-01', 'Un solide chauffé'], ['NL-5E-DIL-02', 'Des métaux différents']], 'dilatation-liquides': [['NL-5E-DIL-03', 'Un liquide chauffé']], 'dilatation-gaz': [['NL-5E-DIL-04', 'Un gaz chauffé']] };
+  /* parcours allégé : leçon sans fiche d'investigation */
+  var ALG = !!LEC && !FICHES5E[LEC.slug];
   function fichesL() { return (LEC && FICHES5E[LEC.slug]) || []; }
   function cleFiche(id) { return 'FICHE_5E_' + id.slice(6, 9) + id.slice(-2); }
   function ficheEtat(id) {
@@ -47,16 +57,25 @@
   /* nombre de moments terminés (1 à 9), déduit des fiches : la fiche porte les moments 3 à 7 */
   function faits() {
     if (!S || !S.start) return 0;
+    if (ALG) return S.fini ? 5 : vvOk() ? 4 : 2;
     var mx = 0, n = fichesL(), fin = 0; n.forEach(function (x) { var e = ficheEtat(x[0]); if (e.concl) fin++; if (e.stade > mx) mx = e.stade; });
     if (S.fini) return 9;
     if (n.length && fin === n.length) return S.q.length ? 8 : 7;
     return mx >= 6 ? 7 : mx === 5 ? 6 : mx === 4 ? 4 : mx === 3 ? 3 : 2;
   }
   function frise(id) {
-    var d = faits(), r = MOMS[id], h = '';
-    for (var i = 1; i <= 9; i++) h += '<i class="' + (i <= d ? 'ok' : '') + (i >= r[0] && i <= r[1] ? ' ici' : '') + '"></i>';
-    return '<div class="frise" role="img" aria-label="' + d + ' moments terminés sur 9">' + h + '</div>';
+    var d = faits(), r = MO(id), h = '', N = ALG ? 5 : 9;
+    for (var i = 1; i <= N; i++) h += '<i class="' + (i <= d ? 'ok' : '') + (i >= r[0] && i <= r[1] ? ' ici' : '') + '"></i>';
+    return '<div class="frise" role="img" aria-label="' + d + (ALG ? ' étapes terminées sur 5' : ' moments terminés sur 9') + '">' + h + '</div>';
   }
+  /* parcours allégé : cinq étapes */
+  var CHAP_A = ['Situation et résumé', 'Manipulation', 'À retenir', 'Défi'], NUMS_A = ['1-2', '3', '4', '5'];
+  var MOMS_A = { s1l: [1, 2], s1r: [1, 2], s2l: [3, 3], s2r: [3, 3], s3l: [4, 4], s3r: [4, 4], s4l: [5, 5], s4r: [5, 5] };
+  var ETAPES = ['Je lis la situation', 'Je regarde le résumé animé', 'Je manipule le modèle vivant et je vérifie', 'Je lis ce qu’il faut retenir', 'Je relève le défi'];
+  function CH() { return ALG ? CHAP_A : CHAP; }
+  function NU() { return ALG ? NUMS_A : NUMS; }
+  function MO(id) { return (ALG ? MOMS_A : MOMS)[id]; }
+  function vvOk() { var v = LEC && lit('vv-' + LEC.slug); return v && Array.isArray(v.ok) ? v.ok.filter(Boolean).length : 0; }
   var MOML = { s1l: 'Moments 1 et 2', s1r: 'Moments 1 et 2', s2l: 'Moments 3 à 7', s2r: 'Moments 3 à 7', s3l: 'Moment 8', s3r: 'Moment 8', s4l: 'Moment 9', s4r: 'Moment 9' };
 
   /* ---------- état ---------- */
@@ -71,6 +90,7 @@
   function spreadDe(m) { return m <= 2 ? 0 : m <= 7 ? 1 : m === 8 ? 2 : 3; }
   /* l'état du livre se déduit des fiches : rien à cocher à la main */
   function majEtat() {
+    if (ALG) { S.m = S.start || S.fini ? 9 : 1; sauve(); return; }   /* sans fiche : rien n'est verrouillé une fois la situation lue */
     var f = fichesL(), fin = 0, mx = 0;
     f.forEach(function (x) { var e = ficheEtat(x[0]); if (e.concl) fin++; if (e.stade > mx) mx = e.stade; });
     var m = !S.start ? 1 : fin ? 8 : 3;
@@ -81,6 +101,7 @@
 
   /* ---------- illustrations (une par thème) ---------- */
   function illustration() {
+    if (ALG) return '<svg viewBox="0 0 300 200" role="img" aria-label="Un erlenmeyer et un atome : un modèle à manipuler"><path d="M120 30h40v50l40 70a12 12 0 0 1-10 18H90a12 12 0 0 1-10-18l40-70z" fill="#EEF5FF" stroke="#243049" stroke-width="3"/><path d="M96 130h108l12 20a8 8 0 0 1-7 12H91a8 8 0 0 1-7-12z" fill="#7FB8E6"/><circle cx="140" cy="142" r="4" fill="#fff"/><circle cx="170" cy="150" r="3" fill="#fff"/><g transform="translate(235 60)" fill="none" stroke="#243049" stroke-width="2.5"><ellipse rx="34" ry="12"/><ellipse rx="34" ry="12" transform="rotate(60)"/><ellipse rx="34" ry="12" transform="rotate(-60)"/><circle r="6" fill="#C2410C" stroke="none"/></g></svg>';
     var A = window.NohobaAtelier, th = LEC.th;
     if (/Électricité|Mesure/.test(th) && LEC.slug !== 'pression-atmospherique' && A && A.montageSerie) return A.montageSerie({ inter: 'ferme' }).svg;
     if (LEC.slug === 'pression-atmospherique') return '<svg viewBox="0 0 300 200" role="img" aria-label="Seringue bouchée et manomètre"><rect x="40" y="80" width="170" height="44" rx="8" fill="#DCEBFA" stroke="#243049" stroke-width="3"/><rect x="210" y="92" width="60" height="20" rx="4" fill="#243049"/><rect x="70" y="84" width="10" height="36" fill="#243049"/><circle cx="150" cy="50" r="30" fill="#fff" stroke="#243049" stroke-width="3"/><path d="M150 50 L170 34" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/><path d="M150 80 V84" stroke="#243049" stroke-width="3"/></svg>';
@@ -95,7 +116,23 @@
     if (!S.start) return '<div class="note">Lis d’abord la situation, puis appuie sur « Je me mets au travail ».</div>';
     return '<ul class="fl">' + fichesL().map(function (x) { var st = statut(x); return '<li><a href="../activites-5e/?a=' + x[0] + '" data-fiche="' + x[0] + '" data-titre="' + esc(x[1]) + '"><span>' + esc(x[1]) + '</span><small class="' + st[1] + '">' + st[0] + '</small></a></li>'; }).join('') + '</ul>';
   }
+  /* pages du parcours allégé (les pages non listées ici restent celles du livre) */
+  function contenuA(id) {
+    var I = L.inquiry || {};
+    switch (id) {
+      case 's1l': return '<p class="th">' + esc(L.theme || LEC.th) + '</p><h1>' + esc(L.title || LEC.t) + '</h1><p class="hook">' + esc(I.situation || '') + '</p>'
+        + '<div class="note">Dans cette leçon, tu manipules un modèle, tu retiens l’essentiel, puis tu relèves un défi. Rien n’est verrouillé.</div>'
+        + (S.start ? '' : '<button type="button" class="go bas" data-start>Je me mets au travail</button>');
+      case 's2l': return '<h2>Le laboratoire</h2><p class="hook">Prédis, manipule, vérifie : un modèle se dresse sur la page.</p>' + pop('') + btnVivant('Ouvrir le modèle vivant') + '<button type="button" class="libre" data-labo>Explorer librement la simulation</button>';
+      case 's2r': return '<h2>Mon parcours</h2><ol class="mom">' + ETAPES.map(function (t, k) { var n = k + 1, d = faits(), cl = n <= d ? 'ok' : n === d + 1 ? 'en' : '', det = n === 3 && vvOk() ? '<em>' + vvOk() + ' vérification' + (vvOk() > 1 ? 's' : '') + ' réussie' + (vvOk() > 1 ? 's' : '') + '</em>' : '';
+          return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol><div class="note">Pas de fiche d’investigation pour cette leçon pour le moment : le modèle vivant sert de laboratoire.</div>';
+      case 's3l': return '<h1>À retenir</h1><ul class="ret">' + (L.retiens || []).map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul><button type="button" class="libre" data-resume>Revoir le résumé animé</button>';
+      case 's3r': return '<h2>Je vérifie</h2><p class="hook">Reviens au modèle pour contrôler ce que tu retiens : prédis, regarde, réponds.</p>' + pop('') + btnVivant('Vérifier avec le modèle vivant');
+    }
+    return null;
+  }
   function contenu(id) {
+    if (ALG) { var a = contenuA(id); if (a != null) return a; }
     var I = L.inquiry || {}, F = fichesL();
     switch (id) {
       case 's1l': return '<p class="th">' + esc(L.theme || LEC.th) + '</p><h1>' + esc(L.title || LEC.t) + '</h1><p class="hook">' + esc(I.situation || '') + '</p>'
@@ -118,11 +155,11 @@
   function defi() {
     var n = L.quiz.length, tete = mode === 'sgl' ? '<h2>Le défi</h2>' : '';
     if (S.m < 9) return tete + '<p>Termine d’abord toutes les fiches de la leçon.</p>';
-    if (S.fini) return '<h2>Défi terminé</h2><p class="stars" aria-label="' + etoiles() + ' étoiles sur 3">' + stars(etoiles()) + '</p><p class="hook">' + score() + ' manches réussies sur ' + n + '.</p><div class="note">Ta leçon est complète : le livre garde tout ce que tu as écrit dans tes fiches.</div>' + '<a class="go bas" href="./" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Retour au sommaire</a>';
+    if (S.fini) return '<h2>Défi terminé</h2><p class="stars" aria-label="' + etoiles() + ' étoiles sur 3">' + stars(etoiles()) + '</p><p class="hook">' + score() + ' manches réussies sur ' + n + '.</p><div class="note">' + (ALG ? 'Ta leçon est complète : tu peux la reprendre quand tu veux.' : 'Ta leçon est complète : le livre garde tout ce que tu as écrit dans tes fiches.') + '</div>' + '<a class="go bas" href="./" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Retour au sommaire</a>';
     var i = S.q.length, q = L.quiz[i];
     return tete + '<p class="tag"><span>Manche ' + (i + 1) + ' sur ' + n + '</span></p><h2>' + q.q + '</h2><div class="ch" data-dq role="group" aria-label="Réponses possibles">' + q.o.map(function (o, k) { return '<button type="button" data-i="' + k + '">' + o + '</button>'; }).join('') + '</div><div data-dx aria-live="polite"></div>';
   }
-  function tag(id) { var c = CH_OF[id]; return '<div class="tag"><span>' + CHAP[c] + '</span><span>' + (MOMS[id][0] === MOMS[id][1] ? 'Moment ' + MOMS[id][0] : 'Moments ' + MOMS[id][0] + ' à ' + MOMS[id][1]) + '</span></div>' + frise(id); }
+  function tag(id) { var c = CH_OF[id], m = MO(id), w = ALG ? 'Étape' : 'Moment'; return '<div class="tag"><span>' + CH()[c] + '</span><span>' + (m[0] === m[1] ? w + ' ' + m[0] : w + 's ' + m[0] + ' à ' + m[1]) + '</span></div>' + frise(id); }
   function page(id, side) { return '<div class="page ' + side + '" data-pg="' + id + '">' + tag(id) + contenu(id) + '</div>'; }
   function nu(id, side) { return page(id, side).replace(/ id="[^"]*"/g, ''); }
 
@@ -147,7 +184,7 @@
     $$('[data-vivant]', root).forEach(function (b) { b.onclick = function () { cadre('vivant', $('.panel', b.closest('.page')) || b); }; });
     $$('[data-labo]', root).forEach(function (b) { b.onclick = function () { cadre('sim', $('.panel', b.closest('.page')) || b); }; });
     brancheFiches(root);
-    $$('[data-start]', root).forEach(function (b) { b.onclick = function () { S.start = 1; majEtat(); var t = cible(S.m); if (t != null) aller(t); else monte(); }; });
+    $$('[data-start]', root).forEach(function (b) { b.onclick = function () { S.start = 1; majEtat(); var t = ALG ? (mode === 'sgl' ? SP2SGL[1] : 1) : cible(S.m); if (t != null) aller(t); else monte(); }; });
     var d = $('[data-pg="s4r"]', root); if (d) liedefi(d);
   }
   function aller(t, direct) {
@@ -247,16 +284,19 @@
   function tocTheme(t, k) { return '<h2>' + (k + 1) + '. ' + esc(t.nm) + '</h2>' + t.les.map(function (l) { return '<a href="?l=' + l.slug + '"><span>' + esc(l.t) + '</span>' + etat(l.slug) + '</a>'; }).join(''); }
   function sommaire() {
     document.body.classList.add('somm');
-    var tete = '<div class="tag"><span>NOHOBA-Lab · Physique-chimie 5e</span><span>Prototype</span></div>';
-    if (mode === 'sgl') { $('#sL').innerHTML = ''; $('#sR').innerHTML = '<div class="page S" style="overflow:auto">' + tete + '<h1>Sommaire</h1><div class="toc">' + THEMES.map(tocTheme).join('') + '</div></div>'; }
+    var TH = NIVS[NIV] || [], tete = '<div class="tag"><span>NOHOBA-Lab · Physique-chimie ' + NIV + '</span><span>Prototype</span></div>';
+    var niv = '<nav class="niv" aria-label="Choisir ma classe">' + NIVEAUX.map(function (n) { return '<a href="?n=' + n + '"' + (n === NIV ? ' aria-current="page"' : '') + ' aria-label="Classe de ' + n + '">' + n + '</a>'; }).join('') + '</nav>';
+    var note = NIV === '5e' ? 'Dans chaque leçon, tu mènes ton investigation dans une fiche, et le livre garde ton avancée.' : 'Dans chaque leçon, tu regardes un résumé animé, tu manipules un modèle, tu retiens l’essentiel et tu relèves un défi. Les fiches d’investigation arrivent bientôt.';
+    var h = Math.ceil(TH.length / 2);
+    if (mode === 'sgl') { $('#sL').innerHTML = ''; $('#sR').innerHTML = '<div class="page S" style="overflow:auto">' + tete + '<h1>Sommaire</h1>' + niv + '<div class="toc">' + TH.map(tocTheme).join('') + '</div></div>'; }
     else {
-      $('#sL').innerHTML = '<div class="page L">' + tete + '<h1>Sommaire</h1><div class="toc">' + tocTheme(THEMES[0], 0) + tocTheme(THEMES[1], 1) + '</div></div>';
-      $('#sR').innerHTML = '<div class="page R">' + tete + '<div class="toc">' + tocTheme(THEMES[2], 2) + tocTheme(THEMES[3], 3) + '</div><div class="note">Dans chaque leçon, tu mènes ton investigation dans une fiche, et le livre garde ton avancée.</div></div>';
+      $('#sL').innerHTML = '<div class="page L">' + tete + '<h1>Sommaire</h1>' + niv + '<div class="toc">' + TH.slice(0, h).map(tocTheme).join('') + '</div></div>';
+      $('#sR').innerHTML = '<div class="page R">' + tete + '<div class="toc">' + TH.slice(h).map(function (t, k) { return tocTheme(t, h + k); }).join('') + '</div><div class="note">' + note + '</div></div>';
     }
   }
   function couverture() {
     var c = $('#couv'), bk = $('#book');
-    c.innerHTML = '<div class="f"><span class="cv-k">NOHOBA-Lab</span><p class="cv-t">Mon cartable de physique-chimie</p><span class="cv-n">5e</span><button type="button" class="cv-go" data-ouvrir>Ouvrir mon livre</button></div><div class="b"></div>';
+    c.innerHTML = '<div class="f"><span class="cv-k">NOHOBA-Lab</span><p class="cv-t">Mon cartable de physique-chimie</p><span class="cv-n">' + NIV + '</span><button type="button" class="cv-go" data-ouvrir>Ouvrir mon livre</button></div><div class="b"></div>';
     c.hidden = false; c.classList.remove('ouvert'); bk.classList.add('ferme');
     $('[data-ouvrir]', c).onclick = function () {
       audio(); papier(); bk.classList.remove('ferme'); c.classList.add('ouvert');
@@ -269,7 +309,8 @@
   function majNav() {
     if (!LEC) return;
     var c = posCour(), ch0 = SGL2SP[S.pos];
-    $('#dots').innerHTML = CHAP.map(function (t, i) { var ok = i <= spreadDe(S.m); return '<button type="button" data-c="' + i + '" aria-label="Moment' + (NUMS[i].length > 1 ? 's ' + NUMS[i].replace('-', ' à ') : ' ' + NUMS[i]) + ', ' + t + (ok ? '' : ', pas encore ouvert') + '"' + (ch0 === i ? ' aria-current="step"' : '') + (ok ? '' : ' disabled') + '>' + NUMS[i] + '</button>'; }).join('');
+    var NM = NU(), w = ALG ? 'Étape' : 'Moment';
+    $('#dots').innerHTML = CH().map(function (t, i) { var ok = i <= spreadDe(S.m); return '<button type="button" data-c="' + i + '" aria-label="' + w + (NM[i].length > 1 ? 's ' + NM[i].replace('-', ' à ') : ' ' + NM[i]) + ', ' + t + (ok ? '' : ', pas encore ouvert') + '"' + (ch0 === i ? ' aria-current="step"' : '') + (ok ? '' : ' disabled') + '>' + NM[i] + '</button>'; }).join('');
     $('#prev').disabled = c === 0; $('#next').disabled = !debloque(c + 1);
   }
   function ajuste() {
@@ -332,6 +373,7 @@
       return;
     }
     document.title = LEC.t + ' · Mon cartable de physique-chimie · NOHOBA-Lab';
+    document.documentElement.setAttribute('data-parcours', ALG ? 'allege' : 'complet');
     S = charge(LEC.slug);
     $('#sR').innerHTML = '<div class="page S"><p class="hook">Ouverture de la leçon…</p></div>';
     charger(function (err) {
@@ -341,6 +383,6 @@
       monte();
     });
   }
-  window.NohobaLivre = { lecons: function () { return LECONS.map(function (l) { return l.slug; }); } };
+  window.NohobaLivre = { lecons: function () { return LECONS.filter(function (l) { return l.niv === '5e'; }).map(function (l) { return l.slug; }); }, toutes: function () { return LECONS.map(function (l) { return l.niv + ':' + l.slug; }); }, allege: function () { return ALG; } };
   init();
 })();
