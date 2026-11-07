@@ -65,7 +65,7 @@
     var L = filled ? F.lignes(st) : [], nr = Math.max(L.length, F.lignesVides || 3), rows = '', i;
     for (i = 0; i < nr; i++) rows += '<tr>' + F.colonnes.map(function (_, k) { return '<td>' + (L[i] ? esc(L[i][k]) : '') + '</td>'; }).join('') + '</tr>';
     var tag = prof ? 'Version professeur' : filled ? 'Fiche remplie' : 'Fiche vierge';
-    var head = '<header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : 'Cycle 4 France') + '</span><span class="sh-tag">' + tag + '</span></header>' +
+    var head = '<header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : F.id.indexOf('NL-5E-') === 0 ? '5e' : 'Cycle 4 France') + '</span><span class="sh-tag">' + tag + '</span></header>' +
       '<h1>' + esc(F.titre) + '</h1><p class="sh-meta">' + esc(F.niveau) + ' · ' + esc(F.chapitre) + ' · version ' + esc(F.version) + '</p>';
     var pedagogiePrint = F.theme || F.competenceVisee || F.objectifsPedagogiques
       ? '<div class="sh-q">' + (F.theme ? '<p><b>Thème :</b> '+esc(F.theme)+'</p>' : '')
@@ -100,7 +100,7 @@
       after + evalSec(F, st, filled) +
       '<footer class="sh-foot">NOHOBA-Lab · lab.nohaba.com · ' + (filled ? 'données simulées par le modèle de l’activité' : 'à compléter au stylo') + '</footer></div>';
     var pr = '';
-    if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : 'Cycle 4 France') + '</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
+    if (prof) pr = '<div class="sh-page"><header class="sh-head"><span class="sh-brand">NOHOBA-Lab · ' + (F.id.indexOf('NL-CI-') === 0 ? '6e Côte d’Ivoire' : F.id.indexOf('NL-5E-') === 0 ? '5e' : 'Cycle 4 France') + '</span><span class="sh-tag">Corrigé professeur</span></header><h1>' + esc(F.titre) + '</h1>' +
       '<section class="sh-sec sh-ref"><p><b>Référence :</b> ' + esc(F.prof.reference) + '</p></section>' +
       sec('▸', 'Attendus', '<ul>' + F.prof.attendus.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') + sec('▸', 'Erreurs usuelles', '<ul>' + F.prof.erreurs.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>') +
       profPed(F) + privSecs(F, sec) + '</div>';
@@ -388,5 +388,17 @@
     draw();
   }
 
-  window.Activite = { cadreHTML: cadreHTML, run: run, num: num, h: h, $: $, esc: esc };
+  /* Atelier seul (livre) : la manipulation d'une fiche, sans onglets ni titres.
+     Mêmes données « pc-act-<id> » que la fiche complète : l'élève retrouve ses essais des deux côtés. */
+  function manip(F, root, onEssai) {
+    var KEY = 'pc-act-' + F.id, st = load(KEY);
+    if (!st.guidage) st.guidage = 'guide';
+    var panel = h('div', { role: 'region', 'aria-label': 'Atelier : ' + F.titre }, root);
+    F.manip(panel, { st: function () { return st; }, key: KEY, F: F, h: h, $: $, num: num, esc: esc, tableHTML: tableHTML,
+      save: function () { save(KEY, st); }, tabs: function () {},
+      addEssai: function (e) { e.ts = Date.now(); e.statut = 'simulé'; e.modele = F.modele; st.essais.push(e); save(KEY, st); if (onEssai) onEssai(st); },
+      aide: function () { var k = Math.min(st.aides, F.aides.length - 1); st.aides++; save(KEY, st); return F.aides[k]; } });
+  }
+
+  window.Activite = { cadreHTML: cadreHTML, run: run, manip: manip, num: num, h: h, $: $, esc: esc };
 })();

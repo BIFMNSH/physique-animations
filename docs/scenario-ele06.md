@@ -30,7 +30,7 @@ Proposition originale NohobaLab : ni texte officiel reproduit, ni conformité sc
 - Montage original : pile plate fictive de 4,5 V, interrupteur fermé, moteur à courant continu et lampe à filament, en série. Modèle qualitatif : compatibilité des récepteurs supposée, aucune vitesse ni intensité annoncée comme mesurée.
 - Une seule variable expérimentale : les polarités de la pile. Remettre le montage initial avant le deuxième essai ; ne pas permuter simultanément les récepteurs.
 - Montage réaliste et schéma normalisé côte à côte, synchronisés à chaque changement.
-- Bornes de même taille, + et − imprimés ; fils attachés aux bornes avec des pinces ; contacts de la lampe au plot et au culot, jamais au verre.
+- Bornes de même taille, + et − imprimés ; style banc d'essai (câbles à fiches sur les douilles du support de la lampe, pinces sur la pile, jamais au verre).
 - Le schéma conserve l’ordre des éléments et les polarités réelles. L’élève choisit les flèches ; la comparaison avec la convention apparaît après l’enregistrement des essais.
 - L’animation du moteur exprime uniquement un changement de sens. En mouvement réduit, un repère statique indique « rotation dans un sens » ou « rotation dans le sens opposé ».
 - L’analyse demande les deux orientations de la pile et deux observations rédigées. Aucune note de vitesse, aucun chronomètre.
