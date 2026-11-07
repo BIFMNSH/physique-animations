@@ -1,7 +1,9 @@
 /* NOHOBA-Lab · Mon cartable de physique-chimie (5e) : le parcours du cartable appliqué aux 13 leçons.
    Le livre raconte, ouvre la fiche d'investigation (six opérations) dans un volet, reprend en lecture seule ce que l'élève y a écrit,
    donne le bilan de chaque fiche, puis propose le défi. Il n'y a plus de cahier : la fiche est l'unique zone d'écriture (« pc-act-<id> »).
-   La simulation d'origine reste accessible par « Explorer librement ». Progression du livre : « pc-livre-<slug> ». Rien n'est envoyé. */
+   La simulation d'origine reste accessible par « Explorer librement ». Après l'investigation (moment 8) et au défi, le « modèle vivant » du livre vivant
+   (/livre-vivant/?l=<slug>&embed=1) s'ouvre dans le volet : un modèle à manipuler, « Prédis puis révèle » et une vérification par chapitre (progression « vv-<slug> »).
+   Progression du livre : « pc-livre-<slug> ». Rien n'est envoyé. */
 (function () {
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -31,6 +33,9 @@
     var t = lit('pc-act-' + id) || {}, e = Array.isArray(t.essais) ? t.essais.length : 0, c = typeof t.conclusion === 'string' ? t.conclusion.trim() : '';
     return { prev: t.prevision && t.prevision.raison ? t.prevision.raison : '', essais: e, concl: c, stade: c ? 6 : t.confront ? 5 : e ? 4 : t.prevision ? 3 : 0 };
   }
+  /* progression du modèle vivant (écrite par /livre-vivant/ dans « vv-<slug> ») : vérifications réussies */
+  function vivantEtat() { var v = LEC && lit('vv-' + LEC.slug), n = v && Array.isArray(v.ok) ? v.ok.filter(Boolean).length : 0; return n ? ' · ' + n + ' vérification' + (n > 1 ? 's' : '') + ' réussie' + (n > 1 ? 's' : '') : ''; }
+  function btnVivant(txt) { return '<button type="button" class="btn large" data-vivant>' + txt + '</button><p class="sm">Un modèle se dresse sur la page : tu le manipules, tu l’écoutes, tu vérifies' + vivantEtat() + '.</p>'; }
   function statut(x) { var e = ficheEtat(x[0]); return e.concl ? ['Terminée ✓', 'ok'] : e.stade ? ['En cours', 'en'] : ['À faire', 'af']; }
   function nbFinies(slug) { return (FICHES5E[slug] || []).filter(function (x) { return ficheEtat(x[0]).concl; }).length; }
   var CHAP = ['Situation-problème et analyse', 'Investigation', 'Bilan scientifique', 'Défi'], NUMS = ['1-2', '3-7', '8', '9'];
@@ -103,9 +108,9 @@
           if (n === 4 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.essais ? '<em>' + esc(x[1]) + ' : ' + e.essais + ' essai' + (e.essais > 1 ? 's' : '') + '</em>' : ''; }).join('');
           if (n === 7 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.concl ? '<em>' + esc(x[1]) + ' : ' + esc(e.concl) + '</em>' : ''; }).join('');
           return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol><div class="note">Les moments 3 à 7 se font dans la fiche. Ce que tu y écris apparaît ici.</div>';
-      case 's3l': return '<h1>Ce que dit l’expérience</h1>' + (F.filter(function (x) { return ficheEtat(x[0]).concl; }).map(function (x) { return cite('Ma conclusion · ' + esc(x[1]), ficheEtat(x[0]).concl); }).join('') || '<div class="note">Termine une fiche : ta conclusion et son bilan apparaîtront ici.</div>') + '<button type="button" class="btn large" data-resume>Revoir le résumé animé</button>';
+      case 's3l': return '<h1>Ce que dit l’expérience</h1>' + (F.filter(function (x) { return ficheEtat(x[0]).concl; }).map(function (x) { return cite('Ma conclusion · ' + esc(x[1]), ficheEtat(x[0]).concl); }).join('') || '<div class="note">Termine une fiche : ta conclusion et son bilan apparaîtront ici.</div>') + btnVivant('Manipuler le modèle vivant') + '<button type="button" class="libre" data-resume>Revoir le résumé animé</button>';
       case 's3r': return '<h2>Le bilan scientifique</h2><div class="bs">' + F.map(function (x) { var e = ficheEtat(x[0]), f = FI[x[0]]; return '<div class="bsf"><b>' + esc(x[1]) + '</b><p>' + (e.concl ? esc((f && f.synthese) || 'Bilan à venir.') : 'Termine cette fiche pour lire son bilan.') + '</p></div>'; }).join('') + '</div>';
-      case 's4l': return '<h1>Le défi</h1><p class="hook">' + L.quiz.length + ' manches, seul ou en équipe. Une erreur ne retire rien : chaque manche t’explique la réponse.</p><p class="stars" aria-label="' + (S.q.length ? etoiles() : 0) + ' étoiles sur 3">' + stars(S.q.length ? etoiles() : 0) + '</p><p>Score : ' + score() + ' sur ' + L.quiz.length + '.</p>' + (S.m < 9 ? '<div class="note">Le défi s’ouvre quand toutes les fiches de la leçon sont terminées.</div>' : '');
+      case 's4l': return '<h1>Le défi</h1><p class="hook">' + L.quiz.length + ' manches, seul ou en équipe. Une erreur ne retire rien : chaque manche t’explique la réponse.</p><p class="stars" aria-label="' + (S.q.length ? etoiles() : 0) + ' étoiles sur 3">' + stars(S.q.length ? etoiles() : 0) + '</p><p>Score : ' + score() + ' sur ' + L.quiz.length + '.</p>' + (S.m < 9 ? '<div class="note">Le défi s’ouvre quand toutes les fiches de la leçon sont terminées.</div>' : '<button type="button" class="libre" data-vivant>Réviser avec le modèle vivant</button>');
       case 's4r': return defi();
     }
     return '';
@@ -139,6 +144,7 @@
   }
   function lierPages(root) {
     $$('[data-resume]', root).forEach(function (b) { b.onclick = function () { cadre('resume', b); }; });
+    $$('[data-vivant]', root).forEach(function (b) { b.onclick = function () { cadre('vivant', $('.panel', b.closest('.page')) || b); }; });
     $$('[data-labo]', root).forEach(function (b) { b.onclick = function () { cadre('sim', $('.panel', b.closest('.page')) || b); }; });
     brancheFiches(root);
     $$('[data-start]', root).forEach(function (b) { b.onclick = function () { S.start = 1; majEtat(); var t = cible(S.m); if (t != null) aller(t); else monte(); }; });
@@ -205,11 +211,13 @@
   }
   function fermeVolet() { var V = $('#volet'); V.hidden = true; V.innerHTML = ''; }
   function cadre(kind, src) {
-    var sim = kind === 'sim', t = (sim ? 'Simulation · ' : 'Résumé animé · ') + esc(L.title);
+    var sim = kind === 'sim', viv = kind === 'vivant', t = (viv ? 'Modèle vivant · ' : sim ? 'Simulation · ' : 'Résumé animé · ') + esc(L.title);
     var V = ouvreVolet('<div class="labo" role="dialog" aria-modal="true" aria-label="' + t + '"><div class="lh"><b>' + t + '</b><button type="button" class="go" data-lfin>Revenir au livre</button></div>'
-      + '<div class="lcorps"><iframe title="' + t + '" src="../lecon/?l=' + encodeURIComponent(LEC.slug) + '&embed=' + kind + '#' + kind + '" allow="fullscreen"></iframe></div></div>', src);
-    $('[data-lfin]', V).onclick = fermeVolet;
+      + '<div class="lcorps"><iframe title="' + t + '" src="' + (viv ? '../livre-vivant/?l=' + encodeURIComponent(LEC.slug) + '&embed=1' : '../lecon/?l=' + encodeURIComponent(LEC.slug) + '&embed=' + kind + '#' + kind) + '" allow="fullscreen"></iframe></div></div>', src);
+    $('[data-lfin]', V).onclick = viv ? retourVivant : fermeVolet;
   }
+  /* au retour du modèle vivant, la page se réaffiche : le nombre de vérifications réussies se relit dans « vv-<slug> » */
+  function retourVivant() { fermeVolet(); monte(); }
   function cadreFiche(id, titre, src) {
     var t = 'Investigation · ' + titre;
     var V = ouvreVolet('<div class="labo" role="dialog" aria-modal="true" aria-label="' + t + '"><div class="lh"><b>' + t + '</b><button type="button" class="go" data-lfin>Revenir au livre</button></div>'

@@ -132,5 +132,10 @@ const attend=(ms)=>new Promise(r=>setTimeout(r,ms||40));
  w=ouvre('http://localhost/livre-vivant/?l=tension-sinusoidale');d=w.document;await attend();d.querySelector('#bAnim').click();d.querySelector('#bEns').click();d.querySelector('#ensOut').click();assert.ok(!d.body.classList.contains('ens'),'le bouton de sortie fonctionne');
  /* clavier : flèches */
  w=ouvre('http://localhost/livre-vivant/?l=conducteur-ohmique');d=w.document;await attend();d.querySelector('#bAnim').click();d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight'}));assert.equal(d.querySelector('#book .page').dataset.ci,'1');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowLeft'}));assert.equal(d.querySelector('#book .page').dataset.ci,'0');
+ /* mode intégré au cartable (embed=1) : deux chapitres, pas de défi, pas de sommaire ni de mode enseignant */
+ w=ouvre('http://localhost/livre-vivant/?l=masse-poids&embed=1');d=w.document;await attend();d.querySelector('#bAnim').click();
+ assert.ok(d.body.classList.contains('embed'),'classe embed');assert.equal(d.querySelectorAll('#dots button').length,w.Vivant.etat().M.chap.length,'seulement les chapitres, sans défi');
+ assert.ok(!w.Vivant.etat().M.chap[0].defi&&d.querySelector('#couv').hidden,'pas de couverture');d.querySelector('#next').click();d.querySelector('#next').click();assert.ok(d.querySelector('#next').disabled,'dernier chapitre : fin du livre intégré');
+ assert.ok(/embed #bSom/.test(css)&&/embed=1/.test(eng),'styles et moteur du mode intégré');
  console.log('Livre vivant : lois, structure des 53 leçons, sommaire des 4 niveaux (53 leçons), prédis puis révèle, vérification, laboratoire, son plafonné, défi à 7 manches, reprise, téléphone, mode enseignant et flèches contrôlés.');
 })().catch(e=>{console.error(e);process.exit(1);});

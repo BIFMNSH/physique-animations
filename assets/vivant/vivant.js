@@ -15,6 +15,9 @@
 
   var V = window.Vivant = { mods: {}, fr: fr, add: function (m) { V.mods[m.slug] = m; } };
   var NIVEAUX = ['6e', '5e', '4e', '3e'];
+  /* « embed=1 » : le livre vivant s'ouvre dans le volet du cartable (/livre/) ; pas de sommaire, de couverture ni de défi (le cartable a le sien). */
+  var EMB = /[?&]embed=1(&|$)/.test(location.search);
+  if (EMB && document.body) document.body.classList.add('embed');
   var ST = { niv: '5e', slug: '', les: null, th: null, M: null, D: null, mode: 'dbl', anim: true, son: true, ens: false, pos: 0, busy: false, sv: null, lv: {}, labs: [], dm: null };
 
   /* ---------- crayon : traits un peu tremblés, déterministes (rien ne scintille) ---------- */
@@ -127,7 +130,7 @@
 
   /* ---------- pages ---------- */
   function chaps() { return ST.M.chap; }
-  function nbSp() { return chaps().length + 1; }
+  function nbSp() { return chaps().length + (EMB ? 0 : 1); }
   function sv() { return ST.sv; }
   function sauve() { ecrit('vv-' + ST.slug, ST.sv); }
   function stars(n) { return '★'.repeat(n) + '☆'.repeat(3 - n); }
@@ -288,7 +291,7 @@
     var C = $('#couv'); if (!C) return;
     var url = /[?&]l=([a-z0-9-]+)/.exec(location.search), vu = false;
     try { vu = sessionStorage.getItem('vv-couv') === '1'; } catch (e) {}
-    if (url || vu) { C.hidden = true; return; }
+    if (url || vu || EMB) { C.hidden = true; return; }
     document.body.classList.add('avec-couv'); var b = $('#couvGo', C);
     function ouvre(n) { if (typeof n === 'string' && NIVEAUX.indexOf(n) >= 0) { ST.niv = n; try { localStorage.setItem('vv-niveau', n); } catch (e) {} sommaire(); } try { sessionStorage.setItem('vv-couv', '1'); } catch (e) {} C.classList.add('ouvre'); document.body.classList.remove('avec-couv'); setTimeout(function () { C.hidden = true; var t = $('.niv button[aria-selected="true"]'); if (t) t.focus(); }, ST.anim ? 1100 : 0); }
     b.onclick = function () { ouvre(); }; $$('.cv-lv button', C).forEach(function (x) { x.onclick = function () { ouvre(x.getAttribute('data-n')); }; }); b.focus();

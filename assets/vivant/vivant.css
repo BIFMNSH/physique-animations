@@ -198,3 +198,6 @@ body.avec-couv #app,body.avec-couv #ensOut{visibility:hidden}
 @keyframes cvOpen{to{transform:rotateY(-105deg)}}
 @keyframes cvFade{0%,60%{opacity:1}100%{opacity:0}}
 body:not(.anim) .cv-halo,body:not(.anim) .cv-t b,body:not(.anim) .cv-go:after,body:not(.anim) .cv-p{animation:none}body:not(.anim) .cv-p{display:none}
+
+/* intégré dans le volet du cartable : pas de retour au sommaire, pas de mode enseignant */
+.embed #bSom,.embed #bEns,.embed #ensOut{display:none!important}

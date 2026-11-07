@@ -38,7 +38,11 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  assert.ok($('#volet').hidden);assert.equal(d.querySelectorAll('.mom li').length,9,'les 9 moments sont listés');assert.match($('[data-pg="s2r"]').textContent,/9\. Je relève un défi[\s\S]*|3\. Je formule mon hypothèse/);assert.match($('[data-pg="s2r"]').textContent,/Mon hypothèse car[\s\S]*1 essai/,'ce que l’élève a écrit dans la fiche apparaît dans le livre');assert.match($('.fl a').textContent,/En cours/);assert.ok($('#next').disabled,'pas de bilan avant la conclusion');
  w.localStorage.setItem(F,JSON.stringify({prevision:{raison:'Mon hypothèse car'},essais:[{}],confront:{verdict:1},conclusion:'Le gaz se dilate.'}));$('.fl a').click();$('[data-lfin]').click();
  assert.equal(pos(w),'s3l,s3r','la conclusion ouvre « Ce que dit l’expérience »');assert.match($('[data-pg="s3l"]').textContent,/Le gaz se dilate/);assert.match($('[data-pg="s3r"]').textContent,/Bilan de la fiche/,'chaque fiche a son bilan');
- assert.ok(!$('#next').disabled,'une seule fiche, toutes terminées : le défi s’ouvre');$('#next').click();assert.equal(pos(w),'s4l,s4r');
+ /* modèle vivant : proposé après l'investigation, ouvert dans le volet en mode intégré, vérifications relues dans vv-<slug> */
+ assert.ok(!$('[data-pg="s2l"]'),'on est au bilan');assert.ok($('[data-pg="s3l"] [data-vivant]'),'bouton « modèle vivant » au moment 8');
+ $('[data-pg="s3l"] [data-vivant]').click();assert.match($('#volet iframe').getAttribute('src'),/livre-vivant\/\?l=dilatation-gaz&embed=1/);assert.match($('#volet').textContent,/Modèle vivant/);
+ w.localStorage.setItem('vv-dilatation-gaz',JSON.stringify({q:[],fini:false,ok:[true,true],pos:0}));$('[data-lfin]').click();assert.ok($('#volet').hidden);assert.match($('[data-pg="s3l"]').textContent,/2 vérifications réussies/,'progression du modèle vivant relue');
+ assert.ok(!$('#next').disabled,'une seule fiche, toutes terminées : le défi s’ouvre');$('#next').click();assert.equal(pos(w),'s4l,s4r');assert.ok($('[data-pg="s4l"] [data-vivant]'),'réviser avec le modèle vivant au défi');
  for(let i=0;i<5;i++){assert.match($('[data-pg="s4r"]').textContent,new RegExp('Manche '+(i+1)+' sur 5'));$('[data-dq] [data-i="'+(i===4?0:1)+'"]').click();assert.match($('[data-dx]').textContent,/Parce que/);$('[data-dsv]').click();}
  assert.match($('[data-pg="s4r"]').textContent,/Défi terminé[\s\S]*4 manches réussies sur 5/);assert.ok(!$('#fin'));
  /* leçon à trois fiches : une seule fiche terminée ouvre son bilan mais pas le défi */
