@@ -155,7 +155,7 @@
           if (n === 7 && S.start) det = F.map(function (x) { var e = ficheEtat(x[0]); return e.concl ? '<em>' + esc(x[1]) + ' : ' + esc(e.concl) + '</em>' : ''; }).join('');
           return '<li class="' + cl + '"><b>' + n + '. ' + esc(t) + '</b>' + det + '</li>'; }).join('') + '</ol><div class="note">Les moments 3 à 7 se font dans la fiche. Ce que tu y écris apparaît ici.</div>';
       case 's3l': return '<h1>Ce que dit l’expérience</h1>' + (F.filter(function (x) { return ficheEtat(x[0]).concl; }).map(function (x) { return cite('Ma conclusion · ' + esc(x[1]), ficheEtat(x[0]).concl); }).join('') || '<div class="note">Termine une fiche : ta conclusion et son bilan apparaîtront ici.</div>') + btnVivant('Manipuler le modèle vivant') + '<button type="button" class="libre" data-resume>Revoir le résumé animé</button>';
-      case 's3r': return '<h2>Le bilan scientifique</h2><div class="bs">' + F.map(function (x) { var e = ficheEtat(x[0]), f = FI[x[0]]; return '<div class="bsf"><b>' + esc(x[1]) + '</b><p>' + (e.concl ? esc((f && f.synthese) || (estCI(x[0]) ? 'Fiche terminée : relis « À retenir » dans la leçon.' : 'Bilan à venir.')) : 'Termine cette fiche pour lire son bilan.') + '</p></div>'; }).join('') + '</div>';
+      case 's3r': return '<h2>Le bilan scientifique</h2><div class="bs">' + F.map(function (x) { var e = ficheEtat(x[0]), f = FI[x[0]]; return '<div class="bsf"><b>' + esc(x[1]) + '</b><p>' + (e.concl ? esc((f && f.synthese) || 'Bilan à venir.') : 'Termine cette fiche pour lire son bilan.') + '</p></div>'; }).join('') + '</div>';
       case 's4l': return '<h1>Le défi</h1><p class="hook">' + L.quiz.length + ' manches, seul ou en équipe. Une erreur ne retire rien : chaque manche t’explique la réponse.</p><p class="stars" aria-label="' + (S.q.length ? etoiles() : 0) + ' étoiles sur 3">' + stars(S.q.length ? etoiles() : 0) + '</p><p>Score : ' + score() + ' sur ' + L.quiz.length + '.</p>' + (S.m < 9 ? '<div class="note">Le défi s’ouvre quand toutes les fiches de la leçon sont terminées.</div>' : '<button type="button" class="libre" data-vivant>Réviser avec le modèle vivant</button>');
       case 's4r': return defi();
     }
@@ -351,7 +351,19 @@
     window.__momentsCapture = function (c) { L = c; };
     var files = [].concat(LEC.kit || []).map(function (k) { return '../assets/studio/kits/' + k + '.js'; }).concat('../assets/studio/lecons/' + LEC.slug + '.js').concat(fichesL().filter(function (x) { return !estCI(x[0]); }).map(function (x) { return '../assets/activites/fiches/' + x[0] + '.js'; }));
     (function next(i) {
-      if (i >= files.length) { fichesL().forEach(function (x) { if (!estCI(x[0])) FI[x[0]] = window[cleFiche(x[0])]; }); fin(L && L.inquiry && L.quiz && L.quiz.length ? null : new Error('données')); return; }
+      if (i >= files.length) {
+        fichesL().forEach(function (x) { if (!estCI(x[0])) FI[x[0]] = window[cleFiche(x[0])]; });
+        var ok = function () { fin(L && L.inquiry && L.quiz && L.quiz.length ? null : new Error('données')); };
+        /* fiches ivoiriennes : seule la synthèse est lue dans le fichier (le moteur des fiches n'est pas chargé dans le livre) */
+        var ci = fichesL().filter(function (x) { return estCI(x[0]); });
+        if (!ci.length || typeof fetch !== 'function') { ok(); return; }
+        Promise.all(ci.map(function (x) {
+          return fetch('../assets/activites/fiches/' + x[0] + '.js').then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {
+            var m = /synthese\s*:\s*'((?:[^'\\]|\\.)*)'/.exec(t); if (m) FI[x[0]] = { synthese: m[1].replace(/\\(.)/g, '$1') };
+          }).catch(function () {});
+        })).then(ok, ok);
+        return;
+      }
       var sc = document.createElement('script'); sc.src = files[i];
       sc.onload = function () { next(i + 1); }; sc.onerror = function () { if (/fiches\//.test(files[i])) next(i + 1); else fin(new Error('chargement')); };
       document.body.appendChild(sc);
