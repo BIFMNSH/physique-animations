@@ -1,3 +1,4 @@
+import { clientIp } from './ip.js';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
@@ -23,7 +24,7 @@ function tooMany(key, max, windowMs) {
   if (hits.size > 5000) for (const [k, v] of hits) if (!v.length || now - v[v.length - 1] > windowMs) hits.delete(k);
   return arr.length > max;
 }
-const ipOf = (c) => (c.req.header('x-forwarded-for') || '').split(',')[0].trim() || 'local';
+const ipOf = (c) => clientIp((h) => c.req.header(h));
 
 export function createApp() {
   const app = new Hono({ strict: false });
