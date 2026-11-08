@@ -12,8 +12,8 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Investigation 6e · NOHOBA-Lab", "url": "https://lab.nohaba.com/activites-ci/", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "description": "Activité d'investigation scientifique de sixième, programme ivoirien."}</script>
 </head>
 <body>
-<header class="top noprint"><div class="wrap"><b>NOHOBA-Lab · 6e Côte d’Ivoire</b> <a class="btn" id="retour" href="../parcours-ci/?l=circuit-electrique">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
-<main class="wrap" id="app"><noscript><h1>Investigation scientifique de 6e</h1><p>Activer JavaScript pour l'activité.</p></noscript></main>
+<header class="top noprint"><div class="wrap"><a class="skip-link" href="#top">Aller au contenu principal</a> <b>NOHOBA-Lab · 6e Côte d’Ivoire</b> <a class="btn" id="retour" href="../parcours-ci/?l=circuit-electrique">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
+<main class="wrap" id="app" tabindex="-1"><noscript><h1 id="top" tabindex="-1">Investigation scientifique de 6e</h1><p>Activer JavaScript pour l'activité.</p></noscript></main>
 <script src="../assets/shared/conductivite-modele.js"></script>
 <script src="../assets/shared/conductivite-circuit.js"></script>
 <script src="../assets/shared/atelier-electrique.js"></script>
@@ -50,7 +50,7 @@
     var f=window[key];
     if(!f||!window.Activite){app.textContent='L’activité n’a pas pu être chargée.';return;}
     document.title=f.titre+' · NOHOBA-Lab';
-    var t=document.createElement('h1');t.textContent=f.titre;app.appendChild(t);
+    var t=document.createElement('h1');t.id='top';t.tabIndex=-1;t.textContent=f.titre;app.appendChild(t);
     var p=document.createElement('p');p.className='sub';p.textContent=entry.theme==='Énergie'?'6e · Pour aller plus loin (hors programme officiel) · Énergie · Investigation expérimentale':'6e · Programme ivoirien · '+(entry.theme||'Sciences physiques')+' · Investigation expérimentale';app.appendChild(p);
     if(entry.statut==='prototype'){
       var note=document.createElement('p');note.className='msg noprint';

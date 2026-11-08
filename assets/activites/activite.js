@@ -185,7 +185,7 @@
     function sSituation() {
       if (F.guidage) {
         var gcard = h('div', { class:'card' }, panel);
-        h('h3', { text:'Mon mode d’investigation' }, gcard);
+        h('h2', { text:'Mon mode d’investigation' }, gcard);
         var glabel = h('label', { for:'nl-guide', text:'Choisir le mode :' }, gcard);
         var gs = h('select', { id:'nl-guide' }, gcard, '<option value="guide">Guidé — consignes et aides</option><option value="autonome">Autonome — je choisis ma stratégie</option>');
         gs.value = st.guidage;

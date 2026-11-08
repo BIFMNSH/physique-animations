@@ -276,6 +276,14 @@ const OK=/^Bonne réponse/,KO=/^Ce n’est pas la bonne réponse/;
 for(const i of IDS){const F=w['FICHE_CI_CHI'+i];const {st}=lancer(i);assert.ok(Array.isArray(F.lignes(st)));assert.ok(Array.isArray(F.diagnostic(st)));}
 console.log('Lot Chimie : 22 parcours complets (hypothèse, essais, classements avec nouvel essai, verrous de progression, reprise) contrôlés.');
 
+{const app=doc.createElement('main'),title=doc.createElement('h1');title.id='top';title.tabIndex=-1;title.textContent='Lire les pictogrammes';app.appendChild(title);doc.body.appendChild(app);
+ w.Activite.run(w.FICHE_CI_CHI19,app);
+ const levels=[...app.querySelectorAll('h1,h2,h3')].map(e=>Number(e.tagName.slice(1)));
+ for(let i=1;i<levels.length;i++)assert.ok(levels[i]<=levels[i-1]+1,'la hiérarchie des titres ne saute pas de niveau');
+ assert.equal(app.querySelector('.card h2').textContent,'Mon mode d’investigation','le réglage guidé est un titre de niveau 2');
+ assert.equal(app.querySelector('h1#top[tabindex="-1"]'),title,'la cible du lien clavier est le titre de la fiche');}
+console.log('Lot Chimie : hiérarchie des titres vérifiée dans l’interface CHI-19.');
+
 /* ---------- catalogue, pages, hors-ligne, hub ---------- */
 {const dom=new JSDOM('',{runScripts:'outside-only'});dom.window.eval(read('assets/catalogues/6e-ci.js'));
  const cat=dom.window.NL_CATALOGUE_CI_6E,chi=cat.filter(x=>x.theme==='Air et combustions');
@@ -286,6 +294,7 @@ console.log('Lot Chimie : 22 parcours complets (hypothèse, essais, classements 
  assert.equal(chi.filter(x=>x.lecon==='Combustion de gaz').length,5);assert.equal(chi.filter(x=>x.lecon==='Dangers des combustions').length,5);
  for(const e of chi){const F=w['FICHE_CI_CHI'+e.sourceId.slice(-2)];assert.equal(F.theme,e.theme,e.id);}}
 const page=read('activites-ci/index.html'),et=read('assets/simple/etapes-ci.js'),sw=read('sw.js');
+assert.ok(page.includes('<a class="skip-link" href="#top">Aller au contenu principal</a>')&&page.includes('<main class="wrap" id="app" tabindex="-1"><noscript><h1 id="top" tabindex="-1">'),'lien clavier vers le contenu principal');
 assert.ok(page.includes('CHI-(?:0[1-9]|1[0-9]|2[0-2])')&&et.includes('CHI-(?:0[1-9]|1[0-9]|2[0-2])'),'liste autorisée des deux fichiers');
 assert.ok(/chimie-modele\.js/.test(page)&&/chimie-dessins\.js/.test(page),'modules chargés par la page d’activité');
 assert.ok(page.indexOf('chimie-modele.js')<page.indexOf('chimie-dessins.js')&&page.indexOf('chimie-dessins.js')<page.indexOf('6e-ci.js'));
