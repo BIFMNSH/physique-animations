@@ -107,7 +107,7 @@ assert.ok(ld.getElementById('go').textContent.includes('Enquête'),'action suiva
 assert.ok(!ld.getElementById('bonus').hidden,'défi proposé en bonus');
 assert.equal(ld.getElementById('prev').hidden,true);assert.ok(ld.getElementById('next').textContent.includes('Commande'));
 lw.close();
-/* Leçon sans investigation validée (Grandeurs et mesures : encore en conception) : le défi attend la démarche, avec le même message. */
+/* Leçon sans investigation validée (Mesure de grandeurs physiques : fiches encore en prototype) : le défi attend la démarche, avec le même message. */
 {const lw2=new JSDOM(read('parcours-ci/index.html'),{url:'http://localhost/parcours-ci/?l=masse',runScripts:'outside-only'}).window;lw2.requestAnimationFrame=()=>0;
 for(const s of lw2.document.querySelectorAll('script')){const src=s.getAttribute('src');if(s.type==='application/ld+json')continue;lw2.eval(src?read(path.resolve(root,'parcours-ci',src)):s.textContent);}
 assert.deepEqual([...lw2.document.querySelectorAll('[data-aide]')].map(b=>b.querySelector('b').textContent),['Enquête','Vérifie'],'défi et quiz attendent la démarche');lw2.close();}
@@ -120,12 +120,12 @@ w6.close();
 console.log('Page de leçon 6e : étapes, verrou de la démarche, action unique et reprise contrôlés.');
 assert.ok(fs.existsSync(path.join(root,'decouvrir/index.html')),'ancienne page d’accueil conservée pour profs et parents');
 const c=page('collections/index.html'),cd=c.document;
-assert.ok(cd.getElementById('ciTotal').textContent.includes('89'));
+assert.ok(cd.getElementById('ciTotal').textContent.includes('90'));
 assert.ok(cd.getElementById('frTotal').textContent.includes('48'));
 assert.equal(cd.querySelectorAll('.catalogue-group').length,5);
 assert.equal(cd.querySelectorAll('.collection-lesson').length,16);
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,89);
-assert.equal(cd.querySelectorAll('.collection-activities a').length,59,'cinquante-neuf fiches validées manipulables (17 Électricité, 32 Matière, 10 Énergie)');
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,90);
+assert.equal(cd.querySelectorAll('.collection-activities a').length,70,'cinquante-neuf fiches validées (17 Électricité, 32 Matière, 10 Énergie) et onze prototypes MES manipulables');
 assert.ok(!/NL-CI|NL-C4|(ELE|ENE)-\d{2}/.test(cd.body.textContent),'aucun code interne affiché dans Collections');
 c.localStorage.setItem('pc-act-NL-CI-6E-ELE-01',JSON.stringify({v:1,prevision:{choix:'signes'},essais:[]}));
 c.dispatchEvent(new c.PageTransitionEvent('pageshow',{persisted:true}));
@@ -142,8 +142,8 @@ assert.ok(cd.getElementById('foldCollections').disabled);
 filter('find','');filter('status','');filter('theme','Air et combustions');
 assert.equal(cd.querySelectorAll('.collection-activities>li').length,20);
 assert.equal(cd.querySelector('.catalogue-group').style.getPropertyValue('--tc'),'var(--violet)','couleur du thème, pas position du catalogue');
-filter('theme','Grandeurs et mesures physiques');
-assert.equal(cd.querySelectorAll('.collection-activities>li').length,10);
+filter('theme','Mesure de grandeurs physiques');
+assert.equal(cd.querySelectorAll('.collection-activities>li').length,11);
 assert.equal(cd.querySelector('.catalogue-group').style.getPropertyValue('--tc'),'var(--green)');
 filter('theme','');filter('status','conception');
 assert.equal(cd.querySelectorAll('.collection-activities a').length,0,'aucun lien vers une activité en conception');

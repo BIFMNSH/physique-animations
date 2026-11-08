@@ -28,11 +28,12 @@ Propriétaire : docteur en chimie physique, professeur de physique-chimie. Répo
 ## Architecture
 - Moteur des activités : `assets/activites/activite.js` (six opérations : Problématiser, Émettre une hypothèse, Expérimenter / Investiguer, Analyser et interpréter, Conclure, Communiquer ; données de l'élève dans `localStorage` « pc-act-<id> », rien n'est envoyé).
 - Fiches : `assets/activites/fiches/NL-CI-6E-ELE-nn.js` (fenêtre `FICHE_CI_ELEnn`). Gabarit : `.claude/skills/nohoba-nouvelle-activite/gabarit-fiche.js`.
-- Catalogue CI : `assets/catalogues/6e-ci.js` (73 entrées ; statuts `conception`, `prototype`, `disponible`).
+- Catalogue CI : `assets/catalogues/6e-ci.js` (90 entrées ; statuts `conception`, `prototype`, `disponible`).
 - Atelier d'électricité partagé : `assets/shared/atelier-electrique.js` (pile, lampe, interrupteur, moteur, schéma normalisé, grains). Table d'essai de conductivité : `conductivite-circuit.js` et `conductivite-modele.js`. Commande, court-circuit, protection et panne : `commande-protection.js` (modèle qualitatif testable `NohobaCommande`, dessins montage + schéma, `bloc()` pour les contrôles).
+- Mesures (lot MES) : `mesures-modele.js` (modèle testable `NohobaMesures`), `mesures-dessins.js`, `mesures-scenes.js`, `mesures-ui.js` (`mesure()` pour les valeurs saisies, `atelierPesee()` pour la balance de Roberval). Bilans « L’essentiel » : `bilan-ci/?l=volume|masse` et `assets/simple/bilans-ci.js`.
 - Pages : `activites-ci/?a=<id>` (générique), `parcours-ci/` (hub de leçon), `collections/`.
 - Serveur de comptes : `server/` (Railway, api.lab.nohaba.com). Accès aux corrigés limité aux fiches `NL-C4-[A-D]nn` ; les fiches CI n'y sont pas encore.
-- Tests : `cd qa && npm test` (regression, activites, catalogues-ci-fr, lot-ci-electricite, lot-ci-commande, parcours-catalogues). Ils doivent rester verts avant tout commit.
+- Tests : `cd qa && npm test` (regression, activites, catalogues-ci-fr, lots ELE, MAT, ENE, MES, parcours-catalogues…). Ils doivent rester verts avant tout commit.
 
 ## Méthode de travail (économe)
 1. Scénarios : un tableau de scénarios par lot (compétence, six opérations, manipulation, garde-fous) à valider — voir le skill `nohoba-scenarios-design`.

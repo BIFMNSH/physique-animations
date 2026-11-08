@@ -403,7 +403,7 @@
         s('circle', { cx: 170, cy: y + hgt / 2, r: 24, fill: c[2] || 'var(--amber)' }, cg);
         s('text', { x: 170, y: y + hgt / 2 + 9, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 800, fill: '#141C2E', 'font-family': 'Bricolage Grotesque, sans-serif', text: String(i + 1) }, cg);
         var t1 = s('text', { x: 212, y: y + hgt / 2 - 6, 'font-size': 23, 'font-weight': 800, fill: 'var(--scene-text)' }, cg); t1.innerHTML = c[0].replace(/<b>/g, '<tspan fill="#FFB547">').replace(/<\/b>/g, '</tspan>');
-        s('text', { x: 212, y: y + hgt / 2 + 24, 'font-size': 17, fill: 'var(--scene-muted)', text: c[1] }, cg);
+        var t2 = s('text', { x: 212, y: y + hgt / 2 + 24, 'font-size': 17, fill: 'var(--scene-muted)' }, cg); t2.innerHTML = c[1].replace(/<b>/g, '<tspan fill="var(--scene-text)" font-weight="700">').replace(/<\/b>/g, '</tspan>');
         return cg;
       });
       return function (t) { gs.forEach(function (cg, i) { var k = clamp((t - times[i]) / 0.6, 0, 1); cg.setAttribute('opacity', t < times[0] - 0.5 ? 0 : k); cg.setAttribute('transform', 'translate(' + (40 * (1 - ease(k))) + ' 0)'); }); };
@@ -708,8 +708,14 @@
     });
     function flash() {
       var q = shuf(R.question), f = h('div', { class: 'flash', role: 'dialog', 'aria-label': 'Question flash' }, screen), b = h('div', { class: 'box' }, f);
-      b.innerHTML = '<div style="display:flex;gap:14px;align-items:center">' + lumi(64, 'think') + '<div><span class="kick">Question flash</span><h2>' + q.q + '</h2></div></div>';
+      b.innerHTML = '<div style="display:flex;gap:14px;align-items:center;padding-right:44px">' + lumi(64, 'think') + '<div><span class="kick">Question flash</span><h2>' + q.q + '</h2></div></div>';
       var g = h('div', { class: 'opts' }, b), fb = h('div', { class: 'msg' }, b);
+      var back = document.activeElement;
+      function fermer() { document.removeEventListener('keydown', onKey, true); if (synth) synth.cancel(); f.remove(); if (back && back.focus) try { back.focus(); } catch (e) {} }
+      function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); fermer(); } }
+      document.addEventListener('keydown', onKey, true);
+      f.addEventListener('click', function (e) { if (e.target === f) fermer(); });
+      var x0 = h('button', { type: 'button', class: 'flash-x', 'aria-label': 'Fermer la question flash' }, b, '✕'); x0.onclick = fermer; b.insertBefore(x0, b.firstChild); x0.focus();
       if (SET.voice) speak('Question flash. ' + q.q, rate);
       q.o.forEach(function (o, j) {
         var x = h('button', { type: 'button' }, g, o);
@@ -718,8 +724,8 @@
           fb.className = 'msg ' + (ok ? 'ok' : 'bad'); fb.innerHTML = '<b>' + (ok ? 'Bravo !' : 'Presque…') + '</b> ' + (ok ? '' : 'La bonne réponse est : <b>' + q.o[q.a] + '</b>. ') + q.e; sound(ok ? 'ok' : 'bad');
           ctx.done();
           var r = h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, b);
-          h('button', { class: 'btn' }, r, 'Revoir la vidéo').onclick = function () { f.remove(); seek(0); play(true); };
-          h('button', { class: 'btn primary' }, r, 'Passer à la simulation ▸').onclick = function () { f.remove(); ctx.go('sim'); };
+          h('button', { class: 'btn' }, r, 'Revoir la vidéo').onclick = function () { fermer(); seek(0); play(true); };
+          h('button', { class: 'btn primary' }, r, 'Passer à la simulation ▸').onclick = function () { fermer(); ctx.go('sim'); };
         };
       });
     }
