@@ -1,6 +1,6 @@
 # NOHOBA-Lab
 
-> Site gratuit de physique-chimie pour les collégiens francophones (6e à 3e, programme MENA de Côte d’Ivoire) : leçons, simulations, défis et quiz, sur téléphone, sans compte.
+> Site gratuit de physique-chimie pour les collégiens francophones (6e à 3e, programme MENA de Côte d’Ivoire) : leçons, simulations, défis et quiz, sur téléphone, compte facultatif.
 
 ## Pages principales
 - [Accueil](https://lab.nohaba.com/): choisir sa classe

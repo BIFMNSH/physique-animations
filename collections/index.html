@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');document.documentElement.setAttribute('data-theme',(p.theme||localStorage.getItem('pc-theme'))==='light'?'light':'dark')}catch(e){}</script>
 <title>Collections scientifiques · NOHOBA-Lab</title>
+<link rel="canonical" href="https://lab.nohaba.com/collections/">
+<meta property="og:title" content="Collections scientifiques · NOHOBA-Lab">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lab.nohaba.com/collections/">
 <meta name="description" content="Collections d'investigation scientifique : programme ivoirien de 6e et cycle 4 français.">
 <link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
@@ -100,7 +104,7 @@
   $('ciSummary').textContent=new Set(items.map(function(x){return x.theme;})).size+' thèmes · '+new Set(items.map(function(x){return x.lecon;})).size+' leçons · '+stats(items)+'.';
   $('frTotal').textContent=fr.length+' activités au catalogue';
   $('frSummary').textContent='5e, 4e et 3e · '+stats(fr)+'.';
-  var POUR_ALLER_PLUS_LOIN={col:'var(--amber)',ic:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'},programme=window.PROGRAMME['6e'],themeNames={'Grandeurs et mesures physiques':'Mesure de grandeurs physiques','Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;})));
+  var POUR_ALLER_PLUS_LOIN={col:'var(--amber)',ic:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'},programme=window.PROGRAMME['6e'],themeNames={'Air et combustions':'Les combustions'},themes=Array.from(new Set(items.map(function(x){return x.theme;})));
   /* volets ouverts (hors filtrage) : mémorisés sur cet appareil */
   var UI_KEY='pc-collections-ui',UI=S.store(UI_KEY,{});UI.themes=UI.themes||{};UI.lessons=UI.lessons||{};
   function saveUI(){try{localStorage.setItem(UI_KEY,JSON.stringify(UI));}catch(e){}}
