@@ -57,7 +57,7 @@
         <div class="or" id="orMail" hidden>ou continuer avec</div>
         <form id="fMail" novalidate hidden>
           <div class="tabs" id="tabs" role="group" aria-label="Choisir une action"><button type="button" id="tabIn" aria-pressed="true">Se connecter</button><button type="button" id="tabUp" aria-pressed="false">Créer un compte</button></div>
-          <fieldset class="who" id="rowWho" hidden><legend>Qui crée le compte ?</legend><label class="check"><input type="radio" name="qui" value="eleve" checked> Je suis élève</label><label class="check"><input type="radio" name="qui" value="parent"> Je suis le parent d’un élève</label><label class="check"><input type="radio" name="qui" value="enseignant"> Je suis enseignant</label></fieldset>
+          <fieldset class="who" id="rowWho" hidden><legend>Qui crée le compte ?</legend><label class="check"><input type="radio" name="qui" value="eleve" checked> Je suis élève</label><label class="check"><input type="radio" name="qui" value="parent"> Je suis parent / tuteur</label><label class="check"><input type="radio" name="qui" value="enseignant"> Je suis enseignant</label></fieldset>
           <div class="field" id="rowNom" hidden><label for="mNom" id="lNom">Prénom</label><div class="in"><input id="mNom" autocomplete="given-name" maxlength="30" placeholder="Prénom seulement"></div></div>
           <div class="field" id="rowMail"><label for="mail">Adresse e-mail</label><div class="in"><input id="mail" type="email" autocomplete="email" inputmode="email" placeholder="prenom@exemple.com" aria-describedby="errMail"></div><div class="err" id="errMail" aria-live="polite"></div></div>
           <div class="field"><label for="mdp" id="lMdp">Mot de passe</label><div class="in"><input id="mdp" type="password" autocomplete="current-password" minlength="8" aria-describedby="errMdp hintMdp"><button type="button" id="voir" class="btn" style="border:none;min-height:0;height:50px;border-radius:0" aria-pressed="false">Afficher</button></div><div class="small" id="hintMdp" hidden>8 caractères minimum.</div><div class="err" id="errMdp" aria-live="polite"></div></div>
@@ -94,7 +94,7 @@
           <p class="hint">Dites-nous qui vous êtes. On ne demande que le prénom et la classe.</p>
           <fieldset style="border:none;padding:0;margin:0 0 12px"><legend class="small" style="font-weight:700;color:var(--text)">Je suis</legend>
             <label class="check"><input type="radio" name="role" value="eleve" checked> Élève</label>
-            <label class="check"><input type="radio" name="role" value="parent"> Parent d’un élève</label>
+            <label class="check"><input type="radio" name="role" value="parent"> Parent / tuteur</label>
             <label class="check"><input type="radio" name="role" value="enseignant"> Enseignant</label>
           </fieldset>
           <div class="field"><label for="prenom" id="lPrenom">Prénom</label><div class="in"><input id="prenom" autocomplete="given-name" maxlength="30" placeholder="Prénom seulement"></div></div>
