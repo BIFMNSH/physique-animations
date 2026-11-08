@@ -129,3 +129,42 @@ Si ces deux fiches ne sont pas retenues : la proportion 1/5 est donnée dans la 
 9. **Repères locaux** : lieux du programme (Yopougon, Bouna, Adjamé, Plateau) repris comme décor ; prénoms Awa et Kofi ; prix en F CFA seulement si confirmés par vous (bouteille B12, sac de charbon, bidon d'alcool).
 10. **Numéro 180** : à reconfirmer auprès du GSPM avant toute publication (écart déjà ouvert).
 11. Fournir, si possible, les pages du manuel JD et les fiches TP air / combustions pour la confrontation avant construction.
+
+---
+
+## Confrontation avec les TP officiels DPFC (fiches 8 à 11) et le manuel JD
+
+Sources lues le 8 novembre 2026 : fiches « enseignant » 8, 9, 10 et 11 de l'archive des TP DPFC 6e (texte intégral) ; manuel JD Éditions 6e (spécimen de 159 pages, PDF protégé : sommaire, pages de présentation et pages du thème 4 regardées pour la **structure et les habiletés seulement**, aucun texte ni figure repris ; numéros de pages imprimés, **à confirmer**). Les fichiers eux-mêmes ne sont pas dans le dépôt.
+
+| Point | TP DPFC | Manuel JD (spécimen) | Effet sur les scénarios |
+|---|---|---|---|
+| Numérotation | Les TP 8, 9, 10, 11 portent les « leçons 8 à 11 » du thème 4 | Thème 4, leçons 1 à 4 : air p. 115, solide et liquide p. 123, gaz p. 134, dangers p. 144 | Les quatre leçons du scénario suivent l'ordre officiel. Ne jamais afficher « TP 8 » ni « leçon 8 » à l'élève. |
+| Durées et séances | 30 min (TP 8, 9, 10), 10 min (TP 11) ; TP 9 et TP 10 annoncent 2 séances | Programme : leçon 3 = 1 séance | Écart de séances sur la leçon du gaz (TP 10 : 2 ; programme : 1). Le professeur choisit ; fiches de 20 à 30 min conservées. |
+| Constituants de l'air (CHI-01, CHI-21) | Bougie dans un cristallisoir d'eau colorée, coiffée d'un récipient gradué : la bougie s'éteint, l'eau monte et occupe **1/5** ; conclusion : 1/5 soit 20 % de gaz oxygène, 4/5 soit 80 % de gaz azote | Retiens l'essentiel et exercices : mêmes proportions 1/5 et 4/5 ; l'exercice « situation d'évaluation » demande le volume d'oxygène dans un volume d'air donné | Le TP tire la proportion de la même expérience que les constituants. La paille de fer n'est que dans le guide MENA. **Décision 1 et 2 confirmées** : CHI-01 = bougie (constituants) ; CHI-21 = lire 1/5 sur la même expérience, paille de fer en variante. |
+| Combustion du charbon (CHI-04, CHI-22, CHI-20) | Charbon incandescent introduit dans un bocal, puis eau de chaux : trouble ; équation « charbon de bois + gaz oxygène → gaz carbonique » | Même expérience (bocal d'air, eau de chaux) | **Décision 6 confirmée** : « charbon de bois » à gauche de la flèche. CHI-22 est dans le TP : fiche utile. Le TP parle de dioxygène dans le bocal, le manuel d'air : écart TP / manuel, la simulation dira « air » et le gaz oxygène manque ensuite. |
+| Produits de la combustion de l'alcool (CHI-06) | **Buée** sur un verre à pied (présence d'eau), puis eau de chaux (gaz carbonique). **Aucun sulfate de cuivre.** Le TP note « schéma à revoir » sur ce montage | — | **Écart à corriger dans le scénario** : retirer le test au sulfate de cuivre anhydre de CHI-06 et CHI-11. La buée suffit pour l'eau, comme le TP ; moins de produit chimique à manipuler. |
+| Butane complet (CHI-10, CHI-11) | Virole ouverte, flamme bleue, buée, eau de chaux trouble ; l'**équation « butane + gaz oxygène → dioxyde de carbone + eau »** est demandée dans le même TP | Leçon 3 | **Décision 5 confirmée** : équation du butane en transfert dans CHI-11. |
+| Butane incomplet (CHI-12, CHI-14) | Virole fermée, flamme jaune et fuligineuse, buée, taches noires (carbone), eau de chaux trouble ; produits : eau, gaz carbonique et carbone. **Pas de monoxyde de carbone.** | — | **Décision 4 confirmée** : « gaz toxique invisible et sans odeur » pour CHI-14 ; le monoxyde de carbone se nomme seulement dans la note du professeur. |
+| Dangers et triangle du feu (CHI-15 à CHI-19) | Papier **ou** alcool ; combustible, comburant, chaleur ; supprimer un élément éteint le feu ; « symboles de pictogrammes » cités comme support | Leçon 4 | **Décision 7 confirmée** : papier. Les pictogrammes sont attendus : CHI-19 reste justifiée. |
+| Vocabulaire | « gaz oxygène », « gaz carbonique (dioxyde de carbone) », parfois « dioxygène » | « gaz azote ou diazote », « gaz oxygène ou dioxygène » | **Décision 3 confirmée** : nom du programme d'abord, nom scientifique entre parenthèses. |
+| Structure du manuel | — | Huit blocs : présentation de la leçon, habiletés et contenus, situation d'apprentissage, installation des habiletés (activités expérience / observe / interprète / conclus), retiens l'essentiel, exercices (application, consolidation, évaluation), en savoir plus, annexes | Les six opérations NohobaLab recouvrent les activités du manuel ; « Retiens l'essentiel » est déjà dans les bilans. Rien n'est repris du manuel. |
+
+Pages du manuel regardées (numéros imprimés, à confirmer) : sommaire ; leçon 1 p. 118-122 (pollution, retiens l'essentiel, exercices, en savoir plus) ; leçon 2 p. 123-125 (titre, habiletés, situation, activité 1).
+
+---
+
+## Décisions validées par le propriétaire (8 novembre 2026)
+
+1. **CHI-21 et CHI-22** ajoutées au catalogue à la construction (20 → 22 entrées, statut `conception` puis `prototype`).
+2. **CHI-01** : bougie sous récipient ; **CHI-21** : lecture de 1/5 et 4/5 sur la même expérience, paille de fer en variante.
+3. **Vocabulaire** : nom du programme d'abord, nom scientifique entre parenthèses à la première occurrence.
+4. **Monoxyde de carbone** : « gaz toxique invisible et sans odeur » côté élève ; nom seulement dans la note du professeur (hors fichiers publics).
+5. **Équation du butane** : en transfert dans CHI-11.
+6. **CHI-20** : « charbon de bois » dans l'équation ; cendres = restes non brûlés, hors bilan.
+7. **CHI-17** : papier.
+8. **CHI-19** : quatre pictogrammes de danger (inflammable, comburant, explosif, gaz sous pression) et quatre consignes (extincteur, sortie de secours, flamme nue interdite, appel d'urgence).
+9. **Prix en F CFA** : omis tant qu'ils ne sont pas confirmés.
+10. **Numéro 180** : affiché seulement après reconfirmation auprès du GSPM (écart ouvert).
+11. **Sources** : TP DPFC 8 à 11 et manuel JD lus ; confrontation ci-dessus. **Sulfate de cuivre retiré** (buée seule, comme les TP).
+
+Prochaine étape : construction du lot entier avec ses tests (skill `nohoba-nouvelle-activite`), une seule vérification visuelle, contrôle de conformité. Les fiches restent `prototype` jusqu'à validation du propriétaire.
