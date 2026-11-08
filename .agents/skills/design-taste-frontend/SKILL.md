@@ -288,6 +288,13 @@ Read `copy.md`, `copy-voice.md`, `system.md`, `layout-v4.md` and `sections.md` i
    a word from the client's own copy that copy-lint FAILs is waived hit by hit, the brief as the reason
    (a word inside the client's name, as the logo or the title writes it, is not counted: one WARN).
 
+   For an already deployed URL, do not run the gate or local scripts against the live site. If the
+   user explicitly asks for an online check, use an available browser only for a read-only smoke
+   test of that URL: do not deploy, log in, submit forms, or change data. Check the page title,
+   headings, loaded visuals, links, and horizontal overflow at desktop and mobile widths. Report
+   the URL and viewport sizes, and distinguish a feature missing from the deployed build from a
+   defect in the current local branch.
+
 7. **Report:** the `GATE:` line first, then every waiver with its reason and every open FAIL; the
    kind, the deal (palette and why it fits, pairing, hero, grounds, effect, moments, scene); the
    voice card in one line and every copy-lint WARN kept, with why; the checker, layout and perf
