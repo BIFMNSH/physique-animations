@@ -340,6 +340,13 @@
 
     function sTrace() {
       h('h2', { text: 'Moment 9 sur 9 · Je relève un défi, seul ou en équipe' }, panel);
+      var lc = (new URLSearchParams(location.search).get('lecon') || '');
+      if (/^[a-z0-9-]+$/.test(lc) && lc !== 'energie-circuit' && lc !== 'materiaux-tri-dechets') {
+        var dc = h('div', { class: 'card noprint' }, panel);
+        h('h3', { text: 'Mon défi' }, dc);
+        h('p', { text: 'Je relève le défi de la leçon, seul ou en équipe, pour montrer ce que j’ai compris.' }, dc);
+        h('a', { class: 'btn primary', href: '../parcours-ci/?l=' + lc, text: 'Relever le défi de la leçon ▸' }, dc);
+      }
       h('h3', { text: 'Ma trace' }, panel);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
       h('div', { class: 'card' }, panel,

@@ -184,6 +184,7 @@ function parcours(i){
   assert.ok(print.textContent.includes('Je conclus à partir des observations de mes essais'),'conclusion dans la fiche remplie '+i);
   assert.ok(!print.querySelector('.sh-ref'),'corrigé absent de la trace élève '+i);
   app.replaceChildren();win.Activite.run(F,app);assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi'),'reprise '+i);
+  win.history.replaceState({},'','/?lecon=solides-liquides');app.replaceChildren();win.Activite.run(F,app);const dl=app.querySelector('a[href="../parcours-ci/?l=solides-liquides"]');assert.ok(dl&&dl.textContent.includes('Relever le défi'),'défi de la leçon '+i);win.history.replaceState({},'','/?lecon=energie-circuit');app.replaceChildren();win.Activite.run(F,app);assert.ok(!app.querySelector('a[href*="parcours-ci"]'),'pas de défi pour une leçon sans Studio '+i);win.history.replaceState({},'','/');app.replaceChildren();win.Activite.run(F,app);
   win.close();
 }
 for(const i of IDS)parcours(i);
