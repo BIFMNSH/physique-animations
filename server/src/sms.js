@@ -2,10 +2,11 @@ import { cfg } from './config.js';
 
 // Envoi du code SMS. Fournisseur : Africa's Talking (interchangeable : seule cette fonction change).
 // Hors production et sans clés, le code est affiché dans les journaux (jamais en production).
+export const smsReady = () => !cfg.prod || Boolean(cfg.sms.username && cfg.sms.apiKey && !cfg.sms.sandbox);
 export const outbox = []; // utilisé par les tests
 
 export async function sendSms(to, text) {
-  outbox.push({ to, text });
+  if (process.env.NODE_ENV === 'test') outbox.push({ to, text });
   const { username, apiKey, from, sandbox } = cfg.sms;
   if (!username || !apiKey) {
     if (cfg.prod) throw new Error('SMS non configuré (AT_USERNAME / AT_API_KEY)');
@@ -23,3 +24,4 @@ export async function sendSms(to, text) {
 }
 
 export const otpText = (code) => `NOHOBA-Lab : ton code est ${code}. Il expire dans 5 minutes. Ne le donne à personne.`;
+

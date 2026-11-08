@@ -1,3 +1,4 @@
+import { clientIp } from './ip.js';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
@@ -23,14 +24,18 @@ function tooMany(key, max, windowMs) {
   if (hits.size > 5000) for (const [k, v] of hits) if (!v.length || now - v[v.length - 1] > windowMs) hits.delete(k);
   return arr.length > max;
 }
-const ipOf = (c) => (c.req.header('x-forwarded-for') || '').split(',')[0].trim() || 'local';
+const ipOf = (c) => clientIp((h) => c.req.header(h));
 
 export function createApp() {
-  const app = new Hono();
+  const app = new Hono({ strict: false });
   app.use('*', secureHeaders());
+  app.use('/api/*', async (c, next) => { c.header('Cache-Control', 'private, no-store'); await next(); });
   app.use('/api/*', cors({ origin: (o) => (origins().includes(o) ? o : null), credentials: true, allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], maxAge: 600 }));
 
-  app.get('/health', (c) => c.json({ ok: true }));
+  app.get('/health', async (c) => {
+    try { await q('select 1'); return c.json({ ok: true, database: 'ready' }); }
+    catch { return c.json({ ok: false, database: 'unavailable' }, 503); }
+  });
   app.all('/api/auth/*', (c) => auth.handler(c.req.raw));
 
   // Tout le reste exige un corps JSON court et, sauf exceptions, une session.
@@ -40,7 +45,7 @@ export function createApp() {
   });
   const PUBLIC = new Set(['/api/providers', '/api/plans', '/api/pay/notify']);
   app.use('/api/*', async (c, next) => {
-    const p = c.req.path;
+    const p = c.req.path.replace(/\/+$/, '');
     if (p.startsWith('/api/auth/') || PUBLIC.has(p)) return next();
     const s = await auth.api.getSession({ headers: c.req.raw.headers });
     if (!s) return fail(c, 401, 'Connexion requise');
@@ -190,9 +195,11 @@ export function createApp() {
     const id = c.req.param('id'); if (!ACT.test(id)) return fail(c, 400, 'Identifiant invalide');
     const a = await accessFor(c.get('user').id), theme = themeOfActivity(id);
     if (!coversTheme(a, theme)) return c.json({ error: 'Pass requis pour ce thème', theme, plans: PLANS }, 402);
-    // Le corrigé est réservé aux enseignants : profil « enseignant » pendant la période gratuite, puis pass enseignant. Jamais un pass élève ni l'accès par une classe.
+    // Le corrigé est réservé aux enseignants : profil « enseignant » ET compte de la liste TEACHER_ALLOW pendant la période gratuite, puis pass enseignant. Jamais un pass élève ni l'accès par une classe.
     const role = (await q('select role from app_profile where user_id=$1', [c.get('user').id])).rows[0]?.role;
-    const prof = a.level === 'gratuit' ? role === 'enseignant' : a.level === 'pass' && a.plan === 'prof';
+    const u = c.get('user'), ids = [u.email, u.phoneNumber].filter(Boolean).map((s) => String(s).toLowerCase().replace(/\s+/g, ''));
+    const autorise = ids.some((x) => cfg.teacherAllow.includes(x));   // le rôle se déclare librement : pendant la gratuité, seule la liste TEACHER_ALLOW ouvre le corrigé
+    const prof = a.level === 'gratuit' ? role === 'enseignant' && autorise : a.level === 'pass' && a.plan === 'prof';
     if (!prof) return fail(c, 403, 'Réservé aux enseignants');
     try { return c.body(await readFile(new URL(`../private/activites/${id}.json`, import.meta.url), 'utf8'), 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store' }); }
     catch { return fail(c, 404, 'Corrigé introuvable'); }
@@ -202,3 +209,4 @@ export function createApp() {
   app.notFound((c) => c.json({ error: 'Introuvable' }, 404));
   return app;
 }
+
