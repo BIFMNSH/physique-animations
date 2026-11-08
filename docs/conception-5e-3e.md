@@ -1,6 +1,6 @@
 # Conception des lots 5e (complément) et 3e à partir des activités des manuels JD
 
-Statut : **plan de conception à valider**, rien n'est construit. Entrées : `docs/inventaire-jd-5e-3e.md` (153 activités : 71 en 5e, 82 en 3e) et le classeur de travail `activites-jd-5e-3e.xlsx` (non versionné). Les manuels restent hors du dépôt : seules la structure et les habiletés sont utilisées, consignes et figures sont originales.
+Statut : **plan validé par le propriétaire le 9 nov. 2026** (lots, ordre, création de `activites-3e/` et du catalogue 3e) ; rien n'est construit. Entrées : `docs/inventaire-jd-5e-3e.md` (153 activités : 71 en 5e, 82 en 3e) et le classeur de travail `activites-jd-5e-3e.xlsx` (non versionné). Les manuels restent hors du dépôt : seules la structure et les habiletés sont utilisées, consignes et figures sont originales.
 
 Méthode : ce document donne le plan de tous les lots (une ligne par fiche). Le **tableau de scénarios détaillé** (six opérations, montage et schéma, hypothèses à quatre choix) se fait **lot par lot**, dans une conversation par lot, puis validation, puis construction. Le premier lot (`docs/scenarios-lot-5e-intensite-tensions.md`) est déjà détaillé.
 
@@ -61,7 +61,7 @@ Aucune fiche n'existe. Les leçons « Livre vivant » 3e correspondantes sont à
 | | ELE-03 | Puissance n° 3 | Calculer l'énergie électrique consommée E = P × t | Durée et puissance variables, kWh |
 | | ELE-04 | Puissance n° 4, 5 | Identifier la forme d'énergie reçue et fournie par un dispositif (moteur, dynamo, lampe) | Chaîne d'énergie à compléter |
 | | ELE-05 | Puissance n° 6 | Calculer le rendement d'un dispositif | Énergie utile et énergie reçue |
-| | ELE-06 | Puissance n° 7 | Interpréter une facture d'électricité | Facture fictive affichée comme telle ; **tarif à fournir par le propriétaire** |
+| | ELE-06 | Puissance n° 7 | Interpréter une facture d'électricité | Facture fictive affichée comme telle ; valeurs d'exemple du benchmark ci-dessous (§ 7), à vérifier sur une vraie facture |
 | | OHM-01 | Ohmique n° 1, 5 | Déterminer la valeur d'une résistance par le code des couleurs | Anneaux colorés à lire |
 | | OHM-02 | Ohmique n° 4 | Mesurer une résistance à l'ohmmètre | Banc, ohmmètre, hors tension |
 | | OHM-03 | Ohmique n° 3 | Établir la relation entre U et I pour un conducteur ohmique | Tracé de la caractéristique, coefficient directeur |
@@ -82,7 +82,7 @@ Aucune fiche n'existe. Les leçons « Livre vivant » 3e correspondantes sont à
 | **MEC** (14) | MEC-01 | Masse n° 2 | Calculer la masse volumique d'une substance | Mesures m et V |
 | | MEC-02 | Masse n° 3 | Mesurer un poids avec un dynamomètre | Masses marquées |
 | | MEC-03 | Masse n° 4 | Distinguer masse et poids | Même masse sur deux astres, lecture de g |
-| | MEC-04 | Masse n° 5 | Établir la relation P = m × g | Tableau, proportionnalité ; **valeur de g à confirmer (9,8 ou 10 N/kg)** |
+| | MEC-04 | Masse n° 5 | Établir la relation P = m × g | Tableau, proportionnalité ; **g = 10 N/kg (décision du propriétaire)** |
 | | MEC-05 | Forces n° 1, 2 | Donner les caractéristiques d'une force | Point d'application, direction, sens, valeur |
 | | MEC-06 | Forces n° 3 | Représenter une force par un vecteur | Échelle, construction |
 | | MEC-07 | Forces n° 4, 5 | Établir la valeur de la poussée d'Archimède | Dynamomètre, solide immergé |
@@ -128,10 +128,29 @@ Non traitées en 3e (lecture) : Lentilles n° 1 à 5 en partie, Masse n° 1, Él
 
 Total : 20 fiches de 5e, 54 de 3e. Estimation indicative ; le tableau de chaque lot précisera le nombre réel. Une conversation par lot (méthode économe).
 
-## 6. À décider par le propriétaire
-1. Valider le plan (lots, ordre, fiches) ou retirer des fiches.
-2. Pour la 3e : accord pour créer `activites-3e/` et `3e-ci.js` ; faut-il d'abord rapprocher les 14 leçons « Livre vivant » 3e ?
-3. Valeur de g (9,8 ou 10 N/kg) et tarif de l'électricité (CIE) à fournir.
-4. Programme 3e : confirmer que les lois d'association des résistances (série et dérivation) et la loi d'Ohm sont bien au programme ivoirien de 3e, comme dans le manuel.
-5. Les démonstrations de chimie 3e (synthèse de l'eau, métaux, thermite) : confirmer qu'elles restent uniquement des démonstrations du professeur avec observation simulée.
-6. Lecture de deux intitulés non extraits dans le manuel.
+## 6. Décisions du propriétaire (9 nov. 2026)
+1. Plan validé (lots, ordre, fiches).
+2. Création de `activites-3e/` et de `assets/catalogues/3e-ci.js` : accordée.
+3. Pesanteur : **g = 10 N/kg**.
+4. Programme 3e : loi d'Ohm et associations de résistances (série, dérivation) confirmées au programme ivoirien, comme dans le manuel.
+5. Tarif CIE : benchmark demandé (§ 7).
+
+Reste à confirmer : démonstrations de chimie 3e (synthèse de l'eau, métaux, thermite) uniquement par le professeur avec observation simulée (hypothèse retenue par défaut) ; lecture de deux intitulés non extraits (Forces n° 6, Alcanes n° 6).
+
+## 7. Benchmark du tarif d'électricité CIE (pour la facture de ELE-06)
+Source vérifiée : arrêté interministériel n° 644/MMPE/MEF/MBPE, en vigueur au 1er juillet 2023 (texte consulté sur civlii.laws.africa), et page « Prix de l'électricité » de l'ANARE-CI (grille de l'arrêté de 2019). La page tarifs du site de la CIE n'a pas pu être lue (accès refusé aux robots). L'ajustement de juillet 2023 ne touchait pas les abonnés 5 A et 10 A (0 %).
+
+Grille domestique basse tension, **facturation par bimestre (61 jours)**, prix TTC en F CFA :
+| Catégorie | Prime fixe | Prix du kWh |
+|---|---|---|
+| Tarif social 5 A, post-paiement | 559 par bimestre | 28,84 jusqu'à 80 kWh ; 59,19 au-delà |
+| Tarif social, prépayé | 5,91 par kVA (linéarisé) | 19,44 (part exonérée) ; 19,38 (part taxable) |
+| Tarif général 5 A ou 10 A, post-paiement | 1 470,94 par kVA et par bimestre | 79,01 jusqu'à 180 kWh par kVA souscrit ; 68,48 au-delà |
+| Tarif général 15 A et plus, post-paiement | 1 618,04 par kVA et par bimestre | 86,92 puis 75,33 |
+| Tarif général prépayé 5 A ou 10 A | formule linéarisée | 76,82 |
+
+Conditions du tarif social : abonnement 5 A et consommation ne dépassant pas 200 kWh par bimestre (post-paiement) ou 100 kWh par mois (prépayé). L'arrêté prévoit une révision chaque 1er juillet ; des hausses ont été annoncées depuis (presse, mai 2024) sans que j'aie pu confirmer leur effet sur les abonnés 5 A et 10 A.
+
+**Usage dans la fiche** : facture **fictive**, libellée « valeurs d'exemple inspirées de la grille de 2023, à comparer avec ta facture CIE », avec par exemple le tarif social (prime fixe 559 F CFA, 28,84 F CFA/kWh jusqu'à 80 kWh, 59,19 F CFA au-delà) ; le calcul demandé à l'élève reste E = P × t en kWh, puis un produit simple. TVA et taxes hors lot. Avant mise en ligne : le propriétaire compare avec une facture CIE récente.
+
+Sources : [ANARE-CI, prix de l'électricité](https://anare.ci/le-marche/prix-de-lelectricite/) ; [arrêté n° 644 de 2023](https://civlii.laws.africa/en/akn/ci/act/mo/2023/644-mmpe-mef-mbpe/fra@2023-07-19/source) ; [AllAfrica, ajustement du 1er juillet 2023](https://fr.allafrica.com/stories/202306080578.html) ; [Connexion ivoirienne, mai 2024](https://connectionivoirienne.net/2024/05/03/cote-divoire-la-face-cachee-de-la-hausse-des-tarifs-delectricite/).
