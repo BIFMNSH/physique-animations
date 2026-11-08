@@ -1,3 +1,4 @@
+import { IP_HEADERS } from './ip.js';
 import { betterAuth } from 'better-auth';
 import { phoneNumber } from 'better-auth/plugins';
 import { pool } from './db.js';
@@ -65,7 +66,7 @@ export const authOptions = {
   advanced: {
     skipTrailingSlashes: true, // Le proxy Vercel conserve les URL avec slash final.
     useSecureCookies: cfg.prod,
-    ipAddress: { ipAddressHeaders: ['x-forwarded-for'] },
+    ipAddress: { ipAddressHeaders: IP_HEADERS },
     ...(cfg.cookieDomain ? { crossSubDomainCookies: { enabled: true, domain: cfg.cookieDomain } } : {}),
   },
 };
