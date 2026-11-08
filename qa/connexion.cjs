@@ -23,7 +23,7 @@ async function page(providers, query = '') {
   p=await page({google:true,facebook:true,apple:true,twitter:true,email:true});
   assert.equal(p.$('socialRow').hidden,false);
   const buttons=[...p.w.document.querySelectorAll('.sbtn')];
-  assert.deepEqual(buttons.map(b=>b.textContent),['Continuer avec Google','Continuer avec Apple','Continuer avec Facebook','Continuer avec X']);
+  assert.deepEqual(buttons.map(b=>b.textContent),['Continuer avec Google','Continuer avec Facebook','Continuer avec X'],'Apple n’est pas proposé');
   for(const b of buttons){
     b.click();b.click();await tick();
     const call=p.calls.at(-1);
@@ -34,8 +34,22 @@ async function page(providers, query = '') {
     assert.equal(b.disabled,false);
     assert.match(p.$('mTop').textContent,/n’a pas abouti/);
   }
-  assert.equal(p.calls.length,4,'Un seul appel par fournisseur malgré les doubles clics');
+  assert.equal(p.calls.length,3,'Un seul appel par fournisseur malgré les doubles clics');
   p.close();
+  p=await page({email:true});
+  assert.equal(p.$('tabIn').getAttribute('aria-pressed'),'true','se connecter par défaut');assert.equal(p.$('rowNom').hidden,true);assert.equal(p.$('rowWho').hidden,true);
+  p.$('tabUp').click();assert.equal(p.$('rowNom').hidden,false);assert.equal(p.$('rowWho').hidden,false);assert.equal(p.$('tabUp').getAttribute('aria-pressed'),'true');assert.equal(p.$('lOubli').hidden,true);
+  p.w.document.querySelector('input[name=qui][value=parent]').click();assert.equal(p.$('lNom').textContent,'Prénom de votre enfant');
+  const sub=()=>p.$('fMail').dispatchEvent(new p.w.Event('submit',{cancelable:true}));
+  p.$('mail').value='parent@exemple.com';p.$('mdp').value='motdepasse1';sub();assert.match(p.$('mMail').textContent,/prénom de votre enfant/);assert.equal(p.calls.length,0);
+  p.$('mNom').value='Awa';sub();await tick();
+  assert.equal(p.calls[0].path,'/api/auth/sign-up/email');assert.equal(p.calls[0].body.name,'Awa');assert.match(p.$('mMail').textContent,/Dernière étape/);assert.equal(p.$('bRenvoi').hidden,false);
+  p.$('bRenvoi').click();await tick();assert.equal(p.calls.at(-1).path,'/api/auth/send-verification-email');assert.equal(p.calls.at(-1).body.email,'parent@exemple.com');
+  p.$('tabIn').click();assert.equal(p.$('rowWho').hidden,true);assert.equal(p.$('bRenvoi').hidden,true);
+  p.$('lOubli').click();assert.equal(p.$('tabs').hidden,true);assert.equal(p.$('lBascule').hidden,false);p.$('lBascule').click();assert.equal(p.$('tabs').hidden,false);
+  p.close();
+  p=await page({google:true,apple:true,facebook:false});
+  assert.equal(p.w.document.querySelectorAll('.sbtn').length,1,'Apple ignoré même si le serveur l’annonce');p.close();
   p=await page({google:true,facebook:false});
   assert.equal(p.w.document.querySelectorAll('.sbtn').length,1);
   assert.equal(p.w.document.querySelector('.sbtn').dataset.p,'google');p.close();
@@ -51,5 +65,5 @@ async function page(providers, query = '') {
   p.$('ind').value='33';p.$('tel').value='06 12 34 56 78';submit();await tick();
   assert.equal(p.calls[2].body.phoneNumber,'+33612345678');
   p.$('otp').value='12x456';submit();assert.equal(p.calls.length,3);assert.equal(p.$('otp').getAttribute('aria-invalid'),'true');p.close();
-  console.log('Connexion : panne, fournisseurs, création, validation, renvoi SMS, changement de numéro OK');
+  console.log('Connexion : panne, fournisseurs (sans Apple), onglets, création (élève, parent, enseignant), renvoi du courriel, SMS OK');
 })().catch(e=>{console.error(e);process.exit(1);});
