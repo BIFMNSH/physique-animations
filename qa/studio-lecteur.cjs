@@ -21,5 +21,5 @@ const walk=d=>fs.readdirSync(path.join(root,d),{withFileTypes:true}).flatMap(e=>
 ['3e','4e','5e','6e','lecons','decouvrir'].flatMap(d=>walk(d)).filter(f=>f.endsWith('index.html')).forEach(f=>{
   const t=/<title[^>]*>(.*?)<\/title>/s.exec(read(f))[1];assert.ok(t.length<=65,f+' : titre de '+t.length+' caractères');});
 assert.equal((read('lecon/index.html').match(/<h1[\s>]/g)||[]).length,1,'lecon : un seul h1');
-assert.ok(/<noscript><h1>/.test(read('activites-ci/index.html')),'activites-ci : h1 statique de repli');
+assert.ok(/<noscript><h1(?:\s[^>]*)?>/.test(read('activites-ci/index.html')),'activites-ci : h1 statique de repli');
 console.log('studio-lecteur : OK');

@@ -3,9 +3,9 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const root=path.resolve(__dirname,'..'),ctx={window:{}};vm.createContext(ctx);
 for(const f of ['assets/catalogues/6e-ci.js','assets/activites/catalogue.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f});
 const ci=ctx.window.NL_CATALOGUE_CI_6E,fr=ctx.window.ACTIVITES;
-assert.equal(ci.length,90,'90 entrées Côte d’Ivoire (MES-11 ajoutée le 27 octobre 2026)');
+assert.equal(ci.length,92,'92 entrées Côte d’Ivoire (MES-11 ajoutée le 27 octobre 2026 ; CHI-21 et CHI-22 le 8 novembre 2026)');
 assert.equal(fr.length,48,'48 entrées France cycle 4');
-assert.equal(new Set(ci.map(x=>x.id)).size,90,'identifiants CI uniques');
+assert.equal(new Set(ci.map(x=>x.id)).size,92,'identifiants CI uniques');
 assert.equal(new Set(fr.map(x=>x.id)).size,48,'identifiants France uniques');
 assert.ok(ci.every(x=>x.programme==='CI'&&x.niveau==='6e'&&['conception','prototype','disponible'].includes(x.statut)&&x.id.startsWith('NL-CI-6E-')),'catalogue CI séparé');
 assert.ok(ci.filter(x=>x.statut==='disponible').every(x=>/-(ELE|MAT|ENE)-/.test(x.id)),'disponible : Électricité, Matière et Énergie (validées le 27 octobre 2026)');assert.ok(ci.filter(x=>/-ELE-/.test(x.id)).every(x=>x.statut==='disponible'),'dix-sept fiches Électricité validées');
@@ -15,10 +15,10 @@ const totals={};for(const x of ci)totals[x.theme]=(totals[x.theme]||0)+1;
 assert.equal(totals['Électricité'],17);
 assert.equal(totals['Propriétés physiques de la matière'],32);
 assert.equal(totals['Mesure de grandeurs physiques'],11);
-assert.equal(totals['Air et combustions'],20);
+assert.equal(totals['Air et combustions'],22);
 assert.equal(totals['Énergie'],10);assert.equal(new Set(ci.map(x=>x.theme+'|'+x.lecon)).size,16);
-assert.ok(ci.some(x=>x.sourceId==='MAT-26')&&ci.some(x=>x.sourceId==='CHI-20'&&x.statut==='conception')&&ci.some(x=>x.sourceId==='ELE-17')&&!ci.some(x=>x.sourceId==='MAT-22'),'fiches complémentaires décidées, MAT-22 fusionnée dans MAT-21');
-console.log('Catalogues vérifiés : 90 CI + 48 FR, 5 thèmes CI, 16 leçons CI.');
+assert.ok(ci.some(x=>x.sourceId==='MAT-26')&&ci.some(x=>x.sourceId==='CHI-20'&&x.statut==='prototype')&&ci.filter(x=>/-CHI-/.test(x.id)).every(x=>x.statut==='prototype')&&ci.some(x=>x.sourceId==='ELE-17')&&!ci.some(x=>x.sourceId==='MAT-22'),'fiches complémentaires décidées, MAT-22 fusionnée dans MAT-21');
+console.log('Catalogues vérifiés : 92 CI + 48 FR, 5 thèmes CI, 16 leçons CI.');
 
 const engine=fs.readFileSync(path.join(root,'assets/activites/activite.js'),'utf8');
 const scientific=['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'];

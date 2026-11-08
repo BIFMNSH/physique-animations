@@ -5,7 +5,7 @@
 (function () {
   var SLUG = { 'L’énergie du circuit': 'energie-circuit', 'Produire de l’énergie électrique': 'energie-circuit', 'Matériaux, tri et déchets': 'materiaux-tri-dechets', 'Circuit électrique': 'circuit-electrique', 'Commande d’un circuit': 'commande-circuit', 'Court-circuit et protection': 'court-circuit', 'Solides et liquides': 'solides-liquides', 'Gaz': 'les-gaz', 'Température d’un corps': 'temperature', 'Changements d’état de l’eau': 'changements-etat', 'Volume d’un liquide et d’un solide': 'volume', 'Masse d’un solide et d’un liquide': 'masse', 'Constituants de l’air': 'constituants-air', 'Combustions de solides et liquides': 'combustion-solide-liquide', 'Combustion de gaz': 'combustion-gaz', 'Dangers des combustions': 'dangers-combustions' };
   /* fiches existantes : même liste que activites-ci/index.html */
-  var FICHES = /^NL-CI-6E-(?:ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01]))$/;
+  var FICHES = /^NL-CI-6E-(?:ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01])|CHI-(?:0[1-9]|1[0-9]|2[0-2]))$/;
   /* parcours propre à la collection Côte d’Ivoire : pas de leçon Studio, seulement des investigations */
   var LOCAL = 'materiaux-tri-dechets', ENERGIE = 'energie-circuit', LOCALS = [LOCAL, ENERGIE];
   /* « Pour aller plus loin » : le parcours Énergie (hors programme officiel) n'apparaît côté élève qu'une fois au moins une fiche validée par le professeur */
