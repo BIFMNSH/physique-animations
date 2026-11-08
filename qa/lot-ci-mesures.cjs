@@ -182,13 +182,13 @@ function parcours(i){
   if(F.transfert.type==='nombre')set('tn',String(F.transfert.rep).replace('.',','));else radio('tr',String(F.transfert.rep));
   set('tj','Je justifie mon choix avec la simulation.');button('Vérifier ma réponse');
   assert.ok(app.textContent.includes('Exact.'),'transfert juste '+i);
-  button('Voir ma trace');assert.ok(app.textContent.includes('Communiquer · Ma trace'),'trace '+i);
+  button('Voir ma trace');assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi'),'trace '+i);
   assert.equal(state().essais.length,essais);assert.ok(!/NL-CI|NL-C4/.test(app.textContent),'aucun code interne affiché '+i);
   win.print=()=>{};button('Imprimer');const print=document.getElementById('print');
   assert.ok(print.textContent.includes('Je conclus à partir des mesures de mes essais'),'conclusion dans la fiche remplie '+i);
   assert.ok(!print.querySelector('.sh-ref'),'corrigé absent de la trace élève '+i);
   assert.ok(!/undefined|NaN/.test(print.textContent),'fiche imprimée complète '+i);
-  app.replaceChildren();win.Activite.run(F,app);assert.ok(app.textContent.includes('Communiquer · Ma trace'),'reprise '+i);
+  app.replaceChildren();win.Activite.run(F,app);assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi'),'reprise '+i);
   win.close();
 }
 for(const i of IDS)parcours(i);
