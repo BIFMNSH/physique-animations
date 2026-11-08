@@ -100,6 +100,14 @@ svg .grain{transition:opacity .9s,transform .9s}
 @media print{.sheet .cadre{font-size:8.5pt;margin:3pt 0}.sheet .cadre .th-nom{font-size:11pt}.sheet .cadre h3{font-size:9pt;margin:2pt 0 0}}
 @media print{.sheet .cadre{font-size:8pt;margin:2pt 0}.sheet .cadre ul{column-count:2;column-gap:10pt}.sheet .cadre li{break-inside:avoid}.sheet .cadre .th-nom{font-size:10.5pt}}
 @media print{.sheet .sh-line{height:16pt}.sheet .sh-t td{height:18pt}}
+/* fiche remplie : marges blanches même en thème sombre ; une ligne remplie n'a pas besoin de l'espace d'écriture ;
+   un long tableau d'essais continue sur la page suivante sans couper de ligne, en-tête répété */
+@media print{
+  :root{color-scheme:light;background:#fff!important}
+  .sheet .sh-t tr:has(td:not(:empty)) td{height:auto;padding:2pt 4pt;font-size:8.5pt}
+  .sheet .sh-t thead{display:table-header-group}.sheet .sh-t tr{break-inside:avoid}
+  .sheet .sh-sec:has(>.sh-t:not(.sh-ev)){break-inside:auto}.sheet h2{break-after:avoid}
+}
 
 .cadre .vis{margin:0 0 4px;font:800 clamp(18px,3vw,22px)/1.3 'Bricolage Grotesque','Chiffres',sans-serif}
 .cadre .prog{margin:0 0 4px;font-size:14px;color:var(--mist)}

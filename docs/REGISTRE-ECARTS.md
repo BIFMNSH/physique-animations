@@ -1,6 +1,6 @@
 # Registre des écarts · collection Côte d'Ivoire 6e
 
-Dernière mise à jour : 8 novembre 2026 (construction du lot Chimie, [scenarios-lot-6e-chimie.md](scenarios-lot-6e-chimie.md)). Sources consultées pour le lot électricité : manuel JD Éditions 6e (spécimen, p. 10-16), progression DPFC, TP DPFC 6e fiche 1. Statuts : ouvert · accepté · corrigé.
+Dernière mise à jour : 8 novembre 2026 (contrôle de conformité du lot Chimie ; construction du lot Chimie, [scenarios-lot-6e-chimie.md](scenarios-lot-6e-chimie.md)). Sources consultées pour le lot électricité : manuel JD Éditions 6e (spécimen, p. 10-16), progression DPFC, TP DPFC 6e fiche 1. Statuts : ouvert · accepté · corrigé.
 
 | Fiche | Source | Écart | Décision | Statut |
 |---|---|---|---|---|
@@ -86,6 +86,28 @@ Dernière mise à jour : 8 novembre 2026 (construction du lot Chimie, [scenarios
 | CHI-04, CHI-22 | Construction du 8 novembre 2026 | Simulation : charbon dans un bocal d'air (manuel) et non de dioxygène (TP) ; signalé dans la référence enseignant | Appliqué comme décidé dans les scénarios | accepté |
 | CHI-03 | Construction du 8 novembre 2026 | Jauge du quartier : points fictifs par action (fort 2, faible 1, nul 0), « bon » dès six points ; masque sans effet sur le quartier | Modèle qualitatif, signalé « simulation » à l'élève | accepté |
 | Hors-ligne | sw.js | Deux modules `chimie-*.js` et vingt-deux fiches CHI ajoutés au cache ; version passée à pc-v128 | Appliqué | corrigé |
+
+### Contrôle de conformité du lot Chimie (8 novembre 2026, branche `fix/chimie-conformite`)
+
+Contrôle sur les 22 fiches dans Chrome : impression A4 (vierge, remplie, traces), clavier seul (CHI-01, 06, 14, 19, 22 jusqu'au moment 9), mouvement réduit, noms des SVG, étiquettes, contraste (thèmes sombre et clair), 390 px.
+
+| Fiche | Source | Écart | Décision | Statut |
+|---|---|---|---|---|
+| CHI-19, MAT-06 (toute liste à plus de cinq choix du composant `tri`) | Contrôle visuel | La légende (« Ce pictogramme signifie ») s'affichait deux fois : légende du groupe + étiquette visible de la liste | Étiquette conservée pour le lecteur d'écran (légende + nom de la carte), masquée à l'écran ; comportement inchangé | corrigé |
+| CHI-02, 03, 07, 08, 09, 15, 16, 18, 19, 20 (et MAT, ENE, MES verrouillés par un classement) | Parcours réel | Après la dernière bonne réponse, « J’ai assez d’essais : confronter ▸ » et l’onglet suivant restaient verrouillés jusqu’au rechargement | `tri` enregistre la réussite avant de prévenir le moteur ; test ajouté | corrigé |
+| Toutes les fiches (moteur) | Clavier | Focus perdu (retour au haut de page) après « Enregistrer ma prévision », la validation de l’analyse, de la conclusion, la révision, le mode enseignant | Le focus va sur le panneau de l’écran, comme pour les boutons « ▸ » | corrigé |
+| Fiches à classement | Clavier | Focus perdu après une bonne réponse (le bouton « Valider » se désactive) | Le focus passe sur le message de retour, lu par le lecteur d’écran ; Tab continue vers la carte suivante | corrigé |
+| Montages CHI, MAT, ELE (commande) | Clavier, ordre logique | « Enregistrer mon observation » venait avant la zone où l’on écrit (écran et tabulation) | Zone de texte d’abord, bouton ensuite | corrigé |
+| CHI-03, 08, 09, 11, 13, 14, 16, 17, 19, 20 (fiche remplie) | Aperçu A4 | Avec beaucoup d’essais, la section 3 sautait à la page suivante (moitié de page vide) et le tableau débordait : jusqu’à 4 pages ; marges noires en thème sombre si « graphiques d’arrière-plan » est coché | CSS d’impression : lignes remplies compactes, tableau continu sans ligne coupée, en-tête répété, marges blanches. Une fiche remplie très longue tient en 3 pages | corrigé |
+| CHI-03, 08, 09, 11, 13, 17, 19, 20 (fiche remplie, nombreux essais) | Aperçu A4 | Le tableau imprimé liste chaque essai et chaque tentative de classement (26 lignes au moins sur CHI-19) : la fiche remplie passe à trois pages ; les fiches vierges restent à deux pages | Proposition : n’imprimer que la dernière réponse de chaque carte et le nombre d’essais (change aussi le tableau à l’écran et les fiches MAT) | ouvert (à décider) |
+| CHI-01 à CHI-22 | Charte (« SVG lisibles en noir et blanc ») | Les fiches imprimées et les traces ne contiennent aucun dessin (montage et schéma seulement à l’écran) ; texte et tableaux lisibles en niveaux de gris | Faut-il imprimer le schéma normalisé de chaque expérience ? | ouvert (à décider) |
+| CHI-01 à CHI-22 | Mouvement réduit | Dessins immobiles (aucune animation SMIL ni CSS) ; la bordure lumineuse ne tourne plus ; reste un fondu d’opacité de 0,4 s au survol (sans déplacement) | Conservé | accepté (à confirmer) |
+| CHI-01 à CHI-22 | Accessibilité | Tous les SVG ont `role="img"` et un nom qui décrit l’état ; aucun contrôle sans étiquette ; aucun contraste inférieur à 4,5:1 (sombre et clair) ; aucun piège clavier dans `.sim-frame` ; onglets aux flèches | Constat | conforme |
+| CHI-19 | Consigne du contrôle (« dessins originaux seulement ») / décision 8 des scénarios | Les neuf pictogrammes GHS sont les fichiers SVG officiels du domaine public (pas des photos) | Décision 8 appliquée ; à reconfirmer par le propriétaire | ouvert (à confirmer) |
+| Toutes les collections CI | `activites-ci/index.html` | Ouverte sans `?lecon=` (depuis Collections), une fiche renvoie « Retour à la leçon » vers `circuit-electrique` | Hors périmètre de ce contrôle : déduire la leçon du catalogue | ouvert |
+| Hors-ligne | sw.js | Fichiers partagés modifiés | Version passée à pc-v130 | corrigé |
+
+Points toujours « à confirmer » pour ce lot : pages du guide MENA lues en lecture assistée (p. 29, 31) ; numéro 180 (GSPM) ; CHI-04 et CHI-22 (air ou dioxygène) ; CHI-01 et CHI-21 (bougie, paille de fer en variante) ; absence de CPK en 6e.
 
 ## Refonte de la page de leçon 6e (neuf moments)
 - La leçon de 6e se déroule en neuf moments (situation-problème, J’analyse et je réponds, hypothèse, manipulation, observation, confrontation, bilan, comparaison au bilan scientifique, défi). Ce découpage est une reformulation de NohobaLab, pas un texte officiel.
