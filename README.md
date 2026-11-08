@@ -26,7 +26,7 @@ Les traces sont conservées dans le navigateur sous `pc-inquiry-<identifiant>`. 
 
 Depuis la racine : `npm ci --prefix qa`, puis `npm test --prefix qa` (Node 24). Ces tests couvrent les parcours et invariants structurels ; ils ne remplacent pas la revue scientifique et les tests tactiles/visuels. Pour une prévisualisation : `python3 -m http.server 8765`, puis ouvrir `/lecon/?l=association-lampes`.
 
-L’interface Vercel n’a pas d’étape de build. Le domaine canonique est https://lab.nohaba.com/. La redirection de l’alias Vercel vise les requêtes HTML ; les ressources et le service worker restent accessibles sur leur origine pour éviter de casser des pages anciennes encore en cache. La CSP reste restrictive. Vérifier cette règle sur un déploiement de prévisualisation avant fusion, y compris une visite avec un ancien service worker installé.
+L’interface Vercel n’a pas d’étape de build. Le domaine canonique est https://lab.nohaba.com/. La redirection de l’alias Vercel vise les requêtes HTML ; les ressources et le service worker restent accessibles sur leur origine pour éviter de casser des pages anciennes encore en cache. La CSP reste aussi restrictive que possible, mais `script-src 'unsafe-inline'` reste nécessaire tant que des pages portent un script inline. Vérifier cette règle sur un déploiement de prévisualisation avant fusion, y compris une visite avec un ancien service worker installé.
 
 ## État de validation du programme
 

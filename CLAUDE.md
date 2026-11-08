@@ -5,7 +5,7 @@ Propriétaire : docteur en chimie physique, professeur de physique-chimie. Répo
 
 ## Règles absolues
 - Ne jamais déployer avec l'outil Vercel (MCP). `main` se déploie automatiquement sur Vercel : ne pas y toucher sans validation écrite du propriétaire.
-- Travailler sur une branche et une PR en brouillon. Collection Côte d'Ivoire 6e : branche `feat/catalogues-france-ci-investigation`, PR n° 5.
+- Travailler sur une branche et une PR en brouillon. Collection Côte d'Ivoire 6e : fusionnée dans `main` (PR n° 5, 24 octobre) ; nouvelle branche pour chaque lot.
 - Une fiche reste au statut `prototype` tant que le propriétaire ne l'a pas validée. Seul le propriétaire la passe en `disponible`.
 - Ne jamais pousser de secrets, clés d'API ou corrigés enseignant dans un fichier public.
 - Ne pas utiliser `pkill -f` avec un motif présent dans la commande (cela tue le shell).

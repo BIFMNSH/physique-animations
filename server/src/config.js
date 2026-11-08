@@ -11,6 +11,8 @@ export const cfg = {
   apiUrl: (e.BETTER_AUTH_URL || `http://localhost:${Number(e.PORT) || 3000}`).replace(/\/$/, ''),
   cookieDomain: e.COOKIE_DOMAIN || '', // ex. lab.nohaba.com : cookie partagé entre le site et api.lab.nohaba.com
   extraOrigins: list(e.EXTRA_ORIGINS),
+  // Comptes autorisés à lire les corrigés pendant la gratuité (e-mails ou numéros, séparés par des virgules). Vide : personne.
+  teacherAllow: list(e.TEACHER_ALLOW).map((s) => s.toLowerCase().replace(/\s+/g, '')),
   // Gratuité annoncée : tout le contenu reste ouvert jusqu'à cette date (incluse).
   freeUntil: e.FREE_UNTIL || '2026-12-31',
   phoneRegex: new RegExp(e.PHONE_REGEX || '^\\+(225(01|05|07)\\d{8}|33[67]\\d{8})$'),
