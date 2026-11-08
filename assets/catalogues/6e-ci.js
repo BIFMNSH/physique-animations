@@ -602,7 +602,18 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Constituants de l’air",
     "titre": "Découvrir les constituants essentiels de l'air",
-    "statut": "conception",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-CHI-21",
+    "sourceId": "CHI-21",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Air et combustions",
+    "lecon": "Constituants de l’air",
+    "titre": "Déterminer les proportions des gaz oxygène et azote dans l'air",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -613,7 +624,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Constituants de l’air",
     "titre": "Découvrir quelques sources de pollution de l'air",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -624,7 +635,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Constituants de l’air",
     "titre": "Proposer des actions à mener pour réduire la pollution de l'air",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -635,7 +646,18 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Réaliser la combustion du charbon de bois",
-    "statut": "conception",
+    "statut": "prototype",
+    "type": "investigation"
+  },
+  {
+    "id": "NL-CI-6E-CHI-22",
+    "sourceId": "CHI-22",
+    "programme": "CI",
+    "niveau": "6e",
+    "theme": "Air et combustions",
+    "lecon": "Combustions de solides et liquides",
+    "titre": "Identifier le produit de la combustion du charbon de bois",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -646,7 +668,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Réaliser la combustion de l'alcool",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -657,7 +679,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Identifier les produits de la combustion de l'alcool",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -668,7 +690,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Définir la réaction chimique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -679,7 +701,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Écrire l’équation littérale d’une combustion",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -690,7 +712,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Distinguer le combustible du comburant",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -701,7 +723,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustions de solides et liquides",
     "titre": "Distinguer une réaction chimique d'une transformation physique",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -712,7 +734,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustion de gaz",
     "titre": "Réaliser la combustion complète du butane dans l'air",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -723,7 +745,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustion de gaz",
     "titre": "Identifier les produits de la combustion complète du butane",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -734,7 +756,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustion de gaz",
     "titre": "Réaliser la combustion incomplète du butane",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -745,7 +767,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustion de gaz",
     "titre": "Distinguer une combustion complète d'une combustion incomplète",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -756,7 +778,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Combustion de gaz",
     "titre": "Expliquer les dangers liés à la combustion incomplète du butane",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -767,7 +789,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Dangers des combustions",
     "titre": "Définir l'incendie, l'explosion, l'asphyxie et l'intoxication",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -778,7 +800,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Dangers des combustions",
     "titre": "Expliquer les dangers des combustions",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -789,7 +811,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Dangers des combustions",
     "titre": "Découvrir le triangle du feu",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -800,7 +822,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Dangers des combustions",
     "titre": "Appliquer les règles de sécurité",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {
@@ -811,7 +833,7 @@ window.NL_CATALOGUE_CI_6E = Object.freeze([
     "theme": "Air et combustions",
     "lecon": "Dangers des combustions",
     "titre": "Identifier quelques pictogrammes liés aux incendies",
-    "statut": "conception",
+    "statut": "prototype",
     "type": "investigation"
   },
   {

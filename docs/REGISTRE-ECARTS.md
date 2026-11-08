@@ -1,6 +1,6 @@
 # Registre des écarts · collection Côte d'Ivoire 6e
 
-Dernière mise à jour : 8 novembre 2026 (scénarios du lot Chimie, [scenarios-lot-6e-chimie.md](scenarios-lot-6e-chimie.md)). Sources consultées pour le lot électricité : manuel JD Éditions 6e (spécimen, p. 10-16), progression DPFC, TP DPFC 6e fiche 1. Statuts : ouvert · accepté · corrigé.
+Dernière mise à jour : 8 novembre 2026 (construction du lot Chimie, [scenarios-lot-6e-chimie.md](scenarios-lot-6e-chimie.md)). Sources consultées pour le lot électricité : manuel JD Éditions 6e (spécimen, p. 10-16), progression DPFC, TP DPFC 6e fiche 1. Statuts : ouvert · accepté · corrigé.
 
 | Fiche | Source | Écart | Décision | Statut |
 |---|---|---|---|---|
@@ -81,6 +81,11 @@ Dernière mise à jour : 8 novembre 2026 (scénarios du lot Chimie, [scenarios-l
 | Leçon du gaz | TP DPFC fiche 10 / programme | Le TP annonce 2 séances, le programme 1 séance pour la combustion du gaz. | Le professeur choisit ; fiches de 20 à 30 min. | accepté |
 | CHI-12, CHI-14 | TP DPFC fiche 10 | Produits de la combustion incomplète : eau, gaz carbonique et carbone ; le monoxyde de carbone n’est pas nommé. | Même limite dans les fiches ; monoxyde de carbone seulement dans la note du professeur. | ouvert |
 | Lot Chimie (sécurité) | Guide p. 30-32 (brûleur, allumettes, alcool, eau de chaux, sulfate de cuivre anhydre) | Tout le matériel du guide est manipulé par le professeur ; l'élève investigue sur simulation ; aucune expérience « à la maison » dans les transferts ; flammes sans scintillement rapide et immobiles si mouvement réduit | Appliqué dans les scénarios | accepté |
+| CHI-01 à CHI-22 | Construction du 8 novembre 2026 (décisions validées) | Vingt-deux fiches construites au statut prototype : modèle qualitatif `chimie-modele.js` (testable), dessins originaux `chimie-dessins.js` (montage réaliste + schéma normalisé de verrerie, flammes immobiles), composants `bloc` et `tri` du lot Matière réutilisés ; catalogue 90 → 92 (CHI-21 et CHI-22 ajoutées) ; aucun sulfate de cuivre, aucun prix, aucun numéro d'urgence, gaz toxique non nommé côté public (note enseignant dans `server/private/corriges-ci/NL-CI-6E-CHI.md`) | À valider par le propriétaire (une vérification visuelle, puis contrôle de conformité) | ouvert |
+| CHI-14 | Construction du 8 novembre 2026 | Modèle de la pièce fermée : virole ouverte + fenêtre fermée toute la nuit → « en danger » (gaz oxygène très bas), choix de prudence ; virole fermée + fenêtre ouverte → « mal de tête » ; états et jauges qualitatifs, signalés « simulés » | À confirmer par le propriétaire | ouvert |
+| CHI-04, CHI-22 | Construction du 8 novembre 2026 | Simulation : charbon dans un bocal d'air (manuel) et non de dioxygène (TP) ; signalé dans la référence enseignant | Appliqué comme décidé dans les scénarios | accepté |
+| CHI-03 | Construction du 8 novembre 2026 | Jauge du quartier : points fictifs par action (fort 2, faible 1, nul 0), « bon » dès six points ; masque sans effet sur le quartier | Modèle qualitatif, signalé « simulation » à l'élève | accepté |
+| Hors-ligne | sw.js | Deux modules `chimie-*.js` et vingt-deux fiches CHI ajoutés au cache ; version passée à pc-v128 | Appliqué | corrigé |
 
 ## Refonte de la page de leçon 6e (neuf moments)
 - La leçon de 6e se déroule en neuf moments (situation-problème, J’analyse et je réponds, hypothèse, manipulation, observation, confrontation, bilan, comparaison au bilan scientifique, défi). Ce découpage est une reformulation de NohobaLab, pas un texte officiel.

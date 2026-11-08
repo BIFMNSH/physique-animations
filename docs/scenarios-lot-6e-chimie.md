@@ -1,6 +1,6 @@
 # Scénarios à valider · lot Chimie 6e (CHI-01 à CHI-20)
 
-8 novembre 2026 · collection Côte d'Ivoire, 6e · thème « L'air et les combustions » (compétence 4 du programme MENA) · **étape 1 : scénarios seulement, aucune fiche construite, catalogue inchangé (20 entrées en `conception`).**
+8 novembre 2026 · collection Côte d'Ivoire, 6e · thème « L'air et les combustions » (compétence 4 du programme MENA) · **Statut : validé le 8 novembre 2026 et construit le même jour** (fiches `NL-CI-6E-CHI-01` à `-22` au statut `prototype`, `assets/shared/chimie-modele.js`, `chimie-dessins.js`, tests `qa/lot-ci-chimie.cjs`, catalogue 90 → 92). Le tableau ci-dessous est celui qui a été validé ; les corrections de relecture (sable = étouffer, transfert de CHI-10, retrait du sulfate de cuivre) y sont intégrées.
 
 Propositions originales NohobaLab : ni texte officiel reproduit, ni conformité déjà certifiée. Appui : programme éducatif et guide d'exécution MENA 6e (lecture du PDF en ligne le 8 novembre 2026 : programme p. 12-13, guide p. 29-32, progression p. 15 ; numéros **à confirmer** sur l'exemplaire du propriétaire). Le manuel JD Éditions et l'archive des 13 TP DPFC ne sont pas dans le dépôt : les colonnes correspondantes indiquent ce qu'il reste à vérifier. Les quatre leçons Studio existantes (`constituants-air`, `combustion-solide-liquide`, `combustion-gaz`, `dangers-combustions`) servent de modèles réutilisables, sans reprendre leurs valeurs d'illustration.
 
