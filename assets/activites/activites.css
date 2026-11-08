@@ -31,6 +31,7 @@ textarea{min-height:90px}
 .msg.ok{border-color:var(--ok)}.msg.bad{border-color:var(--bad)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chi19-ghs-picto{display:block;width:120px;height:120px;max-width:100%;margin:0 auto;object-fit:contain}
 @media(max-width:760px){.grid2{grid-template-columns:1fr}}
 table.t{border-collapse:collapse;width:100%;font-size:15px}
 table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:right}

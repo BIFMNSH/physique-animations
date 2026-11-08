@@ -266,6 +266,9 @@ const OK=/^Bonne réponse/,KO=/^Ce n’est pas la bonne réponse/;
  assert.ok(/donné par le professeur/.test(panel.textContent)&&!/\b180\b/.test(panel.textContent),'numéro d’urgence : affiché en classe, pas dans la fiche');}
 {const {F,panel,st}=lancer('19');
  assert.equal(panel.querySelectorAll('select').length,13,'treize significations : liste déroulante');
+ const images=[...panel.querySelectorAll('img.chi19-ghs-picto')];
+ assert.equal(images.length,18,'les neuf images GHS sont réutilisées pour chaque classement');
+ assert.ok(images.every(img=>img.getAttribute('src').startsWith('../assets/shared/pictogrammes/ghs-')&&img.alt.length>12),'images GHS locales et nommées');
  assert.ok(KO.test(tri(panel,'sens','comburant','inflammable')));
  for(const p of C.PICTOS)assert.ok(OK.test(tri(panel,'sens',p.id,p.id)),p.id);assert.equal(F.peutConfronter(st),false);
  for(const p of C.PICTOS)assert.ok(OK.test(tri(panel,'types','t_'+p.id,p.type)),p.id);assert.equal(F.peutConfronter(st),true);}
@@ -288,6 +291,7 @@ assert.ok(/chimie-modele\.js/.test(page)&&/chimie-dessins\.js/.test(page),'modul
 assert.ok(page.indexOf('chimie-modele.js')<page.indexOf('chimie-dessins.js')&&page.indexOf('chimie-dessins.js')<page.indexOf('6e-ci.js'));
 assert.ok(page.indexOf('matiere-ui.js')<page.indexOf('chimie-modele.js'),'les composants Matière précèdent le lot');
 for(const i of IDS)assert.ok(sw.includes('NL-CI-6E-CHI-'+i+'.js'),'hors-ligne CHI-'+i);
+for(const id of ['inflammable','comburant','explosif','gaz','corrosif','toxique','nocif','sante','environnement'])assert.ok(sw.includes('pictogrammes/ghs-'+id+'.svg'),'pictogramme GHS hors-ligne : '+id);
 assert.ok(sw.includes('chimie-modele.js')&&sw.includes('chimie-dessins.js'));
 assert.ok(!/pc-v127'/.test(sw),'version du cache incrémentée');
 {const dom=new JSDOM('',{url:'http://localhost/',runScripts:'outside-only'}),W=dom.window;W.eval(read('assets/catalogues/6e-ci.js'));W.eval(read('assets/simple/etapes-ci.js'));
