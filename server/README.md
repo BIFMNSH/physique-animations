@@ -17,6 +17,8 @@ Ce dossier est le serveur qui gère les comptes, déployé sur **Railway** : `ht
 
 **Gratuité.** Tant que `FREE_UNTIL` n'est pas dépassé (31 décembre 2026), tout le monde a accès : le serveur répond `access.level = "gratuit"`. Après, il faut un pass personnel ou être dans la classe d'un enseignant qui a un pass « prof ».
 
+**Corrigés pendant la gratuité.** Le rôle « enseignant » se déclare librement (il sert à créer une classe). Pour lire un corrigé, le compte doit aussi figurer dans la variable `TEACHER_ALLOW` (Railway → Variables) : e-mails ou numéros au format `+225…`, séparés par des virgules. Vide, personne n'y accède avant l'ouverture d'un pass enseignant.
+
 ## Ce qui est sûr côté serveur
 - Le prix vient du serveur (`src/plans.js`), jamais du navigateur.
 - Un paiement n'est accepté qu'après appel à CinetPay `/payment/check` : statut ACCEPTED, même montant, même devise, même transaction. Les notifications répétées ne créent qu'un seul pass.
