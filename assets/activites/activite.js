@@ -247,7 +247,8 @@
       h('h2', { text: 'Expérimenter / Investiguer' }, panel);
       h('p', {}, panel, '<b>Variable modifiée :</b> ' + esc(F.variable) + ' · <b>Maintenu :</b> ' + esc(F.maintenu));
       if (F.guidage) h('p',{text:st.guidage==='autonome'?'Choisis les essais nécessaires pour vérifier ton hypothèse.':'Suis le protocole et note chaque observation avant de comparer.'},panel);
-      F.manip(panel, ctx());
+      var sim = h('div', { class: 'sim-frame' }, panel);
+      F.manip(sim, ctx());
       var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !readyForAnalysis(); ctxNx = nx;
     }
     function sConfront() {
