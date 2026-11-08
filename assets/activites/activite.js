@@ -225,7 +225,7 @@
         var r = h('div', { class: 'row' }, panel);
         next('Passer à la manipulation ▸', 2, r);
         var rv = h('button', { class: 'btn', type: 'button', text: 'Réviser ma prévision (la première est conservée)' }, r);
-        rv.onclick = function () { pv.edit = true; draw(); };
+        rv.onclick = function () { pv.edit = true; draw(); panel.focus(); };
         return;
       }
       var cur0 = pv && pv.edit ? pv : null, inconnu = h('label', { class: 'opt' }, panel, '<input type="checkbox" id="pi"> <span>Je ne sais pas encore : je formule une hypothèse et je vais vérifier.</span>');
@@ -242,7 +242,7 @@
         var neo = { choix: sel.value, raison: ta.value.trim(), inconnu: $('#pi').checked, ts: Date.now() }; if (nb) neo.nombre = nb.value.trim();
         if (cur0) { var init = cur0.initiale || { choix: cur0.choix, raison: cur0.raison, inconnu: cur0.inconnu, ts: cur0.ts, nombre: cur0.nombre }; neo = { choix: neo.choix, raison: neo.raison, inconnu: neo.inconnu, nombre: neo.nombre, ts: neo.ts, initiale: init, revisions: (cur0.revisions || []).concat([{ choix: neo.choix, raison: neo.raison, ts: neo.ts }]) }; }
         else { neo.initiale = { choix: neo.choix, raison: neo.raison, inconnu: neo.inconnu, nombre: neo.nombre, ts: neo.ts }; neo.revisions = []; }
-        st.prevision = neo; save(KEY, st); view = 1; draw();
+        st.prevision = neo; save(KEY, st); view = 1; draw(); panel.focus();
       };
     }
 
@@ -277,7 +277,7 @@
       ok.onclick = function () {
         var sel = panel.querySelector('input[name=vd]:checked');
         if (!sel || t1.value.trim().length < 3) { msg.hidden = false; msg.textContent = 'Choisis un verdict et cite une observation précise ou une valeur mesurée.'; return; }
-        st.confront = { verdict: sel.value, preuve: t1.value.trim(), modif: t2.value.trim(), ts: Date.now() }; save(KEY, st); view = 4; st.step = 4; save(KEY, st); draw();
+        st.confront = { verdict: sel.value, preuve: t1.value.trim(), modif: t2.value.trim(), ts: Date.now() }; save(KEY, st); view = 4; st.step = 4; save(KEY, st); draw(); panel.focus();
       };
       var back = h('button', { class: 'btn', type: 'button', text: '◂ Reprendre une expérience (mes essais sont conservés)' }, r); back.onclick = function () { go(2); };
     }
@@ -288,7 +288,7 @@
       var msg = h('div', { class: 'msg bad', role: 'alert', hidden: '' }, panel);
       var r = h('div', { class: 'row' }, panel);
       var b = h('button', { class: 'btn primary', type: 'button', text: st.conclusion ? 'Mettre à jour ma conclusion' : 'Valider ma conclusion' }, r);
-      b.onclick = function () { if (t.value.trim().length < 5) { msg.hidden = false; msg.textContent = 'Écris ta conclusion en une phrase complète, appuyée sur tes observations ou tes mesures.'; return; } st.conclusion = t.value.trim(); save(KEY, st); drawTabs(); draw(); };
+      b.onclick = function () { if (t.value.trim().length < 5) { msg.hidden = false; msg.textContent = 'Écris ta conclusion en une phrase complète, appuyée sur tes observations ou tes mesures.'; return; } st.conclusion = t.value.trim(); save(KEY, st); drawTabs(); draw(); panel.focus(); };
       if (!st.conclusion) return;
       h('h2', { text: 'Moment 8 sur 9 · Je compare avec le bilan scientifique' }, panel);
       h('div', { class: 'msg ok' }, panel, '<b>Synthèse scientifique.</b> ' + esc(F.synthese));
@@ -370,7 +370,7 @@
       var pf = h('div', { class: 'card' }, panel); h('h3', { text: 'Espace enseignant' }, pf);
       if (!profMode) {
         h('p', { style: 'color:var(--mist)' }, pf, 'Le corrigé et les attendus sont une ressource distincte de la trace élève.');
-        h('button', { class: 'btn', type: 'button', text: 'Passer en mode enseignant' }, pf).onclick = function () { profMode = true; draw(); };
+        h('button', { class: 'btn', type: 'button', text: 'Passer en mode enseignant' }, pf).onclick = function () { profMode = true; draw(); panel.focus(); };
       } else {
         h('div', { class: 'bannerprof', role: 'status' }, pf, 'Mode enseignant activé : les réponses attendues sont affichées. Ne pas projeter devant les élèves avant la fin de l’activité.');
         h('p', {}, pf, '<b>Référence :</b> ' + esc(F.prof.reference));
@@ -385,12 +385,12 @@
         var rr = h('div', { class: 'row' }, pf);
         h('button', { class: 'btn primary', type: 'button', text: 'Imprimer la version professeur' }, rr).onclick = function () { printDoc(F, st, 'prof'); };
         h('button', { class: 'btn', type: 'button', text: 'Enregistrer en PDF (version professeur)' }, rr).onclick = function () { printDoc(F, st, 'prof'); };
-        h('button', { class: 'btn', type: 'button', text: 'Quitter le mode enseignant' }, rr).onclick = function () { profMode = false; draw(); };
+        h('button', { class: 'btn', type: 'button', text: 'Quitter le mode enseignant' }, rr).onclick = function () { profMode = false; draw(); panel.focus(); };
       }
       var rs = h('div', { class: 'row' }, panel); var b = h('button', { class: 'btn', type: 'button', text: 'Recommencer l’activité (efface mon travail)' }, rs);
       b.onclick = function () {
         if (!b.dataset.sure) { b.dataset.sure = '1'; b.textContent = 'Confirmer : tout effacer sur cet appareil'; return; }
-        try { localStorage.removeItem(KEY); } catch (e) {} st = load(KEY); view = 0; draw();
+        try { localStorage.removeItem(KEY); } catch (e) {} st = load(KEY); view = 0; draw(); panel.focus();
       };
     }
 

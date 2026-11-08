@@ -96,8 +96,10 @@ function montageSerie(o){
   return {svg:svg(s,'0 0 560 300','Montage en série : pile, interrupteur '+(ix==='ferme'?'fermé':ix==='ouvert'?'ouvert':'absent')+', moteur, lampe'+(on?' ; la lampe brille et le moteur tourne':' ; le circuit est ouvert')),allume:on};}
 window.NohobaAtelier={esc:esc,T:T,svg:svg,pile45:pile45,pileCyl:pileCyl,lampe:lampe,interrupteur:interrupteur,moteur:moteur,fil:fil,broches:broches,pastille:pastille,numero:numero,schema:schema,grains:grains,montageSerie:montageSerie,symbole:symbole,
   /* zone d'observation de l'élève + bouton d'enregistrement + messages */
-  saisie:function(parent,h,id,placeholder){var out=h('p',{'aria-live':'polite'},parent),btn=h('button',{type:'button',class:'btn primary',text:'Enregistrer mon observation'},parent);
-    h('label',{for:id,text:'Mon observation (j’écris ce que je vois, sans conclure) :'},parent);var ta=h('textarea',{id:id,rows:'2',placeholder:placeholder||'J’observe que…'},parent),msg=h('p',{class:'msg','aria-live':'polite'},parent);
+  saisie:function(parent,h,id,placeholder){var out=h('p',{'aria-live':'polite'},parent);
+    h('label',{for:id,text:'Mon observation (j’écris ce que je vois, sans conclure) :'},parent);var ta=h('textarea',{id:id,rows:'2',placeholder:placeholder||'J’observe que…'},parent);
+    /* le bouton suit la zone de texte : on écrit, puis on enregistre (ordre visuel et ordre du clavier) */
+    var btn=h('button',{type:'button',class:'btn primary',text:'Enregistrer mon observation',style:'margin-top:8px'},parent),msg=h('p',{class:'msg','aria-live':'polite'},parent);
     return {out:out,btn:btn,ta:ta,msg:msg,note:function(){return ta.value.trim();},ok:function(){return ta.value.trim().length>=10;},vide:function(){ta.value='';}};},
   /* deux colonnes : montage + schéma normalisé, mis à jour ensemble */
   paire:function(parent,h){var grid=h('div',{style:'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start'},parent);

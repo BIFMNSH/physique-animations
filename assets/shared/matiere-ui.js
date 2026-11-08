@@ -95,7 +95,8 @@
       var f=h('fieldset',{style:'border:0;padding:0;margin:6px 0;min-width:0'},card),sel=null;
       h('legend',{style:'font-weight:700'},f,E(cfg.legende||'Je choisis'));
       if(useSel){
-        h('label',{for:pre+it.id+'-s',class:'noprint',style:'display:block;margin-top:4px'},f,E(cfg.legende||'Je choisis'));
+        /* étiquette réservée au lecteur d'écran : la légende visible porte déjà le texte */
+        h('label',{for:pre+it.id+'-s',class:'noprint',style:'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0'},f,E((cfg.legende||'Je choisis')+' · '+it.label));
         sel=h('select',{id:pre+it.id+'-s',style:'max-width:100%'},f,'<option value="">— Choisir —</option>'+opts.map(function(c){return '<option value="'+c[0]+'">'+E(c[1])+'</option>';}).join(''));
       }else{
         opts.forEach(function(c){h('label',{class:'opt',style:'margin:6px 0'},f,'<input type="'+(multi?'checkbox':'radio')+'" name="'+pre+it.id+'" value="'+c[0]+'"><span>'+E(c[1])+'</span>');});
@@ -124,9 +125,11 @@
         if(!val){msg.className='msg bad';msg.textContent='Fais un choix avant de valider.';return;}
         var v=verif(it.id,val);
         S.tent[it.id]=(S.tent[it.id]||[]).concat(val);
+        if(v.juste)S.ok[it.id]=true;
         montre(v);
+        /* S.ok est posé avant addEssai : le moteur recalcule alors le verrou « confronter » avec la dernière bonne réponse */
         X.addEssai({tri:cfg.id,item:it.id,choix:val,juste:v.juste,tentative:S.tent[it.id].length});
-        if(v.juste){S.ok[it.id]=true;bloque(true);}else{vb.textContent='Valider ma nouvelle réponse';if(!multi)poser('');}
+        if(v.juste){bloque(true);msg.setAttribute('tabindex','-1');msg.focus();}else{vb.textContent='Valider ma nouvelle réponse';if(!multi)poser('');}
         maj();
       };
     });

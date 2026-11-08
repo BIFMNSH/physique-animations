@@ -264,6 +264,22 @@ const OK=/^Bonne réponse/,KO=/^Ce n’est pas la bonne réponse/;
  assert.ok(KO.test(tri(panel,'gestes','gaz','allumette')));
  for(const s of C.SCENARIOS)assert.ok(OK.test(tri(panel,'gestes',s.id,s.juste)),s.id);assert.equal(F.peutConfronter(st),true);
  assert.ok(/donné par le professeur/.test(panel.textContent)&&!/\b180\b/.test(panel.textContent),'numéro d’urgence : affiché en classe, pas dans la fiche');}
+/* verrou : à l'instant où la dernière bonne réponse est enregistrée, le moteur doit déjà voir le classement complet */
+{const {F,panel,st,X}=lancer('18');const vu=[];X.addEssai=e=>{st.essais.push(e);vu.push(F.peutConfronter(st));};
+ for(const s of C.SCENARIOS)tri(panel,'gestes',s.id,s.juste);assert.equal(vu[vu.length-1],true,'« confronter » déverrouillé dès la dernière bonne réponse');}
+/* liste déroulante : la légende reste seule visible, l'étiquette du select est réservée au lecteur d'écran */
+{const {panel}=lancer('19');const card=panel.querySelector('[data-item]'),lab=card.querySelector('label[for="'+card.querySelector('select').id+'"]');
+ assert.ok(/clip:\s*rect/.test(lab.getAttribute('style'))&&/position:\s*absolute/.test(lab.getAttribute('style')),'étiquette masquée visuellement (pas de légende en double)');
+ assert.ok(lab.textContent.includes(card.querySelector('legend').textContent)&&lab.textContent.length>card.querySelector('legend').textContent.length,'étiquette précise : légende et nom de la carte');}
+/* clavier : on écrit l'observation avant de l'enregistrer ; après une bonne réponse, le focus va sur le retour (le bouton désactivé le perdrait) */
+{const {panel}=lancer('01');const ta=panel.querySelector('textarea[id="m1-obs"]'),b=[...ta.closest('.card').querySelectorAll('button')].find(x=>/Enregistrer mon observation/.test(x.textContent));
+ assert.ok(ta.compareDocumentPosition(b)&w.Node.DOCUMENT_POSITION_FOLLOWING,'la zone d’observation précède le bouton Enregistrer');}
+{const {panel}=lancer('19');tri(panel,'sens','inflammable','inflammable');const msg=panel.querySelector('[data-item="inflammable"] .msg');
+ assert.equal(doc.activeElement,msg,'focus sur le retour après une bonne réponse');assert.equal(msg.getAttribute('tabindex'),'-1');}
+/* impression : marges blanches en thème sombre, lignes de tableau jamais coupées, en-tête répété */
+{const css=read('assets/activites/activites.css');
+ assert.ok(/@media print\{[^@]*:root\{color-scheme:light;background:#fff/.test(css),'impression : fond blanc même en thème sombre');
+ assert.ok(/\.sh-t tr\{break-inside:avoid\}/.test(css)&&/\.sh-t thead\{display:table-header-group\}/.test(css),'impression : lignes non coupées, en-tête répété');}
 {const {F,panel,st}=lancer('19');
  assert.equal(panel.querySelectorAll('select').length,13,'treize significations : liste déroulante');
  const images=[...panel.querySelectorAll('img.chi19-ghs-picto')];
