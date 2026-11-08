@@ -150,3 +150,21 @@ Sources lues le 8 novembre 2026 : fiches « enseignant » 8, 9, 10 et 11 de l'ar
 | Structure du manuel | — | Huit blocs : présentation de la leçon, habiletés et contenus, situation d'apprentissage, installation des habiletés (activités expérience / observe / interprète / conclus), retiens l'essentiel, exercices (application, consolidation, évaluation), en savoir plus, annexes | Les six opérations NohobaLab recouvrent les activités du manuel ; « Retiens l'essentiel » est déjà dans les bilans. Rien n'est repris du manuel. |
 
 Pages du manuel regardées (numéros imprimés, à confirmer) : sommaire ; leçon 1 p. 118-122 (pollution, retiens l'essentiel, exercices, en savoir plus) ; leçon 2 p. 123-125 (titre, habiletés, situation, activité 1).
+
+---
+
+## Décisions validées par le propriétaire (8 novembre 2026)
+
+1. **CHI-21 et CHI-22** ajoutées au catalogue à la construction (20 → 22 entrées, statut `conception` puis `prototype`).
+2. **CHI-01** : bougie sous récipient ; **CHI-21** : lecture de 1/5 et 4/5 sur la même expérience, paille de fer en variante.
+3. **Vocabulaire** : nom du programme d'abord, nom scientifique entre parenthèses à la première occurrence.
+4. **Monoxyde de carbone** : « gaz toxique invisible et sans odeur » côté élève ; nom seulement dans la note du professeur (hors fichiers publics).
+5. **Équation du butane** : en transfert dans CHI-11.
+6. **CHI-20** : « charbon de bois » dans l'équation ; cendres = restes non brûlés, hors bilan.
+7. **CHI-17** : papier.
+8. **CHI-19** : quatre pictogrammes de danger (inflammable, comburant, explosif, gaz sous pression) et quatre consignes (extincteur, sortie de secours, flamme nue interdite, appel d'urgence).
+9. **Prix en F CFA** : omis tant qu'ils ne sont pas confirmés.
+10. **Numéro 180** : affiché seulement après reconfirmation auprès du GSPM (écart ouvert).
+11. **Sources** : TP DPFC 8 à 11 et manuel JD lus ; confrontation ci-dessus. **Sulfate de cuivre retiré** (buée seule, comme les TP).
+
+Prochaine étape : construction du lot entier avec ses tests (skill `nohoba-nouvelle-activite`), une seule vérification visuelle, contrôle de conformité. Les fiches restent `prototype` jusqu'à validation du propriétaire.
