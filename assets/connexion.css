@@ -83,3 +83,15 @@
   .box{border-radius:22px;padding:24px 18px 22px}
   .auth .main{padding:8px 12px 28px}
 }
+
+/* Petits écrans : la colonne ne doit jamais dépasser l'écran */
+.auth .side,.auth .main,.box{min-width:0}
+.social{grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))}
+.sbtn{min-width:0}
+@media (max-width:760px){
+  .auth{grid-template-columns:minmax(0,1fr)}
+  .auth .side h1{overflow-wrap:anywhere}
+  .tabs button{min-width:0;padding:0 8px}
+}
+/* Dégradé du titre : bleu vers blanc, sans le jaune qui ternissait « pour » */
+.auth .side h1{background-image:linear-gradient(100deg,var(--text) 35%,var(--blue) 100%)}
