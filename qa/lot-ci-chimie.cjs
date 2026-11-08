@@ -100,8 +100,9 @@ assert.equal(C.SCENARIOS.length,6);
 for(const s of C.SCENARIOS){assert.equal(s.options.length,4);assert.equal(s.options.filter(o=>o[0]===s.juste).length,1,s.id);for(const o of s.options)assert.ok(s.retour[o[0]],'retour '+s.id+'/'+o[0]);}
 assert.notEqual(C.scenario('huile').juste,'eau');assert.notEqual(C.scenario('electrique').juste,'eau');assert.ok(/aggrave/.test(C.scenario('huile').retour.eau));
 assert.ok(!/\b180\b/.test(JSON.stringify(C.SCENARIOS)),'numéro d’urgence non affiché');
-/* pictogrammes : quatre dangers, quatre consignes */
-assert.equal(C.PICTOS.length,8);assert.equal(C.PICTOS.filter(p=>p.type==='danger').length,4);assert.equal(C.PICTOS.filter(p=>p.type==='consigne').length,4);
+/* pictogrammes : les neuf GHS et quatre signaux de sécurité */
+assert.equal(C.PICTOS.length,13);assert.equal(C.PICTOS.filter(p=>p.type==='danger').length,9);assert.equal(C.PICTOS.filter(p=>p.type==='consigne').length,4);
+deq(C.PICTOS.filter(p=>p.type==='danger').map(p=>p.id),['inflammable','comburant','explosif','gaz','corrosif','toxique','nocif','sante','environnement']);
 assert.ok(C.PICTOS.some(p=>p.id==='urgence')&&!C.PICTOS.some(p=>/rassemblement/.test(p.nom)),'appel d’urgence retenu (décision 8)');
 /* garde-fous globaux du modèle */
 {const txt=JSON.stringify(C,(k,v)=>typeof v==='function'?undefined:v);
@@ -119,7 +120,7 @@ console.log('Lot Chimie : règles du modèle (air, combustions, tests, butane, p
  assert.ok(/1\/5/.test(C.sceneBougie('petit').schema)&&!/1\/5/.test(C.sceneBougie('aucun').schema),'légende du niveau seulement quand l’eau monte');
  assert.ok(/trouble/.test(C.sceneTest('chaux','flamme','charbon').montage)&&/claire/.test(C.sceneTest('chaux','temoin','charbon').montage));
  assert.ok(/effacé/.test(C.sceneTriangle('sable').montage)&&/complet/.test(C.sceneTriangle('rien').montage));
- for(const p of C.PICTOS)assert.ok(/role="img"/.test(C.vuePicto(p.id)));for(const l of C.LIEUX)assert.ok(new RegExp(C.lib(C.INDICES,l.indice).toLowerCase()).test(C.vueLieu(l.id)));}
+ for(const p of C.PICTOS){const svg=C.vuePicto(p.id);assert.ok(/role="img"/.test(svg)&&/aria-label="Pictogramme :/.test(svg),p.id);if(p.type==='danger')assert.ok(/#D32F2F/.test(svg),p.id);}for(const l of C.LIEUX)assert.ok(new RegExp(C.lib(C.INDICES,l.indice).toLowerCase()).test(C.vueLieu(l.id)));}
 console.log('Lot Chimie : montages et schémas normalisés nommés, flammes immobiles, légendes cohérentes.');
 
 /* ---------- structure des fiches ---------- */
@@ -264,7 +265,7 @@ const OK=/^Bonne réponse/,KO=/^Ce n’est pas la bonne réponse/;
  for(const s of C.SCENARIOS)assert.ok(OK.test(tri(panel,'gestes',s.id,s.juste)),s.id);assert.equal(F.peutConfronter(st),true);
  assert.ok(/donné par le professeur/.test(panel.textContent)&&!/\b180\b/.test(panel.textContent),'numéro d’urgence : affiché en classe, pas dans la fiche');}
 {const {F,panel,st}=lancer('19');
- assert.equal(panel.querySelectorAll('select').length,8,'huit significations : liste déroulante');
+ assert.equal(panel.querySelectorAll('select').length,13,'treize significations : liste déroulante');
  assert.ok(KO.test(tri(panel,'sens','comburant','inflammable')));
  for(const p of C.PICTOS)assert.ok(OK.test(tri(panel,'sens',p.id,p.id)),p.id);assert.equal(F.peutConfronter(st),false);
  for(const p of C.PICTOS)assert.ok(OK.test(tri(panel,'types','t_'+p.id,p.type)),p.id);assert.equal(F.peutConfronter(st),true);}

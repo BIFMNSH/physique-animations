@@ -177,16 +177,21 @@
   };
   C.vuePicto=function(id){
     var p=C.picto(id),g='';
-    function losange(inner){return '<path d="M80 6 L152 55 L80 104 L8 55Z" fill="#fff" stroke="#D32F2F" stroke-width="6"/>'+inner;}
-    function flammeN(x,y,h){return '<path d="M'+x+' '+(y-h)+' q'+(h*0.5)+' '+(h*0.5)+' 0 '+h+' q-'+(h*0.5)+' -'+(h*0.45)+' 0 -'+h+'" fill="#111"/>';}
-    if(id==='inflammable')g=losange(flammeN(80,80,46)+'<rect x="60" y="80" width="40" height="5" fill="#111"/>');
-    else if(id==='comburant')g=losange(flammeN(80,66,36)+'<circle cx="80" cy="78" r="12" fill="#111"/><rect x="58" y="90" width="44" height="5" fill="#111"/>');
-    else if(id==='explosif')g=losange('<circle cx="80" cy="70" r="16" fill="#111"/><path d="M80 50 l-6 -16 M94 56 l12 -12 M66 56 l-12 -12 M98 72 l16 0 M62 72 l-16 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>');
-    else if(id==='gaz')g=losange('<rect x="66" y="34" width="28" height="56" rx="10" fill="#111"/><rect x="74" y="24" width="12" height="12" fill="#111"/>');
+    function losange(inner){return '<path d="M80 3 L133 55 L80 107 L27 55Z" fill="#fff" stroke="#D32F2F" stroke-width="6"/>'+inner;}
+    function flammeN(x,y,h){return '<path d="M'+x+' '+(y-h)+' C'+(x+h*.08)+' '+(y-h*.55)+' '+(x+h*.55)+' '+(y-h*.42)+' '+(x+h*.28)+' '+(y-h*.08)+' C'+(x+h*.82)+' '+(y+h*.12)+' '+(x+h*.42)+' '+y+' '+x+' '+y+' C'+(x-h*.46)+' '+y+' '+(x-h*.5)+' '+(y-h*.37)+' '+(x-h*.14)+' '+(y-h*.62)+' C'+(x-h*.2)+' '+(y-h*.32)+' '+(x-h*.04)+' '+(y-h*.18)+' '+x+' '+(y-h)+'Z" fill="#111"/>';}
+    if(id==='inflammable')g=losange(flammeN(80,79,43)+'<path d="M80 72 C75 79 75 83 80 85 C85 83 85 79 80 72Z" fill="#fff"/>');
+    else if(id==='comburant')g=losange(flammeN(80,68,31)+'<circle cx="80" cy="78" r="14" fill="#111"/><circle cx="80" cy="78" r="8" fill="#fff"/>');
+    else if(id==='explosif')g=losange('<circle cx="78" cy="62" r="12" fill="#111"/><path d="M84 52l8-10 3-10 M70 53l-7-8-7-3 M90 61h14 M66 64H52 M73 72l-8 9 M87 71l8 9" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M93 37l4-5 M57 42l-5-3 M106 59h6" stroke="#111" stroke-width="3" stroke-linecap="round"/>');
+    else if(id==='gaz')g=losange('<g transform="rotate(-25 80 59)"><rect x="54" y="49" width="50" height="20" rx="10" fill="#111"/><path d="M50 55h6m48 0h8v8h-8m-4-14v-5h8" fill="none" stroke="#111" stroke-width="5" stroke-linejoin="round"/></g>');
+    else if(id==='corrosif')g=losange('<path d="M57 35l18 7-5 12-18-7zm29 11l18 7-5 12-18-7z" fill="#111"/><path d="M62 50l-5 10m35 0 5 8" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M56 69c-7-1-12 2-14 7l12 9c6 4 14 4 20 1l8-5-5-7-9 4-5-6zM88 83h25v7H88z" fill="#111"/><path d="M47 77l6 4m8 1 4 2" stroke="#fff" stroke-width="2"/>');
+    else if(id==='toxique')g=losange('<path d="M80 37c-13 0-20 9-20 21 0 8 4 12 9 15v7h22v-7c5-3 9-7 9-15 0-12-7-21-20-21z" fill="#111"/><circle cx="72" cy="57" r="4" fill="#fff"/><circle cx="88" cy="57" r="4" fill="#fff"/><path d="M77 65l3 5 3-5m-11 13v8m8-8v8m8-8v8M57 75l46 24m0-24L57 99" stroke="#111" stroke-width="5" stroke-linecap="round"/>');
+    else if(id==='nocif')g=losange('<rect x="75" y="37" width="10" height="34" rx="5" fill="#111"/><circle cx="80" cy="82" r="6" fill="#111"/>');
+    else if(id==='sante')g=losange('<circle cx="80" cy="40" r="9" fill="#111"/><path d="M66 54q14-9 28 0l8 30H58z" fill="#111"/><path d="M80 58l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#fff"/>');
+    else if(id==='environnement')g=losange('<path d="M58 82V52m0 7-12-10m12 18 13-13m-13 25 14-9M58 53l-8-9 8 3 6-9 1 12 9-3-10 10" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M91 76q9-10 19 0-10 10-19 0zm19 0 8-7v14zM94 76h9m-6-3 7 6" fill="#111"/><circle cx="98" cy="74" r="1.5" fill="#fff"/><path d="M86 89h30" stroke="#111" stroke-width="4" stroke-linecap="round"/>');
     else if(id==='extincteur')g='<rect x="20" y="10" width="120" height="90" rx="8" fill="#D32F2F"/><rect x="70" y="30" width="20" height="56" rx="8" fill="#fff"/><rect x="74" y="22" width="12" height="10" fill="#fff"/><path d="M70 40 l-18 -8 v14" fill="none" stroke="#fff" stroke-width="5"/>';
     else if(id==='sortie')g='<rect x="10" y="20" width="140" height="70" rx="6" fill="#2F855A"/><rect x="100" y="30" width="34" height="50" fill="#fff"/><circle cx="60" cy="40" r="7" fill="#fff"/><path d="M60 48 l10 14 l12 -2 M60 48 l-8 16 l6 14 M70 62 l6 16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>';
     else if(id==='flamme_interdite')g='<circle cx="80" cy="55" r="46" fill="#fff" stroke="#D32F2F" stroke-width="8"/>'+flammeN(80,78,40)+'<line x1="48" y1="23" x2="112" y2="87" stroke="#D32F2F" stroke-width="8"/>';
-    else g='<rect x="20" y="10" width="120" height="90" rx="8" fill="#D32F2F"/><path d="M55 40 q25 -20 50 0 l-8 10 q-17 -10 -34 0z M50 45 q-10 25 20 45 l8 -10 q-18 -12 -20 -28z M110 45 q10 25 -20 45 l-8 -10 q18 -12 20 -28z" fill="#fff"/>';
+    else g='<rect x="20" y="10" width="120" height="90" rx="8" fill="#2F855A"/><path d="M55 40 q25 -20 50 0 l-8 10 q-17 -10 -34 0z M50 45 q-10 25 20 45 l8 -10 q-18 -12 -20 -28z M110 45 q10 25 -20 45 l-8 -10 q18 -12 20 -28z" fill="#fff"/>';
     return vue(g,'Pictogramme : '+p.alt+'. ',p.id==='flamme_interdite'?'0 0 160 110':'0 0 160 110');
   };
   C.vueMaison=function(id){

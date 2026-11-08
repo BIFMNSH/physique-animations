@@ -24,7 +24,7 @@ Le gaz toxique « invisible et sans odeur » des fiches est le **monoxyde de car
 | CHI-15, CHI-16 | Scènes dessinées d'après des faits génériques ; aucune image de presse reproduite. | — |
 | CHI-17 | Papier retenu (TP, guide, décision du propriétaire). Le sable et le bocal suppriment le comburant ; l'eau refroidit ; écarter le papier retire le combustible. | « Un seul sommet enlevé suffit. » |
 | CHI-18 | Le numéro des sapeurs-pompiers n'est **pas écrit** dans la fiche : il sera affiché après reconfirmation auprès du GSPM (écart ouvert). L'enseignant l'écrit au tableau. | « Le numéro est celui affiché en classe. » |
-| CHI-19 | Pictogrammes redessinés en reprenant les formes normalisées (losange à bord rouge SGH, carré rouge, rectangle vert, cercle barré) ; ce ne sont pas des reproductions officielles. | « Même forme, même sens que sur les vrais produits. » |
+| CHI-19 | Neuf pictogrammes GHS et quatre signaux de sécurité redessinés en SVG d’après les références fournies par le propriétaire ; aucune photographie ni figure de manuel reproduite. Aucun numéro d’urgence affiché. | « Même forme, même sens que sur les vrais produits. » |
 
 ## Différenciation
 

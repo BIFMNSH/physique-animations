@@ -232,14 +232,19 @@
 
   /* ---------- CHI-19 · pictogrammes ---------- */
   C.PICTOS=[
-    {id:'inflammable',nom:'Inflammable',type:'danger',ou:'Bidon d’alcool à brûler, bidon d’essence',alt:'Losange à bord rouge avec une flamme noire'},
-    {id:'comburant',nom:'Comburant',type:'danger',ou:'Bouteille de '+C.gaz('oxygene')+' du dispensaire',alt:'Losange à bord rouge avec une flamme au-dessus d’un cercle'},
-    {id:'explosif',nom:'Explosif',type:'danger',ou:'Feux d’artifice, pétards',alt:'Losange à bord rouge avec une bombe qui explose'},
-    {id:'gaz',nom:'Gaz sous pression',type:'danger',ou:'Bouteille de gaz butane',alt:'Losange à bord rouge avec une bouteille de gaz'},
+    {id:'inflammable',nom:'Inflammable',type:'danger',ou:'Bidon d’alcool à brûler, bidon d’essence',alt:'Losange rouge avec une flamme noire'},
+    {id:'comburant',nom:'Comburant',type:'danger',ou:'Bouteille de '+C.gaz('oxygene')+' du dispensaire',alt:'Losange rouge avec une flamme au-dessus d’un cercle noir'},
+    {id:'explosif',nom:'Explosif',type:'danger',ou:'Produits pyrotechniques, sous contrôle d’un adulte',alt:'Losange rouge avec une bombe qui explose'},
+    {id:'gaz',nom:'Gaz sous pression',type:'danger',ou:'Bouteille de gaz butane',alt:'Losange rouge avec une bouteille horizontale'},
+    {id:'corrosif',nom:'Corrosif',type:'danger',ou:'Étiquette d’un produit corrosif, sans le manipuler',alt:'Losange rouge avec un liquide versé sur une main et un métal'},
+    {id:'toxique',nom:'Toxicité aiguë',type:'danger',ou:'Étiquette d’un produit toxique, sans le manipuler',alt:'Losange rouge avec un crâne et deux os croisés'},
+    {id:'nocif',nom:'Nocif ou irritant',type:'danger',ou:'Étiquette d’un produit irritant, sans le manipuler',alt:'Losange rouge avec un point d’exclamation noir'},
+    {id:'sante',nom:'Danger grave pour la santé',type:'danger',ou:'Étiquette d’un produit présentant un danger grave pour la santé',alt:'Losange rouge avec une silhouette et une étoile sur la poitrine'},
+    {id:'environnement',nom:'Dangereux pour l’environnement',type:'danger',ou:'Étiquette d’un produit dangereux pour les milieux naturels',alt:'Losange rouge avec un arbre mort et un poisson'},
     {id:'extincteur',nom:'Extincteur',type:'consigne',ou:'Couloir du collège, laboratoire',alt:'Carré rouge avec un extincteur blanc'},
     {id:'sortie',nom:'Sortie de secours',type:'consigne',ou:'Au-dessus des portes de sortie',alt:'Rectangle vert avec un personnage qui court vers une porte'},
     {id:'flamme_interdite',nom:'Flamme nue interdite',type:'consigne',ou:'Près de la bouteille de gaz, au laboratoire',alt:'Cercle rouge barré sur une flamme'},
-    {id:'urgence',nom:'Appel d’urgence',type:'consigne',ou:'Près du téléphone de l’administration',alt:'Carré rouge avec un téléphone blanc'}];
+    {id:'urgence',nom:'Appel d’urgence',type:'consigne',ou:'Près du téléphone de l’administration',alt:'Carré vert avec un téléphone blanc'}];
   C.picto=function(id){var p=C.PICTOS.filter(function(x){return x.id===id;})[0];if(!p)throw new Error('pictogramme inconnu : '+id);return p;};
   C.TYPES_PICTO=[['danger','Signale un danger'],['consigne','Donne une consigne de sécurité']];
 
