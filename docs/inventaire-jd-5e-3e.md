@@ -148,7 +148,7 @@ Couverture : **✔** traitée par la fiche indiquée (rapprochement par intitul�
 
 ---
 
-## 3e : 14 leçons, 79 activités, aucune fiche d'investigation
+## 3e : 14 leçons, 82 activités, aucune fiche d'investigation
 
 Le site propose déjà des leçons « Livre vivant » 3e (lentilles, œil, masse et poids, forces, équilibre, énergie mécanique, puissance, conducteur ohmique, électrolyse, alcanes, oxydation, réduction, solutions) : à rapprocher de ce tableau avant de concevoir quoi que ce soit.
 
