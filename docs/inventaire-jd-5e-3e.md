@@ -322,3 +322,8 @@ Les estimations sont indicatives : le nombre réel sortira du tableau de scénar
 3. 3e : démarrer par l'optique (très visuelle) ou par l'électricité (réutilise l'atelier existant) ?
 4. Accord pour copier l'inventaire dans `docs/REGISTRE-ECARTS.md` comme source de référence des numéros de page « à confirmer ».
 5. Relecture du typage automatique E/D et des 4 intitulés non extraits.
+
+## Décisions retenues (8 nov. 2026, le propriétaire laisse le choix à Claude)
+1. **Ordre des lots** : 5E-INT + 5E-LOI (scénarios dans `docs/scenarios-lot-5e-intensite-tensions.md`), puis 5E-PAN, 5E-DIL+, 5E-CHI+, 5E-PRE ; ensuite 3E-ELE, 3E-OPT, 3E-MEC, 3E-CHI.
+2. **Activités « analyse de document »** : une fiche seulement si elles portent une compétence manipulable (classer, lire, calculer, construire). Les autres restent dans « Retiens l'essentiel » et le Livre vivant, sans fiche.
+3. **3e** : électricité d'abord (réutilise l'atelier existant), optique ensuite.
