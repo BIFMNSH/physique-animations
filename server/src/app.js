@@ -194,9 +194,11 @@ export function createApp() {
     const id = c.req.param('id'); if (!ACT.test(id)) return fail(c, 400, 'Identifiant invalide');
     const a = await accessFor(c.get('user').id), theme = themeOfActivity(id);
     if (!coversTheme(a, theme)) return c.json({ error: 'Pass requis pour ce thème', theme, plans: PLANS }, 402);
-    // Le corrigé est réservé aux enseignants : profil « enseignant » pendant la période gratuite, puis pass enseignant. Jamais un pass élève ni l'accès par une classe.
+    // Le corrigé est réservé aux enseignants : profil « enseignant » ET compte de la liste TEACHER_ALLOW pendant la période gratuite, puis pass enseignant. Jamais un pass élève ni l'accès par une classe.
     const role = (await q('select role from app_profile where user_id=$1', [c.get('user').id])).rows[0]?.role;
-    const prof = a.level === 'gratuit' ? role === 'enseignant' : a.level === 'pass' && a.plan === 'prof';
+    const u = c.get('user'), ids = [u.email, u.phoneNumber].filter(Boolean).map((s) => String(s).toLowerCase().replace(/\s+/g, ''));
+    const autorise = ids.some((x) => cfg.teacherAllow.includes(x));   // le rôle se déclare librement : pendant la gratuité, seule la liste TEACHER_ALLOW ouvre le corrigé
+    const prof = a.level === 'gratuit' ? role === 'enseignant' && autorise : a.level === 'pass' && a.plan === 'prof';
     if (!prof) return fail(c, 403, 'Réservé aux enseignants');
     try { return c.body(await readFile(new URL(`../private/activites/${id}.json`, import.meta.url), 'utf8'), 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store' }); }
     catch { return fail(c, 404, 'Corrigé introuvable'); }
