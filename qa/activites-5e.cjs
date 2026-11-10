@@ -34,7 +34,8 @@ panel.querySelector('[data-p="B"]').dispatchEvent(new w.MouseEvent('click',{bubb
 assert.equal(F.peutConfronter({essais:st.essais.map(e=>({...e,observation:''}))}),false,'observations nécessaires');
 /* moteur : les six opérations et la marque 5e */
 const app=doc.createElement('div');doc.body.appendChild(app);w.Activite.run(F,app);
-for(const t of ['Problématiser','Émettre une hypothèse','Expérimenter / Investiguer','Analyser et interpréter','Conclure','Communiquer'])assert.ok(app.textContent.includes(t),'opération '+t);
+/* depuis le lecteur en neuf moments, l'écran affiche les moments ; les six opérations restent dans la trace et côté professeur */
+assert.equal(app.querySelectorAll('[role=tab]').length,6,'six écrans');for(const t of ['Situation-problème','Je formule mon hypothèse','Je réalise la manipulation'])assert.ok(app.textContent.includes(t),'moment '+t);
 assert.match(app.textContent,/Thème : Mesure de grandeurs physiques/);assert.match(app.textContent,/À la fin de cette partie, je dois être capable de/);
 assert.ok(!/NL-5E|NL-CI/.test(app.textContent),'aucun code interne à l’écran');
 
@@ -63,7 +64,7 @@ for(const n of ['02','03','04']){const {F,panel,st}=lancer(n);
   assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
   panel.querySelector('textarea').value='court';[...panel.querySelectorAll('button')].find(b=>/Enregistrer/.test(b.textContent)).click();assert.equal(st.essais.length,0,'observation courte refusée '+n);
   assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter au départ '+n);
-  const app2=doc.createElement('div');doc.body.appendChild(app2);w.Activite.run(F,app2);assert.ok(app2.textContent.includes('Communiquer')&&!/NL-5E/.test(app2.textContent),'six opérations '+n);}
+  const app2=doc.createElement('div');doc.body.appendChild(app2);w.Activite.run(F,app2);assert.ok(app2.textContent.includes('Je formule mon hypothèse')&&!/NL-5E/.test(app2.textContent),'six opérations '+n);}
 /* ELE-02 : essais normal, sous-tension, surtension sur deux récepteurs */
 {const {F,panel,st}=lancer('02');
  for(const [r,g] of [['L6','6'],['L6','4.5'],['L6','12'],['M6','6'],['M6','4.5']]){choisir2(panel,'e-r',r);choisir2(panel,'e-g',g);enreg2(panel);}
@@ -102,7 +103,7 @@ for(const n of ['ELE05','MES01','MES02']){const F=w['FICHE_5E_'+n],panel=doc.cre
   const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
   assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
   assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
-  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Je formule mon hypothèse')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
 {const {F,panel,st}=lancer('05');
  for(const [d,k] of [['G','ferme'],['L1','ferme'],['L2','ferme']]){choisir2(panel,'e-d',d);choisir2(panel,'e-k',k);enreg2(panel);}
  assert.equal(F.peutConfronter(st),false);choisir2(panel,'e-d','K');choisir2(panel,'e-k','ouvert');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/4,5 V/);enreg2(panel);
@@ -136,7 +137,7 @@ for(const n of ['MEL01','MEL02','MEL03']){const F=w['FICHE_5E_'+n],panel=doc.cre
   const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
   assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
   assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
-  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Je formule mon hypothèse')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
 function lancerM(n){const F=w['FICHE_5E_'+n],panel=doc.createElement('div');doc.body.appendChild(panel);const st={essais:[],prevision:null},X={st:()=>st,save:()=>{},addEssai:e=>{st.essais.push(e);},tableHTML:(f,r)=>w.Activite.esc(JSON.stringify(r)),aide:()=>F.aides[0]};F.manip(panel,X);return {F,panel,st};}
 {const {F,panel,st}=lancerM('MEL01');
  for(const m of ['sel','sucre','sirop','alcool','sel']){choisir2(panel,'e-m',m);enreg2(panel);}assert.equal(F.peutConfronter(st),false,'il faut un mélange à plusieurs phases');}
@@ -171,7 +172,7 @@ for(const n of ['MAT01','MAT02','MAT03','MAT04']){const F=w['FICHE_5E_'+n],panel
   const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
   assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
   assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
-  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Je formule mon hypothèse')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
 {const {F,panel,st}=lancerM('MAT01');for(const m of ['h2','o2','h2o']){choisir2(panel,'e-m',m);enreg2(panel);}assert.equal(F.peutConfronter(st),false);
  choisir2(panel,'e-m','ch4');assert.match(panel.querySelector('p[aria-live=polite]').textContent,/CH₄\) : 5 atomes/);assert.match(panel.querySelector('svg').getAttribute('aria-label'),/1 atome de carbone, 4 atomes de hydrogène|1 atome de carbone, 4 atomes d/);enreg2(panel);assert.equal(F.peutConfronter(st),true);}
 {const {F,panel,st}=lancerM('MAT02');for(const m of ['h2','o2','n2','h2o','co2']){choisir2(panel,'e-m',m);enreg2(panel);}assert.equal(F.peutConfronter(st),false);
@@ -204,7 +205,7 @@ for(const n of ['DIL01','DIL02','DIL03','DIL04']){const F=w['FICHE_5E_'+n],panel
   const caps=[...panel.querySelectorAll('figcaption')].map(x=>x.textContent);assert.ok(caps.includes('Montage')&&caps.includes('Schéma normalisé'),'montage et schéma '+n);
   assert.ok([...panel.querySelectorAll('input[type=radio]')].every(r=>r.closest('label')&&r.closest('fieldset')&&r.closest('fieldset').querySelector('legend')),'contrôles étiquetés '+n);
   assert.equal(F.peutConfronter({essais:[]}),false,'rien à confronter '+n);
-  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Communiquer')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
+  const a=doc.createElement('div');doc.body.appendChild(a);w.Activite.run(F,a);assert.ok(a.textContent.includes('Je formule mon hypothèse')&&!/NL-5E/.test(a.textContent),'six opérations '+n);}
 {const {F,panel,st}=lancerM('DIL01');for(const e of ['froide','chauffee']){choisir2(panel,'e-e',e);enreg2(panel);}assert.equal(F.peutConfronter(st),false);
  choisir2(panel,'e-e','refroidie');enreg2(panel);assert.equal(F.peutConfronter(st),true);assert.equal(st.essais.map(e=>e.passe).join(),'true,false,true');choisir2(panel,'e-e','chauffee');assert.match(panel.querySelector('svg').getAttribute('aria-label'),/reste bloquée/);}
 {const {F,panel,st}=lancerM('DIL02');for(const b of ['fer','cuivre']){choisir2(panel,'e-b',b);choisir2(panel,'e-s','chaud');enreg2(panel);}choisir2(panel,'e-b','alu');choisir2(panel,'e-s','ambiant');enreg2(panel);choisir2(panel,'e-b','fer');choisir2(panel,'e-s','ambiant');enreg2(panel);

@@ -178,12 +178,13 @@ function parcours(i){
   set('nl-eval','Je justifie ma réponse à partir des observations de la simulation.');button('Enregistrer ma réponse');
   radio('tr',String(F.transfert.rep));set('tj','Je justifie mon choix avec la simulation.');button('Vérifier ma réponse');
   assert.ok(app.textContent.includes('Exact.'),'transfert juste '+i);
-  button('Voir ma trace');assert.ok(app.textContent.includes('Communiquer · Ma trace'),'trace '+i);
+  button('Voir ma trace');assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi'),'trace '+i);
   assert.equal(state().essais.length,essais);assert.ok(!/NL-CI|NL-C4/.test(app.textContent),'aucun code interne affiché '+i);
   win.print=()=>{};button('Imprimer');const print=document.getElementById('print');
   assert.ok(print.textContent.includes('Je conclus à partir des observations de mes essais'),'conclusion dans la fiche remplie '+i);
   assert.ok(!print.querySelector('.sh-ref'),'corrigé absent de la trace élève '+i);
-  app.replaceChildren();win.Activite.run(F,app);assert.ok(app.textContent.includes('Communiquer · Ma trace'),'reprise '+i);
+  app.replaceChildren();win.Activite.run(F,app);assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi'),'reprise '+i);
+  win.history.replaceState({},'','/?lecon=solides-liquides');app.replaceChildren();win.Activite.run(F,app);const dl=app.querySelector('a[href="../parcours-ci/?l=solides-liquides"]');assert.ok(dl&&dl.textContent.includes('Relever le défi'),'défi de la leçon '+i);win.history.replaceState({},'','/?lecon=energie-circuit');app.replaceChildren();win.Activite.run(F,app);assert.ok(!app.querySelector('a[href*="parcours-ci"]'),'pas de défi pour une leçon sans Studio '+i);win.history.replaceState({},'','/');app.replaceChildren();win.Activite.run(F,app);
   win.close();
 }
 for(const i of IDS)parcours(i);

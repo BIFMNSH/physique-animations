@@ -1,1 +1,5 @@
 server/
+.agents/
+.codex/
+.gemini/
+.claude/

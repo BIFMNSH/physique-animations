@@ -13,8 +13,8 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Investigation 6e · NOHOBA-Lab", "url": "https://lab.nohaba.com/activites-ci/", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "description": "Activité d'investigation scientifique de sixième, programme ivoirien."}</script>
 </head>
 <body>
-<header class="top noprint"><div class="wrap"><b>NOHOBA-Lab · 6e Côte d’Ivoire</b> <a class="btn" id="retour" href="../parcours-ci/?l=circuit-electrique">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
-<main class="wrap" id="app"><noscript><h1>Investigation scientifique de 6e</h1><p>Activer JavaScript pour l'activité.</p></noscript></main>
+<header class="top noprint"><div class="wrap"><a class="skip-link" href="#top">Aller au contenu principal</a> <b>NOHOBA-Lab · 6e Côte d’Ivoire</b> <a class="btn" id="retour" href="../parcours-ci/?l=circuit-electrique">Retour à la leçon</a> <a class="btn" href="../collections/">Toutes les collections</a></div></header>
+<main class="wrap" id="app" tabindex="-1"><noscript><h1 id="top" tabindex="-1">Investigation scientifique de 6e</h1><p>Activer JavaScript pour l'activité.</p></noscript></main>
 <script src="../assets/shared/conductivite-modele.js"></script>
 <script src="../assets/shared/conductivite-circuit.js"></script>
 <script src="../assets/shared/atelier-electrique.js"></script>
@@ -28,13 +28,15 @@
 <script src="../assets/shared/mesures-dessins.js"></script>
 <script src="../assets/shared/mesures-scenes.js"></script>
 <script src="../assets/shared/mesures-ui.js"></script>
+<script src="../assets/shared/chimie-modele.js"></script>
+<script src="../assets/shared/chimie-dessins.js"></script>
 <script src="../assets/catalogues/6e-ci.js"></script>
 <script src="../assets/activites/activite.js"></script>
 <script>
 if(/(^|[?&])embed=1/.test(location.search))document.documentElement.classList.add('embed');
 (function(){
   var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-CI-6E-ELE-07';
-  var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01]))$/.exec(id);
+  var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01])|CHI-(?:0[1-9]|1[0-9]|2[0-2]))$/.exec(id);
   if(!mid){
     app.textContent='Cette activité n’existe pas ou est encore en conception.';return;
   }
@@ -59,7 +61,7 @@ if(/(^|[?&])embed=1/.test(location.search))document.documentElement.classList.ad
       haut();window.addEventListener('load',haut);if(window.ResizeObserver)new ResizeObserver(haut).observe(app);
       return;
     }
-    var t=document.createElement('h1');t.textContent=f.titre;app.appendChild(t);
+    var t=document.createElement('h1');t.id='top';t.tabIndex=-1;t.textContent=f.titre;app.appendChild(t);
     var p=document.createElement('p');p.className='sub';p.textContent=entry.theme==='Énergie'?'6e · Pour aller plus loin (hors programme officiel) · Énergie · Investigation expérimentale':'6e · Programme ivoirien · '+(entry.theme||'Sciences physiques')+' · Investigation expérimentale';app.appendChild(p);
     if(entry.statut==='prototype'){
       var note=document.createElement('p');note.className='msg noprint';

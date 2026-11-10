@@ -176,7 +176,7 @@ for(const i of IDS){
   button('Vérifier ma réponse');assert.ok(app.textContent.includes('Choisis ou saisis une réponse'),'transfert vide signalé '+i);
   radio('tr',String(F.transfert.rep));set('tj','Je justifie mon choix avec le montage.');button('Vérifier ma réponse');
   button('Voir ma trace');
-  assert.ok(app.textContent.includes('Communiquer · Ma trace')&&app.textContent.includes('Ma conclusion'),'trace accessible '+i);
+  assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi')&&app.textContent.includes('Ma conclusion'),'trace accessible '+i);
   assert.equal(state().essais.length,essais,'essais conservés '+i);
   assert.ok(!/NL-CI|NL-C4/.test(app.textContent),'aucun code interne affiché '+i);
   win.print=()=>{};button('Imprimer');
@@ -187,7 +187,7 @@ for(const i of IDS){
   set('shm','vierge');document.getElementById('shm').dispatchEvent(new win.Event('change'));button('Imprimer');
   assert.ok(!print.textContent.includes('Je conclus à partir des contacts'),'réponses absentes de la fiche vierge '+i);
   app.replaceChildren();win.Activite.run(F,app);
-  assert.ok(app.textContent.includes('Communiquer · Ma trace'),'reprise sur la trace '+i);
+  assert.ok(app.textContent.includes('Moment 9 sur 9 · Je relève un défi'),'reprise sur la trace '+i);
   assert.equal(state().essais.length,essais);
   win.close();
 }

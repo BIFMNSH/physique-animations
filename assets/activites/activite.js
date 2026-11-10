@@ -12,6 +12,8 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function num(x, d) { return Number(x).toFixed(d == null ? 1 : d).replace('.', ','); }
   function hhmm(ts) { var d = new Date(ts); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  /* Parcours affiché à l’élève : neuf moments répartis sur les six écrans (les six opérations restent dans STEPS, la fiche imprimée et le professeur). */
+  var MOMENTS = ['Moments 1-2 · Situation-problème', 'Moment 3 · Je formule mon hypothèse', 'Moment 4 · Je réalise la manipulation', 'Moments 5-6 · J’observe, j’analyse et je confronte', 'Moments 7-8 · Je rédige mon bilan et je compare', 'Moment 9 · Je relève un défi'];
   var STEPS = ['Problématiser', 'Émettre une hypothèse', 'Expérimenter / Investiguer', 'Analyser et interpréter', 'Conclure', 'Communiquer'];
 
   function load(key) { try { var s = JSON.parse(localStorage.getItem(key)); if (s && s.v === 1) return s; } catch (e) {} return { v: 1, prevision: null, essais: [], confront: null, conclusion: '', transfert: null, aides: 0, step: 0 }; }
@@ -171,7 +173,7 @@
     function drawTabs() {
       tabs.innerHTML = '';
       STEPS.forEach(function (s, i) {
-        var b = h('button', { type: 'button', role: 'tab', id: 'tab' + i, 'aria-selected': String(i === view), 'aria-controls': 'panel', tabindex: i === view ? '0' : '-1', text: (i + 1) + ' · ' + s }, tabs);
+        var b = h('button', { type: 'button', role: 'tab', id: 'tab' + i, 'aria-selected': String(i === view), 'aria-controls': 'panel', tabindex: i === view ? '0' : '-1', text: MOMENTS[i], 'aria-label': MOMENTS[i] + ' (écran ' + (i + 1) + ' sur 6)' }, tabs);
         if (i > reached()) b.disabled = true;
         b.onclick = function () { go(i); };
         b.onkeydown = function (e) {
@@ -185,7 +187,7 @@
     function sSituation() {
       if (F.guidage) {
         var gcard = h('div', { class:'card' }, panel);
-        h('h3', { text:'Mon mode d’investigation' }, gcard);
+        h('h2', { text:'Mon mode d’investigation' }, gcard);
         var glabel = h('label', { for:'nl-guide', text:'Choisir le mode :' }, gcard);
         var gs = h('select', { id:'nl-guide' }, gcard, '<option value="guide">Guidé — consignes et aides</option><option value="autonome">Autonome — je choisis ma stratégie</option>');
         gs.value = st.guidage;
@@ -201,8 +203,9 @@
           + (goals.length ? '<h3>À la fin de cette partie, je dois être capable de :</h3><ul>' + goals.map(function(g){return '<li>'+esc(g)+'</li>';}).join('') + '</ul>' : '') + '</div>';
       }
       if (cd) panel.insertAdjacentHTML('beforeend', cd);
-      h('h2', { text: 'Problématiser · Situation-problème' }, panel);
+      h('h2', { text: 'Moment 1 sur 9 · Situation-problème' }, panel);
       h('p', { text: F.situation }, panel);
+      h('h3', { text: 'Moment 2 sur 9 · J’analyse et je réponds' }, panel);
       h('p', {}, panel, '<b>À produire :</b> une conclusion justifiée par tes observations ou tes mesures. <b>Objectif :</b> ' + esc(F.objectifEleve || F.objectif));
       h('p', {}, panel, '<b>Matériel :</b> ' + esc(F.materiel));
       if(F.guidage) h('p', {text:'Mode '+(st.guidage==='autonome'?'autonome : prépare ton protocole.':'guidé : suis les consignes.')},panel);
@@ -213,7 +216,7 @@
     }
 
     function sPrevision() {
-      h('h2', { text: 'Émettre une hypothèse' }, panel);
+      h('h2', { text: 'Moment 3 sur 9 · Je formule mon hypothèse' }, panel);
       h('p', { text: F.prevision.consigne }, panel);
       var pv = st.prevision;
       if (pv && !pv.edit) {
@@ -244,14 +247,15 @@
     }
 
     function sManip() {
-      h('h2', { text: 'Expérimenter / Investiguer' }, panel);
+      h('h2', { text: 'Moment 4 sur 9 · Je réalise la manipulation' }, panel);
       h('p', {}, panel, '<b>Variable modifiée :</b> ' + esc(F.variable) + ' · <b>Maintenu :</b> ' + esc(F.maintenu));
       if (F.guidage) h('p',{text:st.guidage==='autonome'?'Choisis les essais nécessaires pour vérifier ton hypothèse.':'Suis le protocole et note chaque observation avant de comparer.'},panel);
-      F.manip(panel, ctx());
+      var sim = h('div', { class: 'sim-frame' }, panel);
+      F.manip(sim, ctx());
       var r = h('div', { class: 'row' }, panel); var nx = h('button', { class: 'btn primary', type: 'button', text: 'J’ai assez d’essais : confronter ▸' }, r); nx.onclick = function () { go(3); panel.focus(); }; nx.disabled = !readyForAnalysis(); ctxNx = nx;
     }
     function sConfront() {
-      h('h2', { text: 'Analyser et interpréter' }, panel);
+      h('h2', { text: 'Moment 5 sur 9 · J’observe et j’analyse les résultats' }, panel);
       h('p', { text: F.confrontation }, panel);
       var g = h('div', { class: 'grid2' }, panel), a = h('div', { class: 'card' }, g), b = h('div', { class: 'card' }, g);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
@@ -262,6 +266,7 @@
       var dg = F.diagnostic && F.diagnostic(st);
       if (dg && dg.length) h('div', { class: 'card' }, panel, '<h3 style="margin-top:0">Diagnostic de mes calculs (indicatif, non noté)</h3><ul>' + dg.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>');
       var cf = st.confront || {};
+      h('h2', { text: 'Moment 6 sur 9 · Je confronte les résultats à mon hypothèse' }, panel);
       var f = h('fieldset', { style: 'border:0;padding:0' }, panel); h('legend', { style: 'font-weight:700' }, f, 'Ma prévision est…');
       [['confirmee', 'confirmée'], ['infirmee', 'infirmée'], ['partielle', 'partiellement confirmée'], ['non', 'impossible à conclure avec ces essais']].forEach(function (c) { h('label', { class: 'opt' }, f, '<input type="radio" name="vd" value="' + c[0] + '"' + (cf.verdict === c[0] ? ' checked' : '') + '><span>' + c[1] + '</span>'); });
       h('label', { for: 'pre', text: F.retroaction }, panel); var t1 = h('textarea', { id: 'pre' }, panel); t1.value = cf.preuve || '';
@@ -278,13 +283,14 @@
     }
 
     function sBilan() {
-      h('h2', { text: 'Conclure · Bilan et transfert' }, panel);
+      h('h2', { text: 'Moment 7 sur 9 · Je rédige mon bilan' }, panel);
       h('label', { for: 'cc', text: 'Ma conclusion personnelle (avant la synthèse) :' }, panel); var t = h('textarea', { id: 'cc' }, panel); t.value = st.conclusion || '';
       var msg = h('div', { class: 'msg bad', role: 'alert', hidden: '' }, panel);
       var r = h('div', { class: 'row' }, panel);
       var b = h('button', { class: 'btn primary', type: 'button', text: st.conclusion ? 'Mettre à jour ma conclusion' : 'Valider ma conclusion' }, r);
       b.onclick = function () { if (t.value.trim().length < 5) { msg.hidden = false; msg.textContent = 'Écris ta conclusion en une phrase complète, appuyée sur tes observations ou tes mesures.'; return; } st.conclusion = t.value.trim(); save(KEY, st); drawTabs(); draw(); };
       if (!st.conclusion) return;
+      h('h2', { text: 'Moment 8 sur 9 · Je compare avec le bilan scientifique' }, panel);
       h('div', { class: 'msg ok' }, panel, '<b>Synthèse scientifique.</b> ' + esc(F.synthese));
       if (F.situationEvaluation) {
         h('h3',{text:'Situation d’évaluation'},panel);h('p',{text:F.situationEvaluation},panel);h('label',{for:'nl-eval',text:'Ma réponse argumentée :'},panel);
@@ -334,7 +340,15 @@
     }
 
     function sTrace() {
-      h('h2', { text: 'Communiquer · Ma trace' }, panel);
+      h('h2', { text: 'Moment 9 sur 9 · Je relève un défi, seul ou en équipe' }, panel);
+      var lc = (new URLSearchParams(location.search).get('lecon') || '');
+      if (/^[a-z0-9-]+$/.test(lc) && lc !== 'energie-circuit' && lc !== 'materiaux-tri-dechets') {
+        var dc = h('div', { class: 'card noprint' }, panel);
+        h('h3', { text: 'Mon défi' }, dc);
+        h('p', { text: 'Je relève le défi de la leçon, seul ou en équipe, pour montrer ce que j’ai compris.' }, dc);
+        h('a', { class: 'btn primary', href: '../parcours-ci/?l=' + lc, text: 'Relever le défi de la leçon ▸' }, dc);
+      }
+      h('h3', { text: 'Ma trace' }, panel);
       var pv = st.prevision, ch = F.prevision.choix.filter(function (c) { return c[0] === pv.initiale.choix; })[0];
       h('div', { class: 'card' }, panel,
         '<p><b>Prévision initiale :</b> ' + esc(ch[1]) + (pv.initiale.nombre ? ' (' + esc(pv.initiale.nombre) + ' ' + esc(F.prevision.nombre.unite) + ')' : '') + ' — ' + esc(pv.initiale.raison) + '</p>' +

@@ -7,6 +7,8 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 'Chiffres','Atkinson Hyperlegible',system-ui,sans-serif}
 a{color:inherit}:focus-visible{outline:3px solid var(--or-soft);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1360px;margin:0 auto;padding:0 16px 56px}
+.skip-link:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link:focus{position:absolute;z-index:100;top:8px;left:8px;display:inline-flex;align-items:center;min-height:44px;padding:10px 12px;border:2px solid var(--or-soft);border-radius:8px;background:var(--card);color:var(--ink);text-decoration:none}
 header.top{border-bottom:1px solid var(--line);background:var(--card)}
 header.top .wrap{display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap}
 header.top b{font:800 18px 'Bricolage Grotesque',sans-serif;margin-right:auto}header.top b span{color:var(--or-soft)}
@@ -14,14 +16,20 @@ h1{font:800 clamp(26px,5vw,38px)/1.1 'Bricolage Grotesque',sans-serif;margin:22p
 h2{font:800 22px 'Bricolage Grotesque',sans-serif;margin:0 0 8px}
 .sub{color:var(--mist);margin:0 0 18px}
 .badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:13px;color:var(--mist);margin-right:6px}
-.btn{font:700 16px inherit;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block;min-height:44px}
+.btn{font:700 16px inherit;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block;min-height:44px;transition:transform .12s ease,border-color .12s ease,filter .12s ease}
 .btn.primary{background:var(--or-bg);border-color:var(--or-bg);color:var(--on-or)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}
-.tabs button{font:700 14px inherit;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 8px;padding-bottom:8px}
+.tabs button{font-family:inherit;font-size:16px;line-height:1.2;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:44px;text-align:center;transition:transform .12s ease,border-color .12s ease,filter .12s ease}
 .tabs button[aria-selected="true"]{background:var(--or-bg);border-color:var(--or-bg);color:var(--on-or)}
 .tabs button:disabled{opacity:.45;cursor:not-allowed}
+#panel{padding-top:8px}
+@media(hover:hover) and (pointer:fine){
+  .btn:not(:disabled):hover,.tabs button:not(:disabled):hover{transform:translateY(-1px);border-color:var(--or-soft)}
+  .btn.primary:not(:disabled):hover,.tabs button[aria-selected="true"]:not(:disabled):hover{filter:brightness(.92)}
+}
+.btn:not(:disabled):active,.tabs button:not(:disabled):active{transform:translateY(1px)}
 label{display:block;margin:10px 0 4px;font-weight:700}
 textarea,input[type=text],select{width:100%;background:var(--field);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
 textarea{min-height:90px}
@@ -31,7 +39,8 @@ textarea{min-height:90px}
 .msg.ok{border-color:var(--ok)}.msg.bad{border-color:var(--bad)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.chi19-ghs-picto{display:block;width:120px;height:120px;max-width:100%;margin:0 auto;object-fit:contain}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tabs button{width:100%;min-width:0}}
 table.t{border-collapse:collapse;width:100%;font-size:15px}
 table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:right}
 table.t th:first-child,table.t td:first-child{text-align:left}
@@ -46,7 +55,7 @@ table.t th:first-child,table.t td:first-child{text-align:left}
 .chip.off{background:transparent;border:1px solid var(--line);color:var(--mist)}
 .bannerprof{border:2px solid var(--or);background:rgba(249,115,22,.12);border-radius:12px;padding:10px 14px;margin:12px 0;font-weight:700}
 svg .grain{transition:opacity .9s,transform .9s}
-@media(prefers-reduced-motion:reduce){svg *,.btn{transition:none!important;animation:none!important}}
+@media(prefers-reduced-motion:reduce){svg *,.btn,.tabs button{transition:none!important;animation:none!important}.btn:hover,.btn:active,.tabs button:hover,.tabs button:active{transform:none!important}}
 #print{display:none}
 /* fiche A4 : aperçu écran et impression partagent les mêmes règles */
 .sheet{color:#111;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -96,3 +105,15 @@ svg .grain{transition:opacity .9s,transform .9s}
 .cadre .prog{margin:0 0 4px;font-size:14px;color:var(--mist)}
 .sheet .cadre .vis{font-size:12.5px;margin:0 0 1px;color:#111}.sheet .cadre .prog{font-size:10.5px;color:#444;margin:0}
 @media print{.sheet .cadre .vis{font-size:9.5pt}.sheet .cadre .prog{font-size:7.5pt}}
+
+/* Zone de simulation : bordure lumineuse (fixe au repos, lumière qui tourne quand l'élève agit) */
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+.sim-frame{position:relative;border-radius:22px;padding:12px;margin:14px 0;isolation:isolate}
+.sim-frame>.card:first-child{margin-top:0}.sim-frame>.card:last-child{margin-bottom:0}
+.sim-frame::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;z-index:-1;pointer-events:none;
+  background:conic-gradient(from var(--ang),#5CC8FF,#7CE3A1,#FFB547,#5CC8FF);opacity:.45;transition:opacity .4s;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.sim-frame:focus-within::before,.sim-frame:hover::before{opacity:1;box-shadow:0 0 28px rgba(92,200,255,.35);animation:sim-tour 5s linear infinite}
+@keyframes sim-tour{to{--ang:360deg}}
+@media (prefers-reduced-motion:reduce){.sim-frame::before{animation:none!important}}
+@media print{.sim-frame{padding:0}.sim-frame::before{display:none}}
