@@ -119,3 +119,12 @@ Dernière mise à jour : 8 novembre 2026 (construction du lot Chimie, [scenarios
 | INT-01 | Choix de conception | Piles de 1,5 V, lampe 30 Ω (50, 100, 150 mA), moteur 25 Ω (60, 120, 180 mA). Aucun calcul par la loi d'Ohm demandé à l'élève. |
 | TEN-01 | Choix de conception | Second générateur de 3 V pour vérifier la loi ; lampes dites « différentes » sans tension nominale affichée. |
 | Références du manuel JD 5e | À confirmer | Mesures 1 n° 1, 3, 5 et Mesures 2 n° 5 ; pages issues d'une lecture assistée. |
+
+## Lot 5e Pannes et court-circuit (10 nov. 2026)
+| Sujet | Décision ou écart | Détail |
+|---|---|---|
+| Tableau de scénarios détaillé | Non rédigé avant construction | Lot construit sur accord du propriétaire (« on continue »), à partir des trois lignes du plan `docs/conception-5e-3e.md`. Hypothèses, protocoles et bilans sont des rédactions NohobaLab à relire. |
+| PAN-01 | Proche de `NL-5E-ELE-03` | Même situation (lampe hors service en série ou en dérivation), compétence différente : prévoir l'effet d'une panne. À arbitrer si doublon jugé trop fort. |
+| PAN-02 | Choix de conception | Court-circuit simulé, signalé sans dégât ; éclats qualitatifs (lampe restante « plus fort » en série). Mention des fusibles et disjoncteurs dans le bilan. |
+| PAN-03 | Écart avec le plan | Modèle propre (`NohobaPannes5e.convient`) au lieu de `NohobaCommande` ; trois besoins rédigés par NohobaLab. |
+| Références du manuel JD 5e | À confirmer | Électricité 2 n° 2, 4 et 5 ; lecture assistée. |

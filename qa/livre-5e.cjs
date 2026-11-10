@@ -56,7 +56,7 @@ const attend=()=>new Promise(r=>setTimeout(r,30));
  w=ouvre('http://localhost/livre/?l=dilatation-gaz',{},390);d=w.document;await attend();assert.ok(d.body.classList.contains('sgl'));assert.equal(d.querySelectorAll('#book .page').length,1);
  d.querySelector('[data-start]').click();assert.equal(pos(w),'s2l','téléphone : le livre ouvre le laboratoire');assert.ok(d.querySelector('.fl a'));
  w=ouvre('http://localhost/livre/?l=inconnue');assert.equal(w.document.querySelectorAll('.toc a').length,13,'leçon inconnue : sommaire');
- {const att={intensite:4,'generateur-recepteur':1,'association-lampes':1,'piles-serie':1,tension:2,'pression-atmospherique':2,melanges:3,'atomes-molecules':2,'combustion-carbone':1,'combustion-soufre':1,'dilatation-solides':2,'dilatation-liquides':1,'dilatation-gaz':1};
+ {const att={intensite:4,'generateur-recepteur':1,'association-lampes':4,'piles-serie':1,tension:2,'pression-atmospherique':2,melanges:3,'atomes-molecules':2,'combustion-carbone':1,'combustion-soufre':1,'dilatation-solides':2,'dilatation-liquides':1,'dilatation-gaz':1};
   for(const [sl,n] of Object.entries(att)){const w2=ouvre('http://localhost/livre/?l='+sl,{['pc-livre-'+sl]:{m:3,start:1,q:[],pos:2}});await attend();assert.equal(w2.document.querySelectorAll('a[href*="activites-5e/?a=NL-5E-"]').length,n,'fiches reliées au livre : '+sl);}}
  assert.ok(!/Chapitre/.test(d.body.textContent),'plus de chapitres : seulement les neuf moments');
  assert.ok(!/ouvreCahier|rendreCahier|bCahier/.test(js)&&!/#cahier|#cb\b/.test(css),'plus de code de cahier');
