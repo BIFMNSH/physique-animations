@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr" data-theme="dark">
 <head>
-<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
+<script>try{var p=JSON.parse(localStorage.getItem('pc-studio')||'{}');var t=p.theme||localStorage.getItem('pc-theme');var q=new URLSearchParams(location.search).get('t');if(q==='light'||q==='dark')t=q;document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Investigation 6e · NOHOBA-Lab</title>
@@ -9,6 +9,7 @@
 <meta name="description" content="Activité d'investigation scientifique de sixième, programme ivoirien.">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/activites/activites.css">
+<style>.embed .top,.embed .noprint-embed{display:none!important}.embed main.wrap{max-width:none;padding:10px 12px}</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Investigation 6e · NOHOBA-Lab", "url": "https://lab.nohaba.com/activites-ci/", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "NOHOBA-Lab", "url": "https://lab.nohaba.com/"}, "description": "Activité d'investigation scientifique de sixième, programme ivoirien."}</script>
 </head>
 <body>
@@ -32,6 +33,7 @@
 <script src="../assets/catalogues/6e-ci.js"></script>
 <script src="../assets/activites/activite.js"></script>
 <script>
+if(/(^|[?&])embed=1/.test(location.search))document.documentElement.classList.add('embed');
 (function(){
   var app=document.getElementById('app'),id=new URLSearchParams(location.search).get('a')||'NL-CI-6E-ELE-07';
   var mid=/^NL-CI-6E-(ELE-(?:0[1-9]|1[0-7])|MAT-(?:0[1-9]|[12][0-9]|3[0-3])|ENE-(?:0[1-9]|10)|MES-(?:0[1-9]|1[01])|CHI-(?:0[1-9]|1[0-9]|2[0-2]))$/.exec(id);
@@ -50,6 +52,15 @@
     var f=window[key];
     if(!f||!window.Activite){app.textContent='L’activité n’a pas pu être chargée.';return;}
     document.title=f.titre+' · NOHOBA-Lab';
+    /* mode livre : seule la manipulation s'affiche ; la hauteur et les essais sont signalés au livre parent */
+    if(new URLSearchParams(location.search).get('embed')==='manip'&&window.Activite.manip){
+      document.body.classList.add('embed');
+      var post=function(m){try{if(window.parent&&window.parent!==window)window.parent.postMessage(m,location.origin);}catch(e){}};
+      var haut=function(){post({nohoba:'livre-ci',type:'h',id:id,h:document.documentElement.scrollHeight});};
+      window.Activite.manip(f,app,function(st){post({nohoba:'livre-ci',type:'essai',id:id,n:st.essais.length});haut();});
+      haut();window.addEventListener('load',haut);if(window.ResizeObserver)new ResizeObserver(haut).observe(app);
+      return;
+    }
     var t=document.createElement('h1');t.id='top';t.tabIndex=-1;t.textContent=f.titre;app.appendChild(t);
     var p=document.createElement('p');p.className='sub';p.textContent=entry.theme==='Énergie'?'6e · Pour aller plus loin (hors programme officiel) · Énergie · Investigation expérimentale':'6e · Programme ivoirien · '+(entry.theme||'Sciences physiques')+' · Investigation expérimentale';app.appendChild(p);
     if(entry.statut==='prototype'){

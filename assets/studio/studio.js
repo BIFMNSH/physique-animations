@@ -86,17 +86,42 @@
   function pickVoice() {
     if (!synth) return;
     var vs = synth.getVoices().filter(function (v) { return /^fr/i.test(v.lang); });
-    vs.sort(function (a, b) { function sc(v) { return (/fr-FR/i.test(v.lang) ? 2 : 0) + (/google|natural|neural|premium|enhanced|amélie|audrey|thomas/i.test(v.name) ? 3 : 0) + (v.localService ? 1 : 0); } return sc(b) - sc(a); });
+    /* voix de secours : on préfère les voix neuronales / naturelles (Microsoft « Online (Natural) », Google, Siri), puis les voix françaises de France ; on évite les voix compactes ou de fantaisie */
+    vs.sort(function (a, b) { function sc(v) { var n = v.name || ''; return (/fr[-_]FR/i.test(v.lang) ? 3 : 0) + (/natural|neural|online|multilingual/i.test(n) ? 6 : 0) + (/google|premium|enhanced|siri|amélie|audrey|thomas|denise|henri|eloise|hortense|julie|paul/i.test(n) ? 3 : 0) - (/compact|espeak|pico|eddy|flo\b|grandma|grandpa|rocko|sandy|shelley|reed|jacques/i.test(n) ? 10 : 0); } return sc(b) - sc(a); });
     voiceFr = vs[0] || null;
   }
   if (synth) { pickVoice(); if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice; }
-  function speak(text, rate, onend) {
+  /* ---------- voix enregistrée (voix neuronale) : assets/voix/<leçon>/<empreinte>.mp3 ----------
+     Fichiers produits hors ligne par tools/voix/ (voir LISEZ-MOI.md). L'empreinte (FNV-1a du texte dit) évite de jouer une voix périmée
+     après une correction de texte. Si la phrase n'est pas enregistrée, ou si la lecture échoue, on retombe sur la voix de l'appareil. */
+  var VBASE = (function () { var sc = document.currentScript; return sc && sc.src ? sc.src.replace(/studio\/studio\.js.*$/, 'voix/') : '../assets/voix/'; })();
+  var VMAN = null, VMANP = null, VA = null;   /* VA : null = pas encore créé, false = ce navigateur ne lit pas le mp3 */
+  var SILENCE = 'data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//OEwAAAAAAAAAAAAEluZm8AAAAPAAAABwAAAhAAdHR0dHR0dHR0dHR0dHSLi4uLi4uLi4uLi4uLi6KioqKioqKioqKioqKiurq6urq6urq6urq6urq60dHR0dHR0dHR0dHR0dHo6Ojo6Ojo6Ojo6Ojo6P//////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQCQAAAAAAAAAIQM82HUQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//MkxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//MkxCMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//MkxEYAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//MkxGkAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//MkxIwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//MkxK8AAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//MkxNIAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+  function voixManifest() { if (!VMANP) VMANP = (window.fetch ? fetch(VBASE + 'index.json').then(function (r) { return r.ok ? r.json() : {}; }) : Promise.resolve({})).catch(function () { return {}; }).then(function (m) { VMAN = m && m.s ? m : { s: {} }; return VMAN; }); return VMANP; }
+  function empreinte(t) { var h = 0x811c9dc5, i; for (i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ('00000000' + h.toString(16)).slice(-8); }
+  function fichierVoix(slug, clean) { var k = empreinte(clean), l = VMAN && VMAN.s[slug]; return l && l.indexOf(k) >= 0 ? VBASE + slug + '/' + k + '.mp3' : null; }
+  function audioEl() { if (VA === null && window.Audio) { var a = new Audio(); if (a.canPlayType && a.canPlayType('audio/mpeg')) { a.preload = 'auto'; VA = a; } else VA = false; } return VA || null; }
+  function speak(text, rate, onend, slug) {
+    var clean = String(text).replace(/<[^>]+>/g, ''), f = slug && fichierVoix(slug, clean);
+    return f && audioEl() ? speakFile(f, clean, rate, onend) : speakDevice(clean, rate, onend);
+  }
+  function speakFile(src, clean, rate, onend) {
+    var a = audioEl(), done = false, dev = null, r = clamp(rate || 1, 0.6, 1.6), guard;
+    function fin() { if (!done) { done = true; clearTimeout(guard); a.onended = a.onerror = null; if (onend) onend(); } }
+    function secours() { if (done || dev) return; clearTimeout(guard); a.onended = a.onerror = null; try { a.pause(); } catch (e) {} dev = speakDevice(clean, rate, function () { done = true; if (onend) onend(); }); }
+    a.onended = fin; a.onerror = secours;
+    a.defaultPlaybackRate = r; a.src = src; a.playbackRate = r;
+    try { var p = a.play(); if (p && p.catch) p.catch(secours); } catch (e) { secours(); }
+    guard = setTimeout(function () { if (!dev) fin(); }, 5000 + clean.length * 140 / r);
+    return { stop: function () { done = true; clearTimeout(guard); a.onended = a.onerror = null; try { a.pause(); } catch (e) {} if (dev) dev.stop(); } };
+  }
+  function speakDevice(text, rate, onend) {
     if (!synth) { if (onend) setTimeout(onend, 10); return null; }
     var busy = synth.speaking || synth.pending;
     if (busy) synth.cancel();
     var u = new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g, ''));
     u.lang = 'fr-FR'; if (voiceFr) u.voice = voiceFr;
-    u.rate = clamp(rate || 1, 0.6, 1.6); u.pitch = 1.02;
+    u.rate = clamp((rate || 1) * 0.97, 0.6, 1.6); u.pitch = 1;
     var done = false, stopped = false; function fin() { if (!done) { done = true; onend && onend(); } }
     u.onend = fin; u.onerror = function (e) { if (e && e.error === 'not-allowed') vocalOk = false; fin(); };
     // garde-fou : certaines voix n'envoient jamais « fin »
@@ -105,12 +130,14 @@
     if (busy) setTimeout(function () { if (!stopped) synth.speak(u); }, 80); else synth.speak(u);
     return { stop: function () { done = true; stopped = true; clearTimeout(guard); synth.cancel(); } };
   }
-  function hush() { if (synth) synth.cancel(); }
+  function hush() { if (synth) synth.cancel(); if (VA) { try { VA.pause(); } catch (e) {} } }
   /* Sur téléphone (iOS, Android), la synthèse vocale ne parle que si elle a été « réveillée » par un geste de l'élève :
      la lecture automatique du résumé (lancée par la boucle d'animation) restait muette. On la réveille au premier toucher,
      avec une phrase vide, puis à chaque appui sur Lecture. */
   var vocalOk = false;
   function wakeVoice() {
+    /* même principe pour la voix enregistrée : le seul élément audio est « débloqué » par un geste, puis réutilisé phrase après phrase */
+    var au = audioEl(); if (au && au.paused && !au.currentTime) { try { au.src = SILENCE; var pr = au.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {} }
     if (!synth) return;
     try {
       var u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'fr-FR';
@@ -570,7 +597,7 @@
     ['resume', 'sim', 'defi'].forEach(function (k) { views[k] = h('section', { class: 'view' + (k === 'defi' ? ' defi' : ''), hidden: '', 'aria-label': k }, stage); });
 
     var BUILD = {
-      resume: function (root) { return buildResume(root, L.resume, { stage: stage, done: function () { done('resume'); }, go: go }); },
+      resume: function (root) { return buildResume(root, L.resume, { stage: stage, done: function () { done('resume'); }, go: go, slug: String(L.id).replace(L.level + '-', '') }); },
       sim: function (root) { return buildSim(root, L.sim, { embed: !!EMBED, stage: stage, done: function () { done('sim'); }, go: go, L: L, inquiry: inquiry, revision: function () { return revision; }, revise: function () { revision = true; go('resume'); } }); },
       defi: function (root) { return buildDefi(root, L.defi, { stage: stage, done: function () { done('defi'); }, go: go, L: L }); }
     };
@@ -613,6 +640,7 @@
 
   /* ================== RÉSUMÉ VIDÉO NARRÉ ================== */
   function buildResume(root, R, ctx) {
+    voixManifest();
     var player = h('div', { class: 'player' }, root);
     var screen = h('div', { class: 'screen' }, player);
     var sv = s('svg', { class: 'sv', viewBox: '0 0 900 560', role: 'img', 'aria-label': R.alt }, screen);
@@ -698,7 +726,7 @@
       if (k !== idx) idx = k;
       if (k > spoken && k >= 0) {
         spoken = k;
-        if (SET.voice && synth) { hold = true; var me = speaking = speak(R.segs[k].say, rate * (SET.speed < 1 ? 0.9 : 1), function () { if (speaking === me) { speaking = null; hold = false; } }); }
+        if (SET.voice && (synth || window.Audio)) { hold = true; var me = speaking = speak(R.segs[k].say, rate * (SET.speed < 1 ? 0.9 : 1), function () { if (speaking === me) { speaking = null; hold = false; } }, ctx.slug); }
       }
       var end = k >= 0 ? R.segs[k].t + R.segs[k].d : Infinity, nextT = t + dt * rate * Math.min(SET.speed, 1.25);
       if (hold && speaking && nextT > end - 0.05) nextT = Math.max(t, end - 0.05);     // la voix n'a pas fini : on attend
@@ -711,12 +739,12 @@
       b.innerHTML = '<div style="display:flex;gap:14px;align-items:center;padding-right:44px">' + lumi(64, 'think') + '<div><span class="kick">Question flash</span><h2>' + q.q + '</h2></div></div>';
       var g = h('div', { class: 'opts' }, b), fb = h('div', { class: 'msg' }, b);
       var back = document.activeElement;
-      function fermer() { document.removeEventListener('keydown', onKey, true); if (synth) synth.cancel(); f.remove(); if (back && back.focus) try { back.focus(); } catch (e) {} }
+      function fermer() { document.removeEventListener('keydown', onKey, true); hush(); f.remove(); if (back && back.focus) try { back.focus(); } catch (e) {} }
       function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); fermer(); } }
       document.addEventListener('keydown', onKey, true);
       f.addEventListener('click', function (e) { if (e.target === f) fermer(); });
       var x0 = h('button', { type: 'button', class: 'flash-x', 'aria-label': 'Fermer la question flash' }, b, '✕'); x0.onclick = fermer; b.insertBefore(x0, b.firstChild); x0.focus();
-      if (SET.voice) speak('Question flash. ' + q.q, rate);
+      if (SET.voice) speak('Question flash. ' + q.q, rate, null, ctx.slug);
       q.o.forEach(function (o, j) {
         var x = h('button', { type: 'button' }, g, o);
         x.onclick = function () {

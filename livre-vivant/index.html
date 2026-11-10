@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#3a1a0b">
+<meta name="robots" content="noindex, follow">
+<script>try{var t=localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){}</script>
+<title>Livre vivant de physique-chimie · NOHOBA-Lab</title>
+<meta name="description" content="Prototype : un livre vivant par leçon, avec un modèle qui se dresse sur la page, des curseurs, du son et un défi, pour les classes de 6e, 5e, 4e et 3e.">
+<link rel="icon" href="../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/vivant/vivant.css">
+</head>
+<body>
+<svg class="bois" aria-hidden="true" preserveAspectRatio="none"><defs>
+<filter id="vein" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".004 .16" numOctaves="3" seed="21"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .38  0 0 0 0 .18  .8 0 0 0 -.3"/></filter>
+<pattern id="plank" width="100%" height="230" patternUnits="userSpaceOnUse"><rect width="100%" height="1.5" fill="rgba(110,76,36,.22)"/></pattern></defs>
+<rect width="100%" height="100%" filter="url(#vein)"/><rect width="100%" height="100%" fill="url(#plank)"/></svg>
+<div class="lum"></div>
+<div id="app">
+  <main id="main">
+    <section id="somm" hidden aria-label="Choix de la leçon"></section>
+    <div id="fit" hidden><div id="scale"><div class="book" id="book"><div class="cover"></div><div class="stack"></div><div class="slot" id="sL"></div><div class="slot" id="sR"></div><div id="sheet"></div></div></div></div>
+  </main>
+  <nav id="bar" aria-label="Navigation du livre">
+    <a id="bSom" href="./" aria-label="Sommaire">Sommaire</a>
+    <button type="button" id="prev" aria-label="Page précédente">← Précédent</button><div id="dots"></div><button type="button" id="next" class="nx" aria-label="Page suivante">Suivant →</button>
+    <button type="button" id="bMore" aria-expanded="false" aria-label="Plus d’options : son, animations, thème">⋯</button><button type="button" id="bSon" aria-pressed="true">Son</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bEns" aria-pressed="false">Mode enseignant</button><button type="button" id="bTh">Thème</button>
+  </nav>
+</div>
+<section id="couv" aria-label="Couverture du livre vivant">
+  <div class="cv-in">
+    <svg class="cv-frame" viewBox="0 0 400 700" preserveAspectRatio="none" aria-hidden="true"><rect x="14" y="14" width="372" height="672" rx="6" fill="none" stroke="url(#gold)" stroke-width="3"/><rect x="24" y="24" width="352" height="652" rx="3" fill="none" stroke="url(#gold)" stroke-width="1"/>
+      <g stroke="url(#gold)" stroke-width="2" fill="none"><path d="M24 70 Q24 24 70 24"/><path d="M376 70 Q376 24 330 24"/><path d="M24 630 Q24 676 70 676"/><path d="M376 630 Q376 676 330 676"/></g>
+      <defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7E3A1"/><stop offset=".45" stop-color="#C9962E"/><stop offset=".7" stop-color="#F3D98A"/><stop offset="1" stop-color="#A9791F"/></linearGradient></defs></svg>
+    <p class="cv-top">NOHOBA-Lab · Physique-Chimie</p>
+    <svg class="cv-atom" viewBox="-120 -120 240 240" role="img" aria-label="Un atome stylisé : un noyau lumineux et trois orbites d’électrons">
+      <defs><radialGradient id="noy"><stop offset="0" stop-color="#FFF6D0"/><stop offset=".4" stop-color="#F4C95A"/><stop offset="1" stop-color="#C2410C" stop-opacity="0"/></radialGradient>
+      <linearGradient id="or" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBE9B0"/><stop offset="1" stop-color="#B98524"/></linearGradient></defs>
+      <circle r="62" fill="url(#noy)" class="cv-halo"/>
+      <g fill="none" stroke="url(#or)" stroke-width="2.2"><ellipse rx="100" ry="34" transform="rotate(0)"/><ellipse rx="100" ry="34" transform="rotate(60)"/><ellipse rx="100" ry="34" transform="rotate(-60)"/></g>
+      <g transform="rotate(0)"><circle r="7" fill="#FFE9A8"><animateMotion dur="6s" repeatCount="indefinite" path="M100 0A100 34 0 1 1 -100 0A100 34 0 1 1 100 0"/></circle></g>
+      <g transform="rotate(60)"><circle r="7" fill="#9CC4FF"><animateMotion dur="8s" repeatCount="indefinite" path="M100 0A100 34 0 1 0 -100 0A100 34 0 1 0 100 0"/></circle></g>
+      <g transform="rotate(-60)"><circle r="7" fill="#FF9F6B"><animateMotion dur="10s" repeatCount="indefinite" path="M100 0A100 34 0 1 1 -100 0A100 34 0 1 1 100 0"/></circle></g>
+      <circle r="13" fill="#FFF3C2"/></svg>
+    <h1 class="cv-t"><span>Le livre</span><b>vivant</b></h1>
+    <p class="cv-s">de physique-chimie</p>
+    <p class="cv-lv" role="group" aria-label="Choisir ma classe"><button type="button" data-n="6e" aria-label="Ouvrir le livre en classe de 6e">6e</button><button type="button" data-n="5e" aria-label="Ouvrir le livre en classe de 5e">5e</button><button type="button" data-n="4e" aria-label="Ouvrir le livre en classe de 4e">4e</button><button type="button" data-n="3e" aria-label="Ouvrir le livre en classe de 3e">3e</button></p>
+    <p class="cv-tag">53 leçons qui se dressent sous tes doigts</p>
+    <button type="button" id="couvGo" class="cv-go">Ouvrir le livre</button>
+    <p class="cv-ft">Manipule · Écoute · Relève le défi</p>
+    <i class="cv-p p1" aria-hidden="true"></i><i class="cv-p p2" aria-hidden="true"></i><i class="cv-p p3" aria-hidden="true"></i><i class="cv-p p4" aria-hidden="true"></i><i class="cv-p p5" aria-hidden="true"></i><i class="cv-p p6" aria-hidden="true"></i>
+  </div>
+</section>
+<button type="button" id="ensOut" hidden>Quitter le mode enseignant (Esc)</button>
+<script src="../assets/studio/programme.js"></script>
+<script src="../assets/vivant/vivant.js"></script>
+<script src="../assets/vivant/circuit.js"></script>
+<script src="../assets/vivant/lecons/changements-etat.js"></script>
+<script src="../assets/vivant/lecons/dilatation-gaz.js"></script>
+<script src="../assets/vivant/lecons/tension-sinusoidale.js"></script>
+<script src="../assets/vivant/lecons/masse-poids.js"></script>
+<script src="../assets/vivant/lecons/conducteur-ohmique.js"></script>
+<script src="../assets/vivant/lecons/circuit-electrique.js"></script>
+<script src="../assets/vivant/lecons/commande-circuit.js"></script>
+<script src="../assets/vivant/lecons/court-circuit.js"></script>
+<script src="../assets/vivant/lecons/solides-liquides.js"></script>
+<script src="../assets/vivant/lecons/les-gaz.js"></script>
+<script src="../assets/vivant/lecons/generateur-recepteur.js"></script>
+<script src="../assets/vivant/lecons/association-lampes.js"></script>
+<script src="../assets/vivant/lecons/piles-serie.js"></script>
+<script src="../assets/vivant/lecons/tension.js"></script>
+<script src="../assets/vivant/lecons/intensite.js"></script>
+<script src="../assets/vivant/lecons/dilatation-solides.js"></script>
+<script src="../assets/vivant/lecons/dilatation-liquides.js"></script>
+<script src="../assets/vivant/lecons/pression-atmospherique.js"></script>
+<script src="../assets/vivant/lecons/melanges.js"></script>
+<script src="../assets/vivant/lecons/atomes-molecules.js"></script>
+<script src="../assets/vivant/lecons/temperature.js"></script>
+<script src="../assets/vivant/lecons/volume.js"></script>
+<script src="../assets/vivant/lecons/masse.js"></script>
+<script src="../assets/vivant/lecons/constituants-air.js"></script>
+<script src="../assets/vivant/lecons/combustion-solide-liquide.js"></script>
+<script src="../assets/vivant/lecons/combustion-gaz.js"></script>
+<script src="../assets/vivant/lecons/dangers-combustions.js"></script>
+<script src="../assets/vivant/lecons/combustion-carbone.js"></script>
+<script src="../assets/vivant/lecons/combustion-soufre.js"></script>
+<script src="../assets/vivant/lecons/sources-recepteurs.js"></script>
+<script src="../assets/vivant/lecons/propagation-lumiere.js"></script>
+<script src="../assets/vivant/lecons/phases-eclipses.js"></script>
+<script src="../assets/vivant/lecons/lumiere-blanche.js"></script>
+<script src="../assets/vivant/lecons/aimant-bobine.js"></script>
+<script src="../assets/vivant/lecons/tension-alternative.js"></script>
+<script src="../assets/vivant/lecons/dangers-secteur.js"></script>
+<script src="../assets/vivant/lecons/transfo-redressement.js"></script>
+<script src="../assets/vivant/lecons/atomes-ions.js"></script>
+<script src="../assets/vivant/lecons/metal-ion.js"></script>
+<script src="../assets/vivant/lecons/traitement-eau.js"></script>
+<script src="../assets/vivant/lecons/qualite-eau.js"></script>
+<script src="../assets/vivant/lecons/les-forces.js"></script>
+<script src="../assets/vivant/lecons/equilibre-deux-forces.js"></script>
+<script src="../assets/vivant/lecons/travail-puissance.js"></script>
+<script src="../assets/vivant/lecons/energie-mecanique.js"></script>
+<script src="../assets/vivant/lecons/electrolyse-eau.js"></script>
+<script src="../assets/vivant/lecons/alcanes.js"></script>
+<script src="../assets/vivant/lecons/oxydation-corps-purs.js"></script>
+<script src="../assets/vivant/lecons/reduction-oxydes.js"></script>
+<script src="../assets/vivant/lecons/solutions-acides-basiques.js"></script>
+<script src="../assets/vivant/lecons/lentilles.js"></script>
+<script src="../assets/vivant/lecons/defauts-oeil.js"></script>
+<script src="../assets/vivant/lecons/puissance-energie-electriques.js"></script>
+<script>Vivant.init();</script>
+</body></html>

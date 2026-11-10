@@ -8,17 +8,20 @@
   const nom=id=>(ACT.filter(x=>x[0]===id)[0]||['',''])[1];
   const ferme=a=>a==='ferme';
   function dessin(a){
-    const A=window.NohobaAtelier,on=ferme(a);
-    const rFull='M77.7 58.2 V14 H408 V206 H360 V158',nFull='M344 139 H320 V218 H14 V46 H54.3 V58.2';
+    const A=window.NohobaAtelier,on=ferme(a),P=A.pileM(250,52),I=A.interM(405,175,a!=='inter','K'),Lp=A.lampeM(95,215,on);
+    const ch=A.chaine([P,I,Lp]).cables,cs=[A.CR,A.CR,A.CK];
     let s='';
-    if(a==='pile')s+='<rect x="26" y="52" width="86" height="130" rx="10" fill="none" stroke="#9FB0C4" stroke-width="2" stroke-dasharray="6 5"/>'+A.T(69,122,'pile retirée',13,'#8895A8',700);else s+=A.pile45(30,96,.9);
-    s+=A.lampe(360,100,on,1);
-    s+=A.fil('M77.7 58.2 V14 H191','#E0342F')+A.fil('M239 14 H408 V206 H360 V'+(a==='rouge'?'190':'158'),'#E0342F');
-    s+=A.fil('M54.3 58.2 V46 H14 V218 H320 V'+(a==='noir'?'170':'139')+(a==='noir'?'':' H344'),'#2E3138');
-    s+=A.interrupteur(215,14,a!=='inter');
+    if(a==='pile')s+=A.absentM(250,52,120,56,'pile retirée');else s+=P.g;
+    s+=I.g+Lp.g;
+    const cabs=ch.map((k,i)=>{let aa=k.a,bb=k.b,sA=false,sB=false;
+      if(a==='rouge'&&i===1){bb=[k.b[0]+k.db*40,k.b[1]-36];sB=true;}
+      if(a==='noir'&&i===2){aa=[k.a[0]+(-k.da)*40,k.a[1]-36];sA=true;}
+      return A.cab(aa,k.da,bb,k.db,cs[i],{sansA:sA,sansB:sB});});
+    cabs.forEach(c=>{s+=c.svg;});
+    const full=ch.map(k=>A.cab(k.a,k.da,k.b,k.db,A.CR));
+    const rFull=full[0].d+' L'+ch[1].a[0]+' '+ch[1].a[1]+' '+full[1].d.replace(/^M\S+ \S+ /,''),nFull=full[2].d;
     s+='<path data-w="r" d="'+rFull+'" fill="none" stroke="none"/><path data-w="n" d="'+nFull+'" fill="none" stroke="none"/><g data-g="m"></g>';
-    s+=A.broches([[360,a==='rouge'?190:158],[a==='noir'?320:344,a==='noir'?170:139]]);
-    return A.svg(s,'0 -26 460 290','Pile, interrupteur, lampe et fils avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
+    return A.svgBanc(s,'0 0 500 290','Pile, interrupteur, lampe et câbles sur le banc, avec des grains : '+(on?'la boucle est fermée, la lampe brille, les grains circulent':'la boucle est ouverte, la lampe est éteinte, les grains sont immobiles'));
   }
   function manip(panel,X){
     const A=window.NohobaAtelier,st=X.st(),sec=h('div',{class:'card'},panel);
@@ -40,7 +43,7 @@
     function maj(){
       const a=val(),on=ferme(a);courant=a;
       fig.montage(dessin(a));
-      fig.schema(A.schema({pile:a==='pile'?'absente':'normale',cotes:{droite:'lampe',gauche:a==='inter'?'interOuvert':'interFerme',bas:a==='rouge'||a==='noir'?'vide':'fil'},legende:on?'Boucle fermée : les grains circulent':'Boucle ouverte : les grains sont immobiles',label:'Schéma normalisé : boucle '+(on?'fermée':'ouverte')}).replace('</svg>','<g data-g="s"></g></svg>'));
+      fig.schema(A.schema({pile:a==='pile'?'absente':'normale',cotes:{droite:a==='inter'?'interOuvert':'interFerme',gauche:'lampe',bas:a==='rouge'||a==='noir'?'vide':'fil'},legende:on?'Boucle fermée : les grains circulent':'Boucle ouverte : les grains sont immobiles',label:'Schéma normalisé : boucle '+(on?'fermée':'ouverte')}).replace('</svg>','<g data-g="s"></g></svg>'));
       grainsSVG();
       S.out.textContent=nom(a)+'. Observation : lampe '+(on?'allumée, grains en mouvement':'éteinte, grains immobiles')+'.';
     }

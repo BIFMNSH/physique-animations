@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<script>try{var t=localStorage.getItem('pc-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){}</script>
+<title>Mon cartable · La tension électrique · NOHOBA-Lab</title>
+<meta name="description" content="Prototype de 5e : un livre qui s'ouvre et un cahier de labo qui se remplit, sur la tension aux bornes de deux lampes.">
+<link rel="icon" href="../../assets/brand/nohoba-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/simple/cartable.css">
+</head>
+<body>
+<svg class="bois" aria-hidden="true" preserveAspectRatio="none"><defs>
+<filter id="g" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".006 .22" numOctaves="3" seed="8"/><feColorMatrix values="0 0 0 0 .32  0 0 0 0 .19  0 0 0 0 .07  .75 0 0 0 -.25"/></filter>
+<pattern id="pl" width="100%" height="212" patternUnits="userSpaceOnUse"><rect width="100%" height="1.5" fill="rgba(70,40,12,.28)"/></pattern></defs>
+<rect width="100%" height="100%" filter="url(#g)"/><rect width="100%" height="100%" fill="url(#pl)"/></svg>
+<div class="vig"></div>
+<div id="app">
+  <div id="scene">
+    <div id="fit"><div id="scale"><div class="book" id="book"><div class="cover"></div><div class="stack"></div><div class="slot" id="sL"></div><div class="slot" id="sR"></div><div id="sheet"></div></div></div></div>
+    <aside id="cahier" aria-label="Mon cahier de labo">
+      <div class="ch-head">
+        <p class="ch-kick">NOHOBA-Lab · Physique-chimie 5e · <b>Prototype</b></p>
+        <h1 class="ch-titre">Mon cahier de labo</h1>
+        <div class="ch-id"><label for="nom">Prénom</label><input id="nom" autocomplete="off" maxlength="40"><span id="cbDate"></span></div>
+        <div class="ch-prog"><span id="cbProg" role="img" aria-label="Moment 1 sur 9"></span><span id="cbCount">Moment 1 sur 9</span></div>
+        <button type="button" class="bt ghost" id="cbFerme">Fermer le cahier</button>
+      </div>
+      <div id="cb"><noscript><p>Ce cartable a besoin de JavaScript.</p></noscript></div>
+    </aside>
+  </div>
+  <nav id="bar" aria-label="Navigation">
+    <button type="button" id="prev" aria-label="Page précédente">← Précédent</button><div id="dots"></div><button type="button" id="next" class="nx" aria-label="Page suivante">Suivant →</button>
+    <button type="button" id="bCahier" aria-expanded="false">Mon cahier</button>
+    <button type="button" id="bSon" aria-pressed="true">Son activé</button><button type="button" id="bAnim" aria-pressed="true">Animations</button><button type="button" id="bTh">Thème</button><button type="button" id="bProf" hidden>Mode enseignant</button><button type="button" id="bImp">Imprimer le cahier</button>
+  </nav>
+</div>
+<div id="prof" role="dialog" aria-label="Mode enseignant"></div>
+<script src="../../assets/shared/atelier-electrique.js"></script>
+<script src="../../assets/simple/cartable.js"></script>
+</body></html>

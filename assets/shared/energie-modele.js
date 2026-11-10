@@ -156,32 +156,51 @@
     return A.svg(s,'0 0 460 350','Chaîne énergétique : '+ch.titre+'. '+(etiq.length?'Éléments donnés : '+etiq.join(', ')+'.':'Aucun élément n’est encore donné.')+' Rectangle : réservoir, récepteur ou milieu ; ovale : convertisseur ; flèche : transfert.');};
   function numero(x,y,n){return A.numero(x,y,n);}
 
-  /* pile (boîte à niveau) : bornes à droite en (90,90) « + » et (90,118) « − » ; le niveau est un dessin qualitatif simulé */
-  function pileBoite(niv){var h=niv*14;
-    return '<g transform="translate(60 80)"><rect x="-30" y="-8" width="60" height="62" rx="8" fill="#EEF2FA" stroke="#9FB0C4" stroke-width="2.5"/><rect x="-22" y="'+(48-h)+'" width="44" height="'+h+'" fill="#F0B400"/>'+T(0,-16,'Pile',13,INK,700)+'<circle cx="30" cy="10" r="6" fill="#B7BDC7" stroke="#6b7480"/><circle cx="30" cy="38" r="6" fill="#B7BDC7" stroke="#6b7480"/></g>'+T(106,80,'+',16,'#C03A2E',800)+T(106,136,'−',16,'#2B5EA8',800);}
-  /* fils reliant la pile à la lampe : culot (214,129) et plot (230,148) quand la lampe est en (230,90) */
-  function filsLampe(){return A.fil('M90 90 H150 V129 H214','#6b7480')+A.fil('M90 118 V172 H230 V148','#6b7480');}
+  /* ===== style banc d'essai : pile plate (ou cellule) et récepteur sur socle, reliés par deux câbles souples ===== */
+  var CR=A.CR,CK=A.CK;
+  function tab(xt,y){return '<rect x="'+(xt-3.2)+'" y="'+(y-44)+'" width="6.4" height="19" rx="1.6" fill="#D9B44A" stroke="#8A6D12" stroke-width="1.2"/>';}
+  function socleE(x,y,corps){var g='<ellipse cx="'+x+'" cy="'+(y+19)+'" rx="48" ry="6" fill="#1F2B44" opacity=".16"/><rect x="'+(x-35)+'" y="'+(y-3)+'" width="70" height="21" rx="5" fill="#2A3346"/><rect x="'+(x-35)+'" y="'+(y-13.2)+'" width="70" height="23" rx="5" fill="#E9EEF6" stroke="#9FB0C4" stroke-width="2"/>'+A.douille(x-22,y)+A.douille(x+22,y);
+    return {g:g+corps,L:[x-22,y],R:[x+22,y]};}
+  /* récepteur : lampe, moteur ou fil résistant (zigzag rouge au-dessus du socle) */
+  function recepteur(app,x,y,on,k){
+    if(app==='moteur')return A.moteurM(x,y,on);
+    if(app==='fil'){var z='M'+(x-26)+' '+(y-22)+' l8 -14 l10 28 l10 -28 l10 28 l10 -28 l8 14';
+      return socleE(x,y,'<path d="'+z+'" fill="none" stroke="#D6221C" stroke-width="5" stroke-linejoin="round"/><path d="'+z+'" fill="none" stroke="#FFB38A" stroke-width="2" stroke-linejoin="round" opacity=".8"/>'+T(x,y+36,'Fil résistant',12,INK,700));}
+    return A.lampeM(x,y,on,{k:k});}
+  /* cellule photovoltaïque : bloc bleu quadrillé, deux languettes ; bornes en haut comme la pile */
+  function celluleM(x,y,couvert){
+    var g='<ellipse cx="'+(x+5)+'" cy="'+(y+39)+'" rx="50" ry="6" fill="#1F2B44" opacity=".16"/>'+tab(x-17,y-2)+tab(x+27,y-2)
+     +'<rect x="'+(x-37)+'" y="'+(y-24)+'" width="74" height="60" rx="4" fill="#2B4C8C" stroke="#1B2540" stroke-width="2"/><path d="M'+(x-12)+' '+(y-22)+' v56 M'+(x+12)+' '+(y-22)+' v56 M'+(x-35)+' '+(y+6)+' h70" stroke="#8FB0E6" stroke-width="1.5"/>'
+     +(couvert?'<rect x="'+(x-41)+'" y="'+(y-28)+'" width="82" height="68" rx="3" fill="#B58B5A" stroke="#6B4F2A" stroke-width="2.5"/>'+T(x,y+10,'carton',12,'#fff',800):'')
+     +T(x,y+54,'Cellule',12,INK,700);
+    var AL=[x-29,y-36],AR=[x+39,y-36];AL.croc=AR.croc=1;return {g:g,L:AL,R:AR};}
+  /* source (pile ou cellule) en haut à gauche, récepteur en bas à droite ; le fil rouge part de la borne +, le noir revient à la borne − */
+  function fleche(x,y1,y2,col){return '<path d="M'+x+' '+y1+' V'+(y2-8)+'" stroke="'+col+'" stroke-width="3.5" fill="none"/><path d="M'+(x-8)+' '+(y2-12)+' L'+x+' '+y2+' L'+(x+8)+' '+(y2-12)+' Z" fill="'+col+'"/>';}
+  function banc(src,rec,o){o=o||{};var q1=A.cab(src.R,1,rec.R,1,CR),q2=A.cab(rec.L,-1,src.L,-1,CK);
+    return src.g+rec.g+q1.svg+q2.svg+(o.sur||'');}
   function schemaLampe(){return A.schema({pile:'normale',cotes:{droite:'lampe',bas:'fil',gauche:'fil'},label:'Schéma normalisé : une pile et une lampe en série, circuit fermé',legende:'Pile + lampe (circuit fermé)'});}
+  /* niveau de la pile : jauge qualitative à trois crans sous la pile (dessin simulé) */
+  function jauge(niv){var i,g='';for(i=0;i<3;i++)g+='<rect x="'+(14+i*32)+'" y="100" width="28" height="14" rx="3" fill="'+(i<niv?'#F0B400':'#EEF2FA')+'" stroke="#9FB0C4" stroke-width="1.5"/>';
+    return g+T(56,132,'Niveau',12,INK,700)+T(56,147,'de la pile',12,INK,700);}
   /* montage de pile et lampe pour ENE-03 : niveau de la pile et éclat de la lampe */
   NE.sceneMoment=function(m,sansFleche){
-    var r=NE.pileLampe(m),s=pileBoite(r.niveau)+filsLampe()+A.lampe(230,90,r.lampe!=='eteinte',1)+(r.lampe==='faible'?'<circle cx="230" cy="90" r="52" fill="#fff" opacity=".55"/>':'');
-    if(!sansFleche)s+=r.transfert?flecheH(112,190,62,OR)+T(150,30,'énergie',13,OR,800)+T(150,46,'électrique',13,OR,800):T(150,56,'plus de transfert',13,'#6B7480',800);
-    return {montage:A.svg(s,'0 0 340 190','Montage : une pile dont le niveau est '+r.pile+' et une lampe '+(r.lampe==='eteinte'?'éteinte':'qui éclaire '+r.lampe+'ment')+'. Valeurs simulées.'),schema:schemaLampe()};};
+    var r=NE.pileLampe(m),on=r.lampe!=='eteinte',src=A.pileM(250,80,{fail:r.niveau===0}),rec=A.lampeM(250,235,on,{k:r.lampe==='faible'?.5:1}),s=banc(src,rec,{sur:jauge(r.niveau)});
+    if(!sansFleche)s+=r.transfert?fleche(450,95,210,OR)+T(450,50,'énergie',13,OR,800)+T(450,66,'électrique',13,OR,800):T(450,110,'plus de',13,'#6B7480',800)+T(450,126,'transfert',13,'#6B7480',800);
+    return {montage:A.svgBanc(s,'0 0 500 300','Montage : une pile dont le niveau est '+r.pile+' et une lampe '+(on?'qui éclaire '+r.lampe+'ment':'éteinte')+', reliées par deux câbles. Valeurs simulées.'),schema:schemaLampe()};};
   /* montage de la lampe et du thermomètre pour ENE-04 (niveaux qualitatifs) */
   NE.sceneChaleur=function(d){
-    var r=NE.lampeChaleur(d),h=r.chaleur*22,s=pileBoite(3)+filsLampe()+A.lampe(230,90,true,1);
-    s+='<g transform="translate(300 40)"><rect x="-8" y="0" width="16" height="96" rx="8" fill="#fff" stroke="#9FB0C4" stroke-width="2.5"/><rect x="-4" y="'+(92-h)+'" width="8" height="'+h+'" rx="3" fill="#D6221C"/></g>'+T(300,150,'Thermomètre',11,INK,700)+T(300,164,r.mot,12,INK,800);
-    return {montage:A.svg(s,'0 0 340 190','Montage : une pile et une lampe allumée depuis '+(d==='court'?'une minute':d==='moyen'?'dix minutes':'trente minutes')+' ; un thermomètre simulé indique : '+r.mot+'.'),schema:schemaLampe()};};
+    var r=NE.lampeChaleur(d),h=r.chaleur*22,src=A.pileM(250,80),rec=A.lampeM(250,235,true,{k:1}),s=banc(src,rec,{sur:jauge(3)});
+    s+='<g transform="translate(450 50)"><rect x="-8" y="0" width="16" height="96" rx="8" fill="#fff" stroke="#9FB0C4" stroke-width="2.5"/><rect x="-4" y="'+(92-h)+'" width="8" height="'+h+'" rx="3" fill="#D6221C"/></g>'+T(450,164,'Thermomètre',11,INK,700)+T(450,178,r.mot,12,INK,800);
+    return {montage:A.svgBanc(s,'0 0 500 300','Montage : une pile et une lampe allumée depuis '+(d==='court'?'une minute':d==='moyen'?'dix minutes':'trente minutes')+', reliées par deux câbles ; un thermomètre simulé indique : '+r.mot+'.'),schema:schemaLampe()};};
   /* cellule photovoltaïque et lampe pour ENE-06 */
   NE.sceneCellule=function(e){
     var r=NE.cellule(e),s='',i,ray='';
-    if(e==='soleil'||e==='nuage'){s+='<circle cx="52" cy="38" r="'+(e==='soleil'?20:12)+'" fill="#FFC857" stroke="#F0B400" stroke-width="2"/>';}
+    if(e==='soleil'||e==='nuage'){s+='<circle cx="50" cy="40" r="'+(e==='soleil'?20:12)+'" fill="#FFC857" stroke="#F0B400" stroke-width="2"/>';}
     if(e==='bureau'){s+='<path d="M20 30 h34 l6 -14 h-46 z" fill="#8A94A4"/><path d="M20 30 v40" stroke="#6b7480" stroke-width="3"/>';}
-    for(i=0;i<r.niveau;i++)ray+='<path d="M'+(70+i*22)+' 52 L'+(105+i*22)+' 92" stroke="#F0B400" stroke-width="3" stroke-dasharray="4 5"/>';
-    s+=ray;
-    s+='<g transform="translate(130 120)"><rect x="-44" y="-16" width="88" height="46" rx="4" fill="#2B4C8C" stroke="'+INK+'" stroke-width="2.5" transform="skewX(-10)"/><path d="M-22 -14 v44 M0 -14 v44 M22 -14 v44 M-44 8 h88" stroke="#8FB0E6" stroke-width="1.5" transform="skewX(-10)"/>'+(e==='couvert'?'<rect x="-52" y="-24" width="104" height="62" fill="#B58B5A" stroke="#6B4F2A" stroke-width="2.5"/>':'')+T(0,52,'Cellule',12,INK,700)+'</g>';
-    s+=A.fil('M170 125 H230 M170 140 H230','#6b7480')+A.lampe(268,120,r.allumee,0.9);
-    var montage=A.svg(s,'0 0 340 205','Montage : une cellule photovoltaïque reliée à une lampe. '+r.txt+' Valeurs simulées.');
+    for(i=0;i<r.niveau;i++)ray+='<path d="M'+(76+i*20)+' 52 L'+(112+i*20)+' 92" stroke="#F0B400" stroke-width="3" stroke-dasharray="4 5"/>';
+    var src=celluleM(250,110,e==='couvert'),rec=A.lampeM(250,250,r.allumee,{k:.9});
+    s+=ray+banc(src,rec);
+    var montage=A.svgBanc(s,'0 0 500 320','Montage : une cellule photovoltaïque reliée à une lampe par deux câbles. '+r.txt+' Valeurs simulées.');
     var sch=A.schema({pile:'generateur',cotes:{droite:'lampe',bas:'fil',gauche:'fil'},label:'Schéma normalisé : une cellule photovoltaïque (symbole du générateur G) et une lampe',legende:'G : cellule photovoltaïque'});
     return {montage:montage,schema:sch};};
   /* appareil de ENE-02 : reçoit → obtient, en une image (texte lisible aussi par lecteur d'écran) */
@@ -219,15 +238,13 @@
     var tri=M.tri(panel,X,{id:cfg.id,titre:cfg.titre,intro:cfg.intro,vigilance:cfg.vigilance,legende:'Je choisis',cats:guide?[]:bank,items:items,onChange:dessiner,impression:{titre:cfg.titreImpression||cfg.titre}});
     dessiner();return tri;};
 
-  /* ENE-01 : pile + appareil (lampe, moteur ou fil résistant) */
+  /* ENE-01 : pile + appareil (lampe, moteur ou fil résistant), en style banc d'essai */
   NE.sceneEffet=function(app){
-    var r=NE.effet(app),g=pileBoite(3),nom=NE.APPAREILS.filter(function(x){return x[0]===app;})[0][1];
-    if(app==='lampe')g+=filsLampe()+A.lampe(230,90,true,1);
-    else if(app==='moteur')g+=A.fil('M90 90 H200 V116','#6b7480')+A.fil('M90 118 V172 H260 V116','#6b7480')+A.moteur(230,110,true);
-    else g+=A.fil('M90 90 H150 M280 90 H300 V172 H90 V118','#6b7480')+'<path d="M150 90 l12 -16 l14 32 l14 -32 l14 32 l14 -32 l12 16" fill="none" stroke="#D6221C" stroke-width="5" stroke-linejoin="round"/><path d="M150 90 l12 -16 l14 32 l14 -32 l14 32 l14 -32 l12 16" fill="none" stroke="#FFB38A" stroke-width="2" stroke-linejoin="round" opacity=".8"/>'+T(215,135,'Fil résistant (ne pas toucher)',12,INK,700);
+    var r=NE.effet(app),nom=NE.APPAREILS.filter(function(x){return x[0]===app;})[0][1],
+      g=banc(A.pileM(250,80),recepteur(app,250,235,true,1));
     var sch=A.schema({pile:'normale',cotes:{droite:app==='lampe'?'lampe':app==='moteur'?'moteur':'fil',bas:'fil',gauche:'fil'},label:'Schéma normalisé : une pile et '+(app==='fil'?'une résistance':nom.toLowerCase()),legende:app==='fil'?'Résistance (fil résistant)':'Circuit fermé'});
     if(app==='fil')sch=sch.replace('</svg>','<rect x="326" y="82" width="28" height="36" rx="3" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/></svg>');
-    return {montage:A.svg(g,'0 0 340 190','Montage : une pile reliée à '+nom.toLowerCase()+'. '+r.txt),schema:sch};};
+    return {montage:A.svgBanc(g,'0 0 500 300','Montage : une pile reliée à '+nom.toLowerCase()+' par deux câbles. '+r.txt),schema:sch};};
   /* ENE-09 : une installation de production d'électricité pour l'école (dessin simple + schéma de la source G et d'une lampe) */
   NE.sceneInstallation=function(inst){
     NE.installation('A',inst);var g='';

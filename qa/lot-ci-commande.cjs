@@ -69,7 +69,7 @@ console.log('Lot commande : dix fiches structurées, montage et schéma normalis
 {const {panel,st}=lancer('06');
   choisir(panel,'ci6-a','normal');assert.ok(label(panel,0).includes('sens des aiguilles d’une montre')&&label(panel,0).includes('lampe'));
   choisir(panel,'ci6-a','inverse');assert.ok(label(panel,0).includes('sens inverse'),'moteur inversé');assert.ok(label(panel,0).includes('allumée'),'lampe allumée');
-  assert.ok(panel.querySelector('svg').outerHTML.includes('fill="#C03A2E"')&&label(panel,1).includes('boucle fermée'));
+  assert.ok(panel.querySelector('svg').outerHTML.includes('#D9423B')&&label(panel,1).includes('boucle fermée'));
 }
 {const {panel}=lancer('08');
   for(const e of ['avant','apres'])for(const p of ['ferme','ouvert']){choisir(panel,'ci8-e',e);choisir(panel,'ci8-p',p);assert.ok(label(panel,0).includes(p==='ferme'?'brille':'éteinte'),'ELE-08 '+e+p);assert.ok(label(panel,1).includes(p==='ferme'?'fermée':'ouverte'));}
